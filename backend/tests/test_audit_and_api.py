@@ -69,3 +69,26 @@ def test_baseline_report(engine, ingested):
         assert rep["top_complaint_themes"][0]["quotes"]
         md = render_markdown(rep)
         assert md.startswith("# Baseline situation analysis") and "Top complaint themes" in md
+
+
+def test_write_endpoints_reject_spoofing_and_form_posts(engine, ingested, monkeypatch, tmp_path):
+    from tracepoint.requirements import store
+
+    api_module._engine = engine
+    client = TestClient(api_module.app)
+    # a cross-site form or text/plain post is not parsed as JSON
+    r = client.post(
+        "/requirements/REQ-X/decision",
+        content='{"decision": "approve", "note": "ok ok"}',
+        headers={"content-type": "text/plain"},
+    )
+    assert r.status_code == 422
+    assert (
+        client.post("/requirements/REQ-X/decision", json={"decision": "approve"}).status_code == 422
+    )
+    # tool calls may only be attributed to agents
+    r = client.post("/agent/tools/get_sales", params={"actor": "human:pm"}, json={"vehicle": "G60"})
+    assert r.status_code == 422
+    monkeypatch.setattr(store, "decisions_file", lambda: tmp_path / "d.jsonl")
+    r = client.post("/requirements/REQ-X/decision", json={"decision": "approve", "note": "ok ok"})
+    assert r.status_code == 422 and "unknown" in r.text  # valid request, unknown requirement
