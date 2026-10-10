@@ -1,0 +1,20 @@
+# generated data, caches, secrets
+data/
+*.db
+.env
+backend/.env
+
+# python
+__pycache__/
+*.pyc
+.venv/
+.pytest_cache/
+.ruff_cache/
+*.egg-info/
+build/
+dist/
+
+# editors / os
+.vscode/
+.idea/
+.DS_Store

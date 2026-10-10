@@ -1,0 +1,1654 @@
+{
+  "report": "baseline_situation_analysis",
+  "generated_at": "2026-10-10T16:49:20.458439+00:00",
+  "vehicle": {
+    "code": "G70",
+    "name": "BMW 7 Series",
+    "segment": "luxury sedan",
+    "tier": "luxury"
+  },
+  "market": "US",
+  "coverage": {
+    "verbatims": 3800,
+    "classification_rows": 4429,
+    "by_source": {
+      "Source B": 2853,
+      "Source A": 495,
+      "Source C": 314,
+      "Source D": 138
+    },
+    "by_powertrain": {
+      "BEV": 1081,
+      "ICE": 2436,
+      "PHEV": 283
+    },
+    "by_country": {
+      "US": 3792,
+      "CA": 8
+    },
+    "by_feedback_type": {
+      "unclassified": 574,
+      "Likes": 1792,
+      "Defect": 462,
+      "Wants": 508,
+      "Difficult to Use": 1093
+    },
+    "unclassified_rows": 562
+  },
+  "domains": [
+    {
+      "domain": "infotainment_digital",
+      "name": "Infotainment & Digital Services",
+      "rows": 851,
+      "likes": 239,
+      "complaints": 610,
+      "complaint_share": 0.717,
+      "themes": 57
+    },
+    {
+      "domain": "interior_comfort",
+      "name": "Interior Comfort & Materials",
+      "rows": 794,
+      "likes": 373,
+      "complaints": 417,
+      "complaint_share": 0.525,
+      "themes": 35
+    },
+    {
+      "domain": "powertrain_range_charging",
+      "name": "Powertrain, Range & Charging",
+      "rows": 579,
+      "likes": 328,
+      "complaints": 249,
+      "complaint_share": 0.43,
+      "themes": 22
+    },
+    {
+      "domain": "driving_dynamics",
+      "name": "Driving Experience & Dynamics",
+      "rows": 492,
+      "likes": 365,
+      "complaints": 126,
+      "complaint_share": 0.256,
+      "themes": 15
+    },
+    {
+      "domain": "exterior_design",
+      "name": "Exterior & Design",
+      "rows": 352,
+      "likes": 197,
+      "complaints": 155,
+      "complaint_share": 0.44,
+      "themes": 17
+    },
+    {
+      "domain": "driver_assistance",
+      "name": "Driver Assistance & Parking",
+      "rows": 332,
+      "likes": 103,
+      "complaints": 228,
+      "complaint_share": 0.687,
+      "themes": 37
+    },
+    {
+      "domain": "quality_nvh",
+      "name": "Quality Perception & NVH",
+      "rows": 224,
+      "likes": 126,
+      "complaints": 96,
+      "complaint_share": 0.429,
+      "themes": 5
+    },
+    {
+      "domain": "space_practicality",
+      "name": "Space & Practicality",
+      "rows": 182,
+      "likes": 58,
+      "complaints": 124,
+      "complaint_share": 0.681,
+      "themes": 16
+    },
+    {
+      "domain": "general",
+      "name": "General / Cross-cutting",
+      "rows": 61,
+      "likes": 3,
+      "complaints": 58,
+      "complaint_share": 0.951,
+      "themes": 6
+    }
+  ],
+  "top_complaint_themes": [
+    {
+      "theme_id": "L2-027",
+      "theme": "Body equipment, overall technology",
+      "domain": "quality_nvh",
+      "rows": 169,
+      "likes": 101,
+      "defects": 0,
+      "difficult_to_use": 52,
+      "wants": 14,
+      "complaints": 66,
+      "by_powertrain": {
+        "BEV": 40,
+        "ICE": 113,
+        "PHEV": 16
+      },
+      "complaint_share": 0.391,
+      "quotes": [
+        {
+          "id": "G70-1510",
+          "source": "Source B",
+          "country": "US",
+          "powertrain": "BEV",
+          "text": "Customer stated the vehicle required some time to figure out.",
+          "evidence_ref": "verbatim:G70-1510"
+        },
+        {
+          "id": "G70-0381",
+          "source": "Source B",
+          "country": "US",
+          "powertrain": "ICE",
+          "text": "Customer stated they are still trying to lern all of the technology.",
+          "evidence_ref": "verbatim:G70-0381"
+        },
+        {
+          "id": "G70-0023",
+          "source": "Source B",
+          "country": "US",
+          "powertrain": "BEV",
+          "text": "Customer stated the vehicle's technology feels very advanced for them.",
+          "evidence_ref": "verbatim:G70-0023"
+        }
+      ]
+    },
+    {
+      "theme_id": "L2-061",
+      "theme": "Drivetrain",
+      "domain": "powertrain_range_charging",
+      "rows": 306,
+      "likes": 262,
+      "defects": 23,
+      "difficult_to_use": 16,
+      "wants": 3,
+      "complaints": 42,
+      "by_powertrain": {
+        "BEV": 90,
+        "ICE": 183,
+        "PHEV": 33
+      },
+      "complaint_share": 0.137,
+      "quotes": [
+        {
+          "id": "G70-2850",
+          "source": "Source A",
+          "country": "US",
+          "powertrain": "BEV",
+          "text": "in my view the price is more than it should be for the level of performance it delivers.",
+          "evidence_ref": "verbatim:G70-2850"
+        },
+        {
+          "id": "G70-1212",
+          "source": "Source B",
+          "country": "US",
+          "powertrain": "PHEV",
+          "text": "Customer stated he is still getting used to the different drivetrain, as this is his first hybrid.",
+          "evidence_ref": "verbatim:G70-1212"
+        },
+        {
+          "id": "G70-3043",
+          "source": "Source B",
+          "country": "US",
+          "powertrain": "ICE",
+          "text": "Customer stated he dislikes that the car shuts off when he steps out and leaves his kids inside while it is running.",
+          "evidence_ref": "verbatim:G70-3043"
+        }
+      ]
+    },
+    {
+      "theme_id": "L2-213",
+      "theme": "Vehicle, climatization",
+      "domain": "interior_comfort",
+      "rows": 43,
+      "likes": 2,
+      "defects": 5,
+      "difficult_to_use": 32,
+      "wants": 4,
+      "complaints": 41,
+      "by_powertrain": {
+        "ICE": 36,
+        "BEV": 7
+      },
+      "complaint_share": 0.953,
+      "quotes": [
+        {
+          "id": "G70-1166",
+          "source": "Source B",
+          "country": "US",
+          "powertrain": "ICE",
+          "text": "Customer stated that with the new design of the vents they do not deliver enough airflow.",
+          "evidence_ref": "verbatim:G70-1166"
+        },
+        {
+          "id": "G70-0965",
+          "source": "Source B",
+          "country": "US",
+          "powertrain": "ICE",
+          "text": "Customer stated the air conditioning never gets cool enough to really cool her off from the Arizona heat, even when Max A/C is switched on.",
+          "evidence_ref": "verbatim:G70-0965"
+        },
+        {
+          "id": "G70-0470",
+          "source": "Source B",
+          "country": "US",
+          "powertrain": "BEV",
+          "text": "Customer stated the air conditioning does not push much air, even when set to the maximum. Customer stated he wants the cold air to blow on him more noticeably.",
+          "evidence_ref": "verbatim:G70-0470"
+        }
+      ]
+    },
+    {
+      "theme_id": "L2-144",
+      "theme": "Personal eSIM",
+      "domain": "infotainment_digital",
+      "rows": 39,
+      "likes": 1,
+      "defects": 10,
+      "difficult_to_use": 26,
+      "wants": 2,
+      "complaints": 38,
+      "by_powertrain": {
+        "BEV": 21,
+        "ICE": 15,
+        "PHEV": 3
+      },
+      "complaint_share": 0.974,
+      "quotes": [
+        {
+          "id": "G70-2544",
+          "source": "Source B",
+          "country": "US",
+          "powertrain": "BEV",
+          "text": "Customer says the process of setting up the eSIM was a nightmare.",
+          "evidence_ref": "verbatim:G70-2544"
+        },
+        {
+          "id": "G70-1778",
+          "source": "Source A",
+          "country": "US",
+          "powertrain": "BEV",
+          "text": "i've got a problem with my esim and nobody's really helping me sort it out",
+          "evidence_ref": "verbatim:G70-1778"
+        },
+        {
+          "id": "G70-0315",
+          "source": "Source B",
+          "country": "US",
+          "powertrain": "ICE",
+          "text": "Customer stated he does not need the eSIM feature because he does not often use the theater screen.",
+          "evidence_ref": "verbatim:G70-0315"
+        }
+      ]
+    },
+    {
+      "theme_id": "L2-134",
+      "theme": "Operating concept, operating system",
+      "domain": "infotainment_digital",
+      "rows": 59,
+      "likes": 22,
+      "defects": 0,
+      "difficult_to_use": 33,
+      "wants": 4,
+      "complaints": 37,
+      "by_powertrain": {
+        "ICE": 47,
+        "PHEV": 1,
+        "BEV": 11
+      },
+      "complaint_share": 0.627,
+      "quotes": [
+        {
+          "id": "G70-1461",
+          "source": "Source B",
+          "country": "US",
+          "powertrain": "ICE",
+          "text": "Customer commented that the iDrive system requires some time to get used to and learn.",
+          "evidence_ref": "verbatim:G70-1461"
+        },
+        {
+          "id": "G70-1822",
+          "source": "Source B",
+          "country": "US",
+          "powertrain": "BEV",
+          "text": "Customer stated he does not use the vehicle on a daily basis and finds the user interface to be not very intuitive.",
+          "evidence_ref": "verbatim:G70-1822"
+        },
+        {
+          "id": "G70-2505",
+          "source": "Source B",
+          "country": "US",
+          "powertrain": "ICE",
+          "text": "Customer stated he is still getting accustomed to the technology and mentioned he still has to get used to using the apps.",
+          "evidence_ref": "verbatim:G70-2505"
+        }
+      ]
+    },
+    {
+      "theme_id": "L2-071",
+      "theme": "Exterior",
+      "domain": "exterior_design",
+      "rows": 57,
+      "likes": 21,
+      "defects": 27,
+      "difficult_to_use": 9,
+      "wants": 0,
+      "complaints": 36,
+      "by_powertrain": {
+        "BEV": 9,
+        "ICE": 44,
+        "PHEV": 4
+      },
+      "complaint_share": 0.632,
+      "quotes": [
+        {
+          "id": "G70-2930",
+          "source": "Source B",
+          "country": "US",
+          "powertrain": "PHEV",
+          "text": "Customer stated that the vehicle feels a bit on the large side.",
+          "evidence_ref": "verbatim:G70-2930"
+        },
+        {
+          "id": "G70-0328",
+          "source": "Source B",
+          "country": "US",
+          "powertrain": "ICE",
+          "text": "Customer remarked the exterior feels overly large and bulky when compared with her 2019 750i.",
+          "evidence_ref": "verbatim:G70-0328"
+        },
+        {
+          "id": "G70-1893",
+          "source": "Source B",
+          "country": "US",
+          "powertrain": "ICE",
+          "text": "Customer expressed they would prefer this car to match the size of the earlier 7 Series, since city lanes can be pretty narrow.",
+          "evidence_ref": "verbatim:G70-1893"
+        }
+      ]
+    },
+    {
+      "theme_id": "L2-173",
+      "theme": "Seats",
+      "domain": "interior_comfort",
+      "rows": 99,
+      "likes": 61,
+      "defects": 10,
+      "difficult_to_use": 18,
+      "wants": 8,
+      "complaints": 36,
+      "by_powertrain": {
+        "BEV": 20,
+        "ICE": 63,
+        "PHEV": 16
+      },
+      "complaint_share": 0.364,
+      "quotes": [
+        {
+          "id": "G70-0511",
+          "source": "Source B",
+          "country": "US",
+          "powertrain": "ICE",
+          "text": "Customer stated he would like the driver's seat to auto move back once the engine is turned off.",
+          "evidence_ref": "verbatim:G70-0511"
+        },
+        {
+          "id": "G70-0885",
+          "source": "Source B",
+          "country": "US",
+          "powertrain": "ICE",
+          "text": "Customer observed the white leather seats are extremely delicate and quickly show dirt when they are touched.",
+          "evidence_ref": "verbatim:G70-0885"
+        },
+        {
+          "id": "G70-1802",
+          "source": "Source B",
+          "country": "US",
+          "powertrain": "ICE",
+          "text": "Customer stated the seats feel quite firm and that changing the seat adjustments does not make them any more comfortable.",
+          "evidence_ref": "verbatim:G70-1802"
+        }
+      ]
+    },
+    {
+      "theme_id": "L2-064",
+      "theme": "Electric Range",
+      "domain": "powertrain_range_charging",
+      "rows": 54,
+      "likes": 19,
+      "defects": 0,
+      "difficult_to_use": 22,
+      "wants": 13,
+      "complaints": 35,
+      "by_powertrain": {
+        "BEV": 44,
+        "PHEV": 10
+      },
+      "complaint_share": 0.648,
+      "quotes": [
+        {
+          "id": "G70-0930",
+          "source": "Source B",
+          "country": "US",
+          "powertrain": "BEV",
+          "text": "Customer reported the driving range is less than anticipated.",
+          "evidence_ref": "verbatim:G70-0930"
+        },
+        {
+          "id": "G70-3300",
+          "source": "Source B",
+          "country": "US",
+          "powertrain": "BEV",
+          "text": "Customer stated he would prefer the vehicle to have greater driving range.",
+          "evidence_ref": "verbatim:G70-3300"
+        },
+        {
+          "id": "G70-3726",
+          "source": "Source B",
+          "country": "US",
+          "powertrain": "BEV",
+          "text": "Customer stated he wishes the vehicle offered a higher electric driving range than it currently does.",
+          "evidence_ref": "verbatim:G70-3726"
+        }
+      ]
+    },
+    {
+      "theme_id": "L2-196",
+      "theme": "Touch screen, operation",
+      "domain": "infotainment_digital",
+      "rows": 59,
+      "likes": 26,
+      "defects": 4,
+      "difficult_to_use": 26,
+      "wants": 3,
+      "complaints": 33,
+      "by_powertrain": {
+        "ICE": 39,
+        "BEV": 15,
+        "PHEV": 5
+      },
+      "complaint_share": 0.559,
+      "quotes": [
+        {
+          "id": "G70-3477",
+          "source": "Source B",
+          "country": "US",
+          "powertrain": "BEV",
+          "text": "Customer indicated that the touch screen is difficult for them to use while driving.",
+          "evidence_ref": "verbatim:G70-3477"
+        },
+        {
+          "id": "G70-0232",
+          "source": "Source C",
+          "country": "US",
+          "powertrain": "ICE",
+          "text": "I had a problem with Touchscreen/display screen - DTU: \"I do not like it compared to the 2020 version\"",
+          "evidence_ref": "verbatim:G70-0232"
+        },
+        {
+          "id": "G70-3554",
+          "source": "Source B",
+          "country": "US",
+          "powertrain": "ICE",
+          "text": "Customer reported that when they use their finger on the screen it does not always respond or register properly.",
+          "evidence_ref": "verbatim:G70-3554"
+        }
+      ]
+    },
+    {
+      "theme_id": "L2-042",
+      "theme": "ConnectedDrive and Infotainment, overall technology",
+      "domain": "infotainment_digital",
+      "rows": 60,
+      "likes": 26,
+      "defects": 23,
+      "difficult_to_use": 9,
+      "wants": 0,
+      "complaints": 32,
+      "by_powertrain": {
+        "ICE": 32,
+        "BEV": 24,
+        "PHEV": 4
+      },
+      "complaint_share": 0.533,
+      "quotes": [
+        {
+          "id": "G70-0770",
+          "source": "Source A",
+          "country": "US",
+          "powertrain": "PHEV",
+          "text": "like the car, but there really should be videos showing how to work all the features.",
+          "evidence_ref": "verbatim:G70-0770"
+        },
+        {
+          "id": "G70-0007",
+          "source": "Source A",
+          "country": "US",
+          "powertrain": "ICE",
+          "text": "there are software glitches in idrive 8. hopefully you will give your customers an upgrade to 8.5.",
+          "evidence_ref": "verbatim:G70-0007"
+        },
+        {
+          "id": "G70-0958",
+          "source": "Source B",
+          "country": "US",
+          "powertrain": "BEV",
+          "text": "Customer explained that his iDrive screen keeps shutting off and does not come back until he performs an iDrive reboot.",
+          "evidence_ref": "verbatim:G70-0958"
+        }
+      ]
+    },
+    {
+      "theme_id": "L2-018",
+      "theme": "Automatic engine start-stop function (MSA)",
+      "domain": "powertrain_range_charging",
+      "rows": 34,
+      "likes": 3,
+      "defects": 2,
+      "difficult_to_use": 16,
+      "wants": 13,
+      "complaints": 31,
+      "by_powertrain": {
+        "ICE": 34
+      },
+      "complaint_share": 0.912,
+      "quotes": [
+        {
+          "id": "G70-2907",
+          "source": "Source B",
+          "country": "US",
+          "powertrain": "ICE",
+          "text": "Customer mentioned he would like a way to keep MSA turned off all the time.",
+          "evidence_ref": "verbatim:G70-2907"
+        },
+        {
+          "id": "G70-3389",
+          "source": "Source B",
+          "country": "US",
+          "powertrain": "ICE",
+          "text": "Customer stated he wants a way to permanently disable the Automatic Engine Start-Stop feature.",
+          "evidence_ref": "verbatim:G70-3389"
+        },
+        {
+          "id": "G70-3708",
+          "source": "Source B",
+          "country": "US",
+          "powertrain": "ICE",
+          "text": "Customer stated he would like to have a physical button that allows him to switch off Automatic Engine Start-Stop.",
+          "evidence_ref": "verbatim:G70-3708"
+        }
+      ]
+    },
+    {
+      "theme_id": "L2-055",
+      "theme": "Door, open / close",
+      "domain": "space_practicality",
+      "rows": 32,
+      "likes": 3,
+      "defects": 7,
+      "difficult_to_use": 13,
+      "wants": 9,
+      "complaints": 29,
+      "by_powertrain": {
+        "ICE": 24,
+        "BEV": 7,
+        "PHEV": 1
+      },
+      "complaint_share": 0.906,
+      "quotes": [
+        {
+          "id": "G70-1701",
+          "source": "Source B",
+          "country": "US",
+          "powertrain": "ICE",
+          "text": "Customer stated he was looking to have the self closing doors feature.",
+          "evidence_ref": "verbatim:G70-1701"
+        },
+        {
+          "id": "G70-1930",
+          "source": "Source B",
+          "country": "US",
+          "powertrain": "ICE",
+          "text": "Customer mentioned he would have preferred having the automatic doors option.",
+          "evidence_ref": "verbatim:G70-1930"
+        },
+        {
+          "id": "G70-0415",
+          "source": "Source B",
+          "country": "US",
+          "powertrain": "ICE",
+          "text": "Customer stated he would prefer that all four automatic doors automatically close when he steps on the brake.",
+          "evidence_ref": "verbatim:G70-0415"
+        }
+      ]
+    },
+    {
+      "theme_id": "L2-139",
+      "theme": "Panorama glass roof",
+      "domain": "interior_comfort",
+      "rows": 39,
+      "likes": 10,
+      "defects": 9,
+      "difficult_to_use": 6,
+      "wants": 14,
+      "complaints": 29,
+      "by_powertrain": {
+        "ICE": 28,
+        "BEV": 8,
+        "PHEV": 3
+      },
+      "complaint_share": 0.744,
+      "quotes": [
+        {
+          "id": "G70-0841",
+          "source": "Source B",
+          "country": "US",
+          "powertrain": "ICE",
+          "text": "Customer stated he wishes the car had a moonroof that can open.",
+          "evidence_ref": "verbatim:G70-0841"
+        },
+        {
+          "id": "G70-1591",
+          "source": "Source B",
+          "country": "US",
+          "powertrain": "ICE",
+          "text": "Customer stated that he would prefer to have a sun roof that opens.",
+          "evidence_ref": "verbatim:G70-1591"
+        },
+        {
+          "id": "G70-1457",
+          "source": "Source B",
+          "country": "US",
+          "powertrain": "ICE",
+          "text": "Customer stated he would like the vehicle to have a sunroof that can open.",
+          "evidence_ref": "verbatim:G70-1457"
+        }
+      ]
+    },
+    {
+      "theme_id": "L2-127",
+      "theme": "My Modes / driving experience",
+      "domain": "driving_dynamics",
+      "rows": 56,
+      "likes": 28,
+      "defects": 1,
+      "difficult_to_use": 16,
+      "wants": 11,
+      "complaints": 28,
+      "by_powertrain": {
+        "ICE": 30,
+        "BEV": 18,
+        "PHEV": 8
+      },
+      "complaint_share": 0.5,
+      "quotes": [
+        {
+          "id": "G70-2372",
+          "source": "Source B",
+          "country": "US",
+          "powertrain": "ICE",
+          "text": "Customer stated he would like the car to automatically default to efficient mode.",
+          "evidence_ref": "verbatim:G70-2372"
+        },
+        {
+          "id": "G70-3958",
+          "source": "Source B",
+          "country": "US",
+          "powertrain": "PHEV",
+          "text": "Customer mentioned they are still getting familiar with the various driving modes in the vehicle.",
+          "evidence_ref": "verbatim:G70-3958"
+        },
+        {
+          "id": "G70-3799",
+          "source": "Source B",
+          "country": "US",
+          "powertrain": "ICE",
+          "text": "Customer mentioned he would prefer if the car could initially boot up in different experience modes.",
+          "evidence_ref": "verbatim:G70-3799"
+        }
+      ]
+    },
+    {
+      "theme_id": "L2-126",
+      "theme": "My BMW App / MINI App",
+      "domain": "infotainment_digital",
+      "rows": 34,
+      "likes": 6,
+      "defects": 2,
+      "difficult_to_use": 24,
+      "wants": 2,
+      "complaints": 28,
+      "by_powertrain": {
+        "PHEV": 3,
+        "BEV": 14,
+        "ICE": 17
+      },
+      "complaint_share": 0.824,
+      "quotes": [
+        {
+          "id": "G70-2468",
+          "source": "Source B",
+          "country": "US",
+          "powertrain": "ICE",
+          "text": "Customer stated logging into the my BMW app is not easy for him.",
+          "evidence_ref": "verbatim:G70-2468"
+        },
+        {
+          "id": "G70-2394",
+          "source": "Source B",
+          "country": "US",
+          "powertrain": "BEV",
+          "text": "Customer stated the my BMW app runs very slowly and frequently times out when sending requests.",
+          "evidence_ref": "verbatim:G70-2394"
+        },
+        {
+          "id": "G70-2420",
+          "source": "Source B",
+          "country": "US",
+          "powertrain": "ICE",
+          "text": "Customer asked whether any contract or paperwork had to be updated because his app needed an update. Writer advised that the app can normally be updated via his phone's app store.",
+          "evidence_ref": "verbatim:G70-2420"
+        }
+      ]
+    }
+  ],
+  "top_strength_themes": [
+    {
+      "theme_id": "L2-061",
+      "theme": "Drivetrain",
+      "domain": "powertrain_range_charging",
+      "rows": 306,
+      "likes": 262,
+      "defects": 23,
+      "difficult_to_use": 16,
+      "wants": 3,
+      "complaints": 42,
+      "by_powertrain": {
+        "BEV": 90,
+        "ICE": 183,
+        "PHEV": 33
+      },
+      "complaint_share": 0.137,
+      "quotes": [
+        {
+          "id": "G70-2850",
+          "source": "Source A",
+          "country": "US",
+          "powertrain": "BEV",
+          "text": "in my view the price is more than it should be for the level of performance it delivers.",
+          "evidence_ref": "verbatim:G70-2850"
+        },
+        {
+          "id": "G70-1212",
+          "source": "Source B",
+          "country": "US",
+          "powertrain": "PHEV",
+          "text": "Customer stated he is still getting used to the different drivetrain, as this is his first hybrid.",
+          "evidence_ref": "verbatim:G70-1212"
+        },
+        {
+          "id": "G70-3043",
+          "source": "Source B",
+          "country": "US",
+          "powertrain": "ICE",
+          "text": "Customer stated he dislikes that the car shuts off when he steps out and leaves his kids inside while it is running.",
+          "evidence_ref": "verbatim:G70-3043"
+        }
+      ]
+    },
+    {
+      "theme_id": "L2-089",
+      "theme": "Handling / Riding",
+      "domain": "driving_dynamics",
+      "rows": 222,
+      "likes": 208,
+      "defects": 4,
+      "difficult_to_use": 5,
+      "wants": 5,
+      "complaints": 14,
+      "by_powertrain": {
+        "ICE": 142,
+        "PHEV": 20,
+        "BEV": 60
+      },
+      "complaint_share": 0.063,
+      "quotes": [
+        {
+          "id": "G70-0647",
+          "source": "Source A",
+          "country": "US",
+          "powertrain": "BEV",
+          "text": "super comfortable ride and the car itself is very beautiful.",
+          "evidence_ref": "verbatim:G70-0647"
+        },
+        {
+          "id": "G70-1283",
+          "source": "Source B",
+          "country": "US",
+          "powertrain": "ICE",
+          "text": "Customer stated he appreciates how smooth the vehicle rides.",
+          "evidence_ref": "verbatim:G70-1283"
+        },
+        {
+          "id": "G70-1296",
+          "source": "Source B",
+          "country": "US",
+          "powertrain": "BEV",
+          "text": "Customer stated the vehicle feels very smooth while driving.",
+          "evidence_ref": "verbatim:G70-1296"
+        }
+      ]
+    },
+    {
+      "theme_id": "L2-072",
+      "theme": "Exterior design",
+      "domain": "exterior_design",
+      "rows": 174,
+      "likes": 157,
+      "defects": 0,
+      "difficult_to_use": 0,
+      "wants": 17,
+      "complaints": 17,
+      "by_powertrain": {
+        "ICE": 125,
+        "BEV": 42,
+        "PHEV": 7
+      },
+      "complaint_share": 0.098,
+      "quotes": [
+        {
+          "id": "G70-0323",
+          "source": "Source B",
+          "country": "US",
+          "powertrain": "ICE",
+          "text": "Customer reported that the vehicle's appearance is fantastic.",
+          "evidence_ref": "verbatim:G70-0323"
+        },
+        {
+          "id": "G70-1088",
+          "source": "Source B",
+          "country": "US",
+          "powertrain": "BEV",
+          "text": "Customer stated that the vehicle's appearance is really nice.",
+          "evidence_ref": "verbatim:G70-1088"
+        },
+        {
+          "id": "G70-3555",
+          "source": "Source B",
+          "country": "US",
+          "powertrain": "ICE",
+          "text": "Customer stated the exterior of the vehicle is very beautiful.",
+          "evidence_ref": "verbatim:G70-3555"
+        }
+      ]
+    },
+    {
+      "theme_id": "L2-027",
+      "theme": "Body equipment, overall technology",
+      "domain": "quality_nvh",
+      "rows": 169,
+      "likes": 101,
+      "defects": 0,
+      "difficult_to_use": 52,
+      "wants": 14,
+      "complaints": 66,
+      "by_powertrain": {
+        "BEV": 40,
+        "ICE": 113,
+        "PHEV": 16
+      },
+      "complaint_share": 0.391,
+      "quotes": [
+        {
+          "id": "G70-1510",
+          "source": "Source B",
+          "country": "US",
+          "powertrain": "BEV",
+          "text": "Customer stated the vehicle required some time to figure out.",
+          "evidence_ref": "verbatim:G70-1510"
+        },
+        {
+          "id": "G70-0381",
+          "source": "Source B",
+          "country": "US",
+          "powertrain": "ICE",
+          "text": "Customer stated they are still trying to lern all of the technology.",
+          "evidence_ref": "verbatim:G70-0381"
+        },
+        {
+          "id": "G70-0023",
+          "source": "Source B",
+          "country": "US",
+          "powertrain": "BEV",
+          "text": "Customer stated the vehicle's technology feels very advanced for them.",
+          "evidence_ref": "verbatim:G70-0023"
+        }
+      ]
+    },
+    {
+      "theme_id": "L2-112",
+      "theme": "Interior design",
+      "domain": "interior_comfort",
+      "rows": 110,
+      "likes": 96,
+      "defects": 0,
+      "difficult_to_use": 0,
+      "wants": 14,
+      "complaints": 14,
+      "by_powertrain": {
+        "BEV": 24,
+        "PHEV": 6,
+        "ICE": 80
+      },
+      "complaint_share": 0.127,
+      "quotes": [
+        {
+          "id": "G70-0407",
+          "source": "Source A",
+          "country": "US",
+          "powertrain": "BEV",
+          "text": "excellent handling\nvery smooth ride\nrich, luxurious interior",
+          "evidence_ref": "verbatim:G70-0407"
+        },
+        {
+          "id": "G70-0172",
+          "source": "Source B",
+          "country": "US",
+          "powertrain": "ICE",
+          "text": "Customer stated he enjoys the luxurious feel of the interior.",
+          "evidence_ref": "verbatim:G70-0172"
+        },
+        {
+          "id": "G70-1708",
+          "source": "Source B",
+          "country": "US",
+          "powertrain": "ICE",
+          "text": "Customer commented that the interior of the car is beautiful.",
+          "evidence_ref": "verbatim:G70-1708"
+        }
+      ]
+    },
+    {
+      "theme_id": "L2-057",
+      "theme": "Drive, driving dynamics and chassis, overall technology",
+      "domain": "driving_dynamics",
+      "rows": 76,
+      "likes": 75,
+      "defects": 0,
+      "difficult_to_use": 0,
+      "wants": 0,
+      "complaints": 0,
+      "by_powertrain": {
+        "ICE": 50,
+        "PHEV": 4,
+        "BEV": 22
+      },
+      "complaint_share": 0.0,
+      "quotes": [
+        {
+          "id": "G70-3874",
+          "source": "Source A",
+          "country": "US",
+          "powertrain": "ICE",
+          "text": "love this car, the driving experience is absolutely awesome!!",
+          "evidence_ref": "verbatim:G70-3874"
+        },
+        {
+          "id": "G70-3662",
+          "source": "Source A",
+          "country": "US",
+          "powertrain": "ICE",
+          "text": "just an awesome car, really stylish and it drives very nicely.",
+          "evidence_ref": "verbatim:G70-3662"
+        },
+        {
+          "id": "G70-1121",
+          "source": "Source A",
+          "country": "US",
+          "powertrain": "ICE",
+          "text": "the styling and the way it drives are amoung the best out there.",
+          "evidence_ref": "verbatim:G70-1121"
+        }
+      ]
+    },
+    {
+      "theme_id": "L2-111",
+      "theme": "Interior comfort",
+      "domain": "interior_comfort",
+      "rows": 70,
+      "likes": 69,
+      "defects": 0,
+      "difficult_to_use": 0,
+      "wants": 1,
+      "complaints": 1,
+      "by_powertrain": {
+        "PHEV": 3,
+        "ICE": 45,
+        "BEV": 22
+      },
+      "complaint_share": 0.014,
+      "quotes": [
+        {
+          "id": "G70-2653",
+          "source": "Source B",
+          "country": "US",
+          "powertrain": "ICE",
+          "text": "Customer complimented the interior for being very luxurious.",
+          "evidence_ref": "verbatim:G70-2653"
+        },
+        {
+          "id": "G70-0118",
+          "source": "Source B",
+          "country": "US",
+          "powertrain": "ICE",
+          "text": "Customer stated she really enjoys the comfort of the vehicle.",
+          "evidence_ref": "verbatim:G70-0118"
+        },
+        {
+          "id": "G70-3968",
+          "source": "Source B",
+          "country": "US",
+          "powertrain": "ICE",
+          "text": "Customer remarked that the vehicle feels extremely luxurious.",
+          "evidence_ref": "verbatim:G70-3968"
+        }
+      ]
+    },
+    {
+      "theme_id": "L2-173",
+      "theme": "Seats",
+      "domain": "interior_comfort",
+      "rows": 99,
+      "likes": 61,
+      "defects": 10,
+      "difficult_to_use": 18,
+      "wants": 8,
+      "complaints": 36,
+      "by_powertrain": {
+        "BEV": 20,
+        "ICE": 63,
+        "PHEV": 16
+      },
+      "complaint_share": 0.364,
+      "quotes": [
+        {
+          "id": "G70-0511",
+          "source": "Source B",
+          "country": "US",
+          "powertrain": "ICE",
+          "text": "Customer stated he would like the driver's seat to auto move back once the engine is turned off.",
+          "evidence_ref": "verbatim:G70-0511"
+        },
+        {
+          "id": "G70-0885",
+          "source": "Source B",
+          "country": "US",
+          "powertrain": "ICE",
+          "text": "Customer observed the white leather seats are extremely delicate and quickly show dirt when they are touched.",
+          "evidence_ref": "verbatim:G70-0885"
+        },
+        {
+          "id": "G70-1802",
+          "source": "Source B",
+          "country": "US",
+          "powertrain": "ICE",
+          "text": "Customer stated the seats feel quite firm and that changing the seat adjustments does not make them any more comfortable.",
+          "evidence_ref": "verbatim:G70-1802"
+        }
+      ]
+    },
+    {
+      "theme_id": "L2-180",
+      "theme": "Space / spatial impression",
+      "domain": "space_practicality",
+      "rows": 41,
+      "likes": 37,
+      "defects": 0,
+      "difficult_to_use": 0,
+      "wants": 4,
+      "complaints": 4,
+      "by_powertrain": {
+        "PHEV": 5,
+        "ICE": 30,
+        "BEV": 6
+      },
+      "complaint_share": 0.098,
+      "quotes": [
+        {
+          "id": "G70-2081",
+          "source": "Source B",
+          "country": "US",
+          "powertrain": "PHEV",
+          "text": "Customer reported the rear seating area has plenty of legroom.",
+          "evidence_ref": "verbatim:G70-2081"
+        },
+        {
+          "id": "G70-1356",
+          "source": "Source A",
+          "country": "US",
+          "powertrain": "ICE",
+          "text": "comfortable driving, high-end electronics, and a roomy interior.",
+          "evidence_ref": "verbatim:G70-1356"
+        },
+        {
+          "id": "G70-1826",
+          "source": "Source B",
+          "country": "US",
+          "powertrain": "ICE",
+          "text": "Customer stated the interior of the vehicle feels very spacious.",
+          "evidence_ref": "verbatim:G70-1826"
+        }
+      ]
+    },
+    {
+      "theme_id": "L2-017",
+      "theme": "Automatic doors",
+      "domain": "interior_comfort",
+      "rows": 57,
+      "likes": 33,
+      "defects": 6,
+      "difficult_to_use": 18,
+      "wants": 0,
+      "complaints": 24,
+      "by_powertrain": {
+        "ICE": 44,
+        "BEV": 10,
+        "PHEV": 3
+      },
+      "complaint_share": 0.421,
+      "quotes": [
+        {
+          "id": "G70-0241",
+          "source": "Source B",
+          "country": "US",
+          "powertrain": "ICE",
+          "text": "Customer stated he is very pleased with the automatic doors.",
+          "evidence_ref": "verbatim:G70-0241"
+        },
+        {
+          "id": "G70-0467",
+          "source": "Source B",
+          "country": "US",
+          "powertrain": "ICE",
+          "text": "Customer stated he likes having the automatic doors feature.",
+          "evidence_ref": "verbatim:G70-0467"
+        },
+        {
+          "id": "G70-3747",
+          "source": "Source B",
+          "country": "US",
+          "powertrain": "ICE",
+          "text": "Customer stated they are impressed with the automatic doors.",
+          "evidence_ref": "verbatim:G70-3747"
+        }
+      ]
+    }
+  ],
+  "studies": [
+    {
+      "study": "US_2025",
+      "attributes": 103,
+      "weakest": [
+        {
+          "attribute": "Future trade-in or resale value",
+          "key": "resale_value",
+          "domain": "general",
+          "market": "US",
+          "score": 3.77,
+          "scale": "1-7 derived mean",
+          "bottom3": 0.337,
+          "top2": 0.132,
+          "peers_same_market": {
+            "G60": 4.923
+          },
+          "same_vehicle_other_markets": {},
+          "evidence_ref": "metric:MET-US-US-G70-resale_value"
+        },
+        {
+          "attribute": "Affordable to buy",
+          "key": "affordability",
+          "domain": "general",
+          "market": "US",
+          "score": 3.78,
+          "scale": "1-7 derived mean",
+          "bottom3": 0.232,
+          "top2": 0.063,
+          "peers_same_market": {
+            "G60": 4.704
+          },
+          "same_vehicle_other_markets": {},
+          "evidence_ref": "metric:MET-US-US-G70-affordability"
+        },
+        {
+          "attribute": "Economical to own (cost of ownership)",
+          "key": "cost_of_ownership",
+          "domain": "general",
+          "market": "US",
+          "score": 4.029,
+          "scale": "1-7 derived mean",
+          "bottom3": 0.245,
+          "top2": 0.163,
+          "peers_same_market": {
+            "G60": 4.967
+          },
+          "same_vehicle_other_markets": {},
+          "evidence_ref": "metric:MET-US-US-G70-cost_of_ownership"
+        },
+        {
+          "attribute": "If applicable: Flat tire preparedness (spare, run flat, etc.)",
+          "key": "flat_tyre_preparedness",
+          "domain": "space_practicality",
+          "market": "US",
+          "score": 4.222,
+          "scale": "1-7 derived mean",
+          "bottom3": 0.321,
+          "top2": 0.269,
+          "peers_same_market": {
+            "G60": 4.682
+          },
+          "same_vehicle_other_markets": {},
+          "evidence_ref": "metric:MET-US-US-G70-flat_tyre_preparedness"
+        },
+        {
+          "attribute": "Price/deal offered",
+          "key": "price_deal",
+          "domain": "general",
+          "market": "US",
+          "score": 4.249,
+          "scale": "1-7 derived mean",
+          "bottom3": 0.163,
+          "top2": 0.143,
+          "peers_same_market": {
+            "G60": 5.037
+          },
+          "same_vehicle_other_markets": {},
+          "evidence_ref": "metric:MET-US-US-G70-price_deal"
+        },
+        {
+          "attribute": "If applicable: Ease of customization",
+          "key": "customisation_ease",
+          "domain": "infotainment_digital",
+          "market": "US",
+          "score": 4.338,
+          "scale": "1-7 derived mean",
+          "bottom3": 0.302,
+          "top2": 0.276,
+          "peers_same_market": {
+            "G60": 5.197
+          },
+          "same_vehicle_other_markets": {},
+          "evidence_ref": "metric:MET-US-US-G70-customisation_ease"
+        },
+        {
+          "attribute": "Intuitiveness of controls",
+          "key": "controls_intuitiveness",
+          "domain": "infotainment_digital",
+          "market": "US",
+          "score": 4.357,
+          "scale": "1-7 derived mean",
+          "bottom3": 0.264,
+          "top2": 0.249,
+          "peers_same_market": {
+            "G60": 5.2
+          },
+          "same_vehicle_other_markets": {},
+          "evidence_ref": "metric:MET-US-US-G70-controls_intuitiveness"
+        },
+        {
+          "attribute": "Air conditioner performance",
+          "key": "air_conditioning_performance",
+          "domain": "interior_comfort",
+          "market": "US",
+          "score": 4.478,
+          "scale": "1-7 derived mean",
+          "bottom3": 0.21,
+          "top2": 0.347,
+          "peers_same_market": {
+            "G60": 5.188
+          },
+          "same_vehicle_other_markets": {},
+          "evidence_ref": "metric:MET-US-US-G70-air_conditioning_performance"
+        },
+        {
+          "attribute": "WiFi hotspot in vehicle",
+          "key": "wifi_hotspot",
+          "domain": "infotainment_digital",
+          "market": "US",
+          "score": 4.505,
+          "scale": "1-7 derived mean",
+          "bottom3": 0.195,
+          "top2": 0.279,
+          "peers_same_market": {
+            "G60": 4.976
+          },
+          "same_vehicle_other_markets": {},
+          "evidence_ref": "metric:MET-US-US-G70-wifi_hotspot"
+        },
+        {
+          "attribute": "Placement/ ease of reading and using controls",
+          "key": "controls_usability",
+          "domain": "infotainment_digital",
+          "market": "US",
+          "score": 4.507,
+          "scale": "1-7 derived mean",
+          "bottom3": 0.244,
+          "top2": 0.298,
+          "peers_same_market": {
+            "G60": 5.118
+          },
+          "same_vehicle_other_markets": {},
+          "evidence_ref": "metric:MET-US-US-G70-controls_usability"
+        }
+      ],
+      "strongest": [
+        {
+          "attribute": "Comfort of 2nd row seat",
+          "key": "rear_seat_comfort",
+          "domain": "interior_comfort",
+          "market": "US",
+          "score": 6.235,
+          "scale": "1-7 derived mean",
+          "bottom3": 0.032,
+          "top2": 0.736,
+          "peers_same_market": {
+            "G60": 5.269
+          },
+          "same_vehicle_other_markets": {},
+          "evidence_ref": "metric:MET-US-US-G70-rear_seat_comfort"
+        },
+        {
+          "attribute": "Front seat roominess",
+          "key": "front_roominess",
+          "domain": "space_practicality",
+          "market": "US",
+          "score": 6.204,
+          "scale": "1-7 derived mean",
+          "bottom3": 0.024,
+          "top2": 0.766,
+          "peers_same_market": {
+            "G60": 5.86
+          },
+          "same_vehicle_other_markets": {},
+          "evidence_ref": "metric:MET-US-US-G70-front_roominess"
+        },
+        {
+          "attribute": "Riding comfort",
+          "key": "ride_comfort",
+          "domain": "driving_dynamics",
+          "market": "US",
+          "score": 6.203,
+          "scale": "1-7 derived mean",
+          "bottom3": 0.013,
+          "top2": 0.749,
+          "peers_same_market": {
+            "G60": 6.03
+          },
+          "same_vehicle_other_markets": {},
+          "evidence_ref": "metric:MET-US-US-G70-ride_comfort"
+        },
+        {
+          "attribute": "2nd row seat roominess",
+          "key": "rear_roominess",
+          "domain": "space_practicality",
+          "market": "US",
+          "score": 6.179,
+          "scale": "1-7 derived mean",
+          "bottom3": 0.032,
+          "top2": 0.779,
+          "peers_same_market": {
+            "G60": 5.378
+          },
+          "same_vehicle_other_markets": {},
+          "evidence_ref": "metric:MET-US-US-G70-rear_roominess"
+        },
+        {
+          "attribute": "Overall comfort of the seats",
+          "key": "seat_comfort",
+          "domain": "interior_comfort",
+          "market": "US",
+          "score": 6.044,
+          "scale": "1-7 derived mean",
+          "bottom3": 0.031,
+          "top2": 0.661,
+          "peers_same_market": {
+            "G60": 5.741
+          },
+          "same_vehicle_other_markets": {},
+          "evidence_ref": "metric:MET-US-US-G70-seat_comfort"
+        },
+        {
+          "attribute": "Ease of 2nd row seat entry",
+          "key": "entry_exit_rear",
+          "domain": "space_practicality",
+          "market": "US",
+          "score": 5.986,
+          "scale": "1-7 derived mean",
+          "bottom3": 0.034,
+          "top2": 0.657,
+          "peers_same_market": {
+            "G60": 5.406
+          },
+          "same_vehicle_other_markets": {},
+          "evidence_ref": "metric:MET-US-US-G70-entry_exit_rear"
+        },
+        {
+          "attribute": "Passing capability",
+          "key": "passing_capability",
+          "domain": "powertrain_range_charging",
+          "market": "US",
+          "score": 5.96,
+          "scale": "1-7 derived mean",
+          "bottom3": 0.02,
+          "top2": 0.636,
+          "peers_same_market": {
+            "G60": 5.905
+          },
+          "same_vehicle_other_markets": {},
+          "evidence_ref": "metric:MET-US-US-G70-passing_capability"
+        },
+        {
+          "attribute": "Quality of interior materials",
+          "key": "interior_material_quality",
+          "domain": "quality_nvh",
+          "market": "US",
+          "score": 5.95,
+          "scale": "1-7 derived mean",
+          "bottom3": 0.032,
+          "top2": 0.632,
+          "peers_same_market": {
+            "G60": 5.617
+          },
+          "same_vehicle_other_markets": {},
+          "evidence_ref": "metric:MET-US-US-G70-interior_material_quality"
+        },
+        {
+          "attribute": "Comfort of front seat",
+          "key": "front_seat_comfort",
+          "domain": "interior_comfort",
+          "market": "US",
+          "score": 5.922,
+          "scale": "1-7 derived mean",
+          "bottom3": 0.022,
+          "top2": 0.576,
+          "peers_same_market": {
+            "G60": 5.668
+          },
+          "same_vehicle_other_markets": {},
+          "evidence_ref": "metric:MET-US-US-G70-front_seat_comfort"
+        },
+        {
+          "attribute": "Smoothness of transmission",
+          "key": "transmission_smoothness",
+          "domain": "powertrain_range_charging",
+          "market": "US",
+          "score": 5.921,
+          "scale": "1-7 derived mean",
+          "bottom3": 0.021,
+          "top2": 0.614,
+          "peers_same_market": {
+            "G60": 5.687
+          },
+          "same_vehicle_other_markets": {},
+          "evidence_ref": "metric:MET-US-US-G70-transmission_smoothness"
+        }
+      ]
+    }
+  ],
+  "equipment": {
+    "catalogue": "German price list July 2026 (Germany only)",
+    "variants": [
+      {
+        "name": "i7 50xDrive",
+        "powertrain": "BEV",
+        "power_kw": 335,
+        "base_price_eur": 121400.0
+      },
+      {
+        "name": "i7 60xDrive",
+        "powertrain": "BEV",
+        "power_kw": 400,
+        "base_price_eur": 140100.0
+      },
+      {
+        "name": "i7 M70 xDrive",
+        "powertrain": "BEV",
+        "power_kw": 500,
+        "base_price_eur": 182400.0
+      },
+      {
+        "name": "750e xDrive",
+        "powertrain": "PHEV",
+        "power_kw": 360,
+        "base_price_eur": 133900.0
+      },
+      {
+        "name": "M760e xDrive",
+        "powertrain": "PHEV",
+        "power_kw": 450,
+        "base_price_eur": 159900.0
+      },
+      {
+        "name": "740 xDrive",
+        "powertrain": "MHEV",
+        "power_kw": 294,
+        "base_price_eur": 117900.0
+      },
+      {
+        "name": "740d xDrive",
+        "powertrain": "MHEV",
+        "power_kw": 230,
+        "base_price_eur": 122900.0
+      }
+    ],
+    "items": 185,
+    "by_group": {
+      "climate": {
+        "optional": 1,
+        "standard_on_some": 1
+      },
+      "comfort": {
+        "standard_on_some": 22
+      },
+      "connectivity_infotainment": {
+        "standard_on_some": 7,
+        "optional": 1
+      },
+      "driver_assistance_safety": {
+        "standard_on_some": 10,
+        "optional": 2
+      },
+      "drivetrain_chassis": {
+        "standard_on_some": 8,
+        "optional": 2
+      },
+      "exterior": {
+        "standard_on_some": 13,
+        "optional": 1
+      },
+      "exterior_colour": {
+        "package_or_unknown": 2,
+        "optional": 20,
+        "standard_on_some": 1
+      },
+      "interior": {
+        "standard_on_some": 16,
+        "optional": 6
+      },
+      "interior_trim": {
+        "package_or_unknown": 2,
+        "standard_on_some": 2,
+        "optional": 5
+      },
+      "lighting_visibility": {
+        "standard_on_some": 1
+      },
+      "other": {
+        "optional": 2
+      },
+      "package_contents": {
+        "package_or_unknown": 15
+      },
+      "packages": {
+        "package_or_unknown": 2,
+        "optional": 7
+      },
+      "transport_storage": {
+        "optional": 1
+      },
+      "upholstery": {
+        "package_or_unknown": 2,
+        "standard_on_some": 2,
+        "optional": 14
+      },
+      "wheels_tyres": {
+        "package_or_unknown": 2,
+        "standard_on_some": 4,
+        "optional": 11
+      }
+    },
+    "optional_on_all_variants": []
+  },
+  "sales": {
+    "by_year": {
+      "2024": {
+        "EU": 11000,
+        "CN": 8000,
+        "US": 10000,
+        "RoW": 5000
+      },
+      "2025": {
+        "EU": 13000,
+        "CN": 10000,
+        "US": 12000,
+        "RoW": 7000
+      },
+      "2030": {
+        "EU": 17000,
+        "CN": 12000,
+        "US": 14000,
+        "RoW": 9000
+      }
+    },
+    "market_share_of_vehicle": {
+      "2024": 0.294,
+      "2025": 0.286,
+      "2030": 0.269
+    },
+    "growth_2025_2030": 0.167,
+    "note": null
+  },
+  "data_quality_notes": [
+    "562 classification rows are unclassified (to be filled by the LLM classifier in a later step)",
+    "20 equipment rows inherit price / availability from merged catalogue cells"
+  ],
+  "run_id": "RUN-20261010-164920-report.baseline-8090"
+}

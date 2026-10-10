@@ -1,0 +1,1760 @@
+{
+  "report": "baseline_situation_analysis",
+  "generated_at": "2026-10-10T16:49:19.313577+00:00",
+  "vehicle": {
+    "code": "G60",
+    "name": "BMW 5 Series Sedan",
+    "segment": "upper midsize premium sedan",
+    "tier": "core"
+  },
+  "market": "EU",
+  "coverage": {
+    "verbatims": 111,
+    "classification_rows": 238,
+    "by_source": {
+      "Source A": 111
+    },
+    "by_powertrain": {
+      "BEV": 53,
+      "ICE": 28,
+      "PHEV": 30
+    },
+    "by_country": {
+      "NO": 8,
+      "SE": 28,
+      "GB": 36,
+      "FR": 8,
+      "DK": 20,
+      "FI": 9,
+      "LV": 1,
+      "ES": 1
+    },
+    "by_feedback_type": {
+      "Likes": 72,
+      "unclassified": 73,
+      "Difficult to Use": 39,
+      "Defect": 33,
+      "Wants": 21
+    },
+    "unclassified_rows": 73
+  },
+  "domains": [
+    {
+      "domain": "driving_dynamics",
+      "name": "Driving Experience & Dynamics",
+      "rows": 38,
+      "likes": 32,
+      "complaints": 6,
+      "complaint_share": 0.158,
+      "themes": 7
+    },
+    {
+      "domain": "powertrain_range_charging",
+      "name": "Powertrain, Range & Charging",
+      "rows": 37,
+      "likes": 17,
+      "complaints": 20,
+      "complaint_share": 0.541,
+      "themes": 7
+    },
+    {
+      "domain": "infotainment_digital",
+      "name": "Infotainment & Digital Services",
+      "rows": 31,
+      "likes": 8,
+      "complaints": 23,
+      "complaint_share": 0.742,
+      "themes": 15
+    },
+    {
+      "domain": "interior_comfort",
+      "name": "Interior Comfort & Materials",
+      "rows": 17,
+      "likes": 2,
+      "complaints": 15,
+      "complaint_share": 0.882,
+      "themes": 12
+    },
+    {
+      "domain": "driver_assistance",
+      "name": "Driver Assistance & Parking",
+      "rows": 13,
+      "likes": 7,
+      "complaints": 6,
+      "complaint_share": 0.462,
+      "themes": 8
+    },
+    {
+      "domain": "quality_nvh",
+      "name": "Quality Perception & NVH",
+      "rows": 10,
+      "likes": 3,
+      "complaints": 7,
+      "complaint_share": 0.7,
+      "themes": 3
+    },
+    {
+      "domain": "exterior_design",
+      "name": "Exterior & Design",
+      "rows": 9,
+      "likes": 2,
+      "complaints": 7,
+      "complaint_share": 0.778,
+      "themes": 4
+    },
+    {
+      "domain": "space_practicality",
+      "name": "Space & Practicality",
+      "rows": 8,
+      "likes": 1,
+      "complaints": 7,
+      "complaint_share": 0.875,
+      "themes": 5
+    },
+    {
+      "domain": "general",
+      "name": "General / Cross-cutting",
+      "rows": 2,
+      "likes": 0,
+      "complaints": 2,
+      "complaint_share": 1.0,
+      "themes": 1
+    }
+  ],
+  "top_complaint_themes": [
+    {
+      "theme_id": "L2-064",
+      "theme": "Electric Range",
+      "domain": "powertrain_range_charging",
+      "rows": 17,
+      "likes": 5,
+      "defects": 0,
+      "difficult_to_use": 12,
+      "wants": 0,
+      "complaints": 12,
+      "by_powertrain": {
+        "BEV": 10,
+        "PHEV": 7
+      },
+      "complaint_share": 0.706,
+      "quotes": [
+        {
+          "id": "G60-2775",
+          "source": "Source A",
+          "country": "SE",
+          "powertrain": "BEV",
+          "text": "overall i like the vehicle, but the interior feels rubbery and the real-world range is embarrassingly short",
+          "evidence_ref": "verbatim:G60-2775"
+        },
+        {
+          "id": "G60-0298",
+          "source": "Source A",
+          "country": "SE",
+          "powertrain": "PHEV",
+          "text": "im generally very happy, but in winter the electric range maybe isnt the greatest. some options are hard to find again in the menus.",
+          "evidence_ref": "verbatim:G60-0298"
+        },
+        {
+          "id": "G60-2972",
+          "source": "Source A",
+          "country": "GB",
+          "powertrain": "PHEV",
+          "text": "the car turned out a bit too small for me and the electric range was far under what was advertised, so i ended up trading it for an i7 demonstrator.",
+          "evidence_ref": "verbatim:G60-2972"
+        }
+      ]
+    },
+    {
+      "theme_id": "L2-042",
+      "theme": "ConnectedDrive and Infotainment, overall technology",
+      "domain": "infotainment_digital",
+      "rows": 6,
+      "likes": 1,
+      "defects": 0,
+      "difficult_to_use": 5,
+      "wants": 0,
+      "complaints": 5,
+      "by_powertrain": {
+        "PHEV": 3,
+        "ICE": 1,
+        "BEV": 2
+      },
+      "complaint_share": 0.833,
+      "quotes": [
+        {
+          "id": "G60-0298",
+          "source": "Source A",
+          "country": "SE",
+          "powertrain": "PHEV",
+          "text": "im generally very happy, but in winter the electric range maybe isnt the greatest. some options are hard to find again in the menus.",
+          "evidence_ref": "verbatim:G60-0298"
+        },
+        {
+          "id": "G60-0798",
+          "source": "Source A",
+          "country": "SE",
+          "powertrain": "PHEV",
+          "text": "the car itself is very good but the info system really leaves a lot to be desired, with way too many submenus. some of the materials feel a bit questionable for such a nice car.",
+          "evidence_ref": "verbatim:G60-0798"
+        },
+        {
+          "id": "G60-1848",
+          "source": "Source A",
+          "country": "GB",
+          "powertrain": "BEV",
+          "text": "for me the car feels a bit oversized, but other than that it really is excellent. the one downside is the software, which is pretty sluggish and makes you tap several times for a lot of functions.",
+          "evidence_ref": "verbatim:G60-1848"
+        }
+      ]
+    },
+    {
+      "theme_id": "L2-027",
+      "theme": "Body equipment, overall technology",
+      "domain": "quality_nvh",
+      "rows": 7,
+      "likes": 2,
+      "defects": 0,
+      "difficult_to_use": 1,
+      "wants": 4,
+      "complaints": 5,
+      "by_powertrain": {
+        "BEV": 6,
+        "ICE": 1
+      },
+      "complaint_share": 0.714,
+      "quotes": [
+        {
+          "id": "G60-3433",
+          "source": "Source A",
+          "country": "SE",
+          "powertrain": "BEV",
+          "text": "the car itself is excellent, but the range really should be higher for something in this price bracket. mine listed at around sek 1,020,000 and in summer i only get roughly 420 km, which i find too limited.",
+          "evidence_ref": "verbatim:G60-3433"
+        },
+        {
+          "id": "G60-2772",
+          "source": "Source A",
+          "country": "GB",
+          "powertrain": "BEV",
+          "text": "i put a nine instead of ten because, even though this car is excellent, it is overpriced. being expensive would be acceptable, but here you pushed it a bit too far. it drives excellently and i am slowly getting used to how complex the controls are. i also think the mileage forecast is overstated, and you are probably well aware of that.",
+          "evidence_ref": "verbatim:G60-2772"
+        },
+        {
+          "id": "G60-1746",
+          "source": "Source A",
+          "country": "GB",
+          "powertrain": "BEV",
+          "text": "it is insanely expensive, so most of my friends and family would never even think about owning one. the car itself is great, but the mileage is nowhere near what is advertised, especially when you only charge the battery to 80%. with so few physical buttons, poking around the screen to change things can feel risky while driving. sure, you can adjust stuff with voice control or from the steering wh …",
+          "evidence_ref": "verbatim:G60-1746"
+        }
+      ]
+    },
+    {
+      "theme_id": "L2-196",
+      "theme": "Touch screen, operation",
+      "domain": "infotainment_digital",
+      "rows": 6,
+      "likes": 2,
+      "defects": 2,
+      "difficult_to_use": 2,
+      "wants": 0,
+      "complaints": 4,
+      "by_powertrain": {
+        "ICE": 4,
+        "PHEV": 1,
+        "BEV": 1
+      },
+      "complaint_share": 0.667,
+      "quotes": [
+        {
+          "id": "G60-1835",
+          "source": "Source A",
+          "country": "GB",
+          "powertrain": "ICE",
+          "text": "i have been driving 5series for more than 20 years and i love the brand. this 5 is a delight to drive and now that i have got used to the touch screen i am very happy with it. the touch screen did take quite a while to get used to and i am still geting there. at times i find it distracting when i am driving but the verbal commands work well. the 5 is always a joy to drive.",
+          "evidence_ref": "verbatim:G60-1835"
+        },
+        {
+          "id": "G60-1746",
+          "source": "Source A",
+          "country": "GB",
+          "powertrain": "BEV",
+          "text": "it is insanely expensive, so most of my friends and family would never even think about owning one. the car itself is great, but the mileage is nowhere near what is advertised, especially when you only charge the battery to 80%. with so few physical buttons, poking around the screen to change things can feel risky while driving. sure, you can adjust stuff with voice control or from the steering wh …",
+          "evidence_ref": "verbatim:G60-1746"
+        },
+        {
+          "id": "G60-0595",
+          "source": "Source A",
+          "country": "GB",
+          "powertrain": "ICE",
+          "text": "against my old 68 plate 520i, this one pulls quicker and uses less fuel. i really like the head up display and the new main screen, and the journey fuel info is handy. adaptive cruise itself works fine, but changing the gap to the car ahead while driving is awkward, especially when i want more distance in the wet. lane control helps. sat nav overall is good, yet the traffic delay icons/text are ti …",
+          "evidence_ref": "verbatim:G60-0595"
+        }
+      ]
+    },
+    {
+      "theme_id": "L2-173",
+      "theme": "Seats",
+      "domain": "interior_comfort",
+      "rows": 3,
+      "likes": 0,
+      "defects": 1,
+      "difficult_to_use": 1,
+      "wants": 1,
+      "complaints": 3,
+      "by_powertrain": {
+        "ICE": 1,
+        "BEV": 2
+      },
+      "complaint_share": 1.0,
+      "quotes": [
+        {
+          "id": "G60-1434",
+          "source": "Source A",
+          "country": "NO",
+          "powertrain": "BEV",
+          "text": "ordered the comfort seats but they are too hard and not comfy.\nthe car doesnt float enough over bumpy roads, makes me wonder if air suspension on the sedan should have been possible.",
+          "evidence_ref": "verbatim:G60-1434"
+        },
+        {
+          "id": "G60-0257",
+          "source": "Source A",
+          "country": "GB",
+          "powertrain": "ICE",
+          "text": "we have been buying bmw cars for at least twenty years and i always feel very safe in them. i drive about 25 miles or so every day and usually replace the car every three years. this one is very comfortable and the visibility is excellent, which is one of my essential requirements. i really like the white interior, but it is not as nice as my last car where everything inside was light cream, so i  …",
+          "evidence_ref": "verbatim:G60-0257"
+        },
+        {
+          "id": "G60-2424",
+          "source": "Source A",
+          "country": "DK",
+          "powertrain": "BEV",
+          "text": "the apps built into the car really ought to be reachable from the phone, so you don't have to sit in the car and fiddle with them - you can do that in a mercedes, which was my previous car. the windows also can't be closed via the app, while mercedes manages that. if they could close themselves automatically when it rains, like mercedes does, i haven't found any sign that they do, but they should. …",
+          "evidence_ref": "verbatim:G60-2424"
+        }
+      ]
+    },
+    {
+      "theme_id": "L2-073",
+      "theme": "Exterior lighting",
+      "domain": "exterior_design",
+      "rows": 4,
+      "likes": 1,
+      "defects": 1,
+      "difficult_to_use": 1,
+      "wants": 1,
+      "complaints": 3,
+      "by_powertrain": {
+        "ICE": 3,
+        "BEV": 1
+      },
+      "complaint_share": 0.75,
+      "quotes": [
+        {
+          "id": "G60-1471",
+          "source": "Source A",
+          "country": "GB",
+          "powertrain": "ICE",
+          "text": "it is very easy to drive and a lot of the features are automated, which helps me stay focused on driving in heavy traffic. auto hold, automatic headlights, sat nav options, speed limiter, all mostly automatic or semi automatic. i would like it to be simpler to change some settings, like the headlights when the sun is very bright. the heating works ok but i am still trying to sort out the lack of",
+          "evidence_ref": "verbatim:G60-1471"
+        },
+        {
+          "id": "G60-3567",
+          "source": "Source A",
+          "country": "NO",
+          "powertrain": "BEV",
+          "text": "very nice driving feel, good finish on the interior parts and great sound quality from the b&w system, plus the car has sporty traits.\n\nbut a lot of the washer fluid and water from the windshield ends up on the left side window when using the wipers, which is annoying. the suspension is on the softer side and the car rocks or bobs unless it is in sport mode. the low and high beams are also not as  …",
+          "evidence_ref": "verbatim:G60-3567"
+        },
+        {
+          "id": "G60-2979",
+          "source": "Source A",
+          "country": "GB",
+          "powertrain": "ICE",
+          "text": "positives: the car drives very smoothly and feels great on the road. it has plenty of space, and with the right options selected it is very comfortable. the self driving related tech works quite well. the harmon kardon audio sounds good.\nnegatives: the turning circle is really bad. when a passenger gestures with their hand while talking, it ends up activating the gesture control. i don't understan …",
+          "evidence_ref": "verbatim:G60-2979"
+        }
+      ]
+    },
+    {
+      "theme_id": "L2-084",
+      "theme": "General enquiry: customer feedback",
+      "domain": "general",
+      "rows": 2,
+      "likes": 0,
+      "defects": 0,
+      "difficult_to_use": 2,
+      "wants": 0,
+      "complaints": 2,
+      "by_powertrain": {
+        "BEV": 2
+      },
+      "complaint_share": 1.0,
+      "quotes": [
+        {
+          "id": "G60-0238",
+          "source": "Source A",
+          "country": "FR",
+          "powertrain": "BEV",
+          "text": "car itself is very good, but the after-sales service is terrible.",
+          "evidence_ref": "verbatim:G60-0238"
+        },
+        {
+          "id": "G60-1848",
+          "source": "Source A",
+          "country": "GB",
+          "powertrain": "BEV",
+          "text": "for me the car feels a bit oversized, but other than that it really is excellent. the one downside is the software, which is pretty sluggish and makes you tap several times for a lot of functions.",
+          "evidence_ref": "verbatim:G60-1848"
+        }
+      ]
+    },
+    {
+      "theme_id": "L2-209",
+      "theme": "Vehicle interior, lighting",
+      "domain": "interior_comfort",
+      "rows": 2,
+      "likes": 0,
+      "defects": 0,
+      "difficult_to_use": 1,
+      "wants": 1,
+      "complaints": 2,
+      "by_powertrain": {
+        "ICE": 1,
+        "BEV": 1
+      },
+      "complaint_share": 1.0,
+      "quotes": [
+        {
+          "id": "G60-0257",
+          "source": "Source A",
+          "country": "GB",
+          "powertrain": "ICE",
+          "text": "we have been buying bmw cars for at least twenty years and i always feel very safe in them. i drive about 25 miles or so every day and usually replace the car every three years. this one is very comfortable and the visibility is excellent, which is one of my essential requirements. i really like the white interior, but it is not as nice as my last car where everything inside was light cream, so i  …",
+          "evidence_ref": "verbatim:G60-0257"
+        },
+        {
+          "id": "G60-0566",
+          "source": "Source A",
+          "country": "DK",
+          "powertrain": "BEV",
+          "text": "overall the car feels basically well built, but the price is still too high for what you actually get. there are several areas where it seems things have been pared back compared to what you would expect as obvious. it is not just about the equipment list you can read through (which you really have to study carefully, because it is very hard to understand exactly what the car has as standard). in  …",
+          "evidence_ref": "verbatim:G60-0566"
+        }
+      ]
+    },
+    {
+      "theme_id": "L2-201",
+      "theme": "Trailer, use",
+      "domain": "space_practicality",
+      "rows": 2,
+      "likes": 0,
+      "defects": 2,
+      "difficult_to_use": 0,
+      "wants": 0,
+      "complaints": 2,
+      "by_powertrain": {
+        "BEV": 1,
+        "ICE": 1
+      },
+      "complaint_share": 1.0,
+      "quotes": [
+        {
+          "id": "G60-0326",
+          "source": "Source A",
+          "country": "SE",
+          "powertrain": "BEV",
+          "text": "the driving characteristics of the car are absolutely incredible!!\n\nwhat bothers me is that the estimate for consumption/remaining range at destination adjusts way too slowly, for instance when a trailer is hooked up.",
+          "evidence_ref": "verbatim:G60-0326"
+        },
+        {
+          "id": "G60-2332",
+          "source": "Source A",
+          "country": "GB",
+          "powertrain": "ICE",
+          "text": "i have been driving bmws for about 8 years and right now i own two. when i ordered the 5 series i specifically asked about fitting a tow bar and was told to go through a third party. after buying the car, that company said there is no tow bar for this model at the moment. i then called bmw and was told i never asked about a tow bar, which is simply not true. now i have a touring caravan i can't us …",
+          "evidence_ref": "verbatim:G60-2332"
+        }
+      ]
+    },
+    {
+      "theme_id": "L2-148",
+      "theme": "Radio function",
+      "domain": "infotainment_digital",
+      "rows": 2,
+      "likes": 0,
+      "defects": 1,
+      "difficult_to_use": 1,
+      "wants": 0,
+      "complaints": 2,
+      "by_powertrain": {
+        "BEV": 2
+      },
+      "complaint_share": 1.0,
+      "quotes": [
+        {
+          "id": "G60-0566",
+          "source": "Source A",
+          "country": "DK",
+          "powertrain": "BEV",
+          "text": "overall the car feels basically well built, but the price is still too high for what you actually get. there are several areas where it seems things have been pared back compared to what you would expect as obvious. it is not just about the equipment list you can read through (which you really have to study carefully, because it is very hard to understand exactly what the car has as standard). in  …",
+          "evidence_ref": "verbatim:G60-0566"
+        },
+        {
+          "id": "G60-2424",
+          "source": "Source A",
+          "country": "DK",
+          "powertrain": "BEV",
+          "text": "the apps built into the car really ought to be reachable from the phone, so you don't have to sit in the car and fiddle with them - you can do that in a mercedes, which was my previous car. the windows also can't be closed via the app, while mercedes manages that. if they could close themselves automatically when it rains, like mercedes does, i haven't found any sign that they do, but they should. …",
+          "evidence_ref": "verbatim:G60-2424"
+        }
+      ]
+    },
+    {
+      "theme_id": "L2-128",
+      "theme": "Navigation",
+      "domain": "infotainment_digital",
+      "rows": 2,
+      "likes": 0,
+      "defects": 0,
+      "difficult_to_use": 1,
+      "wants": 1,
+      "complaints": 2,
+      "by_powertrain": {
+        "ICE": 1,
+        "BEV": 1
+      },
+      "complaint_share": 1.0,
+      "quotes": [
+        {
+          "id": "G60-3315",
+          "source": "Source A",
+          "country": "SE",
+          "powertrain": "BEV",
+          "text": "i want the app to clearly show how much power in kw is being charged. on long trips, fast charging stations should stand out more visually. if i choose circle c, that should be the only result in the gps.",
+          "evidence_ref": "verbatim:G60-3315"
+        },
+        {
+          "id": "G60-0595",
+          "source": "Source A",
+          "country": "GB",
+          "powertrain": "ICE",
+          "text": "against my old 68 plate 520i, this one pulls quicker and uses less fuel. i really like the head up display and the new main screen, and the journey fuel info is handy. adaptive cruise itself works fine, but changing the gap to the car ahead while driving is awkward, especially when i want more distance in the wet. lane control helps. sat nav overall is good, yet the traffic delay icons/text are ti …",
+          "evidence_ref": "verbatim:G60-0595"
+        }
+      ]
+    },
+    {
+      "theme_id": "L2-181",
+      "theme": "Speed Limit Assistant",
+      "domain": "driver_assistance",
+      "rows": 2,
+      "likes": 0,
+      "defects": 1,
+      "difficult_to_use": 1,
+      "wants": 0,
+      "complaints": 2,
+      "by_powertrain": {
+        "ICE": 2
+      },
+      "complaint_share": 1.0,
+      "quotes": [
+        {
+          "id": "G60-0843",
+          "source": "Source A",
+          "country": "GB",
+          "powertrain": "ICE",
+          "text": "i still like my old 520 more, this one feels over-regulated. the speed warning gets on my nerves and there are a bunch of privacy data settings you have to switch off. the car also starts braking the moment you take your foot off the accelerator, so you have to press the pedal again just to stop it from slowing down. that behavior is really annoying, and it feels like i'm always battling the compu …",
+          "evidence_ref": "verbatim:G60-0843"
+        },
+        {
+          "id": "G60-0595",
+          "source": "Source A",
+          "country": "GB",
+          "powertrain": "ICE",
+          "text": "against my old 68 plate 520i, this one pulls quicker and uses less fuel. i really like the head up display and the new main screen, and the journey fuel info is handy. adaptive cruise itself works fine, but changing the gap to the car ahead while driving is awkward, especially when i want more distance in the wet. lane control helps. sat nav overall is good, yet the traffic delay icons/text are ti …",
+          "evidence_ref": "verbatim:G60-0595"
+        }
+      ]
+    },
+    {
+      "theme_id": "L2-054",
+      "theme": "Door, front",
+      "domain": "quality_nvh",
+      "rows": 2,
+      "likes": 0,
+      "defects": 2,
+      "difficult_to_use": 0,
+      "wants": 0,
+      "complaints": 2,
+      "by_powertrain": {
+        "BEV": 2
+      },
+      "complaint_share": 1.0,
+      "quotes": [
+        {
+          "id": "G60-2542",
+          "source": "Source A",
+          "country": "DK",
+          "powertrain": "BEV",
+          "text": "switching from an older 3 series into this new i5, you really notice a lot of cost-saving compared to a 10-year-old car. 1) where you sit it's faux leather, with fabric underneath, while my old car had real leather everywhere. 2) the lower parts of the door panels are just cheap plastic instead of the soundproof material and leather my previous 3 series used. 3) there are odd electrical sounds whe …",
+          "evidence_ref": "verbatim:G60-2542"
+        },
+        {
+          "id": "G60-1032",
+          "source": "Source A",
+          "country": "DK",
+          "powertrain": "BEV",
+          "text": "it is about as close as you can get to an electric car that still doesnt really appear or feel like an ev. the whole premium feel is intact. the range, though, really has to be improved, right now it is simply not good enough. on top of that there are some irritating design details. 1. the seat belts bang into plastic if you dont consciously pull them fully up. 2. the small hooks in the trunk for  …",
+          "evidence_ref": "verbatim:G60-1032"
+        }
+      ]
+    },
+    {
+      "theme_id": "L2-203",
+      "theme": "Trunk lid",
+      "domain": "space_practicality",
+      "rows": 2,
+      "likes": 0,
+      "defects": 2,
+      "difficult_to_use": 0,
+      "wants": 0,
+      "complaints": 2,
+      "by_powertrain": {
+        "BEV": 1,
+        "PHEV": 1
+      },
+      "complaint_share": 1.0,
+      "quotes": [
+        {
+          "id": "G60-1814",
+          "source": "Source A",
+          "country": "GB",
+          "powertrain": "PHEV",
+          "text": "it is a fantastic car. very comfortable, plenty of power, packed with technology and simple to charge. very straightforward to manage through the app. only letdown was the manual boot closing unless you pay for a much more expensive upgrade. very easy to wow friends and family. brilliant for long motorway trips across europe but also drives nicely around town. almost the ultimate driving machine!  …",
+          "evidence_ref": "verbatim:G60-1814"
+        },
+        {
+          "id": "G60-1032",
+          "source": "Source A",
+          "country": "DK",
+          "powertrain": "BEV",
+          "text": "it is about as close as you can get to an electric car that still doesnt really appear or feel like an ev. the whole premium feel is intact. the range, though, really has to be improved, right now it is simply not good enough. on top of that there are some irritating design details. 1. the seat belts bang into plastic if you dont consciously pull them fully up. 2. the small hooks in the trunk for  …",
+          "evidence_ref": "verbatim:G60-1032"
+        }
+      ]
+    },
+    {
+      "theme_id": "L2-204",
+      "theme": "Trunk lid, open / close",
+      "domain": "space_practicality",
+      "rows": 2,
+      "likes": 0,
+      "defects": 1,
+      "difficult_to_use": 0,
+      "wants": 1,
+      "complaints": 2,
+      "by_powertrain": {
+        "BEV": 2
+      },
+      "complaint_share": 1.0,
+      "quotes": [
+        {
+          "id": "G60-2512",
+          "source": "Source A",
+          "country": "DK",
+          "powertrain": "BEV",
+          "text": "i am absolutely thrilled :) i've been driving bmw 5 series for many years, and with this i5 it feels like they've reached a new level. the car is sporty even though it's fairly big and heavy because of the battery, it's quiet, the design is attractive, and the interior is really nice :) big praise to the german engineers.\n\nas for improvements... would be great if a bit more equipment came standard …",
+          "evidence_ref": "verbatim:G60-2512"
+        },
+        {
+          "id": "G60-1032",
+          "source": "Source A",
+          "country": "DK",
+          "powertrain": "BEV",
+          "text": "it is about as close as you can get to an electric car that still doesnt really appear or feel like an ev. the whole premium feel is intact. the range, though, really has to be improved, right now it is simply not good enough. on top of that there are some irritating design details. 1. the seat belts bang into plastic if you dont consciously pull them fully up. 2. the small hooks in the trunk for  …",
+          "evidence_ref": "verbatim:G60-1032"
+        }
+      ]
+    }
+  ],
+  "top_strength_themes": [
+    {
+      "theme_id": "L2-057",
+      "theme": "Drive, driving dynamics and chassis, overall technology",
+      "domain": "driving_dynamics",
+      "rows": 24,
+      "likes": 24,
+      "defects": 0,
+      "difficult_to_use": 0,
+      "wants": 0,
+      "complaints": 0,
+      "by_powertrain": {
+        "PHEV": 5,
+        "BEV": 14,
+        "ICE": 5
+      },
+      "complaint_share": 0.0,
+      "quotes": [
+        {
+          "id": "G60-2232",
+          "source": "Source A",
+          "country": "SE",
+          "powertrain": "PHEV",
+          "text": "it's the world's best driving machine, in every single category.",
+          "evidence_ref": "verbatim:G60-2232"
+        },
+        {
+          "id": "G60-2974",
+          "source": "Source A",
+          "country": "GB",
+          "powertrain": "ICE",
+          "text": "fantastic car to have and drive, nicely built, comfortable and very stylish.",
+          "evidence_ref": "verbatim:G60-2974"
+        },
+        {
+          "id": "G60-3904",
+          "source": "Source A",
+          "country": "NO",
+          "powertrain": "BEV",
+          "text": "really comfortable to ride, great driving feel, the car seems solid and safe",
+          "evidence_ref": "verbatim:G60-3904"
+        }
+      ]
+    },
+    {
+      "theme_id": "L2-061",
+      "theme": "Drivetrain",
+      "domain": "powertrain_range_charging",
+      "rows": 11,
+      "likes": 10,
+      "defects": 1,
+      "difficult_to_use": 0,
+      "wants": 0,
+      "complaints": 1,
+      "by_powertrain": {
+        "BEV": 2,
+        "ICE": 4,
+        "PHEV": 5
+      },
+      "complaint_share": 0.091,
+      "quotes": [
+        {
+          "id": "G60-2503",
+          "source": "Source A",
+          "country": "SE",
+          "powertrain": "ICE",
+          "text": "the low fuel use, about 4-4.5 liters per 100 km, is absolutely fantastic.",
+          "evidence_ref": "verbatim:G60-2503"
+        },
+        {
+          "id": "G60-0263",
+          "source": "Source A",
+          "country": "SE",
+          "powertrain": "BEV",
+          "text": "strong performance, very quiet, comfortable, fun to drive, and uses the interior space well.",
+          "evidence_ref": "verbatim:G60-0263"
+        },
+        {
+          "id": "G60-2109",
+          "source": "Source A",
+          "country": "GB",
+          "powertrain": "PHEV",
+          "text": "for me this is much better than full electric, since i always have petroleum backup. plus it has the b58, which i consider the best engine in the world at the moment.",
+          "evidence_ref": "verbatim:G60-2109"
+        }
+      ]
+    },
+    {
+      "theme_id": "L2-089",
+      "theme": "Handling / Riding",
+      "domain": "driving_dynamics",
+      "rows": 7,
+      "likes": 7,
+      "defects": 0,
+      "difficult_to_use": 0,
+      "wants": 0,
+      "complaints": 0,
+      "by_powertrain": {
+        "BEV": 4,
+        "PHEV": 2,
+        "ICE": 1
+      },
+      "complaint_share": 0.0,
+      "quotes": [
+        {
+          "id": "G60-3690",
+          "source": "Source A",
+          "country": "DK",
+          "powertrain": "BEV",
+          "text": "great handling, design and quality, plus good servcie and reliability",
+          "evidence_ref": "verbatim:G60-3690"
+        },
+        {
+          "id": "G60-0025",
+          "source": "Source A",
+          "country": "NO",
+          "powertrain": "BEV",
+          "text": "feels bmw handles well.\ncar has been reliable and needs very little maintenance.",
+          "evidence_ref": "verbatim:G60-0025"
+        },
+        {
+          "id": "G60-0270",
+          "source": "Source A",
+          "country": "DK",
+          "powertrain": "BEV",
+          "text": "pros: handling and comfort\n\nimprovements: clearer solutions and feedback on error messages, plus faster response times from the service organization....",
+          "evidence_ref": "verbatim:G60-0270"
+        }
+      ]
+    },
+    {
+      "theme_id": "L2-064",
+      "theme": "Electric Range",
+      "domain": "powertrain_range_charging",
+      "rows": 17,
+      "likes": 5,
+      "defects": 0,
+      "difficult_to_use": 12,
+      "wants": 0,
+      "complaints": 12,
+      "by_powertrain": {
+        "BEV": 10,
+        "PHEV": 7
+      },
+      "complaint_share": 0.706,
+      "quotes": [
+        {
+          "id": "G60-2775",
+          "source": "Source A",
+          "country": "SE",
+          "powertrain": "BEV",
+          "text": "overall i like the vehicle, but the interior feels rubbery and the real-world range is embarrassingly short",
+          "evidence_ref": "verbatim:G60-2775"
+        },
+        {
+          "id": "G60-0298",
+          "source": "Source A",
+          "country": "SE",
+          "powertrain": "PHEV",
+          "text": "im generally very happy, but in winter the electric range maybe isnt the greatest. some options are hard to find again in the menus.",
+          "evidence_ref": "verbatim:G60-0298"
+        },
+        {
+          "id": "G60-2972",
+          "source": "Source A",
+          "country": "GB",
+          "powertrain": "PHEV",
+          "text": "the car turned out a bit too small for me and the electric range was far under what was advertised, so i ended up trading it for an i7 demonstrator.",
+          "evidence_ref": "verbatim:G60-2972"
+        }
+      ]
+    },
+    {
+      "theme_id": "L2-103",
+      "theme": "Impression of safety",
+      "domain": "driver_assistance",
+      "rows": 4,
+      "likes": 4,
+      "defects": 0,
+      "difficult_to_use": 0,
+      "wants": 0,
+      "complaints": 0,
+      "by_powertrain": {
+        "ICE": 2,
+        "PHEV": 1,
+        "BEV": 1
+      },
+      "complaint_share": 0.0,
+      "quotes": [
+        {
+          "id": "G60-3904",
+          "source": "Source A",
+          "country": "NO",
+          "powertrain": "BEV",
+          "text": "really comfortable to ride, great driving feel, the car seems solid and safe",
+          "evidence_ref": "verbatim:G60-3904"
+        },
+        {
+          "id": "G60-1568",
+          "source": "Source A",
+          "country": "FI",
+          "powertrain": "PHEV",
+          "text": "the driving comfort, the feeling of safety, and the sleek elegance of the car are what i enjoy most.",
+          "evidence_ref": "verbatim:G60-1568"
+        },
+        {
+          "id": "G60-3679",
+          "source": "Source A",
+          "country": "ES",
+          "powertrain": "ICE",
+          "text": "for about twenty years i drove a bmw 530d, and now that i have just started driving a bmw 520d xdrive, the ride comfort and safety feel improved, actually hugely better",
+          "evidence_ref": "verbatim:G60-3679"
+        }
+      ]
+    },
+    {
+      "theme_id": "L2-027",
+      "theme": "Body equipment, overall technology",
+      "domain": "quality_nvh",
+      "rows": 7,
+      "likes": 2,
+      "defects": 0,
+      "difficult_to_use": 1,
+      "wants": 4,
+      "complaints": 5,
+      "by_powertrain": {
+        "BEV": 6,
+        "ICE": 1
+      },
+      "complaint_share": 0.714,
+      "quotes": [
+        {
+          "id": "G60-3433",
+          "source": "Source A",
+          "country": "SE",
+          "powertrain": "BEV",
+          "text": "the car itself is excellent, but the range really should be higher for something in this price bracket. mine listed at around sek 1,020,000 and in summer i only get roughly 420 km, which i find too limited.",
+          "evidence_ref": "verbatim:G60-3433"
+        },
+        {
+          "id": "G60-2772",
+          "source": "Source A",
+          "country": "GB",
+          "powertrain": "BEV",
+          "text": "i put a nine instead of ten because, even though this car is excellent, it is overpriced. being expensive would be acceptable, but here you pushed it a bit too far. it drives excellently and i am slowly getting used to how complex the controls are. i also think the mileage forecast is overstated, and you are probably well aware of that.",
+          "evidence_ref": "verbatim:G60-2772"
+        },
+        {
+          "id": "G60-1746",
+          "source": "Source A",
+          "country": "GB",
+          "powertrain": "BEV",
+          "text": "it is insanely expensive, so most of my friends and family would never even think about owning one. the car itself is great, but the mileage is nowhere near what is advertised, especially when you only charge the battery to 80%. with so few physical buttons, poking around the screen to change things can feel risky while driving. sure, you can adjust stuff with voice control or from the steering wh …",
+          "evidence_ref": "verbatim:G60-1746"
+        }
+      ]
+    },
+    {
+      "theme_id": "L2-090",
+      "theme": "Head-Up Display",
+      "domain": "infotainment_digital",
+      "rows": 2,
+      "likes": 2,
+      "defects": 0,
+      "difficult_to_use": 0,
+      "wants": 0,
+      "complaints": 0,
+      "by_powertrain": {
+        "ICE": 1,
+        "BEV": 1
+      },
+      "complaint_share": 0.0,
+      "quotes": [
+        {
+          "id": "G60-3931",
+          "source": "Source A",
+          "country": "SE",
+          "powertrain": "BEV",
+          "text": "great driving car with a very logical layout and a nice balance of analog and digital controls. as a pilot i really value the headup display a lot.",
+          "evidence_ref": "verbatim:G60-3931"
+        },
+        {
+          "id": "G60-0595",
+          "source": "Source A",
+          "country": "GB",
+          "powertrain": "ICE",
+          "text": "against my old 68 plate 520i, this one pulls quicker and uses less fuel. i really like the head up display and the new main screen, and the journey fuel info is handy. adaptive cruise itself works fine, but changing the gap to the car ahead while driving is awkward, especially when i want more distance in the wet. lane control helps. sat nav overall is good, yet the traffic delay icons/text are ti …",
+          "evidence_ref": "verbatim:G60-0595"
+        }
+      ]
+    },
+    {
+      "theme_id": "L2-196",
+      "theme": "Touch screen, operation",
+      "domain": "infotainment_digital",
+      "rows": 6,
+      "likes": 2,
+      "defects": 2,
+      "difficult_to_use": 2,
+      "wants": 0,
+      "complaints": 4,
+      "by_powertrain": {
+        "ICE": 4,
+        "PHEV": 1,
+        "BEV": 1
+      },
+      "complaint_share": 0.667,
+      "quotes": [
+        {
+          "id": "G60-1835",
+          "source": "Source A",
+          "country": "GB",
+          "powertrain": "ICE",
+          "text": "i have been driving 5series for more than 20 years and i love the brand. this 5 is a delight to drive and now that i have got used to the touch screen i am very happy with it. the touch screen did take quite a while to get used to and i am still geting there. at times i find it distracting when i am driving but the verbal commands work well. the 5 is always a joy to drive.",
+          "evidence_ref": "verbatim:G60-1835"
+        },
+        {
+          "id": "G60-1746",
+          "source": "Source A",
+          "country": "GB",
+          "powertrain": "BEV",
+          "text": "it is insanely expensive, so most of my friends and family would never even think about owning one. the car itself is great, but the mileage is nowhere near what is advertised, especially when you only charge the battery to 80%. with so few physical buttons, poking around the screen to change things can feel risky while driving. sure, you can adjust stuff with voice control or from the steering wh …",
+          "evidence_ref": "verbatim:G60-1746"
+        },
+        {
+          "id": "G60-0595",
+          "source": "Source A",
+          "country": "GB",
+          "powertrain": "ICE",
+          "text": "against my old 68 plate 520i, this one pulls quicker and uses less fuel. i really like the head up display and the new main screen, and the journey fuel info is handy. adaptive cruise itself works fine, but changing the gap to the car ahead while driving is awkward, especially when i want more distance in the wet. lane control helps. sat nav overall is good, yet the traffic delay icons/text are ti …",
+          "evidence_ref": "verbatim:G60-0595"
+        }
+      ]
+    },
+    {
+      "theme_id": "L2-016",
+      "theme": "Audio mode, sound",
+      "domain": "infotainment_digital",
+      "rows": 4,
+      "likes": 2,
+      "defects": 2,
+      "difficult_to_use": 0,
+      "wants": 0,
+      "complaints": 2,
+      "by_powertrain": {
+        "PHEV": 2,
+        "ICE": 1,
+        "BEV": 1
+      },
+      "complaint_share": 0.5,
+      "quotes": [
+        {
+          "id": "G60-3567",
+          "source": "Source A",
+          "country": "NO",
+          "powertrain": "BEV",
+          "text": "very nice driving feel, good finish on the interior parts and great sound quality from the b&w system, plus the car has sporty traits.\n\nbut a lot of the washer fluid and water from the windshield ends up on the left side window when using the wipers, which is annoying. the suspension is on the softer side and the car rocks or bobs unless it is in sport mode. the low and high beams are also not as  …",
+          "evidence_ref": "verbatim:G60-3567"
+        },
+        {
+          "id": "G60-2979",
+          "source": "Source A",
+          "country": "GB",
+          "powertrain": "ICE",
+          "text": "positives: the car drives very smoothly and feels great on the road. it has plenty of space, and with the right options selected it is very comfortable. the self driving related tech works quite well. the harmon kardon audio sounds good.\nnegatives: the turning circle is really bad. when a passenger gestures with their hand while talking, it ends up activating the gesture control. i don't understan …",
+          "evidence_ref": "verbatim:G60-2979"
+        }
+      ]
+    },
+    {
+      "theme_id": "L2-095",
+      "theme": "High voltage battery",
+      "domain": "powertrain_range_charging",
+      "rows": 4,
+      "likes": 2,
+      "defects": 2,
+      "difficult_to_use": 0,
+      "wants": 0,
+      "complaints": 2,
+      "by_powertrain": {
+        "PHEV": 2,
+        "BEV": 2
+      },
+      "complaint_share": 0.5,
+      "quotes": [
+        {
+          "id": "G60-1479",
+          "source": "Source A",
+          "country": "SE",
+          "powertrain": "PHEV",
+          "text": "excellent comfort and road holding. the battery manages around 9 miles. great display and system, very satisfied overall - min 5; e 5serie😊",
+          "evidence_ref": "verbatim:G60-1479"
+        },
+        {
+          "id": "G60-3886",
+          "source": "Source A",
+          "country": "FR",
+          "powertrain": "BEV",
+          "text": "the bmw i5 edrive is a car i genuinely enjoy getting behind the wheel of. the battery range is somewhat limited, but still reasonable for everyday driving. the ride is comfortable and the finish is nice. my only real regret is that the engine compartment area isn't used to provide an extra trunk.",
+          "evidence_ref": "verbatim:G60-3886"
+        }
+      ]
+    }
+  ],
+  "studies": [
+    {
+      "study": "CN_EU_2025",
+      "attributes": 37,
+      "weakest": [
+        {
+          "attribute": "Ease of loading/ unloading luggage",
+          "key": "loading_ease",
+          "domain": "space_practicality",
+          "market": "EU",
+          "score": 7.242,
+          "scale": "1-10 mean",
+          "bottom3": null,
+          "top2": null,
+          "peers_same_market": {
+            "F70": 7.503,
+            "G70": 8.667
+          },
+          "same_vehicle_other_markets": {},
+          "evidence_ref": "metric:MET-CNEU-EU-G60-loading_ease"
+        },
+        {
+          "attribute": "Value for money",
+          "key": "value_for_money",
+          "domain": "general",
+          "market": "EU",
+          "score": 7.36,
+          "scale": "1-10 mean",
+          "bottom3": null,
+          "top2": null,
+          "peers_same_market": {
+            "F70": 7.823,
+            "G70": 6.468
+          },
+          "same_vehicle_other_markets": {},
+          "evidence_ref": "metric:MET-CNEU-EU-G60-value_for_money"
+        },
+        {
+          "attribute": "Connected services",
+          "key": "connected_services",
+          "domain": "infotainment_digital",
+          "market": "EU",
+          "score": 7.37,
+          "scale": "1-10 mean",
+          "bottom3": null,
+          "top2": null,
+          "peers_same_market": {
+            "F70": 7.356,
+            "G70": 7.862
+          },
+          "same_vehicle_other_markets": {},
+          "evidence_ref": "metric:MET-CNEU-EU-G60-connected_services"
+        },
+        {
+          "attribute": "Fuel economy/ energy efficiency",
+          "key": "fuel_economy",
+          "domain": "powertrain_range_charging",
+          "market": "EU",
+          "score": 7.446,
+          "scale": "1-10 mean",
+          "bottom3": null,
+          "top2": null,
+          "peers_same_market": {
+            "F70": 9.304,
+            "G70": 7.675
+          },
+          "same_vehicle_other_markets": {},
+          "evidence_ref": "metric:MET-CNEU-EU-G60-fuel_economy"
+        },
+        {
+          "attribute": "Rear interior roominess",
+          "key": "rear_roominess",
+          "domain": "space_practicality",
+          "market": "EU",
+          "score": 7.463,
+          "scale": "1-10 mean",
+          "bottom3": null,
+          "top2": null,
+          "peers_same_market": {
+            "F70": 8.587,
+            "G70": 9.406
+          },
+          "same_vehicle_other_markets": {},
+          "evidence_ref": "metric:MET-CNEU-EU-G60-rear_roominess"
+        },
+        {
+          "attribute": "Heating/ ventilation/ air conditioning",
+          "key": "climate_control",
+          "domain": "interior_comfort",
+          "market": "EU",
+          "score": 7.466,
+          "scale": "1-10 mean",
+          "bottom3": null,
+          "top2": null,
+          "peers_same_market": {
+            "F70": 7.305,
+            "G70": 8.796
+          },
+          "same_vehicle_other_markets": {},
+          "evidence_ref": "metric:MET-CNEU-EU-G60-climate_control"
+        },
+        {
+          "attribute": "Luggage capacity",
+          "key": "cargo_capacity",
+          "domain": "space_practicality",
+          "market": "EU",
+          "score": 7.539,
+          "scale": "1-10 mean",
+          "bottom3": null,
+          "top2": null,
+          "peers_same_market": {
+            "F70": 7.07,
+            "G70": 7.407
+          },
+          "same_vehicle_other_markets": {},
+          "evidence_ref": "metric:MET-CNEU-EU-G60-cargo_capacity"
+        },
+        {
+          "attribute": "Environm. friendliness",
+          "key": "environmental_friendliness",
+          "domain": "powertrain_range_charging",
+          "market": "EU",
+          "score": 7.595,
+          "scale": "1-10 mean",
+          "bottom3": null,
+          "top2": null,
+          "peers_same_market": {
+            "F70": 7.554,
+            "G70": 7.513
+          },
+          "same_vehicle_other_markets": {},
+          "evidence_ref": "metric:MET-CNEU-EU-G60-environmental_friendliness"
+        },
+        {
+          "attribute": "Sportiness",
+          "key": "sportiness",
+          "domain": "driving_dynamics",
+          "market": "EU",
+          "score": 7.636,
+          "scale": "1-10 mean",
+          "bottom3": null,
+          "top2": null,
+          "peers_same_market": {
+            "F70": 9.341,
+            "G70": 6.971
+          },
+          "same_vehicle_other_markets": {},
+          "evidence_ref": "metric:MET-CNEU-EU-G60-sportiness"
+        },
+        {
+          "attribute": "Overall build quality",
+          "key": "build_quality",
+          "domain": "quality_nvh",
+          "market": "EU",
+          "score": 7.672,
+          "scale": "1-10 mean",
+          "bottom3": null,
+          "top2": null,
+          "peers_same_market": {
+            "F70": 7.95,
+            "G70": 8.779
+          },
+          "same_vehicle_other_markets": {},
+          "evidence_ref": "metric:MET-CNEU-EU-G60-build_quality"
+        }
+      ],
+      "strongest": [
+        {
+          "attribute": "Quality of ride",
+          "key": "ride_comfort",
+          "domain": "driving_dynamics",
+          "market": "EU",
+          "score": 9.948,
+          "scale": "1-10 mean",
+          "bottom3": null,
+          "top2": null,
+          "peers_same_market": {
+            "F70": 9.196,
+            "G70": 9.516
+          },
+          "same_vehicle_other_markets": {},
+          "evidence_ref": "metric:MET-CNEU-EU-G60-ride_comfort"
+        },
+        {
+          "attribute": "Exterior styling",
+          "key": "exterior_styling",
+          "domain": "exterior_design",
+          "market": "EU",
+          "score": 9.828,
+          "scale": "1-10 mean",
+          "bottom3": null,
+          "top2": null,
+          "peers_same_market": {
+            "F70": 9.005,
+            "G70": 8.379
+          },
+          "same_vehicle_other_markets": {},
+          "evidence_ref": "metric:MET-CNEU-EU-G60-exterior_styling"
+        },
+        {
+          "attribute": "Reliability",
+          "key": "reliability",
+          "domain": "quality_nvh",
+          "market": "EU",
+          "score": 9.251,
+          "scale": "1-10 mean",
+          "bottom3": null,
+          "top2": null,
+          "peers_same_market": {
+            "F70": 9.398,
+            "G70": 9.674
+          },
+          "same_vehicle_other_markets": {},
+          "evidence_ref": "metric:MET-CNEU-EU-G60-reliability"
+        },
+        {
+          "attribute": "Driving position",
+          "key": "driving_position",
+          "domain": "interior_comfort",
+          "market": "EU",
+          "score": 9.168,
+          "scale": "1-10 mean",
+          "bottom3": null,
+          "top2": null,
+          "peers_same_market": {
+            "F70": 9.176,
+            "G70": 9.126
+          },
+          "same_vehicle_other_markets": {},
+          "evidence_ref": "metric:MET-CNEU-EU-G60-driving_position"
+        },
+        {
+          "attribute": "Safety",
+          "key": "safety_perception",
+          "domain": "driver_assistance",
+          "market": "EU",
+          "score": 9.154,
+          "scale": "1-10 mean",
+          "bottom3": null,
+          "top2": null,
+          "peers_same_market": {
+            "F70": 9.033,
+            "G70": 9.279
+          },
+          "same_vehicle_other_markets": {},
+          "evidence_ref": "metric:MET-CNEU-EU-G60-safety_perception"
+        },
+        {
+          "attribute": "Prestige/ manufacturer reputation",
+          "key": "brand_prestige",
+          "domain": "general",
+          "market": "EU",
+          "score": 8.949,
+          "scale": "1-10 mean",
+          "bottom3": null,
+          "top2": null,
+          "peers_same_market": {
+            "F70": 9.209,
+            "G70": 9.226
+          },
+          "same_vehicle_other_markets": {},
+          "evidence_ref": "metric:MET-CNEU-EU-G60-brand_prestige"
+        },
+        {
+          "attribute": "Front interior roominess",
+          "key": "front_roominess",
+          "domain": "space_practicality",
+          "market": "EU",
+          "score": 8.881,
+          "scale": "1-10 mean",
+          "bottom3": null,
+          "top2": null,
+          "peers_same_market": {
+            "F70": 9.199,
+            "G70": 9.688
+          },
+          "same_vehicle_other_markets": {},
+          "evidence_ref": "metric:MET-CNEU-EU-G60-front_roominess"
+        },
+        {
+          "attribute": "Acceleration",
+          "key": "acceleration",
+          "domain": "powertrain_range_charging",
+          "market": "EU",
+          "score": 8.846,
+          "scale": "1-10 mean",
+          "bottom3": null,
+          "top2": null,
+          "peers_same_market": {
+            "F70": 8.211,
+            "G70": 8.943
+          },
+          "same_vehicle_other_markets": {},
+          "evidence_ref": "metric:MET-CNEU-EU-G60-acceleration"
+        },
+        {
+          "attribute": "Overall seating comfort",
+          "key": "seat_comfort",
+          "domain": "interior_comfort",
+          "market": "EU",
+          "score": 8.814,
+          "scale": "1-10 mean",
+          "bottom3": null,
+          "top2": null,
+          "peers_same_market": {
+            "F70": 8.981,
+            "G70": 9.295
+          },
+          "same_vehicle_other_markets": {},
+          "evidence_ref": "metric:MET-CNEU-EU-G60-seat_comfort"
+        },
+        {
+          "attribute": "Manoeuvrability",
+          "key": "handling_manoeuvrability",
+          "domain": "driving_dynamics",
+          "market": "EU",
+          "score": 8.731,
+          "scale": "1-10 mean",
+          "bottom3": null,
+          "top2": null,
+          "peers_same_market": {
+            "F70": 8.871,
+            "G70": 8.968
+          },
+          "same_vehicle_other_markets": {},
+          "evidence_ref": "metric:MET-CNEU-EU-G60-handling_manoeuvrability"
+        }
+      ]
+    }
+  ],
+  "equipment": {
+    "catalogue": "German price list July 2026 (Germany only)",
+    "variants": [
+      {
+        "name": "i5 eDrive40",
+        "powertrain": "BEV",
+        "power_kw": 250,
+        "base_price_eur": 70900.0
+      },
+      {
+        "name": "i5 xDrive40",
+        "powertrain": "BEV",
+        "power_kw": 290,
+        "base_price_eur": 76300.0
+      },
+      {
+        "name": "i5 M60 xDrive",
+        "powertrain": "BEV",
+        "power_kw": 442,
+        "base_price_eur": 100200.0
+      },
+      {
+        "name": "530e",
+        "powertrain": "PHEV",
+        "power_kw": 220,
+        "base_price_eur": 66700.0
+      },
+      {
+        "name": "530e xDrive",
+        "powertrain": "PHEV",
+        "power_kw": 220,
+        "base_price_eur": 69300.0
+      },
+      {
+        "name": "550e xDrive",
+        "powertrain": "PHEV",
+        "power_kw": 360,
+        "base_price_eur": 78700.0
+      },
+      {
+        "name": "520i",
+        "powertrain": "MHEV",
+        "power_kw": 153,
+        "base_price_eur": 60000.0
+      },
+      {
+        "name": "520d",
+        "powertrain": "MHEV",
+        "power_kw": 145,
+        "base_price_eur": 62300.0
+      },
+      {
+        "name": "520d xDrive",
+        "powertrain": "MHEV",
+        "power_kw": 145,
+        "base_price_eur": 64900.0
+      },
+      {
+        "name": "540d xDrive",
+        "powertrain": "MHEV",
+        "power_kw": 223,
+        "base_price_eur": 71900.0
+      }
+    ],
+    "items": 151,
+    "by_group": {
+      "climate": {
+        "optional": 3,
+        "standard_on_some": 1
+      },
+      "comfort": {
+        "standard_on_all": 8,
+        "standard_on_some": 4,
+        "optional": 1
+      },
+      "connectivity_infotainment": {
+        "standard_on_all": 8,
+        "optional": 1
+      },
+      "driver_assistance_safety": {
+        "standard_on_all": 10,
+        "standard_on_some": 1,
+        "optional": 4
+      },
+      "drivetrain_chassis": {
+        "standard_on_some": 6,
+        "optional": 1
+      },
+      "exterior": {
+        "standard_on_all": 1,
+        "standard_on_some": 5,
+        "optional": 3
+      },
+      "exterior_colour": {
+        "package_or_unknown": 2,
+        "optional": 14,
+        "standard_on_all": 1
+      },
+      "interior": {
+        "standard_on_some": 5,
+        "standard_on_all": 1,
+        "optional": 3
+      },
+      "interior_trim": {
+        "package_or_unknown": 2,
+        "standard_on_some": 2,
+        "optional": 2
+      },
+      "other": {
+        "standard_on_some": 1
+      },
+      "package_contents": {
+        "standard_on_some": 1,
+        "package_or_unknown": 25
+      },
+      "packages": {
+        "package_or_unknown": 6,
+        "optional": 3
+      },
+      "transport_storage": {
+        "optional": 1
+      },
+      "upholstery": {
+        "package_or_unknown": 2,
+        "standard_on_some": 2,
+        "optional": 6
+      },
+      "wheels_tyres": {
+        "package_or_unknown": 2,
+        "standard_on_some": 3,
+        "optional": 10
+      }
+    },
+    "optional_on_all_variants": [
+      {
+        "item": "BMW Individual Frozen Portimao Blue metallic",
+        "sa_code": "X1E",
+        "price_eur": 5900.0,
+        "group": "exterior_colour",
+        "evidence_ref": "equipment:EQ-G60-0114"
+      },
+      {
+        "item": "BMW Individual special paint finish",
+        "sa_code": "490",
+        "price_eur": 5900.0,
+        "group": "exterior_colour",
+        "evidence_ref": "equipment:EQ-G60-0115"
+      },
+      {
+        "item": "21\" BMW Individual aerodynamic wheels 954 I bicolour with mixed tyres",
+        "sa_code": "3GV",
+        "price_eur": 4110.0,
+        "group": "wheels_tyres",
+        "evidence_ref": "equipment:EQ-G60-0100"
+      },
+      {
+        "item": "BMW Individual Frozen Pure Grey metallic",
+        "sa_code": "C5A",
+        "price_eur": 3750.0,
+        "group": "exterior_colour",
+        "evidence_ref": "equipment:EQ-G60-0112"
+      },
+      {
+        "item": "BMW Individual Frozen Deep Grey metallic",
+        "sa_code": "C64",
+        "price_eur": 3750.0,
+        "group": "exterior_colour",
+        "evidence_ref": "equipment:EQ-G60-0113"
+      },
+      {
+        "item": "Black | Atlas Grey",
+        "sa_code": "VCJL",
+        "price_eur": 3000.0,
+        "group": "upholstery",
+        "evidence_ref": "equipment:EQ-G60-0121"
+      },
+      {
+        "item": "Copper Brown | Atlas Grey",
+        "sa_code": "VCJM",
+        "price_eur": 3000.0,
+        "group": "upholstery",
+        "evidence_ref": "equipment:EQ-G60-0122"
+      },
+      {
+        "item": "Silverstone II | Atlas Grey",
+        "sa_code": "VCJN",
+        "price_eur": 3000.0,
+        "group": "upholstery",
+        "evidence_ref": "equipment:EQ-G60-0123"
+      },
+      {
+        "item": "Innovation Package",
+        "sa_code": "7EW",
+        "price_eur": 2400.0,
+        "group": "packages",
+        "evidence_ref": "equipment:EQ-G60-0128"
+      },
+      {
+        "item": "BMW Individual Tanzanite Blue metallic",
+        "sa_code": "C3Z",
+        "price_eur": 2140.0,
+        "group": "exterior_colour",
+        "evidence_ref": "equipment:EQ-G60-0111"
+      },
+      {
+        "item": "Driving Assistant Professional",
+        "sa_code": "5AU",
+        "price_eur": 2100.0,
+        "group": "driver_assistance_safety",
+        "evidence_ref": "equipment:EQ-G60-0142"
+      },
+      {
+        "item": "Travel Package",
+        "sa_code": "7LK",
+        "price_eur": 1900.0,
+        "group": "packages",
+        "evidence_ref": "equipment:EQ-G60-0130"
+      },
+      {
+        "item": "M Carbon exterior package",
+        "sa_code": "71C",
+        "price_eur": 1900.0,
+        "group": "exterior",
+        "evidence_ref": "equipment:EQ-G60-0133"
+      },
+      {
+        "item": "Panoramic glass roof incl. high-gloss black roof paint",
+        "sa_code": "402",
+        "price_eur": 1630.0,
+        "group": "climate",
+        "evidence_ref": "equipment:EQ-G60-0146"
+      },
+      {
+        "item": "M Alcantara headliner Anthracite",
+        "sa_code": "776",
+        "price_eur": 1600.0,
+        "group": "interior",
+        "evidence_ref": "equipment:EQ-G60-0137"
+      },
+      {
+        "item": "Trailer tow hitch",
+        "sa_code": "3AC",
+        "price_eur": 1200.0,
+        "group": "transport_storage",
+        "evidence_ref": "equipment:EQ-G60-0150"
+      },
+      {
+        "item": "Parking Assistant Professional",
+        "sa_code": "5DW",
+        "price_eur": 1150.0,
+        "group": "driver_assistance_safety",
+        "evidence_ref": "equipment:EQ-G60-0144"
+      },
+      {
+        "item": "Fire Red metallic",
+        "sa_code": "C68",
+        "price_eur": 1120.0,
+        "group": "exterior_colour",
+        "evidence_ref": "equipment:EQ-G60-0110"
+      },
+      {
+        "item": "Sapphire Black",
+        "sa_code": "475",
+        "price_eur": 1120.0,
+        "group": "exterior_colour",
+        "evidence_ref": "equipment:EQ-G60-0102"
+      },
+      {
+        "item": "Sophisto Grey",
+        "sa_code": "A90",
+        "price_eur": 1120.0,
+        "group": "exterior_colour",
+        "evidence_ref": "equipment:EQ-G60-0103"
+      },
+      {
+        "item": "Mineral White",
+        "sa_code": "A96",
+        "price_eur": 1120.0,
+        "group": "exterior_colour",
+        "evidence_ref": "equipment:EQ-G60-0104"
+      },
+      {
+        "item": "Phytonic Blue",
+        "sa_code": "C1M",
+        "price_eur": 1120.0,
+        "group": "exterior_colour",
+        "evidence_ref": "equipment:EQ-G60-0105"
+      },
+      {
+        "item": "Cape York Green",
+        "sa_code": "C5Y",
+        "price_eur": 1120.0,
+        "group": "exterior_colour",
+        "evidence_ref": "equipment:EQ-G60-0106"
+      },
+      {
+        "item": "Oxide Grey",
+        "sa_code": "C4A",
+        "price_eur": 1120.0,
+        "group": "exterior_colour",
+        "evidence_ref": "equipment:EQ-G60-0107"
+      },
+      {
+        "item": "M Carbon Black",
+        "sa_code": "416",
+        "price_eur": 1120.0,
+        "group": "exterior_colour",
+        "evidence_ref": "equipment:EQ-G60-0108"
+      }
+    ]
+  },
+  "sales": {
+    "by_year": {
+      "2024": {
+        "EU": 110000,
+        "CN": 68000,
+        "US": 75600,
+        "RoW": 25000
+      },
+      "2025": {
+        "EU": 115000,
+        "CN": 75000,
+        "US": 78000,
+        "RoW": 28000
+      },
+      "2030": {
+        "EU": 127000,
+        "CN": 78000,
+        "US": 80000,
+        "RoW": 31000
+      }
+    },
+    "market_share_of_vehicle": {
+      "2024": 0.395,
+      "2025": 0.389,
+      "2030": 0.402
+    },
+    "growth_2025_2030": 0.104,
+    "note": "Sheet G60_G68 reports the combined volume of G60 and G68 (China long-wheelbase); the G68 share is not given (assumption D-015 area)"
+  },
+  "data_quality_notes": [
+    "73 classification rows are unclassified (to be filled by the LLM classifier in a later step)",
+    "12 equipment rows inherit price / availability from merged catalogue cells"
+  ],
+  "run_id": "RUN-20261010-164919-report.baseline-b8b5"
+}

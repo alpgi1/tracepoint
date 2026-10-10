@@ -1,0 +1,34 @@
+# Vehicle domains: the unit at which the PM decides and defers (decision D-012, extended by D-020
+# with 'driving_dynamics'). Keys are referenced by the taxonomy domain map, the study attribute
+# map and the equipment group map.
+domains:
+  exterior_design:
+    name: Exterior & Design
+    description: Exterior styling, colours, wheels, lighting look, body details
+  interior_comfort:
+    name: Interior Comfort & Materials
+    description: Seats, climate, ambient light, materials, interior design and comfort features
+  space_practicality:
+    name: Space & Practicality
+    description: Roominess, storage, luggage compartment, access, loading, everyday usability
+  infotainment_digital:
+    name: Infotainment & Digital Services
+    description: Displays, operating system, HMI, apps, connectivity, voice, digital key, remote services
+  driver_assistance:
+    name: Driver Assistance & Parking
+    description: Assistance, parking and safety features as experienced by the customer
+  powertrain_range_charging:
+    name: Powertrain, Range & Charging
+    description: Engine / e-drive experience, efficiency, electric range, charging, refuelling
+  driving_dynamics:
+    name: Driving Experience & Dynamics
+    description: Handling, ride comfort, steering, braking, driving modes, engine sound
+  quality_nvh:
+    name: Quality Perception & NVH
+    description: Build quality, reliability impressions, noises, squeaks, interior acoustics
+  offering_variants:
+    name: Variant & Package Offering
+    description: Trims, packages, standard vs optional equipment, availability per variant
+  general:
+    name: General / Cross-cutting
+    description: Statements that do not belong to one domain (overall praise, dealer, documentation)

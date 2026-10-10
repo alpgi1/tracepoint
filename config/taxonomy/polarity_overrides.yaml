@@ -1,0 +1,6 @@
+# Overrides for the rule-based level-3 polarity (rules: "Like…" → positive, "… appeals" → positive,
+# "Customer request…" → request, otherwise negative).
+overrides:
+  "Vehicle equipment: not available": request
+  "Vehicle equipment: not standard / too costly": request
+  "too few": request

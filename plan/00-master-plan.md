@@ -4,7 +4,7 @@ AI-powered customer requirements platform for BMW product managers (hackathon pr
 
 | Field | Value |
 |---|---|
-| Version | 1.0 (2026-10-10) |
+| Version | 1.1 (2026-10-10, updated after the Phase 1 kick-off: PostgreSQL, OpenAI provider, ninth vehicle domain) |
 | Status | Framework agreed in principle; Phase 1 is the active phase. Phases 2–8 are a living outline and will be re-planned in detail when they start. |
 | Related | `reports/step-01-challenge-and-data-analysis.md` (inputs), `plan/01-phase-1-foundation-and-internal-evidence-base.md` (active phase), `plan/decisions.md` (decision log) |
 
@@ -61,7 +61,7 @@ The team's direction (from the planning Q&A, see `reports/step-02-planning.md`):
    structure. The LLM only fills gaps: it selects from the canonical list first and proposes a new
    theme only when nothing fits; proposals need human approval.
 7. **Simple, well-understood technology.** Prefer the simplest robust integration (official SDKs,
-   embedded database, plain Python) over frameworks.
+   PostgreSQL, plain Python) over frameworks.
 8. **Reported and filed.** One report per step under `reports/`, English only, one pull request
    per step to `main`.
 
@@ -74,7 +74,7 @@ The team's direction (from the planning Q&A, see `reports/step-02-planning.md`):
 | **Evidence source** | A registered origin of evidence: an internal file (sheet, PDF) or an external web page / document fetched by a research agent. Has a kind, a layer, a reliability note and a fetch timestamp. |
 | **Evidence item** | The atomic, addressable unit of evidence: a verbatim, a classification row, a study metric, a sales figure, an equipment line, a technical value, a web excerpt. Every item has a **locator**. |
 | **Evidence layer** | One of six lenses through which evidence is grouped and scored: Voice of Customer, Quantitative Metrics, Regional Demand & Context, Competition, Portfolio & Offering, Market Trends (section 4.2). |
-| **Vehicle domain** | The part of the car a requirement changes; the unit at which the PM can decide and defer: Exterior & Design, Interior Comfort & Materials, Space & Practicality, Infotainment & Digital Services, Driver Assistance & Parking, Powertrain Range & Charging (as experienced), Quality Perception & NVH, Variant & Package Offering. |
+| **Vehicle domain** | The part of the car a requirement changes; the unit at which the PM can decide and defer: Exterior & Design, Interior Comfort & Materials, Space & Practicality, Infotainment & Digital Services, Driver Assistance & Parking, Powertrain Range & Charging (as experienced), Driving Experience & Dynamics, Quality Perception & NVH, Variant & Package Offering; plus General for cross-cutting statements (`config/taxonomy/domains.yaml`). |
 | **Finding** | A layer-specific, quantified signal with linked evidence: recurring complaint, unmet need, strength to keep, metric gap, equipment gap, competitor advantage, regional expectation, trend, portfolio constraint. Has an evidence level. |
 | **Finding link** | A cross-layer connection between findings (supports / contradicts / explains) with a written rationale. |
 | **Requirement** | A customer-facing, actionable statement derived from findings, with ID, vehicle domain, horizon, region applicability, measurable acceptance criteria per region, rationale, assumptions and uncertainties, evidence level, status, versions. |
@@ -107,7 +107,7 @@ The team's direction (from the planning Q&A, see `reports/step-02-planning.md`):
   web sources                                     │
                                                   ▼
                  ┌──────────────────────────────────────────────────────────────────┐
-                 │                 Evidence store (SQLite + embeddings)             │
+                 │               Evidence store (PostgreSQL + embeddings)           │
                  │  typed evidence tables · locators · embeddings · runs · events   │
                  └──────────────────────────────────────────────────────────────────┘
                                                   │
@@ -126,9 +126,9 @@ The team's direction (from the planning Q&A, see `reports/step-02-planning.md`):
                   Audit trail (append-only events) · traceability views · exports
 ```
 
-All agents call the LLM through one **LLM gateway** (official Anthropic SDK; structured outputs;
-prompt caching; batch processing for bulk jobs; every call logged with model, prompt version,
-tokens and cost). An **orchestrator** runs stages as runs with configuration snapshots.
+All agents call the LLM through one **LLM gateway** (provider SDK, OpenAI as decided by the team;
+structured outputs; response caching; every call logged with model, prompt version, tokens and
+cost). An **orchestrator** runs stages as runs with configuration snapshots.
 
 ### 4.2 Evidence layers
 
@@ -202,7 +202,7 @@ tokens and cost). An **orchestrator** runs stages as runs with configuration sna
 
 | # | Phase | Goal | Main outputs | Deliverable mapping |
 |---|---|---|---|---|
-| 1 | **Foundation and internal evidence base** (active) | Working skeleton; all internal files ingested, normalised, classified, translated, embedded; audit log live; baseline reports | Repo skeleton, data model, parsers, canonical taxonomy, classifier, retrieval, API, baseline situation-analysis reports | D1 (foundation), D4 (log core) |
+| 1 | **Foundation and internal evidence base** (active; internal ingestion delivered in step 03) | Working skeleton; all internal files ingested, normalised, classified, translated, embedded; audit log live; baseline reports | Repo skeleton, data model, parsers, canonical taxonomy, classifier, retrieval, API, baseline situation-analysis reports | D1 (foundation), D4 (log core) |
 | 2 | External evidence ingestion | Research sub-agents fetch team-selected sources and cache them; structured evidence for layers L1–L4, L6 | Source registry, fetch / snapshot pipeline, extractors, reliability tagging | D1 |
 | 3 | Signal extraction and cross-layer linking | Findings per layer with quantification, evidence levels and links | Finding agents, linker, finding store, G1 queue | D2 (findings) |
 | 4 | Requirement derivation and specification | Candidate 0/1 step; specified requirements with region-specific acceptance criteria, horizon, assumptions | Requirement agent, scope filter, consolidation, G2 queue | D2 |
