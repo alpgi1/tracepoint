@@ -6,14 +6,20 @@ import type { RegionView } from "./regions";
 /** Colours are read from CSS custom properties on the canvas so the map follows the tokens. */
 export interface MapColors {
   dot: string;
-  dotMarket: string;
-  accent: string;
+  /** Market fill at rest and when active. */
+  fill: string;
+  fillActive: string;
+  /** Market outline at rest and when active; darker than the fills. */
+  outline: string;
+  outlineActive: string;
 }
 
 export const MAP_COLOR_TOKENS: Record<keyof MapColors, string> = {
   dot: "--map-dot",
-  dotMarket: "--map-dot-market",
-  accent: "--map-accent",
+  fill: "--map-fill",
+  fillActive: "--map-fill-active",
+  outline: "--map-outline",
+  outlineActive: "--map-outline-active",
 };
 
 export interface RendererOptions {
@@ -282,10 +288,11 @@ export class MapRenderer {
     const xs: number[] = [];
     const ys: number[] = [];
     const kinds: number[] = [];
+    // Only plain land gets dots; the markets are solid layers drawn over the grid.
     for (let y = y0 + spacing / 2; y < y1; y += spacing) {
       for (let x = x0 + spacing / 2; x < x1; x += spacing) {
         const kind = this.kindAt(x, y);
-        if (kind === KIND_SEA) continue;
+        if (kind !== KIND_LAND) continue;
         xs.push(x);
         ys.push(y);
         kinds.push(kind);
@@ -377,36 +384,34 @@ export class MapRenderer {
 
     this.drawDots();
 
-    // Resting outline: faint, so the three markets read as the places to go.
+    // Markets are solid layers: a fill that separates from the white page and
+    // from the dotted countries, under an outline darker than the fill. Hover
+    // and selection deepen both; the outline thickens with magnification so
+    // it keeps its weight on screen.
+    const lineWidth = 1.6 + 0.35 * Math.max(0, k - 1);
     this.data.regions.forEach((region, index) => {
       const g = this.glow[index];
-      if (g >= 1) return;
       ctx.beginPath();
       this.path(region.feature);
-      ctx.globalAlpha = 0.18 * (1 - g);
-      ctx.strokeStyle = colors.accent;
-      ctx.lineWidth = 1;
-      ctx.stroke();
       ctx.globalAlpha = 1;
-    });
-
-    // Active market: soft fill, a wide faint stroke, a crisp edge.
-    this.data.regions.forEach((region, index) => {
-      const g = this.glow[index];
-      if (g <= 0) return;
-      ctx.beginPath();
-      this.path(region.feature);
-      ctx.fillStyle = colors.accent;
-      ctx.globalAlpha = 0.07 * g;
+      ctx.fillStyle = colors.fill;
       ctx.fill();
-      ctx.strokeStyle = colors.accent;
-      ctx.globalAlpha = 0.12 * g;
-      ctx.lineWidth = 8;
-      ctx.stroke();
-      ctx.globalAlpha = 0.95 * g;
-      ctx.lineWidth = 1.5;
-      ctx.stroke();
+      if (g > 0) {
+        ctx.globalAlpha = g;
+        ctx.fillStyle = colors.fillActive;
+        ctx.fill();
+      }
       ctx.globalAlpha = 1;
+      ctx.strokeStyle = colors.outline;
+      ctx.lineWidth = lineWidth;
+      ctx.stroke();
+      if (g > 0) {
+        ctx.globalAlpha = g;
+        ctx.strokeStyle = colors.outlineActive;
+        ctx.lineWidth = lineWidth + 0.6 * g;
+        ctx.stroke();
+        ctx.globalAlpha = 1;
+      }
     });
   }
 
@@ -417,45 +422,16 @@ export class MapRenderer {
     if (!ctx || !colors || !dots) return;
     const { k, tx, ty } = this.transform;
     const radius = this.spacing * 0.3 * Math.pow(k, 0.5);
-    const groups = new Map<string, { color: string; alpha: number; size: number; points: number[] }>();
-
-    const push = (key: string, color: string, alpha: number, size: number, x: number, y: number) => {
-      let group = groups.get(key);
-      if (!group) {
-        group = { color, alpha, size, points: [] };
-        groups.set(key, group);
-      }
-      group.points.push(x, y);
-    };
-
+    ctx.beginPath();
     for (let i = 0; i < dots.count; i++) {
       const x = dots.x[i] * k + tx;
       const y = dots.y[i] * k + ty;
       if (x < -radius || y < -radius || x > this.width + radius || y > this.height + radius) continue;
-      const kind = dots.kind[i];
-      if (kind >= KIND_REGION) {
-        const g = this.glow[kind - KIND_REGION] ?? 0;
-        if (g > 0) {
-          push(`a${String(kind)}`, colors.accent, 0.35 + 0.65 * g, radius * (1 + 0.15 * g), x, y);
-          continue;
-        }
-        push("m", colors.dotMarket, 1, radius, x, y);
-      } else {
-        push("d", colors.dot, 1, radius, x, y);
-      }
-    }
-
-    for (const group of groups.values()) {
-      ctx.beginPath();
-      const { points, size } = group;
-      for (let p = 0; p < points.length; p += 2) {
-        ctx.moveTo(points[p] + size, points[p + 1]);
-        ctx.arc(points[p], points[p + 1], size, 0, Math.PI * 2);
-      }
-      ctx.globalAlpha = group.alpha;
-      ctx.fillStyle = group.color;
-      ctx.fill();
+      ctx.moveTo(x + radius, y);
+      ctx.arc(x, y, radius, 0, Math.PI * 2);
     }
     ctx.globalAlpha = 1;
+    ctx.fillStyle = colors.dot;
+    ctx.fill();
   }
 }

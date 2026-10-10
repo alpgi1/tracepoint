@@ -49,10 +49,17 @@
 }
 
 :root {
-  /* Map colours, read by the canvas renderer (lib/map/renderer.ts). Comma syntax: canvas-safe everywhere. */
+  /*
+   * Map colours, read by the canvas renderer (lib/map/renderer.ts). Plain
+   * land is grey dots; the three markets are solid layers: a light blue fill
+   * that reads against both the white page and the grey dots, under an
+   * outline darker than the fill. Hover deepens fill and outline.
+   */
   --map-dot: #cdd1d6;
-  --map-dot-market: #a9b0b8;
-  --map-accent: #1c69d4;
+  --map-fill: #dce7f8;
+  --map-fill-active: #b9cff2;
+  --map-outline: #1c69d4;
+  --map-outline-active: #0f4fae;
   color-scheme: light;
 }
 
