@@ -5,7 +5,19 @@
 | Date | 2026-10-10 |
 | Scope | What the team's three other frontends and their reference collections teach, and how it applies to the Tracepoint landing page (interactive market globe) and the later PM workspace |
 | Sources | `yksmentor/Mentor-Website`, `alpgi1/portfolio`, `alpgi1/regu` (documents, code, 345 reference captures, 7 reference videos); raw per-source notes in `research/` |
-| Status | Done for this step; sections 7 and 8 list proposals and open questions for the team |
+| Status | Done; addendum below records the team's answers of the same day |
+
+---
+
+## Addendum (2026-10-10, after the team review of step 04)
+
+The team's verdict on the first hero was that it read as AI slop, and it did (the tells are listed
+in `02-forbidden-list.md`, section 0). The team then decided: white page and one blue in the BMW
+and Bavaria family, no dark mode; the first view is the map alone, no text, no header, no footer;
+a flat halftone world map instead of a rotatable globe; desktop only from here on. Items 13 to 16
+of section 7 are therefore closed, and the step 05 map (`03-landing-map.md`) replaces the globe.
+The ideas in section 7 that assume copy or sections on the landing page wait for the team's
+decision on what the magnified state will carry.
 
 ---
 
@@ -29,7 +41,7 @@ inventory (section 6), so nothing binding is missing.
 ## 2. Process rules the three projects converged on
 
 All three projects were built by the same hand in the same month and arrived at the same working
-method. Tracepoint adopts it (plan decisions D-027 to D-032).
+method. Tracepoint adopts it (plan decisions D-033 to D-038).
 
 1. **Research before code.** Capture the references frame by frame (hero, mobile, scroll film),
    write a "take / do not take" verdict per site, then a plan with coded decisions, then code.

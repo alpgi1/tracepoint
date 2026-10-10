@@ -7,7 +7,7 @@ it). These documents are the memory of the frontend track; read them before touc
 |---|---|
 | `01-research-notes.md` | What the three sister projects (Mentor-Website, portfolio, REGU) and about 100 reference sites teach, the process rules we adopt from them, the globe and map references in detail, the 21st.dev verdicts, and a list of ideas beyond the first brief |
 | `02-forbidden-list.md` | The anti-slop list adapted for Tracepoint: honesty, text, visual, motion, code and process rules, written exemptions, and the pre-delivery checklist |
-| `03-landing-globe.md` | Specification of the landing hero as built: data pipeline, rendering, interaction states and timings, accessibility, reduced motion, tokens, how to tune it |
+| `03-landing-map.md` | Specification of the landing page as built: the dotted world map, data pipeline, mask, zoom, interaction states and timings, accessibility, tokens, how to tune it |
 | `screenshots/` | Captures of the delivered states, taken by `tools/audit/screenshots.mjs` |
 | `research/` | Raw working notes from the research pass, per source, kept verbatim. They are in Turkish (the language the review was run in) and are source material, not specification; the English documents above are the ones that bind |
 

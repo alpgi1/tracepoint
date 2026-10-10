@@ -55,9 +55,8 @@ async function auditPage(browser, path) {
       for (let i = 1; i < levels.length; i++) {
         if (levels[i] - levels[i - 1] > 1) out.push(`heading jump h${String(levels[i - 1])} to h${String(levels[i])}`);
       }
-      for (const landmark of ["main", "header", "footer"]) {
-        if (!document.querySelector(landmark)) out.push(`no <${landmark}>`);
-      }
+      // The landing page is the map alone: a main landmark is required, header and footer are not.
+      if (!document.querySelector("main")) out.push("no <main>");
       if (document.documentElement.lang !== "en") out.push(`lang=${document.documentElement.lang}`);
       for (const img of document.querySelectorAll("img")) {
         if (img.getAttribute("alt") === null) out.push(`img without alt: ${img.getAttribute("src") ?? ""}`);
@@ -91,6 +90,7 @@ async function auditPage(browser, path) {
         const w = Math.max(...rects.map((r) => r.width));
         const h = Math.max(...rects.map((r) => r.height));
         if (w === 0 && h === 0) continue; // hidden
+        if (getComputedStyle(el).pointerEvents === "none") continue; // keyboard-only control, not a tap target
         if (w < min || h < min) {
           const name = (el.textContent?.trim() || el.getAttribute("aria-label") || el.tagName).slice(0, 40);
           out.push(`tap target ${String(Math.round(w))}x${String(Math.round(h))} < ${String(min)}: ${name}`);

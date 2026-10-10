@@ -2,7 +2,7 @@
 
 | Field | Value |
 |---|---|
-| Date | 2026-10-10 |
+| Date | 2026-10-10, revised the same day after the step 04 review |
 | Source | REGU `docs/tasarim/yasakli-liste.md` (K75) and its portfolio adaptation, rewritten for an evidence product used by product managers |
 | Scope | Every surface, every line of copy and every line of code under `frontend/` |
 | Precedence | Team decisions in `plan/decisions.md` win over this list; this list wins over any installed skill or component library |
@@ -14,6 +14,27 @@ nothing. Everything that follows protects that.
 How to use it: section 8 is checked before every delivery. If an item has to be violated, the
 reason is written down and the team is asked; an exemption that is not written in section 7 does
 not exist.
+
+---
+
+## 0. Lessons from the first delivery (step 04)
+
+The team judged the first hero as AI slop. It was. What it did, so it is not done again:
+
+| Tell | What the step 04 hero did | Rule it broke |
+|---|---|---|
+| Mono uppercase eyebrow with middle dots | "CUSTOMER REQUIREMENTS · F70 · G60 · G70" above the headline | taste skill 4.7 eyebrow restraint and 9.F (middle dot rationed) |
+| Status or version label in the header | "INTERNAL PROTOTYPE · 2026" | 9.F no version or status labels |
+| Decoration text strip at the hero bottom | "THREE MARKETS … NATURAL EARTH · 1:110M" readout line | 9.F decoration strips; this list, section 2 (labels that do not carry information) |
+| The default split hero | Headline column left, object right, three buttons | The most common pattern in the reference count (19 of 38); taste skill 0.D anti-default |
+| Dark page plus warm accent plus mono labels | Night palette, amber, Geist Mono everywhere | The "dark tech" LLM default; the sister projects' lists name it |
+| The globe look of the component libraries | Graticule, rim gradient, halftone sphere | The same globe the sister projects rejected as a tell |
+| Chip buttons with a coloured code prefix | "CN China" chips | Tailwind chip pattern |
+| A claim sentence as a headline | "Customer requirements for three markets, traced back to their evidence." | Says nothing a reader can verify on the page |
+
+The correction: one object, nothing else. A white page, one blue, a flat halftone map, no text on
+first view. The rest of this list is unchanged; the palette rows below were updated for the light
+page.
 
 ---
 
@@ -52,7 +73,7 @@ not exist.
 | A second animated background behind the globe (particles, aurora, shader) | One object, one canvas |
 | Three equal feature cards, equal bento boxes | Lists, two-column zig-zag, hairline tables |
 | Card inside card inside card; glass on glass | Fewer surfaces; depth by tone and 1 px hairlines |
-| Pure `#000000` ground and pure `#ffffff` text | The night and chalk tokens |
+| Pure black text on the white page; grey text under 4.5 : 1 | The ink tokens; the white page itself is a team decision (D-039) |
 | Stock photos, AI imagery, 3D robots and brains, "developer at desk" | Real screens, real data, real drawings |
 | Technology logo clouds, rotating icon spheres, award badges | Text lists; a real badge only if it is earned |
 | Preloaders, enter gates, sound gates, percentage counters | Content on first paint; the globe fades in when its data arrives, the copy never waits |
@@ -66,9 +87,9 @@ not exist.
 
 | Forbidden | Instead |
 |---|---|
-| Auto-rotation of the globe and any other infinite loop (pulse, shimmer, marquee) | Motion bound to interaction (hover, click, drag) or scroll, plus one entrance that plays once |
+| Auto-rotation, idle drift and any other infinite loop (pulse, shimmer, marquee) | Motion bound to interaction (hover, click) only, plus one fade-in when the map's data arrives |
 | Count-up numbers | The figure is readable immediately, `tabular-nums` |
-| Scroll hijacking, scroll snap pages, virtual scrollers | Native scrolling; the globe never captures the wheel |
+| Scroll hijacking, scroll snap pages, virtual scrollers | Native scrolling; the map never captures the wheel |
 | Animating `top`, `left`, `width`, `height` | `transform` and `opacity`; `filter: blur()` only on entry, under 600 ms, on small elements |
 | Ignoring `prefers-reduced-motion` | Required: no entrance, instant state changes, no coasting, static canvas |
 | Hover-only information | Everything hover reveals is reachable by keyboard and on touch |
@@ -84,7 +105,7 @@ not exist.
 | Hard-coded data (counts, prices, dates) in UI code | Content file or API, with its source |
 | `console.log` in delivered code | Nothing in the console in production |
 | Importing a package that is not in `package.json` | No imaginary dependencies |
-| Fetching reference data from third-party hosts at runtime (the original globe fetched GitHub) | Served from our origin, version pinned, licence recorded |
+| Fetching reference data from third-party hosts at runtime (the original component fetched GitHub) | Served from our origin, version pinned, licence recorded |
 | Storing cursor or scroll values in React state | Refs, plain classes and `requestAnimationFrame`; state changes only on enter, leave and click |
 | Global `scroll` listeners | `IntersectionObserver`, scroll timelines |
 | A 21st.dev component pasted as is | Render and measure first, then take the method and rewrite it with tokens; author and licence in the file header |
@@ -104,16 +125,18 @@ not exist.
 
 ## 7. Exemptions (only by team decision, only in writing)
 
-**E1, market highlight on the globe (2026-10-10, from the brief).** The brief asks for the hovered
+**E1, market highlight on the map (2026-10-10, from the brief).** The brief asks for the hovered
 market to "glow slightly" and get an outline. Section 3 bans neon glow by `box-shadow`. The
-highlight is implemented on the canvas as a soft fill of the market at 10 % of the signal colour,
-a 7 px stroke at 16 % and a crisp 1.5 px edge, fading in over 180 ms and out over 320 ms. It is a
-selection state, not decoration, and it stays within the one signal colour. Pending the team's
-confirmation of the accent colour (research notes, section 7, item 13).
+highlight is drawn on the canvas as a 7 % blue fill, an 8 px stroke at 12 % and a crisp 1.5 px
+edge, rising over 180 ms and fading over 320 ms. It is a selection state, not decoration, and it
+uses the one accent.
 
-**E2, one-time entrance (2026-10-10).** The copy lifts in over 0.7 s with staggered delays and the
-globe settles from a slightly rotated start over 1.5 s when its data arrives. Plays once, only
-with JavaScript, never with reduced motion, and never hides the copy on the server.
+**E2, one fade-in (2026-10-10).** The map fades in over 600 ms when its data arrives, once, never
+with reduced motion. There is no other entrance.
+
+**E3, no visible text on the landing page (2026-10-10, team decision D-040).** The page shows the
+map alone. The h1, the market buttons and the status line exist for keyboard and assistive
+technology and are visually hidden; the buttons appear only while focused.
 
 ## 8. Pre-delivery checklist
 
@@ -130,4 +153,5 @@ with JavaScript, never with reduced motion, and never hides the copy on the serv
 - [ ] Horizontal overflow at 375 px?
 - [ ] Console clean? No runtime fetch from third-party hosts?
 - [ ] Placeholder comments, hard-coded colours or data, unused dependencies left in the code?
+- [ ] Any of the step 04 tells from section 0 back on the page (eyebrow, status label, strip, chips, dark default)?
 - [ ] If a team decision was changed, was it said?

@@ -1,5 +1,5 @@
-import { Hero } from "@/components/landing/hero";
+import { MapStage } from "@/components/landing/map-stage";
 
 export default function Home() {
-  return <Hero />;
+  return <MapStage />;
 }

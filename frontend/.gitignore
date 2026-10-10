@@ -40,9 +40,9 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# globe data is copied from node_modules by scripts/sync-globe-data.mjs
-/public/globe/*.json
-/public/globe/README.txt
+# map data is copied from node_modules by scripts/sync-map-data.mjs
+/public/map/*.json
+/public/map/README.txt
 
 # audit output
 /tools/audit/out/
