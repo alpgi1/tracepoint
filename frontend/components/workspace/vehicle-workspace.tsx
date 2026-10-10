@@ -1,21 +1,21 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { useLayoutEffect, useRef, useState } from "react";
 import { VehicleDrawing } from "@/components/vehicles/vehicle-drawing";
 import { full, percent, scaleTop, score } from "@/lib/content/format";
 import type { DomainFigures, DomainKey, MarketContent, VehicleContent } from "@/lib/content/types";
 import { drawingFor, photoFor } from "@/lib/vehicles/drawings";
-import { takeHandoff } from "@/lib/vehicles/handoff";
+import { arriveHandoff, useSketchPhase } from "@/lib/vehicles/handoff";
 import { site } from "@/lib/site";
 
 /*
  * Screen 2: one vehicle in one market. The car as a sketch (side and top
  * view) beside the domain list; the selected or hovered domain shows its
- * complaint themes. Arriving from the map, the screen starts with the car's
- * photo where the sketch will be and cross-fades to the sketch. Decisions
- * are not built yet.
+ * complaint themes. Arriving from the map, the hand-over layer brings the
+ * car's photo to the side view's silhouette box; this screen reports that
+ * box once laid out, keeps the sketch hidden while the photo fades, then
+ * reveals it. Decisions are not built yet.
  */
 export interface VehicleWorkspaceProps {
   market: MarketContent;
@@ -37,27 +37,18 @@ export function VehicleWorkspace({ market, vehicle }: VehicleWorkspaceProps) {
   const themes = shown ? vehicle.complaintThemes.filter((t) => t.domain === shown).sort((a, b) => b.complaints - a.complaints).slice(0, THEMES_SHOWN) : [];
   const { workspace } = site;
 
-  // The hand-over phase is written to the DOM, not to state: the server renders the
-  // sketch, and the first client paint must already show the photo when arriving from the map.
-  const viewRef = useRef<HTMLDivElement>(null);
+  // Where the photo must land: the side view's silhouette box, measured after layout.
+  const slotRef = useRef<HTMLDivElement>(null);
+  const sketchPhase = useSketchPhase(vehicle.drawing);
   useLayoutEffect(() => {
-    const view = viewRef.current;
-    if (!view || takeHandoff() !== vehicle.drawing) return;
-    view.dataset.phase = "photo";
-    let inner = 0;
-    const outer = requestAnimationFrame(() => {
-      inner = requestAnimationFrame(() => {
-        view.dataset.phase = "fade";
-      });
-    });
-    return () => {
-      cancelAnimationFrame(outer);
-      cancelAnimationFrame(inner);
-    };
+    const slot = slotRef.current;
+    if (!slot) return;
+    const rect = slot.getBoundingClientRect();
+    arriveHandoff(vehicle.drawing, { left: rect.left, top: rect.top, width: rect.width, height: rect.height });
   }, [vehicle.drawing]);
 
   const [x0, y0, x1] = side.bbox;
-  const photoStyle: React.CSSProperties = {
+  const slotStyle: React.CSSProperties = {
     left: `${String((x0 / side.width) * 100)}%`,
     width: `${String(((x1 - x0) / side.width) * 100)}%`,
     top: `${String((y0 / side.height) * 100)}%`,
@@ -82,10 +73,10 @@ export function VehicleWorkspace({ market, vehicle }: VehicleWorkspaceProps) {
         </div>
       </header>
       <div className="workspace-body">
-        <section className="workspace-stage" aria-label={workspace.stageLabel}>
-          <div className="workspace-view" ref={viewRef} data-phase="sketch">
+        <section className="workspace-stage" aria-label={workspace.stageLabel} data-sketch={sketchPhase}>
+          <div className="workspace-view">
             <VehicleDrawing drawing={side} size="stage" />
-            <Image className="vehicle-photo" style={photoStyle} src={photo.src} alt="" width={photo.width} height={photo.height} unoptimized draggable={false} />
+            <div ref={slotRef} className="vehicle-photo-slot" style={slotStyle} aria-hidden="true" />
           </div>
           <div className="workspace-view workspace-view-top">
             <VehicleDrawing drawing={top} size="stage" />

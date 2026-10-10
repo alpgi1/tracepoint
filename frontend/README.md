@@ -18,7 +18,7 @@ master plan. Documentation lives in `docs/` (start with `docs/README.md`).
 | `pnpm lint`, `pnpm typecheck`, `pnpm test` | ESLint, route typegen plus `tsc --noEmit`, vitest (market outlines, classification, projection fit, vehicle drawings and zones) |
 | `pnpm check` | All of the above plus the build; must pass before a step is committed |
 | `pnpm audit:pages` | Page audit in Chromium against a running server, on the landing page and the seven vehicle pages: landmarks, headings, accessible names, tap targets, keyboard tour, 375 px overflow, forbidden text, console errors (exit code 1 on findings) |
-| `pnpm shots` | Screenshots of the states (resting with callouts, hover, the three magnified markets with their panels, card hover, the photo at full screen, the hand-over, vehicle screens, keyboard focus, 1920 px, reduced motion) into `tools/audit/out/` |
+| `pnpm shots` | Screenshots of the states (resting with callouts, hover, the three magnified markets with their panels, card hover, the photo on its way and fading on the vehicle screen, vehicle screens, keyboard focus, 1920 px, reduced motion) into `tools/audit/out/` |
 | `pnpm content` | Regenerates `content/markets.json` from `reports/baseline`, `docs/*.xlsx` and `config/` (Python 3 with openpyxl and PyYAML) |
 | `pnpm vehicles` | Regenerates the vehicle drawings (body, lines and contour masks under `public/vehicles/`, `content/vehicles/*.json`) from `assets/vehicles/sources` |
 | `pnpm photos` | Regenerates the photo cut-outs of the configured cars (`public/vehicles/*-photo-side.webp`, `content/vehicles/*-photo.json`) from `assets/vehicles/photos` |
@@ -30,20 +30,20 @@ Run the audit and the screenshots against a built app started in another shell
 ## Layout
 
 ```
-app/            layout, page, tokens (globals.css), fonts (self-hosted subsets, OFL)
+app/            layout (with the hand-over layer), page, tokens (globals.css), fonts (self-hosted subsets, OFL)
   markets/[market]/[vehicle]/   the vehicle screen (static routes for the seven pairs)
 assets/vehicles/sources/        brochure pages and the press sheet the drawings come from, with README
 assets/vehicles/photos/         side-profile renders of the configured cars from the BMW configurator, with README
 components/
   landing/      map stage with callouts and connectors, market panel, vehicle cards (photo, hand-over)
-  vehicles/     vehicle-drawing (layered sketch: wash, lines, contour)
-  workspace/    vehicle-workspace (sketch with the hand-over photo, domain list, themes)
+  vehicles/     vehicle-drawing (layered sketch: wash, lines, contour), handoff-layer (the photo across the route change)
+  workspace/    vehicle-workspace (sketch, hand-over target, domain list, themes)
   ui/           dotted-world-map (canvas map), shadcn components
 content/        markets.json (figures with sources), vehicles/*.json (drawing and photo sizes and boxes), generated and committed
 lib/
   content/      types, loaders, number formats
   map/          regions, data (topology to outlines), renderer (mask, dots, zoom, focus, highlight)
-  vehicles/     drawings and photos, shared stage geometry and hand-over targets, the hand-over flag, zones (unused)
+  vehicles/     drawings and photos, shared stage geometry and hand-over targets, the hand-over store, zones (unused)
   motion/       reduced-motion hook
   site.ts       metadata and copy, one place
 public/vehicles/  the drawings' masks and the photo cut-outs, generated and committed

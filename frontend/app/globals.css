@@ -278,7 +278,7 @@
   padding: 0;
 }
 
-/* Vehicle cards: the car's photo, then the figures. The veil covers the page while a photo grows. */
+/* Vehicle cards: the car's photo, then the figures. */
 .vehicle-card {
   display: block;
   color: inherit;
@@ -303,18 +303,6 @@
 .vehicle-card:hover .vehicle-card-photo,
 .vehicle-card:focus-visible .vehicle-card-photo {
   transform: translateY(-3px);
-}
-.veil {
-  position: fixed;
-  inset: 0;
-  z-index: 25;
-  background: var(--color-paper);
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.3s var(--ease-out);
-}
-.veil[data-on="true"] {
-  opacity: 1;
 }
 .vehicle-card-name {
   display: block;
@@ -366,28 +354,58 @@
 }
 
 /*
- * Arriving from the map: the car's photo sits over the drawing's silhouette
- * box, wheels on the drawn ground, then fades while the sketch appears.
+ * Arriving from the map: the hand-over layer lands the photo on the slot
+ * (the drawing's silhouette box) and fades it; the sketch stays hidden
+ * until the layer says reveal, then fades in behind the clearing photo.
  */
-.vehicle-photo {
+.vehicle-photo-slot {
   position: absolute;
-  height: auto;
-  object-fit: contain;
-  object-position: center bottom;
-  opacity: 0;
   pointer-events: none;
-  transition: opacity 0.7s var(--ease-out);
 }
-.workspace-view[data-phase="photo"] .vehicle {
+.workspace-stage[data-sketch="hidden"] .vehicle {
   opacity: 0;
   transition: none;
 }
-.workspace-view[data-phase="photo"] .vehicle-photo {
+.workspace-stage[data-sketch="reveal"] .vehicle {
   opacity: 1;
-  transition: none;
 }
-.workspace-view[data-phase="fade"] .vehicle-photo {
+
+/* The hand-over layer: a paper veil over the map and the photo on its way. */
+.handoff {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  pointer-events: none;
+}
+.handoff-veil {
+  position: absolute;
+  inset: 0;
+  background: var(--color-paper);
   opacity: 0;
+  animation: veil-in 0.22s var(--ease-out) forwards;
+}
+.handoff-veil[data-off="true"] {
+  animation: veil-out 0.45s var(--ease-out) forwards;
+}
+@keyframes veil-in {
+  to {
+    opacity: 1;
+  }
+}
+@keyframes veil-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+.handoff-photo {
+  position: absolute;
+  display: block;
+  object-fit: contain;
+  transform-origin: 0 0;
+  will-change: transform, opacity;
 }
 
 /* Vehicle screen. Numbers match lib/vehicles/layout.ts. */
@@ -563,9 +581,8 @@
   .callout,
   .callout-lines,
   .vehicle,
-  .vehicle-photo,
   .vehicle-card-photo,
-  .veil,
+  .handoff-veil,
   .domain-row,
   .domain-row-bar > span {
     animation: none;

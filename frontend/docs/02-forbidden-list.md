@@ -142,13 +142,15 @@ else: no header, no copy, no footer. The cards are the market buttons; the h1 an
 line exist for assistive technology and are visually hidden. The magnified state adds the market
 panel with the vehicle cards; it is a second state, not the first view.
 
-**E4, the hand-over from the map to the vehicle screen (2026-10-10, step 07, revised in step 11
-by D-053).** A clicked vehicle card grows the car's photo to full screen over a paper veil
-(520 ms), holds (420 ms), moves it to the place the sketch has on the vehicle screen (560 ms),
-and that screen cross-fades the photo to the sketch (700 ms). It is the one transition between
-the two screens, runs once per click, never with reduced motion, and moves only `transform` and
-`opacity`. The photos are the team's configured cars from the BMW configurator, identified as
-such in `assets/vehicles/photos/README.md`; they are not stock or AI imagery.
+**E4, the hand-over from the map to the vehicle screen (2026-10-10, step 07, revised in steps 11
+and 12 by D-053 and D-055).** A clicked vehicle card hands the car's photo to a layer that
+carries it across the route change: a paper veil dissolves the map (220 ms), the photo moves
+straight from the card to the place the sketch has on the vehicle screen (720 ms) while the
+veil clears, then the photo fades out (900 ms) and the sketch is revealed behind it (700 ms).
+It is the one transition between the two screens, runs once per click, never with reduced
+motion, and moves only `transform` and `opacity`. The photos are the team's configured cars
+from the BMW configurator, identified as such in `assets/vehicles/photos/README.md`; they are
+not stock or AI imagery.
 
 ## 8. Pre-delivery checklist
 
