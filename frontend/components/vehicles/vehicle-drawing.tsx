@@ -1,55 +1,74 @@
 import type { CSSProperties } from "react";
 import type { DomainKey } from "@/lib/content/types";
-import { runsByZone, UNZONED } from "@/lib/vehicles/dots";
-import type { Density, VehicleDrawing as Drawing } from "@/lib/vehicles/drawings";
+import type { VehicleDrawing as Drawing } from "@/lib/vehicles/drawings";
 import type { Zone } from "@/lib/vehicles/zones";
 import { cn } from "@/lib/utils";
 
 /*
- * A vehicle as dots and lines: the silhouette as a grid of dots (SVG, one
- * dashed path per run so it scales crisply) under the drawing's lines (a
- * PNG alpha mask tinted by the --vehicle-line token). With zones, the dots
- * of each domain form their own path, so a heat value per domain tints the
- * body where that domain lives. Colours are CSS tokens, see globals.css.
+ * A vehicle as a layered sketch. Three alpha masks from the pipeline are
+ * tinted by tokens and stacked: the body as a flat wash, every line of the
+ * drawing in a lighter ink, the outer contour on top in a heavier ink. With
+ * zones and heat, soft blue washes clipped to the body tint each domain's
+ * place by its complaint share, between the wash and the lines.
  */
 
 export interface VehicleDrawingProps {
   drawing: Drawing;
-  density: Density;
   zones?: Zone[];
-  /** Emphasis per domain, 0..1. Zoned dots without a value keep the body colour. */
+  /** Emphasis per domain, 0..1. Zones without a value stay untinted. */
   heat?: Partial<Record<DomainKey, number>>;
   active?: DomainKey | null;
   className?: string;
 }
 
-const DOT_SCALE = 0.6; // dot diameter as a fraction of the pitch, like the map's dots
-const HEAT_FLOOR = 0.18;
+const HEAT_FLOOR = 0.12;
+const HEAT_CEILING = 0.7;
+/** Blur of the heat edges, as a fraction of the raster width. */
+const HEAT_BLUR = 0.012;
 
-export function VehicleDrawing({ drawing, density, zones = [], heat, active = null, className }: VehicleDrawingProps) {
-  const grid = drawing.grids[density];
-  const groups = runsByZone(drawing, grid, zones);
+function mask(url: string): CSSProperties {
+  return { maskImage: `url(${url})`, WebkitMaskImage: `url(${url})` };
+}
+
+export function VehicleDrawing({ drawing, zones = [], heat, active = null, className }: VehicleDrawingProps) {
+  const { width, height, bbox, layers } = drawing;
+  const [x0, y0, x1, y1] = bbox;
+  const bw = x1 - x0;
+  const bh = y1 - y0;
+  const heated = heat ? zones.filter((zone) => heat[zone.domain] !== undefined) : [];
+  const blurId = `heat-blur-${drawing.code}-${drawing.view}`;
   return (
-    <div className={cn("vehicle", className)} style={{ aspectRatio: `${String(drawing.width)} / ${String(drawing.height)}` }}>
-      <svg className="vehicle-dots" viewBox={`0 0 ${String(drawing.width)} ${String(drawing.height)}`} aria-hidden="true" focusable="false">
-        <g fill="none" strokeWidth={grid.pitch * DOT_SCALE} strokeDasharray={`0 ${String(grid.pitch)}`} strokeLinecap="round">
-          {Object.entries(groups).map(([key, d]) => {
-            const value = key === UNZONED ? undefined : heat?.[key as DomainKey];
-            const style = value === undefined ? undefined : ({ "--heat": HEAT_FLOOR + (1 - HEAT_FLOOR) * value } as CSSProperties);
-            return (
-              <path
-                key={key}
-                d={d}
-                data-zone={key}
-                data-heat={value === undefined ? undefined : "true"}
-                data-active={active !== null && key === active ? "true" : undefined}
-                style={style}
-              />
-            );
-          })}
-        </g>
-      </svg>
-      <span className="vehicle-lines" style={{ maskImage: `url(${drawing.lines})`, WebkitMaskImage: `url(${drawing.lines})` }} />
+    <div className={cn("vehicle", className)} style={{ aspectRatio: `${String(width)} / ${String(height)}` }}>
+      <span className="vehicle-layer vehicle-body" style={mask(layers.body)} />
+      {heated.length > 0 ? (
+        <svg className="vehicle-layer vehicle-heat" style={mask(layers.body)} viewBox={`0 0 ${String(width)} ${String(height)}`} aria-hidden="true" focusable="false">
+          <defs>
+            <filter id={blurId} x="-10%" y="-10%" width="120%" height="120%">
+              <feGaussianBlur stdDeviation={width * HEAT_BLUR} />
+            </filter>
+          </defs>
+          <g filter={`url(#${blurId})`}>
+            {heated.map((zone) => {
+              const value = heat?.[zone.domain] ?? 0;
+              const isActive = active === zone.domain;
+              return zone.rects.map((rect, index) => (
+                <rect
+                  key={`${zone.domain}-${String(index)}`}
+                  x={x0 + rect[0] * bw}
+                  y={y0 + rect[1] * bh}
+                  width={(rect[2] - rect[0]) * bw}
+                  height={(rect[3] - rect[1]) * bh}
+                  data-zone={zone.domain}
+                  data-active={isActive ? "true" : undefined}
+                  style={{ opacity: isActive ? 1 : HEAT_FLOOR + (HEAT_CEILING - HEAT_FLOOR) * value }}
+                />
+              ));
+            })}
+          </g>
+        </svg>
+      ) : null}
+      <span className="vehicle-layer vehicle-lines" style={mask(layers.lines)} />
+      <span className="vehicle-layer vehicle-contour" style={mask(layers.contour)} />
     </div>
   );
 }

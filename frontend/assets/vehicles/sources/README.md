@@ -1,9 +1,9 @@
 # Vehicle drawing sources
 
 Raw inputs of `scripts/vehicles/build.mjs`. The script strips the dimension
-annotations, crops the side and top views and writes `public/vehicles/*.png`
-(lines as an alpha mask) and `content/vehicles/*.json` (silhouette dot runs).
-Nothing in this folder is edited by hand.
+annotations, crops the side and top views and writes three alpha masks per
+view under `public/vehicles/` (body, lines, contour) and `content/vehicles/*.json`
+(size, silhouette box, scale). Nothing in this folder is edited by hand.
 
 | File | Vehicle | Origin | Extraction |
 | --- | --- | --- | --- |
@@ -22,5 +22,5 @@ Notes
 - The press material is BMW Group property, published for editorial use. The
   prototype is an internal hackathon build; clear the rights before any public
   release.
-- Overall lengths used for the physical dot pitch: F70 4361 mm, G60 5060 mm,
+- Overall lengths used for the millimetre scale: F70 4361 mm, G60 5060 mm,
   G70 5391 mm (from the same documents).

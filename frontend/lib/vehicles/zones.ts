@@ -6,9 +6,10 @@ import type { DrawingView } from "./drawings";
  * drawing's silhouette box: x from the front (0) to the rear (1), y from
  * the roof (0) to the ground (1) in the side view, across the body in the
  * top view. The zones are the team's approximation of where a customer
- * experiences a domain, not measured geometry; the silhouette clips them,
- * and a dot belongs to the first zone that contains it. Domains without a
- * place on the body (variants, general) have no zone.
+ * experiences a domain, not measured geometry; the silhouette clips them.
+ * Zones never overlap (tested), since their heat washes would otherwise
+ * stack. Domains without a place on the body (variants, general) have no
+ * zone.
  */
 export type Rect = [number, number, number, number];
 
@@ -19,12 +20,12 @@ export interface Zone {
 
 const SIDE: Zone[] = [
   { domain: "driver_assistance", rects: [[0, 0.45, 0.085, 0.95]] },
-  { domain: "exterior_design", rects: [[0, 0.12, 0.085, 0.45], [0.3, 0, 0.75, 0.12], [0.93, 0.12, 1, 0.95]] },
-  { domain: "powertrain_range_charging", rects: [[0.085, 0.28, 0.3, 0.55], [0.33, 0.8, 0.68, 0.93]] },
+  { domain: "exterior_design", rects: [[0, 0.12, 0.085, 0.45], [0.3, 0, 0.75, 0.08], [0.93, 0.12, 1, 0.95]] },
+  { domain: "powertrain_range_charging", rects: [[0.085, 0.28, 0.28, 0.55], [0.33, 0.8, 0.68, 0.93]] },
   { domain: "driving_dynamics", rects: [[0.085, 0.55, 0.33, 1], [0.68, 0.55, 0.93, 1]] },
-  { domain: "infotainment_digital", rects: [[0.28, 0.12, 0.42, 0.55]] },
-  { domain: "interior_comfort", rects: [[0.42, 0.08, 0.68, 0.72]] },
-  { domain: "space_practicality", rects: [[0.68, 0.12, 0.93, 0.55]] },
+  { domain: "infotainment_digital", rects: [[0.28, 0.08, 0.42, 0.55]] },
+  { domain: "interior_comfort", rects: [[0.42, 0.08, 0.68, 0.55]] },
+  { domain: "space_practicality", rects: [[0.68, 0.08, 0.93, 0.55]] },
   { domain: "quality_nvh", rects: [[0.33, 0.55, 0.68, 0.8]] },
 ];
 

@@ -6,34 +6,26 @@ import g70Side from "@/content/vehicles/G70-side.json";
 import g70Top from "@/content/vehicles/G70-top.json";
 
 /**
- * Drawings produced by scripts/vehicles/build.mjs: the lines as an alpha
- * mask PNG under public/vehicles and the silhouette as dot runs. Runs are
- * stored per grid row as [j, i0, n, i0, n, ...]: dot (i, j) sits at
- * origin + (i, j) · pitch in the raster's pixel space.
+ * Drawings produced by scripts/vehicles/build.mjs: three alpha masks per
+ * view under public/vehicles (the body as a flat wash, every line of the
+ * drawing, the outer contour), tinted with CSS tokens and stacked as layers,
+ * plus the silhouette box the zones are measured in.
  */
 export type DrawingCode = "F70" | "G60" | "G70";
 export type DrawingView = "side" | "top";
-export type Density = "coarse" | "fine";
-
-export interface DotGrid {
-  pitchMm: number;
-  pitch: number;
-  origin: [number, number];
-  rows: number[][];
-}
 
 export interface VehicleDrawing {
   code: string;
   name: string;
   view: DrawingView;
   source: string;
-  lines: string;
+  layers: { body: string; lines: string; contour: string };
   width: number;
   height: number;
+  /** Silhouette box in raster pixels: [x0, y0, x1, y1]. */
   bbox: [number, number, number, number];
   lengthMm: number;
   pxPerMm: number;
-  grids: Record<Density, DotGrid>;
 }
 
 const DRAWINGS: Record<DrawingCode, Record<DrawingView, VehicleDrawing>> = {
@@ -45,3 +37,5 @@ const DRAWINGS: Record<DrawingCode, Record<DrawingView, VehicleDrawing>> = {
 export function drawingFor(code: DrawingCode, view: DrawingView): VehicleDrawing {
   return DRAWINGS[code][view];
 }
+
+export const DRAWING_CODES: readonly DrawingCode[] = ["F70", "G60", "G70"];

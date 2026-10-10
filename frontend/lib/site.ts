@@ -33,7 +33,7 @@ export const site = {
   },
   workspace: {
     back: "Map",
-    stageLabel: "The car as a domain selector: each zone is a requirement domain, darker dots mean a higher complaint share",
+    stageLabel: "The car as a domain selector: each zone is a requirement domain, a deeper blue means a higher complaint share",
     domainsHeading: "Domains by complaint share",
     domainsHint: "Share of classified verbatim rows that are complaints. Click a domain to see its themes.",
     rows: "rows",

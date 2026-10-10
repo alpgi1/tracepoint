@@ -51,15 +51,15 @@
 :root {
   /*
    * Map colours, read by the canvas renderer (lib/map/renderer.ts). Plain
-   * land is grey dots; the three markets are solid layers: a light blue fill
-   * that reads against both the white page and the grey dots, under an
-   * outline darker than the fill. Hover deepens fill and outline.
+   * land is grey dots; the three markets are solid layers that rest in grey,
+   * a light fill that reads against both the white page and the dots under
+   * an outline darker than the fill, and turn blue on hover and selection.
    */
   --map-dot: #cdd1d6;
-  --map-fill: #dce7f8;
-  --map-fill-active: #b9cff2;
-  --map-outline: #1c69d4;
-  --map-outline-active: #0f4fae;
+  --map-fill: #e9ecf0;
+  --map-fill-active: #cddcf5;
+  --map-outline: #8e98a4;
+  --map-outline-active: #1c69d4;
   color-scheme: light;
 }
 
@@ -149,12 +149,18 @@
 /* ---------- step 07: readouts, market panel, vehicles, workspace ---------- */
 
 :root {
-  /* Vehicle drawings: dots like the map's markets, lines in the one blue. */
-  --vehicle-dot: #c5d5ef;
-  --vehicle-dot-active: #9fb9e3;
-  --vehicle-line: #1c69d4;
+  /*
+   * Vehicle drawings, a layered sketch: a flat body wash, the drawing's lines
+   * in a lighter ink, the outer contour in ink. Like the markets, grey at
+   * rest and blue when hovered; the heat washes use the one blue.
+   */
+  --vehicle-wash: #eef1f5;
+  --vehicle-wash-active: #dce7f8;
+  --vehicle-line: #6b7480;
+  --vehicle-line-active: #1c69d4;
+  --vehicle-contour: #14171c;
+  --vehicle-contour-active: #0f4fae;
   --vehicle-heat: #1c69d4;
-  --vehicle-heat-active: #0f4fae;
 }
 
 .tap {
@@ -251,7 +257,7 @@
   padding: 0;
 }
 
-/* Vehicle cards: the drawing, then the figures. */
+/* Vehicle cards: the drawing, then the figures. Hover turns the sketch blue, like a market. */
 .vehicle-card {
   display: block;
   color: inherit;
@@ -260,9 +266,17 @@
 .vehicle-card-drawing {
   position: relative;
 }
-.vehicle-card:hover .vehicle-dots path,
-.vehicle-card:focus-visible .vehicle-dots path {
-  stroke: var(--vehicle-dot-active);
+.vehicle-card:hover .vehicle-body,
+.vehicle-card:focus-visible .vehicle-body {
+  background: var(--vehicle-wash-active);
+}
+.vehicle-card:hover .vehicle-lines,
+.vehicle-card:focus-visible .vehicle-lines {
+  background: var(--vehicle-line-active);
+}
+.vehicle-card:hover .vehicle-contour,
+.vehicle-card:focus-visible .vehicle-contour {
+  background: var(--vehicle-contour-active);
 }
 .vehicle-card-name {
   display: block;
@@ -285,41 +299,36 @@
   font-variant-numeric: tabular-nums;
 }
 
-/* A vehicle: dots (SVG) under lines (alpha-mask PNG tinted by a token). */
+/* A vehicle: three alpha masks tinted by tokens and stacked (body wash, lines, contour), heat washes between wash and lines. */
 .vehicle {
   position: relative;
   width: 100%;
 }
-.vehicle-dots {
+.vehicle-layer {
   position: absolute;
   inset: 0;
   display: block;
   width: 100%;
   height: 100%;
-}
-.vehicle-dots path {
-  stroke: var(--vehicle-dot);
-  transition:
-    stroke 0.18s var(--ease-out),
-    opacity 0.18s var(--ease-out);
-}
-.vehicle-dots path[data-heat] {
-  stroke: var(--vehicle-heat);
-  opacity: var(--heat);
-}
-.vehicle-dots path[data-active="true"] {
-  stroke: var(--vehicle-heat-active);
-  opacity: 1;
-}
-.vehicle-lines {
-  position: absolute;
-  inset: 0;
-  background: var(--vehicle-line);
   mask-repeat: no-repeat;
   mask-size: 100% 100%;
   -webkit-mask-repeat: no-repeat;
   -webkit-mask-size: 100% 100%;
   pointer-events: none;
+  transition: background 0.18s var(--ease-out);
+}
+.vehicle-body {
+  background: var(--vehicle-wash);
+}
+.vehicle-lines {
+  background: var(--vehicle-line);
+}
+.vehicle-contour {
+  background: var(--vehicle-contour);
+}
+.vehicle-heat rect {
+  fill: var(--vehicle-heat);
+  transition: opacity 0.18s var(--ease-out);
 }
 
 /* Vehicle screen. Numbers match lib/vehicles/layout.ts. */
@@ -473,7 +482,8 @@
 @media (prefers-reduced-motion: reduce) {
   .market-panel,
   .readout,
-  .vehicle-dots path,
+  .vehicle-layer,
+  .vehicle-heat rect,
   .domain-row-bar > span {
     animation: none;
     transition: none;
