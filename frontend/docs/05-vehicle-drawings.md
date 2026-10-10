@@ -3,7 +3,7 @@
 | Field | Value |
 |---|---|
 | Date | 2026-10-10, step 07 |
-| Status | Built and verified; revised in step 08 from a dot cloud to a layered sketch after the team's review; zones are a first approximation for the team to correct |
+| Status | Built and verified; revised in step 08 from a dot cloud to a layered sketch and in step 10 with crisp card lines, radial heat, leader lines and list cards, after the team's reviews; zones are a first approximation for the team to correct |
 | Files | `scripts/vehicles/build.mjs` (pipeline), `assets/vehicles/sources/` (inputs and their README), `public/vehicles/*.png` (body, lines and contour masks), `content/vehicles/*.json` (size, box, scale), `lib/vehicles/` (drawings, zones, layout), `components/vehicles/vehicle-drawing.tsx`, `components/workspace/vehicle-workspace.tsx`, `app/markets/[market]/[vehicle]/page.tsx` |
 
 ## 1. Why drawings and not 3D
@@ -43,28 +43,35 @@ geometry.
    measured on the interior only. Fill ratios: F70 0.64 / 0.77, G60 0.66 / 0.78, G70 0.57 / 0.79
    (side / top); the pipeline warns below 0.45, which is what a leaking outline looks like.
 4. **Layers.** From the silhouette: the body mask (the silhouette, feathered by 0.6 px) and
-   the contour mask (the silhouette's edge dilated to 4 px, feathered); from the ink: the lines
-   mask. All three are alpha-only PNGs.
-5. **Outputs.** `public/vehicles/<code>-<view>-body.png`, `-lines.png` and `-contour.png`
-   (8 to 180 KB each, eighteen files) and `content/vehicles/<code>-<view>.json` with the size,
-   the silhouette box, the millimetre scale and the source note. `--preview <dir>` also writes
-   the three layers composed per view for a visual check.
+   the contour mask (the silhouette's edge dilated to 3 px, feathered); from the ink: the lines
+   mask at 1600 px and a second lines mask at 520 px for the cards, where the car is shown at
+   about a quarter of the raster width and the thin lines would otherwise break up. For the
+   vector pages the small mask is a fresh render with every stroke raised to 0.8 pt and the
+   filled shapes given a stroke; for the raster it is the ink dilated by one pixel before
+   resizing. All masks are alpha-only PNGs.
+5. **Outputs.** `public/vehicles/<code>-<view>-body.png`, `-lines.png`, `-lines-small.png` and
+   `-contour.png` (8 to 180 KB each, twenty-four files) and `content/vehicles/<code>-<view>.json`
+   with the size, the silhouette box, the millimetre scale and the source note. `--preview
+   <dir>` also writes the three layers composed per view for a visual check.
 
 ## 4. Rendering (`components/vehicles/vehicle-drawing.tsx`)
 
 * Each mask is a `span` filled with a token and clipped by the PNG through CSS `mask-image`,
   stacked in order: the body wash (`--vehicle-wash #eef1f5`), the heat washes where there are
-  zones, the lines (`--vehicle-line #6b7480`), the contour on top (`--vehicle-contour
-  #14171c`). The heavier contour makes the body read at a glance; the lighter inner lines carry
-  the panels, glass and wheels. The result is a sketch, not a photograph and not a dot cloud.
+  zones, the lines (`--vehicle-line #6b7480`; cards take the small mask through `size="card"`),
+  the contour on top (`--vehicle-contour #14171c`). The heavier contour makes the body read at
+  a glance; the lighter inner lines carry the panels, glass and wheels. The result is a sketch,
+  not a photograph and not a dot cloud.
 * Like the markets, a vehicle is grey at rest and turns blue when hovered: the card's hover and
   focus switch the three layers to `--vehicle-wash-active #dce7f8`, `--vehicle-line-active
   #1c69d4` and `--vehicle-contour-active #0f4fae`.
 * Heat: an SVG between the wash and the lines, clipped to the body by the same body mask, draws
-  one rectangle per zone in `--vehicle-heat #1c69d4` through a Gaussian blur (1.2 % of the
-  raster width), with opacity 0.12 + 0.58 × complaint share and 1 for the active domain. The
-  blur turns the rectangles into soft washes, so the zones read as regions of the body rather
-  than boxes. Zones never overlap (unit test), since overlapping washes would stack.
+  one ellipse per zone rectangle filled with a radial gradient of `--vehicle-heat #1c69d4`
+  (full at the centre, clear at the rim, reaching 18 % past the rectangle so neighbours
+  blend), with opacity 0.07 + 0.75 × the domain's heat and 1 for the active domain. Heat is
+  relative within the vehicle: the lowest complaint share maps to 0 and the highest to 1, so
+  the washes show where this car's complaints concentrate rather than tinting the whole body.
+  Zones never overlap (unit test), since overlapping washes would stack.
 * Unit tests check that every drawing carries its three layers, a silhouette box inside the
   raster and a consistent scale, and that the zones partition without overlap.
 
@@ -78,10 +85,16 @@ geometry.
   below it, and the zone note. Hovering a zone highlights its domain in the list and
   shows its themes; clicking selects it. Zone hit areas are mouse shortcuts; the list is the
   keyboard route to the same actions.
-* Domains (right, 400 px): every domain of the vehicle's baseline report except `general`, sorted
-  by complaint share, each a button with name, share, row count and a bar; the selected or hovered
-  domain shows its top complaint themes (up to six, by complaints) with rows, defects, difficult
-  to use and wants.
+* Leader lines: one SVG over the two columns joins each side-view zone (a dot at the centre of
+  its largest rectangle) to its row in the list with a single curve, horizontal at both ends.
+  Positions are measured from the DOM after layout and on resize (`ResizeObserver`); the
+  hovered or selected domain's line and dot turn blue, the others stay faint. The method is
+  the annotation callout of the team's reference image; the lines carry no text.
+* Domains (right, 400 px): a card with every domain of the vehicle's baseline report except
+  `general`, sorted by complaint share, each a button with name, share, row count and a bar in
+  the one blue; the selected row carries a blue outline. A second card shows the selected or
+  hovered domain's top complaint themes (up to six, by complaints) with rows, defects,
+  difficult to use and wants.
 * Markets without classified verbatims (CN): no heat map, a plain statement of that, and the
   study's three lowest attribute scores with the scale and the overall mean.
 * Decisions are not built; this screen is the domain selector the team described.
@@ -139,5 +152,7 @@ Both outputs are committed so the app builds without poppler or the workbooks. T
 * The hover-driven theme list updates a polite live region; screen reader users who hover with a
   pointer hear every change.
 * Only the side view is used on the cards; the top view appears on the vehicle screen only.
-* The layers are rasters at 1600 px width; the vehicle screen shows them at up to 1040 px, so
-  they stay crisp on 1x screens and slightly soft on 2x screens.
+* The layers are rasters at 1600 px width (520 px for the card lines); the vehicle screen shows
+  them at up to 1040 px, so they stay crisp on 1x screens and slightly soft on 2x screens.
+* In the G70 press drawing the tyres are drawn apart from the wheel arches, so the contour
+  traces both and the wheels read heavier than on the two vector drawings.
