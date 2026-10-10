@@ -1,0 +1,242 @@
+# Frontend research notes
+
+| Field | Value |
+|---|---|
+| Date | 2026-10-10 |
+| Scope | What the team's three other frontends and their reference collections teach, and how it applies to the Tracepoint landing page (interactive market globe) and the later PM workspace |
+| Sources | `yksmentor/Mentor-Website`, `alpgi1/portfolio`, `alpgi1/regu` (documents, code, 345 reference captures, 7 reference videos); raw per-source notes in `research/` |
+| Status | Done for this step; sections 7 and 8 list proposals and open questions for the team |
+
+---
+
+## 1. What was reviewed
+
+| Source | Documents read | Visual material viewed |
+|---|---|---|
+| Mentor-Website (study app marketing site, Turkish, Next.js 16 on Cloudflare) | README, rewrite plan, reference notes, the "Fosforlu Defter" design direction with its R3/R5 implementation notes, 21st.dev candidate list, token and font pipeline code | 22 reference boards (Apple, YC startups, experimental sites, education competitors, mobile, deep dives, style cards) |
+| portfolio (alpgiraycelik.me, Next.js 16, Tailwind v4, GSAP, three) | CLAUDE.md, research R1 (award sites 2025 to 2026, Lando Norris case study, 21st.dev inventory of 1,431 components), forbidden list, plan with decisions D1 to D15, step log S0 to S9, publishing notes, the hero, motion and audit code | 196 captures of 64 award-level sites (hero at 1440 px, mobile at 390 px, scroll films), 35 captures of 21st.dev categories, the Lando Norris case study, 7 videos of reference sites |
+| REGU (reguai.tech, cloud-versus-local LLM cost report, pnpm workspace, Next.js 16) | CLAUDE.md, forbidden list, design system folder (token analysis, chart style, component mapping, 21st.dev reference components), R13 design references, ADRs 0001 to 0012, design upgrade plan, session hand-over, the 20 installed skills and their scope rules, the audit tools | 92 captures of 38 AI and infrastructure startup sites plus the REGU site itself |
+
+Raw notes per source are kept in `research/` (seven files). Two of the review passes stopped
+early because of a session limit: the REGU document notes cover process and references but not
+their sections on tokens and skills (those were read directly from the repository instead), and
+the written report on the Mentor reference boards and the 21st.dev category captures was lost
+after the images had been viewed. The 21st.dev material is covered by the portfolio's own
+inventory (section 6), so nothing binding is missing.
+
+---
+
+## 2. Process rules the three projects converged on
+
+All three projects were built by the same hand in the same month and arrived at the same working
+method. Tracepoint adopts it (plan decisions D-027 to D-032).
+
+1. **Research before code.** Capture the references frame by frame (hero, mobile, scroll film),
+   write a "take / do not take" verdict per site, then a plan with coded decisions, then code.
+   Only after the plan does a line of UI get written.
+2. **Decisions have codes and are never rewritten.** REGU uses K-codes and ADRs, the portfolio
+   D1 to D15, Tracepoint uses `plan/decisions.md`. A superseding decision references the old one.
+3. **One step, one output, one verification, one backward check, one commit.** REGU's rule is
+   "do, verify, look back": a fixed checklist (typecheck, tests, lint, no hard-coded number or
+   colour, forbidden-list delivery check, new assumptions coded) runs before the next step.
+4. **No delivery without measurement.** Every step runs lint, typecheck, tests, a page audit in a
+   real browser (one h1, heading order, landmarks, accessible names, tap targets of at least 44 px
+   measured as the larger of control and label, a keyboard tour with real Tab presses and a visible
+   focus ring, horizontal overflow at 375 px loaded fresh, forbidden-text scan, console errors),
+   screenshots at 1440 and 390 px, and Lighthouse where it is meaningful. **Question the tool
+   first:** in REGU's step 12 five of five false alarms were tool bugs; the pitfalls are written at
+   the top of each tool so they are not rediscovered.
+5. **The forbidden list is checked before every delivery.** Exemptions exist only in writing, in
+   the list's own exemption section, and only by a user decision. An unwritten exemption is a
+   violation.
+6. **Tokens in one place.** Colours, type scale, spacing and easings live in one CSS file; a
+   component never carries a colour. REGU goes further: the user's token file is never edited,
+   additions go to a second file loaded after it.
+7. **Copy and numbers in one content file, with their source.** Mentor's `site.ts` and the
+   portfolio's `project-data.ts` carry every number with a comment naming the source; a value
+   that is `null` is not rendered at all ("a number is never invented").
+8. **The server renders everything visible.** Entrance animations run only when JavaScript is
+   present (`html.js`, set before first paint) and motion is allowed; nothing waits behind a
+   preloader; with reduced motion everything is static and complete.
+9. **Fonts are produced, not added.** One subset per family, self-hosted, licence text next to
+   the file, display cut preloaded, body font with measured fallback metrics so the layout does not
+   shift (Mentor measured the fallback with HarfBuzz after a first guess produced CLS 0.136).
+10. **21st.dev gives methods, not components.** Mentor's four-item filter: any glow or gradient
+    layer is deleted, one accent, motion must carry information, the markup must be
+    server-renderable. The portfolio adds: render and measure first, then take the method and
+    rewrite it with tokens, author and licence in the file header. Code pulls are rationed on the
+    free tier (two a day), so a shortlist comes before any pull.
+11. **Skills have a precedence and a scope.** User decisions, then the forbidden list, then the
+    validators, then the installed skills; the taste skills apply to marketing surfaces only, never
+    to report or data screens.
+12. **A hand-over note is updated at every step** (where we are, pitfalls found, open items), so a
+    new session starts from the document, not from a retelling.
+
+---
+
+## 3. What the reference sites have in common
+
+Three batches were reviewed: 36 award-level portfolios and agencies (slugs a to l), 31 more
+(m to z, including the Lando Norris case study and the user's old portfolio as a baseline), and 38
+AI and infrastructure startup sites (R13). Counts below are from those batches.
+
+| Pattern | Evidence | Consequence for Tracepoint |
+|---|---|---|
+| **One idea, one object.** Every award site can be named by one idea (helmet and contours, wireframe igloo, spec sheet, paper). In the startup batch 23 of 37 heroes show the product, real data or a 3D object; the rest open with one strong visual idea; "a hero with neither is not on the list" | a to l: 9 sites with a 3D or WebGL object in the hero; R13: 23 of 37 | The globe is the one object. No second animated background, one canvas, everything else quiet |
+| **Micro-labels and status bars.** Location, local clock, coordinates, counters, "as of" dates, numbered navigation, superscript counts | 12 of 36 (a to l), 7 of 31 (m to z), most of R13 | A mono readout line under the globe, dated labels once data has dates, no decorative "SECTION 01" labels |
+| **Mono uppercase label language** with brackets, figure numbers and hairlines | 11 of 36, 22 of 38 startups | Geist Mono labels at 11 px, 0.08 em, uppercase, tabular numerals |
+| **Warmed near-black or off-white grounds, one accent.** Dark 12 of 36, 9 of 31, 21 of 38; pure black is rare; sites with two accents (purple plus cyan) read as "AI generic" | measured hex values in the notes | Page `#0e1013`, chalk text `#eceef1`, one signal colour |
+| **Three-voice typography.** Grotesk display (startups: 52 to 104 px at weight 300 to 500, negative tracking), mono labels at 10 to 12 px, optionally one serif-italic word | R13 counts; portfolio R1: median two families, mono labels on 20 of 64 | Archivo display plus Geist Mono; no serif for now |
+| **Motion tells a story.** Sticky-split narratives (12 of 38 startups), scroll-bound state changes, one-time entrances; the signals of a cheap site are preloaders, count-ups, "scroll to explore", infinite marquees and purple glow | 21 of 68 award sites are gated; 6 of 8 Site-of-the-Year winners are gated, Lando is not | No gate, no count-up, no hint arrow; one entrance, interaction-bound motion only |
+| **Evidence as a spec sheet.** Mono stat strips, bordered cells, tables with mono headers and hairlines, terminal and log blocks, "FIG. n" captions, compliance rows, dated sources | Elliott Mangham, Lando's "NEXT RACE" card, Normal Computing, Oxide, REGU | The later evidence strip and layer tiles follow this, with real numbers only |
+| **Premium is not heavy.** Cerebrium (Site of the Day) 132 KB, Oxide 42 KB, Elliott Mangham about 0 KB of script; Mistral 412 KB; autoplay video is the most expensive way to feel expensive | R13 weight table | Budget: application script under 150 KB gzipped, no autoplay video |
+| **Big footer wordmark** | 6 of 38 startups, 6 of 31 agencies | Optional, and only when the page is long; it is becoming a tell |
+
+The user's old portfolio was the baseline of what not to do: centred headline on a particle
+background, inline blue numbers, `// about` code-comment labels, a chip card grid, "Let's build
+something." and em dashes. The new portfolio and REGU replaced that with the language above.
+
+---
+
+## 4. Globe, map, wireframe and dot-texture references
+
+Exact descriptions, so the globe can borrow deliberately.
+
+| Site | What it does |
+|---|---|
+| Tensordyne | Black page; a dark-grey orthographic hemisphere rises from the bottom edge; two acid-yellow dots (US, Germany) with three-line mono labels. Closest published relative of our hero |
+| Cerebrium | Flat light-grey world map on a white card with pink location pins and a mono region string; elsewhere a honeycomb-textured glowing globe |
+| Aspen Search, Hyperbolic | Latitude and longitude wireframe globes and a hyperboloid as icons; dither dots that thicken towards the edges; registration marks in the corners |
+| Spherecast | A planet limb band (white to blue) under the hero and in the footer; star dots |
+| Dennis Snellenberg | A 40 px white wireframe globe icon rotating inside a dark pill that says "Located in the Netherlands" |
+| Lando Norris | Off-white ground with 1 px topographic contour lines and soft grey terrain patches, morphing slowly with noise; the cursor leaves a ripple; a "NEXT RACE" micro data card |
+| Lama Lama | The whole dark page carries a 4 px dot grid at about 8 % opacity; typography sits directly on it |
+| Basement (mobile), Igloo | White wireframe 3D room on black with a dot-grid floor; a wireframe dome that assembles itself on a wireframe ground, with an ASCII loading bar |
+| Bruno Simon | Perspective plane of glowing "x" marks that thicken with distance; one neon ring |
+| Sharplink, Together, Antimetal | CAD overlay on a 3D object: thin boxes, dotted leader lines, corner brackets, mono labels; a radial dot network with a dashed guide line to a mono tooltip |
+| Prime Intellect, Finseo, Oxide | Wavy dot-grid terrain in perspective; concentric halftone dome; vertical dither strip and dotted box schematics with "FIG." captions |
+| Messenger, minhpham | A toon planet with the title letters standing on it (a game); a photographic night Earth as décor behind client names |
+| 21st.dev globes (Magic UI 171, COBE 7686, Interactive Globe 6863, Interactive Globe Explorer 28448, cobe Globe 11611) | Rejected in REGU and in the portfolio because a single location ("based in Munich") does not justify a globe. Our globe carries three markets as content, so the objection does not apply; the rule stays: render, measure, rewrite with tokens |
+
+What was taken for the hero: the dotted land texture and graticule (the user's chosen 21st.dev
+component), the "object on a quiet ground" composition, mono readout and attribution line
+(Tensordyne, Lando), a soft fill plus crisp outline for the active market instead of a box-shadow
+glow, and a resting faint outline so the three markets are discoverable without a hint.
+
+---
+
+## 5. Motion norms measured from the reference videos
+
+Seven screen recordings (Artiom Yakushev, bleibtgleich, Elliott Mangham, Lando Norris, Nothin',
+Wodniack, and the user's old site) were sampled at 1 to 10 frames per second. Hover and cursor
+behaviour were not recorded (automated captures), so those rows carry low confidence.
+
+| Movement | Duration | Character |
+|---|---|---|
+| Logo blur-in | about 750 ms | ease-out, 20 px to 0 |
+| Large headline settling (liquid distortion) | 1.5 to 2 s | long-tailed decay |
+| Letter rise with stagger | about 1.3 s total, 100 ms per glyph | ease-out, one glyph with a small overshoot |
+| Panel wipe | about 800 ms | ease-out |
+| Chip width wipe | about 500 ms | ease-out |
+| Row-by-row "decoder" reveal | 100 ms per row, 12 rows in about 1.1 s | linear stagger |
+| Element fade-in | about 300 ms | opacity only |
+| Loader to hero | 100 to 250 ms | hard cut |
+| Marquee | about 27 px per second | linear, continuous |
+
+Norms: entrances are slow and deliberate, closings are quick; no tween blocks for more than two
+seconds (long waits came from loading, not design); elastic easing appears only on a single
+glyph. For the globe this gives: hover in 180 to 220 ms and out in 300 to 350 ms, camera moves of
+900 to 1,100 ms with an ease-in-out and no overshoot, a one-time entrance under 1.5 s, and a
+reduced-motion fallback that cross-fades states in about 150 ms instead of moving the camera.
+
+---
+
+## 6. 21st.dev: sister-project verdicts and our shortlist
+
+* **Portfolio inventory (R1):** 176 search queries, 3,211 hits, 1,431 unique components, 372
+  previews reviewed one by one. Verdicts: take 18, candidate 75, drop 114. "Most of the library is
+  SaaS landing slop: purple gradients, glow cards, bento grids, testimonials, logo clouds, 10X
+  badges, count-ups." What is worth taking is the method: line masks, cursor-following previews,
+  scroll-expanding media, layout transitions, a wordmark rising from behind a curtain.
+* **Mentor:** four-item filter (section 2, rule 10). What entered the code, all rewritten without
+  the animation library: Text Reveal (Mask) 19257 as a CSS line reveal, Stacking Cards 25275,
+  the Scroll Horizontal Gallery 24623 pattern, Animate Digits 20071 (only the changing digit moves).
+* **REGU:** ten registry pulls kept as references; only methods entered the site (navigation menu
+  behaviour, large-name footer layout, native sticky instead of the GSAP sticky wrapper).
+
+Shortlist for Tracepoint's later phases, method only, each to be rendered and measured first:
+
+| Component | Use | Note |
+|---|---|---|
+| Text Reveal (Mask) 19257 | Headline line mask on the landing and report covers | CSS only, under 600 ms, no blur |
+| Sticky Content Wrapper 26064 | "How the evidence is built" with the mini globe pinned and turning per step | Native `position: sticky`, flat flow on mobile |
+| SVG follow scroll 7288 | A drawn evidence-trail line between layers | CSS scroll timeline, 0 KB |
+| Feature Comparison Table 21218 | Market comparison, mono column heads, hairline rows | Numbers from the API only |
+| Project Showcase 6495 | Hover preview on requirement rows | Fine pointer only, poster on touch |
+| Accordion 24849 | Method and sources | Native `details` is enough |
+| Large Name Footer 872, Motion Footer 7741 | Closing wordmark | Only if the page becomes long |
+| Halide Topo Hero 6794 | Topographic texture behind a map section | Only if a flat map is ever wanted |
+
+Dropped on sight for this product: aurora, beams, sparkles and paper-shader backgrounds; glow and
+spotlight cards; number tickers; typewriter text; bento grids; testimonial marquees; preloaders;
+docks; Spline scenes (about 1 MB runtime); theme toggles; liquid-glass buttons.
+
+The globe component the user supplied (`wireframe-dotted-globe`) was taken as the method and
+rewritten; what changed is listed in `03-landing-globe.md`.
+
+---
+
+## 7. Ideas beyond the brief
+
+Proposals, not decisions. Everything marked "needs data" waits for the evidence store API.
+
+**Cheap, consistent with the rules, could be done now**
+
+1. Let the active market's outline draw itself on hover (dash offset animation on the canvas,
+   about 400 ms) instead of fading in; several references draw their diagrams this way.
+2. Corner brackets around the globe square (Sharplink, Hyperbolic registration marks) to frame
+   the globe as an instrument rather than an illustration.
+3. A one-time terminator sweep across the globe at load, as the entrance; no loop afterwards.
+4. Corner labels at the four edges of the hero (mono): data vintage, projection, resolution,
+   local time in Munich. All of them facts, none decorative.
+
+**Next phases, need data**
+
+5. An evidence strip under the hero: four or five hairline cells with real counts from the
+   evidence store (verbatims per market, studies, sources, "data as of"), mono labels, no count-up,
+   a source line beneath. Numbers come from the backend, never from the UI code.
+6. The zoomed state becomes a report cover: ghosted market code, one decision sentence, a 2 by 3
+   grid of layer tiles (customer voice, metrics, regional demand, competition, portfolio, trends)
+   with real numbers and a source and date footnote. This is the slot the team wants for
+   region-specific content (3D cars and similar) in later phases.
+7. The six evidence layers as toggles on the globe: pins at verbatim cities, bars for metrics, dot
+   density for demand, competitor headquarters as small squares, arcs for trends; every layer
+   label carries source and date.
+8. A sticky-split "How the evidence is built" section with the mini globe pinned and turning to
+   each market per step (desktop only, flat list on mobile).
+9. A market comparison table and a "What this does not tell you" section (REGU's honesty pattern).
+10. A dated refresh log and a status dot "all sources refreshed on <date>".
+11. "FIG. n" captions and 01 / 02 / 03 numbering as the document voice shared by the landing page
+    and the PM workspace.
+12. A closing wordmark only if the page becomes long; otherwise none.
+
+**Need a team decision**
+
+13. Accent colour: amber (current) for warmth against the cool dark, ice blue for kinship with
+    REGU, or acid yellow as in Tensordyne. If market hues are ever needed, they go through the
+    dataviz palette validator first.
+14. Drag affordance: none (current: grab cursor and the market buttons) or one mono hint line.
+15. Idle motion after the entrance: none (current) or a single sweep every few minutes.
+16. Mobile: the canvas with horizontal drag (current) or a static pre-rendered map with buttons.
+17. The hero sentence and lead; both are drafts derived from the master plan.
+
+---
+
+## 8. Open questions and limits
+
+* The reference captures were taken in a headless browser with software WebGL; gated sites and
+  WebGL-only heroes were seen as empty frames, and no hover or cursor behaviour was recorded.
+* Lighthouse numbers for a canvas-heavy page in this container are inflated by software rendering
+  (REGU documented the same); the real measure is a real device.
+* The research notes in `research/` are working notes; where they contradict a document here,
+  the document here wins.
