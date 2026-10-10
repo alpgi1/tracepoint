@@ -71,7 +71,8 @@ const VEHICLES = [
     source: { kind: "svg", file: "G60-brochure-p26.svg", note: "docs/G60_OptionList.PDF page 26" },
     views: {
       // The ground line shares a path with parts of the car, so it is erased after rasterising (raster px).
-      side: { box: [215, 118, 300, 115], eraseRaster: [[0, 566, 1600, 613]] },
+      // It also closes the strip under the sills between the tyres; the pocket seed floods that strip as outside.
+      side: { box: [215, 118, 300, 115], eraseRaster: [[0, 566, 1600, 613]], pockets: [[760, 540]] },
       top: { box: [50, 270, 300, 140] },
     },
   },
@@ -312,8 +313,12 @@ function normalise(ink, width, height) {
 
 /* ---------- silhouette and dots ---------- */
 
-/** Flood the outside from the border; everything else, lines included, is the car. */
-function silhouette({ ink, width, height }) {
+/**
+ * Flood the outside from the border; everything else, lines included, is the
+ * car. `pockets` are seed points (raster px) of regions that lines which are
+ * not the car close off, flooded as outside too.
+ */
+function silhouette({ ink, width, height }, pockets = []) {
   const wall = new Uint8Array(width * height);
   for (let y = 0; y < height; y++) {
     for (let x = 0; x < width; x++) {
@@ -342,13 +347,23 @@ function silhouette({ ink, width, height }) {
     push(y * width);
     push(y * width + width - 1);
   }
-  while (head < tail) {
-    const i = queue[head++];
-    const x = i % width;
-    if (x > 0) push(i - 1);
-    if (x < width - 1) push(i + 1);
-    if (i >= width) push(i - width);
-    if (i + width < width * height) push(i + width);
+  const spread = () => {
+    while (head < tail) {
+      const i = queue[head++];
+      const x = i % width;
+      if (x > 0) push(i - 1);
+      if (x < width - 1) push(i + 1);
+      if (i >= width) push(i - width);
+      if (i + width < width * height) push(i + width);
+    }
+  };
+  spread();
+  // A seed already outside sits in an open region, so the pocket it names is not closed.
+  for (const [px, py] of pockets) {
+    const seed = py * width + px;
+    if (wall[seed] || outside[seed]) throw new Error(`pocket seed ${String(px)},${String(py)} is on a line or not closed in`);
+    push(seed);
+    spread();
   }
   // Lines count as inside (dots may sit on them); the box is measured on the
   // interior only, so a stray annotation line outside the car cannot widen it.
@@ -457,7 +472,7 @@ async function buildView(vehicle, viewName, view) {
   // The silhouette is flooded before any raster erase so a ground line touching
   // the tyres still closes them; erased line pixels then leave the silhouette,
   // so the contour does not trace the ground line's remains.
-  const { inside, wall, bbox, area } = silhouette(raster);
+  const { inside, wall, bbox, area } = silhouette(raster, view.pockets);
   for (const [x0, y0, x1, y1] of view.eraseRaster ?? []) {
     for (let y = y0; y < Math.min(y1, raster.height); y++) {
       for (let x = x0; x < Math.min(x1, raster.width); x++) {
