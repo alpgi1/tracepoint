@@ -1,0 +1,724 @@
+# Canonical VFC level3 taxonomy extracted from the feedback workbooks (decision D-004).
+# Identifiers are stable. 'occurrences' = classification rows per vehicle in the input.
+# 'polarity' = positive / negative / request, from rules plus config/taxonomy/polarity_overrides.yaml.
+entries:
+- id: L3-001
+  name: Accidental triggering
+  polarity: negative
+  origin: given
+  status: canonical
+  occurrences:
+    G60: 6
+- id: L3-002
+  name: Battery discharge
+  polarity: negative
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 20
+    G60: 6
+    G70: 6
+- id: L3-003
+  name: Blank / frozen screen
+  polarity: negative
+  origin: given
+  status: canonical
+  occurrences:
+    G60: 1
+    G70: 3
+- id: L3-004
+  name: Capacity loss
+  polarity: negative
+  origin: given
+  status: canonical
+  occurrences:
+    G60: 1
+- id: L3-005
+  name: 'Cavity sealant: wax residue'
+  polarity: negative
+  origin: given
+  status: canonical
+  occurrences:
+    G60: 1
+    G70: 1
+- id: L3-006
+  name: Charging infrastructure inadequate
+  polarity: negative
+  origin: given
+  status: canonical
+  occurrences:
+    G60: 1
+    G70: 1
+- id: L3-007
+  name: Communication fault
+  polarity: negative
+  origin: given
+  status: canonical
+  occurrences:
+    G60: 1
+- id: L3-008
+  name: Condensation
+  polarity: negative
+  origin: given
+  status: canonical
+  occurrences:
+    G60: 1
+    G70: 2
+- id: L3-009
+  name: Connection fault
+  polarity: negative
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 7
+    G60: 24
+    G70: 38
+- id: L3-010
+  name: 'Customer request: comfort'
+  polarity: request
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 1
+    G60: 2
+    G70: 1
+- id: L3-011
+  name: 'Customer request: compatibility'
+  polarity: request
+  origin: given
+  status: canonical
+  occurrences:
+    G60: 1
+    G70: 2
+- id: L3-012
+  name: 'Customer request: design'
+  polarity: request
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 10
+    G60: 28
+    G70: 44
+- id: L3-013
+  name: 'Customer request: function'
+  polarity: request
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 136
+    G60: 326
+    G70: 292
+- id: L3-014
+  name: 'Customer request: material quality'
+  polarity: request
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 3
+    G60: 11
+    G70: 6
+- id: L3-015
+  name: 'Customer request: performance'
+  polarity: request
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 15
+    G60: 12
+    G70: 7
+- id: L3-016
+  name: 'Customer request: size'
+  polarity: request
+  origin: given
+  status: canonical
+  occurrences:
+    G70: 1
+- id: L3-017
+  name: 'Customer request: sound'
+  polarity: request
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 13
+    G60: 8
+    G70: 6
+- id: L3-018
+  name: 'Customer request: space / spatial impression'
+  polarity: request
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 8
+    G60: 8
+    G70: 4
+- id: L3-019
+  name: 'Customer request: usability'
+  polarity: request
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 60
+    G60: 150
+    G70: 120
+- id: L3-020
+  name: Damage
+  polarity: negative
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 112
+    G60: 71
+    G70: 66
+- id: L3-021
+  name: Dirty contamination
+  polarity: negative
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 12
+    G60: 22
+    G70: 10
+- id: L3-022
+  name: 'Dislike: price-performance ratio'
+  polarity: negative
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 23
+    G60: 18
+    G70: 12
+- id: L3-023
+  name: Drivability not OK
+  polarity: negative
+  origin: given
+  status: canonical
+  occurrences:
+    G60: 4
+    G70: 3
+- id: L3-024
+  name: Drive power/driving performance not OK
+  polarity: negative
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 44
+    G60: 20
+    G70: 9
+- id: L3-025
+  name: Effect, power not OK
+  polarity: negative
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 4
+    G60: 13
+    G70: 32
+- id: L3-026
+  name: Ergonomics do not appeal
+  polarity: negative
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 13
+    G60: 22
+    G70: 12
+- id: L3-027
+  name: Excessive opening
+  polarity: negative
+  origin: given
+  status: canonical
+  occurrences:
+    G60: 1
+- id: L3-028
+  name: Fitting fault
+  polarity: negative
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 2
+    G60: 2
+    G70: 5
+- id: L3-029
+  name: Fuel / power consumption too high
+  polarity: negative
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 18
+    G60: 5
+    G70: 2
+- id: L3-030
+  name: Information / accuracy insufficient
+  polarity: negative
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 43
+    G60: 17
+    G70: 28
+- id: L3-031
+  name: Information / Accuracy insufficient (electric range)
+  polarity: negative
+  origin: given
+  status: canonical
+  occurrences:
+    G60: 9
+    G70: 7
+- id: L3-032
+  name: 'Installation and set-up: difficult'
+  polarity: negative
+  origin: given
+  status: canonical
+  occurrences:
+    G60: 1
+- id: L3-033
+  name: 'Installation: fault'
+  polarity: negative
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 2
+    G60: 2
+- id: L3-034
+  name: insufficient storage space
+  polarity: negative
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 26
+    G60: 62
+    G70: 36
+- id: L3-035
+  name: Leak
+  polarity: negative
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 1
+    G60: 4
+    G70: 2
+- id: L3-036
+  name: 'Leak: air'
+  polarity: negative
+  origin: given
+  status: canonical
+  occurrences:
+    G60: 1
+- id: L3-037
+  name: 'Leak: water ingress/condensation'
+  polarity: negative
+  origin: given
+  status: canonical
+  occurrences:
+    G60: 1
+    G70: 6
+- id: L3-038
+  name: Light intensity not OK
+  polarity: negative
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 2
+    G60: 2
+    G70: 2
+- id: L3-039
+  name: 'Like: Efficiency'
+  polarity: positive
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 106
+    G60: 51
+    G70: 35
+- id: L3-040
+  name: 'Like: function'
+  polarity: positive
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 950
+    G60: 958
+    G70: 932
+- id: L3-041
+  name: 'Like: odor'
+  polarity: positive
+  origin: given
+  status: canonical
+  occurrences:
+    G60: 2
+    G70: 1
+- id: L3-042
+  name: 'Like: performance'
+  polarity: positive
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 297
+    G60: 200
+    G70: 144
+- id: L3-043
+  name: 'Like: price-performance ratio'
+  polarity: positive
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 21
+    G60: 20
+    G70: 17
+- id: L3-044
+  name: 'Like: Range'
+  polarity: positive
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 4
+    G60: 25
+    G70: 21
+- id: L3-045
+  name: 'Like: responsiveness'
+  polarity: positive
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 6
+    G60: 31
+    G70: 30
+- id: L3-046
+  name: 'Like: sound'
+  polarity: positive
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 10
+    G60: 37
+    G70: 46
+- id: L3-047
+  name: 'Like: Space / spatial impression'
+  polarity: positive
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 11
+    G60: 28
+    G70: 38
+- id: L3-048
+  name: 'Like: storage space'
+  polarity: positive
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 7
+    G60: 13
+    G70: 5
+- id: L3-049
+  name: 'Like: usability'
+  polarity: positive
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 56
+    G60: 142
+    G70: 153
+- id: L3-050
+  name: 'Like: vehicle equipment'
+  polarity: positive
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 1
+    G60: 4
+    G70: 5
+- id: L3-051
+  name: 'Like: view/panoramic view'
+  polarity: positive
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 3
+    G60: 3
+    G70: 3
+- id: L3-052
+  name: Likes comfort
+  polarity: positive
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 41
+    G60: 79
+    G70: 115
+- id: L3-053
+  name: Likes size
+  polarity: positive
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 15
+    G60: 34
+    G70: 24
+- id: L3-054
+  name: 'Locking, detent: fault'
+  polarity: negative
+  origin: given
+  status: canonical
+  occurrences:
+    G60: 1
+    G70: 1
+- id: L3-055
+  name: Look / design appeals
+  polarity: positive
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 90
+    G60: 282
+    G70: 295
+- id: L3-056
+  name: Malfunction
+  polarity: negative
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 289
+    G60: 267
+    G70: 297
+- id: L3-057
+  name: Noise
+  polarity: negative
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 43
+    G60: 59
+    G70: 39
+- id: L3-058
+  name: Not comfortable
+  polarity: negative
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 10
+    G60: 33
+    G70: 26
+- id: L3-059
+  name: Not user-friendly
+  polarity: negative
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 329
+    G60: 953
+    G70: 850
+- id: L3-060
+  name: Odor/smoke
+  polarity: negative
+  origin: given
+  status: canonical
+  occurrences:
+    G60: 1
+    G70: 2
+- id: L3-061
+  name: 'Opening, closing: not possible / not complete'
+  polarity: negative
+  origin: given
+  status: canonical
+  occurrences:
+    G60: 1
+    G70: 4
+- id: L3-062
+  name: Operating force not OK
+  polarity: negative
+  origin: given
+  status: canonical
+  occurrences:
+    G60: 3
+    G70: 1
+- id: L3-063
+  name: Permanent switch-off not possible
+  polarity: negative
+  origin: given
+  status: canonical
+  occurrences:
+    G60: 10
+    G70: 10
+- id: L3-064
+  name: Pulls to one side
+  polarity: negative
+  origin: given
+  status: canonical
+  occurrences:
+    G60: 1
+    G70: 2
+- id: L3-065
+  name: Range, not OK
+  polarity: negative
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 7
+    G60: 48
+    G70: 17
+- id: L3-066
+  name: Reception quality not OK
+  polarity: negative
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 1
+    G60: 2
+    G70: 1
+- id: L3-067
+  name: Response characteristics not OK
+  polarity: negative
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 1
+    G60: 7
+    G70: 2
+- id: L3-068
+  name: 'Response characteristics: too fast'
+  polarity: negative
+  origin: given
+  status: canonical
+  occurrences:
+    G60: 3
+    G70: 2
+- id: L3-069
+  name: 'Response characteristics: too jerky/too abrupt'
+  polarity: negative
+  origin: given
+  status: canonical
+  occurrences:
+    G60: 2
+    G70: 2
+- id: L3-070
+  name: 'Response characteristics: too sluggish'
+  polarity: negative
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 8
+    G60: 3
+    G70: 2
+- id: L3-071
+  name: Shift characteristics not OK
+  polarity: negative
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 6
+    G60: 3
+    G70: 3
+- id: L3-072
+  name: Size not user friendly
+  polarity: negative
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 63
+    G60: 19
+    G70: 20
+- id: L3-073
+  name: Stiff movement
+  polarity: negative
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 1
+    G60: 1
+    G70: 1
+- id: L3-074
+  name: Switch off not possible
+  polarity: negative
+  origin: given
+  status: canonical
+  occurrences:
+    G70: 1
+- id: L3-075
+  name: too few
+  polarity: request
+  origin: given
+  status: canonical
+  occurrences:
+    G60: 5
+    G70: 11
+- id: L3-076
+  name: Too slow
+  polarity: negative
+  origin: given
+  status: canonical
+  occurrences:
+    G60: 5
+    G70: 6
+- id: L3-077
+  name: 'Vehicle equipment: not available'
+  polarity: request
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 1
+    G60: 9
+    G70: 6
+- id: L3-078
+  name: 'Vehicle equipment: not standard / too costly'
+  polarity: request
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 1
+    G60: 2
+    G70: 2
+- id: L3-079
+  name: Vibration, oscillation
+  polarity: negative
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 11
+    G60: 8
+    G70: 6
+- id: L3-080
+  name: View/restricted panoramic view
+  polarity: negative
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 2
+    G60: 8
+    G70: 10
+- id: L3-081
+  name: Warning / notification active
+  polarity: negative
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 1
+    G60: 7
+    G70: 21
+- id: L3-082
+  name: Wind noise
+  polarity: negative
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 8
+    G60: 1
+    G70: 18
+- id: L3-083
+  name: Workmanship appeals
+  polarity: positive
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 12
+    G60: 42
+    G70: 26
+- id: L3-084
+  name: Workmanship does not appeal
+  polarity: negative
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 2
+    G60: 2
+    G70: 1

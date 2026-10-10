@@ -1,0 +1,38 @@
+# Vehicle (derivative) reference data. Codes are BMW development codes (e-codes).
+vehicles:
+  - code: F70
+    name: BMW 1 Series
+    series: 1 Series
+    generation: F70 (fourth generation, from 2024)
+    segment: premium compact hatchback
+    tier: entry
+    notes: >-
+      Not sold in China or the USA (sales file shows zero). German catalogue July 2026 lists
+      petrol and diesel variants with 48 V mild hybrid only.
+  - code: G60
+    name: BMW 5 Series Sedan
+    series: 5 Series
+    generation: G60 (eighth generation, from 2023)
+    segment: upper midsize premium sedan
+    tier: core
+    notes: >-
+      Sold in all markets. German catalogue July 2026 lists BEV (i5), PHEV and petrol / diesel
+      variants. Sales file combines G60 and G68 in one sheet.
+  - code: G68
+    name: BMW 5 Series Long Wheelbase (China)
+    series: 5 Series
+    generation: G68 (China long-wheelbase derivative of G60)
+    segment: upper midsize premium sedan
+    tier: core
+    notes: >-
+      China-only derivative. No verbatims provided; only CN study means. Sales are reported
+      together with G60 (sheet G60_G68).
+  - code: G70
+    name: BMW 7 Series
+    series: 7 Series
+    generation: G70 (seventh generation, from 2022)
+    segment: luxury sedan
+    tier: luxury
+    notes: >-
+      Sold in all markets. German catalogue July 2026 lists BEV (i7), PHEV and petrol / diesel
+      variants.

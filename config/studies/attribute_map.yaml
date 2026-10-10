@@ -1,0 +1,146 @@
+# Harmonisation of customer-study attribute names (both study layouts) to a common key and a
+# vehicle domain. 'scope: context_only' marks attributes outside the challenge scope (pricing,
+# cost of ownership) that are kept as context for the PM but never turned into requirements.
+entries:
+  # ---- CN_EU_2025 (means) ----
+  - {raw: "Overall product satisfaction", key: overall_satisfaction, domain: general}
+  - {raw: "Exterior styling", key: exterior_styling, domain: exterior_design}
+  - {raw: "Interior styling", key: interior_styling, domain: interior_comfort}
+  - {raw: "Quality of interior and materials used", key: interior_material_quality, domain: quality_nvh}
+  - {raw: "Level of equipment", key: equipment_level, domain: offering_variants}
+  - {raw: "Safety", key: safety_perception, domain: driver_assistance}
+  - {raw: "Freedom from faults/ squeaks/ rattles", key: squeaks_rattles, domain: quality_nvh}
+  - {raw: "Value for money", key: value_for_money, domain: general, scope: context_only}
+  - {raw: "Reliability", key: reliability, domain: quality_nvh}
+  - {raw: "All round visibility", key: visibility, domain: exterior_design}
+  - {raw: "Easy to read and use instruments/ controls/ displays", key: controls_usability, domain: infotainment_digital}
+  - {raw: "Smartphone integration/ connectivity", key: smartphone_integration, domain: infotainment_digital}
+  - {raw: "Features of information and entertainment system including in-car apps", key: infotainment_features, domain: infotainment_digital}
+  - {raw: "Easy to use information and entertainment system including in-car apps", key: infotainment_ease_of_use, domain: infotainment_digital}
+  - {raw: "Integrated navigation system", key: navigation, domain: infotainment_digital}
+  - {raw: "Overall seating comfort", key: seat_comfort, domain: interior_comfort}
+  - {raw: "Interior storage for small items", key: interior_storage, domain: space_practicality}
+  - {raw: "Acceleration", key: acceleration, domain: powertrain_range_charging}
+  - {raw: "Roadholding", key: roadholding, domain: driving_dynamics}
+  - {raw: "Fuel economy/ energy efficiency", key: fuel_economy, domain: powertrain_range_charging}
+  - {raw: "Braking", key: braking, domain: driving_dynamics}
+  - {raw: "Sportiness", key: sportiness, domain: driving_dynamics}
+  - {raw: "Prestige/ manufacturer reputation", key: brand_prestige, domain: general}
+  - {raw: "Manoeuvrability", key: handling_manoeuvrability, domain: driving_dynamics}
+  - {raw: "Quality of ride", key: ride_comfort, domain: driving_dynamics}
+  - {raw: "Front interior roominess", key: front_roominess, domain: space_practicality}
+  - {raw: "Rear interior roominess", key: rear_roominess, domain: space_practicality}
+  - {raw: "Ease of loading/ unloading luggage", key: loading_ease, domain: space_practicality}
+  - {raw: "Luggage capacity", key: cargo_capacity, domain: space_practicality}
+  - {raw: "Ease of entry into and out of car", key: entry_exit_front, domain: space_practicality}
+  - {raw: "Environm. friendliness", key: environmental_friendliness, domain: powertrain_range_charging}
+  - {raw: "Heating/ ventilation/ air conditioning", key: climate_control, domain: interior_comfort}
+  - {raw: "Overall build quality", key: build_quality, domain: quality_nvh}
+  - {raw: "Quietness when driving", key: quietness, domain: quality_nvh}
+  - {raw: "Driving position", key: driving_position, domain: interior_comfort}
+  - {raw: "Connected services", key: connected_services, domain: infotainment_digital}
+  - {raw: "Interior versatility", key: interior_versatility, domain: space_practicality}
+  # ---- US_2025 (distributions) ----
+  - {raw: "Overall exterior styling", key: exterior_styling, domain: exterior_design}
+  - {raw: "Size/ proportions", key: exterior_proportions, domain: exterior_design}
+  - {raw: "Appearance of tires/ wheels", key: wheel_design, domain: exterior_design}
+  - {raw: "Exterior door handles", key: exterior_door_handles, domain: exterior_design}
+  - {raw: "Headlight/ taillight design", key: lighting_design, domain: exterior_design}
+  - {raw: "Sound of doors/ trunk/ hatch shutting", key: door_closing_sound, domain: quality_nvh}
+  - {raw: "Overall driving performance", key: driving_performance, domain: driving_dynamics}
+  - {raw: "Ground clearance", key: ground_clearance, domain: driving_dynamics}
+  - {raw: "Riding comfort", key: ride_comfort, domain: driving_dynamics}
+  - {raw: "Turning radius", key: turning_radius, domain: driving_dynamics}
+  - {raw: "Handling/Maneuverability", key: handling_manoeuvrability, domain: driving_dynamics}
+  - {raw: "If applicable: 4WD/AWD performance", key: awd_performance, domain: driving_dynamics}
+  - {raw: "Off-Road capability", key: offroad_capability, domain: driving_dynamics}
+  - {raw: "Overall power and pickup", key: power_pickup, domain: powertrain_range_charging}
+  - {raw: "Acceleration from stop", key: acceleration_from_stop, domain: powertrain_range_charging}
+  - {raw: "Passing capability", key: passing_capability, domain: powertrain_range_charging}
+  - {raw: "Overall interior styling/ aesthetics", key: interior_styling, domain: interior_comfort}
+  - {raw: "Interior colors", key: interior_colours, domain: interior_comfort}
+  - {raw: "Interior trim and finish", key: interior_trim_finish, domain: interior_comfort}
+  - {raw: "Interior lighting", key: interior_lighting, domain: interior_comfort}
+  - {raw: "Overall interior workmanship", key: interior_workmanship, domain: quality_nvh}
+  - {raw: "Quality of seat materials", key: seat_material_quality, domain: quality_nvh}
+  - {raw: "Quality of interior materials", key: interior_material_quality, domain: quality_nvh}
+  - {raw: "Interior door handles", key: interior_door_handles, domain: interior_comfort}
+  - {raw: "Overall comfort of the seats", key: seat_comfort, domain: interior_comfort}
+  - {raw: "Comfort of front seat", key: front_seat_comfort, domain: interior_comfort}
+  - {raw: "Comfort of 2nd row seat", key: rear_seat_comfort, domain: interior_comfort}
+  - {raw: "Overall interior design / layout", key: interior_layout, domain: interior_comfort}
+  - {raw: "Ease of front seat entry", key: entry_exit_front, domain: space_practicality}
+  - {raw: "Front seat roominess", key: front_roominess, domain: space_practicality}
+  - {raw: "Ease of 2nd row seat entry", key: entry_exit_rear, domain: space_practicality}
+  - {raw: "2nd row seat roominess", key: rear_roominess, domain: space_practicality}
+  - {raw: "Passenger seating capacity", key: seating_capacity, domain: space_practicality}
+  - {raw: "Interior roominess", key: interior_roominess, domain: space_practicality}
+  - {raw: "Interior storage", key: interior_storage, domain: space_practicality}
+  - {raw: "Trunk lid/ tailgate and liftgate operations", key: tailgate_operation, domain: space_practicality}
+  - {raw: "Ease of loading/unloading cargo", key: loading_ease, domain: space_practicality}
+  - {raw: "Cargo capacity/usefulness", key: cargo_capacity, domain: space_practicality}
+  - {raw: "Instrument panel (IP)", key: instrument_panel, domain: interior_comfort}
+  - {raw: "Cupholders", key: cupholders, domain: space_practicality}
+  - {raw: "Provides a sense of wellbeing", key: wellbeing, domain: interior_comfort}
+  - {raw: "Overall interior versatility/seat stowaway", key: interior_versatility, domain: space_practicality}
+  - {raw: "Driver seat adjustability", key: driver_seat_adjustability, domain: interior_comfort}
+  - {raw: "Passenger seat adjustability", key: passenger_seat_adjustability, domain: interior_comfort}
+  - {raw: "Overall performance of climate control system", key: climate_control, domain: interior_comfort}
+  - {raw: "Heater performance", key: heater_performance, domain: interior_comfort}
+  - {raw: "Air conditioner performance", key: air_conditioning_performance, domain: interior_comfort}
+  - {raw: "Operation of heater/ AC controls", key: climate_controls_usability, domain: infotainment_digital}
+  - {raw: "Overall performance of sound system", key: audio_system, domain: infotainment_digital}
+  - {raw: "Design and integration of speakers", key: speaker_design, domain: infotainment_digital}
+  - {raw: "Audio clarity", key: audio_clarity, domain: infotainment_digital}
+  - {raw: "Bass performance", key: audio_bass, domain: infotainment_digital}
+  - {raw: "Placement/ ease of reading and using controls", key: controls_usability, domain: infotainment_digital}
+  - {raw: "Intuitiveness of controls", key: controls_intuitiveness, domain: infotainment_digital}
+  - {raw: "Overall noise/vibration/harshness", key: nvh, domain: quality_nvh}
+  - {raw: "Overall vehicle sound", key: vehicle_sound, domain: quality_nvh}
+  - {raw: "Active noise cancellation", key: active_noise_cancellation, domain: quality_nvh}
+  - {raw: "Freedom from squeaks and rattles", key: squeaks_rattles, domain: quality_nvh}
+  - {raw: "Sound of engine", key: engine_sound, domain: driving_dynamics}
+  - {raw: "Freedom from wind and road noise", key: wind_road_noise, domain: quality_nvh}
+  - {raw: "Smoothness of transmission", key: transmission_smoothness, domain: powertrain_range_charging}
+  - {raw: "Overall impression of durability/reliability", key: reliability, domain: quality_nvh}
+  - {raw: "Solid vehicle construction", key: build_quality, domain: quality_nvh}
+  - {raw: "Freedom from electrical problems", key: electrical_reliability, domain: quality_nvh}
+  - {raw: "Overall safety of the vehicle", key: safety_perception, domain: driver_assistance}
+  - {raw: "Front visibility", key: front_visibility, domain: exterior_design}
+  - {raw: "Rear visibility", key: rear_visibility, domain: exterior_design}
+  - {raw: "Braking", key: braking, domain: driving_dynamics}
+  - {raw: "Warranty coverage", key: warranty, domain: general, scope: context_only}
+  - {raw: "Headlight function/ brightness", key: headlight_performance, domain: driver_assistance}
+  - {raw: "Technical innovations", key: technical_innovation, domain: infotainment_digital}
+  - {raw: "Level of standard equipment", key: equipment_level, domain: offering_variants}
+  - {raw: "Overall value for money", key: value_for_money, domain: general, scope: context_only}
+  - {raw: "Price/deal offered", key: price_deal, domain: general, scope: context_only}
+  - {raw: "Future trade-in or resale value", key: resale_value, domain: general, scope: context_only}
+  - {raw: "Gas or electric mileage (fuel economy)", key: fuel_economy, domain: powertrain_range_charging}
+  - {raw: "Economical to own (cost of ownership)", key: cost_of_ownership, domain: general, scope: context_only}
+  - {raw: "Affordable to buy", key: affordability, domain: general, scope: context_only}
+  - {raw: "Overall brand image", key: brand_image, domain: general}
+  - {raw: "Reputation/prestige of manufacturer", key: brand_prestige, domain: general}
+  - {raw: "Overall vehicle image", key: vehicle_image, domain: exterior_design}
+  - {raw: "Overall driver assist features", key: driver_assist_overall, domain: driver_assistance}
+  - {raw: "If applicable: Backup system (camera, sensors, etc.)", key: parking_camera_sensors, domain: driver_assistance}
+  - {raw: "Safety monitoring features (blid spot warning, lane departure warning, etc)", key: safety_monitoring_adas, domain: driver_assistance}
+  - {raw: "Adaptive driving assists (lane keeping, cruise, braking)", key: adaptive_driving_assist, domain: driver_assistance}
+  - {raw: "Overall driver-vehicle interaction (HMI)", key: hmi_overall, domain: infotainment_digital}
+  - {raw: "If applicable: Navigation system", key: navigation, domain: infotainment_digital}
+  - {raw: "Bluetooth/ smartphone pairing", key: phone_pairing, domain: infotainment_digital}
+  - {raw: "WiFi hotspot in vehicle", key: wifi_hotspot, domain: infotainment_digital}
+  - {raw: "Mirroring of smartphone content on vehicle display", key: smartphone_integration, domain: infotainment_digital}
+  - {raw: "Place for phone", key: phone_storage, domain: space_practicality}
+  - {raw: "Phone charging", key: phone_charging, domain: infotainment_digital}
+  - {raw: "Ease of reading and using screen interface", key: screen_interface_usability, domain: infotainment_digital}
+  - {raw: "Head-up Display", key: head_up_display, domain: infotainment_digital}
+  - {raw: "Position/ integration of displays in dashboard", key: display_integration, domain: infotainment_digital}
+  - {raw: "Menu structure of infotainment system", key: infotainment_menu_structure, domain: infotainment_digital}
+  - {raw: "If applicable: Interactive information system (e.g., OnStar, mbrace, iDrive)", key: connected_services, domain: infotainment_digital}
+  - {raw: "Performance of voice recognition", key: voice_recognition, domain: infotainment_digital}
+  - {raw: "Vehicle's Mobile App", key: mobile_app, domain: infotainment_digital}
+  - {raw: "Overall environmental friendliness", key: environmental_friendliness, domain: powertrain_range_charging}
+  - {raw: "If applicable: Flat tire preparedness (spare, run flat, etc.)", key: flat_tyre_preparedness, domain: space_practicality}
+  - {raw: "If applicable: Sunroof/ moonroof", key: sunroof, domain: interior_comfort}
+  - {raw: "If applicable: Ease of customization", key: customisation_ease, domain: infotainment_digital}

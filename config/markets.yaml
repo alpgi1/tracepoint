@@ -1,0 +1,29 @@
+# Markets as used in the sales file, and the mapping of feedback country codes to markets.
+# Assumption (D-019): Canada is grouped with the USA market (North America); Japan, Korea,
+# Australia and South Africa fall under Rest of World.
+markets:
+  - code: EU
+    name: Europe
+  - code: US
+    name: USA (North America)
+  - code: CN
+    name: China
+  - code: RoW
+    name: Rest of World
+countries:
+  DE: {name: Germany, market: EU}
+  GB: {name: United Kingdom, market: EU}
+  FR: {name: France, market: EU}
+  ES: {name: Spain, market: EU}
+  SE: {name: Sweden, market: EU}
+  DK: {name: Denmark, market: EU}
+  FI: {name: Finland, market: EU}
+  "NO": {name: Norway, market: EU}
+  LV: {name: Latvia, market: EU}
+  US: {name: United States, market: US}
+  CA: {name: Canada, market: US}
+  CN: {name: China, market: CN}
+  JP: {name: Japan, market: RoW}
+  KR: {name: South Korea, market: RoW}
+  AU: {name: Australia, market: RoW}
+  ZA: {name: South Africa, market: RoW}

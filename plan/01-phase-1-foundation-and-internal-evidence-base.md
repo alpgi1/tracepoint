@@ -3,9 +3,17 @@
 | Field | Value |
 |---|---|
 | Version | 1.0 (2026-10-10) |
-| Status | Planned – waiting for team review and the inputs in section 13 |
+| Status | In progress – internal ingestion delivered in step 03 (`reports/step-03-phase-1-internal-ingestion.md`); LLM-dependent work packages deferred until the team provides the OpenAI API details (D-020, D-021) |
 | Depends on | `plan/00-master-plan.md`, `reports/step-01-challenge-and-data-analysis.md` |
 | Feeds | Phase 2 (external evidence), Phase 3 (findings) – both consume the evidence store and the agent-facing data access built here |
+
+> **Status update 2026-10-10 (step 03).** Team decisions after the plan review: PostgreSQL instead of
+> SQLite (D-019); the application uses the OpenAI API for research agents, the main agent and
+> embeddings, details to follow (D-020); the internal ingestion was built without any external API
+> call and the LLM-dependent packages WP1.7 and WP1.9 wait for the API details (D-021). Delivered:
+> WP1.1–WP1.6, WP1.8 (authored translations and attribute map), WP1.10 (baseline reports, read
+> API, tests, CI). A ninth vehicle domain `driving_dynamics` was added (D-022). Section 3.2 below
+> keeps the original analysis; the rows marked *superseded* show the final choice.
 
 ---
 
@@ -59,13 +67,13 @@ event log (Phase 7).
 | Area | Options | Decision and reason |
 |---|---|---|
 | Language | Python · TypeScript end-to-end | **Python 3.12** for the backend: best parsing ecosystem (pandas, openpyxl, pdfplumber), official Anthropic SDK, team-friendly. TypeScript only for the UI. |
-| LLM access | Official Anthropic SDK · LangChain / LlamaIndex · Managed Agents · Claude Agent SDK | **Official Anthropic Python SDK** called through one in-house gateway module. Frameworks add abstraction drift for little gain at this size. Managed Agents is attractive for Phase 2 research agents but would move tool execution off our database; keep it as an option and decide in Phase 2. |
-| Models | Claude Opus 5.5 (default) · Sonnet 5.5 · Haiku 5.5 | **`claude-opus-5-5` as the default** for every call (adaptive thinking, effort set explicitly per task). The team may switch bulk jobs (classification, translation) to a cheaper tier later; that is a cost decision, not a design constraint. Model IDs are configuration, never hard-coded in business code. |
+| LLM access | Official provider SDK · LangChain / LlamaIndex · hosted agent platforms | *Superseded by D-020:* the team chose the **OpenAI API** for research agents, the main agent and embeddings; one in-house gateway module wraps the provider SDK (structured outputs, caching of responses by input hash, call logging with cost), so the provider stays swappable. Frameworks add abstraction drift for little gain at this size. |
+| Models | provider model tiers | *Superseded by D-020:* model names are provided by the team with the API details and live in settings (`TRACEPOINT_OPENAI_MODEL`, `TRACEPOINT_EMBEDDING_MODEL`), never in business code. Bulk jobs may use a cheaper tier than the reasoning jobs; that is a cost decision. |
 | LLM output control | Free text · structured outputs (`output_config.format`) · strict tools | **Structured outputs with JSON schemas (Pydantic models)** for every extraction / classification call; strict tools for agent drill-down tools in later phases. |
 | Bulk cost control | Plain calls · prompt caching · Message Batches API | **Prompt caching** (canonical taxonomy and instructions in the cached prefix) plus **Message Batches** for bulk jobs (50 % cheaper, asynchronous). Every call logged with tokens and estimated cost. |
-| Storage | SQLite · PostgreSQL (+ pgvector) · document store | **SQLite** (single file, zero operations, reproducible by `make ingest`), accessed through SQLAlchemy / SQLModel. Upgrade path to PostgreSQL + pgvector is a connection-string change if the project outgrows it. |
+| Storage | SQLite · PostgreSQL (+ pgvector) · document store | *Superseded by D-019:* **PostgreSQL 16** via SQLAlchemy 2 and psycopg 3; separate test database; CI service container. pgvector can be added for embeddings (`postgresql-16-pgvector`) once the embedding model is decided. |
 | Vector search | Dedicated vector database (Chroma, Qdrant) · pgvector · in-process | **In-process**: embeddings stored as blobs in SQLite, loaded into a NumPy matrix, cosine similarity with metadata pre-filtering in SQL. At ≤ 50,000 vectors this is milliseconds and needs no server. |
-| Embedding model | Local sentence-transformers · hosted embedding API | **Local sentence-transformers**, multilingual (`intfloat/multilingual-e5-base` preferred; `BAAI/bge-m3` if quality demands; `all-MiniLM-L6-v2` as a small fallback). No extra vendor or key. A hosted API remains an alternative if model downloads are blocked in the environment. |
+| Embedding model | Local sentence-transformers · hosted embedding API | *Superseded by D-020:* a hosted **OpenAI embedding model** named by the team. Vectors are stored in the `embedding` table (bytes) and searched in-process; pgvector is the upgrade path. |
 | API | FastAPI · Flask · Django | **FastAPI** (typed, async, automatic OpenAPI docs that double as the Phase 1 evidence explorer). |
 | CLI / orchestration | Typer CLI · Prefect / Airflow | **Typer CLI** with a small run registry; stage functions are plain Python. Workflow engines are unnecessary at this scale. |
 | UI | React + TypeScript (Vite) · Streamlit | **React + TypeScript** for the PM workspace in Phase 6 (review workflows, tables, diffs, timelines need a real UI). Phase 1 only needs the OpenAPI docs; a minimal read-only explorer is optional. Streamlit stays a fallback for internal tooling. |
@@ -199,7 +207,7 @@ Typed tables, one per evidence kind, plus shared tables. Every evidence row carr
 Each work package ends with a short report section in the step report and passes its acceptance
 criteria before the next pull request. Sizes: S ≤ 1 day, M 1–3 days, L 3–5 days for one person.
 
-### WP1.1 Repository skeleton, tooling and conventions (S)
+### WP1.1 Repository skeleton, tooling and conventions (S) – done (step 03)
 * Python project (`pyproject.toml`, `uv` or `pip-tools` lock), ruff, pytest, pre-commit,
   Makefile targets, `.env.example`, `.gitignore` for `data/`.
 * `config/` skeleton: `vehicles.yaml`, `markets.yaml` (country → market mapping from the data:
@@ -207,18 +215,18 @@ criteria before the next pull request. Sizes: S ≤ 1 day, M 1–3 days, L 3–5
 * GitHub Actions: lint + tests on pull requests.
 * **Acceptance:** `make setup && make test` passes on a clean checkout; CI green.
 
-### WP1.2 Data model, database and run registry (M)
+### WP1.2 Data model, database and run registry (M) – done (step 03, PostgreSQL)
 * SQLModel / SQLAlchemy models for section 5; schema creation; `data/tracepoint.db`.
 * Run registry: every CLI command opens a run with a configuration snapshot and code version.
 * Settings module (paths, model IDs, embedding model, batch mode flags).
 * **Acceptance:** schema created from scratch; a run is recorded for a no-op command.
 
-### WP1.3 Audit event log core (S)
+### WP1.3 Audit event log core (S) – done (step 03)
 * `record_event()` helper; append-only table; actor model (`human:pm`, `agent:<name>`, `system`).
 * `tracepoint audit export --format json|csv` and `GET /events`.
 * **Acceptance:** events written by WP1.4–WP1.8 are exportable with actor, time, entity and rationale.
 
-### WP1.4 Parsers for verbatims, studies and sales (M)
+### WP1.4 Parsers for verbatims, studies and sales (M) – done (step 03)
 * Verbatims: one `verbatim` per ID, one `verbatim_classification` per row (origin = given);
   `no_class_found` and blank classes become "unclassified" markers, not taxonomy entries;
   country → market; engine type normalised (`BEVE` → BEV).
@@ -231,7 +239,7 @@ criteria before the next pull request. Sizes: S ≤ 1 day, M 1–3 days, L 3–5
   4,000; G70 4,690 / 4,000; sales 3 × 4 rows × 3 years; study metrics 37 × 5 means and ≈ 105 × 2
   distributions whose shares sum to 1 ± 0.01; every row has a locator; tests encode these numbers.
 
-### WP1.5 Option list parser and equipment matrix (L)
+### WP1.5 Option list parser and equipment matrix (L) – done (step 03, merged cells approximated, D-024)
 * Text extraction with pdfplumber (word positions) per page; section detection (prices, standard
   equipment, M packages, wheels, colours, interior, optional equipment, technical data).
 * Column detection for the variant matrix (rotated headers) from x-positions of ■ / □ / –,– marks;
@@ -246,7 +254,7 @@ criteria before the next pull request. Sizes: S ≤ 1 day, M 1–3 days, L 3–5
   M135 xDrive, G60 `5DW Parking Assistant Professional 1.150,–`, G70 `3CD Automatiktüren 1.600,–`;
   every item carries page and line.
 
-### WP1.6 Canonical taxonomy and domain map (S)
+### WP1.6 Canonical taxonomy and domain map (S) – done (step 03, domain map authored)
 * Extract the union of VFC level-2 and level-3 names from all three files into
   `config/taxonomy/*.yaml` (origin = given, status = canonical), with per-vehicle occurrence counts.
 * LLM-proposed mapping level 2 → vehicle domain and level 3 → polarity; team review; stored as
@@ -255,7 +263,7 @@ criteria before the next pull request. Sizes: S ≤ 1 day, M 1–3 days, L 3–5
 * **Acceptance:** 100 % of given classification rows resolve to canonical IDs; every level-2 entry
   has a domain; review recorded in the step report.
 
-### WP1.7 LLM gateway, gap classification and segmentation (L)
+### WP1.7 LLM gateway, gap classification and segmentation (L) – deferred until the OpenAI API details arrive (D-021)
 * Gateway: one module wrapping the Anthropic SDK (default model from settings, adaptive thinking,
   explicit effort, structured outputs via Pydantic schemas, prompt caching, Batches runner,
   response cache keyed by input hash, `llm_call` logging with cost estimate, retry policy).
@@ -271,7 +279,7 @@ criteria before the next pull request. Sizes: S ≤ 1 day, M 1–3 days, L 3–5
   classification has an event with model, prompt version, confidence and rationale; validation
   report filed with numbers; re-running the command does not re-call the LLM for unchanged inputs.
 
-### WP1.8 Translation and normalisation of equipment data (M)
+### WP1.8 Translation and normalisation of equipment data (M) – done (step 03, 299 names translated as authored config)
 * Glossary-driven DE → EN translation of equipment names and descriptions (structured output,
   cached); normalised `group` values (packages, exterior, interior, drivetrain / chassis,
   connectivity / infotainment, driver assistance / safety, comfort, climate, transport / storage,
@@ -279,7 +287,7 @@ criteria before the next pull request. Sizes: S ≤ 1 day, M 1–3 days, L 3–5
 * **Acceptance:** every equipment item has `name_en`; a bilingual sample of 50 lines reviewed by
   the team and filed.
 
-### WP1.9 Embeddings, retrieval and agent-facing data access (M)
+### WP1.9 Embeddings, retrieval and agent-facing data access (M) – deferred until the embedding model is named (D-020); SQL filters and text search are available through the API
 * Embedding of verbatims, segments, study attributes and equipment items; in-process cosine search
   with SQL pre-filters (vehicle, market, powertrain, source, feedback type, theme, domain).
 * Context-pack builder per vehicle × market (coverage, top themes per feedback type with counts and
@@ -290,7 +298,7 @@ criteria before the next pull request. Sizes: S ≤ 1 day, M 1–3 days, L 3–5
 * **Acceptance:** ten hand-written retrieval queries return relevant evidence in the top five;
   context packs for the three vehicles build in under a minute; tool calls appear in the event log.
 
-### WP1.10 Baseline situation-analysis reports, API and optional explorer (M)
+### WP1.10 Baseline situation-analysis reports, API and optional explorer (M) – done except the optional explorer (step 03)
 * `tracepoint report baseline --vehicle G60 --market US`: data coverage, theme landscape by
   feedback type and domain, complaint / like ratio per domain and powertrain, study weak and strong
   attributes compared with other models and markets, equipment summary, sales weight. Markdown +
@@ -302,7 +310,7 @@ criteria before the next pull request. Sizes: S ≤ 1 day, M 1–3 days, L 3–5
 * **Acceptance:** baseline reports for F70, G60, G70 generated and reviewed; API responds with
   locators on every evidence endpoint.
 
-### WP1.11 Phase close-out (S)
+### WP1.11 Phase close-out (S) – pending (after WP1.7 and WP1.9)
 * Definition-of-done checklist (section 10) verified; final Phase 1 report; pull request.
 
 ---
@@ -389,13 +397,16 @@ WP1.5 output); **Track D** retrieval, context packs, reports, API (WP1.9, WP1.10
 
 ---
 
-## 13. Inputs needed from the team before starting
+## 13. Inputs needed from the team (status after step 03)
 
-1. **Anthropic API access**: an API key in `.env` (`ANTHROPIC_API_KEY`) or a logged-in profile; and
-   a rough budget confirmation (Phase 1 estimate below USD 100).
-2. **Stack confirmation**: Python + FastAPI + SQLite + Anthropic SDK + local embeddings, React for
-   the UI from Phase 6 (section 3.2).
-3. **Environment permission** to download a sentence-transformers model (or the decision to use a
-   hosted embedding API instead).
-4. **Confirmation** that `docs/` stays the read-only location of the raw inputs.
-5. **Who works on which track** (section 7) if team members join the implementation.
+1. **OpenAI API access** (open): API key, chat model name(s) for bulk and reasoning jobs, and the
+   embedding model name; to be set in `.env` (`TRACEPOINT_OPENAI_API_KEY`, `TRACEPOINT_OPENAI_MODEL`,
+   `TRACEPOINT_EMBEDDING_MODEL`). Needed for WP1.7 and WP1.9.
+2. **Stack** (decided): Python + FastAPI + PostgreSQL + provider SDK gateway (OpenAI), React for the
+   UI from Phase 6.
+3. **Embeddings** (decided in principle): hosted OpenAI embeddings; optional `pgvector` installation
+   in the database for larger volumes.
+4. **`docs/` stays read-only** (confirmed).
+5. **Review requests** (open): baseline reports under `reports/baseline/`, the authored mappings
+   under `config/` (domain map, attribute map, translations), and the data-quality notes in
+   `reports/step-03-phase-1-internal-ingestion.md`.

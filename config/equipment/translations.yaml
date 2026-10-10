@@ -1,0 +1,302 @@
+# Authored German → English translations of catalogue item names (July 2026 price lists).
+# BMW product names (M Sport, Iconic Glow, Veganza, Merino, colour names) are kept as names.
+entries:
+  - {de: '10J x 20 mit Bereifung 275/35 hinten', en: '10J x 20 with 275/35 tyres at the rear'}
+  - {de: '17" Leichtmetallräder Y-Speiche 971', en: '17" light-alloy wheels Y-spoke 971'}
+  - {de: '17" Leichtmetallräder Y-Speiche 972', en: '17" light-alloy wheels Y-spoke 972'}
+  - {de: '18" Leichtmetallräder Y-Speiche 932', en: '18" light-alloy wheels Y-spoke 932'}
+  - {de: '18" Leichtmetallräder Y-Speiche 974 Bicolor', en: '18" light-alloy wheels Y-spoke 974 bicolour'}
+  - {de: '18" Leichtmetallräder Y-Speiche 975 M Bicolor', en: '18" light-alloy wheels Y-spoke 975 M bicolour'}
+  - {de: '18" M Leichtmetallräder Y-Speiche 975 M Bicolor', en: '18" M light-alloy wheels Y-spoke 975 M bicolour'}
+  - {de: '19" Aerodynamikräder 934 Bicolor', en: '19" aerodynamic wheels 934 bicolour'}
+  - {de: '19" Leichtmetallräder Triplex-Speiche 933', en: '19" light-alloy wheels triplex-spoke 933'}
+  - {de: '19" Leichtmetallräder Y-Speiche 976 M Bicolor', en: '19" light-alloy wheels Y-spoke 976 M bicolour'}
+  - {de: '19" M Aerodynamikräder 936 M Bicolor', en: '19" M aerodynamic wheels 936 M bicolour'}
+  - {de: '19" M Aerodynamikräder 936 M Bicolor mit Mischbereifung', en: '19" M aerodynamic wheels 936 M bicolour with mixed tyres'}
+  - {de: '19" M Compound-Bremse, Grau hochglänzend', en: '19" M compound brakes, high-gloss grey'}
+  - {de: '19" M Leichtmetallräder Doppelspeiche 935 M Bicolor', en: '19" M light-alloy wheels double-spoke 935 M bicolour'}
+  - {de: '19" M Leichtmetallräder Doppelspeiche 935 M Bicolor mit', en: '19" M light-alloy wheels double-spoke 935 M bicolour with mixed tyres'}
+  - {de: '19" M Leichtmetallräder Doppelspeiche 935 M Bicolor mit Mischbereifung', en: '19" M light-alloy wheels double-spoke 935 M bicolour with mixed tyres'}
+  - {de: '19" M Leichtmetallräder Vielspeiche 977 M Bicolor', en: '19" M light-alloy wheels multi-spoke 977 M bicolour'}
+  - {de: '19" M Schmiederäder Y-Speiche 1085 M', en: '19" M forged wheels Y-spoke 1085 M'}
+  - {de: '19" M Schmiederäder Y-Speiche 1085 M mit Sportreifen', en: '19" M forged wheels Y-spoke 1085 M with sports tyres'}
+  - {de: '2 USB-C Anschlüsse in Mittelkonsole vorne (Ladefunktion)', en: '2 USB-C ports in the front centre console (charging)'}
+  - {de: '2-Zonen-Klimaautomatik mit erweiterten Umfängen', en: '2-zone automatic climate control with extended features'}
+  - {de: '20" Aerodynamikräder 1097 Bicolor', en: '20" aerodynamic wheels 1097 bicolour'}
+  - {de: '20" Leichtmetallräder Sternspeiche 905 Bicolor', en: '20" light-alloy wheels star-spoke 905 bicolour'}
+  - {de: '20" M Aerodynamikräder 907 M Bicolor mit Mischbereifung', en: '20" M aerodynamic wheels 907 M bicolour with mixed tyres'}
+  - {de: '20" M Aerodynamikräder 907 M Bicolor mit Mischbereifung und Sportreifen', en: '20" M aerodynamic wheels 907 M bicolour with mixed sports tyres'}
+  - {de: '20" M Aerodynamikräder 939 M Bicolor mit Mischbereifung', en: '20" M aerodynamic wheels 939 M bicolour with mixed tyres'}
+  - {de: '20" M Aerodynamikräder 940 M Bicolor mit Mischbereifung', en: '20" M aerodynamic wheels 940 M bicolour with mixed tyres'}
+  - {de: '20" M Leichtmetallräder Sternspeiche 938 M Bicolor mit', en: '20" M light-alloy wheels star-spoke 938 M bicolour with mixed tyres'}
+  - {de: '21" BMW Individual Aerodynamikräder 954 I Bicolor mit', en: '21" BMW Individual aerodynamic wheels 954 I bicolour with mixed tyres'}
+  - {de: '21" BMW Individual Leichtmetallräder Vielspeiche 1055 I Bicolor mit Mischbereifung', en: '21" BMW Individual light-alloy wheels multi-spoke 1055 I bicolour with mixed tyres'}
+  - {de: '21" M Aerodynamikräder 909 M Multicolor 3D-Glanzschliff mit Mischbereifung', en: '21" M aerodynamic wheels 909 M multicolour 3D polished with mixed tyres'}
+  - {de: '21" M Aerodynamikräder Kreuzspeiche 1098 Jetblack', en: '21" M aerodynamic wheels cross-spoke 1098 Jet Black'}
+  - {de: '21" M Leichtmetallräder Sternspeiche 908M Jetblack', en: '21" M light-alloy wheels star-spoke 908 M Jet Black'}
+  - {de: '22" BMW Individual Aerodynamikräder V-Speiche 1099', en: '22" BMW Individual aerodynamic wheels V-spoke 1099'}
+  - {de: '22" BMW Individual Aerodynamikräder V-Speiche 1099 mit Sportreifen', en: '22" BMW Individual aerodynamic wheels V-spoke 1099 with sports tyres'}
+  - {de: '5-Sitzigkeit', en: 'Five-seat configuration'}
+  - {de: 'AC-Laden Professional (22 kW)', en: 'AC Charging Professional (22 kW)'}
+  - {de: 'AC-Laden Professional: AC Laden für zuhause und unterwegs (22 kW, 3-phasig)', en: 'AC Charging Professional: AC charging at home and on the road (22 kW, 3-phase)'}
+  - {de: 'Ablagemöglichkeiten', en: 'Storage options'}
+  - {de: 'Active Guard', en: 'Active Guard'}
+  - {de: 'Active Protection', en: 'Active Protection'}
+  - {de: 'Adaptive Chassis Control Professional', en: 'Adaptive Chassis Control Professional'}
+  - {de: 'Adaptive M Chassis Control Professional', en: 'Adaptive M Chassis Control Professional'}
+  - {de: 'Adaptiver LED-Scheinwerfer', en: 'Adaptive LED headlights'}
+  - {de: 'Adaptives Fahrwerk Professional', en: 'Adaptive suspension Professional'}
+  - {de: 'Adaptives M Fahrwerk', en: 'Adaptive M suspension'}
+  - {de: 'Adaptives M Fahrwerk Professional', en: 'Adaptive M suspension Professional'}
+  - {de: 'Adelaide Grau', en: 'Adelaide Grey'}
+  - {de: 'Aktivsitz für Fahrer und Beifahrer', en: 'Active seats for driver and front passenger'}
+  - {de: 'Akustischer Fußgängerschutz', en: 'Acoustic pedestrian protection'}
+  - {de: 'Akzent Dunkelsilber kombiniert mit Edelholz Eiche dunkel', en: 'Dark Silver accent combined with dark oak fine wood'}
+  - {de: 'Akzent Dunkelsilber kombiniert mit Effektlackierung', en: 'Dark Silver accent combined with effect paint finish'}
+  - {de: 'Alarmanlage', en: 'Alarm system'}
+  - {de: 'Alpinweiß', en: 'Alpine White'}
+  - {de: 'Alpinweiß uni', en: 'Alpine White solid'}
+  - {de: 'Ambientes Licht', en: 'Ambient lighting'}
+  - {de: 'Anhängerkupplung', en: 'Trailer tow hitch'}
+  - {de: 'Anhängerkupplung mit abnehmbarem Kugelkopf', en: 'Trailer tow hitch with detachable ball head'}
+  - {de: 'Anthrazit', en: 'Anthracite'}
+  - {de: 'Armauflage vorne mit Ablagefach', en: 'Front armrest with storage compartment'}
+  - {de: 'Aufmerksamkeitsassistent', en: 'Attentiveness Assistant'}
+  - {de: 'Autobahn- & City-Assistent (laufzeitbegrenzt)', en: 'Highway & City Assistant (time-limited)'}
+  - {de: 'Autobahnassistent', en: 'Highway Assistant'}
+  - {de: 'Automatiktüren', en: 'Automatic doors'}
+  - {de: 'Automatische Heckklappenbetätigung', en: 'Automatic tailgate operation'}
+  - {de: 'Außenspiegel anklappbar', en: 'Folding exterior mirrors'}
+  - {de: 'Aveturinrot', en: 'Aventurine Red'}
+  - {de: 'BMW 3D Head-Up Display', en: 'BMW 3D Head-Up Display'}
+  - {de: 'BMW Digital Key', en: 'BMW Digital Key'}
+  - {de: 'BMW Digital Premium (laufzeitbegrenzt)', en: 'BMW Digital Premium (time-limited)'}
+  - {de: 'BMW Iconic Glow Exterieurpaket', en: 'BMW Iconic Glow exterior package'}
+  - {de: 'BMW IconicSounds Electric', en: 'BMW IconicSounds Electric'}
+  - {de: 'BMW Individual Dravitgrau metallic', en: 'BMW Individual Dravit Grey metallic'}
+  - {de: 'BMW Individual Edelholzausführung Esche Flowing Grey offenporig', en: 'BMW Individual fine wood trim ash Flowing Grey open-pored'}
+  - {de: 'BMW Individual Frozen Deep Grey', en: 'BMW Individual Frozen Deep Grey'}
+  - {de: 'BMW Individual Frozen Deep Grey metallic', en: 'BMW Individual Frozen Deep Grey metallic'}
+  - {de: 'BMW Individual Frozen Portimao Blau metallic', en: 'BMW Individual Frozen Portimao Blue metallic'}
+  - {de: 'BMW Individual Frozen Portimao Blue', en: 'BMW Individual Frozen Portimao Blue'}
+  - {de: 'BMW Individual Frozen Pure Grey', en: 'BMW Individual Frozen Pure Grey'}
+  - {de: 'BMW Individual Frozen Pure Grey metallic', en: 'BMW Individual Frozen Pure Grey metallic'}
+  - {de: 'BMW Individual Frozen Space Silver', en: 'BMW Individual Frozen Space Silver'}
+  - {de: 'BMW Individual Frozen Tanzanite Blue metallic', en: 'BMW Individual Frozen Tanzanite Blue metallic'}
+  - {de: 'BMW Individual Interieurleisten Edelholz Esche Flowing Grey offenporig', en: 'BMW Individual interior trim strips fine wood ash Flowing Grey open-pored'}
+  - {de: 'BMW Individual Kristallscheinwerfer Iconic Glow', en: 'BMW Individual crystal headlights Iconic Glow'}
+  - {de: 'BMW Individual Leder ''Merino'' mit Exklusivumfängen | Caramel/Atlasgrau', en: 'BMW Individual Merino leather with exclusive features | Caramel/Atlas Grey'}
+  - {de: 'BMW Individual Leder ''Merino''/ Woll-Kaschmir-Kombination mit Exklusivumfängen', en: 'BMW Individual Merino leather / wool-cashmere combination with exclusive features'}
+  - {de: 'BMW Individual Leder ''Merino''/Woll-Kaschmirkombination mit Exklusivumfängen | Schwarz/Grau', en: 'BMW Individual Merino leather / wool-cashmere combination with exclusive features | Black/Grey'}
+  - {de: 'BMW Individual Lenkrad', en: 'BMW Individual steering wheel'}
+  - {de: 'BMW Individual Sonderlackierung', en: 'BMW Individual special paint finish'}
+  - {de: 'BMW Individual Storm Bay', en: 'BMW Individual Storm Bay'}
+  - {de: 'BMW Individual Tansanitblau metallic', en: 'BMW Individual Tanzanite Blue metallic'}
+  - {de: 'BMW Individual Two-Tone Aventurinrot III metallic mit Saphirschwarz metallic', en: 'BMW Individual Two-Tone Aventurine Red III metallic with Sapphire Black metallic'}
+  - {de: 'BMW Individual Two-Tone Dravit Grau metallic mit Oxidgrau II metallic', en: 'BMW Individual Two-Tone Dravit Grey metallic with Oxide Grey II metallic'}
+  - {de: 'BMW Individual Two-Tone Dravit Grau metallic mit Saphirschwarz metallic', en: 'BMW Individual Two-Tone Dravit Grey metallic with Sapphire Black metallic'}
+  - {de: 'BMW Individual Two-Tone Dual-Frozen Tanzaniteblue III metallic Tansaniteblau II', en: 'BMW Individual Two-Tone Dual-Frozen Tanzanite Blue III metallic / Tanzanite Blue II'}
+  - {de: 'BMW Individual Two-Tone Oxidgrau II metallic mit Saphirschwarz metallic', en: 'BMW Individual Two-Tone Oxide Grey II metallic with Sapphire Black metallic'}
+  - {de: 'BMW Individual Two-Tone Saphirschwarz metallic mit Oxidgrau II metallic', en: 'BMW Individual Two-Tone Sapphire Black metallic with Oxide Grey II metallic'}
+  - {de: 'BMW Individual Two-Tone Tansanitblau II metallic mit Saphirschwarz metallic', en: 'BMW Individual Two-Tone Tanzanite Blue II metallic with Sapphire Black metallic'}
+  - {de: 'BMW Individual Two-Tone Vancouvergreen metallic mit Saphirschwarz metallic', en: 'BMW Individual Two-Tone Vancouver Green metallic with Sapphire Black metallic'}
+  - {de: 'BMW Live Cockpit Plus', en: 'BMW Live Cockpit Plus'}
+  - {de: 'BMW M Leder ''Merino'' Schwarz | Atlasgrau', en: 'BMW M Merino leather Black | Atlas Grey'}
+  - {de: 'BMW M Leder ''Merino'' Schwarz/Atlasgrau', en: 'BMW M Merino leather Black/Atlas Grey'}
+  - {de: 'BMW Niere Iconic', en: 'BMW kidney grille Iconic Glow'}
+  - {de: 'BMW Panoramic Vision', en: 'BMW Panoramic Vision'}
+  - {de: 'BMW Panoramic iDrive', en: 'BMW Panoramic iDrive'}
+  - {de: 'BMW Passenger Screen', en: 'BMW Passenger Screen'}
+  - {de: 'BMW Touch Command', en: 'BMW Touch Command'}
+  - {de: 'Bicolor Blau', en: 'Bicolour Blue'}
+  - {de: 'Black Sapphire', en: 'Black Sapphire'}
+  - {de: 'Bowers & Wilkins Diamond Surround Sound System', en: 'Bowers & Wilkins Diamond Surround Sound System'}
+  - {de: 'Bowers & Wilkins Surround Sound System', en: 'Bowers & Wilkins Surround Sound System'}
+  - {de: 'COMFORT PAKET', en: 'Comfort Package'}
+  - {de: 'CONNOISSEUR PAKET', en: 'Connoisseur Package'}
+  - {de: 'Cape York Grün', en: 'Cape York Green'}
+  - {de: 'Ceremonial Light Carpet', en: 'Ceremonial Light Carpet'}
+  - {de: 'Cognac', en: 'Cognac'}
+  - {de: 'Connected Package Professional', en: 'Connected Package Professional'}
+  - {de: 'ConnectedDrive Services', en: 'ConnectedDrive Services'}
+  - {de: 'Cupholder in Mittelkonsole', en: 'Cup holders in the centre console'}
+  - {de: 'DAB-Tuner', en: 'DAB tuner'}
+  - {de: 'DESIGN PURE EXCELLENCE', en: 'Design Pure Excellence'}
+  - {de: 'Dach in Schwarz', en: 'Roof in black'}
+  - {de: 'Deaktivierung Beifahrer Airbag', en: 'Front passenger airbag deactivation'}
+  - {de: 'Driving Assistant', en: 'Driving Assistant'}
+  - {de: 'Driving Assistant Plus', en: 'Driving Assistant Plus'}
+  - {de: 'Driving Assistant Professional', en: 'Driving Assistant Professional'}
+  - {de: 'Durchladesystem', en: 'Through-loading system'}
+  - {de: 'Durchladesystem 40:20:40', en: 'Through-loading system 40:20:40'}
+  - {de: 'EXECUTIVE LOUNGE PAKET', en: 'Executive Lounge Package'}
+  - {de: 'EXECUTIVE PAKET', en: 'Executive Package'}
+  - {de: 'Edelholzausführung Spiegeleiche graumetallic hochglänzend', en: 'Fine wood trim burr oak grey-metallic high-gloss'}
+  - {de: 'Entfall, Modellschriftzug', en: 'Deletion of model designation'}
+  - {de: 'Erweitertes Außenspiegelpaket', en: 'Extended exterior mirror package'}
+  - {de: 'Espressobraun', en: 'Espresso Brown'}
+  - {de: 'Executive Lounge Seating', en: 'Executive Lounge Seating'}
+  - {de: 'Fahrerlebnisschalter', en: 'Driving Experience Control switch'}
+  - {de: 'Fernlichtassistent "BMW Selective Beam"', en: 'High-beam assistant "BMW Selective Beam"'}
+  - {de: 'Fire Red', en: 'Fire Red'}
+  - {de: 'Fire Red metallic', en: 'Fire Red metallic'}
+  - {de: 'Flächenintegrierte Türgriffe', en: 'Flush-integrated door handles'}
+  - {de: 'Fondsitzlehne, Teilung 40 : 20 : 40', en: 'Rear seat backrest, 40:20:40 split'}
+  - {de: 'Frontkollisionswarnung mit Bremsfunktion, Ausweichhilfe und Bremseingriff', en: 'Front collision warning with braking, evasion aid and brake intervention'}
+  - {de: 'Fußmatten in Velours', en: 'Velour floor mats'}
+  - {de: 'Fußmatten vorne und hinten in Anthrazit', en: 'Front and rear floor mats in Anthracite'}
+  - {de: 'Für 530e, 530e xDrive, i5 eDrive40', en: 'For 530e, 530e xDrive, i5 eDrive40'}
+  - {de: 'Für 550e xDrive, i5 xDrive40', en: 'For 550e xDrive, i5 xDrive40'}
+  - {de: 'Garagentoröffner, integriert', en: 'Integrated garage door opener'}
+  - {de: 'Gepäckraumtrennnetz', en: 'Luggage compartment partition net'}
+  - {de: 'Geschwindigkeitsregelung mit Bremsfunktion', en: 'Cruise control with braking function'}
+  - {de: 'Gesetzlicher Notruf inkl. Teleservices und BMW Unfallhilfe', en: 'Statutory emergency call incl. Teleservices and BMW accident assistance'}
+  - {de: 'Glasapplikation ''CraftedClarity'' für Interieurelemente', en: 'Glass application CraftedClarity for interior elements'}
+  - {de: 'Glasapplikationen „CraftedClarity“ für Interieurelemente', en: 'Glass applications CraftedClarity for interior elements'}
+  - {de: 'HiFi Lautsprechersystem harman/kardon', en: 'harman/kardon HiFi speaker system'}
+  - {de: 'INNOVATIONSPAKET', en: 'Innovation Package'}
+  - {de: 'Integral-Aktivlenkung', en: 'Integral Active Steering'}
+  - {de: 'Intelligenter Notruf', en: 'Intelligent Emergency Call'}
+  - {de: 'Interieur Lichtpaket', en: 'Interior light package'}
+  - {de: 'Interieurakzent Silberbronze', en: 'Interior accent Silver Bronze'}
+  - {de: 'Interieurdekore Illuminated Aluminium graphit', en: 'Interior trim Illuminated Aluminium graphite'}
+  - {de: 'Interieurdekore dunkelsilber', en: 'Interior trim Dark Silver'}
+  - {de: 'Interieurleisten Akzent Dunkelsilber kombiniert mit Effektlackierung Dark Graphite matt', en: 'Interior trim strips Dark Silver accent combined with Dark Graphite matt effect paint'}
+  - {de: 'Interieurleisten Alcantara', en: 'Interior trim strips Alcantara'}
+  - {de: 'Interieurleisten Alcantara Adelaide Grau', en: 'Interior trim strips Alcantara Adelaide Grey'}
+  - {de: 'Interieurleisten Edelholz Fineline schwarz mit Metalleffekt hochglänzend, M Signatur', en: 'Interior trim strips fine wood Fineline black with high-gloss metal effect, M signature'}
+  - {de: 'Interieurleisten Edelholz Lindenholz Fineline braun, offenporig', en: 'Interior trim strips fine wood lime Fineline brown, open-pored'}
+  - {de: 'Interieurleisten Edelholz Spiegeleiche grau-metallic hochglänzend', en: 'Interior trim strips fine wood burr oak grey-metallic high-gloss'}
+  - {de: 'Interieurleisten M Akzent Dunkelsilber kombiniert mit Aluminium Rhombicle D unkelsilber', en: 'Interior trim strips M Dark Silver accent combined with Aluminium Rhombicle Dark Silver'}
+  - {de: 'Jetblack, glanzgedreht', en: 'Jet Black, burnished'}
+  - {de: 'Kindersitzbefestigung i-Sitze für Beifahrer', en: 'i-Size child seat mounting for the front passenger seat'}
+  - {de: 'Klimaautomatik', en: 'Automatic climate control'}
+  - {de: 'Klimaautomatik mit 4-Zonen-Regelung', en: 'Automatic climate control with 4-zone regulation'}
+  - {de: 'Klimaautomatik mit 4-Zonenregelung', en: 'Automatic climate control with 4-zone regulation'}
+  - {de: 'Komfortsitze vorn, elektrisch verstellbar', en: 'Electrically adjustable front comfort seats'}
+  - {de: 'Komfortzugang', en: 'Comfort Access'}
+  - {de: 'Korallrot/Schwarz', en: 'Coral Red/Black'}
+  - {de: 'Kunstleder Veganza | Schwarz', en: 'Veganza artificial leather | Black'}
+  - {de: 'Kupferbraun | Atlasgrau', en: 'Copper Brown | Atlas Grey'}
+  - {de: 'LED-Scheinwerfer', en: 'LED headlights'}
+  - {de: 'Lackierung Alpinweiß Uni', en: 'Alpine White solid paint'}
+  - {de: 'Lackierung Schwarz Uni', en: 'Black solid paint'}
+  - {de: 'Ladekabel Professional (Mode 3) für öffentliches Laden', en: 'Charging cable Professional (Mode 3) for public charging'}
+  - {de: 'Lenkradheizung', en: 'Steering wheel heating'}
+  - {de: 'Lenksäulenverstellung', en: 'Steering column adjustment'}
+  - {de: 'Linksabbiegewarnung (Fahrzeug) mit Bremsfunktion', en: 'Left-turn warning (vehicle) with braking function'}
+  - {de: 'Lordosenstütze für Fahrer und Beifahrer', en: 'Lumbar support for driver and front passenger'}
+  - {de: 'M AUTOMOBILE', en: 'M Automobiles'}
+  - {de: 'M Akzent Dunkelsilber kombiniert mit ''Carbon Fibre'' und Silberfäden', en: 'M Dark Silver accent combined with Carbon Fibre and silver threads'}
+  - {de: 'M Akzent Dunkelsilber kombiniert mit Aluminium Rhombicle', en: 'M Dark Silver accent combined with Aluminium Rhombicle'}
+  - {de: 'M Akzent Dunkelsilber kombiniert mit Aluminium Rhombicle Dunkelsilber', en: 'M Dark Silver accent combined with Aluminium Rhombicle Dark Silver'}
+  - {de: 'M Alcantara | Veganza-Kombination Schwarz', en: 'M Alcantara | Veganza combination Black'}
+  - {de: 'M Alcantara | Veganza-Kombination | Schwarz', en: 'M Alcantara | Veganza combination | Black'}
+  - {de: 'M Alcantara/Veganza-Kombination Schwarz', en: 'M Alcantara/Veganza combination Black'}
+  - {de: 'M Alcantara/Veganza-Kombination Schwarz/Kontraststeppung Blau', en: 'M Alcantara/Veganza combination Black with blue contrast stitching'}
+  - {de: 'M Brooklyn Grau', en: 'M Brooklyn Grey'}
+  - {de: 'M Brooklyn Grau metallic', en: 'M Brooklyn Grey metallic'}
+  - {de: 'M Carbon Exterieurpaket', en: 'M Carbon exterior package'}
+  - {de: 'M Carbonschwarz', en: 'M Carbon Black'}
+  - {de: 'M Dachhimmel Alcantara', en: 'M Alcantara headliner'}
+  - {de: 'M Dachhimmel Alcantara anthrazit', en: 'M Alcantara headliner Anthracite'}
+  - {de: 'M Dachhimmel Anthrazit', en: 'M headliner Anthracite'}
+  - {de: 'M Dachhimmel anthrazit', en: 'M headliner Anthracite'}
+  - {de: 'M Heckspoiler', en: 'M rear spoiler'}
+  - {de: 'M Heckspoiler in Black Sapphire', en: 'M rear spoiler in Black Sapphire'}
+  - {de: 'M Heckspoiler in Wagenfarbe', en: 'M rear spoiler in body colour'}
+  - {de: 'M Hochglanz Shadow Line', en: 'M High-gloss Shadow Line'}
+  - {de: 'M Hochglanz Shadow Line mit erweiterten Umfängen', en: 'M High-gloss Shadow Line with extended features'}
+  - {de: 'M Interieurdekore Illuminated Aluminium Hexacube, matt', en: 'M interior trim Illuminated Aluminium Hexacube, matt'}
+  - {de: 'M Interieurleiste „Carbon Fibre“/Silberfäden/Pianolack schwarz', en: 'M interior trim strip Carbon Fibre / silver threads / piano black'}
+  - {de: 'M Interieurleisten Carbon Fibre mit Silberfäden/Pianolack schwarz', en: 'M interior trim strips Carbon Fibre with silver threads / piano black'}
+  - {de: 'M Lederlenkrad', en: 'M leather steering wheel'}
+  - {de: 'M Leuchten Shadow Line', en: 'M Shadow Line lights'}
+  - {de: 'M Multifunktionssitze', en: 'M multifunction seats'}
+  - {de: 'M SPORTPAKET', en: 'M Sport Package'}
+  - {de: 'M SPORTPAKET PRO', en: 'M Sport Package Pro'}
+  - {de: 'M Sicherheitsgurte', en: 'M seat belts'}
+  - {de: 'M Sport Design', en: 'M Sport Design'}
+  - {de: 'M Sport Exterieurumfänge', en: 'M Sport exterior features'}
+  - {de: 'M Sport Interieur', en: 'M Sport interior'}
+  - {de: 'M Sport Interieurumfänge', en: 'M Sport interior features'}
+  - {de: 'M Sportbremse, dunkelblau metallic', en: 'M Sport brakes, dark blue metallic'}
+  - {de: 'M Sportbremse, rot hochglänzend', en: 'M Sport brakes, high-gloss red'}
+  - {de: 'M Sportbremse, schwarz metallic', en: 'M Sport brakes, black metallic'}
+  - {de: 'M Sportfahrwerk', en: 'M Sport suspension'}
+  - {de: 'M Sportpaket', en: 'M Sport Package'}
+  - {de: 'M Sportpaket Pro', en: 'M Sport Package Pro'}
+  - {de: 'M Sportsitze für Fahrer und Beifahrer', en: 'M Sport seats for driver and front passenger'}
+  - {de: 'M TECHNIK PAKET II', en: 'M Technology Package II'}
+  - {de: 'M Veganza/Alcantara Schwarz', en: 'M Veganza/Alcantara Black'}
+  - {de: 'Mineralweiss', en: 'Mineral White'}
+  - {de: 'Mineralweiß', en: 'Mineral White'}
+  - {de: 'Modellschriftzug, Entfall', en: 'Deletion of model designation'}
+  - {de: 'Mokka', en: 'Mocha'}
+  - {de: 'Multifunktionssitze für Fahrer und Beifahrer', en: 'Multifunction seats for driver and front passenger'}
+  - {de: 'My Modes', en: 'My Modes'}
+  - {de: 'Oxidgrau', en: 'Oxide Grey'}
+  - {de: 'Oyster', en: 'Oyster'}
+  - {de: 'PREMIUM PAKET', en: 'Premium Package'}
+  - {de: 'Panorama Glasdach', en: 'Panoramic glass roof'}
+  - {de: 'Panorama Glasdach inkl. Dachlackierung in Schwarz Hochglanz', en: 'Panoramic glass roof incl. high-gloss black roof paint'}
+  - {de: 'Panorama-Glasdach', en: 'Panoramic glass roof'}
+  - {de: 'Panorama-Glasdach Sky Lounge', en: 'Panoramic glass roof Sky Lounge'}
+  - {de: 'Parking Assistant', en: 'Parking Assistant'}
+  - {de: 'Parking Assistant Plus', en: 'Parking Assistant Plus'}
+  - {de: 'Parking Assistant Professional', en: 'Parking Assistant Professional'}
+  - {de: 'Performance Control', en: 'Performance Control'}
+  - {de: 'Personal eSIM', en: 'Personal eSIM'}
+  - {de: 'Phytonicblau', en: 'Phytonic Blue'}
+  - {de: 'Polster Veganza perforiert | Schwarz', en: 'Perforated Veganza upholstery | Black'}
+  - {de: 'Radschraubensicherung', en: 'Locking wheel bolts'}
+  - {de: 'Rauchweiss', en: 'Smoke White'}
+  - {de: 'Rauchweiß', en: 'Smoke White'}
+  - {de: 'Reifendruck-Kontrolle', en: 'Tyre pressure monitoring'}
+  - {de: 'Reifenpannenset Plus', en: 'Tyre repair kit Plus'}
+  - {de: 'Reifenreparatur Set oder Reifenpannenset Plus', en: 'Tyre repair set or tyre repair kit Plus'}
+  - {de: 'Saphirschwarz', en: 'Sapphire Black'}
+  - {de: 'Schwarz', en: 'Black'}
+  - {de: 'Schwarz uni', en: 'Black solid'}
+  - {de: 'Schwarz | Atlasgrau', en: 'Black | Atlas Grey'}
+  - {de: 'Schwarz/Jetblack', en: 'Black/Jet Black'}
+  - {de: 'Schwarz/Jetblack, glanzgedreht', en: 'Black/Jet Black, burnished'}
+  - {de: 'Schwarz/Kontraststeppung Blau', en: 'Black with blue contrast stitching'}
+  - {de: 'Schwarzgrau', en: 'Black Grey'}
+  - {de: 'Seriensitz für Fahrer und Beifahrer', en: 'Standard seats for driver and front passenger'}
+  - {de: 'Silverstone II | Atlasgrau', en: 'Silverstone II | Atlas Grey'}
+  - {de: 'Sitzheizung für Fahrer und Beifahrer', en: 'Seat heating for driver and front passenger'}
+  - {de: 'Sitzheizung vorn und hinten', en: 'Seat heating front and rear'}
+  - {de: 'Sitzverstellung, elektrisch, mit Memory', en: 'Electric seat adjustment with memory'}
+  - {de: 'Sitzverstellung, elektrisch, mit Memory für Fahrer', en: 'Electric seat adjustment with memory for the driver'}
+  - {de: 'Sitzverstellung, elektrisch, mit Memory für Fahrersitz', en: 'Electric seat adjustment with memory for the driver seat'}
+  - {de: 'Skyscraper Grau', en: 'Skyscraper Grey'}
+  - {de: 'Soft-Close-Automatik für Türen', en: 'Soft-close automatic for doors'}
+  - {de: 'Sonnenschutzrollos', en: 'Sun protection roller blinds'}
+  - {de: 'Sonnenschutzverglasung', en: 'Sun protection glazing'}
+  - {de: 'Sophistograu', en: 'Sophisto Grey'}
+  - {de: 'Speed Limit Info', en: 'Speed Limit Info'}
+  - {de: 'Speed Limiter', en: 'Speed Limiter'}
+  - {de: 'Sport-Lederlenkrad', en: 'Sport leather steering wheel'}
+  - {de: 'Sport-Lenkrad', en: 'Sport steering wheel'}
+  - {de: 'Sportlenkrad', en: 'Sport steering wheel'}
+  - {de: 'Sportsitze für Fahrer und Beifahrer', en: 'Sport seats for driver and front passenger'}
+  - {de: 'Spurverlassenswarnung mit aktiver Rückführung', en: 'Lane departure warning with active return'}
+  - {de: 'Standheizung', en: 'Auxiliary heating'}
+  - {de: 'Standklimatisierung', en: 'Auxiliary climate control (pre-conditioning)'}
+  - {de: 'Steptronic Getriebe mit Doppelkupplung', en: 'Steptronic transmission with dual clutch'}
+  - {de: 'Steptronic Getriebe mit Doppelkupplung und Schaltwippen', en: 'Steptronic transmission with dual clutch and shift paddles'}
+  - {de: 'Steptronic Getriebe mit Schaltwippen', en: 'Steptronic transmission with shift paddles'}
+  - {de: 'Steptronic Sport Getriebe Steptronic Sport Getriebe', en: 'Steptronic Sport transmission'}
+  - {de: 'Stoff/Arktur Anthrazit', en: 'Cloth/Arktur Anthracite'}
+  - {de: 'TRAVEL PAKET', en: 'Travel Package'}
+  - {de: 'Tartufo', en: 'Tartufo'}
+  - {de: 'Teleservices', en: 'Teleservices'}
+  - {de: 'Thundernight', en: 'Thundernight'}
+  - {de: 'Travel & Comfort System', en: 'Travel & Comfort System'}
+  - {de: 'Uni-Lackierung, Alpinweiß', en: 'Solid paint, Alpine White'}
+  - {de: 'Vancouver Green', en: 'Vancouver Green'}
+  - {de: 'Veganza perforiert | Schwarz', en: 'Perforated Veganza | Black'}
+  - {de: 'Warndreieck und Verbandskasten', en: 'Warning triangle and first-aid kit'}
+  - {de: 'Wireless Charging Ablage', en: 'Wireless charging tray'}
+  - {de: 'Wärmekomfortpaket', en: 'Warmth comfort package'}

@@ -1,0 +1,18 @@
+# Normalised catalogue groups → vehicle domains (config/taxonomy/domains.yaml).
+groups:
+  packages: {label: Equipment packages, domain: offering_variants}
+  package_contents: {label: Package contents, domain: offering_variants}
+  exterior: {label: Exterior, domain: exterior_design}
+  exterior_colour: {label: Exterior colours, domain: exterior_design}
+  wheels_tyres: {label: Wheels and tyres, domain: exterior_design}
+  lighting_visibility: {label: Lighting and visibility, domain: exterior_design}
+  interior: {label: Interior, domain: interior_comfort}
+  interior_trim: {label: Interior trim, domain: interior_comfort}
+  upholstery: {label: Upholstery, domain: interior_comfort}
+  comfort: {label: Comfort and functionality, domain: interior_comfort}
+  climate: {label: Climate comfort, domain: interior_comfort}
+  connectivity_infotainment: {label: Connectivity and infotainment, domain: infotainment_digital}
+  driver_assistance_safety: {label: Driver assistance and safety, domain: driver_assistance}
+  drivetrain_chassis: {label: Drivetrain, dynamics and chassis, domain: driving_dynamics}
+  transport_storage: {label: Transport and storage, domain: space_practicality}
+  other: {label: Other functions, domain: general}

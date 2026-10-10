@@ -1,0 +1,1903 @@
+# Canonical VFC level2 taxonomy extracted from the feedback workbooks (decision D-004).
+# Identifiers are stable. 'occurrences' = classification rows per vehicle in the input.
+# 'domain' = vehicle domain key, applied from config/taxonomy/domain_map.yaml.
+entries:
+- id: L2-001
+  name: (Active) cruise control
+  domain: driver_assistance
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 11
+    G60: 31
+    G70: 23
+- id: L2-002
+  name: 12 V connection
+  domain: space_practicality
+  origin: given
+  status: canonical
+  occurrences:
+    G60: 5
+    G70: 5
+- id: L2-003
+  name: Accessories / Parts
+  domain: general
+  origin: given
+  status: canonical
+  occurrences:
+    G60: 8
+    G70: 12
+- id: L2-004
+  name: Adjustment of lower lumbar support
+  domain: interior_comfort
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 3
+    G60: 9
+    G70: 6
+- id: L2-005
+  name: Air conditioning control panel
+  domain: interior_comfort
+  origin: given
+  status: canonical
+  occurrences:
+    G60: 15
+    G70: 6
+- id: L2-006
+  name: Air conditioning, overall technology
+  domain: interior_comfort
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 6
+    G60: 5
+    G70: 6
+- id: L2-007
+  name: Air conditioning, setting
+  domain: interior_comfort
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 6
+    G60: 23
+    G70: 18
+- id: L2-008
+  name: Airbags
+  domain: driver_assistance
+  origin: given
+  status: canonical
+  occurrences:
+    G70: 5
+- id: L2-009
+  name: All-round view
+  domain: driver_assistance
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 4
+    G60: 10
+    G70: 10
+- id: L2-010
+  name: Ambient light
+  domain: interior_comfort
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 3
+    G60: 37
+    G70: 46
+- id: L2-011
+  name: Android Auto
+  domain: infotainment_digital
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 6
+    G60: 8
+    G70: 7
+- id: L2-012
+  name: Anti-theft alarm system
+  domain: driver_assistance
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 1
+    G60: 7
+    G70: 5
+- id: L2-013
+  name: Apple CarPlay
+  domain: infotainment_digital
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 5
+    G60: 45
+    G70: 29
+- id: L2-014
+  name: Apps (in-car)
+  domain: infotainment_digital
+  origin: given
+  status: canonical
+  occurrences:
+    G60: 11
+    G70: 12
+- id: L2-015
+  name: Apps (smartphone)
+  domain: infotainment_digital
+  origin: given
+  status: canonical
+  occurrences:
+    G60: 1
+- id: L2-016
+  name: Audio mode, sound
+  domain: infotainment_digital
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 36
+    G60: 46
+    G70: 40
+- id: L2-017
+  name: Automatic doors
+  domain: interior_comfort
+  origin: given
+  status: canonical
+  occurrences:
+    G60: 2
+    G70: 57
+- id: L2-018
+  name: Automatic engine start-stop function (MSA)
+  domain: powertrain_range_charging
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 13
+    G60: 37
+    G70: 34
+- id: L2-019
+  name: Automatic-hold
+  domain: driving_dynamics
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 4
+    G60: 11
+    G70: 10
+- id: L2-020
+  name: Auxiliary heater function
+  domain: interior_comfort
+  origin: given
+  status: canonical
+  occurrences:
+    G60: 4
+- id: L2-021
+  name: Back-up Assistant
+  domain: driver_assistance
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 2
+    G60: 7
+    G70: 10
+- id: L2-022
+  name: Bidirectional charging
+  domain: powertrain_range_charging
+  origin: given
+  status: canonical
+  occurrences:
+    G60: 1
+- id: L2-023
+  name: Blind spot monitoring
+  domain: driver_assistance
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 1
+    G60: 9
+    G70: 7
+- id: L2-024
+  name: Blower function
+  domain: interior_comfort
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 2
+    G60: 22
+    G70: 21
+- id: L2-025
+  name: BMW ConnectedDrive upgrades/ MINI CONNECTED upgrades
+  domain: infotainment_digital
+  origin: given
+  status: canonical
+  occurrences:
+    G60: 7
+    G70: 5
+- id: L2-026
+  name: BMW Online / MINI Online
+  domain: infotainment_digital
+  origin: given
+  status: canonical
+  occurrences:
+    G60: 1
+    G70: 1
+- id: L2-027
+  name: Body equipment, overall technology
+  domain: quality_nvh
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 100
+    G60: 213
+    G70: 173
+- id: L2-028
+  name: Brake Energy Regeneration / recuperation
+  domain: powertrain_range_charging
+  origin: given
+  status: canonical
+  occurrences:
+    G60: 16
+    G70: 12
+- id: L2-029
+  name: Braking
+  domain: driving_dynamics
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 29
+    G60: 38
+    G70: 34
+- id: L2-030
+  name: Bumper, front
+  domain: exterior_design
+  origin: given
+  status: canonical
+  occurrences:
+    G60: 5
+- id: L2-031
+  name: Bumper, rear
+  domain: exterior_design
+  origin: given
+  status: canonical
+  occurrences:
+    G60: 5
+    G70: 2
+- id: L2-032
+  name: Caring Car
+  domain: infotainment_digital
+  origin: given
+  status: canonical
+  occurrences:
+    G60: 1
+- id: L2-033
+  name: CD / DVD changer, playback
+  domain: infotainment_digital
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 1
+    G60: 5
+    G70: 3
+- id: L2-034
+  name: Center armrest, front
+  domain: interior_comfort
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 1
+    G60: 8
+    G70: 5
+- id: L2-035
+  name: Center console, front
+  domain: interior_comfort
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 10
+    G60: 28
+    G70: 16
+- id: L2-036
+  name: Charge high-voltage battery
+  domain: powertrain_range_charging
+  origin: given
+  status: canonical
+  occurrences:
+    G60: 35
+    G70: 23
+- id: L2-037
+  name: Charging cable
+  domain: powertrain_range_charging
+  origin: given
+  status: canonical
+  occurrences:
+    G60: 8
+    G70: 8
+- id: L2-038
+  name: Child restraint seat
+  domain: driver_assistance
+  origin: given
+  status: canonical
+  occurrences:
+    G70: 2
+- id: L2-039
+  name: Child restraint seat, use
+  domain: driver_assistance
+  origin: given
+  status: canonical
+  occurrences:
+    G60: 4
+    G70: 1
+- id: L2-040
+  name: Child safety latch
+  domain: driver_assistance
+  origin: given
+  status: canonical
+  occurrences:
+    G60: 5
+    G70: 5
+- id: L2-041
+  name: Comfort Access
+  domain: infotainment_digital
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 3
+    G60: 25
+    G70: 17
+- id: L2-042
+  name: ConnectedDrive and Infotainment, overall technology
+  domain: infotainment_digital
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 128
+    G60: 51
+    G70: 67
+- id: L2-043
+  name: ConnectedDrive services (smartphone) technology overall
+  domain: infotainment_digital
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 10
+    G60: 5
+    G70: 4
+- id: L2-044
+  name: Controller operation
+  domain: infotainment_digital
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 4
+    G60: 6
+    G70: 9
+- id: L2-045
+  name: Cooling
+  domain: interior_comfort
+  origin: given
+  status: canonical
+  occurrences:
+    G60: 4
+    G70: 6
+- id: L2-046
+  name: Cross Traffic Warning Rear with Brake Intervention
+  domain: driver_assistance
+  origin: given
+  status: canonical
+  occurrences:
+    G60: 8
+    G70: 6
+- id: L2-047
+  name: Cupholder
+  domain: space_practicality
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 3
+    G60: 14
+    G70: 12
+- id: L2-048
+  name: Cushioning / damping vehicle
+  domain: driving_dynamics
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 44
+    G60: 23
+    G70: 38
+- id: L2-049
+  name: Customer Account (My BMW / MINI Portal)
+  domain: infotainment_digital
+  origin: given
+  status: canonical
+  occurrences:
+    G60: 2
+- id: L2-050
+  name: Digital Key
+  domain: infotainment_digital
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 4
+    G60: 28
+    G70: 26
+- id: L2-051
+  name: Display key
+  domain: infotainment_digital
+  origin: given
+  status: canonical
+  occurrences:
+    G60: 1
+    G70: 3
+- id: L2-052
+  name: Display, time
+  domain: infotainment_digital
+  origin: given
+  status: canonical
+  occurrences:
+    G60: 5
+    G70: 1
+- id: L2-053
+  name: Door, finisher panel, front
+  domain: interior_comfort
+  origin: given
+  status: canonical
+  occurrences:
+    G60: 13
+    G70: 10
+- id: L2-054
+  name: Door, front
+  domain: quality_nvh
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 12
+    G60: 7
+    G70: 7
+- id: L2-055
+  name: Door, open / close
+  domain: space_practicality
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 15
+    G60: 32
+    G70: 32
+- id: L2-056
+  name: Drive Recorder
+  domain: infotainment_digital
+  origin: given
+  status: canonical
+  occurrences:
+    G60: 13
+    G70: 8
+- id: L2-057
+  name: Drive, driving dynamics and chassis, overall technology
+  domain: driving_dynamics
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 475
+    G60: 126
+    G70: 91
+- id: L2-058
+  name: Driver assistance, automated driving, overall technology
+  domain: driver_assistance
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 39
+    G60: 25
+    G70: 22
+- id: L2-059
+  name: Driver profile
+  domain: infotainment_digital
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 2
+    G60: 24
+    G70: 19
+- id: L2-060
+  name: Driver's Guide App
+  domain: infotainment_digital
+  origin: given
+  status: canonical
+  occurrences:
+    G60: 2
+- id: L2-061
+  name: Drivetrain
+  domain: powertrain_range_charging
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 548
+    G60: 419
+    G70: 352
+- id: L2-062
+  name: Dynamic Stability Control
+  domain: driving_dynamics
+  origin: given
+  status: canonical
+  occurrences:
+    G60: 5
+    G70: 5
+- id: L2-063
+  name: Dynamic Stability Control (DSC)
+  domain: driving_dynamics
+  origin: given
+  status: canonical
+  occurrences:
+    G70: 1
+- id: L2-064
+  name: Electric Range
+  domain: powertrain_range_charging
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 17
+    G60: 96
+    G70: 54
+- id: L2-065
+  name: Emergency request
+  domain: driver_assistance
+  origin: given
+  status: canonical
+  occurrences:
+    G60: 8
+    G70: 8
+- id: L2-066
+  name: Emergency Stop Assistant
+  domain: driver_assistance
+  origin: given
+  status: canonical
+  occurrences:
+    G60: 3
+    G70: 1
+- id: L2-067
+  name: Engine acoustics / engine sound
+  domain: driving_dynamics
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 23
+    G60: 23
+    G70: 9
+- id: L2-068
+  name: Engine oil
+  domain: powertrain_range_charging
+  origin: given
+  status: canonical
+  occurrences:
+    G60: 6
+    G70: 4
+- id: L2-069
+  name: Exhaust system
+  domain: powertrain_range_charging
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 3
+    G60: 3
+    G70: 1
+- id: L2-070
+  name: Experience Modes
+  domain: infotainment_digital
+  origin: given
+  status: canonical
+  occurrences:
+    G60: 7
+    G70: 5
+- id: L2-071
+  name: Exterior
+  domain: exterior_design
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 28
+    G60: 51
+    G70: 60
+- id: L2-072
+  name: Exterior design
+  domain: exterior_design
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 56
+    G60: 157
+    G70: 178
+- id: L2-073
+  name: Exterior lighting
+  domain: exterior_design
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 19
+    G60: 16
+    G70: 28
+- id: L2-074
+  name: Exterior rearview mirror
+  domain: exterior_design
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 35
+    G60: 15
+    G70: 19
+- id: L2-075
+  name: Fatigue Alert
+  domain: driver_assistance
+  origin: given
+  status: canonical
+  occurrences:
+    G60: 7
+    G70: 7
+- id: L2-076
+  name: Flashing
+  domain: exterior_design
+  origin: given
+  status: canonical
+  occurrences:
+    G60: 7
+    G70: 4
+- id: L2-077
+  name: Floor mat
+  domain: interior_comfort
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 2
+    G60: 6
+    G70: 6
+- id: L2-078
+  name: Fog light
+  domain: exterior_design
+  origin: given
+  status: canonical
+  occurrences:
+    G60: 5
+- id: L2-079
+  name: Front collision warning
+  domain: driver_assistance
+  origin: given
+  status: canonical
+  occurrences:
+    G60: 9
+    G70: 8
+- id: L2-080
+  name: Frunk
+  domain: space_practicality
+  origin: given
+  status: canonical
+  occurrences:
+    G60: 8
+    G70: 5
+- id: L2-081
+  name: Fuel filler flap , open / close
+  domain: powertrain_range_charging
+  origin: given
+  status: canonical
+  occurrences:
+    G60: 6
+    G70: 11
+- id: L2-082
+  name: Fuel tank
+  domain: powertrain_range_charging
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 2
+    G60: 6
+    G70: 6
+- id: L2-083
+  name: Garage door opener
+  domain: infotainment_digital
+  origin: given
+  status: canonical
+  occurrences:
+    G60: 5
+    G70: 6
+- id: L2-084
+  name: 'General enquiry: customer feedback'
+  domain: general
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 40
+    G60: 11
+    G70: 24
+- id: L2-085
+  name: Gesture control
+  domain: infotainment_digital
+  origin: given
+  status: canonical
+  occurrences:
+    G60: 13
+    G70: 8
+- id: L2-086
+  name: Glove box
+  domain: space_practicality
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 6
+    G60: 14
+    G70: 10
+- id: L2-087
+  name: Grab handle
+  domain: interior_comfort
+  origin: given
+  status: canonical
+  occurrences:
+    G60: 6
+    G70: 6
+- id: L2-088
+  name: ground clearance
+  domain: driving_dynamics
+  origin: given
+  status: canonical
+  occurrences:
+    G60: 11
+    G70: 8
+- id: L2-089
+  name: Handling / Riding
+  domain: driving_dynamics
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 216
+    G60: 227
+    G70: 249
+- id: L2-090
+  name: Head-Up Display
+  domain: infotainment_digital
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 4
+    G60: 37
+    G70: 25
+- id: L2-091
+  name: Headrest, adjust
+  domain: interior_comfort
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 1
+    G60: 6
+    G70: 11
+- id: L2-092
+  name: Headrests, rear
+  domain: interior_comfort
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 1
+    G70: 3
+- id: L2-093
+  name: Heated rear window
+  domain: exterior_design
+  origin: given
+  status: canonical
+  occurrences:
+    G60: 3
+    G70: 4
+- id: L2-094
+  name: Heated steering wheel
+  domain: interior_comfort
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 11
+    G60: 12
+    G70: 8
+- id: L2-095
+  name: High voltage battery
+  domain: powertrain_range_charging
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 9
+    G60: 20
+    G70: 12
+- id: L2-096
+  name: High voltage battery, preconditioning
+  domain: powertrain_range_charging
+  origin: given
+  status: canonical
+  occurrences:
+    G60: 11
+    G70: 5
+- id: L2-097
+  name: High-beam assistant
+  domain: driver_assistance
+  origin: given
+  status: canonical
+  occurrences:
+    G60: 7
+    G70: 5
+- id: L2-098
+  name: High-voltage charging power socket
+  domain: powertrain_range_charging
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 1
+    G60: 5
+    G70: 7
+- id: L2-099
+  name: Highway assistant
+  domain: driver_assistance
+  origin: given
+  status: canonical
+  occurrences:
+    G60: 38
+    G70: 38
+- id: L2-100
+  name: Hood
+  domain: exterior_design
+  origin: given
+  status: canonical
+  occurrences:
+    G60: 5
+    G70: 2
+- id: L2-101
+  name: Hood, open / close
+  domain: space_practicality
+  origin: given
+  status: canonical
+  occurrences:
+    G60: 5
+    G70: 5
+- id: L2-102
+  name: Horns
+  domain: general
+  origin: given
+  status: canonical
+  occurrences:
+    G60: 2
+    G70: 3
+- id: L2-103
+  name: Impression of safety
+  domain: driver_assistance
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 59
+    G60: 24
+    G70: 21
+- id: L2-104
+  name: Instrument cluster
+  domain: infotainment_digital
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 9
+    G60: 39
+    G70: 13
+- id: L2-105
+  name: Instrument panel
+  domain: interior_comfort
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 24
+    G60: 22
+    G70: 23
+- id: L2-106
+  name: Intelligent Personal Assistant
+  domain: infotainment_digital
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 5
+    G60: 19
+    G70: 37
+- id: L2-107
+  name: Intelligent Personal Assistant, activation word
+  domain: infotainment_digital
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 3
+    G60: 7
+    G70: 12
+- id: L2-108
+  name: Interior
+  domain: interior_comfort
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 7
+    G60: 12
+    G70: 15
+- id: L2-109
+  name: Interior acoustics
+  domain: quality_nvh
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 4
+    G60: 24
+    G70: 35
+- id: L2-110
+  name: Interior camera
+  domain: infotainment_digital
+  origin: given
+  status: canonical
+  occurrences:
+    G60: 8
+    G70: 5
+- id: L2-111
+  name: Interior comfort
+  domain: interior_comfort
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 11
+    G60: 51
+    G70: 71
+- id: L2-112
+  name: Interior design
+  domain: interior_comfort
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 29
+    G60: 101
+    G70: 111
+- id: L2-113
+  name: Interior mirror, garage door opener
+  domain: infotainment_digital
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 2
+    G60: 12
+    G70: 8
+- id: L2-114
+  name: Interior rearview mirror
+  domain: interior_comfort
+  origin: given
+  status: canonical
+  occurrences:
+    G60: 5
+    G70: 14
+- id: L2-115
+  name: Intersection Warning with Brake Intervention
+  domain: driver_assistance
+  origin: given
+  status: canonical
+  occurrences:
+    G60: 2
+    G70: 1
+- id: L2-116
+  name: Lane Change Assistant
+  domain: driver_assistance
+  origin: given
+  status: canonical
+  occurrences:
+    G60: 6
+    G70: 5
+- id: L2-117
+  name: Lane departure warning
+  domain: driver_assistance
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 5
+    G60: 14
+    G70: 13
+- id: L2-118
+  name: Launch Control
+  domain: driving_dynamics
+  origin: given
+  status: canonical
+  occurrences:
+    G60: 6
+    G70: 3
+- id: L2-119
+  name: Light switch operating unit
+  domain: infotainment_digital
+  origin: given
+  status: canonical
+  occurrences:
+    G60: 4
+    G70: 2
+- id: L2-120
+  name: Luggage compartment
+  domain: space_practicality
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 25
+    G60: 34
+    G70: 19
+- id: L2-121
+  name: Manage / pair mobile device (Bluetooth)
+  domain: infotainment_digital
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 4
+    G60: 14
+    G70: 17
+- id: L2-122
+  name: Map update
+  domain: infotainment_digital
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 2
+    G60: 5
+    G70: 1
+- id: L2-123
+  name: Mobile device, wireless charging
+  domain: infotainment_digital
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 3
+    G60: 29
+    G70: 12
+- id: L2-124
+  name: Multi-function steering wheel operation
+  domain: infotainment_digital
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 3
+    G60: 9
+    G70: 7
+- id: L2-125
+  name: My BMW / MINI Portal
+  domain: infotainment_digital
+  origin: given
+  status: canonical
+  occurrences:
+    G60: 5
+    G70: 1
+- id: L2-126
+  name: My BMW App / MINI App
+  domain: infotainment_digital
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 6
+    G60: 28
+    G70: 34
+- id: L2-127
+  name: My Modes / driving experience
+  domain: driving_dynamics
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 47
+    G60: 59
+    G70: 57
+- id: L2-128
+  name: Navigation
+  domain: infotainment_digital
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 39
+    G60: 38
+    G70: 33
+- id: L2-129
+  name: Night Vision
+  domain: driver_assistance
+  origin: given
+  status: canonical
+  occurrences:
+    G60: 4
+    G70: 4
+- id: L2-130
+  name: non-contact trunk lid opening
+  domain: space_practicality
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 2
+    G60: 43
+    G70: 10
+- id: L2-131
+  name: Opening / closing convertible top / hardtop
+  domain: general
+  origin: given
+  status: canonical
+  occurrences:
+    G60: 1
+- id: L2-132
+  name: Opening/closing charging socket cover
+  domain: powertrain_range_charging
+  origin: given
+  status: canonical
+  occurrences:
+    G60: 17
+    G70: 6
+- id: L2-133
+  name: Operate selector lever
+  domain: powertrain_range_charging
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 1
+    G60: 15
+    G70: 11
+- id: L2-134
+  name: Operating concept, operating system
+  domain: infotainment_digital
+  origin: given
+  status: canonical
+  occurrences:
+    G60: 53
+    G70: 59
+- id: L2-135
+  name: Outer door handle, front
+  domain: exterior_design
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 2
+    G60: 6
+    G70: 6
+- id: L2-136
+  name: Outer door handle, rear
+  domain: exterior_design
+  origin: given
+  status: canonical
+  occurrences:
+    G60: 3
+    G70: 1
+- id: L2-137
+  name: Owner's Manual
+  domain: infotainment_digital
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 66
+    G60: 20
+    G70: 22
+- id: L2-138
+  name: Panel heating
+  domain: interior_comfort
+  origin: given
+  status: canonical
+  occurrences:
+    G60: 4
+    G70: 4
+- id: L2-139
+  name: Panorama glass roof
+  domain: interior_comfort
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 3
+    G60: 26
+    G70: 39
+- id: L2-140
+  name: Park Distance Control (PDC)
+  domain: driver_assistance
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 9
+    G60: 12
+    G70: 9
+- id: L2-141
+  name: Parking Assistant
+  domain: driver_assistance
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 4
+    G60: 27
+    G70: 27
+- id: L2-142
+  name: Parking brake
+  domain: driving_dynamics
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 2
+    G60: 8
+    G70: 5
+- id: L2-143
+  name: Pedals, operate
+  domain: driving_dynamics
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 3
+    G60: 6
+    G70: 3
+- id: L2-144
+  name: Personal eSIM
+  domain: infotainment_digital
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 1
+    G60: 11
+    G70: 40
+- id: L2-145
+  name: Priorities for telephones
+  domain: infotainment_digital
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 2
+    G60: 6
+    G70: 6
+- id: L2-146
+  name: Public charging / external providers
+  domain: powertrain_range_charging
+  origin: given
+  status: canonical
+  occurrences:
+    G60: 49
+    G70: 29
+- id: L2-147
+  name: Radiator grille
+  domain: exterior_design
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 2
+    G60: 4
+    G70: 4
+- id: L2-148
+  name: Radio function
+  domain: infotainment_digital
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 8
+    G60: 19
+    G70: 16
+- id: L2-149
+  name: Rain sensor mode
+  domain: driver_assistance
+  origin: given
+  status: canonical
+  occurrences:
+    G60: 5
+    G70: 3
+- id: L2-150
+  name: Real Time Traffic Information (RTTI)
+  domain: infotainment_digital
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 3
+    G60: 5
+    G70: 2
+- id: L2-151
+  name: Rear seat entertainment
+  domain: infotainment_digital
+  origin: given
+  status: canonical
+  occurrences:
+    G60: 3
+    G70: 41
+- id: L2-152
+  name: Rear view camera
+  domain: driver_assistance
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 15
+    G60: 12
+    G70: 12
+- id: L2-153
+  name: Rear wiper
+  domain: exterior_design
+  origin: given
+  status: canonical
+  occurrences:
+    G60: 6
+- id: L2-154
+  name: Rear-end collision warning
+  domain: driver_assistance
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 2
+    G60: 2
+    G70: 2
+- id: L2-155
+  name: Remote 3D View (My BMW App / MINI App)
+  domain: infotainment_digital
+  origin: given
+  status: canonical
+  occurrences:
+    G60: 5
+    G70: 3
+- id: L2-156
+  name: Remote controlled parking
+  domain: driver_assistance
+  origin: given
+  status: canonical
+  occurrences:
+    G60: 11
+    G70: 8
+- id: L2-157
+  name: Remote Engine Start (My BMW App / MINI App)
+  domain: infotainment_digital
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 2
+    G60: 11
+    G70: 9
+- id: L2-158
+  name: Remote Engine Start (Vehicle Key )
+  domain: infotainment_digital
+  origin: given
+  status: canonical
+  occurrences:
+    G60: 6
+    G70: 8
+- id: L2-159
+  name: Remote interior camera (My BMW App / MINI App)
+  domain: infotainment_digital
+  origin: given
+  status: canonical
+  occurrences:
+    G60: 2
+    G70: 3
+- id: L2-160
+  name: Remote Services & Remote Keyless Entry (My BMW App/MINI App)
+  domain: infotainment_digital
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 2
+    G60: 11
+    G70: 11
+- id: L2-161
+  name: Remote Software Upgrade/RSU
+  domain: infotainment_digital
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 4
+    G60: 18
+    G70: 22
+- id: L2-162
+  name: Resting state after door opening
+  domain: general
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 4
+    G60: 18
+    G70: 13
+- id: L2-163
+  name: Roof
+  domain: exterior_design
+  origin: given
+  status: canonical
+  occurrences:
+    G60: 5
+    G70: 3
+- id: L2-164
+  name: Roof function centre
+  domain: interior_comfort
+  origin: given
+  status: canonical
+  occurrences:
+    G60: 5
+    G70: 2
+- id: L2-165
+  name: Route optimized for charging
+  domain: powertrain_range_charging
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 1
+    G60: 6
+    G70: 8
+- id: L2-166
+  name: RSC tire
+  domain: quality_nvh
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 4
+    G60: 10
+    G70: 8
+- id: L2-167
+  name: Running board
+  domain: exterior_design
+  origin: given
+  status: canonical
+  occurrences:
+    G60: 1
+- id: L2-168
+  name: Screen mirroring
+  domain: infotainment_digital
+  origin: given
+  status: canonical
+  occurrences:
+    G60: 3
+    G70: 3
+- id: L2-169
+  name: Seat belts
+  domain: driver_assistance
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 2
+    G60: 15
+    G70: 9
+- id: L2-170
+  name: Seat massage
+  domain: interior_comfort
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 1
+    G60: 13
+    G70: 37
+- id: L2-171
+  name: Seat memory
+  domain: interior_comfort
+  origin: given
+  status: canonical
+  occurrences:
+    G60: 12
+    G70: 13
+- id: L2-172
+  name: Seating, ventilate / heat
+  domain: interior_comfort
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 11
+    G60: 22
+    G70: 28
+- id: L2-173
+  name: Seats
+  domain: interior_comfort
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 98
+    G60: 105
+    G70: 103
+- id: L2-174
+  name: Self-leveling suspension
+  domain: driving_dynamics
+  origin: given
+  status: canonical
+  occurrences:
+    G60: 6
+    G70: 9
+- id: L2-175
+  name: Shift paddle
+  domain: powertrain_range_charging
+  origin: given
+  status: canonical
+  occurrences:
+    G60: 6
+    G70: 5
+- id: L2-176
+  name: Side sill trim panel
+  domain: exterior_design
+  origin: given
+  status: canonical
+  occurrences:
+    G60: 4
+- id: L2-177
+  name: Side View
+  domain: driver_assistance
+  origin: given
+  status: canonical
+  occurrences:
+    G60: 5
+    G70: 3
+- id: L2-178
+  name: Side window, open / close
+  domain: interior_comfort
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 3
+    G60: 9
+    G70: 10
+- id: L2-179
+  name: Smart POI search
+  domain: infotainment_digital
+  origin: given
+  status: canonical
+  occurrences:
+    G60: 5
+- id: L2-180
+  name: Space / spatial impression
+  domain: space_practicality
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 19
+    G60: 36
+    G70: 42
+- id: L2-181
+  name: Speed Limit Assistant
+  domain: driver_assistance
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 7
+    G60: 9
+    G70: 6
+- id: L2-182
+  name: Start engine/switch on drive readiness
+  domain: powertrain_range_charging
+  origin: given
+  status: canonical
+  occurrences:
+    G60: 6
+    G70: 6
+- id: L2-183
+  name: Starting engine
+  domain: powertrain_range_charging
+  origin: given
+  status: canonical
+  occurrences:
+    G60: 6
+    G70: 7
+- id: L2-184
+  name: Steering
+  domain: driving_dynamics
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 17
+    G60: 22
+    G70: 14
+- id: L2-185
+  name: Steering and lane guide assist
+  domain: driver_assistance
+  origin: given
+  status: canonical
+  occurrences:
+    G60: 10
+    G70: 17
+- id: L2-186
+  name: Steering wheel
+  domain: interior_comfort
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 14
+    G60: 26
+    G70: 14
+- id: L2-187
+  name: Storage compartments
+  domain: space_practicality
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 1
+    G60: 16
+    G70: 13
+- id: L2-188
+  name: Sun protection
+  domain: interior_comfort
+  origin: given
+  status: canonical
+  occurrences:
+    G60: 5
+    G70: 26
+- id: L2-189
+  name: Sun visor, front
+  domain: interior_comfort
+  origin: given
+  status: canonical
+  occurrences:
+    G60: 5
+    G70: 5
+- id: L2-190
+  name: Surround View
+  domain: driver_assistance
+  origin: given
+  status: canonical
+  occurrences:
+    G60: 13
+    G70: 14
+- id: L2-191
+  name: Teleservices
+  domain: infotainment_digital
+  origin: given
+  status: canonical
+  occurrences:
+    G60: 5
+    G70: 1
+- id: L2-192
+  name: Through-loading facility
+  domain: space_practicality
+  origin: given
+  status: canonical
+  occurrences:
+    G60: 5
+    G70: 2
+- id: L2-193
+  name: Tire pressure control
+  domain: driver_assistance
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 5
+    G60: 5
+    G70: 7
+- id: L2-194
+  name: Tirefit
+  domain: general
+  origin: given
+  status: canonical
+  occurrences:
+    G60: 8
+    G70: 6
+- id: L2-195
+  name: Touch Command
+  domain: infotainment_digital
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 2
+    G60: 5
+    G70: 9
+- id: L2-196
+  name: Touch screen, operation
+  domain: infotainment_digital
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 154
+    G60: 72
+    G70: 60
+- id: L2-197
+  name: Towing eye
+  domain: general
+  origin: given
+  status: canonical
+  occurrences:
+    G60: 5
+    G70: 6
+- id: L2-198
+  name: Traffic Camera Information
+  domain: infotainment_digital
+  origin: given
+  status: canonical
+  occurrences:
+    G60: 6
+    G70: 4
+- id: L2-199
+  name: Traffic Jam Assistant
+  domain: driver_assistance
+  origin: given
+  status: canonical
+  occurrences:
+    G70: 4
+- id: L2-200
+  name: Traffic Light And Sign Warning
+  domain: driver_assistance
+  origin: given
+  status: canonical
+  occurrences:
+    G60: 5
+    G70: 3
+- id: L2-201
+  name: Trailer, use
+  domain: space_practicality
+  origin: given
+  status: canonical
+  occurrences:
+    G60: 5
+    G70: 1
+- id: L2-202
+  name: Transmission
+  domain: powertrain_range_charging
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 44
+    G60: 13
+    G70: 12
+- id: L2-203
+  name: Trunk lid
+  domain: space_practicality
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 16
+    G60: 6
+    G70: 6
+- id: L2-204
+  name: Trunk lid, open / close
+  domain: space_practicality
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 12
+    G60: 20
+    G70: 12
+- id: L2-205
+  name: Trunk light
+  domain: space_practicality
+  origin: given
+  status: canonical
+  occurrences:
+    G60: 5
+    G70: 1
+- id: L2-206
+  name: Upholstery / interior trim
+  domain: interior_comfort
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 6
+    G60: 9
+    G70: 7
+- id: L2-207
+  name: USB port
+  domain: infotainment_digital
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 20
+    G60: 15
+    G70: 11
+- id: L2-208
+  name: Vehicle battery
+  domain: quality_nvh
+  origin: given
+  status: canonical
+  occurrences:
+    G60: 15
+    G70: 7
+- id: L2-209
+  name: Vehicle interior, lighting
+  domain: interior_comfort
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 4
+    G60: 17
+    G70: 11
+- id: L2-210
+  name: Vehicle key
+  domain: infotainment_digital
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 20
+    G60: 20
+    G70: 21
+- id: L2-211
+  name: Vehicle safety, overall technology
+  domain: driver_assistance
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 17
+    G60: 6
+    G70: 6
+- id: L2-212
+  name: Vehicle, access and exit
+  domain: space_practicality
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 13
+    G60: 11
+    G70: 12
+- id: L2-213
+  name: Vehicle, climatization
+  domain: interior_comfort
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 21
+    G60: 26
+    G70: 44
+- id: L2-214
+  name: Vehicle, lock / unlock
+  domain: infotainment_digital
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 7
+    G60: 33
+    G70: 12
+- id: L2-215
+  name: 'Video: playback / streaming'
+  domain: infotainment_digital
+  origin: given
+  status: canonical
+  occurrences:
+    G60: 5
+    G70: 4
+- id: L2-216
+  name: Voice control / speech recognition
+  domain: infotainment_digital
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 13
+    G60: 12
+    G70: 7
+- id: L2-217
+  name: Wallbox, charging / home charging
+  domain: powertrain_range_charging
+  origin: given
+  status: canonical
+  occurrences:
+    G60: 19
+    G70: 15
+- id: L2-218
+  name: Wash / wipe switch
+  domain: exterior_design
+  origin: given
+  status: canonical
+  occurrences:
+    G60: 1
+- id: L2-219
+  name: Washer fluid, top up
+  domain: exterior_design
+  origin: given
+  status: canonical
+  occurrences:
+    G60: 6
+    G70: 3
+- id: L2-220
+  name: Welcome Light Carpet
+  domain: exterior_design
+  origin: given
+  status: canonical
+  occurrences:
+    G60: 7
+    G70: 6
+- id: L2-221
+  name: Wheels / tires
+  domain: exterior_design
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 27
+    G60: 30
+    G70: 32
+- id: L2-222
+  name: Wi-Fi connection
+  domain: infotainment_digital
+  origin: given
+  status: canonical
+  occurrences:
+    G60: 1
+- id: L2-223
+  name: WiFi hotspot
+  domain: infotainment_digital
+  origin: given
+  status: canonical
+  occurrences:
+    F70: 1
+    G60: 10
+    G70: 14
+- id: L2-224
+  name: Windshield
+  domain: exterior_design
+  origin: given
+  status: canonical
+  occurrences:
+    G60: 5
+    G70: 7
+- id: L2-225
+  name: Windshield wiper
+  domain: exterior_design
+  origin: given
+  status: canonical
+  occurrences:
+    G60: 7
+    G70: 6

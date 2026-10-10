@@ -1,0 +1,1789 @@
+{
+  "report": "baseline_situation_analysis",
+  "generated_at": "2026-10-10T16:49:17.265885+00:00",
+  "vehicle": {
+    "code": "F70",
+    "name": "BMW 1 Series",
+    "segment": "premium compact hatchback",
+    "tier": "entry"
+  },
+  "market": "EU",
+  "coverage": {
+    "verbatims": 1433,
+    "classification_rows": 3010,
+    "by_source": {
+      "Source A": 1433
+    },
+    "by_powertrain": {
+      "ICE": 1433
+    },
+    "by_country": {
+      "GB": 1293,
+      "SE": 71,
+      "FI": 8,
+      "FR": 53,
+      "DK": 8
+    },
+    "by_feedback_type": {
+      "Likes": 1085,
+      "Difficult to Use": 472,
+      "unclassified": 819,
+      "Defect": 412,
+      "Wants": 222
+    },
+    "unclassified_rows": 819
+  },
+  "domains": [
+    {
+      "domain": "driving_dynamics",
+      "name": "Driving Experience & Dynamics",
+      "rows": 592,
+      "likes": 505,
+      "complaints": 87,
+      "complaint_share": 0.147,
+      "themes": 10
+    },
+    {
+      "domain": "infotainment_digital",
+      "name": "Infotainment & Digital Services",
+      "rows": 496,
+      "likes": 68,
+      "complaints": 428,
+      "complaint_share": 0.863,
+      "themes": 35
+    },
+    {
+      "domain": "powertrain_range_charging",
+      "name": "Powertrain, Range & Charging",
+      "rows": 382,
+      "likes": 247,
+      "complaints": 135,
+      "complaint_share": 0.353,
+      "themes": 9
+    },
+    {
+      "domain": "interior_comfort",
+      "name": "Interior Comfort & Materials",
+      "rows": 246,
+      "likes": 93,
+      "complaints": 153,
+      "complaint_share": 0.622,
+      "themes": 23
+    },
+    {
+      "domain": "exterior_design",
+      "name": "Exterior & Design",
+      "rows": 132,
+      "likes": 58,
+      "complaints": 74,
+      "complaint_share": 0.561,
+      "themes": 7
+    },
+    {
+      "domain": "driver_assistance",
+      "name": "Driver Assistance & Parking",
+      "rows": 124,
+      "likes": 53,
+      "complaints": 71,
+      "complaint_share": 0.573,
+      "themes": 16
+    },
+    {
+      "domain": "space_practicality",
+      "name": "Space & Practicality",
+      "rows": 94,
+      "likes": 18,
+      "complaints": 76,
+      "complaint_share": 0.809,
+      "themes": 10
+    },
+    {
+      "domain": "quality_nvh",
+      "name": "Quality Perception & NVH",
+      "rows": 85,
+      "likes": 43,
+      "complaints": 42,
+      "complaint_share": 0.494,
+      "themes": 4
+    },
+    {
+      "domain": "general",
+      "name": "General / Cross-cutting",
+      "rows": 40,
+      "likes": 0,
+      "complaints": 40,
+      "complaint_share": 1.0,
+      "themes": 2
+    }
+  ],
+  "top_complaint_themes": [
+    {
+      "theme_id": "L2-196",
+      "theme": "Touch screen, operation",
+      "domain": "infotainment_digital",
+      "rows": 138,
+      "likes": 18,
+      "defects": 31,
+      "difficult_to_use": 76,
+      "wants": 13,
+      "complaints": 120,
+      "by_powertrain": {
+        "ICE": 138
+      },
+      "complaint_share": 0.87,
+      "quotes": [
+        {
+          "id": "F70-0638",
+          "source": "Source A",
+          "country": "GB",
+          "powertrain": "ICE",
+          "text": "great car, but i much preferred the old selector compared to the current on screen tech.",
+          "evidence_ref": "verbatim:F70-0638"
+        },
+        {
+          "id": "F70-0560",
+          "source": "Source A",
+          "country": "GB",
+          "powertrain": "ICE",
+          "text": "it seems to nap often, which is annoying when moving off at junctions, and i dislike the touch screen.",
+          "evidence_ref": "verbatim:F70-0560"
+        },
+        {
+          "id": "F70-1932",
+          "source": "Source A",
+          "country": "GB",
+          "powertrain": "ICE",
+          "text": "i'm really enjoying driving this new car, but i find some of the touch screen options quite hard to locate.",
+          "evidence_ref": "verbatim:F70-1932"
+        }
+      ]
+    },
+    {
+      "theme_id": "L2-042",
+      "theme": "ConnectedDrive and Infotainment, overall technology",
+      "domain": "infotainment_digital",
+      "rows": 111,
+      "likes": 24,
+      "defects": 37,
+      "difficult_to_use": 50,
+      "wants": 0,
+      "complaints": 87,
+      "by_powertrain": {
+        "ICE": 111
+      },
+      "complaint_share": 0.784,
+      "quotes": [
+        {
+          "id": "F70-1336",
+          "source": "Source A",
+          "country": "GB",
+          "powertrain": "ICE",
+          "text": "the hardware is excellent, but the software is where the issues are.",
+          "evidence_ref": "verbatim:F70-1336"
+        },
+        {
+          "id": "F70-0806",
+          "source": "Source A",
+          "country": "GB",
+          "powertrain": "ICE",
+          "text": "overall happy with the car, but not a fan of the complex infotainment setup.",
+          "evidence_ref": "verbatim:F70-0806"
+        },
+        {
+          "id": "F70-2096",
+          "source": "Source A",
+          "country": "GB",
+          "powertrain": "ICE",
+          "text": "overall i'm pretty satisfied, but a few of the idrive menus feel quite unintuitive.",
+          "evidence_ref": "verbatim:F70-2096"
+        }
+      ]
+    },
+    {
+      "theme_id": "L2-061",
+      "theme": "Drivetrain",
+      "domain": "powertrain_range_charging",
+      "rows": 303,
+      "likes": 225,
+      "defects": 15,
+      "difficult_to_use": 48,
+      "wants": 15,
+      "complaints": 78,
+      "by_powertrain": {
+        "ICE": 303
+      },
+      "complaint_share": 0.257,
+      "quotes": [
+        {
+          "id": "F70-0174",
+          "source": "Source A",
+          "country": "GB",
+          "powertrain": "ICE",
+          "text": "strong performance and handling, but the interior feels low quality.",
+          "evidence_ref": "verbatim:F70-0174"
+        },
+        {
+          "id": "F70-1967",
+          "source": "Source A",
+          "country": "GB",
+          "powertrain": "ICE",
+          "text": "with engine breaking it feels like the brakes are coming on, instead of letting the car just coast.",
+          "evidence_ref": "verbatim:F70-1967"
+        },
+        {
+          "id": "F70-0164",
+          "source": "Source A",
+          "country": "GB",
+          "powertrain": "ICE",
+          "text": "for this price i expected front fog lights, and i also thought bmw connect drive would stay active more than 6 months.",
+          "evidence_ref": "verbatim:F70-0164"
+        }
+      ]
+    },
+    {
+      "theme_id": "L2-137",
+      "theme": "Owner's Manual",
+      "domain": "infotainment_digital",
+      "rows": 63,
+      "likes": 3,
+      "defects": 0,
+      "difficult_to_use": 41,
+      "wants": 19,
+      "complaints": 60,
+      "by_powertrain": {
+        "ICE": 63
+      },
+      "complaint_share": 0.952,
+      "quotes": [
+        {
+          "id": "F70-1382",
+          "source": "Source A",
+          "country": "GB",
+          "powertrain": "ICE",
+          "text": "no idea what half the controls are for, and there isn't any owners handbok included.",
+          "evidence_ref": "verbatim:F70-1382"
+        },
+        {
+          "id": "F70-0002",
+          "source": "Source A",
+          "country": "GB",
+          "powertrain": "ICE",
+          "text": "really solid build, lots of attention to detail. i only knock off one mark because there's no paper user manual.",
+          "evidence_ref": "verbatim:F70-0002"
+        },
+        {
+          "id": "F70-1565",
+          "source": "Source A",
+          "country": "GB",
+          "powertrain": "ICE",
+          "text": "really like how it handles on the road, but without a paper handbook it is hard to figure out all the new features.",
+          "evidence_ref": "verbatim:F70-1565"
+        }
+      ]
+    },
+    {
+      "theme_id": "L2-173",
+      "theme": "Seats",
+      "domain": "interior_comfort",
+      "rows": 83,
+      "likes": 41,
+      "defects": 23,
+      "difficult_to_use": 14,
+      "wants": 5,
+      "complaints": 42,
+      "by_powertrain": {
+        "ICE": 83
+      },
+      "complaint_share": 0.506,
+      "quotes": [
+        {
+          "id": "F70-1261",
+          "source": "Source A",
+          "country": "GB",
+          "powertrain": "ICE",
+          "text": "the chairs are not very comfotable and the material has a weird smel.",
+          "evidence_ref": "verbatim:F70-1261"
+        },
+        {
+          "id": "F70-0204",
+          "source": "Source A",
+          "country": "GB",
+          "powertrain": "ICE",
+          "text": "wish it came with front fog lights and leather seats as standard equipment.",
+          "evidence_ref": "verbatim:F70-0204"
+        },
+        {
+          "id": "F70-0757",
+          "source": "Source A",
+          "country": "GB",
+          "powertrain": "ICE",
+          "text": "seats not comfy, audio system reacts slow. front arm rest storage is positioned too awkwardly to use.",
+          "evidence_ref": "verbatim:F70-0757"
+        }
+      ]
+    },
+    {
+      "theme_id": "L2-084",
+      "theme": "General enquiry: customer feedback",
+      "domain": "general",
+      "rows": 37,
+      "likes": 0,
+      "defects": 0,
+      "difficult_to_use": 37,
+      "wants": 0,
+      "complaints": 37,
+      "by_powertrain": {
+        "ICE": 37
+      },
+      "complaint_share": 1.0,
+      "quotes": [
+        {
+          "id": "F70-1361",
+          "source": "Source A",
+          "country": "GB",
+          "powertrain": "ICE",
+          "text": "it's a decent car, but in my view it doesn't quite match the previous version.",
+          "evidence_ref": "verbatim:F70-1361"
+        },
+        {
+          "id": "F70-1697",
+          "source": "Source A",
+          "country": "GB",
+          "powertrain": "ICE",
+          "text": "great car, but it did not come with the full level of equipment i was expecting.",
+          "evidence_ref": "verbatim:F70-1697"
+        },
+        {
+          "id": "F70-0289",
+          "source": "Source A",
+          "country": "GB",
+          "powertrain": "ICE",
+          "text": "fantastic car, but there are still a few early model problems that have to be sorted out.",
+          "evidence_ref": "verbatim:F70-0289"
+        }
+      ]
+    },
+    {
+      "theme_id": "L2-027",
+      "theme": "Body equipment, overall technology",
+      "domain": "quality_nvh",
+      "rows": 71,
+      "likes": 42,
+      "defects": 0,
+      "difficult_to_use": 5,
+      "wants": 24,
+      "complaints": 29,
+      "by_powertrain": {
+        "ICE": 71
+      },
+      "complaint_share": 0.408,
+      "quotes": [
+        {
+          "id": "F70-0477",
+          "source": "Source A",
+          "country": "FR",
+          "powertrain": "ICE",
+          "text": "simple to operate. the car meets our expectations. the only thing to improve would be adding usb sockets in the rear.",
+          "evidence_ref": "verbatim:F70-0477"
+        },
+        {
+          "id": "F70-0339",
+          "source": "Source A",
+          "country": "GB",
+          "powertrain": "ICE",
+          "text": "i find the new bmw 1 series is pretty fairly priced for this type of car. only downside for me is climbing in and out, front or back, the roof line feels a bit too low.",
+          "evidence_ref": "verbatim:F70-0339"
+        },
+        {
+          "id": "F70-0400",
+          "source": "Source A",
+          "country": "GB",
+          "powertrain": "ICE",
+          "text": "love how it drives, happy with the kit and mpg. only downside is having to pay extra for the full digital package, on a car of this quality and price it should really come as part of it",
+          "evidence_ref": "verbatim:F70-0400"
+        }
+      ]
+    },
+    {
+      "theme_id": "L2-202",
+      "theme": "Transmission",
+      "domain": "powertrain_range_charging",
+      "rows": 42,
+      "likes": 15,
+      "defects": 8,
+      "difficult_to_use": 13,
+      "wants": 6,
+      "complaints": 27,
+      "by_powertrain": {
+        "ICE": 42
+      },
+      "complaint_share": 0.643,
+      "quotes": [
+        {
+          "id": "F70-0449",
+          "source": "Source A",
+          "country": "GB",
+          "powertrain": "ICE",
+          "text": "i ended up selling the car because the gearbox just wasnt like the bmw gearboxes ive had in any of my earlier bmws, it really was awful.",
+          "evidence_ref": "verbatim:F70-0449"
+        },
+        {
+          "id": "F70-1738",
+          "source": "Source A",
+          "country": "GB",
+          "powertrain": "ICE",
+          "text": "i'm not keen that pretty much everything has to be done through the screen, and the gearbox just isn't like the other bmw models i've had before.",
+          "evidence_ref": "verbatim:F70-1738"
+        },
+        {
+          "id": "F70-1686",
+          "source": "Source A",
+          "country": "GB",
+          "powertrain": "ICE",
+          "text": "gears feel a little sluggish when shifting up, and there is a noticeable lag from pressing the accelerator to actually pulling away from a standstill.",
+          "evidence_ref": "verbatim:F70-1686"
+        }
+      ]
+    },
+    {
+      "theme_id": "L2-221",
+      "theme": "Wheels / tires",
+      "domain": "exterior_design",
+      "rows": 25,
+      "likes": 1,
+      "defects": 15,
+      "difficult_to_use": 3,
+      "wants": 6,
+      "complaints": 24,
+      "by_powertrain": {
+        "ICE": 25
+      },
+      "complaint_share": 0.96,
+      "quotes": [
+        {
+          "id": "F70-1512",
+          "source": "Source A",
+          "country": "GB",
+          "powertrain": "ICE",
+          "text": "i wouldnt suggest this car for anyone set on rear wheel drive or for those who dont want a hatchback style.",
+          "evidence_ref": "verbatim:F70-1512"
+        },
+        {
+          "id": "F70-0791",
+          "source": "Source A",
+          "country": "FR",
+          "powertrain": "ICE",
+          "text": "the car itself is very good, but the bridgestone tires fitted on it create a really loud whistling sound around 95 km/h.",
+          "evidence_ref": "verbatim:F70-0791"
+        },
+        {
+          "id": "F70-2008",
+          "source": "Source A",
+          "country": "GB",
+          "powertrain": "ICE",
+          "text": "very good looking car and comfortable to sit in. the only real negative so far is the poor grip when the weather is bad, the front wheels tend to spin much too easily.",
+          "evidence_ref": "verbatim:F70-2008"
+        }
+      ]
+    },
+    {
+      "theme_id": "L2-016",
+      "theme": "Audio mode, sound",
+      "domain": "infotainment_digital",
+      "rows": 27,
+      "likes": 4,
+      "defects": 16,
+      "difficult_to_use": 2,
+      "wants": 5,
+      "complaints": 23,
+      "by_powertrain": {
+        "ICE": 27
+      },
+      "complaint_share": 0.852,
+      "quotes": [
+        {
+          "id": "F70-2021",
+          "source": "Source A",
+          "country": "GB",
+          "powertrain": "ICE",
+          "text": "really like the car, just wish the sound was a little better.",
+          "evidence_ref": "verbatim:F70-2021"
+        },
+        {
+          "id": "F70-2106",
+          "source": "Source A",
+          "country": "FR",
+          "powertrain": "ICE",
+          "text": "nice car overall but there is a pretty strong annoying buzzing noise at around 90 km/hour??",
+          "evidence_ref": "verbatim:F70-2106"
+        },
+        {
+          "id": "F70-0180",
+          "source": "Source A",
+          "country": "GB",
+          "powertrain": "ICE",
+          "text": "i wish it had more natural sound instead of the fake internal sound. handlng and ride of the car are really good and the seats are excellent.",
+          "evidence_ref": "verbatim:F70-0180"
+        }
+      ]
+    },
+    {
+      "theme_id": "L2-048",
+      "theme": "Cushioning / damping vehicle",
+      "domain": "driving_dynamics",
+      "rows": 28,
+      "likes": 6,
+      "defects": 12,
+      "difficult_to_use": 0,
+      "wants": 10,
+      "complaints": 22,
+      "by_powertrain": {
+        "ICE": 28
+      },
+      "complaint_share": 0.786,
+      "quotes": [
+        {
+          "id": "F70-0057",
+          "source": "Source A",
+          "country": "GB",
+          "powertrain": "ICE",
+          "text": "suspension feels overly firm, lots of passengers mention it.",
+          "evidence_ref": "verbatim:F70-0057"
+        },
+        {
+          "id": "F70-0529",
+          "source": "Source A",
+          "country": "GB",
+          "powertrain": "ICE",
+          "text": "i would have preferred softer, more compliant suspension and also a bit less noise from the road.",
+          "evidence_ref": "verbatim:F70-0529"
+        },
+        {
+          "id": "F70-0786",
+          "source": "Source A",
+          "country": "GB",
+          "powertrain": "ICE",
+          "text": "the car itself is good, but the suspension feels a little too firm for something used as a family car",
+          "evidence_ref": "verbatim:F70-0786"
+        }
+      ]
+    },
+    {
+      "theme_id": "L2-128",
+      "theme": "Navigation",
+      "domain": "infotainment_digital",
+      "rows": 24,
+      "likes": 4,
+      "defects": 9,
+      "difficult_to_use": 9,
+      "wants": 2,
+      "complaints": 20,
+      "by_powertrain": {
+        "ICE": 24
+      },
+      "complaint_share": 0.833,
+      "quotes": [
+        {
+          "id": "F70-0128",
+          "source": "Source A",
+          "country": "GB",
+          "powertrain": "ICE",
+          "text": "far too much reliance on the bmnw app, and you can't really use the sat nav properly unless you register with the app.",
+          "evidence_ref": "verbatim:F70-0128"
+        },
+        {
+          "id": "F70-0476",
+          "source": "Source A",
+          "country": "GB",
+          "powertrain": "ICE",
+          "text": "a few of the electronic functions have just quit working on my car, and the worst one is the sat nav. it has dropped back to a very basic navigation system, and apparently i now need to pay extra for the better version.",
+          "evidence_ref": "verbatim:F70-0476"
+        },
+        {
+          "id": "F70-0476",
+          "source": "Source A",
+          "country": "GB",
+          "powertrain": "ICE",
+          "text": "a few of the electronic functions have just quit working on my car, and the worst one is the sat nav. it has dropped back to a very basic navigation system, and apparently i now need to pay extra for the better version.",
+          "evidence_ref": "verbatim:F70-0476"
+        }
+      ]
+    },
+    {
+      "theme_id": "L2-074",
+      "theme": "Exterior rearview mirror",
+      "domain": "exterior_design",
+      "rows": 27,
+      "likes": 7,
+      "defects": 11,
+      "difficult_to_use": 2,
+      "wants": 7,
+      "complaints": 20,
+      "by_powertrain": {
+        "ICE": 27
+      },
+      "complaint_share": 0.741,
+      "quotes": [
+        {
+          "id": "F70-0196",
+          "source": "Source A",
+          "country": "GB",
+          "powertrain": "ICE",
+          "text": "the car itself is good, looks nice and drives well. the parking mirror doesn't work and has never worked - i've been in touch with the dealership over and over but sadly had no response. econmy is good as well.",
+          "evidence_ref": "verbatim:F70-0196"
+        },
+        {
+          "id": "F70-1652",
+          "source": "Source A",
+          "country": "GB",
+          "powertrain": "ICE",
+          "text": "the controls are far too complicated and techy. the handling itself is very good. double locking feels over the top. i need a bean bag on the driver side of the dash to stop light reflecting in the interior mirror.",
+          "evidence_ref": "verbatim:F70-1652"
+        },
+        {
+          "id": "F70-1454",
+          "source": "Source A",
+          "country": "GB",
+          "powertrain": "ICE",
+          "text": "the cockpit lighting bounces off the wing mirrors at night. the digital premium package is only for 3 months now instead of the 3 years it used to be. the rear view mirror still has the old lever and not an automatic dimming setup. apart from that the car is really good.",
+          "evidence_ref": "verbatim:F70-1454"
+        }
+      ]
+    },
+    {
+      "theme_id": "L2-058",
+      "theme": "Driver assistance, automated driving, overall technology",
+      "domain": "driver_assistance",
+      "rows": 29,
+      "likes": 11,
+      "defects": 15,
+      "difficult_to_use": 0,
+      "wants": 3,
+      "complaints": 18,
+      "by_powertrain": {
+        "ICE": 29
+      },
+      "complaint_share": 0.621,
+      "quotes": [
+        {
+          "id": "F70-1725",
+          "source": "Source A",
+          "country": "GB",
+          "powertrain": "ICE",
+          "text": "great car to drive, just wish it had a few more extras like motorway driver assistance, a charging mat instead of a lead, and high beam assist without needing to pay extra.",
+          "evidence_ref": "verbatim:F70-1725"
+        },
+        {
+          "id": "F70-0535",
+          "source": "Source A",
+          "country": "GB",
+          "powertrain": "ICE",
+          "text": "very nice car, i've only done around 900 miles in 3 months and i'm really pleased. the only negative is paying for so many extras like high beam assist, which you get standard on a clio that costs much less.",
+          "evidence_ref": "verbatim:F70-0535"
+        },
+        {
+          "id": "F70-1631",
+          "source": "Source A",
+          "country": "GB",
+          "powertrain": "ICE",
+          "text": "very quick to respond, comfy and nice to look at, with lots of features. it's cheap to run and as an automatic it's straightforward to drive. the extra hands- free assist parking option is a bit intimidating though and will need quite a bit of practise.",
+          "evidence_ref": "verbatim:F70-1631"
+        }
+      ]
+    },
+    {
+      "theme_id": "L2-105",
+      "theme": "Instrument panel",
+      "domain": "interior_comfort",
+      "rows": 24,
+      "likes": 6,
+      "defects": 10,
+      "difficult_to_use": 7,
+      "wants": 1,
+      "complaints": 18,
+      "by_powertrain": {
+        "ICE": 24
+      },
+      "complaint_share": 0.75,
+      "quotes": [
+        {
+          "id": "F70-2009",
+          "source": "Source A",
+          "country": "GB",
+          "powertrain": "ICE",
+          "text": "illumination from the dashboard reflects onto the inside glass in front of the driver by the wing mirrors",
+          "evidence_ref": "verbatim:F70-2009"
+        },
+        {
+          "id": "F70-1110",
+          "source": "Source A",
+          "country": "GB",
+          "powertrain": "ICE",
+          "text": "the tech can be a bit touchy at times - for example, the favourite radio stations linked to the steering wheel button don't always show up on the dashboard even though they're still saved and can be seen on the home screen.",
+          "evidence_ref": "verbatim:F70-1110"
+        },
+        {
+          "id": "F70-1966",
+          "source": "Source A",
+          "country": "GB",
+          "powertrain": "ICE",
+          "text": "do not like the dashboard lights, they bounce off into the wing mirror at night and make the mirrors basically unusable. also do not like that i have to switch the lane controls on every single time i start up. boot would be better if it just opened when you unlock with the key fob.",
+          "evidence_ref": "verbatim:F70-1966"
+        }
+      ]
+    }
+  ],
+  "top_strength_themes": [
+    {
+      "theme_id": "L2-057",
+      "theme": "Drive, driving dynamics and chassis, overall technology",
+      "domain": "driving_dynamics",
+      "rows": 398,
+      "likes": 398,
+      "defects": 0,
+      "difficult_to_use": 0,
+      "wants": 0,
+      "complaints": 0,
+      "by_powertrain": {
+        "ICE": 398
+      },
+      "complaint_share": 0.0,
+      "quotes": [
+        {
+          "id": "F70-0220",
+          "source": "Source A",
+          "country": "GB",
+          "powertrain": "ICE",
+          "text": "it's a really solid car, drives nicely and feels comfortable",
+          "evidence_ref": "verbatim:F70-0220"
+        },
+        {
+          "id": "F70-0553",
+          "source": "Source A",
+          "country": "GB",
+          "powertrain": "ICE",
+          "text": "great to drive and feels like very good value for the money.",
+          "evidence_ref": "verbatim:F70-0553"
+        },
+        {
+          "id": "F70-0620",
+          "source": "Source A",
+          "country": "SE",
+          "powertrain": "ICE",
+          "text": "fun to drive, very comfortable, feels like a quality vehicle",
+          "evidence_ref": "verbatim:F70-0620"
+        }
+      ]
+    },
+    {
+      "theme_id": "L2-061",
+      "theme": "Drivetrain",
+      "domain": "powertrain_range_charging",
+      "rows": 303,
+      "likes": 225,
+      "defects": 15,
+      "difficult_to_use": 48,
+      "wants": 15,
+      "complaints": 78,
+      "by_powertrain": {
+        "ICE": 303
+      },
+      "complaint_share": 0.257,
+      "quotes": [
+        {
+          "id": "F70-0174",
+          "source": "Source A",
+          "country": "GB",
+          "powertrain": "ICE",
+          "text": "strong performance and handling, but the interior feels low quality.",
+          "evidence_ref": "verbatim:F70-0174"
+        },
+        {
+          "id": "F70-1967",
+          "source": "Source A",
+          "country": "GB",
+          "powertrain": "ICE",
+          "text": "with engine breaking it feels like the brakes are coming on, instead of letting the car just coast.",
+          "evidence_ref": "verbatim:F70-1967"
+        },
+        {
+          "id": "F70-0164",
+          "source": "Source A",
+          "country": "GB",
+          "powertrain": "ICE",
+          "text": "for this price i expected front fog lights, and i also thought bmw connect drive would stay active more than 6 months.",
+          "evidence_ref": "verbatim:F70-0164"
+        }
+      ]
+    },
+    {
+      "theme_id": "L2-089",
+      "theme": "Handling / Riding",
+      "domain": "driving_dynamics",
+      "rows": 74,
+      "likes": 60,
+      "defects": 5,
+      "difficult_to_use": 0,
+      "wants": 9,
+      "complaints": 14,
+      "by_powertrain": {
+        "ICE": 74
+      },
+      "complaint_share": 0.189,
+      "quotes": [
+        {
+          "id": "F70-0926",
+          "source": "Source A",
+          "country": "GB",
+          "powertrain": "ICE",
+          "text": "really impressed with the quality tech kit and how the car handles",
+          "evidence_ref": "verbatim:F70-0926"
+        },
+        {
+          "id": "F70-0158",
+          "source": "Source A",
+          "country": "GB",
+          "powertrain": "ICE",
+          "text": "excellent. the ride over rough english roads is far better than the m sport.",
+          "evidence_ref": "verbatim:F70-0158"
+        },
+        {
+          "id": "F70-0888",
+          "source": "Source A",
+          "country": "GB",
+          "powertrain": "ICE",
+          "text": "fantastic car, really excellent ride and handling, feels very solidly biult.",
+          "evidence_ref": "verbatim:F70-0888"
+        }
+      ]
+    },
+    {
+      "theme_id": "L2-027",
+      "theme": "Body equipment, overall technology",
+      "domain": "quality_nvh",
+      "rows": 71,
+      "likes": 42,
+      "defects": 0,
+      "difficult_to_use": 5,
+      "wants": 24,
+      "complaints": 29,
+      "by_powertrain": {
+        "ICE": 71
+      },
+      "complaint_share": 0.408,
+      "quotes": [
+        {
+          "id": "F70-0477",
+          "source": "Source A",
+          "country": "FR",
+          "powertrain": "ICE",
+          "text": "simple to operate. the car meets our expectations. the only thing to improve would be adding usb sockets in the rear.",
+          "evidence_ref": "verbatim:F70-0477"
+        },
+        {
+          "id": "F70-0339",
+          "source": "Source A",
+          "country": "GB",
+          "powertrain": "ICE",
+          "text": "i find the new bmw 1 series is pretty fairly priced for this type of car. only downside for me is climbing in and out, front or back, the roof line feels a bit too low.",
+          "evidence_ref": "verbatim:F70-0339"
+        },
+        {
+          "id": "F70-0400",
+          "source": "Source A",
+          "country": "GB",
+          "powertrain": "ICE",
+          "text": "love how it drives, happy with the kit and mpg. only downside is having to pay extra for the full digital package, on a car of this quality and price it should really come as part of it",
+          "evidence_ref": "verbatim:F70-0400"
+        }
+      ]
+    },
+    {
+      "theme_id": "L2-072",
+      "theme": "Exterior design",
+      "domain": "exterior_design",
+      "rows": 42,
+      "likes": 42,
+      "defects": 0,
+      "difficult_to_use": 0,
+      "wants": 0,
+      "complaints": 0,
+      "by_powertrain": {
+        "ICE": 42
+      },
+      "complaint_share": 0.0,
+      "quotes": [
+        {
+          "id": "F70-0247",
+          "source": "Source A",
+          "country": "GB",
+          "powertrain": "ICE",
+          "text": "really like the new look and the smoother ride vrs the old model.",
+          "evidence_ref": "verbatim:F70-0247"
+        },
+        {
+          "id": "F70-1552",
+          "source": "Source A",
+          "country": "GB",
+          "powertrain": "ICE",
+          "text": "great car, excellent mpg, great design, definitely a head turner.",
+          "evidence_ref": "verbatim:F70-1552"
+        },
+        {
+          "id": "F70-1566",
+          "source": "Source A",
+          "country": "GB",
+          "powertrain": "ICE",
+          "text": "great car, we really like its look and colour and it is our first auto",
+          "evidence_ref": "verbatim:F70-1566"
+        }
+      ]
+    },
+    {
+      "theme_id": "L2-173",
+      "theme": "Seats",
+      "domain": "interior_comfort",
+      "rows": 83,
+      "likes": 41,
+      "defects": 23,
+      "difficult_to_use": 14,
+      "wants": 5,
+      "complaints": 42,
+      "by_powertrain": {
+        "ICE": 83
+      },
+      "complaint_share": 0.506,
+      "quotes": [
+        {
+          "id": "F70-1261",
+          "source": "Source A",
+          "country": "GB",
+          "powertrain": "ICE",
+          "text": "the chairs are not very comfotable and the material has a weird smel.",
+          "evidence_ref": "verbatim:F70-1261"
+        },
+        {
+          "id": "F70-0204",
+          "source": "Source A",
+          "country": "GB",
+          "powertrain": "ICE",
+          "text": "wish it came with front fog lights and leather seats as standard equipment.",
+          "evidence_ref": "verbatim:F70-0204"
+        },
+        {
+          "id": "F70-0757",
+          "source": "Source A",
+          "country": "GB",
+          "powertrain": "ICE",
+          "text": "seats not comfy, audio system reacts slow. front arm rest storage is positioned too awkwardly to use.",
+          "evidence_ref": "verbatim:F70-0757"
+        }
+      ]
+    },
+    {
+      "theme_id": "L2-127",
+      "theme": "My Modes / driving experience",
+      "domain": "driving_dynamics",
+      "rows": 39,
+      "likes": 25,
+      "defects": 2,
+      "difficult_to_use": 8,
+      "wants": 4,
+      "complaints": 14,
+      "by_powertrain": {
+        "ICE": 39
+      },
+      "complaint_share": 0.359,
+      "quotes": [
+        {
+          "id": "F70-0922",
+          "source": "Source A",
+          "country": "SE",
+          "powertrain": "ICE",
+          "text": "smooth to drive, sips petrol, comfortable inside and looks stylish.",
+          "evidence_ref": "verbatim:F70-0922"
+        },
+        {
+          "id": "F70-1084",
+          "source": "Source A",
+          "country": "GB",
+          "powertrain": "ICE",
+          "text": "stunning looking car, really easy to drive and the comfort level is epic.",
+          "evidence_ref": "verbatim:F70-1084"
+        },
+        {
+          "id": "F70-0114",
+          "source": "Source A",
+          "country": "GB",
+          "powertrain": "ICE",
+          "text": "really excellent overall package, drives well in both normal and sport settings.",
+          "evidence_ref": "verbatim:F70-0114"
+        }
+      ]
+    },
+    {
+      "theme_id": "L2-042",
+      "theme": "ConnectedDrive and Infotainment, overall technology",
+      "domain": "infotainment_digital",
+      "rows": 111,
+      "likes": 24,
+      "defects": 37,
+      "difficult_to_use": 50,
+      "wants": 0,
+      "complaints": 87,
+      "by_powertrain": {
+        "ICE": 111
+      },
+      "complaint_share": 0.784,
+      "quotes": [
+        {
+          "id": "F70-1336",
+          "source": "Source A",
+          "country": "GB",
+          "powertrain": "ICE",
+          "text": "the hardware is excellent, but the software is where the issues are.",
+          "evidence_ref": "verbatim:F70-1336"
+        },
+        {
+          "id": "F70-0806",
+          "source": "Source A",
+          "country": "GB",
+          "powertrain": "ICE",
+          "text": "overall happy with the car, but not a fan of the complex infotainment setup.",
+          "evidence_ref": "verbatim:F70-0806"
+        },
+        {
+          "id": "F70-2096",
+          "source": "Source A",
+          "country": "GB",
+          "powertrain": "ICE",
+          "text": "overall i'm pretty satisfied, but a few of the idrive menus feel quite unintuitive.",
+          "evidence_ref": "verbatim:F70-2096"
+        }
+      ]
+    },
+    {
+      "theme_id": "L2-103",
+      "theme": "Impression of safety",
+      "domain": "driver_assistance",
+      "rows": 28,
+      "likes": 21,
+      "defects": 0,
+      "difficult_to_use": 7,
+      "wants": 0,
+      "complaints": 7,
+      "by_powertrain": {
+        "ICE": 28
+      },
+      "complaint_share": 0.25,
+      "quotes": [
+        {
+          "id": "F70-1128",
+          "source": "Source A",
+          "country": "GB",
+          "powertrain": "ICE",
+          "text": "excellent to drive, very economical and it makes you feel safe.",
+          "evidence_ref": "verbatim:F70-1128"
+        },
+        {
+          "id": "F70-2080",
+          "source": "Source A",
+          "country": "GB",
+          "powertrain": "ICE",
+          "text": "i really like how it handles and the sense of safety it gives me",
+          "evidence_ref": "verbatim:F70-2080"
+        },
+        {
+          "id": "F70-1910",
+          "source": "Source A",
+          "country": "GB",
+          "powertrain": "ICE",
+          "text": "simple and responsive to drive, with a feeling of safety but still nicely sporty.",
+          "evidence_ref": "verbatim:F70-1910"
+        }
+      ]
+    },
+    {
+      "theme_id": "L2-112",
+      "theme": "Interior design",
+      "domain": "interior_comfort",
+      "rows": 22,
+      "likes": 19,
+      "defects": 0,
+      "difficult_to_use": 0,
+      "wants": 3,
+      "complaints": 3,
+      "by_powertrain": {
+        "ICE": 22
+      },
+      "complaint_share": 0.136,
+      "quotes": [
+        {
+          "id": "F70-0056",
+          "source": "Source A",
+          "country": "GB",
+          "powertrain": "ICE",
+          "text": "very good-looking car, modern interior with features that fit that modern style.",
+          "evidence_ref": "verbatim:F70-0056"
+        },
+        {
+          "id": "F70-1021",
+          "source": "Source A",
+          "country": "GB",
+          "powertrain": "ICE",
+          "text": "it drives beautifully and sounds great too. the interior looks amazing and feels very solidly put together.",
+          "evidence_ref": "verbatim:F70-1021"
+        },
+        {
+          "id": "F70-0425",
+          "source": "Source A",
+          "country": "GB",
+          "powertrain": "ICE",
+          "text": "feels really planted on the road, with smooth effortless power. cabin seems high quality and the front seats are excellent.",
+          "evidence_ref": "verbatim:F70-0425"
+        }
+      ]
+    }
+  ],
+  "studies": [
+    {
+      "study": "CN_EU_2025",
+      "attributes": 37,
+      "weakest": [
+        {
+          "attribute": "Luggage capacity",
+          "key": "cargo_capacity",
+          "domain": "space_practicality",
+          "market": "EU",
+          "score": 7.07,
+          "scale": "1-10 mean",
+          "bottom3": null,
+          "top2": null,
+          "peers_same_market": {
+            "G60": 7.539,
+            "G70": 7.407
+          },
+          "same_vehicle_other_markets": {},
+          "evidence_ref": "metric:MET-CNEU-EU-F70-cargo_capacity"
+        },
+        {
+          "attribute": "Heating/ ventilation/ air conditioning",
+          "key": "climate_control",
+          "domain": "interior_comfort",
+          "market": "EU",
+          "score": 7.305,
+          "scale": "1-10 mean",
+          "bottom3": null,
+          "top2": null,
+          "peers_same_market": {
+            "G60": 7.466,
+            "G70": 8.796
+          },
+          "same_vehicle_other_markets": {},
+          "evidence_ref": "metric:MET-CNEU-EU-F70-climate_control"
+        },
+        {
+          "attribute": "Connected services",
+          "key": "connected_services",
+          "domain": "infotainment_digital",
+          "market": "EU",
+          "score": 7.356,
+          "scale": "1-10 mean",
+          "bottom3": null,
+          "top2": null,
+          "peers_same_market": {
+            "G60": 7.37,
+            "G70": 7.862
+          },
+          "same_vehicle_other_markets": {},
+          "evidence_ref": "metric:MET-CNEU-EU-F70-connected_services"
+        },
+        {
+          "attribute": "Ease of loading/ unloading luggage",
+          "key": "loading_ease",
+          "domain": "space_practicality",
+          "market": "EU",
+          "score": 7.503,
+          "scale": "1-10 mean",
+          "bottom3": null,
+          "top2": null,
+          "peers_same_market": {
+            "G60": 7.242,
+            "G70": 8.667
+          },
+          "same_vehicle_other_markets": {},
+          "evidence_ref": "metric:MET-CNEU-EU-F70-loading_ease"
+        },
+        {
+          "attribute": "Environm. friendliness",
+          "key": "environmental_friendliness",
+          "domain": "powertrain_range_charging",
+          "market": "EU",
+          "score": 7.554,
+          "scale": "1-10 mean",
+          "bottom3": null,
+          "top2": null,
+          "peers_same_market": {
+            "G60": 7.595,
+            "G70": 7.513
+          },
+          "same_vehicle_other_markets": {},
+          "evidence_ref": "metric:MET-CNEU-EU-F70-environmental_friendliness"
+        },
+        {
+          "attribute": "Quietness when driving",
+          "key": "quietness",
+          "domain": "quality_nvh",
+          "market": "EU",
+          "score": 7.619,
+          "scale": "1-10 mean",
+          "bottom3": null,
+          "top2": null,
+          "peers_same_market": {
+            "G60": 7.795,
+            "G70": 9.779
+          },
+          "same_vehicle_other_markets": {},
+          "evidence_ref": "metric:MET-CNEU-EU-F70-quietness"
+        },
+        {
+          "attribute": "Value for money",
+          "key": "value_for_money",
+          "domain": "general",
+          "market": "EU",
+          "score": 7.823,
+          "scale": "1-10 mean",
+          "bottom3": null,
+          "top2": null,
+          "peers_same_market": {
+            "G60": 7.36,
+            "G70": 6.468
+          },
+          "same_vehicle_other_markets": {},
+          "evidence_ref": "metric:MET-CNEU-EU-F70-value_for_money"
+        },
+        {
+          "attribute": "Overall build quality",
+          "key": "build_quality",
+          "domain": "quality_nvh",
+          "market": "EU",
+          "score": 7.95,
+          "scale": "1-10 mean",
+          "bottom3": null,
+          "top2": null,
+          "peers_same_market": {
+            "G60": 7.672,
+            "G70": 8.779
+          },
+          "same_vehicle_other_markets": {},
+          "evidence_ref": "metric:MET-CNEU-EU-F70-build_quality"
+        },
+        {
+          "attribute": "Interior storage for small items",
+          "key": "interior_storage",
+          "domain": "space_practicality",
+          "market": "EU",
+          "score": 8.103,
+          "scale": "1-10 mean",
+          "bottom3": null,
+          "top2": null,
+          "peers_same_market": {
+            "G60": 7.723,
+            "G70": 7.96
+          },
+          "same_vehicle_other_markets": {},
+          "evidence_ref": "metric:MET-CNEU-EU-F70-interior_storage"
+        },
+        {
+          "attribute": "Easy to use information and entertainment system including in-car apps",
+          "key": "infotainment_ease_of_use",
+          "domain": "infotainment_digital",
+          "market": "EU",
+          "score": 8.164,
+          "scale": "1-10 mean",
+          "bottom3": null,
+          "top2": null,
+          "peers_same_market": {
+            "G60": 8.257,
+            "G70": 7.986
+          },
+          "same_vehicle_other_markets": {},
+          "evidence_ref": "metric:MET-CNEU-EU-F70-infotainment_ease_of_use"
+        }
+      ],
+      "strongest": [
+        {
+          "attribute": "Reliability",
+          "key": "reliability",
+          "domain": "quality_nvh",
+          "market": "EU",
+          "score": 9.398,
+          "scale": "1-10 mean",
+          "bottom3": null,
+          "top2": null,
+          "peers_same_market": {
+            "G60": 9.251,
+            "G70": 9.674
+          },
+          "same_vehicle_other_markets": {},
+          "evidence_ref": "metric:MET-CNEU-EU-F70-reliability"
+        },
+        {
+          "attribute": "Sportiness",
+          "key": "sportiness",
+          "domain": "driving_dynamics",
+          "market": "EU",
+          "score": 9.341,
+          "scale": "1-10 mean",
+          "bottom3": null,
+          "top2": null,
+          "peers_same_market": {
+            "G60": 7.636,
+            "G70": 6.971
+          },
+          "same_vehicle_other_markets": {},
+          "evidence_ref": "metric:MET-CNEU-EU-F70-sportiness"
+        },
+        {
+          "attribute": "Fuel economy/ energy efficiency",
+          "key": "fuel_economy",
+          "domain": "powertrain_range_charging",
+          "market": "EU",
+          "score": 9.304,
+          "scale": "1-10 mean",
+          "bottom3": null,
+          "top2": null,
+          "peers_same_market": {
+            "G60": 7.446,
+            "G70": 7.675
+          },
+          "same_vehicle_other_markets": {},
+          "evidence_ref": "metric:MET-CNEU-EU-F70-fuel_economy"
+        },
+        {
+          "attribute": "Prestige/ manufacturer reputation",
+          "key": "brand_prestige",
+          "domain": "general",
+          "market": "EU",
+          "score": 9.209,
+          "scale": "1-10 mean",
+          "bottom3": null,
+          "top2": null,
+          "peers_same_market": {
+            "G60": 8.949,
+            "G70": 9.226
+          },
+          "same_vehicle_other_markets": {},
+          "evidence_ref": "metric:MET-CNEU-EU-F70-brand_prestige"
+        },
+        {
+          "attribute": "Front interior roominess",
+          "key": "front_roominess",
+          "domain": "space_practicality",
+          "market": "EU",
+          "score": 9.199,
+          "scale": "1-10 mean",
+          "bottom3": null,
+          "top2": null,
+          "peers_same_market": {
+            "G60": 8.881,
+            "G70": 9.688
+          },
+          "same_vehicle_other_markets": {},
+          "evidence_ref": "metric:MET-CNEU-EU-F70-front_roominess"
+        },
+        {
+          "attribute": "Quality of ride",
+          "key": "ride_comfort",
+          "domain": "driving_dynamics",
+          "market": "EU",
+          "score": 9.196,
+          "scale": "1-10 mean",
+          "bottom3": null,
+          "top2": null,
+          "peers_same_market": {
+            "G60": 9.948,
+            "G70": 9.516
+          },
+          "same_vehicle_other_markets": {},
+          "evidence_ref": "metric:MET-CNEU-EU-F70-ride_comfort"
+        },
+        {
+          "attribute": "Driving position",
+          "key": "driving_position",
+          "domain": "interior_comfort",
+          "market": "EU",
+          "score": 9.176,
+          "scale": "1-10 mean",
+          "bottom3": null,
+          "top2": null,
+          "peers_same_market": {
+            "G60": 9.168,
+            "G70": 9.126
+          },
+          "same_vehicle_other_markets": {},
+          "evidence_ref": "metric:MET-CNEU-EU-F70-driving_position"
+        },
+        {
+          "attribute": "Safety",
+          "key": "safety_perception",
+          "domain": "driver_assistance",
+          "market": "EU",
+          "score": 9.033,
+          "scale": "1-10 mean",
+          "bottom3": null,
+          "top2": null,
+          "peers_same_market": {
+            "G60": 9.154,
+            "G70": 9.279
+          },
+          "same_vehicle_other_markets": {},
+          "evidence_ref": "metric:MET-CNEU-EU-F70-safety_perception"
+        },
+        {
+          "attribute": "Exterior styling",
+          "key": "exterior_styling",
+          "domain": "exterior_design",
+          "market": "EU",
+          "score": 9.005,
+          "scale": "1-10 mean",
+          "bottom3": null,
+          "top2": null,
+          "peers_same_market": {
+            "G60": 9.828,
+            "G70": 8.379
+          },
+          "same_vehicle_other_markets": {},
+          "evidence_ref": "metric:MET-CNEU-EU-F70-exterior_styling"
+        },
+        {
+          "attribute": "Overall seating comfort",
+          "key": "seat_comfort",
+          "domain": "interior_comfort",
+          "market": "EU",
+          "score": 8.981,
+          "scale": "1-10 mean",
+          "bottom3": null,
+          "top2": null,
+          "peers_same_market": {
+            "G60": 8.814,
+            "G70": 9.295
+          },
+          "same_vehicle_other_markets": {},
+          "evidence_ref": "metric:MET-CNEU-EU-F70-seat_comfort"
+        }
+      ]
+    }
+  ],
+  "equipment": {
+    "catalogue": "German price list July 2026 (Germany only)",
+    "variants": [
+      {
+        "name": "116",
+        "powertrain": "ICE",
+        "power_kw": 90,
+        "base_price_eur": 34250.0
+      },
+      {
+        "name": "120",
+        "powertrain": "MHEV",
+        "power_kw": 125,
+        "base_price_eur": 39150.0
+      },
+      {
+        "name": "123 xDrive",
+        "powertrain": "MHEV",
+        "power_kw": 160,
+        "base_price_eur": 45350.0
+      },
+      {
+        "name": "M135 xDrive",
+        "powertrain": "ICE",
+        "power_kw": 221,
+        "base_price_eur": 57150.0
+      },
+      {
+        "name": "118d",
+        "powertrain": "ICE",
+        "power_kw": 110,
+        "base_price_eur": 39350.0
+      },
+      {
+        "name": "120d",
+        "powertrain": "MHEV",
+        "power_kw": 120,
+        "base_price_eur": 41750.0
+      }
+    ],
+    "items": 127,
+    "by_group": {
+      "comfort": {
+        "standard_on_all": 4,
+        "optional": 7,
+        "standard_on_some": 2
+      },
+      "connectivity_infotainment": {
+        "standard_on_all": 2,
+        "standard_on_some": 2,
+        "optional": 1
+      },
+      "driver_assistance_safety": {
+        "standard_on_all": 8,
+        "standard_on_some": 1,
+        "optional": 3
+      },
+      "drivetrain_chassis": {
+        "standard_on_all": 1,
+        "standard_on_some": 4
+      },
+      "exterior": {
+        "standard_on_some": 4,
+        "standard_on_all": 2,
+        "optional": 3
+      },
+      "exterior_colour": {
+        "package_or_unknown": 3,
+        "standard_on_some": 2,
+        "optional": 11
+      },
+      "interior": {
+        "standard_on_some": 6,
+        "standard_on_all": 7,
+        "optional": 1
+      },
+      "interior_trim": {
+        "package_or_unknown": 2,
+        "standard_on_some": 2,
+        "optional": 1
+      },
+      "package_contents": {
+        "package_or_unknown": 22
+      },
+      "packages": {
+        "package_or_unknown": 3,
+        "optional": 3
+      },
+      "upholstery": {
+        "package_or_unknown": 2,
+        "optional": 5,
+        "standard_on_some": 2
+      },
+      "wheels_tyres": {
+        "package_or_unknown": 3,
+        "standard_on_some": 2,
+        "optional": 6
+      }
+    },
+    "optional_on_all_variants": [
+      {
+        "item": "BMW Individual special paint finish",
+        "sa_code": "U490",
+        "price_eur": 3900.0,
+        "group": "exterior_colour",
+        "evidence_ref": "equipment:EQ-F70-0095"
+      },
+      {
+        "item": "Innovation Package",
+        "sa_code": "7EW",
+        "price_eur": 3800.0,
+        "group": "packages",
+        "evidence_ref": "equipment:EQ-F70-0107"
+      },
+      {
+        "item": "Driving Assistant Professional",
+        "sa_code": "5AU",
+        "price_eur": 2280.0,
+        "group": "driver_assistance_safety",
+        "evidence_ref": "equipment:EQ-F70-0116"
+      },
+      {
+        "item": "BMW Individual Frozen Pure Grey",
+        "sa_code": "C5A",
+        "price_eur": 2250.0,
+        "group": "exterior_colour",
+        "evidence_ref": "equipment:EQ-F70-0093"
+      },
+      {
+        "item": "BMW Individual Frozen Portimao Blue",
+        "sa_code": "C6R",
+        "price_eur": 2250.0,
+        "group": "exterior_colour",
+        "evidence_ref": "equipment:EQ-F70-0094"
+      },
+      {
+        "item": "Premium Package",
+        "sa_code": "7EV",
+        "price_eur": 1900.0,
+        "group": "packages",
+        "evidence_ref": "equipment:EQ-F70-0106"
+      },
+      {
+        "item": "BMW Individual Storm Bay",
+        "sa_code": "C3N",
+        "price_eur": 1500.0,
+        "group": "exterior_colour",
+        "evidence_ref": "equipment:EQ-F70-0091"
+      },
+      {
+        "item": "BMW Individual Tanzanite Blue metallic",
+        "sa_code": "C3Z",
+        "price_eur": 1500.0,
+        "group": "exterior_colour",
+        "evidence_ref": "equipment:EQ-F70-0092"
+      },
+      {
+        "item": "19\" M forged wheels Y-spoke 1085 M",
+        "sa_code": "3NA",
+        "price_eur": 1200.0,
+        "group": "wheels_tyres",
+        "evidence_ref": "equipment:EQ-F70-0081"
+      },
+      {
+        "item": "Panoramic glass roof",
+        "sa_code": "402",
+        "price_eur": 1180.0,
+        "group": "exterior",
+        "evidence_ref": "equipment:EQ-F70-0110"
+      },
+      {
+        "item": "Coral Red/Black",
+        "sa_code": "KUKP",
+        "price_eur": 1000.0,
+        "group": "upholstery",
+        "evidence_ref": "equipment:EQ-F70-0102"
+      },
+      {
+        "item": "Electric seat adjustment with memory",
+        "sa_code": "459",
+        "price_eur": 850.0,
+        "group": "comfort",
+        "evidence_ref": "equipment:EQ-F70-0118"
+      },
+      {
+        "item": "Trailer tow hitch with detachable ball head",
+        "sa_code": "235",
+        "price_eur": 850.0,
+        "group": "comfort",
+        "evidence_ref": "equipment:EQ-F70-0123"
+      },
+      {
+        "item": "Black Sapphire",
+        "sa_code": "475",
+        "price_eur": 780.0,
+        "group": "exterior_colour",
+        "evidence_ref": "equipment:EQ-F70-0085"
+      },
+      {
+        "item": "Skyscraper Grey",
+        "sa_code": "C4W",
+        "price_eur": 780.0,
+        "group": "exterior_colour",
+        "evidence_ref": "equipment:EQ-F70-0086"
+      },
+      {
+        "item": "Thundernight",
+        "sa_code": "C56",
+        "price_eur": 780.0,
+        "group": "exterior_colour",
+        "evidence_ref": "equipment:EQ-F70-0087"
+      },
+      {
+        "item": "Fire Red",
+        "sa_code": "C68",
+        "price_eur": 780.0,
+        "group": "exterior_colour",
+        "evidence_ref": "equipment:EQ-F70-0088"
+      },
+      {
+        "item": "M Brooklyn Grey",
+        "sa_code": "C4P",
+        "price_eur": 780.0,
+        "group": "exterior_colour",
+        "evidence_ref": "equipment:EQ-F70-0089"
+      },
+      {
+        "item": "Cape York Green",
+        "sa_code": "C5Y",
+        "price_eur": 780.0,
+        "group": "exterior_colour",
+        "evidence_ref": "equipment:EQ-F70-0090"
+      },
+      {
+        "item": "M Sport seats for driver and front passenger",
+        "sa_code": "711",
+        "price_eur": 750.0,
+        "group": "comfort",
+        "evidence_ref": "equipment:EQ-F70-0121"
+      },
+      {
+        "item": "Driving Assistant Plus",
+        "sa_code": "5AT",
+        "price_eur": 700.0,
+        "group": "driver_assistance_safety",
+        "evidence_ref": "equipment:EQ-F70-0115"
+      },
+      {
+        "item": "19\" light-alloy wheels Y-spoke 976 M bicolour",
+        "sa_code": "1H8",
+        "price_eur": 650.0,
+        "group": "wheels_tyres",
+        "evidence_ref": "equipment:EQ-F70-0079"
+      },
+      {
+        "item": "Roof in black",
+        "sa_code": "3B5",
+        "price_eur": 500.0,
+        "group": "exterior",
+        "evidence_ref": "equipment:EQ-F70-0109"
+      },
+      {
+        "item": "BMW Digital Premium (time-limited)",
+        "sa_code": "6D5",
+        "price_eur": 480.0,
+        "group": "connectivity_infotainment",
+        "evidence_ref": "equipment:EQ-F70-0127"
+      },
+      {
+        "item": "Active seats for driver and front passenger",
+        "sa_code": "455",
+        "price_eur": 470.0,
+        "group": "comfort",
+        "evidence_ref": "equipment:EQ-F70-0119"
+      }
+    ]
+  },
+  "sales": {
+    "by_year": {
+      "2024": {
+        "EU": 80000,
+        "CN": 0,
+        "US": 0,
+        "RoW": 25000
+      },
+      "2025": {
+        "EU": 85000,
+        "CN": 0,
+        "US": 0,
+        "RoW": 28000
+      },
+      "2030": {
+        "EU": 87000,
+        "CN": 0,
+        "US": 0,
+        "RoW": 31000
+      }
+    },
+    "market_share_of_vehicle": {
+      "2024": 0.762,
+      "2025": 0.752,
+      "2030": 0.737
+    },
+    "growth_2025_2030": 0.024,
+    "note": null
+  },
+  "data_quality_notes": [
+    "819 classification rows are unclassified (to be filled by the LLM classifier in a later step)",
+    "9 equipment rows inherit price / availability from merged catalogue cells"
+  ],
+  "run_id": "RUN-20261010-164917-report.baseline-3e09"
+}
