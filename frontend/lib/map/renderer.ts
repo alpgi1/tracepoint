@@ -1,27 +1,39 @@
 import { geoNaturalEarth1, geoPath } from "d3-geo";
 import type { GeoPermissibleObjects } from "d3-geo";
-import { KIND_LAND, KIND_REGION, KIND_SEA, type MapData } from "./data";
-import type { RegionView } from "./regions";
+import { KIND_LAND, KIND_REGION, KIND_SEA, fitWindow, type MapData } from "./data";
+import type { LonLat, RegionView } from "./regions";
 
 /** Colours are read from CSS custom properties on the canvas so the map follows the tokens. */
 export interface MapColors {
   dot: string;
-  dotMarket: string;
-  accent: string;
+  /** Market fill at rest and when active. */
+  fill: string;
+  fillActive: string;
+  /** Market outline at rest and when active; darker than the fills. */
+  outline: string;
+  outlineActive: string;
 }
 
 export const MAP_COLOR_TOKENS: Record<keyof MapColors, string> = {
   dot: "--map-dot",
-  dotMarket: "--map-dot-market",
-  accent: "--map-accent",
+  fill: "--map-fill",
+  fillActive: "--map-fill-active",
+  outline: "--map-outline",
+  outlineActive: "--map-outline-active",
 };
+
+export type Anchor = [number, number];
 
 export interface RendererOptions {
   reducedMotion: boolean;
   /** Space between the map and the canvas edge, CSS pixels. */
   padding: number;
+  /** Where a selected market's centre sits in the viewport, as fractions of width and height. */
+  focus: Anchor;
   /** Called after a resize or a finished flight, when screen positions have settled. */
   onSettle?: () => void;
+  /** Called when a flight starts: screen positions are stale until the next settle. */
+  onMove?: () => void;
 }
 
 interface Transform {
@@ -30,9 +42,16 @@ interface Transform {
   ty: number;
 }
 
+interface Target {
+  /** Base-space point placed at the anchor. */
+  center: [number, number];
+  k: number;
+  anchor: Anchor;
+}
+
 interface Flight {
-  from: { center: [number, number]; k: number };
-  to: { center: [number, number]; k: number };
+  from: Target;
+  to: Target;
   start: number;
   duration: number;
 }
@@ -50,11 +69,11 @@ interface DotField {
   kind: Uint8Array;
 }
 
-const DEFAULTS: RendererOptions = { reducedMotion: false, padding: 48 };
+const HOME_ANCHOR: Anchor = [0.5, 0.5];
+const DEFAULTS: RendererOptions = { reducedMotion: false, padding: 16, focus: [0.5, 0.4] };
 const GLOW_IN = 1 / 180; // full highlight in 180 ms
 const GLOW_OUT = 1 / 320; // fades out slower than it comes in
 const FLIGHT_MS = 900;
-const SPHERE: GeoPermissibleObjects = { type: "Sphere" };
 
 /**
  * Mask colours. Land paints the blue channel, each market paints one
@@ -76,6 +95,10 @@ function clamp(value: number, min: number, max: number): number {
   return Math.min(max, Math.max(min, value));
 }
 
+function mix(a: number, b: number, t: number): number {
+  return a + (b - a) * t;
+}
+
 /**
  * Draws the dotted world map on a 2d canvas. Pure TypeScript, no React: the
  * component feeds it pointer events and props; the renderer owns the fit,
@@ -83,11 +106,14 @@ function clamp(value: number, min: number, max: number): number {
  * only paints when something changed.
  *
  * Geometry is projected once with a Natural Earth projection fitted to the
- * canvas (`base`). Dots sit on a square screen-space grid over the land of
- * that fit, like a printed halftone. Zooming is an affine transform applied
- * to the base coordinates, so the dot pattern simply magnifies; the market
- * outlines are drawn with a second projection (`view`) carrying the same
- * transform, so both always agree.
+ * canvas (`base`): the fit covers all land but Antarctica (data.ts
+ * FIT_WINDOW), so the map uses the height it has. Dots sit on a square
+ * screen-space grid over the land of that fit, like a printed halftone.
+ * Zooming is an affine transform applied to the base coordinates, so the dot
+ * pattern simply magnifies; the market outlines are drawn with a second
+ * projection (`view`) carrying the same transform, so both always agree. A
+ * selected market is placed at the `focus` anchor rather than the centre,
+ * leaving the lower part of the viewport to the market panel.
  */
 export class MapRenderer {
   private canvas: HTMLCanvasElement | null = null;
@@ -95,6 +121,7 @@ export class MapRenderer {
   private readonly base = geoNaturalEarth1();
   private readonly view = geoNaturalEarth1();
   private readonly path = geoPath(this.view);
+  private readonly window: GeoPermissibleObjects = fitWindow();
   private data: MapData | null = null;
   private colors: MapColors | null = null;
   private width = 0;
@@ -103,6 +130,7 @@ export class MapRenderer {
   private dots: DotField | null = null;
   private spacing = 6;
   private transform: Transform = { k: 1, tx: 0, ty: 0 };
+  private anchor: Anchor = HOME_ANCHOR;
   private hover = -1;
   private selected = -1;
   private glow: number[] = [];
@@ -164,7 +192,7 @@ export class MapRenderer {
         [pad, pad],
         [Math.max(pad + 1, width - pad), Math.max(pad + 1, height - pad)],
       ],
-      SPHERE,
+      this.window,
     );
     this.rebuild();
     this.render();
@@ -197,9 +225,9 @@ export class MapRenderer {
     return kind >= KIND_REGION ? kind - KIND_REGION : -1;
   }
 
-  /** Screen position of a view centre, for labels that must follow the map. */
-  locate(view: RegionView): [number, number] | null {
-    const projected = this.base(view.center);
+  /** Screen position of a geographic point, for labels that must follow the map. */
+  locate(point: LonLat): [number, number] | null {
+    const projected = this.base(point);
     if (!projected) return null;
     const { k, tx, ty } = this.transform;
     return [projected[0] * k + tx, projected[1] * k + ty];
@@ -209,14 +237,15 @@ export class MapRenderer {
   flyTo(view: RegionView | null) {
     const target = this.targetFor(view);
     if (!target) return;
-    if (this.options.reducedMotion) {
-      this.apply(target.center, target.k);
+    if (this.options.reducedMotion || this.isAt(target)) {
+      this.apply(target);
       this.render();
       this.options.onSettle?.();
       return;
     }
+    this.options.onMove?.();
     this.flight = {
-      from: { center: this.currentCenter(), k: this.transform.k },
+      from: { center: this.currentCenter(), k: this.transform.k, anchor: this.anchor },
       to: target,
       start: performance.now(),
       duration: FLIGHT_MS,
@@ -232,22 +261,36 @@ export class MapRenderer {
     });
   }
 
-  /** The base-space point currently at the centre of the canvas. */
+  /** True when the target would not move the map (the first fly-home after loading). */
+  private isAt(target: Target): boolean {
+    const current = this.currentCenter();
+    return (
+      Math.abs(current[0] - target.center[0]) < 0.5 &&
+      Math.abs(current[1] - target.center[1]) < 0.5 &&
+      Math.abs(this.transform.k - target.k) < 1e-6 &&
+      this.anchor[0] === target.anchor[0] &&
+      this.anchor[1] === target.anchor[1]
+    );
+  }
+
+  /** The base-space point currently at the anchor. */
   private currentCenter(): [number, number] {
     const { k, tx, ty } = this.transform;
-    return [(this.width / 2 - tx) / k, (this.height / 2 - ty) / k];
+    const [ax, ay] = this.anchor;
+    return [(ax * this.width - tx) / k, (ay * this.height - ty) / k];
   }
 
-  private targetFor(view: RegionView | null): { center: [number, number]; k: number } | null {
-    if (!view) return { center: [this.width / 2, this.height / 2], k: 1 };
+  private targetFor(view: RegionView | null): Target | null {
+    if (!view) return { center: [this.width / 2, this.height / 2], k: 1, anchor: HOME_ANCHOR };
     const projected = this.base(view.center);
     if (!projected) return null;
-    return { center: [projected[0], projected[1]], k: view.zoom };
+    return { center: [projected[0], projected[1]], k: view.zoom, anchor: this.options.focus };
   }
 
-  /** Put a base-space point at the centre of the canvas at magnification k. */
-  private apply(center: [number, number], k: number) {
-    this.transform = { k, tx: this.width / 2 - k * center[0], ty: this.height / 2 - k * center[1] };
+  /** Put a base-space point at the anchor of the canvas at magnification k. */
+  private apply({ center, k, anchor }: Target) {
+    this.anchor = anchor;
+    this.transform = { k, tx: anchor[0] * this.width - k * center[0], ty: anchor[1] * this.height - k * center[1] };
   }
 
   /** Paint the land and the markets into a lookup raster and lay the dot grid over the land. */
@@ -276,16 +319,17 @@ export class MapRenderer {
     });
     this.mask = { width, height, pixels: context.getImageData(0, 0, width, height).data };
 
-    const [[x0, y0], [x1, y1]] = geoPath(this.base).bounds(SPHERE);
-    const spacing = clamp((x1 - x0) / 230, 4, 9);
+    const [[x0, y0], [x1, y1]] = geoPath(this.base).bounds(this.window);
+    const spacing = clamp((x1 - x0) / 225, 4, 9);
     this.spacing = spacing;
     const xs: number[] = [];
     const ys: number[] = [];
     const kinds: number[] = [];
+    // Only plain land gets dots; the markets are solid layers drawn over the grid.
     for (let y = y0 + spacing / 2; y < y1; y += spacing) {
       for (let x = x0 + spacing / 2; x < x1; x += spacing) {
         const kind = this.kindAt(x, y);
-        if (kind === KIND_SEA) continue;
+        if (kind !== KIND_LAND) continue;
         xs.push(x);
         ys.push(y);
         kinds.push(kind);
@@ -293,10 +337,10 @@ export class MapRenderer {
     }
     this.dots = { count: xs.length, x: Float32Array.from(xs), y: Float32Array.from(ys), kind: Uint8Array.from(kinds) };
 
-    // Keep whatever is selected centred after a resize; otherwise rest.
+    // Keep whatever is selected in focus after a resize; otherwise rest.
     const selectedView = this.selected >= 0 ? this.data.regions[this.selected]?.spec.view : null;
     const target = this.targetFor(selectedView ?? null);
-    if (target) this.apply(target.center, target.k);
+    if (target) this.apply(target);
     this.flight = null;
   }
 
@@ -338,12 +382,11 @@ export class MapRenderer {
       const { from, to, start, duration } = this.flight;
       const t = clamp((now - start) / duration, 0, 1);
       const e = easeInOutCubic(t);
-      const center: [number, number] = [
-        from.center[0] + (to.center[0] - from.center[0]) * e,
-        from.center[1] + (to.center[1] - from.center[1]) * e,
-      ];
-      const k = from.k * Math.pow(to.k / from.k, e);
-      this.apply(center, k);
+      this.apply({
+        center: [mix(from.center[0], to.center[0], e), mix(from.center[1], to.center[1], e)],
+        k: from.k * Math.pow(to.k / from.k, e),
+        anchor: [mix(from.anchor[0], to.anchor[0], e), mix(from.anchor[1], to.anchor[1], e)],
+      });
       if (t >= 1) {
         this.flight = null;
         this.options.onSettle?.();
@@ -377,36 +420,34 @@ export class MapRenderer {
 
     this.drawDots();
 
-    // Resting outline: faint, so the three markets read as the places to go.
+    // Markets are solid layers: a fill that separates from the white page and
+    // from the dotted countries, under an outline darker than the fill. Hover
+    // and selection deepen both; the outline thickens with magnification so
+    // it keeps its weight on screen.
+    const lineWidth = 1.6 + 0.35 * Math.max(0, k - 1);
     this.data.regions.forEach((region, index) => {
       const g = this.glow[index];
-      if (g >= 1) return;
       ctx.beginPath();
       this.path(region.feature);
-      ctx.globalAlpha = 0.18 * (1 - g);
-      ctx.strokeStyle = colors.accent;
-      ctx.lineWidth = 1;
-      ctx.stroke();
       ctx.globalAlpha = 1;
-    });
-
-    // Active market: soft fill, a wide faint stroke, a crisp edge.
-    this.data.regions.forEach((region, index) => {
-      const g = this.glow[index];
-      if (g <= 0) return;
-      ctx.beginPath();
-      this.path(region.feature);
-      ctx.fillStyle = colors.accent;
-      ctx.globalAlpha = 0.07 * g;
+      ctx.fillStyle = colors.fill;
       ctx.fill();
-      ctx.strokeStyle = colors.accent;
-      ctx.globalAlpha = 0.12 * g;
-      ctx.lineWidth = 8;
-      ctx.stroke();
-      ctx.globalAlpha = 0.95 * g;
-      ctx.lineWidth = 1.5;
-      ctx.stroke();
+      if (g > 0) {
+        ctx.globalAlpha = g;
+        ctx.fillStyle = colors.fillActive;
+        ctx.fill();
+      }
       ctx.globalAlpha = 1;
+      ctx.strokeStyle = colors.outline;
+      ctx.lineWidth = lineWidth;
+      ctx.stroke();
+      if (g > 0) {
+        ctx.globalAlpha = g;
+        ctx.strokeStyle = colors.outlineActive;
+        ctx.lineWidth = lineWidth + 0.6 * g;
+        ctx.stroke();
+        ctx.globalAlpha = 1;
+      }
     });
   }
 
@@ -417,45 +458,16 @@ export class MapRenderer {
     if (!ctx || !colors || !dots) return;
     const { k, tx, ty } = this.transform;
     const radius = this.spacing * 0.3 * Math.pow(k, 0.5);
-    const groups = new Map<string, { color: string; alpha: number; size: number; points: number[] }>();
-
-    const push = (key: string, color: string, alpha: number, size: number, x: number, y: number) => {
-      let group = groups.get(key);
-      if (!group) {
-        group = { color, alpha, size, points: [] };
-        groups.set(key, group);
-      }
-      group.points.push(x, y);
-    };
-
+    ctx.beginPath();
     for (let i = 0; i < dots.count; i++) {
       const x = dots.x[i] * k + tx;
       const y = dots.y[i] * k + ty;
       if (x < -radius || y < -radius || x > this.width + radius || y > this.height + radius) continue;
-      const kind = dots.kind[i];
-      if (kind >= KIND_REGION) {
-        const g = this.glow[kind - KIND_REGION] ?? 0;
-        if (g > 0) {
-          push(`a${String(kind)}`, colors.accent, 0.35 + 0.65 * g, radius * (1 + 0.15 * g), x, y);
-          continue;
-        }
-        push("m", colors.dotMarket, 1, radius, x, y);
-      } else {
-        push("d", colors.dot, 1, radius, x, y);
-      }
-    }
-
-    for (const group of groups.values()) {
-      ctx.beginPath();
-      const { points, size } = group;
-      for (let p = 0; p < points.length; p += 2) {
-        ctx.moveTo(points[p] + size, points[p + 1]);
-        ctx.arc(points[p], points[p + 1], size, 0, Math.PI * 2);
-      }
-      ctx.globalAlpha = group.alpha;
-      ctx.fillStyle = group.color;
-      ctx.fill();
+      ctx.moveTo(x + radius, y);
+      ctx.arc(x, y, radius, 0, Math.PI * 2);
     }
     ctx.globalAlpha = 1;
+    ctx.fillStyle = colors.dot;
+    ctx.fill();
   }
 }

@@ -2,15 +2,18 @@
  * The three markets a product manager can pick on the map. Member ids are
  * ISO 3166-1 numeric codes as used by Natural Earth / world-atlas. `view` is
  * the point the map centres on and the magnification applied when a market
- * is selected; `lonSpan` drops merged polygons whose centroid lies outside
- * the span (overseas territories such as French Guiana, which Natural Earth
- * files under France).
+ * is selected; `readoutAt` is where the market's figures sit on the resting
+ * map (inside the big markets, beside the small one); `lonSpan` drops merged
+ * polygons whose centroid lies outside the span (overseas territories such
+ * as French Guiana, which Natural Earth files under France).
  */
 export type RegionId = "CN" | "US" | "EU";
 
+export type LonLat = [number, number];
+
 export interface RegionView {
-  /** [longitude, latitude] placed at the centre of the viewport when selected. */
-  center: [number, number];
+  /** [longitude, latitude] placed at the focus of the viewport when selected. */
+  center: LonLat;
   /** Magnification relative to the resting map. */
   zoom: number;
 }
@@ -20,6 +23,9 @@ export interface RegionSpec {
   name: string;
   members: readonly string[];
   view: RegionView;
+  /** Anchor of the readout on the resting map and which edge of the readout sits on it. */
+  readoutAt: LonLat;
+  readoutAlign: "center" | "end";
   lonSpan?: [number, number];
 }
 
@@ -55,9 +61,32 @@ const EU_MEMBERS = [
 ] as const;
 
 export const REGIONS: readonly RegionSpec[] = [
-  { id: "CN", name: "China", members: ["156"], view: { center: [104, 36], zoom: 2.6 } },
-  { id: "US", name: "United States", members: ["840"], view: { center: [-98, 39], zoom: 2.4 } },
-  { id: "EU", name: "European Union", members: EU_MEMBERS, view: { center: [12, 53], zoom: 3.2 }, lonSpan: [-32, 45] },
+  {
+    id: "CN",
+    name: "China",
+    members: ["156"],
+    view: { center: [104, 36], zoom: 2.6 },
+    readoutAt: [103, 37],
+    readoutAlign: "center",
+  },
+  {
+    id: "US",
+    name: "United States",
+    members: ["840"],
+    view: { center: [-98, 39], zoom: 2.4 },
+    readoutAt: [-98, 40],
+    readoutAlign: "center",
+  },
+  {
+    id: "EU",
+    name: "European Union",
+    members: EU_MEMBERS,
+    view: { center: [12, 53], zoom: 3.2 },
+    // Europe is small on the resting map; the readout sits on the Atlantic, its right edge at the Irish coast.
+    readoutAt: [-12, 51],
+    readoutAlign: "end",
+    lonSpan: [-32, 45],
+  },
 ];
 
 export function regionById(id: RegionId): RegionSpec {

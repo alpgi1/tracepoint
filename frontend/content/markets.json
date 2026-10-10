@@ -1,0 +1,1240 @@
+{
+  "generatedAt": "2026-10-10",
+  "dataVintage": {
+    "sales": "sales_volumes.xlsx: 2025 actual, 2030 forecast",
+    "verbatims": "feedback_hackathon.xlsx per vehicle, classified rows as ingested by Phase 1",
+    "studies": "CN_EU_2025 means (1-10), US_2025 distributions (1-7 derived mean)",
+    "baselineReports": [
+      "F70_EU",
+      "G60_EU",
+      "G60_US",
+      "G70_US"
+    ]
+  },
+  "domains": [
+    {
+      "key": "exterior_design",
+      "name": "Exterior & Design",
+      "description": "Exterior styling, colours, wheels, lighting look, body details"
+    },
+    {
+      "key": "interior_comfort",
+      "name": "Interior Comfort & Materials",
+      "description": "Seats, climate, ambient light, materials, interior design and comfort features"
+    },
+    {
+      "key": "space_practicality",
+      "name": "Space & Practicality",
+      "description": "Roominess, storage, luggage compartment, access, loading, everyday usability"
+    },
+    {
+      "key": "infotainment_digital",
+      "name": "Infotainment & Digital Services",
+      "description": "Displays, operating system, HMI, apps, connectivity, voice, digital key, remote services"
+    },
+    {
+      "key": "driver_assistance",
+      "name": "Driver Assistance & Parking",
+      "description": "Assistance, parking and safety features as experienced by the customer"
+    },
+    {
+      "key": "powertrain_range_charging",
+      "name": "Powertrain, Range & Charging",
+      "description": "Engine / e-drive experience, efficiency, electric range, charging, refuelling"
+    },
+    {
+      "key": "driving_dynamics",
+      "name": "Driving Experience & Dynamics",
+      "description": "Handling, ride comfort, steering, braking, driving modes, engine sound"
+    },
+    {
+      "key": "quality_nvh",
+      "name": "Quality Perception & NVH",
+      "description": "Build quality, reliability impressions, noises, squeaks, interior acoustics"
+    },
+    {
+      "key": "offering_variants",
+      "name": "Variant & Package Offering",
+      "description": "Trims, packages, standard vs optional equipment, availability per variant"
+    },
+    {
+      "key": "general",
+      "name": "General / Cross-cutting",
+      "description": "Statements that do not belong to one domain (overall praise, dealer, documentation)"
+    }
+  ],
+  "markets": [
+    {
+      "code": "CN",
+      "name": "China",
+      "sales": {
+        "year": 2025,
+        "units": 85000,
+        "source": "docs/sales_volumes.xlsx, all vehicle sheets"
+      },
+      "verbatims": {
+        "count": 0,
+        "source": "reports/baseline/*.json coverage.verbatims (unique verbatims per vehicle and market)"
+      },
+      "weakestDomain": null,
+      "weakestDomainSource": "Highest complaint share among domains with at least 50 classified rows, summed over the market's baseline reports",
+      "study": {
+        "attribute": "Connected services",
+        "score": 7.33,
+        "overall": 9.2,
+        "scale": "1-10 mean",
+        "vehicles": [
+          "G68",
+          "G70"
+        ]
+      },
+      "vehicles": [
+        {
+          "code": "G68",
+          "name": "BMW 5 Series Long Wheelbase (China)",
+          "series": "5 Series",
+          "drawing": "G60",
+          "sales": {
+            "year": 2025,
+            "units": 75000,
+            "source": "docs/sales_volumes.xlsx sheet G60_G68"
+          },
+          "verbatims": 0,
+          "weakestDomain": null,
+          "domains": [],
+          "complaintThemes": [],
+          "study": {
+            "sheet": "CN_EU_2025",
+            "overall": 8.77,
+            "weakest": [
+              {
+                "attribute": "Ease of loading/ unloading luggage",
+                "score": 7.25
+              },
+              {
+                "attribute": "Connected services",
+                "score": 7.35
+              },
+              {
+                "attribute": "Braking",
+                "score": 7.38
+              }
+            ],
+            "scale": "1-10 mean"
+          }
+        },
+        {
+          "code": "G70",
+          "name": "BMW 7 Series",
+          "series": "7 Series",
+          "drawing": "G70",
+          "sales": {
+            "year": 2025,
+            "units": 10000,
+            "source": "docs/sales_volumes.xlsx sheet G70"
+          },
+          "verbatims": 0,
+          "weakestDomain": null,
+          "domains": [],
+          "complaintThemes": [],
+          "study": {
+            "sheet": "CN_EU_2025",
+            "overall": 9.64,
+            "weakest": [
+              {
+                "attribute": "Connected services",
+                "score": 7.32
+              },
+              {
+                "attribute": "Environm. friendliness",
+                "score": 7.44
+              },
+              {
+                "attribute": "Ease of loading/ unloading luggage",
+                "score": 7.46
+              }
+            ],
+            "scale": "1-10 mean"
+          }
+        }
+      ]
+    },
+    {
+      "code": "US",
+      "name": "United States",
+      "sales": {
+        "year": 2025,
+        "units": 90000,
+        "source": "docs/sales_volumes.xlsx, all vehicle sheets"
+      },
+      "verbatims": {
+        "count": 7428,
+        "source": "reports/baseline/*.json coverage.verbatims (unique verbatims per vehicle and market)"
+      },
+      "weakestDomain": {
+        "key": "space_practicality",
+        "name": "Space & Practicality",
+        "complaintShare": 0.736,
+        "rows": 421
+      },
+      "weakestDomainSource": "Highest complaint share among domains with at least 50 classified rows, summed over the market's baseline reports",
+      "study": null,
+      "vehicles": [
+        {
+          "code": "G60",
+          "name": "BMW 5 Series Sedan",
+          "series": "5 Series",
+          "drawing": "G60",
+          "sales": {
+            "year": 2025,
+            "units": 78000,
+            "source": "docs/sales_volumes.xlsx sheet G60_G68"
+          },
+          "verbatims": 3628,
+          "weakestDomain": {
+            "key": "space_practicality",
+            "name": "Space & Practicality",
+            "complaintShare": 0.778,
+            "rows": 239
+          },
+          "domains": [
+            {
+              "key": "infotainment_digital",
+              "name": "Infotainment & Digital Services",
+              "rows": 876,
+              "complaints": 628,
+              "likes": 247,
+              "complaintShare": 0.717
+            },
+            {
+              "key": "powertrain_range_charging",
+              "name": "Powertrain, Range & Charging",
+              "rows": 677,
+              "complaints": 311,
+              "likes": 365,
+              "complaintShare": 0.459
+            },
+            {
+              "key": "interior_comfort",
+              "name": "Interior Comfort & Materials",
+              "rows": 622,
+              "complaints": 361,
+              "likes": 260,
+              "complaintShare": 0.58
+            },
+            {
+              "key": "driving_dynamics",
+              "name": "Driving Experience & Dynamics",
+              "rows": 477,
+              "complaints": 143,
+              "likes": 332,
+              "complaintShare": 0.3
+            },
+            {
+              "key": "driver_assistance",
+              "name": "Driver Assistance & Parking",
+              "rows": 340,
+              "complaints": 227,
+              "likes": 112,
+              "complaintShare": 0.668
+            },
+            {
+              "key": "exterior_design",
+              "name": "Exterior & Design",
+              "rows": 325,
+              "complaints": 135,
+              "likes": 190,
+              "complaintShare": 0.415
+            },
+            {
+              "key": "quality_nvh",
+              "name": "Quality Perception & NVH",
+              "rows": 246,
+              "complaints": 106,
+              "likes": 140,
+              "complaintShare": 0.431
+            },
+            {
+              "key": "space_practicality",
+              "name": "Space & Practicality",
+              "rows": 239,
+              "complaints": 186,
+              "likes": 53,
+              "complaintShare": 0.778
+            },
+            {
+              "key": "general",
+              "name": "General / Cross-cutting",
+              "rows": 51,
+              "complaints": 46,
+              "likes": 5,
+              "complaintShare": 0.902
+            }
+          ],
+          "complaintThemes": [
+            {
+              "theme": "Body equipment, overall technology",
+              "domain": "quality_nvh",
+              "rows": 193,
+              "complaints": 74,
+              "defects": 0,
+              "difficultToUse": 56,
+              "wants": 18
+            },
+            {
+              "theme": "Seats",
+              "domain": "interior_comfort",
+              "rows": 98,
+              "complaints": 55,
+              "defects": 13,
+              "difficultToUse": 30,
+              "wants": 12
+            },
+            {
+              "theme": "Drivetrain",
+              "domain": "powertrain_range_charging",
+              "rows": 325,
+              "complaints": 50,
+              "defects": 13,
+              "difficultToUse": 25,
+              "wants": 12
+            },
+            {
+              "theme": "Electric Range",
+              "domain": "powertrain_range_charging",
+              "rows": 78,
+              "complaints": 50,
+              "defects": 0,
+              "difficultToUse": 40,
+              "wants": 10
+            },
+            {
+              "theme": "non-contact trunk lid opening",
+              "domain": "space_practicality",
+              "rows": 43,
+              "complaints": 41,
+              "defects": 1,
+              "difficultToUse": 39,
+              "wants": 1
+            },
+            {
+              "theme": "Public charging / external providers",
+              "domain": "powertrain_range_charging",
+              "rows": 47,
+              "complaints": 38,
+              "defects": 5,
+              "difficultToUse": 24,
+              "wants": 9
+            },
+            {
+              "theme": "Automatic engine start-stop function (MSA)",
+              "domain": "powertrain_range_charging",
+              "rows": 37,
+              "complaints": 35,
+              "defects": 2,
+              "difficultToUse": 22,
+              "wants": 11
+            },
+            {
+              "theme": "Apple CarPlay",
+              "domain": "infotainment_digital",
+              "rows": 43,
+              "complaints": 34,
+              "defects": 10,
+              "difficultToUse": 21,
+              "wants": 3
+            },
+            {
+              "theme": "Operating concept, operating system",
+              "domain": "infotainment_digital",
+              "rows": 53,
+              "complaints": 32,
+              "defects": 0,
+              "difficultToUse": 18,
+              "wants": 14
+            },
+            {
+              "theme": "Instrument cluster",
+              "domain": "infotainment_digital",
+              "rows": 39,
+              "complaints": 32,
+              "defects": 3,
+              "difficultToUse": 22,
+              "wants": 7
+            },
+            {
+              "theme": "Braking",
+              "domain": "driving_dynamics",
+              "rows": 38,
+              "complaints": 31,
+              "defects": 4,
+              "difficultToUse": 24,
+              "wants": 3
+            },
+            {
+              "theme": "My Modes / driving experience",
+              "domain": "driving_dynamics",
+              "rows": 56,
+              "complaints": 30,
+              "defects": 1,
+              "difficultToUse": 16,
+              "wants": 13
+            },
+            {
+              "theme": "Door, open / close",
+              "domain": "space_practicality",
+              "rows": 32,
+              "complaints": 30,
+              "defects": 8,
+              "difficultToUse": 13,
+              "wants": 9
+            },
+            {
+              "theme": "Vehicle, lock / unlock",
+              "domain": "infotainment_digital",
+              "rows": 32,
+              "complaints": 30,
+              "defects": 4,
+              "difficultToUse": 22,
+              "wants": 4
+            },
+            {
+              "theme": "Touch screen, operation",
+              "domain": "infotainment_digital",
+              "rows": 64,
+              "complaints": 29,
+              "defects": 2,
+              "difficultToUse": 23,
+              "wants": 4
+            }
+          ],
+          "study": {
+            "sheet": "US_2025",
+            "overall": null,
+            "weakest": [
+              {
+                "attribute": "Off-Road capability",
+                "score": 4.53
+              },
+              {
+                "attribute": "If applicable: Flat tire preparedness (spare, run flat, etc.)",
+                "score": 4.68
+              },
+              {
+                "attribute": "Affordable to buy",
+                "score": 4.7
+              }
+            ],
+            "scale": "1-7 derived mean"
+          }
+        },
+        {
+          "code": "G70",
+          "name": "BMW 7 Series",
+          "series": "7 Series",
+          "drawing": "G70",
+          "sales": {
+            "year": 2025,
+            "units": 12000,
+            "source": "docs/sales_volumes.xlsx sheet G70"
+          },
+          "verbatims": 3800,
+          "weakestDomain": {
+            "key": "infotainment_digital",
+            "name": "Infotainment & Digital Services",
+            "complaintShare": 0.717,
+            "rows": 851
+          },
+          "domains": [
+            {
+              "key": "infotainment_digital",
+              "name": "Infotainment & Digital Services",
+              "rows": 851,
+              "complaints": 610,
+              "likes": 239,
+              "complaintShare": 0.717
+            },
+            {
+              "key": "interior_comfort",
+              "name": "Interior Comfort & Materials",
+              "rows": 794,
+              "complaints": 417,
+              "likes": 373,
+              "complaintShare": 0.525
+            },
+            {
+              "key": "powertrain_range_charging",
+              "name": "Powertrain, Range & Charging",
+              "rows": 579,
+              "complaints": 249,
+              "likes": 328,
+              "complaintShare": 0.43
+            },
+            {
+              "key": "driving_dynamics",
+              "name": "Driving Experience & Dynamics",
+              "rows": 492,
+              "complaints": 126,
+              "likes": 365,
+              "complaintShare": 0.256
+            },
+            {
+              "key": "exterior_design",
+              "name": "Exterior & Design",
+              "rows": 352,
+              "complaints": 155,
+              "likes": 197,
+              "complaintShare": 0.44
+            },
+            {
+              "key": "driver_assistance",
+              "name": "Driver Assistance & Parking",
+              "rows": 332,
+              "complaints": 228,
+              "likes": 103,
+              "complaintShare": 0.687
+            },
+            {
+              "key": "quality_nvh",
+              "name": "Quality Perception & NVH",
+              "rows": 224,
+              "complaints": 96,
+              "likes": 126,
+              "complaintShare": 0.429
+            },
+            {
+              "key": "space_practicality",
+              "name": "Space & Practicality",
+              "rows": 182,
+              "complaints": 124,
+              "likes": 58,
+              "complaintShare": 0.681
+            },
+            {
+              "key": "general",
+              "name": "General / Cross-cutting",
+              "rows": 61,
+              "complaints": 58,
+              "likes": 3,
+              "complaintShare": 0.951
+            }
+          ],
+          "complaintThemes": [
+            {
+              "theme": "Body equipment, overall technology",
+              "domain": "quality_nvh",
+              "rows": 169,
+              "complaints": 66,
+              "defects": 0,
+              "difficultToUse": 52,
+              "wants": 14
+            },
+            {
+              "theme": "Drivetrain",
+              "domain": "powertrain_range_charging",
+              "rows": 306,
+              "complaints": 42,
+              "defects": 23,
+              "difficultToUse": 16,
+              "wants": 3
+            },
+            {
+              "theme": "Vehicle, climatization",
+              "domain": "interior_comfort",
+              "rows": 43,
+              "complaints": 41,
+              "defects": 5,
+              "difficultToUse": 32,
+              "wants": 4
+            },
+            {
+              "theme": "Personal eSIM",
+              "domain": "infotainment_digital",
+              "rows": 39,
+              "complaints": 38,
+              "defects": 10,
+              "difficultToUse": 26,
+              "wants": 2
+            },
+            {
+              "theme": "Operating concept, operating system",
+              "domain": "infotainment_digital",
+              "rows": 59,
+              "complaints": 37,
+              "defects": 0,
+              "difficultToUse": 33,
+              "wants": 4
+            },
+            {
+              "theme": "Exterior",
+              "domain": "exterior_design",
+              "rows": 57,
+              "complaints": 36,
+              "defects": 27,
+              "difficultToUse": 9,
+              "wants": 0
+            },
+            {
+              "theme": "Seats",
+              "domain": "interior_comfort",
+              "rows": 99,
+              "complaints": 36,
+              "defects": 10,
+              "difficultToUse": 18,
+              "wants": 8
+            },
+            {
+              "theme": "Electric Range",
+              "domain": "powertrain_range_charging",
+              "rows": 54,
+              "complaints": 35,
+              "defects": 0,
+              "difficultToUse": 22,
+              "wants": 13
+            },
+            {
+              "theme": "Touch screen, operation",
+              "domain": "infotainment_digital",
+              "rows": 59,
+              "complaints": 33,
+              "defects": 4,
+              "difficultToUse": 26,
+              "wants": 3
+            },
+            {
+              "theme": "ConnectedDrive and Infotainment, overall technology",
+              "domain": "infotainment_digital",
+              "rows": 60,
+              "complaints": 32,
+              "defects": 23,
+              "difficultToUse": 9,
+              "wants": 0
+            },
+            {
+              "theme": "Automatic engine start-stop function (MSA)",
+              "domain": "powertrain_range_charging",
+              "rows": 34,
+              "complaints": 31,
+              "defects": 2,
+              "difficultToUse": 16,
+              "wants": 13
+            },
+            {
+              "theme": "Door, open / close",
+              "domain": "space_practicality",
+              "rows": 32,
+              "complaints": 29,
+              "defects": 7,
+              "difficultToUse": 13,
+              "wants": 9
+            },
+            {
+              "theme": "Panorama glass roof",
+              "domain": "interior_comfort",
+              "rows": 39,
+              "complaints": 29,
+              "defects": 9,
+              "difficultToUse": 6,
+              "wants": 14
+            },
+            {
+              "theme": "My Modes / driving experience",
+              "domain": "driving_dynamics",
+              "rows": 56,
+              "complaints": 28,
+              "defects": 1,
+              "difficultToUse": 16,
+              "wants": 11
+            },
+            {
+              "theme": "My BMW App / MINI App",
+              "domain": "infotainment_digital",
+              "rows": 34,
+              "complaints": 28,
+              "defects": 2,
+              "difficultToUse": 24,
+              "wants": 2
+            }
+          ],
+          "study": {
+            "sheet": "US_2025",
+            "overall": null,
+            "weakest": [
+              {
+                "attribute": "Future trade-in or resale value",
+                "score": 3.77
+              },
+              {
+                "attribute": "Affordable to buy",
+                "score": 3.78
+              },
+              {
+                "attribute": "Economical to own (cost of ownership)",
+                "score": 4.03
+              }
+            ],
+            "scale": "1-7 derived mean"
+          }
+        }
+      ]
+    },
+    {
+      "code": "EU",
+      "name": "European Union",
+      "sales": {
+        "year": 2025,
+        "units": 213000,
+        "source": "docs/sales_volumes.xlsx, all vehicle sheets"
+      },
+      "verbatims": {
+        "count": 1544,
+        "source": "reports/baseline/*.json coverage.verbatims (unique verbatims per vehicle and market)"
+      },
+      "weakestDomain": {
+        "key": "infotainment_digital",
+        "name": "Infotainment & Digital Services",
+        "complaintShare": 0.856,
+        "rows": 527
+      },
+      "weakestDomainSource": "Highest complaint share among domains with at least 50 classified rows, summed over the market's baseline reports",
+      "study": {
+        "attribute": "Value for money",
+        "score": 7.22,
+        "overall": 8.25,
+        "scale": "1-10 mean",
+        "vehicles": [
+          "F70",
+          "G60",
+          "G70"
+        ]
+      },
+      "vehicles": [
+        {
+          "code": "F70",
+          "name": "BMW 1 Series",
+          "series": "1 Series",
+          "drawing": "F70",
+          "sales": {
+            "year": 2025,
+            "units": 85000,
+            "source": "docs/sales_volumes.xlsx sheet F70"
+          },
+          "verbatims": 1433,
+          "weakestDomain": {
+            "key": "infotainment_digital",
+            "name": "Infotainment & Digital Services",
+            "complaintShare": 0.863,
+            "rows": 496
+          },
+          "domains": [
+            {
+              "key": "driving_dynamics",
+              "name": "Driving Experience & Dynamics",
+              "rows": 592,
+              "complaints": 87,
+              "likes": 505,
+              "complaintShare": 0.147
+            },
+            {
+              "key": "infotainment_digital",
+              "name": "Infotainment & Digital Services",
+              "rows": 496,
+              "complaints": 428,
+              "likes": 68,
+              "complaintShare": 0.863
+            },
+            {
+              "key": "powertrain_range_charging",
+              "name": "Powertrain, Range & Charging",
+              "rows": 382,
+              "complaints": 135,
+              "likes": 247,
+              "complaintShare": 0.353
+            },
+            {
+              "key": "interior_comfort",
+              "name": "Interior Comfort & Materials",
+              "rows": 246,
+              "complaints": 153,
+              "likes": 93,
+              "complaintShare": 0.622
+            },
+            {
+              "key": "exterior_design",
+              "name": "Exterior & Design",
+              "rows": 132,
+              "complaints": 74,
+              "likes": 58,
+              "complaintShare": 0.561
+            },
+            {
+              "key": "driver_assistance",
+              "name": "Driver Assistance & Parking",
+              "rows": 124,
+              "complaints": 71,
+              "likes": 53,
+              "complaintShare": 0.573
+            },
+            {
+              "key": "space_practicality",
+              "name": "Space & Practicality",
+              "rows": 94,
+              "complaints": 76,
+              "likes": 18,
+              "complaintShare": 0.809
+            },
+            {
+              "key": "quality_nvh",
+              "name": "Quality Perception & NVH",
+              "rows": 85,
+              "complaints": 42,
+              "likes": 43,
+              "complaintShare": 0.494
+            },
+            {
+              "key": "general",
+              "name": "General / Cross-cutting",
+              "rows": 40,
+              "complaints": 40,
+              "likes": 0,
+              "complaintShare": 1.0
+            }
+          ],
+          "complaintThemes": [
+            {
+              "theme": "Touch screen, operation",
+              "domain": "infotainment_digital",
+              "rows": 138,
+              "complaints": 120,
+              "defects": 31,
+              "difficultToUse": 76,
+              "wants": 13
+            },
+            {
+              "theme": "ConnectedDrive and Infotainment, overall technology",
+              "domain": "infotainment_digital",
+              "rows": 111,
+              "complaints": 87,
+              "defects": 37,
+              "difficultToUse": 50,
+              "wants": 0
+            },
+            {
+              "theme": "Drivetrain",
+              "domain": "powertrain_range_charging",
+              "rows": 303,
+              "complaints": 78,
+              "defects": 15,
+              "difficultToUse": 48,
+              "wants": 15
+            },
+            {
+              "theme": "Owner's Manual",
+              "domain": "infotainment_digital",
+              "rows": 63,
+              "complaints": 60,
+              "defects": 0,
+              "difficultToUse": 41,
+              "wants": 19
+            },
+            {
+              "theme": "Seats",
+              "domain": "interior_comfort",
+              "rows": 83,
+              "complaints": 42,
+              "defects": 23,
+              "difficultToUse": 14,
+              "wants": 5
+            },
+            {
+              "theme": "General enquiry: customer feedback",
+              "domain": "general",
+              "rows": 37,
+              "complaints": 37,
+              "defects": 0,
+              "difficultToUse": 37,
+              "wants": 0
+            },
+            {
+              "theme": "Body equipment, overall technology",
+              "domain": "quality_nvh",
+              "rows": 71,
+              "complaints": 29,
+              "defects": 0,
+              "difficultToUse": 5,
+              "wants": 24
+            },
+            {
+              "theme": "Transmission",
+              "domain": "powertrain_range_charging",
+              "rows": 42,
+              "complaints": 27,
+              "defects": 8,
+              "difficultToUse": 13,
+              "wants": 6
+            },
+            {
+              "theme": "Wheels / tires",
+              "domain": "exterior_design",
+              "rows": 25,
+              "complaints": 24,
+              "defects": 15,
+              "difficultToUse": 3,
+              "wants": 6
+            },
+            {
+              "theme": "Audio mode, sound",
+              "domain": "infotainment_digital",
+              "rows": 27,
+              "complaints": 23,
+              "defects": 16,
+              "difficultToUse": 2,
+              "wants": 5
+            },
+            {
+              "theme": "Cushioning / damping vehicle",
+              "domain": "driving_dynamics",
+              "rows": 28,
+              "complaints": 22,
+              "defects": 12,
+              "difficultToUse": 0,
+              "wants": 10
+            },
+            {
+              "theme": "Navigation",
+              "domain": "infotainment_digital",
+              "rows": 24,
+              "complaints": 20,
+              "defects": 9,
+              "difficultToUse": 9,
+              "wants": 2
+            },
+            {
+              "theme": "Exterior rearview mirror",
+              "domain": "exterior_design",
+              "rows": 27,
+              "complaints": 20,
+              "defects": 11,
+              "difficultToUse": 2,
+              "wants": 7
+            },
+            {
+              "theme": "Driver assistance, automated driving, overall technology",
+              "domain": "driver_assistance",
+              "rows": 29,
+              "complaints": 18,
+              "defects": 15,
+              "difficultToUse": 0,
+              "wants": 3
+            },
+            {
+              "theme": "Instrument panel",
+              "domain": "interior_comfort",
+              "rows": 24,
+              "complaints": 18,
+              "defects": 10,
+              "difficultToUse": 7,
+              "wants": 1
+            }
+          ],
+          "study": {
+            "sheet": "CN_EU_2025",
+            "overall": 8.46,
+            "weakest": [
+              {
+                "attribute": "Luggage capacity",
+                "score": 7.07
+              },
+              {
+                "attribute": "Heating/ ventilation/ air conditioning",
+                "score": 7.3
+              },
+              {
+                "attribute": "Connected services",
+                "score": 7.36
+              }
+            ],
+            "scale": "1-10 mean"
+          }
+        },
+        {
+          "code": "G60",
+          "name": "BMW 5 Series Sedan",
+          "series": "5 Series",
+          "drawing": "G60",
+          "sales": {
+            "year": 2025,
+            "units": 115000,
+            "source": "docs/sales_volumes.xlsx sheet G60_G68"
+          },
+          "verbatims": 111,
+          "weakestDomain": null,
+          "domains": [
+            {
+              "key": "driving_dynamics",
+              "name": "Driving Experience & Dynamics",
+              "rows": 38,
+              "complaints": 6,
+              "likes": 32,
+              "complaintShare": 0.158
+            },
+            {
+              "key": "powertrain_range_charging",
+              "name": "Powertrain, Range & Charging",
+              "rows": 37,
+              "complaints": 20,
+              "likes": 17,
+              "complaintShare": 0.541
+            },
+            {
+              "key": "infotainment_digital",
+              "name": "Infotainment & Digital Services",
+              "rows": 31,
+              "complaints": 23,
+              "likes": 8,
+              "complaintShare": 0.742
+            },
+            {
+              "key": "interior_comfort",
+              "name": "Interior Comfort & Materials",
+              "rows": 17,
+              "complaints": 15,
+              "likes": 2,
+              "complaintShare": 0.882
+            },
+            {
+              "key": "driver_assistance",
+              "name": "Driver Assistance & Parking",
+              "rows": 13,
+              "complaints": 6,
+              "likes": 7,
+              "complaintShare": 0.462
+            },
+            {
+              "key": "quality_nvh",
+              "name": "Quality Perception & NVH",
+              "rows": 10,
+              "complaints": 7,
+              "likes": 3,
+              "complaintShare": 0.7
+            },
+            {
+              "key": "exterior_design",
+              "name": "Exterior & Design",
+              "rows": 9,
+              "complaints": 7,
+              "likes": 2,
+              "complaintShare": 0.778
+            },
+            {
+              "key": "space_practicality",
+              "name": "Space & Practicality",
+              "rows": 8,
+              "complaints": 7,
+              "likes": 1,
+              "complaintShare": 0.875
+            },
+            {
+              "key": "general",
+              "name": "General / Cross-cutting",
+              "rows": 2,
+              "complaints": 2,
+              "likes": 0,
+              "complaintShare": 1.0
+            }
+          ],
+          "complaintThemes": [
+            {
+              "theme": "Electric Range",
+              "domain": "powertrain_range_charging",
+              "rows": 17,
+              "complaints": 12,
+              "defects": 0,
+              "difficultToUse": 12,
+              "wants": 0
+            },
+            {
+              "theme": "ConnectedDrive and Infotainment, overall technology",
+              "domain": "infotainment_digital",
+              "rows": 6,
+              "complaints": 5,
+              "defects": 0,
+              "difficultToUse": 5,
+              "wants": 0
+            },
+            {
+              "theme": "Body equipment, overall technology",
+              "domain": "quality_nvh",
+              "rows": 7,
+              "complaints": 5,
+              "defects": 0,
+              "difficultToUse": 1,
+              "wants": 4
+            },
+            {
+              "theme": "Touch screen, operation",
+              "domain": "infotainment_digital",
+              "rows": 6,
+              "complaints": 4,
+              "defects": 2,
+              "difficultToUse": 2,
+              "wants": 0
+            },
+            {
+              "theme": "Seats",
+              "domain": "interior_comfort",
+              "rows": 3,
+              "complaints": 3,
+              "defects": 1,
+              "difficultToUse": 1,
+              "wants": 1
+            },
+            {
+              "theme": "Exterior lighting",
+              "domain": "exterior_design",
+              "rows": 4,
+              "complaints": 3,
+              "defects": 1,
+              "difficultToUse": 1,
+              "wants": 1
+            },
+            {
+              "theme": "General enquiry: customer feedback",
+              "domain": "general",
+              "rows": 2,
+              "complaints": 2,
+              "defects": 0,
+              "difficultToUse": 2,
+              "wants": 0
+            },
+            {
+              "theme": "Vehicle interior, lighting",
+              "domain": "interior_comfort",
+              "rows": 2,
+              "complaints": 2,
+              "defects": 0,
+              "difficultToUse": 1,
+              "wants": 1
+            },
+            {
+              "theme": "Trailer, use",
+              "domain": "space_practicality",
+              "rows": 2,
+              "complaints": 2,
+              "defects": 2,
+              "difficultToUse": 0,
+              "wants": 0
+            },
+            {
+              "theme": "Radio function",
+              "domain": "infotainment_digital",
+              "rows": 2,
+              "complaints": 2,
+              "defects": 1,
+              "difficultToUse": 1,
+              "wants": 0
+            },
+            {
+              "theme": "Navigation",
+              "domain": "infotainment_digital",
+              "rows": 2,
+              "complaints": 2,
+              "defects": 0,
+              "difficultToUse": 1,
+              "wants": 1
+            },
+            {
+              "theme": "Speed Limit Assistant",
+              "domain": "driver_assistance",
+              "rows": 2,
+              "complaints": 2,
+              "defects": 1,
+              "difficultToUse": 1,
+              "wants": 0
+            },
+            {
+              "theme": "Door, front",
+              "domain": "quality_nvh",
+              "rows": 2,
+              "complaints": 2,
+              "defects": 2,
+              "difficultToUse": 0,
+              "wants": 0
+            },
+            {
+              "theme": "Trunk lid",
+              "domain": "space_practicality",
+              "rows": 2,
+              "complaints": 2,
+              "defects": 2,
+              "difficultToUse": 0,
+              "wants": 0
+            },
+            {
+              "theme": "Trunk lid, open / close",
+              "domain": "space_practicality",
+              "rows": 2,
+              "complaints": 2,
+              "defects": 1,
+              "difficultToUse": 0,
+              "wants": 1
+            }
+          ],
+          "study": {
+            "sheet": "CN_EU_2025",
+            "overall": 8.32,
+            "weakest": [
+              {
+                "attribute": "Ease of loading/ unloading luggage",
+                "score": 7.24
+              },
+              {
+                "attribute": "Value for money",
+                "score": 7.36
+              },
+              {
+                "attribute": "Connected services",
+                "score": 7.37
+              }
+            ],
+            "scale": "1-10 mean"
+          }
+        },
+        {
+          "code": "G70",
+          "name": "BMW 7 Series",
+          "series": "7 Series",
+          "drawing": "G70",
+          "sales": {
+            "year": 2025,
+            "units": 13000,
+            "source": "docs/sales_volumes.xlsx sheet G70"
+          },
+          "verbatims": 0,
+          "weakestDomain": null,
+          "domains": [],
+          "complaintThemes": [],
+          "study": {
+            "sheet": "CN_EU_2025",
+            "overall": 7.98,
+            "weakest": [
+              {
+                "attribute": "Value for money",
+                "score": 6.47
+              },
+              {
+                "attribute": "Sportiness",
+                "score": 6.97
+              },
+              {
+                "attribute": "Luggage capacity",
+                "score": 7.41
+              }
+            ],
+            "scale": "1-10 mean"
+          }
+        }
+      ]
+    }
+  ]
+}

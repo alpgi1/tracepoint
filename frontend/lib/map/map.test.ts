@@ -1,7 +1,7 @@
 import { readFileSync } from "node:fs";
 import { geoContains, geoNaturalEarth1, geoPath } from "d3-geo";
 import { describe, expect, it } from "vitest";
-import { KIND_LAND, KIND_REGION, KIND_SEA, buildMapData, mergeMembers, trimToLonSpan, type WorldTopology } from "./data";
+import { KIND_LAND, KIND_REGION, KIND_SEA, buildMapData, fitWindow, mergeMembers, trimToLonSpan, type WorldTopology } from "./data";
 import { REGIONS, regionById } from "./regions";
 
 const topology = JSON.parse(readFileSync("node_modules/world-atlas/countries-110m.json", "utf8")) as WorldTopology;
@@ -43,28 +43,44 @@ describe("market outlines", () => {
 });
 
 describe("projection fit", () => {
-  it("fits the whole sphere inside the padded extent and keeps the market centres on the map", () => {
+  it("fits the window inside the padded extent and keeps the market centres and readouts on the map", () => {
     const projection = geoNaturalEarth1().fitExtent(
+      [
+        [16, 16],
+        [1424, 884],
+      ],
+      fitWindow(),
+    );
+    const [[x0, y0], [x1, y1]] = geoPath(projection).bounds(fitWindow());
+    expect(x0).toBeGreaterThanOrEqual(15.9);
+    expect(x1).toBeLessThanOrEqual(1424.1);
+    expect(y0).toBeGreaterThanOrEqual(15.9);
+    expect(y1).toBeLessThanOrEqual(884.1);
+    // The world is wider than any viewport, so the fit stays width-limited: the gain over the old sphere fit is a few percent.
+    const sphere = geoNaturalEarth1().fitExtent(
       [
         [48, 48],
         [1392, 852],
       ],
       { type: "Sphere" },
     );
-    const [[x0, y0], [x1, y1]] = geoPath(projection).bounds({ type: "Sphere" });
-    expect(x0).toBeGreaterThanOrEqual(47.9);
-    expect(x1).toBeLessThanOrEqual(1392.1);
-    expect(y0).toBeGreaterThanOrEqual(47.9);
-    expect(y1).toBeLessThanOrEqual(852.1);
+    expect(projection.scale()).toBeGreaterThan(sphere.scale() * 1.04);
     for (const region of REGIONS) {
-      const at = projection(region.view.center);
-      expect(at).not.toBeNull();
-      const [x, y] = at as [number, number];
-      expect(x).toBeGreaterThan(x0);
-      expect(x).toBeLessThan(x1);
-      expect(y).toBeGreaterThan(y0);
-      expect(y).toBeLessThan(y1);
+      for (const point of [region.view.center, region.readoutAt]) {
+        const at = projection(point);
+        expect(at).not.toBeNull();
+        const [x, y] = at as [number, number];
+        expect(x).toBeGreaterThan(x0);
+        expect(x).toBeLessThan(x1);
+        expect(y).toBeGreaterThan(y0);
+        expect(y).toBeLessThan(y1);
+      }
       expect(classify(region.view.center[0], region.view.center[1])).toBe(KIND_REGION + REGIONS.indexOf(region));
     }
+  });
+
+  it("leaves Antarctica off the land", () => {
+    expect(classify(0, -80)).toBe(KIND_SEA);
+    expect(classify(-68.3, -54.8)).toBe(KIND_LAND); // Ushuaia stays
   });
 });

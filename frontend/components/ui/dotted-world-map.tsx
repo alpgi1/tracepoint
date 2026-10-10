@@ -14,7 +14,14 @@ import { cn } from "@/lib/utils";
  * scripts/sync-map-data.mjs).
  */
 
-export type RegionPositions = Partial<Record<RegionId, [number, number]>>;
+export interface RegionPlacement {
+  /** Screen position of the market's view centre (the market key sits here). */
+  center: [number, number];
+  /** Screen position of the readout anchor. */
+  readout: [number, number];
+}
+
+export type RegionPositions = Partial<Record<RegionId, RegionPlacement>>;
 
 export interface DottedWorldMapProps {
   regions: readonly RegionSpec[];
@@ -22,8 +29,10 @@ export interface DottedWorldMapProps {
   selected: RegionId | null;
   onHover: (id: RegionId | null) => void;
   onSelect: (id: RegionId | null) => void;
-  /** Screen positions of the market centres, after every resize or flight. */
+  /** Screen positions of the markets, after every resize or flight. */
   onLayout?: (positions: RegionPositions) => void;
+  /** A flight started: positions are stale until the next onLayout. */
+  onMoveStart?: () => void;
   reducedMotion: boolean;
   label: string;
   className?: string;
@@ -56,6 +65,7 @@ export function DottedWorldMap({
   onHover,
   onSelect,
   onLayout,
+  onMoveStart,
   reducedMotion,
   label,
   className,
@@ -67,6 +77,7 @@ export function DottedWorldMap({
   const selectedRef = useRef<RegionId | null>(selected);
   const previousSelected = useRef<RegionId | null>(selected);
   const onLayoutRef = useRef(onLayout);
+  const onMoveStartRef = useRef(onMoveStart);
   const [ready, setReady] = useState(false);
   const [failed, setFailed] = useState(false);
 
@@ -76,7 +87,8 @@ export function DottedWorldMap({
 
   useEffect(() => {
     onLayoutRef.current = onLayout;
-  }, [onLayout]);
+    onMoveStartRef.current = onMoveStart;
+  }, [onLayout, onMoveStart]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -84,11 +96,13 @@ export function DottedWorldMap({
     if (!canvas || !wrapper) return;
     const renderer = new MapRenderer({
       reducedMotion,
+      onMove: () => onMoveStartRef.current?.(),
       onSettle: () => {
         const positions: RegionPositions = {};
         for (const region of regions) {
-          const at = renderer.locate(region.view);
-          if (at) positions[region.id] = at;
+          const center = renderer.locate(region.view.center);
+          const readout = renderer.locate(region.readoutAt);
+          if (center && readout) positions[region.id] = { center, readout };
         }
         onLayoutRef.current?.(positions);
       },
