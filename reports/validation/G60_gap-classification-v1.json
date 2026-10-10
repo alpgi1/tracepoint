@@ -1,0 +1,681 @@
+{
+  "summary": {
+    "vehicle": "G60",
+    "prompt_version": "gap-classification-v1",
+    "evaluated": 30,
+    "errors": 0,
+    "agreement": {
+      "feedback_type": 0.8,
+      "level2": 0.733,
+      "level3": 0.6,
+      "level2_level3_pair": 0.5
+    },
+    "per_domain_level2": {
+      "driver_assistance": 1.0,
+      "driving_dynamics": 0.625,
+      "exterior_design": 0.8,
+      "general": 1.0,
+      "infotainment_digital": 0.714,
+      "powertrain_range_charging": 0.667,
+      "quality_nvh": 1.0,
+      "space_practicality": 0.5
+    },
+    "cost_usd": 0.0
+  },
+  "details": [
+    {
+      "id": "G60-0003",
+      "gold": [
+        [
+          "Difficult to Use",
+          "Parking brake",
+          "Not user-friendly"
+        ]
+      ],
+      "pred": [
+        [
+          "Difficult to Use",
+          "Parking brake",
+          "Not user-friendly"
+        ]
+      ],
+      "feedback_type": true,
+      "level2": true,
+      "level3": true,
+      "pair": true
+    },
+    {
+      "id": "G60-0022",
+      "gold": [
+        [
+          "Difficult to Use",
+          "Traffic Camera Information",
+          "Not user-friendly"
+        ]
+      ],
+      "pred": [
+        [
+          "Defect",
+          "Traffic Light And Sign Warning",
+          "Malfunction"
+        ]
+      ],
+      "feedback_type": false,
+      "level2": false,
+      "level3": false,
+      "pair": false
+    },
+    {
+      "id": "G60-0048",
+      "gold": [
+        [
+          "Wants",
+          "Exterior design",
+          "Customer request: design"
+        ]
+      ],
+      "pred": [],
+      "feedback_type": false,
+      "level2": false,
+      "level3": false,
+      "pair": false
+    },
+    {
+      "id": "G60-0049",
+      "gold": [
+        [
+          "Difficult to Use",
+          "Speed Limit Assistant",
+          "Not user-friendly"
+        ]
+      ],
+      "pred": [
+        [
+          "Likes",
+          "Speed Limit Assistant",
+          "Like: function"
+        ]
+      ],
+      "feedback_type": false,
+      "level2": true,
+      "level3": false,
+      "pair": false
+    },
+    {
+      "id": "G60-0090",
+      "gold": [
+        [
+          "Wants",
+          "Night Vision",
+          "Customer request: function"
+        ]
+      ],
+      "pred": [
+        [
+          "Likes",
+          "Night Vision",
+          "Like: function"
+        ],
+        [
+          "Wants",
+          "Night Vision",
+          "Customer request: function"
+        ]
+      ],
+      "feedback_type": true,
+      "level2": true,
+      "level3": true,
+      "pair": true
+    },
+    {
+      "id": "G60-0095",
+      "gold": [
+        [
+          "Likes",
+          "Body equipment, overall technology",
+          "Like: function"
+        ]
+      ],
+      "pred": [
+        [
+          "Likes",
+          "Body equipment, overall technology",
+          "Like: function"
+        ]
+      ],
+      "feedback_type": true,
+      "level2": true,
+      "level3": true,
+      "pair": true
+    },
+    {
+      "id": "G60-0104",
+      "gold": [
+        [
+          "Difficult to Use",
+          "Garage door opener",
+          "Not user-friendly"
+        ]
+      ],
+      "pred": [
+        [
+          "Difficult to Use",
+          "Garage door opener",
+          "Not user-friendly"
+        ]
+      ],
+      "feedback_type": true,
+      "level2": true,
+      "level3": true,
+      "pair": true
+    },
+    {
+      "id": "G60-0110",
+      "gold": [
+        [
+          "Difficult to Use",
+          "Handling / Riding",
+          "Drivability not OK"
+        ]
+      ],
+      "pred": [
+        [
+          "Likes",
+          "Handling / Riding",
+          "Like: function"
+        ]
+      ],
+      "feedback_type": false,
+      "level2": true,
+      "level3": false,
+      "pair": false
+    },
+    {
+      "id": "G60-0111",
+      "gold": [
+        [
+          "Likes",
+          "Body equipment, overall technology",
+          "Workmanship appeals"
+        ]
+      ],
+      "pred": [
+        [
+          "Likes",
+          "Body equipment, overall technology",
+          "Workmanship appeals"
+        ]
+      ],
+      "feedback_type": true,
+      "level2": true,
+      "level3": true,
+      "pair": true
+    },
+    {
+      "id": "G60-0137",
+      "gold": [
+        [
+          "Likes",
+          "Drive, driving dynamics and chassis, overall technology",
+          "Like: function"
+        ]
+      ],
+      "pred": [
+        [
+          "Likes",
+          "Interior",
+          "Like: function"
+        ],
+        [
+          "Likes",
+          "ConnectedDrive and Infotainment, overall technology",
+          "Like: function"
+        ],
+        [
+          "Likes",
+          "Handling / Riding",
+          "Like: function"
+        ]
+      ],
+      "feedback_type": true,
+      "level2": false,
+      "level3": true,
+      "pair": false
+    },
+    {
+      "id": "G60-0160",
+      "gold": [
+        [
+          "Likes",
+          "Touch screen, operation",
+          "Like: function"
+        ]
+      ],
+      "pred": [
+        [
+          "Likes",
+          "Touch screen, operation",
+          "Like: usability"
+        ]
+      ],
+      "feedback_type": true,
+      "level2": true,
+      "level3": false,
+      "pair": false
+    },
+    {
+      "id": "G60-0213",
+      "gold": [
+        [
+          "Likes",
+          "Cupholder",
+          "Likes size"
+        ]
+      ],
+      "pred": [
+        [
+          "Likes",
+          "Cupholder",
+          "Likes size"
+        ]
+      ],
+      "feedback_type": true,
+      "level2": true,
+      "level3": true,
+      "pair": true
+    },
+    {
+      "id": "G60-0227",
+      "gold": [
+        [
+          "Difficult to Use",
+          "Launch Control",
+          "Not user-friendly"
+        ]
+      ],
+      "pred": [
+        [
+          "Wants",
+          "Launch Control",
+          "Customer request: function"
+        ]
+      ],
+      "feedback_type": false,
+      "level2": true,
+      "level3": false,
+      "pair": false
+    },
+    {
+      "id": "G60-0254",
+      "gold": [
+        [
+          "Likes",
+          "Exterior design",
+          "Look / design appeals"
+        ]
+      ],
+      "pred": [
+        [
+          "Likes",
+          "Vehicle safety, overall technology",
+          "Like: performance"
+        ],
+        [
+          "Likes",
+          "Exterior design",
+          "Look / design appeals"
+        ]
+      ],
+      "feedback_type": true,
+      "level2": true,
+      "level3": true,
+      "pair": true
+    },
+    {
+      "id": "G60-0260",
+      "gold": [
+        [
+          "Likes",
+          "Drivetrain",
+          "Like: performance"
+        ]
+      ],
+      "pred": [
+        [
+          "Likes",
+          "Handling / Riding",
+          "Like: function"
+        ]
+      ],
+      "feedback_type": true,
+      "level2": false,
+      "level3": false,
+      "pair": false
+    },
+    {
+      "id": "G60-0273",
+      "gold": [
+        [
+          "Difficult to Use",
+          "Public charging / external providers",
+          "Not user-friendly"
+        ]
+      ],
+      "pred": [
+        [
+          "Difficult to Use",
+          "Public charging / external providers",
+          "Not user-friendly"
+        ]
+      ],
+      "feedback_type": true,
+      "level2": true,
+      "level3": true,
+      "pair": true
+    },
+    {
+      "id": "G60-0279",
+      "gold": [
+        [
+          "Likes",
+          "Exterior design",
+          "Look / design appeals"
+        ]
+      ],
+      "pred": [
+        [
+          "Likes",
+          "Exterior design",
+          "Look / design appeals"
+        ]
+      ],
+      "feedback_type": true,
+      "level2": true,
+      "level3": true,
+      "pair": true
+    },
+    {
+      "id": "G60-0305",
+      "gold": [
+        [
+          "Difficult to Use",
+          "Navigation",
+          "Not user-friendly"
+        ]
+      ],
+      "pred": [
+        [
+          "Difficult to Use",
+          "Traffic Camera Information",
+          "Warning / notification active"
+        ]
+      ],
+      "feedback_type": true,
+      "level2": false,
+      "level3": false,
+      "pair": false
+    },
+    {
+      "id": "G60-0333",
+      "gold": [
+        [
+          "Likes",
+          "Drivetrain",
+          "Like: performance"
+        ]
+      ],
+      "pred": [
+        [
+          "Likes",
+          "Drivetrain",
+          "Like: performance"
+        ]
+      ],
+      "feedback_type": true,
+      "level2": true,
+      "level3": true,
+      "pair": true
+    },
+    {
+      "id": "G60-0334",
+      "gold": [
+        [
+          "Likes",
+          "Handling / Riding",
+          "Like: function"
+        ]
+      ],
+      "pred": [
+        [
+          "Likes",
+          "Handling / Riding",
+          "Like: function"
+        ]
+      ],
+      "feedback_type": true,
+      "level2": true,
+      "level3": true,
+      "pair": true
+    },
+    {
+      "id": "G60-0397",
+      "gold": [
+        [
+          "Difficult to Use",
+          "Operating concept, operating system",
+          "Not user-friendly"
+        ]
+      ],
+      "pred": [
+        [
+          "Difficult to Use",
+          "Operating concept, operating system",
+          "Not user-friendly"
+        ]
+      ],
+      "feedback_type": true,
+      "level2": true,
+      "level3": true,
+      "pair": true
+    },
+    {
+      "id": "G60-0416",
+      "gold": [
+        [
+          "Defect",
+          "Cushioning / damping vehicle",
+          "Noise"
+        ]
+      ],
+      "pred": [
+        [
+          "Defect",
+          "Wheels / tires",
+          "Noise"
+        ]
+      ],
+      "feedback_type": true,
+      "level2": false,
+      "level3": true,
+      "pair": false
+    },
+    {
+      "id": "G60-0453",
+      "gold": [
+        [
+          "Defect",
+          "Instrument cluster",
+          "Malfunction"
+        ]
+      ],
+      "pred": [
+        [
+          "Defect",
+          "Instrument cluster",
+          "Malfunction"
+        ]
+      ],
+      "feedback_type": true,
+      "level2": true,
+      "level3": true,
+      "pair": true
+    },
+    {
+      "id": "G60-0472",
+      "gold": [
+        [
+          "Likes",
+          "Drive, driving dynamics and chassis, overall technology",
+          "Like: function"
+        ]
+      ],
+      "pred": [
+        [
+          "Likes",
+          "Handling / Riding",
+          "Like: function"
+        ]
+      ],
+      "feedback_type": true,
+      "level2": false,
+      "level3": true,
+      "pair": false
+    },
+    {
+      "id": "G60-0474",
+      "gold": [
+        [
+          "Likes",
+          "Exterior design",
+          "Look / design appeals"
+        ]
+      ],
+      "pred": [
+        [
+          "Likes",
+          "Exterior design",
+          "Look / design appeals"
+        ]
+      ],
+      "feedback_type": true,
+      "level2": true,
+      "level3": true,
+      "pair": true
+    },
+    {
+      "id": "G60-0486",
+      "gold": [
+        [
+          "Difficult to Use",
+          "Resting state after door opening",
+          "Not user-friendly"
+        ]
+      ],
+      "pred": [
+        [
+          "Difficult to Use",
+          "Resting state after door opening",
+          "Not user-friendly"
+        ]
+      ],
+      "feedback_type": true,
+      "level2": true,
+      "level3": true,
+      "pair": true
+    },
+    {
+      "id": "G60-0504",
+      "gold": [
+        [
+          "Wants",
+          "Space / spatial impression",
+          "Customer request: space / spatial impression"
+        ]
+      ],
+      "pred": [
+        [
+          "Difficult to Use",
+          "Exterior",
+          "Size not user friendly"
+        ],
+        [
+          "Difficult to Use",
+          "Interior",
+          "Size not user friendly"
+        ]
+      ],
+      "feedback_type": false,
+      "level2": false,
+      "level3": false,
+      "pair": false
+    },
+    {
+      "id": "G60-0508",
+      "gold": [
+        [
+          "Likes",
+          "Braking",
+          "Like: function"
+        ]
+      ],
+      "pred": [
+        [
+          "Likes",
+          "Braking",
+          "Like: performance"
+        ]
+      ],
+      "feedback_type": true,
+      "level2": true,
+      "level3": false,
+      "pair": false
+    },
+    {
+      "id": "G60-0509",
+      "gold": [
+        [
+          "Wants",
+          "Manage / pair mobile device (Bluetooth)",
+          "Customer request: function"
+        ]
+      ],
+      "pred": [
+        [
+          "Wants",
+          "Manage / pair mobile device (Bluetooth)",
+          "Customer request: usability"
+        ]
+      ],
+      "feedback_type": true,
+      "level2": true,
+      "level3": false,
+      "pair": false
+    },
+    {
+      "id": "G60-0524",
+      "gold": [
+        [
+          "Likes",
+          "Exterior lighting",
+          "Like: function"
+        ]
+      ],
+      "pred": [
+        [
+          "Likes",
+          "Exterior lighting",
+          "Look / design appeals"
+        ],
+        [
+          "Likes",
+          "Radiator grille",
+          "Look / design appeals"
+        ]
+      ],
+      "feedback_type": true,
+      "level2": true,
+      "level3": false,
+      "pair": false
+    }
+  ]
+}
