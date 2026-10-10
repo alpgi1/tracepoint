@@ -194,6 +194,160 @@ def report_baseline(
     typer.echo(f"wrote {out_dir / stem}.md and .json")
 
 
+classify_app = typer.Typer(help="LLM classification jobs (OpenAI gateway).", no_args_is_help=True)
+app.add_typer(classify_app, name="classify")
+findings_app = typer.Typer(help="Finding extraction (Phase 3).", no_args_is_help=True)
+app.add_typer(findings_app, name="findings")
+
+
+def _gateway(session: Session, run_id: str, dry_run: bool):
+    from tracepoint.llm.gateway import LlmGateway, make_provider
+
+    if dry_run:
+        return None
+    return LlmGateway(session, make_provider(), run_id)
+
+
+@classify_app.command("gaps")
+def classify_gaps(
+    vehicle: str = typer.Option(..., "--vehicle", "-v"),
+    limit: int | None = typer.Option(None, "--limit"),
+    dry_run: bool = typer.Option(
+        False, "--dry-run", help="Build prompts and estimate tokens without calling the provider"
+    ),
+) -> None:
+    """Fill unclassified verbatim rows from the canonical taxonomy (LLM)."""
+    from tracepoint.classify.gap import run_gap_classification
+
+    with (
+        Session(make_engine()) as session,
+        start_run(
+            session,
+            f"classify.gaps.{vehicle}",
+            {"vehicle": vehicle, "limit": limit, "dry_run": dry_run},
+        ) as run,
+    ):
+        _echo(
+            "gap classification",
+            run_gap_classification(
+                session,
+                run,
+                vehicle,
+                _gateway(session, run.id, dry_run),
+                limit=limit,
+                dry_run=dry_run,
+            ),
+        )
+
+
+@classify_app.command("segments")
+def classify_segments(
+    vehicle: str = typer.Option(..., "--vehicle", "-v"),
+    limit: int | None = typer.Option(None, "--limit"),
+    dry_run: bool = typer.Option(False, "--dry-run"),
+) -> None:
+    """Split Source B call-centre notes into product and process statements (LLM)."""
+    from tracepoint.classify.segment import run_segmentation
+
+    with (
+        Session(make_engine()) as session,
+        start_run(
+            session,
+            f"classify.segments.{vehicle}",
+            {"vehicle": vehicle, "limit": limit, "dry_run": dry_run},
+        ) as run,
+    ):
+        _echo(
+            "segmentation",
+            run_segmentation(
+                session,
+                run,
+                vehicle,
+                _gateway(session, run.id, dry_run),
+                limit=limit,
+                dry_run=dry_run,
+            ),
+        )
+
+
+@classify_app.command("prepare-sample")
+def classify_prepare_sample(
+    vehicle: str = typer.Option(..., "--vehicle", "-v"),
+    n: int = typer.Option(300, "--n"),
+    seed: int = typer.Option(42, "--seed"),
+) -> None:
+    """Write the stratified blind-validation sample to config/validation/."""
+    from tracepoint.classify.validation import prepare_sample
+
+    with Session(make_engine()) as session:
+        _echo("sample", prepare_sample(session, vehicle, n=n, seed=seed))
+
+
+@classify_app.command("validate")
+def classify_validate(
+    vehicle: str = typer.Option(..., "--vehicle", "-v"),
+    limit: int | None = typer.Option(None, "--limit"),
+    dry_run: bool = typer.Option(False, "--dry-run"),
+) -> None:
+    """Blind re-classification of the sample; writes reports/validation/."""
+    from tracepoint.classify.validation import run_validation
+
+    with (
+        Session(make_engine()) as session,
+        start_run(
+            session, f"classify.validate.{vehicle}", {"vehicle": vehicle, "limit": limit}
+        ) as run,
+    ):
+        _echo(
+            "validation",
+            run_validation(
+                session,
+                run,
+                vehicle,
+                _gateway(session, run.id, dry_run),
+                limit=limit,
+                dry_run=dry_run,
+            ),
+        )
+
+
+@findings_app.command("extract")
+def findings_extract(
+    vehicle: str = typer.Option(..., "--vehicle", "-v"),
+    market: str | None = typer.Option(
+        None, "--market", "-m", help="EU / US / CN / RoW; omit for all markets"
+    ),
+) -> None:
+    """Deterministic finding extraction for a vehicle (and market)."""
+    from tracepoint.findings.extract import extract_findings
+
+    with (
+        Session(make_engine()) as session,
+        start_run(session, "findings.extract", {"vehicle": vehicle, "market": market}) as run,
+    ):
+        _echo("findings", extract_findings(session, run, vehicle, market))
+
+
+@findings_app.command("report")
+def findings_report(
+    vehicle: str = typer.Option(..., "--vehicle", "-v"),
+    market: str | None = typer.Option(None, "--market", "-m"),
+    out_dir: Path | None = typer.Option(None, "--out-dir"),
+) -> None:
+    """Render the finding list as Markdown."""
+    from tracepoint.findings.report import render_findings
+
+    with Session(make_engine()) as session:
+        md = render_findings(session, vehicle, market)
+    if out_dir is None:
+        typer.echo(md)
+        return
+    out_dir.mkdir(parents=True, exist_ok=True)
+    path = out_dir / f"{vehicle}_{market or 'ALL'}.md"
+    path.write_text(md, encoding="utf-8")
+    typer.echo(f"wrote {path}")
+
+
 @app.command("settings")
 def show_settings() -> None:
     """Print the effective settings (secrets masked)."""

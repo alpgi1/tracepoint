@@ -4,7 +4,7 @@ AI-powered customer requirements platform for BMW product managers (hackathon pr
 
 | Field | Value |
 |---|---|
-| Version | 1.1 (2026-10-10, updated after the Phase 1 kick-off: PostgreSQL, OpenAI provider, ninth vehicle domain) |
+| Version | 1.2 (2026-10-10, step 04: finding model and deterministic extraction started ahead of Phase 2) |
 | Status | Framework agreed in principle; Phase 1 is the active phase. Phases 2–8 are a living outline and will be re-planned in detail when they start. |
 | Related | `reports/step-01-challenge-and-data-analysis.md` (inputs), `plan/01-phase-1-foundation-and-internal-evidence-base.md` (active phase), `plan/decisions.md` (decision log) |
 
@@ -204,7 +204,7 @@ cost). An **orchestrator** runs stages as runs with configuration snapshots.
 |---|---|---|---|---|
 | 1 | **Foundation and internal evidence base** (active; internal ingestion delivered in step 03) | Working skeleton; all internal files ingested, normalised, classified, translated, embedded; audit log live; baseline reports | Repo skeleton, data model, parsers, canonical taxonomy, classifier, retrieval, API, baseline situation-analysis reports | D1 (foundation), D4 (log core) |
 | 2 | External evidence ingestion | Research sub-agents fetch team-selected sources and cache them; structured evidence for layers L1–L4, L6 | Source registry, fetch / snapshot pipeline, extractors, reliability tagging | D1 |
-| 3 | Signal extraction and cross-layer linking | Findings per layer with quantification, evidence levels and links | Finding agents, linker, finding store, G1 queue | D2 (findings) |
+| 3 | Signal extraction and cross-layer linking (first deterministic iteration delivered in step 04) | Findings per layer with quantification, evidence levels and links | Finding agents, linker, finding store, G1 queue | D2 (findings) |
 | 4 | Requirement derivation and specification | Candidate 0/1 step; specified requirements with region-specific acceptance criteria, horizon, assumptions | Requirement agent, scope filter, consolidation, G2 queue | D2 |
 | 5 | Prioritisation engine, variations and estimation | Explainable, adjustable scoring; variations with rough effort / cost; report versions and diffs | Scoring engine, weight-proposal agent, estimation / variation agent, compare | D2 |
 | 6 | PM workspace | Review queue, gates G1–G4, edit / defer per domain and horizon, challenge flow, weight tuning and comparison, traceability view | Web UI + API | D1, D3 |

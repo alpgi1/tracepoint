@@ -313,6 +313,71 @@ class Embedding(Base):
 
 
 # --------------------------------------------------------------------------------------------
+# Findings (Phase 3): layer-specific, quantified signals with linked evidence
+# --------------------------------------------------------------------------------------------
+
+
+class Finding(Base):
+    __tablename__ = "finding"
+
+    id: Mapped[str] = mapped_column(String(120), primary_key=True)
+    vehicle_code: Mapped[str] = mapped_column(ForeignKey("vehicle.code"))
+    market_code: Mapped[str | None] = mapped_column(ForeignKey("market.code"))
+    powertrain: Mapped[str | None] = mapped_column(String(16))
+    layer: Mapped[str] = mapped_column(String(40))  # evidence layer key
+    kind: Mapped[str] = mapped_column(
+        String(40)
+    )  # recurring_complaint / unmet_need / strength / metric_gap / ...
+    domain_key: Mapped[str | None] = mapped_column(String(40))
+    theme_level2_id: Mapped[str | None] = mapped_column(ForeignKey("taxonomy_level2.id"))
+    attribute_key: Mapped[str | None] = mapped_column(String(80))
+    title: Mapped[str] = mapped_column(String(300))
+    statement: Mapped[str] = mapped_column(Text)
+    quantification: Mapped[dict[str, Any]] = mapped_column(JSONB, default=dict)
+    severity_score: Mapped[float | None] = mapped_column(Float)
+    evidence_level: Mapped[str | None] = mapped_column(String(2))  # A / B / C / D
+    evidence_count: Mapped[int] = mapped_column(Integer, default=0)
+    status: Mapped[str] = mapped_column(
+        String(16), default="proposed"
+    )  # proposed / approved / rejected / merged
+    version: Mapped[int] = mapped_column(Integer, default=1)
+    created_by: Mapped[str] = mapped_column(String(80))
+    created_run_id: Mapped[str | None] = mapped_column(ForeignKey("run.id"))
+    updated_run_id: Mapped[str | None] = mapped_column(ForeignKey("run.id"))
+
+    evidence: Mapped[list[FindingEvidence]] = relationship(
+        back_populates="finding", cascade="all, delete-orphan"
+    )
+
+
+class FindingEvidence(Base):
+    __tablename__ = "finding_evidence"
+    __table_args__ = (UniqueConstraint("finding_id", "evidence_ref"),)
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    finding_id: Mapped[str] = mapped_column(ForeignKey("finding.id"))
+    evidence_ref: Mapped[str] = mapped_column(String(160))
+    role: Mapped[str] = mapped_column(String(24))  # quantifies / example / supports / compares
+    weight: Mapped[float | None] = mapped_column(Float)
+    note: Mapped[str | None] = mapped_column(Text)
+
+    finding: Mapped[Finding] = relationship(back_populates="evidence")
+
+
+class FindingLink(Base):
+    __tablename__ = "finding_link"
+    __table_args__ = (UniqueConstraint("from_finding_id", "to_finding_id", "kind"),)
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    from_finding_id: Mapped[str] = mapped_column(ForeignKey("finding.id"))
+    to_finding_id: Mapped[str] = mapped_column(ForeignKey("finding.id"))
+    kind: Mapped[str] = mapped_column(String(24))  # supports / contradicts / explains / same_topic
+    rationale: Mapped[str | None] = mapped_column(Text)
+    created_by: Mapped[str] = mapped_column(String(80))
+    run_id: Mapped[str | None] = mapped_column(ForeignKey("run.id"))
+
+
+# --------------------------------------------------------------------------------------------
 # Runs, LLM calls, audit
 # --------------------------------------------------------------------------------------------
 
@@ -345,7 +410,12 @@ class LlmCall(Base):
     cached_tokens: Mapped[int | None] = mapped_column(Integer)
     output_tokens: Mapped[int | None] = mapped_column(Integer)
     cost_estimate_usd: Mapped[float | None] = mapped_column(Float)
+    request: Mapped[dict[str, Any] | None] = mapped_column(JSONB)
     response: Mapped[dict[str, Any] | None] = mapped_column(JSONB)
+    status: Mapped[str] = mapped_column(String(16), default="ok")  # ok / error
+    error: Mapped[str | None] = mapped_column(Text)
+    latency_ms: Mapped[int | None] = mapped_column(Integer)
+    attempts: Mapped[int | None] = mapped_column(Integer)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True))
 
 

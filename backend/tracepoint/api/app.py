@@ -14,6 +14,9 @@ from tracepoint.db.models import (
     AuditEvent,
     EquipmentAvailability,
     EquipmentItem,
+    Finding,
+    FindingEvidence,
+    FindingLink,
     Market,
     Run,
     SalesVolume,
@@ -388,3 +391,119 @@ def baseline(
         return build_baseline(session, vehicle, market)
     except ValueError as exc:
         raise HTTPException(404, str(exc)) from exc
+
+
+@app.get("/findings")
+def findings(
+    vehicle: str | None = None,
+    market: str | None = Query(
+        None, description="EU / US / CN / RoW; 'ALL' for findings without market scope"
+    ),
+    layer: str | None = None,
+    kind: str | None = None,
+    domain: str | None = None,
+    status: str | None = None,
+    limit: int = Query(200, le=2000),
+    session: Session = Depends(get_session),
+) -> list[dict[str, Any]]:
+    stmt = select(Finding)
+    if vehicle:
+        stmt = stmt.where(Finding.vehicle_code == vehicle)
+    if market:
+        stmt = (
+            stmt.where(Finding.market_code.is_(None))
+            if market == "ALL"
+            else stmt.where(Finding.market_code == market)
+        )
+    if layer:
+        stmt = stmt.where(Finding.layer == layer)
+    if kind:
+        stmt = stmt.where(Finding.kind == kind)
+    if domain:
+        stmt = stmt.where(Finding.domain_key == domain)
+    if status:
+        stmt = stmt.where(Finding.status == status)
+    else:
+        stmt = stmt.where(Finding.status != "withdrawn")
+    rows = session.scalars(
+        stmt.order_by(Finding.severity_score.desc().nulls_last(), Finding.id).limit(limit)
+    ).all()
+    return [
+        _row(
+            f,
+            [
+                "id",
+                "vehicle_code",
+                "market_code",
+                "powertrain",
+                "layer",
+                "kind",
+                "domain_key",
+                "theme_level2_id",
+                "attribute_key",
+                "title",
+                "statement",
+                "quantification",
+                "severity_score",
+                "evidence_level",
+                "evidence_count",
+                "status",
+                "version",
+                "created_by",
+                "created_run_id",
+            ],
+        )
+        for f in rows
+    ]
+
+
+@app.get("/findings/{finding_id}")
+def get_finding(finding_id: str, session: Session = Depends(get_session)) -> dict[str, Any]:
+    f = session.get(Finding, finding_id)
+    if f is None:
+        raise HTTPException(404, "finding not found")
+    evidence = session.scalars(
+        select(FindingEvidence).where(FindingEvidence.finding_id == f.id)
+    ).all()
+    links_out = session.scalars(
+        select(FindingLink).where(FindingLink.from_finding_id == f.id)
+    ).all()
+    links_in = session.scalars(select(FindingLink).where(FindingLink.to_finding_id == f.id)).all()
+    return {
+        **_row(
+            f,
+            [
+                "id",
+                "vehicle_code",
+                "market_code",
+                "powertrain",
+                "layer",
+                "kind",
+                "domain_key",
+                "theme_level2_id",
+                "attribute_key",
+                "title",
+                "statement",
+                "quantification",
+                "severity_score",
+                "evidence_level",
+                "evidence_count",
+                "status",
+                "version",
+                "created_by",
+                "created_run_id",
+                "updated_run_id",
+            ],
+        ),
+        "evidence": [_row(e, ["evidence_ref", "role", "weight", "note"]) for e in evidence],
+        "links_out": [_row(x, ["to_finding_id", "kind", "rationale"]) for x in links_out],
+        "links_in": [_row(x, ["from_finding_id", "kind", "rationale"]) for x in links_in],
+        "events": [
+            event_to_dict(e)
+            for e in session.scalars(
+                select(AuditEvent)
+                .where(AuditEvent.entity_type == "finding", AuditEvent.entity_id == f.id)
+                .order_by(AuditEvent.id)
+            )
+        ],
+    }
