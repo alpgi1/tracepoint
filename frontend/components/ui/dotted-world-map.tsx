@@ -15,11 +15,17 @@ import { cn } from "@/lib/utils";
  */
 
 export interface RegionPlacement {
-  /** Screen position of the market's view centre (the market key sits here). */
+  /** Screen position of the market's view centre. */
   center: [number, number];
-  /** Screen position of the readout anchor. */
-  readout: [number, number];
+  /** Screen position of the callout card's pinned corner. */
+  card: [number, number];
+  /** Where the connector leaves the card's top edge (x) and meets the market (edge). */
+  lineX: number;
+  edge: [number, number];
 }
+
+/** Distance from the card's pinned corner to the connector, CSS px. */
+export const CALLOUT_INSET = 24;
 
 export type RegionPositions = Partial<Record<RegionId, RegionPlacement>>;
 
@@ -99,11 +105,15 @@ export function DottedWorldMap({
       onMove: () => onMoveStartRef.current?.(),
       onSettle: () => {
         const positions: RegionPositions = {};
-        for (const region of regions) {
+        regions.forEach((region, index) => {
           const center = renderer.locate(region.view.center);
-          const readout = renderer.locate(region.readoutAt);
-          if (center && readout) positions[region.id] = { center, readout };
-        }
+          const card = renderer.locate(region.callout.card);
+          const subject = renderer.locate(region.callout.subject);
+          if (!center || !card || !subject) return;
+          const lineX = region.callout.corner === "top-left" ? card[0] + CALLOUT_INSET : card[0] - CALLOUT_INSET;
+          const edge = renderer.edgeTowards(index, [lineX, subject[1]], subject) ?? subject;
+          positions[region.id] = { center, card, lineX, edge };
+        });
         onLayoutRef.current?.(positions);
       },
     });

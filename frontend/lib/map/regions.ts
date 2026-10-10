@@ -2,8 +2,8 @@
  * The three markets a product manager can pick on the map. Member ids are
  * ISO 3166-1 numeric codes as used by Natural Earth / world-atlas. `view` is
  * the point the map centres on and the magnification applied when a market
- * is selected; `readoutAt` is where the market's figures sit on the resting
- * map (inside the big markets, beside the small one); `lonSpan` drops merged
+ * is selected; `callout` places the market's card on the resting map;
+ * `lonSpan` drops merged
  * polygons whose centroid lies outside the span (overseas territories such
  * as French Guiana, which Natural Earth files under France).
  */
@@ -18,14 +18,23 @@ export interface RegionView {
   zoom: number;
 }
 
+/**
+ * The market's callout on the resting map: a card pinned by one corner to a
+ * geographic point in open water, joined to the market by an elbow connector
+ * that ends where it first meets the market, scanning towards `subject`.
+ */
+export interface CalloutSpec {
+  subject: LonLat;
+  card: LonLat;
+  corner: "top-left" | "top-right";
+}
+
 export interface RegionSpec {
   id: RegionId;
   name: string;
   members: readonly string[];
   view: RegionView;
-  /** Anchor of the readout on the resting map and which edge of the readout sits on it. */
-  readoutAt: LonLat;
-  readoutAlign: "center" | "end";
+  callout: CalloutSpec;
   lonSpan?: [number, number];
 }
 
@@ -66,25 +75,21 @@ export const REGIONS: readonly RegionSpec[] = [
     name: "China",
     members: ["156"],
     view: { center: [104, 36], zoom: 2.6 },
-    readoutAt: [103, 37],
-    readoutAlign: "center",
+    callout: { subject: [104, 36], card: [48, -4], corner: "top-left" },
   },
   {
     id: "US",
     name: "United States",
     members: ["840"],
     view: { center: [-98, 39], zoom: 2.4 },
-    readoutAt: [-98, 40],
-    readoutAlign: "center",
+    callout: { subject: [-98, 39], card: [-152, 10], corner: "top-left" },
   },
   {
     id: "EU",
     name: "European Union",
     members: EU_MEMBERS,
     view: { center: [12, 53], zoom: 3.2 },
-    // Europe is small on the resting map; the readout sits on the Atlantic, its right edge at the Irish coast.
-    readoutAt: [-12, 51],
-    readoutAlign: "end",
+    callout: { subject: [-4, 40], card: [-14, 35], corner: "top-right" },
     lonSpan: [-32, 45],
   },
 ];

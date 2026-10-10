@@ -233,6 +233,20 @@ export class MapRenderer {
     return [projected[0] * k + tx, projected[1] * k + ty];
   }
 
+  /** First point of market `index` on the segment from `from` to `to` (canvas px), or null if the segment never enters it. */
+  edgeTowards(index: number, from: [number, number], to: [number, number]): [number, number] | null {
+    const dx = to[0] - from[0];
+    const dy = to[1] - from[1];
+    const steps = Math.max(1, Math.ceil(Math.hypot(dx, dy) / 2));
+    for (let i = 0; i <= steps; i++) {
+      const t = i / steps;
+      const x = from[0] + dx * t;
+      const y = from[1] + dy * t;
+      if (this.pick(x, y) === index) return [x, y];
+    }
+    return null;
+  }
+
   /** Fly to a market view, or home when `view` is null; instant under reduced motion. */
   flyTo(view: RegionView | null) {
     const target = this.targetFor(view);
