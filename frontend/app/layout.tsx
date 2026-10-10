@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { archivo, geistMono } from "./fonts";
 import "./globals.css";
+import { HandoffLayer } from "@/components/vehicles/handoff-layer";
 import { site } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -30,6 +31,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     <html lang="en" className={`${archivo.variable} ${geistMono.variable}`}>
       <body className="bg-paper text-ink">
         <main>{children}</main>
+        <HandoffLayer />
       </body>
     </html>
   );

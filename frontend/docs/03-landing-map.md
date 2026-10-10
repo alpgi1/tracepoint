@@ -2,9 +2,9 @@
 
 | Field | Value |
 |---|---|
-| Date | 2026-10-10 (replaces the globe of step 04; markets made solid layers in step 06; readouts, panel and vehicle cards added in step 07; markets grey at rest and vehicles as layered sketches in step 08) |
-| Status | Built and verified in steps 05 to 08 |
-| Files | `components/ui/dotted-world-map.tsx` (React wrapper), `lib/map/renderer.ts` (drawing and animation), `lib/map/data.ts`, `lib/map/regions.ts`, `components/landing/map-stage.tsx`, `components/landing/market-readout.tsx`, `components/landing/market-panel.tsx`, `components/landing/vehicle-card.tsx`, `lib/content/markets.ts` (figures), `lib/site.ts` (copy), `app/globals.css` (tokens) |
+| Date | 2026-10-10 (replaces the globe of step 04; markets made solid layers in step 06; readouts, panel and vehicle cards added in step 07; markets grey at rest and vehicles as layered sketches in step 08; readouts replaced by callout cards in step 09; vehicle cards show the configured cars' photos and hand over to the sketch in step 11) |
+| Status | Built and verified in steps 05 to 11 |
+| Files | `components/ui/dotted-world-map.tsx` (React wrapper), `lib/map/renderer.ts` (drawing and animation), `lib/map/data.ts`, `lib/map/regions.ts`, `components/landing/map-stage.tsx` (stage and connectors), `components/landing/market-callout.tsx`, `components/landing/market-panel.tsx`, `components/landing/vehicle-card.tsx`, `lib/content/markets.ts` (figures), `lib/content/icons.ts`, `lib/site.ts` (copy), `app/globals.css` (tokens) |
 
 ## 1. What it does
 
@@ -14,25 +14,28 @@ markets, China (CN), the United States (US) and the European Union (EU, 27 membe
 into one outline), are solid layers: at rest a light grey fill under a darker and thicker grey
 outline, with no dots inside; hover and selection turn fill and outline blue.
 
-Each market carries a readout at rest, so the map is the first layer of the analysis and not a
-decoration: the market's name, its 2025 sales and verbatim count, and the domain with the
-highest complaint share (or, where no verbatims are classified yet, the lowest study score).
+Each market carries a callout at rest, so the map is the first layer of the analysis and not a
+decoration: a card pinned in open water, joined to the market by an elbow connector that ends
+with a dot on the market's edge, with the market's name, its 2025 sales and verbatim count, and
+the domain with the highest complaint share (or, where no verbatims are classified yet, the
+lowest study score), each row with its Lucide icon. The card is the market's button: hovering it
+turns the market, the connector and the card's border blue; clicking it magnifies the market.
 Every figure comes from `content/markets.json`, which `scripts/build-content.py` generates from
 the baseline reports, the sales workbook, the customer studies and the configuration; each value
-carries its source there.
+carries its source there. The pattern is the annotation of visx (subject, connector, label),
+written here with the tokens; see `01-research-notes.md` section 6.1 for the survey.
 
 Hovering a market turns it blue. Clicking a market magnifies the map around it (900 ms); the
 market comes to rest in the upper part of the viewport and a panel appears below it with the
-market's figures and one card per vehicle sold there: the vehicle as a layered sketch (body
-wash, lines, contour; grey at rest, blue when hovered), its name and code, 2025 units, verbatims
-and its weakest domain. Clicking a card grows the drawing into the place it has on the vehicle screen and
+market's figures and one card per vehicle sold there: the configured car's side profile from
+the BMW configurator, its name and code, 2025 units, verbatims and its weakest domain. Clicking a card grows the drawing into the place it has on the vehicle screen and
 navigates there (`/markets/<market>/<vehicle>`, see `05-vehicle-drawings.md`). Escape, Close or
 a click on open sea returns to the resting map. Desktop is the target; nothing is tuned for
 touch.
 
-Keyboard and assistive technology get the same states through three real buttons, one per
-market, visually hidden until focused; a focused button shows the market's name at its place on
-the map, Enter selects, Escape returns, a polite live region names the state. The panel's cards
+Keyboard and assistive technology get the same states through the three callout cards, which
+are real buttons with `aria-pressed`: Tab reaches them in market order, focus highlights the
+market, Enter selects, Escape returns, a polite live region names the state. The panel's cards
 are links and its Close is a button.
 
 ## 2. Why it looks like this
@@ -85,10 +88,14 @@ that turn blue on hover and vehicles as layered sketches instead of dot clouds (
   which leaves the lower part of the viewport to the panel; the anchor is interpolated during the
   flight so the transform stays continuous. A flight whose target equals the current state (the
   first fly-home after loading) settles at once.
-* Readouts are HTML, positioned by the renderer after every settle (resize or flight end), hidden
-  while the map flies and while a market is selected. US and CN readouts sit inside their fills;
-  the EU readout, too wide for Europe at rest, sits on the Atlantic with its right edge at the
-  Irish coast. A paper-coloured text halo keeps them readable over dots.
+* Callouts are HTML cards plus one SVG layer of connectors, both positioned by the renderer
+  after every settle (resize or flight end) and hidden while the map flies and while a market is
+  selected. Each card is pinned by a corner to a geographic point in open water
+  (`callout.card` in `regions.ts`, tested to be sea); the connector leaves the card's top edge
+  24 px from the pinned corner, runs vertically to the latitude of `callout.subject`, then
+  horizontally until it first meets the market (`renderer.edgeTowards`, a 2 px scan of the
+  mask), where a dot marks the edge. US and CN cards sit south-west of their markets over the
+  Pacific and the Indian Ocean; the EU card hangs from Iberia over the Atlantic.
 * Colours from `:root` custom properties: `--map-dot #cdd1d6`; market fill `--map-fill #e9ecf0`
   (grey, lighter than the dots, darker than the page) and `--map-fill-active #cddcf5` (blue);
   market outline `--map-outline #8e98a4` and `--map-outline-active #1c69d4`, always darker than
@@ -102,24 +109,23 @@ that turn blue on hover and vehicles as layered sketches instead of dot clouds (
 
 | State | Behaviour | Timing |
 |---|---|---|
-| Entrance | The canvas fades in once its data is there; readouts appear with the first settle | 600 ms, once |
-| Hover | Fill and outline cross-fade from grey to blue; the highlight value rises at 1 / 180 ms and falls at 1 / 320 ms; `pointer` cursor over a market | 180 ms in, 320 ms out |
-| Click on a market | Flight: the market's view centre moves to the focus anchor while k goes to the market's zoom (CN 2.6, US 2.4, EU 3.2), geometric interpolation, cubic in-out; readouts fade out at the start | 900 ms |
+| Entrance | The canvas fades in once its data is there; callouts appear with the first settle | 600 ms, once |
+| Hover (market or its card) | Fill and outline cross-fade from grey to blue, the connector and the card border turn blue; the highlight value rises at 1 / 180 ms and falls at 1 / 320 ms; `pointer` cursor over a market | 180 ms in, 320 ms out |
+| Click on a market or its card | Flight: the market's view centre moves to the focus anchor while k goes to the market's zoom (CN 2.6, US 2.4, EU 3.2), geometric interpolation, cubic in-out; callouts fade out at the start | 900 ms |
 | Settle | The panel appears below the market (fade and 8 px rise) | 240 ms |
-| Card hover | The vehicle's wash, lines and contour turn blue | 180 ms |
-| Card click | The drawing grows from the card to the vehicle screen's stage (translate and scale, cubic in-out), then the route changes | 480 ms |
-| Close, Escape, click on sea | Flight back to k = 1; the panel leaves at once; readouts return on settle | 900 ms |
+| Card hover | The photo lifts by 3 px | 180 ms |
+| Card click | The route changes at once; a paper veil dissolves the map (220 ms) while the photo moves from the card straight to its place on the vehicle screen (720 ms) and the veil clears; on arrival the photo fades out (900 ms) and the sketch is revealed behind it (700 ms, from 420 ms into the fade). See `05-vehicle-drawings.md` 4b | about 2.2 s in all |
+| Close, Escape, click on sea | Flight back to k = 1; the panel leaves at once; callouts return on settle | 900 ms |
 | Resize | Refit, repaint the mask, resample the dots; a selected market stays in focus | immediate |
 | Reduced motion | No fade, instant flights and highlights, no card growth (direct navigation) | |
 
 ## 6. Accessibility
 
 * The canvas has `role="img"` and a label naming the three markets and the interactions.
-* The market keys are real buttons with `aria-pressed`, positioned at the market centres; they
-  take no pointer events, so the canvas keeps the pointer; the audit skips them as tap targets for
-  that reason.
+* The callout cards are the market buttons (`aria-pressed`), visible at rest, at least 44 px,
+  with the blue focus ring; the connector layer is `aria-hidden`.
 * The panel is a `section` labelled by its heading; Close is a 44 px button; the cards are links
-  with the vehicle's name and figures as their text. Readouts are plain text in the document.
+  with the vehicle's name and figures as their text.
 * The hidden h1 keeps the document outline; the live region announces hover and selection.
 
 ## 7. Tokens
@@ -140,14 +146,15 @@ that turn blue on hover and vehicles as layered sketches instead of dot clouds (
 
 ## 8. How to tune
 
-* Market view centres, magnification, readout anchors and alignment: `lib/map/regions.ts`.
+* Market view centres, magnification, callout subject and card anchors: `lib/map/regions.ts`.
 * Fit window and Antarctica: `FIT_WINDOW` and `landFeature` in `lib/map/data.ts`.
 * Focus anchor and padding: `RendererOptions.focus` (0.5, 0.4) and `padding` (16 px).
 * Dot pitch and radius: `rebuild` and `drawDots` in `lib/map/renderer.ts`. Outline weight:
   `lineWidth` in `render`. Timings: `GLOW_IN`, `GLOW_OUT`, `FLIGHT_MS`.
-* Readout copy and panel copy: `lib/site.ts`. Figures: regenerate `content/markets.json` with
-  `pnpm content` after the baseline reports change.
-* Card width (420 px, same for two or three vehicles): `.market-panel-cards` in `globals.css`.
+* Callout and panel copy: `lib/site.ts`; domain icons: `lib/content/icons.ts`. Figures:
+  regenerate `content/markets.json` with `pnpm content` after the baseline reports change.
+* Card width (420 px, same for two or three vehicles) and the shared ground line of the photos
+  (`.vehicle-card-stage`, aspect 1600 : 610): `globals.css`.
 
 ## 9. Known limits
 
@@ -156,7 +163,6 @@ that turn blue on hover and vehicles as layered sketches instead of dot clouds (
 * The mask encodes at most three markets; a fourth needs a second mask.
 * The fit is width-limited; the only ways to a larger map are cropping longitude (which cuts
   Alaska or Russia) or letting the map bleed past the viewport.
-* The card growth and the route change are two steps: the drawing animates to the stage's
-  geometry (`lib/vehicles/layout.ts`, mirrored in `.workspace` CSS), then the new page renders
-  in the same place. A shared-element view transition would remove the cut.
+* The hand-over photo lives in a layer of the root layout, so it is unaffected by the route
+  change; the vehicle screen reports its measured target and the layer lands the photo on it.
 * Touch and narrow screens are not tuned (team decision: desktop only).

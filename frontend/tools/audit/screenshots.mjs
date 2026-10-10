@@ -1,16 +1,16 @@
 /**
  * Screenshots of the page states for the step report: resting map with the
- * market readouts, a hovered market, the three magnified markets with their
- * vehicle panels, a hovered vehicle card, the card growing into the vehicle
- * screen, the vehicle screen for a market with verbatims and one without,
- * keyboard focus, reduced motion. Run against a built app started in
- * another shell (`pnpm build && pnpm start`).
+ * market callouts, a hovered market, the three magnified markets with their
+ * vehicle panels, a hovered vehicle card, the card's photo on its way to the
+ * vehicle screen, the photo fading there while the sketch is revealed,
+ * the vehicle screens for a market with verbatims and one without, keyboard
+ * focus, reduced motion. Run against a built app started in another shell
+ * (`pnpm build && pnpm start`).
  *
  *   node tools/audit/screenshots.mjs http://localhost:3400 [outDir]
  *
- * Hover and click go through the real pointer: the market keys are visually
- * hidden buttons positioned at each market's centre, so their box tells the
- * script where a market is on the canvas.
+ * Hover and click go through the real pointer: the market callout cards are
+ * the market buttons, so their box tells the script where to click.
  */
 import { mkdirSync } from "node:fs";
 import { join } from "node:path";
@@ -34,6 +34,11 @@ async function selectMarket(page, id) {
   await page.mouse.click(at.x, at.y);
   await page.waitForSelector(".market-panel", { timeout: 5000 });
   await page.waitForTimeout(500);
+}
+
+async function clickFirstCard(page) {
+  const card = await page.locator(".vehicle-card").first().boundingBox();
+  await page.mouse.click(card.x + card.width / 2, card.y + card.height / 3);
 }
 
 async function shoot(name, viewport, steps, options = {}) {
@@ -78,26 +83,30 @@ await shoot("06-card-hover-eu-1440", desktop, async (page) => {
   await page.mouse.move(card.x + card.width / 2, card.y + card.height / 3);
   await page.waitForTimeout(300);
 });
-await shoot("07-card-growing-eu-1440", desktop, async (page) => {
+await shoot("07-photo-moving-eu-1440", desktop, async (page) => {
   await selectMarket(page, "EU");
-  const card = await page.locator(".vehicle-card").first().boundingBox();
-  await page.mouse.click(card.x + card.width / 2, card.y + card.height / 3);
-  await page.waitForTimeout(300);
+  await clickFirstCard(page);
+  await page.waitForTimeout(560);
 });
-await shoot("08-vehicle-eu-f70-1440", desktop, async () => {}, { path: "/markets/eu/f70" });
-await shoot("09-vehicle-us-g70-hover-1440", desktop, async (page) => {
+await shoot("08-photo-fading-eu-f70-1440", desktop, async (page) => {
+  await selectMarket(page, "EU");
+  await clickFirstCard(page);
+  await page.waitForTimeout(1450);
+});
+await shoot("09-vehicle-eu-f70-1440", desktop, async () => {}, { path: "/markets/eu/f70" });
+await shoot("10-vehicle-us-g70-hover-1440", desktop, async (page) => {
   const row = page.locator(".domain-row").nth(2);
   await row.hover();
   await page.waitForTimeout(300);
 }, { path: "/markets/us/g70" });
-await shoot("10-vehicle-cn-g68-1440", desktop, async () => {}, { path: "/markets/cn/g68" });
-await shoot("11-keyboard-focus-us-1440", desktop, async (page) => {
+await shoot("11-vehicle-cn-g68-1440", desktop, async () => {}, { path: "/markets/cn/g68" });
+await shoot("12-keyboard-focus-us-1440", desktop, async (page) => {
   await page.keyboard.press("Tab");
   await page.keyboard.press("Tab");
   await page.waitForTimeout(400);
 });
-await shoot("12-resting-1920", wide, async () => {});
-await shoot("13-reduced-motion-selected-eu-1440", desktop, async (page) => {
+await shoot("13-resting-1920", wide, async () => {});
+await shoot("14-reduced-motion-selected-eu-1440", desktop, async (page) => {
   const at = await marketPoint(page, "EU");
   await page.mouse.click(at.x, at.y);
   await page.waitForTimeout(300);

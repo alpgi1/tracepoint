@@ -1,25 +1,26 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useRef } from "react";
-import { VehicleDrawing } from "@/components/vehicles/vehicle-drawing";
 import { vehicleHref } from "@/lib/content/markets";
 import { full, percent, score } from "@/lib/content/format";
 import type { MarketContent, VehicleContent } from "@/lib/content/types";
 import { useReducedMotion } from "@/lib/motion/reduced-motion";
-import { drawingFor } from "@/lib/vehicles/drawings";
-import { stageRect } from "@/lib/vehicles/layout";
+import { drawingFor, photoFor } from "@/lib/vehicles/drawings";
+import { startHandoff } from "@/lib/vehicles/handoff";
+import { photoTarget } from "@/lib/vehicles/layout";
 import { site } from "@/lib/site";
 
 /*
- * One vehicle sold in the magnified market: the side view as a layered
- * sketch, the name, 2025 units, verbatims and the weakest domain. A click
- * grows the drawing into the place it has on the vehicle screen, then
- * navigates there; with reduced motion it navigates at once.
+ * One vehicle sold in the magnified market: the configured car's side
+ * profile from the BMW configurator, the name, 2025 units, verbatims and
+ * the weakest domain. A click hands the photo to the hand-over layer, which
+ * carries it to the place the sketch has on the vehicle screen while the
+ * route changes, and navigates at once. With reduced motion it only
+ * navigates.
  */
-const GROW_MS = 480;
-
 export interface VehicleCardProps {
   market: MarketContent;
   vehicle: VehicleContent;
@@ -28,9 +29,10 @@ export interface VehicleCardProps {
 export function VehicleCard({ market, vehicle }: VehicleCardProps) {
   const router = useRouter();
   const reducedMotion = useReducedMotion();
-  const drawingRef = useRef<HTMLDivElement>(null);
+  const boxRef = useRef<HTMLDivElement>(null);
   const href = vehicleHref(market.code, vehicle.code);
   const drawing = drawingFor(vehicle.drawing, "side");
+  const photo = photoFor(vehicle.drawing);
   const note = site.panel.drawingNotes[vehicle.code];
 
   const weakest = vehicle.weakestDomain
@@ -42,25 +44,25 @@ export function VehicleCard({ market, vehicle }: VehicleCardProps) {
   const onClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
     if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || event.button !== 0) return;
     event.preventDefault();
-    const box = drawingRef.current;
-    if (reducedMotion || !box) {
-      router.push(href);
-      return;
+    const box = boxRef.current;
+    if (!reducedMotion && box) {
+      const rect = box.getBoundingClientRect();
+      startHandoff({
+        code: vehicle.drawing,
+        src: photo.src,
+        from: { left: rect.left, top: rect.top, width: rect.width, height: rect.height },
+        fallbackTo: photoTarget(window.innerWidth, drawing, photo),
+      });
     }
-    const from = box.getBoundingClientRect();
-    const to = stageRect(window.innerWidth);
-    const scale = to.width / from.width;
-    box.style.transformOrigin = "0 0";
-    box.style.transition = `transform ${String(GROW_MS)}ms var(--ease-in-out)`;
-    box.style.zIndex = "30";
-    box.style.transform = `translate(${String(to.left - from.left)}px, ${String(to.top - from.top)}px) scale(${String(scale)})`;
-    window.setTimeout(() => router.push(href), GROW_MS);
+    router.push(href);
   };
 
   return (
     <Link href={href} className="vehicle-card" onClick={onClick}>
-      <div ref={drawingRef} className="vehicle-card-drawing">
-        <VehicleDrawing drawing={drawing} />
+      <div className="vehicle-card-stage">
+        <div ref={boxRef} className="vehicle-card-photo" style={{ aspectRatio: `${String(photo.width)} / ${String(photo.height)}` }}>
+          <Image src={photo.src} alt="" width={photo.width} height={photo.height} unoptimized draggable={false} />
+        </div>
       </div>
       <span className="vehicle-card-name">
         {vehicle.name} <span className="vehicle-card-code">{vehicle.code}</span>

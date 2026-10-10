@@ -135,17 +135,22 @@ uses the one accent.
 with reduced motion. There is no other entrance.
 
 **E3, text on the landing page (2026-10-10, team decision D-040; revised the same day in step 07
-by D-045).** On first view the page shows the map and, on each market, one readout of real
-figures from `content/markets.json` (name, 2025 units, verbatims, weakest domain or lowest study
-score). Nothing else: no header, no copy, no footer. The h1, the market buttons and the status
-line exist for keyboard and assistive technology and are visually hidden; the buttons appear only
-while focused. The magnified state adds the market panel with the vehicle cards; it is a second
-state, not the first view.
+by D-045, callout cards since step 09, D-051).** On first view the page shows the map and, per
+market, one callout card of real figures from `content/markets.json` (name, 2025 units,
+verbatims, weakest domain or lowest study score) joined to the market by a connector. Nothing
+else: no header, no copy, no footer. The cards are the market buttons; the h1 and the status
+line exist for assistive technology and are visually hidden. The magnified state adds the market
+panel with the vehicle cards; it is a second state, not the first view.
 
-**E4, the card growth (2026-10-10, step 07, from the brief).** A clicked vehicle card grows its
-drawing into the vehicle screen's stage over 480 ms before the route changes. It is the one
-transition between the two screens, runs once per click, never with reduced motion, and moves
-only `transform`.
+**E4, the hand-over from the map to the vehicle screen (2026-10-10, step 07, revised in steps 11
+and 12 by D-053 and D-055).** A clicked vehicle card hands the car's photo to a layer that
+carries it across the route change: a paper veil dissolves the map (220 ms), the photo moves
+straight from the card to the place the sketch has on the vehicle screen (720 ms) while the
+veil clears, then the photo fades out (900 ms) and the sketch is revealed behind it (700 ms).
+It is the one transition between the two screens, runs once per click, never with reduced
+motion, and moves only `transform` and `opacity`. The photos are the team's configured cars
+from the BMW configurator, identified as such in `assets/vehicles/photos/README.md`; they are
+not stock or AI imagery.
 
 ## 8. Pre-delivery checklist
 

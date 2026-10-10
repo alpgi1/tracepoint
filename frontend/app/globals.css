@@ -109,37 +109,6 @@
   cursor: pointer;
 }
 
-/*
- * Market keys: real buttons for keyboard and assistive technology, visually
- * hidden until focused. When focused, the name appears at the market's place
- * on the map. They never take pointer events, the canvas does.
- */
-.market-key {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border: 0;
-  pointer-events: none;
-  background: transparent;
-  color: var(--color-blue);
-  font: 500 0.875rem/1 var(--font-sans);
-}
-.market-key:focus-visible {
-  width: auto;
-  height: auto;
-  margin: 0;
-  padding: 0.5rem 0.625rem;
-  overflow: visible;
-  clip: auto;
-  transform: translate(-50%, -50%);
-  background: var(--color-paper);
-}
-
 @media (prefers-reduced-motion: reduce) {
   .map-canvas {
     transition: none;
@@ -151,16 +120,14 @@
 :root {
   /*
    * Vehicle drawings, a layered sketch: a flat body wash, the drawing's lines
-   * in a lighter ink, the outer contour in ink. Like the markets, grey at
-   * rest and blue when hovered; the heat washes use the one blue.
+   * in a mid grey, a thin outer contour one step darker. No frame, no heat.
    */
-  --vehicle-wash: #eef1f5;
-  --vehicle-wash-active: #dce7f8;
-  --vehicle-line: #6b7480;
+  --vehicle-wash: #f3f5f8;
+  --vehicle-wash-active: #e4ecf8;
+  --vehicle-line: #5f6873;
   --vehicle-line-active: #1c69d4;
-  --vehicle-contour: #14171c;
+  --vehicle-contour: #4f5864;
   --vehicle-contour-active: #0f4fae;
-  --vehicle-heat: #1c69d4;
 }
 
 .tap {
@@ -170,40 +137,94 @@
   min-width: 44px;
 }
 
-/* Market readouts: figures at the market's place; hidden while the map flies. */
-.readout {
+/*
+ * Market callouts: a card pinned in open water, joined to its market by an
+ * elbow connector that ends with a dot on the market's edge. The card is the
+ * market's button. Both hide while the map flies and while a market is open.
+ */
+.callout {
   position: absolute;
   display: grid;
-  gap: 1px;
-  transform: translate(-50%, -50%);
-  pointer-events: none;
-  white-space: nowrap;
-  font-size: 0.8125rem;
-  line-height: 1.35;
+  gap: 6px;
+  width: max-content;
+  max-width: 300px;
+  padding: 12px 16px 13px;
+  text-align: left;
+  font: inherit;
   color: var(--color-ink);
-  text-shadow:
-    0 0 2px var(--color-paper),
-    0 0 4px var(--color-paper);
-  transition: opacity 0.16s var(--ease-out);
+  background: var(--color-paper);
+  border: 1px solid var(--color-line);
+  border-radius: calc(var(--radius) * 1.5);
+  box-shadow:
+    0 1px 2px rgb(20 23 28 / 0.04),
+    0 10px 28px rgb(20 23 28 / 0.07);
+  cursor: pointer;
+  transition:
+    opacity 0.16s var(--ease-out),
+    border-color 0.18s var(--ease-out);
 }
-.readout[data-align="end"] {
-  transform: translate(-100%, -50%);
-  text-align: right;
+.callout[data-corner="top-right"] {
+  transform: translateX(-100%);
 }
-.readout[data-hidden="true"] {
+.callout[data-hidden="true"] {
   opacity: 0;
+  pointer-events: none;
 }
-.readout-name {
+.callout:hover,
+.callout[aria-pressed="true"] {
+  border-color: var(--color-blue);
+}
+.callout-title {
+  font-size: 0.9375rem;
   font-weight: 500;
+  line-height: 1.25;
 }
-.readout-figures,
-.readout-weak {
+.callout-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.8125rem;
+  line-height: 1.3;
   color: var(--color-ink-2);
   font-variant-numeric: tabular-nums;
 }
-.readout-weak-label {
-  margin-top: 3px;
-  color: var(--color-ink-2);
+.callout-row svg {
+  flex: none;
+  width: 15px;
+  height: 15px;
+  stroke-width: 1.75;
+}
+.callout-row-value {
+  color: var(--color-ink);
+}
+.callout-lines {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  transition: opacity 0.16s var(--ease-out);
+}
+.callout-lines[data-hidden="true"] {
+  opacity: 0;
+}
+.callout-lines path {
+  fill: none;
+  stroke: var(--color-ink-2);
+  stroke-width: 1;
+  opacity: 0.75;
+  transition: stroke 0.18s var(--ease-out);
+}
+.callout-lines circle {
+  fill: var(--color-paper);
+  stroke: var(--color-ink-2);
+  stroke-width: 1.5;
+  transition: stroke 0.18s var(--ease-out);
+}
+.callout-lines g[data-active="true"] path,
+.callout-lines g[data-active="true"] circle {
+  stroke: var(--color-blue);
+  opacity: 1;
 }
 
 /* Market panel: the magnified market's vehicles, on the lower part of the viewport. */
@@ -257,26 +278,31 @@
   padding: 0;
 }
 
-/* Vehicle cards: the drawing, then the figures. Hover turns the sketch blue, like a market. */
+/* Vehicle cards: the car's photo, then the figures. */
 .vehicle-card {
   display: block;
   color: inherit;
   text-decoration: none;
 }
-.vehicle-card-drawing {
+.vehicle-card-stage {
+  display: flex;
+  align-items: flex-end;
+  aspect-ratio: 1600 / 610;
+}
+.vehicle-card-photo {
   position: relative;
+  width: 100%;
+  transition: transform 0.18s var(--ease-out);
 }
-.vehicle-card:hover .vehicle-body,
-.vehicle-card:focus-visible .vehicle-body {
-  background: var(--vehicle-wash-active);
+.vehicle-card-photo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
-.vehicle-card:hover .vehicle-lines,
-.vehicle-card:focus-visible .vehicle-lines {
-  background: var(--vehicle-line-active);
-}
-.vehicle-card:hover .vehicle-contour,
-.vehicle-card:focus-visible .vehicle-contour {
-  background: var(--vehicle-contour-active);
+.vehicle-card:hover .vehicle-card-photo,
+.vehicle-card:focus-visible .vehicle-card-photo {
+  transform: translateY(-3px);
 }
 .vehicle-card-name {
   display: block;
@@ -299,10 +325,11 @@
   font-variant-numeric: tabular-nums;
 }
 
-/* A vehicle: three alpha masks tinted by tokens and stacked (body wash, lines, contour), heat washes between wash and lines. */
+/* A vehicle: three alpha masks tinted by tokens and stacked (body wash, lines, contour). */
 .vehicle {
   position: relative;
   width: 100%;
+  transition: opacity 0.7s var(--ease-out);
 }
 .vehicle-layer {
   position: absolute;
@@ -315,7 +342,6 @@
   -webkit-mask-repeat: no-repeat;
   -webkit-mask-size: 100% 100%;
   pointer-events: none;
-  transition: background 0.18s var(--ease-out);
 }
 .vehicle-body {
   background: var(--vehicle-wash);
@@ -326,9 +352,60 @@
 .vehicle-contour {
   background: var(--vehicle-contour);
 }
-.vehicle-heat rect {
-  fill: var(--vehicle-heat);
-  transition: opacity 0.18s var(--ease-out);
+
+/*
+ * Arriving from the map: the hand-over layer lands the photo on the slot
+ * (the drawing's silhouette box) and fades it; the sketch stays hidden
+ * until the layer says reveal, then fades in behind the clearing photo.
+ */
+.vehicle-photo-slot {
+  position: absolute;
+  pointer-events: none;
+}
+.workspace-stage[data-sketch="hidden"] .vehicle {
+  opacity: 0;
+  transition: none;
+}
+.workspace-stage[data-sketch="reveal"] .vehicle {
+  opacity: 1;
+}
+
+/* The hand-over layer: a paper veil over the map and the photo on its way. */
+.handoff {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  pointer-events: none;
+}
+.handoff-veil {
+  position: absolute;
+  inset: 0;
+  background: var(--color-paper);
+  opacity: 0;
+  animation: veil-in 0.22s var(--ease-out) forwards;
+}
+.handoff-veil[data-off="true"] {
+  animation: veil-out 0.45s var(--ease-out) forwards;
+}
+@keyframes veil-in {
+  to {
+    opacity: 1;
+  }
+}
+@keyframes veil-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+.handoff-photo {
+  position: absolute;
+  display: block;
+  object-fit: contain;
+  transform-origin: 0 0;
+  will-change: transform, opacity;
 }
 
 /* Vehicle screen. Numbers match lib/vehicles/layout.ts. */
@@ -343,11 +420,16 @@
   height: 112px;
 }
 .workspace-back {
-  padding: 0 12px;
-  margin-left: -12px;
-  color: var(--color-blue);
+  padding: 0 14px;
+  color: var(--color-ink);
   font-size: 0.875rem;
   text-decoration: none;
+  border: 1px solid var(--color-line);
+  border-radius: calc(var(--radius) * 1.5);
+  transition: border-color 0.18s var(--ease-out);
+}
+.workspace-back:hover {
+  border-color: var(--color-blue);
 }
 .workspace-title {
   font-size: 1.25rem;
@@ -360,10 +442,23 @@
   font-variant-numeric: tabular-nums;
 }
 .workspace-body {
+  position: relative;
   display: grid;
   grid-template-columns: minmax(0, 1fr) 400px;
-  column-gap: 48px;
+  column-gap: 72px;
   align-items: start;
+}
+.panel-card {
+  padding: 16px 18px 14px;
+  background: var(--color-paper);
+  border: 1px solid var(--color-line);
+  border-radius: calc(var(--radius) * 2);
+}
+.panel-card + .panel-card {
+  margin-top: 16px;
+}
+.panel-card > .workspace-h3:first-child {
+  margin-top: 0;
 }
 .workspace-stage {
   max-width: 1040px;
@@ -376,19 +471,6 @@
 .workspace-view-top {
   width: 62%;
   margin: 40px auto 0;
-}
-.workspace-zone-note {
-  margin-top: 24px;
-  color: var(--color-ink-2);
-  font-size: 0.8125rem;
-}
-.zone-hits {
-  position: absolute;
-  inset: 0;
-}
-.zone-hit {
-  position: absolute;
-  cursor: pointer;
 }
 .workspace-domains {
   padding-top: 4px;
@@ -419,17 +501,32 @@
 .domain-row {
   display: grid;
   grid-template-columns: 1fr auto;
-  row-gap: 4px;
+  row-gap: 5px;
   width: 100%;
   min-height: 44px;
-  padding: 8px 0;
+  padding: 9px 8px;
+  margin: 0 -8px;
+  width: calc(100% + 16px);
   text-align: left;
   font: inherit;
   color: inherit;
   background: transparent;
   border: 0;
-  border-top: 1px solid var(--color-line);
+  border-radius: calc(var(--radius) * 1.5);
   cursor: pointer;
+  transition:
+    box-shadow 0.18s var(--ease-out),
+    background 0.18s var(--ease-out);
+}
+.domain-list > li + li .domain-row {
+  border-top: 1px solid var(--color-line);
+}
+.domain-row[aria-pressed="true"] {
+  box-shadow: inset 0 0 0 1px var(--color-blue);
+  border-top-color: transparent;
+}
+.domain-row[data-hovered="true"]:not([aria-pressed="true"]) {
+  background: rgb(20 23 28 / 0.03);
 }
 .domain-row-name {
   font-size: 0.875rem;
@@ -481,9 +578,12 @@
 
 @media (prefers-reduced-motion: reduce) {
   .market-panel,
-  .readout,
-  .vehicle-layer,
-  .vehicle-heat rect,
+  .callout,
+  .callout-lines,
+  .vehicle,
+  .vehicle-card-photo,
+  .handoff-veil,
+  .domain-row,
   .domain-row-bar > span {
     animation: none;
     transition: none;

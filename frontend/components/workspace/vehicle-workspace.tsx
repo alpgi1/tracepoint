@@ -1,20 +1,21 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useLayoutEffect, useRef, useState } from "react";
 import { VehicleDrawing } from "@/components/vehicles/vehicle-drawing";
 import { full, percent, scaleTop, score } from "@/lib/content/format";
 import type { DomainFigures, DomainKey, MarketContent, VehicleContent } from "@/lib/content/types";
-import { drawingFor } from "@/lib/vehicles/drawings";
-import { ZONES, type Zone } from "@/lib/vehicles/zones";
+import { drawingFor, photoFor } from "@/lib/vehicles/drawings";
+import { arriveHandoff, useSketchPhase } from "@/lib/vehicles/handoff";
 import { site } from "@/lib/site";
 
 /*
- * Screen 2: one vehicle in one market. The car is the domain selector: each
- * zone of the body is a requirement domain, washed in blue by that domain's
- * complaint share; hovering or clicking a zone selects the domain, as does
- * the list beside it, which carries the figures. The selected domain shows
- * its complaint themes. Decisions are not built yet.
+ * Screen 2: one vehicle in one market. The car as a sketch (side and top
+ * view) beside the domain list; the selected or hovered domain shows its
+ * complaint themes. Arriving from the map, the hand-over layer brings the
+ * car's photo to the side view's silhouette box; this screen reports that
+ * box once laid out, keeps the sketch hidden while the photo fades, then
+ * reveals it. Decisions are not built yet.
  */
 export interface VehicleWorkspaceProps {
   market: MarketContent;
@@ -29,12 +30,30 @@ export function VehicleWorkspace({ market, vehicle }: VehicleWorkspaceProps) {
   const [active, setActive] = useState<DomainKey | null>(vehicle.weakestDomain?.key ?? domains[0]?.key ?? null);
   const [hovered, setHovered] = useState<DomainKey | null>(null);
   const shown = hovered ?? active;
-  const heat = hasVerbatims ? Object.fromEntries(domains.map((d) => [d.key, d.complaintShare])) : undefined;
   const side = drawingFor(vehicle.drawing, "side");
   const top = drawingFor(vehicle.drawing, "top");
+  const photo = photoFor(vehicle.drawing);
   const note = site.panel.drawingNotes[vehicle.code];
   const themes = shown ? vehicle.complaintThemes.filter((t) => t.domain === shown).sort((a, b) => b.complaints - a.complaints).slice(0, THEMES_SHOWN) : [];
   const { workspace } = site;
+
+  // Where the photo must land: the side view's silhouette box, measured after layout.
+  const slotRef = useRef<HTMLDivElement>(null);
+  const sketchPhase = useSketchPhase(vehicle.drawing);
+  useLayoutEffect(() => {
+    const slot = slotRef.current;
+    if (!slot) return;
+    const rect = slot.getBoundingClientRect();
+    arriveHandoff(vehicle.drawing, { left: rect.left, top: rect.top, width: rect.width, height: rect.height });
+  }, [vehicle.drawing]);
+
+  const [x0, y0, x1] = side.bbox;
+  const slotStyle: React.CSSProperties = {
+    left: `${String((x0 / side.width) * 100)}%`,
+    width: `${String(((x1 - x0) / side.width) * 100)}%`,
+    top: `${String((y0 / side.height) * 100)}%`,
+    aspectRatio: `${String(photo.width)} / ${String(photo.height)}`,
+  };
 
   return (
     <div className="workspace">
@@ -54,37 +73,31 @@ export function VehicleWorkspace({ market, vehicle }: VehicleWorkspaceProps) {
         </div>
       </header>
       <div className="workspace-body">
-        <section className="workspace-stage" aria-label={workspace.stageLabel}>
+        <section className="workspace-stage" aria-label={workspace.stageLabel} data-sketch={sketchPhase}>
           <div className="workspace-view">
-            <VehicleDrawing drawing={side} zones={ZONES.side} heat={heat} active={shown} />
-            {hasVerbatims ? <ZoneHits zones={ZONES.side} drawing={side} onHover={setHovered} onPick={setActive} /> : null}
+            <VehicleDrawing drawing={side} size="stage" />
+            <div ref={slotRef} className="vehicle-photo-slot" style={slotStyle} aria-hidden="true" />
           </div>
           <div className="workspace-view workspace-view-top">
-            <VehicleDrawing drawing={top} zones={ZONES.top} heat={heat} active={shown} />
-            {hasVerbatims ? <ZoneHits zones={ZONES.top} drawing={top} onHover={setHovered} onPick={setActive} /> : null}
+            <VehicleDrawing drawing={top} size="stage" />
           </div>
-          {hasVerbatims ? <p className="workspace-zone-note">{workspace.zoneNote}</p> : null}
         </section>
         <aside className="workspace-domains">
           {hasVerbatims ? (
             <>
-              <h2 className="workspace-h2">{workspace.domainsHeading}</h2>
-              <p className="workspace-hint">{workspace.domainsHint}</p>
-              <ol className="domain-list">
-                {domains.map((domain) => (
-                  <li key={domain.key}>
-                    <DomainRow
-                      domain={domain}
-                      active={active === domain.key}
-                      hovered={hovered === domain.key}
-                      onHover={setHovered}
-                      onPick={setActive}
-                    />
-                  </li>
-                ))}
-              </ol>
+              <section className="panel-card">
+                <h2 className="workspace-h2">{workspace.domainsHeading}</h2>
+                <p className="workspace-hint">{workspace.domainsHint}</p>
+                <ol className="domain-list">
+                  {domains.map((domain) => (
+                    <li key={domain.key}>
+                      <DomainRow domain={domain} active={active === domain.key} hovered={hovered === domain.key} onHover={setHovered} onPick={setActive} />
+                    </li>
+                  ))}
+                </ol>
+              </section>
               {shown ? (
-                <section className="themes" aria-live="polite">
+                <section className="panel-card themes" aria-live="polite">
                   <h3 className="workspace-h3">
                     {workspace.themesHeading} · {domains.find((d) => d.key === shown)?.name}
                   </h3>
@@ -108,11 +121,11 @@ export function VehicleWorkspace({ market, vehicle }: VehicleWorkspaceProps) {
               ) : null}
             </>
           ) : (
-            <>
+            <section className="panel-card">
               <h2 className="workspace-h2">{workspace.noVerbatimsHeading}</h2>
               <p className="workspace-hint">{workspace.noVerbatimsBody}</p>
               {vehicle.study ? (
-                <section>
+                <>
                   <h3 className="workspace-h3">
                     {workspace.studyHeading} · {vehicle.study.sheet}
                   </h3>
@@ -131,9 +144,9 @@ export function VehicleWorkspace({ market, vehicle }: VehicleWorkspaceProps) {
                       {workspace.overall} {score(vehicle.study.overall)}
                     </p>
                   ) : null}
-                </section>
+                </>
               ) : null}
-            </>
+            </section>
           )}
         </aside>
       </div>
@@ -170,41 +183,5 @@ function DomainRow({ domain, active, hovered, onHover, onPick }: DomainRowProps)
         <span style={{ width: percent(domain.complaintShare) }} />
       </span>
     </button>
-  );
-}
-
-interface ZoneHitsProps {
-  zones: Zone[];
-  drawing: { width: number; height: number; bbox: [number, number, number, number] };
-  onHover: (key: DomainKey | null) => void;
-  onPick: (key: DomainKey) => void;
-}
-
-/** Mouse shortcuts on the body; the domain list is the keyboard route to the same actions. */
-function ZoneHits({ zones, drawing, onHover, onPick }: ZoneHitsProps) {
-  const [x0, y0, x1, y1] = drawing.bbox;
-  const bw = x1 - x0;
-  const bh = y1 - y0;
-  const pct = (v: number) => `${String(Math.round(v * 1000) / 10)}%`;
-  return (
-    <div className="zone-hits" aria-hidden="true">
-      {zones.flatMap((zone) =>
-        zone.rects.map((rect, index) => (
-          <div
-            key={`${zone.domain}-${String(index)}`}
-            className="zone-hit"
-            style={{
-              left: pct((x0 + rect[0] * bw) / drawing.width),
-              top: pct((y0 + rect[1] * bh) / drawing.height),
-              width: pct(((rect[2] - rect[0]) * bw) / drawing.width),
-              height: pct(((rect[3] - rect[1]) * bh) / drawing.height),
-            }}
-            onMouseEnter={() => onHover(zone.domain)}
-            onMouseLeave={() => onHover(null)}
-            onClick={() => onPick(zone.domain)}
-          />
-        )),
-      )}
-    </div>
   );
 }

@@ -48,3 +48,17 @@ export function zoneAt(zones: Zone[], fx: number, fy: number): DomainKey | null 
   }
   return null;
 }
+
+/** The zone's anchor for a leader line: the centre of its largest rectangle, as fractions of the silhouette box. */
+export function zoneAnchor(zone: Zone): [number, number] {
+  let best = zone.rects[0];
+  let bestArea = 0;
+  for (const rect of zone.rects) {
+    const area = (rect[2] - rect[0]) * (rect[3] - rect[1]);
+    if (area > bestArea) {
+      best = rect;
+      bestArea = area;
+    }
+  }
+  return [(best[0] + best[2]) / 2, (best[1] + best[3]) / 2];
+}

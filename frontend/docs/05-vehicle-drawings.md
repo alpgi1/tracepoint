@@ -3,19 +3,21 @@
 | Field | Value |
 |---|---|
 | Date | 2026-10-10, step 07 |
-| Status | Built and verified; revised in step 08 from a dot cloud to a layered sketch after the team's review; zones are a first approximation for the team to correct |
-| Files | `scripts/vehicles/build.mjs` (pipeline), `assets/vehicles/sources/` (inputs and their README), `public/vehicles/*.png` (body, lines and contour masks), `content/vehicles/*.json` (size, box, scale), `lib/vehicles/` (drawings, zones, layout), `components/vehicles/vehicle-drawing.tsx`, `components/workspace/vehicle-workspace.tsx`, `app/markets/[market]/[vehicle]/page.tsx` |
+| Status | Built and verified; revised in step 08 (dot cloud to layered sketch), step 10 (crisp card lines) and step 11 (plain sketch without heat or leader lines, photos of the configured cars on the cards, photo-to-sketch hand-over), after the team's reviews |
+| Files | `scripts/vehicles/build.mjs` (drawing pipeline), `scripts/vehicles/photos.mjs` (photo cut-outs), `assets/vehicles/sources/` and `assets/vehicles/photos/` (inputs and their READMEs), `public/vehicles/` (masks and cut-outs), `content/vehicles/*.json`, `lib/vehicles/` (drawings, photos, layout, hand-over, zones), `components/vehicles/vehicle-drawing.tsx`, `components/landing/vehicle-card.tsx`, `components/workspace/vehicle-workspace.tsx`, `app/markets/[market]/[vehicle]/page.tsx` |
 
 ## 1. Why drawings and not 3D
 
 `04-vehicle-models-feasibility.md` found no accurate current-generation BMW model with a clean
 licence. The team then pointed at the technical drawing page of the option-list brochures and
-asked for the vehicles to grow when clicked, with the same asset serving as the domain selector
-on the vehicle screen. Step 07 filled the silhouettes with a dot grid; the team found that the
-dots hid the car's structure and looked poor, and asked for a layered sketch instead (step 08).
-Line drawings of the real bodies at real proportions, from BMW's own documents, stacked as a
-body wash, the drawing's lines and a heavier outer contour, meet that without any invented
-geometry.
+asked for the vehicles to grow when clicked. Step 07 filled the silhouettes with a dot grid; the
+team found that the dots hid the car's structure and looked poor, and asked for a layered
+sketch instead (step 08). In step 11 the team set the final form against a reference image: a
+plain technical sketch with clear parts, no heavy black contour, no heat washes on the body and
+no leader lines to the cards; and the cards on the map show the real configured cars from the
+BMW configurator, whose photo grows to full screen and hands over to the sketch on the vehicle
+screen. Line drawings of the real bodies at real proportions, from BMW's own documents, meet
+that without any invented geometry.
 
 ## 2. Sources (details and licence notes in `assets/vehicles/sources/README.md`)
 
@@ -43,70 +45,93 @@ geometry.
    measured on the interior only. Fill ratios: F70 0.64 / 0.77, G60 0.66 / 0.78, G70 0.57 / 0.79
    (side / top); the pipeline warns below 0.45, which is what a leaking outline looks like.
 4. **Layers.** From the silhouette: the body mask (the silhouette, feathered by 0.6 px) and
-   the contour mask (the silhouette's edge dilated to 4 px, feathered); from the ink: the lines
-   mask. All three are alpha-only PNGs.
-5. **Outputs.** `public/vehicles/<code>-<view>-body.png`, `-lines.png` and `-contour.png`
-   (8 to 180 KB each, eighteen files) and `content/vehicles/<code>-<view>.json` with the size,
-   the silhouette box, the millimetre scale and the source note. `--preview <dir>` also writes
-   the three layers composed per view for a visual check.
+   the contour mask (the silhouette's edge dilated to 2 px, feathered: an edge, not a frame);
+   from the ink: the lines mask at 1600 px and a second lines mask at 520 px, kept for any
+   small rendering (the cards now show photos). For the vector pages the small mask is a fresh
+   render with every stroke raised to 0.8 pt and the filled shapes given a stroke; for the
+   raster it is the ink dilated by one pixel before resizing. All masks are alpha-only PNGs.
+5. **Outputs.** `public/vehicles/<code>-<view>-body.png`, `-lines.png`, `-lines-small.png` and
+   `-contour.png` (8 to 180 KB each, twenty-four files) and `content/vehicles/<code>-<view>.json`
+   with the size, the silhouette box, the millimetre scale and the source note. `--preview
+   <dir>` also writes the three layers composed per view for a visual check.
 
 ## 4. Rendering (`components/vehicles/vehicle-drawing.tsx`)
 
 * Each mask is a `span` filled with a token and clipped by the PNG through CSS `mask-image`,
-  stacked in order: the body wash (`--vehicle-wash #eef1f5`), the heat washes where there are
-  zones, the lines (`--vehicle-line #6b7480`), the contour on top (`--vehicle-contour
-  #14171c`). The heavier contour makes the body read at a glance; the lighter inner lines carry
-  the panels, glass and wheels. The result is a sketch, not a photograph and not a dot cloud.
-* Like the markets, a vehicle is grey at rest and turns blue when hovered: the card's hover and
-  focus switch the three layers to `--vehicle-wash-active #dce7f8`, `--vehicle-line-active
-  #1c69d4` and `--vehicle-contour-active #0f4fae`.
-* Heat: an SVG between the wash and the lines, clipped to the body by the same body mask, draws
-  one rectangle per zone in `--vehicle-heat #1c69d4` through a Gaussian blur (1.2 % of the
-  raster width), with opacity 0.12 + 0.58 × complaint share and 1 for the active domain. The
-  blur turns the rectangles into soft washes, so the zones read as regions of the body rather
-  than boxes. Zones never overlap (unit test), since overlapping washes would stack.
+  stacked in order: the body wash (`--vehicle-wash #f3f5f8`), the lines (`--vehicle-line
+  #5f6873`), the contour on top (`--vehicle-contour #4f5864`, one step darker than the lines
+  and 2 px at 1600 px, so the body closes without a frame). The result is a sketch in two
+  greys on a near-white wash, like the team's reference: the panels, glass and wheels are the
+  drawing's own lines, nothing is overlaid on the body.
+* No heat and no leader lines (team decision, step 11). The domain figures live in the cards
+  beside the car; the zones of step 07 to 10 are kept in `lib/vehicles/zones.ts` without a
+  consumer, in case the team wants the car as a selector again.
 * Unit tests check that every drawing carries its three layers, a silhouette box inside the
-  raster and a consistent scale, and that the zones partition without overlap.
+  raster and a consistent scale, that the zones partition without overlap, and that every
+  drawing has a photo cut-out with its size and source.
+
+## 4a. Photos of the configured cars (`scripts/vehicles/photos.mjs`)
+
+* Sources: the SIDELEFT desktop view (2560 by 1646 px, studio background "sand") of each car
+  from the configurator links the team supplied, taken from the response of the BMW image
+  service the configurator itself calls; details, dates and the rights note are in
+  `assets/vehicles/photos/README.md`.
+* Cut-out: the studio is warm everywhere (red exceeds blue by at least 7 at a brightness of
+  150 or more) and the cars' paint, glass, wheels and lights are not, so that one test
+  separates them; the mask is cleaned by an opening (specks), the largest component (the car),
+  hole filling (warm reflections on the paint), a closing (notches) and a one pixel feather.
+  The car's shadow on the floor is dark and stays with the car, which is why the cut-outs are
+  slightly taller than the body. Output: `public/vehicles/<code>-photo-side.webp` at 1600 px
+  (47 to 65 KB each) and `content/vehicles/<code>-photo.json`.
+* The cards on the magnified market show these photos, bottom-aligned in a row (`.vehicle-card-stage`,
+  aspect 1600 : 610, so the three cars share one ground line); G68 shows the G60 photo and says
+  so.
+
+## 4b. Hand-over from the map to the vehicle screen (`handoff-layer.tsx`, `lib/vehicles/handoff.ts`)
+
+The photo travels in a layer mounted in the root layout, so it survives the route change, and
+the card navigates the moment it is clicked.
+
+1. Click on a card: the card hands the layer the photo, its own box and a computed fallback
+   target, and navigates. A paper veil dissolves the map (220 ms).
+2. The vehicle screen renders underneath (the route is static and prefetched; about 25 ms in
+   the probe) with its sketch hidden, measures the silhouette box of its side view after
+   layout and reports it as the target (`arriveHandoff`); the layer waits at most 450 ms for
+   that report, else uses the fallback.
+3. The photo moves from the card straight to the target (720 ms, cubic in-out; no full-screen
+   stop) while the veil clears (450 ms), so the screen's header and cards appear under the
+   moving photo.
+4. On arrival the photo fades out (900 ms); 420 ms into the fade the screen reveals the sketch
+   (700 ms), so the sketch comes up behind the clearing photo. The layer unmounts when both
+   are done, about 2.2 s after the click.
+
+A direct visit shows the sketch at once; with reduced motion the card only navigates. The
+probe in the step 12 report sampled the timeline at 1280, 1440 and 1920 px: the photo lands on
+the measured box to the pixel, then opacity 1 to 0, the sketch 0 to 1.
 
 ## 5. The vehicle screen (`/markets/<market>/<vehicle>`)
 
 * Static routes for the seven market and vehicle pairs (`generateStaticParams`); an unknown pair
   renders the not-found page (with status 200 under partial prerendering; see limits).
-* Header: a Map link back, the vehicle's name and code, the market, 2025 units, verbatims, and
+* Header: a Map chip back, the vehicle's name and code, the market, 2025 units, verbatims, and
   the drawing note for G68.
-* Stage (left, at most 1040 px): the side view with the heat washes, the top view at 62 % width
-  below it, and the zone note. Hovering a zone highlights its domain in the list and
-  shows its themes; clicking selects it. Zone hit areas are mouse shortcuts; the list is the
-  keyboard route to the same actions.
-* Domains (right, 400 px): every domain of the vehicle's baseline report except `general`, sorted
-  by complaint share, each a button with name, share, row count and a bar; the selected or hovered
-  domain shows its top complaint themes (up to six, by complaints) with rows, defects, difficult
-  to use and wants.
-* Markets without classified verbatims (CN): no heat map, a plain statement of that, and the
-  study's three lowest attribute scores with the scale and the overall mean.
-* Decisions are not built; this screen is the domain selector the team described.
+* Stage (left, at most 1040 px): the side view sketch, the top view at 62 % width below it;
+  the hand-over photo sits over the side view only while arriving from the map.
+* Domains (right, 400 px): a card with every domain of the vehicle's baseline report except
+  `general`, sorted by complaint share, each a button with name, share, row count and a bar in
+  the one blue; the selected row carries a blue outline. A second card shows the selected or
+  hovered domain's top complaint themes (up to six, by complaints) with rows, defects,
+  difficult to use and wants.
+* Markets without classified verbatims (CN): a plain statement of that and the study's three
+  lowest attribute scores with the scale and the overall mean.
+* Decisions are not built.
 
-## 6. Zones (`lib/vehicles/zones.ts`)
+## 6. Zones (`lib/vehicles/zones.ts`, kept without a consumer)
 
 Rectangles in the silhouette box, x from the front (0) to the rear (1), y from the roof (0) to
-the ground (1) in the side view and across the body in the top view. A dot belongs to the first
-zone that contains it; the silhouette clips the rectangles.
-
-| Domain | Side view | Top view |
-|---|---|---|
-| Driver Assistance & Parking | front end below the lights | front end |
-| Exterior & Design | front fascia above, roof strip, rear end | both flanks, rear end |
-| Powertrain, Range & Charging | under the bonnet, underfloor between the wheels | bonnet |
-| Driving Experience & Dynamics | both wheels and arches | none |
-| Infotainment & Digital Services | dashboard, behind the windscreen | windscreen base |
-| Interior Comfort & Materials | cabin | cabin |
-| Space & Practicality | boot and rear seats | boot |
-| Quality Perception & NVH | doors and sills, lower middle | none |
-| Offering & Variants, General | no zone | no zone |
-
-These are the team's approximation of where a customer experiences a domain, stated as such on
-the screen. They are rectangles softened by the blur; shapes that follow the body are the next
-refinement if the team keeps the screen.
+the ground (1) in the side view and across the body in the top view, one domain each, tested
+not to overlap. They were the heat map and the hit areas of steps 07 to 10 and stay available
+if the team wants the car as a domain selector again.
 
 ## 7. Honesty notes
 
@@ -116,6 +141,8 @@ refinement if the team keeps the screen.
 * The G70 drawing is the pre-facelift 7 Series press sheet; it shows the seats, which the
   brochure drawings do not, and its lines are softer because the source is a raster. The
   contour layer, computed from the silhouette, is as crisp as the others.
+* The photos are the team's own configurations (paint and wheels as configured), not the
+  study or sales population; they identify the vehicle, nothing more.
 * The G68 drawing is the G60 body; the card and the screen say so.
 * The press sheet is BMW Group press material for editorial use; the rights must be cleared
   before any public release.
@@ -124,7 +151,8 @@ refinement if the team keeps the screen.
 
 ```
 pnpm content     # content/markets.json from reports/baseline, docs/*.xlsx and config/
-pnpm vehicles    # public/vehicles/*-{body,lines,contour}.png and content/vehicles/*.json from assets/vehicles/sources
+pnpm vehicles    # public/vehicles/*-{body,lines,lines-small,contour}.png and content/vehicles/*.json from assets/vehicles/sources
+pnpm photos      # public/vehicles/*-photo-side.webp and content/vehicles/*-photo.json from assets/vehicles/photos
 node scripts/vehicles/build.mjs --preview /tmp/preview   # plus composites to look at
 ```
 
@@ -139,5 +167,10 @@ Both outputs are committed so the app builds without poppler or the workbooks. T
 * The hover-driven theme list updates a polite live region; screen reader users who hover with a
   pointer hear every change.
 * Only the side view is used on the cards; the top view appears on the vehicle screen only.
-* The layers are rasters at 1600 px width; the vehicle screen shows them at up to 1040 px, so
-  they stay crisp on 1x screens and slightly soft on 2x screens.
+* The layers are rasters at 1600 px width; the vehicle screen shows them at up to 1040 px and
+  the full-screen photo at up to 1500 px, so both stay crisp on 1x screens and slightly soft on
+  2x screens.
+* The hand-over's fallback target is the geometry of `lib/vehicles/layout.ts`; the vehicle
+  screen's own measurement wins when it arrives within 450 ms, which it did in every probe.
+* In the G70 press drawing the tyres are drawn apart from the wheel arches, so the contour
+  traces both and the wheels read heavier than on the two vector drawings.

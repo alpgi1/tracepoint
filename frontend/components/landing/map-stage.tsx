@@ -6,17 +6,16 @@ import { marketByCode } from "@/lib/content/markets";
 import { REGIONS, type RegionId, regionById } from "@/lib/map/regions";
 import { useReducedMotion } from "@/lib/motion/reduced-motion";
 import { site } from "@/lib/site";
+import { MarketCallout } from "./market-callout";
 import { MarketPanel } from "./market-panel";
-import { MarketReadout } from "./market-readout";
 
 /*
- * The whole page is the map. At rest each market carries its readout (units,
- * verbatims, weakest domain), so the map is the first layer of the analysis.
- * The three markets are real buttons for keyboard and assistive technology,
- * visually hidden until focused; when focused, the market's name appears at
- * its place on the map. A selected market is magnified and its vehicles
- * appear in a panel below. State changes only on enter, leave, click and
- * settle, never per frame.
+ * The whole page is the map. At rest each market carries a callout card
+ * (units, verbatims, weakest domain) joined to it by a connector, so the map
+ * is the first layer of the analysis. The cards are the markets' buttons:
+ * hover highlights, click magnifies; the canvas answers the pointer too. A
+ * selected market is magnified and its vehicles appear in a panel below.
+ * State changes only on enter, leave, click and settle, never per frame.
  */
 export function MapStage() {
   const [hovered, setHovered] = useState<RegionId | null>(null);
@@ -54,6 +53,7 @@ export function MapStage() {
       : site.map.restingStatus;
 
   const selectedMarket = selected ? marketByCode(selected) : undefined;
+  const calloutsHidden = moving || selected !== null;
 
   return (
     <div className="relative h-dvh w-full overflow-hidden bg-paper">
@@ -70,36 +70,34 @@ export function MapStage() {
         reducedMotion={reducedMotion}
         label={site.map.label}
       />
-      {REGIONS.map((region) => {
-        const market = marketByCode(region.id);
-        if (!market) return null;
-        return (
-          <MarketReadout
-            key={region.id}
-            region={region}
-            market={market}
-            at={positions[region.id]?.readout}
-            hidden={moving || selected !== null}
-          />
-        );
-      })}
+      <svg className="callout-lines" aria-hidden="true" data-hidden={calloutsHidden ? "true" : undefined}>
+        {REGIONS.map((region) => {
+          const at = positions[region.id];
+          if (!at) return null;
+          const active = hovered === region.id;
+          return (
+            <g key={region.id} data-active={active ? "true" : undefined}>
+              <path d={`M ${String(at.lineX)} ${String(at.card[1])} V ${String(at.edge[1])} H ${String(at.edge[0])}`} />
+              <circle cx={at.edge[0]} cy={at.edge[1]} r={3.5} />
+            </g>
+          );
+        })}
+      </svg>
       <ul aria-label={site.map.marketsLabel} className="contents">
         {REGIONS.map((region) => {
-          const at = positions[region.id]?.center;
+          const market = marketByCode(region.id);
+          if (!market) return null;
           return (
             <li key={region.id} className="contents">
-              <button
-                type="button"
-                data-region={region.id}
-                aria-pressed={selected === region.id}
-                onClick={() => toggle(region.id)}
-                onFocus={() => setHovered(region.id)}
-                onBlur={() => setHovered(null)}
-                className="market-key"
-                style={at ? { left: `${String(Math.round(at[0]))}px`, top: `${String(Math.round(at[1]))}px` } : undefined}
-              >
-                {region.name}
-              </button>
+              <MarketCallout
+                region={region}
+                market={market}
+                at={positions[region.id]?.card}
+                hidden={calloutsHidden}
+                selected={selected === region.id}
+                onHover={setHovered}
+                onSelect={toggle}
+              />
             </li>
           );
         })}
