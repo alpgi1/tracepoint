@@ -2,8 +2,8 @@
 
 | Field | Value |
 |---|---|
-| Date | 2026-10-10 (replaces the globe of step 04; markets made solid layers in step 06; readouts, panel and vehicle cards added in step 07; markets grey at rest and vehicles as layered sketches in step 08; readouts replaced by callout cards in step 09) |
-| Status | Built and verified in steps 05 to 09 |
+| Date | 2026-10-10 (replaces the globe of step 04; markets made solid layers in step 06; readouts, panel and vehicle cards added in step 07; markets grey at rest and vehicles as layered sketches in step 08; readouts replaced by callout cards in step 09; vehicle cards show the configured cars' photos and hand over to the sketch in step 11) |
+| Status | Built and verified in steps 05 to 11 |
 | Files | `components/ui/dotted-world-map.tsx` (React wrapper), `lib/map/renderer.ts` (drawing and animation), `lib/map/data.ts`, `lib/map/regions.ts`, `components/landing/map-stage.tsx` (stage and connectors), `components/landing/market-callout.tsx`, `components/landing/market-panel.tsx`, `components/landing/vehicle-card.tsx`, `lib/content/markets.ts` (figures), `lib/content/icons.ts`, `lib/site.ts` (copy), `app/globals.css` (tokens) |
 
 ## 1. What it does
@@ -27,9 +27,8 @@ written here with the tokens; see `01-research-notes.md` section 6.1 for the sur
 
 Hovering a market turns it blue. Clicking a market magnifies the map around it (900 ms); the
 market comes to rest in the upper part of the viewport and a panel appears below it with the
-market's figures and one card per vehicle sold there: the vehicle as a layered sketch (body
-wash, lines, contour; grey at rest, blue when hovered), its name and code, 2025 units, verbatims
-and its weakest domain. Clicking a card grows the drawing into the place it has on the vehicle screen and
+market's figures and one card per vehicle sold there: the configured car's side profile from
+the BMW configurator, its name and code, 2025 units, verbatims and its weakest domain. Clicking a card grows the drawing into the place it has on the vehicle screen and
 navigates there (`/markets/<market>/<vehicle>`, see `05-vehicle-drawings.md`). Escape, Close or
 a click on open sea returns to the resting map. Desktop is the target; nothing is tuned for
 touch.
@@ -114,8 +113,8 @@ that turn blue on hover and vehicles as layered sketches instead of dot clouds (
 | Hover (market or its card) | Fill and outline cross-fade from grey to blue, the connector and the card border turn blue; the highlight value rises at 1 / 180 ms and falls at 1 / 320 ms; `pointer` cursor over a market | 180 ms in, 320 ms out |
 | Click on a market or its card | Flight: the market's view centre moves to the focus anchor while k goes to the market's zoom (CN 2.6, US 2.4, EU 3.2), geometric interpolation, cubic in-out; callouts fade out at the start | 900 ms |
 | Settle | The panel appears below the market (fade and 8 px rise) | 240 ms |
-| Card hover | The vehicle's wash, lines and contour turn blue | 180 ms |
-| Card click | The drawing grows from the card to the vehicle screen's stage (translate and scale, cubic in-out), then the route changes | 480 ms |
+| Card hover | The photo lifts by 3 px | 180 ms |
+| Card click | A paper veil covers the page; the photo grows to full screen (520 ms), holds (420 ms), moves to its place on the vehicle screen (560 ms); the route changes and that screen cross-fades the photo to the sketch (700 ms). See `05-vehicle-drawings.md` 4b | about 2.2 s in all |
 | Close, Escape, click on sea | Flight back to k = 1; the panel leaves at once; callouts return on settle | 900 ms |
 | Resize | Refit, repaint the mask, resample the dots; a selected market stays in focus | immediate |
 | Reduced motion | No fade, instant flights and highlights, no card growth (direct navigation) | |
@@ -154,7 +153,8 @@ that turn blue on hover and vehicles as layered sketches instead of dot clouds (
   `lineWidth` in `render`. Timings: `GLOW_IN`, `GLOW_OUT`, `FLIGHT_MS`.
 * Callout and panel copy: `lib/site.ts`; domain icons: `lib/content/icons.ts`. Figures:
   regenerate `content/markets.json` with `pnpm content` after the baseline reports change.
-* Card width (420 px, same for two or three vehicles): `.market-panel-cards` in `globals.css`.
+* Card width (420 px, same for two or three vehicles) and the shared ground line of the photos
+  (`.vehicle-card-stage`, aspect 1600 : 610): `globals.css`.
 
 ## 9. Known limits
 
@@ -163,7 +163,8 @@ that turn blue on hover and vehicles as layered sketches instead of dot clouds (
 * The mask encodes at most three markets; a fourth needs a second mask.
 * The fit is width-limited; the only ways to a larger map are cropping longitude (which cuts
   Alaska or Russia) or letting the map bleed past the viewport.
-* The card growth and the route change are two steps: the drawing animates to the stage's
-  geometry (`lib/vehicles/layout.ts`, mirrored in `.workspace` CSS), then the new page renders
-  in the same place. A shared-element view transition would remove the cut.
+* The hand-over and the route change are two steps: the photo animates to the stage's
+  geometry (`lib/vehicles/layout.ts`, mirrored by the workspace's percentages), then the new
+  page paints the same photo in the same place and fades it. A shared-element view transition
+  would make it one step.
 * Touch and narrow screens are not tuned (team decision: desktop only).

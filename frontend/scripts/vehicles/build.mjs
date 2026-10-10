@@ -39,8 +39,8 @@ const SMALL_WIDTH = 520;
 const SMALL_MIN_STROKE_PT = 0.8;
 /** Ink coverage above which a pixel is a line for the silhouette flood. */
 const INK = 0.25;
-/** Half-width of the outer contour and the feather of the body wash, px of the 1600 px raster. */
-const CONTOUR_RADIUS = 1.5;
+/** Half-width of the outer contour and the feather of the body wash, px of the 1600 px raster. The contour is a thin edge, not a frame. */
+const CONTOUR_RADIUS = 1;
 const FEATHER = 0.6;
 /** Paper and ink levels of the press raster (grey 0..255), and the gamma that thins its strokes. */
 const PAPER = 235;
@@ -442,9 +442,9 @@ function tinted(alpha, width, height, [r, g, b]) {
 async function writePreview(file, { width, height }, body, lines, contour) {
   await sharp({ create: { width, height, channels: 4, background: "#ffffff" } })
     .composite([
-      tinted(body, width, height, [238, 241, 245]),
-      tinted(lines, width, height, [91, 100, 112]),
-      tinted(contour, width, height, [20, 23, 28]),
+      tinted(body, width, height, [243, 245, 248]),
+      tinted(lines, width, height, [95, 104, 115]),
+      tinted(contour, width, height, [79, 88, 100]),
     ])
     .png()
     .toFile(file);

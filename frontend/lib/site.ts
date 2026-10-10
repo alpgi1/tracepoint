@@ -33,7 +33,7 @@ export const site = {
   },
   workspace: {
     back: "Map",
-    stageLabel: "The car as a domain selector: each zone is a requirement domain, a deeper blue means a higher complaint share",
+    stageLabel: "The vehicle as a technical sketch, side and top view",
     domainsHeading: "Domains by complaint share",
     domainsHint: "Share of classified verbatim rows that are complaints. Click a domain to see its themes.",
     rows: "rows",
@@ -44,9 +44,8 @@ export const site = {
     difficultToUse: "difficult to use",
     wants: "wants",
     noVerbatimsHeading: "No classified verbatims for this market yet",
-    noVerbatimsBody: "The customer study is the only evidence here, so the car shows no heat map.",
+    noVerbatimsBody: "The customer study is the only evidence here.",
     studyHeading: "Lowest study scores",
     overall: "Overall",
-    zoneNote: "Zones are the team's approximation of where a domain is experienced, not measured geometry.",
   },
 } as const;

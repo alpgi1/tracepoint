@@ -1,22 +1,21 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
-import { useCallback, useLayoutEffect, useRef, useState } from "react";
+import { useLayoutEffect, useRef, useState } from "react";
 import { VehicleDrawing } from "@/components/vehicles/vehicle-drawing";
 import { full, percent, scaleTop, score } from "@/lib/content/format";
 import type { DomainFigures, DomainKey, MarketContent, VehicleContent } from "@/lib/content/types";
-import { drawingFor, type VehicleDrawing as Drawing } from "@/lib/vehicles/drawings";
-import { ZONES, zoneAnchor, type Zone } from "@/lib/vehicles/zones";
+import { drawingFor, photoFor } from "@/lib/vehicles/drawings";
+import { takeHandoff } from "@/lib/vehicles/handoff";
 import { site } from "@/lib/site";
 
 /*
- * Screen 2: one vehicle in one market. The car is the domain selector: each
- * zone of the body is a requirement domain, washed in blue by that domain's
- * complaint share relative to the vehicle's other domains, and a leader line
- * joins each zone of the side view to its
- * row in the domain list. Hovering or clicking a zone, a line or a row
- * selects the domain; the selected domain shows its complaint themes.
- * Decisions are not built yet.
+ * Screen 2: one vehicle in one market. The car as a sketch (side and top
+ * view) beside the domain list; the selected or hovered domain shows its
+ * complaint themes. Arriving from the map, the screen starts with the car's
+ * photo where the sketch will be and cross-fades to the sketch. Decisions
+ * are not built yet.
  */
 export interface VehicleWorkspaceProps {
   market: MarketContent;
@@ -24,16 +23,6 @@ export interface VehicleWorkspaceProps {
 }
 
 const THEMES_SHOWN = 6;
-/** Gap between a leader line's end and the list card, CSS px. */
-const LEADER_END = 8;
-
-interface Leader {
-  domain: DomainKey;
-  /** Anchor dot on the car, body coordinates. */
-  ax: number;
-  ay: number;
-  d: string;
-}
 
 export function VehicleWorkspace({ market, vehicle }: VehicleWorkspaceProps) {
   const domains = [...vehicle.domains].filter((d) => d.key !== "general").sort((a, b) => b.complaintShare - a.complaintShare);
@@ -41,63 +30,39 @@ export function VehicleWorkspace({ market, vehicle }: VehicleWorkspaceProps) {
   const [active, setActive] = useState<DomainKey | null>(vehicle.weakestDomain?.key ?? domains[0]?.key ?? null);
   const [hovered, setHovered] = useState<DomainKey | null>(null);
   const shown = hovered ?? active;
-  // Heat is relative within the vehicle: the lowest complaint share stays almost clear, the highest is full.
-  const shares = domains.map((d) => d.complaintShare);
-  const low = Math.min(...shares);
-  const span = Math.max(...shares) - low || 1;
-  const heat = hasVerbatims ? Object.fromEntries(domains.map((d) => [d.key, (d.complaintShare - low) / span])) : undefined;
   const side = drawingFor(vehicle.drawing, "side");
   const top = drawingFor(vehicle.drawing, "top");
+  const photo = photoFor(vehicle.drawing);
   const note = site.panel.drawingNotes[vehicle.code];
   const themes = shown ? vehicle.complaintThemes.filter((t) => t.domain === shown).sort((a, b) => b.complaints - a.complaints).slice(0, THEMES_SHOWN) : [];
   const { workspace } = site;
 
-  const bodyRef = useRef<HTMLDivElement>(null);
-  const sideRef = useRef<HTMLDivElement>(null);
-  const asideRef = useRef<HTMLElement>(null);
-  const rowRefs = useRef(new Map<DomainKey, HTMLElement>());
-  const [leaders, setLeaders] = useState<Leader[]>([]);
-
-  const measure = useCallback(() => {
-    const body = bodyRef.current;
-    const stage = sideRef.current;
-    const aside = asideRef.current;
-    if (!body || !stage || !aside || !hasVerbatims) {
-      setLeaders([]);
-      return;
-    }
-    const origin = body.getBoundingClientRect();
-    const stageRect = stage.getBoundingClientRect();
-    const asideRect = aside.getBoundingClientRect();
-    const next: Leader[] = [];
-    for (const zone of ZONES.side) {
-      const row = rowRefs.current.get(zone.domain);
-      if (!row || !domains.some((d) => d.key === zone.domain)) continue;
-      const [fx, fy] = zoneAnchor(zone);
-      const [bx0, by0, bx1, by1] = side.bbox;
-      const ax = stageRect.left - origin.left + ((bx0 + fx * (bx1 - bx0)) / side.width) * stageRect.width;
-      const ay = stageRect.top - origin.top + ((by0 + fy * (by1 - by0)) / side.height) * stageRect.height;
-      const rowRect = row.getBoundingClientRect();
-      const ex = asideRect.left - origin.left - LEADER_END;
-      const ey = rowRect.top - origin.top + rowRect.height / 2;
-      // One gentle curve from the anchor to the row: horizontal at both ends, bending in between.
-      const c1 = ax + (ex - ax) * 0.55;
-      const c2 = ex - (ex - ax) * 0.3;
-      next.push({ domain: zone.domain, ax, ay, d: `M ${r(ax)} ${r(ay)} C ${r(c1)} ${r(ay)} ${r(c2)} ${r(ey)} ${r(ex)} ${r(ey)}` });
-    }
-    setLeaders(next);
-    // domains and side are derived from props; they change only with the route.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [hasVerbatims, vehicle.code]);
-
+  // The hand-over phase is written to the DOM, not to state: the server renders the
+  // sketch, and the first client paint must already show the photo when arriving from the map.
+  const viewRef = useRef<HTMLDivElement>(null);
   useLayoutEffect(() => {
-    measure();
-    const body = bodyRef.current;
-    if (!body) return;
-    const observer = new ResizeObserver(() => measure());
-    observer.observe(body);
-    return () => observer.disconnect();
-  }, [measure]);
+    const view = viewRef.current;
+    if (!view || takeHandoff() !== vehicle.drawing) return;
+    view.dataset.phase = "photo";
+    let inner = 0;
+    const outer = requestAnimationFrame(() => {
+      inner = requestAnimationFrame(() => {
+        view.dataset.phase = "fade";
+      });
+    });
+    return () => {
+      cancelAnimationFrame(outer);
+      cancelAnimationFrame(inner);
+    };
+  }, [vehicle.drawing]);
+
+  const [x0, y0, x1] = side.bbox;
+  const photoStyle: React.CSSProperties = {
+    left: `${String((x0 / side.width) * 100)}%`,
+    width: `${String(((x1 - x0) / side.width) * 100)}%`,
+    top: `${String((y0 / side.height) * 100)}%`,
+    aspectRatio: `${String(photo.width)} / ${String(photo.height)}`,
+  };
 
   return (
     <div className="workspace">
@@ -116,19 +81,17 @@ export function VehicleWorkspace({ market, vehicle }: VehicleWorkspaceProps) {
           </p>
         </div>
       </header>
-      <div className="workspace-body" ref={bodyRef}>
+      <div className="workspace-body">
         <section className="workspace-stage" aria-label={workspace.stageLabel}>
-          <div className="workspace-view" ref={sideRef}>
-            <VehicleDrawing drawing={side} size="stage" zones={ZONES.side} heat={heat} active={shown} />
-            {hasVerbatims ? <ZoneHits zones={ZONES.side} drawing={side} onHover={setHovered} onPick={setActive} /> : null}
+          <div className="workspace-view" ref={viewRef} data-phase="sketch">
+            <VehicleDrawing drawing={side} size="stage" />
+            <Image className="vehicle-photo" style={photoStyle} src={photo.src} alt="" width={photo.width} height={photo.height} unoptimized draggable={false} />
           </div>
           <div className="workspace-view workspace-view-top">
-            <VehicleDrawing drawing={top} size="stage" zones={ZONES.top} heat={heat} active={shown} />
-            {hasVerbatims ? <ZoneHits zones={ZONES.top} drawing={top} onHover={setHovered} onPick={setActive} /> : null}
+            <VehicleDrawing drawing={top} size="stage" />
           </div>
-          {hasVerbatims ? <p className="workspace-zone-note">{workspace.zoneNote}</p> : null}
         </section>
-        <aside className="workspace-domains" ref={asideRef}>
+        <aside className="workspace-domains">
           {hasVerbatims ? (
             <>
               <section className="panel-card">
@@ -136,13 +99,7 @@ export function VehicleWorkspace({ market, vehicle }: VehicleWorkspaceProps) {
                 <p className="workspace-hint">{workspace.domainsHint}</p>
                 <ol className="domain-list">
                   {domains.map((domain) => (
-                    <li
-                      key={domain.key}
-                      ref={(el) => {
-                        if (el) rowRefs.current.set(domain.key, el);
-                        else rowRefs.current.delete(domain.key);
-                      }}
-                    >
+                    <li key={domain.key}>
                       <DomainRow domain={domain} active={active === domain.key} hovered={hovered === domain.key} onHover={setHovered} onPick={setActive} />
                     </li>
                   ))}
@@ -201,23 +158,9 @@ export function VehicleWorkspace({ market, vehicle }: VehicleWorkspaceProps) {
             </section>
           )}
         </aside>
-        {leaders.length > 0 ? (
-          <svg className="leader-lines" aria-hidden="true">
-            {leaders.map((leader) => (
-              <g key={leader.domain} data-active={shown === leader.domain ? "true" : undefined}>
-                <path d={leader.d} />
-                <circle cx={leader.ax} cy={leader.ay} r={3.5} />
-              </g>
-            ))}
-          </svg>
-        ) : null}
       </div>
     </div>
   );
-}
-
-function r(n: number): string {
-  return String(Math.round(n * 10) / 10);
 }
 
 interface DomainRowProps {
@@ -249,41 +192,5 @@ function DomainRow({ domain, active, hovered, onHover, onPick }: DomainRowProps)
         <span style={{ width: percent(domain.complaintShare) }} />
       </span>
     </button>
-  );
-}
-
-interface ZoneHitsProps {
-  zones: Zone[];
-  drawing: Pick<Drawing, "width" | "height" | "bbox">;
-  onHover: (key: DomainKey | null) => void;
-  onPick: (key: DomainKey) => void;
-}
-
-/** Mouse shortcuts on the body; the domain list is the keyboard route to the same actions. */
-function ZoneHits({ zones, drawing, onHover, onPick }: ZoneHitsProps) {
-  const [x0, y0, x1, y1] = drawing.bbox;
-  const bw = x1 - x0;
-  const bh = y1 - y0;
-  const pct = (v: number) => `${String(Math.round(v * 1000) / 10)}%`;
-  return (
-    <div className="zone-hits" aria-hidden="true">
-      {zones.flatMap((zone) =>
-        zone.rects.map((rect, index) => (
-          <div
-            key={`${zone.domain}-${String(index)}`}
-            className="zone-hit"
-            style={{
-              left: pct((x0 + rect[0] * bw) / drawing.width),
-              top: pct((y0 + rect[1] * bh) / drawing.height),
-              width: pct(((rect[2] - rect[0]) * bw) / drawing.width),
-              height: pct(((rect[3] - rect[1]) * bh) / drawing.height),
-            }}
-            onMouseEnter={() => onHover(zone.domain)}
-            onMouseLeave={() => onHover(null)}
-            onClick={() => onPick(zone.domain)}
-          />
-        )),
-      )}
-    </div>
   );
 }
