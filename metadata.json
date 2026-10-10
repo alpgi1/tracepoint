@@ -1,0 +1,57 @@
+{
+  "cli_version": "0.11.4",
+  "checkpoint_id": "01M4M1TFC99117NZTCWQ1VM9JQ",
+  "strategy": "manual-commit",
+  "branch": "claude/backend-classification-agent-requirements",
+  "checkpoints_count": 8,
+  "files_touched": [
+    "README.md",
+    "backend/README.md",
+    "backend/tests/test_agent.py",
+    "backend/tests/test_classify_and_findings.py",
+    "backend/tests/test_requirements.py",
+    "backend/tracepoint/agent/__init__.py",
+    "backend/tracepoint/agent/context_pack.py",
+    "backend/tracepoint/agent/tools.py",
+    "backend/tracepoint/api/app.py",
+    "backend/tracepoint/classify/gap.py",
+    "backend/tracepoint/cli.py",
+    "backend/tracepoint/db/models.py",
+    "backend/tracepoint/requirements/__init__.py",
+    "backend/tracepoint/requirements/report.py",
+    "backend/tracepoint/requirements/store.py",
+    "config/classifications/F70_gaps.jsonl",
+    "config/classifications/G60_gaps.jsonl",
+    "config/classifications/G70_gaps.jsonl",
+    "config/requirements/F70_EU.yaml",
+    "config/requirements/G60_US.yaml",
+    "config/requirements/G70_US.yaml",
+    "docker-compose.yml",
+    "plan/00-master-plan.md",
+    "plan/01-phase-1-foundation-and-internal-evidence-base.md",
+    "plan/decisions.md",
+    "reports/requirements/requirements_ALL_ALL.csv",
+    "reports/requirements/requirements_ALL_ALL.md",
+    "reports/step-09-offline-gap-classification.md",
+    "reports/step-10-agent-context-packs-and-tools.md",
+    "reports/step-11-requirement-derivation.md",
+    "start.ps1",
+    "start.sh"
+  ],
+  "sessions": [
+    {
+      "metadata": "/0/metadata.json",
+      "transcript": "/0/full.jsonl",
+      "compact_transcript": "/0/transcript.jsonl",
+      "content_hash": "/0/content_hash.txt",
+      "prompt": "/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 320,
+    "cache_creation_tokens": 890209,
+    "cache_read_tokens": 92375699,
+    "output_tokens": 367981,
+    "api_call_count": 160
+  }
+}

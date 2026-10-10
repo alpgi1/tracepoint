@@ -1,0 +1,29 @@
+/caveman
+
+---
+
+hocam projenin backend kısmını yavaştan ayağa kaldırıp verileri ingest etmemiz lazım. Bi durum raporu ver
+
+---
+
+tamam şöyle yapmamız lazım. öncelikle commitler ile sql verisini kaybetmememiz lazım. Başka bi bilgisayarda ayağa kaldırınca veri kaybolmamalı. EK olarak şu an chatgpt kredi ve girdisine gerek yok. sen verileri tasnif et. sql tarafına kaydet ingestion'ı yap ve gerekli alt yapıyı kur
+
+---
+
+sen bana şunu söyle, planlamadaki gibi docs'lardaki gibi verileri sql için ingest ettin mi? veriler rahatça sorgulanabilir, kategorilenmiş, çekilebilir ve ai agent'ın kullanımına sunulabilir mi? şu an neler yapıldı anlamadım, dokümanlara göre beni bi bilgilendir
+
+---
+
+tamam devam et
+
+---
+
+vDB nerede lazım olacaktı? yoksa kullanmasak olur mu? objektif ve hackathon odaklı düşün
+
+---
+
+okay embeding'i ertele şimdi başka ne yapalım
+
+---
+
+tamam entegre et bi bakalım
