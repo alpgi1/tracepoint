@@ -59,3 +59,10 @@ D-049 and D-050 in `plan/decisions.md`; `frontend/docs/03-landing-map.md` and
    next refinement.
 3. The heat washes tint most of the body blue on the vehicle screen because every zone has a
    share; if a quieter screen is wanted, raise the floor share below which a zone stays grey.
+4. `plan/06-pm-workspace-ux-spec.md` (merged from the backend track while this step was in
+   progress) assumes a dark theme "consistent with the map screen" and a 3D car with mesh groups
+   on its Screen 2. Both differ from the team's decisions on the UI track: the light palette
+   (D-039) and the layered sketch drawings (D-050). The spec's Screen 2 car-as-filter is what the
+   vehicle screen already does with the sketch; the two documents should be reconciled before
+   Screen 1 is built.
+
