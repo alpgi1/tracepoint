@@ -114,7 +114,7 @@ that turn blue on hover and vehicles as layered sketches instead of dot clouds (
 | Click on a market or its card | Flight: the market's view centre moves to the focus anchor while k goes to the market's zoom (CN 2.6, US 2.4, EU 3.2), geometric interpolation, cubic in-out; callouts fade out at the start | 900 ms |
 | Settle | The panel appears below the market (fade and 8 px rise) | 240 ms |
 | Card hover | The photo lifts by 3 px | 180 ms |
-| Card click | A paper veil covers the page; the photo grows to full screen (520 ms), holds (420 ms), moves to its place on the vehicle screen (560 ms); the route changes and that screen cross-fades the photo to the sketch (700 ms). See `05-vehicle-drawings.md` 4b | about 2.2 s in all |
+| Card click | The route changes at once; a paper veil dissolves the map (220 ms) while the photo moves from the card straight to its place on the vehicle screen (720 ms) and the veil clears; on arrival the photo fades out (900 ms) and the sketch is revealed behind it (700 ms, from 420 ms into the fade). See `05-vehicle-drawings.md` 4b | about 2.2 s in all |
 | Close, Escape, click on sea | Flight back to k = 1; the panel leaves at once; callouts return on settle | 900 ms |
 | Resize | Refit, repaint the mask, resample the dots; a selected market stays in focus | immediate |
 | Reduced motion | No fade, instant flights and highlights, no card growth (direct navigation) | |
@@ -163,8 +163,6 @@ that turn blue on hover and vehicles as layered sketches instead of dot clouds (
 * The mask encodes at most three markets; a fourth needs a second mask.
 * The fit is width-limited; the only ways to a larger map are cropping longitude (which cuts
   Alaska or Russia) or letting the map bleed past the viewport.
-* The hand-over and the route change are two steps: the photo animates to the stage's
-  geometry (`lib/vehicles/layout.ts`, mirrored by the workspace's percentages), then the new
-  page paints the same photo in the same place and fades it. A shared-element view transition
-  would make it one step.
+* The hand-over photo lives in a layer of the root layout, so it is unaffected by the route
+  change; the vehicle screen reports its measured target and the layer lands the photo on it.
 * Touch and narrow screens are not tuned (team decision: desktop only).

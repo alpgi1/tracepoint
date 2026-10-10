@@ -87,21 +87,27 @@ that without any invented geometry.
   aspect 1600 : 610, so the three cars share one ground line); G68 shows the G60 photo and says
   so.
 
-## 4b. Hand-over from the map to the vehicle screen (`vehicle-card.tsx`, `vehicle-workspace.tsx`)
+## 4b. Hand-over from the map to the vehicle screen (`handoff-layer.tsx`, `lib/vehicles/handoff.ts`)
 
-1. Click on a card: a paper veil covers the page and the photo grows from the card to full
-   screen (90 % of the viewport width, at most 1500 px, at most 80 % of the height), 520 ms,
-   cubic in-out; it holds for 420 ms.
-2. The photo moves to the place the drawing has on the vehicle screen (`photoTarget` in
-   `lib/vehicles/layout.ts`: the stage column, the drawing's silhouette box, roof on roof and
-   the same length), 560 ms; then the route changes with a hand-over flag in `sessionStorage`.
-3. The vehicle screen reads the flag before its first paint, shows the same photo at that place
-   (percentages of the drawing's box, so the pixels agree with step 2), and cross-fades over
-   700 ms: the photo fades out, the sketch fades in. A direct visit shows the sketch at once.
-   With reduced motion the card navigates at once and no cross-fade runs.
+The photo travels in a layer mounted in the root layout, so it survives the route change, and
+the card navigates the moment it is clicked.
 
-The probe in the step 11 report measured the move target and the landing position equal to the
-pixel at 1280, 1440 and 1920 px.
+1. Click on a card: the card hands the layer the photo, its own box and a computed fallback
+   target, and navigates. A paper veil dissolves the map (220 ms).
+2. The vehicle screen renders underneath (the route is static and prefetched; about 25 ms in
+   the probe) with its sketch hidden, measures the silhouette box of its side view after
+   layout and reports it as the target (`arriveHandoff`); the layer waits at most 450 ms for
+   that report, else uses the fallback.
+3. The photo moves from the card straight to the target (720 ms, cubic in-out; no full-screen
+   stop) while the veil clears (450 ms), so the screen's header and cards appear under the
+   moving photo.
+4. On arrival the photo fades out (900 ms); 420 ms into the fade the screen reveals the sketch
+   (700 ms), so the sketch comes up behind the clearing photo. The layer unmounts when both
+   are done, about 2.2 s after the click.
+
+A direct visit shows the sketch at once; with reduced motion the card only navigates. The
+probe in the step 12 report sampled the timeline at 1280, 1440 and 1920 px: the photo lands on
+the measured box to the pixel, then opacity 1 to 0, the sketch 0 to 1.
 
 ## 5. The vehicle screen (`/markets/<market>/<vehicle>`)
 
@@ -164,8 +170,7 @@ Both outputs are committed so the app builds without poppler or the workbooks. T
 * The layers are rasters at 1600 px width; the vehicle screen shows them at up to 1040 px and
   the full-screen photo at up to 1500 px, so both stay crisp on 1x screens and slightly soft on
   2x screens.
-* The hand-over is two steps (the photo moves, then the route changes and the new page paints
-  the same photo); a frame can be dropped at the route change on a slow machine. A shared
-  element view transition would make it one step.
+* The hand-over's fallback target is the geometry of `lib/vehicles/layout.ts`; the vehicle
+  screen's own measurement wins when it arrives within 450 ms, which it did in every probe.
 * In the G70 press drawing the tyres are drawn apart from the wheel arches, so the contour
   traces both and the wheels read heavier than on the two vector drawings.

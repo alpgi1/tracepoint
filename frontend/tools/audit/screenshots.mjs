@@ -1,8 +1,8 @@
 /**
  * Screenshots of the page states for the step report: resting map with the
  * market callouts, a hovered market, the three magnified markets with their
- * vehicle panels, a hovered vehicle card, the card's photo at full screen,
- * the vehicle screen just after the hand-over (photo fading to the sketch),
+ * vehicle panels, a hovered vehicle card, the card's photo on its way to the
+ * vehicle screen, the photo fading there while the sketch is revealed,
  * the vehicle screens for a market with verbatims and one without, keyboard
  * focus, reduced motion. Run against a built app started in another shell
  * (`pnpm build && pnpm start`).
@@ -83,16 +83,15 @@ await shoot("06-card-hover-eu-1440", desktop, async (page) => {
   await page.mouse.move(card.x + card.width / 2, card.y + card.height / 3);
   await page.waitForTimeout(300);
 });
-await shoot("07-card-fullscreen-eu-1440", desktop, async (page) => {
+await shoot("07-photo-moving-eu-1440", desktop, async (page) => {
   await selectMarket(page, "EU");
   await clickFirstCard(page);
-  await page.waitForTimeout(760);
+  await page.waitForTimeout(560);
 });
-await shoot("08-handover-eu-f70-1440", desktop, async (page) => {
+await shoot("08-photo-fading-eu-f70-1440", desktop, async (page) => {
   await selectMarket(page, "EU");
   await clickFirstCard(page);
-  await page.waitForURL("**/markets/eu/f70", { timeout: 8000 });
-  await page.waitForTimeout(120);
+  await page.waitForTimeout(1450);
 });
 await shoot("09-vehicle-eu-f70-1440", desktop, async () => {}, { path: "/markets/eu/f70" });
 await shoot("10-vehicle-us-g70-hover-1440", desktop, async (page) => {
