@@ -145,3 +145,337 @@
     transition: none;
   }
 }
+
+/* ---------- step 07: readouts, market panel, vehicles, workspace ---------- */
+
+:root {
+  /* Vehicle drawings: dots like the map's markets, lines in the one blue. */
+  --vehicle-dot: #c5d5ef;
+  --vehicle-dot-active: #9fb9e3;
+  --vehicle-line: #1c69d4;
+  --vehicle-heat: #1c69d4;
+  --vehicle-heat-active: #0f4fae;
+}
+
+.tap {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  min-width: 44px;
+}
+
+/* Market readouts: figures at the market's place; hidden while the map flies. */
+.readout {
+  position: absolute;
+  display: grid;
+  gap: 1px;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  white-space: nowrap;
+  font-size: 0.8125rem;
+  line-height: 1.35;
+  color: var(--color-ink);
+  text-shadow:
+    0 0 2px var(--color-paper),
+    0 0 4px var(--color-paper);
+  transition: opacity 0.16s var(--ease-out);
+}
+.readout[data-align="end"] {
+  transform: translate(-100%, -50%);
+  text-align: right;
+}
+.readout[data-hidden="true"] {
+  opacity: 0;
+}
+.readout-name {
+  font-weight: 500;
+}
+.readout-figures,
+.readout-weak {
+  color: var(--color-ink-2);
+  font-variant-numeric: tabular-nums;
+}
+.readout-weak-label {
+  margin-top: 3px;
+  color: var(--color-ink-2);
+}
+
+/* Market panel: the magnified market's vehicles, on the lower part of the viewport. */
+.market-panel {
+  position: absolute;
+  inset: auto 0 0 0;
+  padding: 18px 48px 28px;
+  background: var(--color-paper);
+  border-top: 1px solid var(--color-line);
+  animation: panel-in 0.24s var(--ease-out);
+}
+@keyframes panel-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+.market-panel-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 16px;
+}
+.market-panel-title {
+  font-size: 1.125rem;
+  font-weight: 500;
+  line-height: 1.3;
+}
+.market-panel-figures {
+  color: var(--color-ink-2);
+  font-size: 0.875rem;
+  font-variant-numeric: tabular-nums;
+}
+.market-panel-close {
+  padding: 0 12px;
+  margin: -6px -12px 0 0;
+  font-size: 0.875rem;
+  color: var(--color-blue);
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+}
+.market-panel-cards {
+  display: grid;
+  /* Cards keep one width whether a market sells two or three vehicles, so the panel keeps its height. */
+  grid-template-columns: repeat(var(--cards, 3), minmax(0, 420px));
+  gap: 40px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* Vehicle cards: the drawing, then the figures. */
+.vehicle-card {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+}
+.vehicle-card-drawing {
+  position: relative;
+}
+.vehicle-card:hover .vehicle-dots path,
+.vehicle-card:focus-visible .vehicle-dots path {
+  stroke: var(--vehicle-dot-active);
+}
+.vehicle-card-name {
+  display: block;
+  margin-top: 10px;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  line-height: 1.3;
+}
+.vehicle-card-code,
+.workspace-code {
+  color: var(--color-ink-2);
+  font-weight: 400;
+}
+.vehicle-card-figures,
+.vehicle-card-note {
+  display: block;
+  color: var(--color-ink-2);
+  font-size: 0.8125rem;
+  line-height: 1.4;
+  font-variant-numeric: tabular-nums;
+}
+
+/* A vehicle: dots (SVG) under lines (alpha-mask PNG tinted by a token). */
+.vehicle {
+  position: relative;
+  width: 100%;
+}
+.vehicle-dots {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.vehicle-dots path {
+  stroke: var(--vehicle-dot);
+  transition:
+    stroke 0.18s var(--ease-out),
+    opacity 0.18s var(--ease-out);
+}
+.vehicle-dots path[data-heat] {
+  stroke: var(--vehicle-heat);
+  opacity: var(--heat);
+}
+.vehicle-dots path[data-active="true"] {
+  stroke: var(--vehicle-heat-active);
+  opacity: 1;
+}
+.vehicle-lines {
+  position: absolute;
+  inset: 0;
+  background: var(--vehicle-line);
+  mask-repeat: no-repeat;
+  mask-size: 100% 100%;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-size: 100% 100%;
+  pointer-events: none;
+}
+
+/* Vehicle screen. Numbers match lib/vehicles/layout.ts. */
+.workspace {
+  min-height: 100dvh;
+  padding: 0 48px 48px;
+}
+.workspace-head {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  height: 112px;
+}
+.workspace-back {
+  padding: 0 12px;
+  margin-left: -12px;
+  color: var(--color-blue);
+  font-size: 0.875rem;
+  text-decoration: none;
+}
+.workspace-title {
+  font-size: 1.25rem;
+  font-weight: 500;
+  line-height: 1.3;
+}
+.workspace-meta {
+  color: var(--color-ink-2);
+  font-size: 0.875rem;
+  font-variant-numeric: tabular-nums;
+}
+.workspace-body {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 400px;
+  column-gap: 48px;
+  align-items: start;
+}
+.workspace-stage {
+  max-width: 1040px;
+  margin: 0 auto;
+  width: 100%;
+}
+.workspace-view {
+  position: relative;
+}
+.workspace-view-top {
+  width: 62%;
+  margin: 40px auto 0;
+}
+.workspace-zone-note {
+  margin-top: 24px;
+  color: var(--color-ink-2);
+  font-size: 0.8125rem;
+}
+.zone-hits {
+  position: absolute;
+  inset: 0;
+}
+.zone-hit {
+  position: absolute;
+  cursor: pointer;
+}
+.workspace-domains {
+  padding-top: 4px;
+}
+.workspace-h2 {
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1.3;
+}
+.workspace-h3 {
+  margin-top: 28px;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  line-height: 1.3;
+}
+.workspace-hint {
+  margin-top: 6px;
+  color: var(--color-ink-2);
+  font-size: 0.8125rem;
+  line-height: 1.45;
+}
+.domain-list,
+.theme-list {
+  list-style: none;
+  margin: 12px 0 0;
+  padding: 0;
+}
+.domain-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  row-gap: 4px;
+  width: 100%;
+  min-height: 44px;
+  padding: 8px 0;
+  text-align: left;
+  font: inherit;
+  color: inherit;
+  background: transparent;
+  border: 0;
+  border-top: 1px solid var(--color-line);
+  cursor: pointer;
+}
+.domain-row-name {
+  font-size: 0.875rem;
+}
+.domain-row-figures {
+  color: var(--color-ink-2);
+  font-size: 0.8125rem;
+  font-variant-numeric: tabular-nums;
+}
+.domain-row-bar {
+  grid-column: 1 / -1;
+  height: 3px;
+  background: var(--color-line);
+}
+.domain-row-bar > span {
+  display: block;
+  height: 100%;
+  background: var(--vehicle-dot-active);
+  transition: background 0.18s var(--ease-out);
+}
+.domain-row[aria-pressed="true"] .domain-row-bar > span,
+.domain-row[data-hovered="true"] .domain-row-bar > span {
+  background: var(--color-blue);
+}
+.domain-row[aria-pressed="true"] .domain-row-name {
+  font-weight: 500;
+}
+.theme {
+  display: grid;
+  gap: 2px;
+  padding: 8px 0;
+  border-top: 1px solid var(--color-line);
+}
+.theme-name {
+  font-size: 0.875rem;
+}
+.theme-figures {
+  color: var(--color-ink-2);
+  font-size: 0.8125rem;
+  font-variant-numeric: tabular-nums;
+}
+
+@media (max-width: 1023px) {
+  .workspace-body {
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: 32px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .market-panel,
+  .readout,
+  .vehicle-dots path,
+  .domain-row-bar > span {
+    animation: none;
+    transition: none;
+  }
+}

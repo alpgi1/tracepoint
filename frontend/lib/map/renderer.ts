@@ -1,7 +1,7 @@
 import { geoNaturalEarth1, geoPath } from "d3-geo";
 import type { GeoPermissibleObjects } from "d3-geo";
-import { KIND_LAND, KIND_REGION, KIND_SEA, type MapData } from "./data";
-import type { RegionView } from "./regions";
+import { KIND_LAND, KIND_REGION, KIND_SEA, fitWindow, type MapData } from "./data";
+import type { LonLat, RegionView } from "./regions";
 
 /** Colours are read from CSS custom properties on the canvas so the map follows the tokens. */
 export interface MapColors {
@@ -22,12 +22,18 @@ export const MAP_COLOR_TOKENS: Record<keyof MapColors, string> = {
   outlineActive: "--map-outline-active",
 };
 
+export type Anchor = [number, number];
+
 export interface RendererOptions {
   reducedMotion: boolean;
   /** Space between the map and the canvas edge, CSS pixels. */
   padding: number;
+  /** Where a selected market's centre sits in the viewport, as fractions of width and height. */
+  focus: Anchor;
   /** Called after a resize or a finished flight, when screen positions have settled. */
   onSettle?: () => void;
+  /** Called when a flight starts: screen positions are stale until the next settle. */
+  onMove?: () => void;
 }
 
 interface Transform {
@@ -36,9 +42,16 @@ interface Transform {
   ty: number;
 }
 
+interface Target {
+  /** Base-space point placed at the anchor. */
+  center: [number, number];
+  k: number;
+  anchor: Anchor;
+}
+
 interface Flight {
-  from: { center: [number, number]; k: number };
-  to: { center: [number, number]; k: number };
+  from: Target;
+  to: Target;
   start: number;
   duration: number;
 }
@@ -56,11 +69,11 @@ interface DotField {
   kind: Uint8Array;
 }
 
-const DEFAULTS: RendererOptions = { reducedMotion: false, padding: 48 };
+const HOME_ANCHOR: Anchor = [0.5, 0.5];
+const DEFAULTS: RendererOptions = { reducedMotion: false, padding: 16, focus: [0.5, 0.4] };
 const GLOW_IN = 1 / 180; // full highlight in 180 ms
 const GLOW_OUT = 1 / 320; // fades out slower than it comes in
 const FLIGHT_MS = 900;
-const SPHERE: GeoPermissibleObjects = { type: "Sphere" };
 
 /**
  * Mask colours. Land paints the blue channel, each market paints one
@@ -82,6 +95,10 @@ function clamp(value: number, min: number, max: number): number {
   return Math.min(max, Math.max(min, value));
 }
 
+function mix(a: number, b: number, t: number): number {
+  return a + (b - a) * t;
+}
+
 /**
  * Draws the dotted world map on a 2d canvas. Pure TypeScript, no React: the
  * component feeds it pointer events and props; the renderer owns the fit,
@@ -89,11 +106,14 @@ function clamp(value: number, min: number, max: number): number {
  * only paints when something changed.
  *
  * Geometry is projected once with a Natural Earth projection fitted to the
- * canvas (`base`). Dots sit on a square screen-space grid over the land of
- * that fit, like a printed halftone. Zooming is an affine transform applied
- * to the base coordinates, so the dot pattern simply magnifies; the market
- * outlines are drawn with a second projection (`view`) carrying the same
- * transform, so both always agree.
+ * canvas (`base`): the fit covers all land but Antarctica (data.ts
+ * FIT_WINDOW), so the map uses the height it has. Dots sit on a square
+ * screen-space grid over the land of that fit, like a printed halftone.
+ * Zooming is an affine transform applied to the base coordinates, so the dot
+ * pattern simply magnifies; the market outlines are drawn with a second
+ * projection (`view`) carrying the same transform, so both always agree. A
+ * selected market is placed at the `focus` anchor rather than the centre,
+ * leaving the lower part of the viewport to the market panel.
  */
 export class MapRenderer {
   private canvas: HTMLCanvasElement | null = null;
@@ -101,6 +121,7 @@ export class MapRenderer {
   private readonly base = geoNaturalEarth1();
   private readonly view = geoNaturalEarth1();
   private readonly path = geoPath(this.view);
+  private readonly window: GeoPermissibleObjects = fitWindow();
   private data: MapData | null = null;
   private colors: MapColors | null = null;
   private width = 0;
@@ -109,6 +130,7 @@ export class MapRenderer {
   private dots: DotField | null = null;
   private spacing = 6;
   private transform: Transform = { k: 1, tx: 0, ty: 0 };
+  private anchor: Anchor = HOME_ANCHOR;
   private hover = -1;
   private selected = -1;
   private glow: number[] = [];
@@ -170,7 +192,7 @@ export class MapRenderer {
         [pad, pad],
         [Math.max(pad + 1, width - pad), Math.max(pad + 1, height - pad)],
       ],
-      SPHERE,
+      this.window,
     );
     this.rebuild();
     this.render();
@@ -203,9 +225,9 @@ export class MapRenderer {
     return kind >= KIND_REGION ? kind - KIND_REGION : -1;
   }
 
-  /** Screen position of a view centre, for labels that must follow the map. */
-  locate(view: RegionView): [number, number] | null {
-    const projected = this.base(view.center);
+  /** Screen position of a geographic point, for labels that must follow the map. */
+  locate(point: LonLat): [number, number] | null {
+    const projected = this.base(point);
     if (!projected) return null;
     const { k, tx, ty } = this.transform;
     return [projected[0] * k + tx, projected[1] * k + ty];
@@ -215,14 +237,15 @@ export class MapRenderer {
   flyTo(view: RegionView | null) {
     const target = this.targetFor(view);
     if (!target) return;
-    if (this.options.reducedMotion) {
-      this.apply(target.center, target.k);
+    if (this.options.reducedMotion || this.isAt(target)) {
+      this.apply(target);
       this.render();
       this.options.onSettle?.();
       return;
     }
+    this.options.onMove?.();
     this.flight = {
-      from: { center: this.currentCenter(), k: this.transform.k },
+      from: { center: this.currentCenter(), k: this.transform.k, anchor: this.anchor },
       to: target,
       start: performance.now(),
       duration: FLIGHT_MS,
@@ -238,22 +261,36 @@ export class MapRenderer {
     });
   }
 
-  /** The base-space point currently at the centre of the canvas. */
+  /** True when the target would not move the map (the first fly-home after loading). */
+  private isAt(target: Target): boolean {
+    const current = this.currentCenter();
+    return (
+      Math.abs(current[0] - target.center[0]) < 0.5 &&
+      Math.abs(current[1] - target.center[1]) < 0.5 &&
+      Math.abs(this.transform.k - target.k) < 1e-6 &&
+      this.anchor[0] === target.anchor[0] &&
+      this.anchor[1] === target.anchor[1]
+    );
+  }
+
+  /** The base-space point currently at the anchor. */
   private currentCenter(): [number, number] {
     const { k, tx, ty } = this.transform;
-    return [(this.width / 2 - tx) / k, (this.height / 2 - ty) / k];
+    const [ax, ay] = this.anchor;
+    return [(ax * this.width - tx) / k, (ay * this.height - ty) / k];
   }
 
-  private targetFor(view: RegionView | null): { center: [number, number]; k: number } | null {
-    if (!view) return { center: [this.width / 2, this.height / 2], k: 1 };
+  private targetFor(view: RegionView | null): Target | null {
+    if (!view) return { center: [this.width / 2, this.height / 2], k: 1, anchor: HOME_ANCHOR };
     const projected = this.base(view.center);
     if (!projected) return null;
-    return { center: [projected[0], projected[1]], k: view.zoom };
+    return { center: [projected[0], projected[1]], k: view.zoom, anchor: this.options.focus };
   }
 
-  /** Put a base-space point at the centre of the canvas at magnification k. */
-  private apply(center: [number, number], k: number) {
-    this.transform = { k, tx: this.width / 2 - k * center[0], ty: this.height / 2 - k * center[1] };
+  /** Put a base-space point at the anchor of the canvas at magnification k. */
+  private apply({ center, k, anchor }: Target) {
+    this.anchor = anchor;
+    this.transform = { k, tx: anchor[0] * this.width - k * center[0], ty: anchor[1] * this.height - k * center[1] };
   }
 
   /** Paint the land and the markets into a lookup raster and lay the dot grid over the land. */
@@ -282,8 +319,8 @@ export class MapRenderer {
     });
     this.mask = { width, height, pixels: context.getImageData(0, 0, width, height).data };
 
-    const [[x0, y0], [x1, y1]] = geoPath(this.base).bounds(SPHERE);
-    const spacing = clamp((x1 - x0) / 230, 4, 9);
+    const [[x0, y0], [x1, y1]] = geoPath(this.base).bounds(this.window);
+    const spacing = clamp((x1 - x0) / 225, 4, 9);
     this.spacing = spacing;
     const xs: number[] = [];
     const ys: number[] = [];
@@ -300,10 +337,10 @@ export class MapRenderer {
     }
     this.dots = { count: xs.length, x: Float32Array.from(xs), y: Float32Array.from(ys), kind: Uint8Array.from(kinds) };
 
-    // Keep whatever is selected centred after a resize; otherwise rest.
+    // Keep whatever is selected in focus after a resize; otherwise rest.
     const selectedView = this.selected >= 0 ? this.data.regions[this.selected]?.spec.view : null;
     const target = this.targetFor(selectedView ?? null);
-    if (target) this.apply(target.center, target.k);
+    if (target) this.apply(target);
     this.flight = null;
   }
 
@@ -345,12 +382,11 @@ export class MapRenderer {
       const { from, to, start, duration } = this.flight;
       const t = clamp((now - start) / duration, 0, 1);
       const e = easeInOutCubic(t);
-      const center: [number, number] = [
-        from.center[0] + (to.center[0] - from.center[0]) * e,
-        from.center[1] + (to.center[1] - from.center[1]) * e,
-      ];
-      const k = from.k * Math.pow(to.k / from.k, e);
-      this.apply(center, k);
+      this.apply({
+        center: [mix(from.center[0], to.center[0], e), mix(from.center[1], to.center[1], e)],
+        k: from.k * Math.pow(to.k / from.k, e),
+        anchor: [mix(from.anchor[0], to.anchor[0], e), mix(from.anchor[1], to.anchor[1], e)],
+      });
       if (t >= 1) {
         this.flight = null;
         this.options.onSettle?.();

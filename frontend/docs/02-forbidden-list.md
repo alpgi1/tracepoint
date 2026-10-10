@@ -134,9 +134,18 @@ uses the one accent.
 **E2, one fade-in (2026-10-10).** The map fades in over 600 ms when its data arrives, once, never
 with reduced motion. There is no other entrance.
 
-**E3, no visible text on the landing page (2026-10-10, team decision D-040).** The page shows the
-map alone. The h1, the market buttons and the status line exist for keyboard and assistive
-technology and are visually hidden; the buttons appear only while focused.
+**E3, text on the landing page (2026-10-10, team decision D-040; revised the same day in step 07
+by D-045).** On first view the page shows the map and, on each market, one readout of real
+figures from `content/markets.json` (name, 2025 units, verbatims, weakest domain or lowest study
+score). Nothing else: no header, no copy, no footer. The h1, the market buttons and the status
+line exist for keyboard and assistive technology and are visually hidden; the buttons appear only
+while focused. The magnified state adds the market panel with the vehicle cards; it is a second
+state, not the first view.
+
+**E4, the card growth (2026-10-10, step 07, from the brief).** A clicked vehicle card grows its
+drawing into the vehicle screen's stage over 480 ms before the route changes. It is the one
+transition between the two screens, runs once per click, never with reduced motion, and moves
+only `transform`.
 
 ## 8. Pre-delivery checklist
 
@@ -145,7 +154,7 @@ technology and are visually hidden; the buttons appear only while focused.
 - [ ] Three equal cards or an equal bento grid anywhere?
 - [ ] Purple gradient, gradient text, box-shadow glow, shimmer, second animated ground?
 - [ ] Any stock or AI imagery? Every picture a real screen or real data?
-- [ ] Any infinite loop? If yes, is it covered by E1 or E2?
+- [ ] Any infinite loop? If yes, is it covered by E1, E2 or E4?
 - [ ] Does any content wait behind a loader? Is the page readable with JavaScript off?
 - [ ] With `prefers-reduced-motion`: no entrance, instant state changes, no coasting?
 - [ ] Keyboard: every control reachable, `focus-visible` ring visible, Escape closes the zoomed state?

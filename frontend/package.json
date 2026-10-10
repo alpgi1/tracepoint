@@ -9,11 +9,13 @@
     "build": "next build",
     "start": "next start -p 3400",
     "lint": "eslint",
-    "typecheck": "tsc --noEmit",
+    "typecheck": "next typegen && tsc --noEmit",
     "test": "vitest run",
     "check": "pnpm lint && pnpm typecheck && pnpm test && pnpm build",
-    "audit:pages": "node tools/audit/page-audit.mjs http://localhost:3400",
-    "shots": "node tools/audit/screenshots.mjs http://localhost:3400"
+    "audit:pages": "node tools/audit/page-audit.mjs http://localhost:3400 / /markets/eu/f70 /markets/eu/g60 /markets/eu/g70 /markets/us/g60 /markets/us/g70 /markets/cn/g68 /markets/cn/g70",
+    "shots": "node tools/audit/screenshots.mjs http://localhost:3400",
+    "vehicles": "node scripts/vehicles/build.mjs",
+    "content": "python3 scripts/build-content.py"
   },
   "dependencies": {
     "@base-ui/react": "^1.9.0",
@@ -41,6 +43,7 @@
     "eslint": "^9",
     "eslint-config-next": "16.4.0",
     "shadcn": "^4.21.4",
+    "sharp": "0.35.5",
     "tailwindcss": "^4",
     "typescript": "^5",
     "vitest": "^3.2.7"

@@ -1,7 +1,7 @@
 import { geoCentroid } from "d3-geo";
 import { merge } from "topojson-client";
 import type { GeometryCollection, GeometryObject, MultiPolygon as TopoMultiPolygon, Polygon as TopoPolygon, Topology } from "topojson-specification";
-import type { Feature, MultiPolygon } from "geojson";
+import type { Feature, MultiPolygon, Polygon } from "geojson";
 import type { RegionSpec } from "./regions";
 
 export type WorldTopology = Topology<{ countries: GeometryCollection; land: GeometryCollection }>;
@@ -20,6 +20,19 @@ export interface MapData {
 export const KIND_SEA = 0;
 export const KIND_LAND = 1;
 export const KIND_REGION = 2;
+
+/** Antarctica is left off the map: no market is there and it costs a fifth of the height. */
+const ANTARCTICA = "010";
+
+/**
+ * The part of the world the map is fitted to: every market and all other
+ * land but Antarctica, with the empty Pacific margin west of mainland Alaska
+ * trimmed. [west, south] to [east, north] in degrees.
+ */
+export const FIT_WINDOW: [[number, number], [number, number]] = [
+  [-168, -56],
+  [180, 84],
+];
 
 type Mergeable = TopoPolygon | TopoMultiPolygon;
 
@@ -51,8 +64,26 @@ export function trimToLonSpan(geometry: MultiPolygon, span: [number, number]): M
 }
 
 export function landFeature(topology: WorldTopology): Feature<MultiPolygon> {
-  const geometries = topology.objects.countries.geometries.filter(isMergeable);
+  const geometries = topology.objects.countries.geometries.filter(
+    (g): g is Mergeable => isMergeable(g) && String(g.id) !== ANTARCTICA,
+  );
   return asFeature(merge(topology, geometries));
+}
+
+/**
+ * The fit window as a polygon whose edges follow the parallels and meridians.
+ * d3 projects straight edges along great circles, so the ring is densified
+ * every five degrees to keep the window's true shape.
+ */
+export function fitWindow(step = 5): Polygon {
+  const [[west, south], [east, north]] = FIT_WINDOW;
+  const ring: [number, number][] = [];
+  for (let lon = west; lon < east; lon += step) ring.push([lon, south]);
+  for (let lat = south; lat < north; lat += step) ring.push([east, lat]);
+  for (let lon = east; lon > west; lon -= step) ring.push([lon, north]);
+  for (let lat = north; lat > south; lat -= step) ring.push([west, lat]);
+  ring.push([west, south]);
+  return { type: "Polygon", coordinates: [ring] };
 }
 
 export function regionShapes(topology: WorldTopology, regions: readonly RegionSpec[]): RegionShape[] {
