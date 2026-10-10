@@ -3,19 +3,22 @@
  *
  * Reads the line drawings in assets/vehicles/sources (brochure vector pages
  * for F70 and G60, the BMW press specification raster for G70), strips the
- * dimension annotations, crops the side and the top view, and writes per view:
+ * dimension annotations, crops the side and the top view, and writes per view
+ * three alpha masks the UI tints with CSS tokens, stacked as layers:
  *
- *   public/vehicles/<code>-<view>.png    the lines as an alpha mask, tinted by CSS
- *   content/vehicles/<code>-<view>.json  the silhouette as dot runs on two grids
+ *   public/vehicles/<code>-<view>-body.png     the silhouette (a flat wash)
+ *   public/vehicles/<code>-<view>-lines.png    every line of the drawing
+ *   public/vehicles/<code>-<view>-contour.png  the outer contour, heavier
+ *   content/vehicles/<code>-<view>.json        size, silhouette box, scale, sources
  *
  * The silhouette is found by flooding the outside of the closed outline; the
- * dot grids have a constant physical pitch (millimetres of car), so a card and
- * a magnified view can show the same car at two densities that nest.
+ * contour is the silhouette's edge, so the body reads at a glance even where
+ * the drawing's own lines are thin.
  *
  *   node scripts/vehicles/build.mjs [--preview <dir>]
  *
- * --preview also writes a composite (dots under tinted lines) per view for a
- * visual check. Sources, licences and the extraction commands are listed in
+ * --preview also writes a composite of the three layers per view for a visual
+ * check. Sources, licences and the extraction commands are listed in
  * assets/vehicles/sources/README.md.
  */
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
@@ -32,11 +35,13 @@ const CONTENT_OUT = join(ROOT, "content/vehicles");
 const RASTER_WIDTH = 1600;
 /** Ink coverage above which a pixel is a line for the silhouette flood. */
 const INK = 0.25;
-/** Dot pitches in millimetres of car; the fine grid is half the coarse one so the two nest. */
-const PITCHES_MM = { coarse: 64, fine: 32 };
-/** Paper and ink levels of the press raster (grey 0..255). */
+/** Half-width of the outer contour and the feather of the body wash, px of the 1600 px raster. */
+const CONTOUR_RADIUS = 2;
+const FEATHER = 0.6;
+/** Paper and ink levels of the press raster (grey 0..255), and the gamma that thins its strokes. */
 const PAPER = 235;
 const BLACK = 70;
+const RASTER_GAMMA = 1.6;
 
 const argv = process.argv.slice(2);
 const previewDir = argv.includes("--preview") ? argv[argv.indexOf("--preview") + 1] : null;
@@ -62,7 +67,7 @@ const VEHICLES = [
     source: { kind: "svg", file: "G60-brochure-p26.svg", note: "docs/G60_OptionList.PDF page 26" },
     views: {
       // The ground line shares a path with parts of the car, so it is erased after rasterising (raster px).
-      side: { box: [215, 118, 300, 115], eraseRaster: [[0, 567, 1600, 613]] },
+      side: { box: [215, 118, 300, 115], eraseRaster: [[0, 566, 1600, 613]] },
       top: { box: [50, 270, 300, 140] },
     },
   },
@@ -246,8 +251,9 @@ async function inkFromRaster(file, view) {
     .raw()
     .toBuffer({ resolveWithObject: true });
   // sharp widens a one-channel raw image on resize; read with the stride it reports.
+  // A gamma above 1 trims the soft shoulders of the upscaled raster strokes towards the vector weight.
   const ink = new Float32Array(resized.info.width * resized.info.height);
-  for (let i = 0; i < ink.length; i++) ink[i] = resized.data[i * resized.info.channels] / 255;
+  for (let i = 0; i < ink.length; i++) ink[i] = Math.pow(resized.data[i * resized.info.channels] / 255, RASTER_GAMMA);
   return normalise(ink, resized.info.width, resized.info.height);
 }
 
@@ -319,73 +325,82 @@ function silhouette({ ink, width, height }) {
     if (y < y0) y0 = y;
     if (y > y1) y1 = y;
   }
-  return { inside, bbox: [x0, y0, x1 + 1, y1 + 1], area };
+  return { inside, wall, bbox: [x0, y0, x1 + 1, y1 + 1], area };
 }
 
-/** Dot runs on a square grid: per row [j, i0, n, i0, n, ...], x = ox + i·pitch, y = oy + j·pitch. */
-function dotGrid(inside, width, bbox, pitch) {
-  const [x0, y0, x1, y1] = bbox;
-  const ox = x0 + pitch / 2;
-  const oy = y0 + pitch / 2;
-  const rows = [];
-  let count = 0;
-  for (let j = 0; oy + j * pitch < y1; j++) {
-    const y = Math.round(oy + j * pitch);
-    const row = [j];
-    let runStart = -1;
-    let previous = -2;
-    for (let i = 0; ox + i * pitch < x1; i++) {
-      const x = Math.round(ox + i * pitch);
-      if (inside[y * width + x] !== 1) continue;
-      count++;
-      if (i !== previous + 1) {
-        if (runStart >= 0) row.push(runStart, previous - runStart + 1);
-        runStart = i;
-      }
-      previous = i;
+/** The silhouette as a soft-edged alpha mask. */
+function bodyMask(inside) {
+  const alpha = new Float32Array(inside.length);
+  for (let i = 0; i < inside.length; i++) alpha[i] = inside[i];
+  return alpha;
+}
+
+/** The silhouette's edge, dilated to a line of 2 × CONTOUR_RADIUS px. */
+function contourMask(inside, width, height) {
+  const edge = new Uint8Array(inside.length);
+  for (let y = 0; y < height; y++) {
+    for (let x = 0; x < width; x++) {
+      const i = y * width + x;
+      if (!inside[i]) continue;
+      const open =
+        x === 0 || y === 0 || x === width - 1 || y === height - 1 ||
+        !inside[i - 1] || !inside[i + 1] || !inside[i - width] || !inside[i + width];
+      if (open) edge[i] = 1;
     }
-    if (runStart >= 0) row.push(runStart, previous - runStart + 1);
-    if (row.length > 1) rows.push(row);
   }
-  return { pitch: round(pitch, 3), origin: [round(ox), round(oy)], rows, count };
-}
-
-function expandGrid(grid) {
-  const points = [];
-  for (const [j, ...runs] of grid.rows) {
-    for (let r = 0; r < runs.length; r += 2) {
-      for (let i = runs[r]; i < runs[r] + runs[r + 1]; i++) {
-        points.push([grid.origin[0] + i * grid.pitch, grid.origin[1] + j * grid.pitch]);
+  const r = CONTOUR_RADIUS;
+  const horizontal = new Uint8Array(inside.length);
+  for (let y = 0; y < height; y++) {
+    for (let x = 0; x < width; x++) {
+      if (!edge[y * width + x]) continue;
+      for (let dx = -r; dx <= r; dx++) {
+        const xx = x + dx;
+        if (xx >= 0 && xx < width) horizontal[y * width + xx] = 1;
       }
     }
   }
-  return points;
+  const alpha = new Float32Array(inside.length);
+  for (let y = 0; y < height; y++) {
+    for (let x = 0; x < width; x++) {
+      if (!horizontal[y * width + x]) continue;
+      for (let dy = -r; dy <= r; dy++) {
+        const yy = y + dy;
+        if (yy >= 0 && yy < height) alpha[yy * width + x] = 1;
+      }
+    }
+  }
+  return alpha;
 }
 
 /* ---------- outputs ---------- */
 
-async function writeLines(file, { ink, width, height }) {
+async function writeAlpha(file, alpha, width, height, blur = 0) {
   const rgba = Buffer.alloc(width * height * 4);
-  for (let i = 0; i < ink.length; i++) rgba[i * 4 + 3] = Math.round(ink[i] * 255);
-  await sharp(rgba, { raw: { width, height, channels: 4 } }).png({ compressionLevel: 9 }).toFile(file);
+  for (let i = 0; i < alpha.length; i++) rgba[i * 4 + 3] = Math.round(alpha[i] * 255);
+  let image = sharp(rgba, { raw: { width, height, channels: 4 } });
+  if (blur > 0) image = image.blur(blur);
+  await image.png({ compressionLevel: 9 }).toFile(file);
 }
 
-async function writePreview(file, raster, grid) {
-  const { ink, width, height } = raster;
-  const r = grid.pitch * 0.3;
-  const circles = expandGrid(grid)
-    .map(([x, y]) => `<circle cx="${round(x, 1)}" cy="${round(y, 1)}" r="${round(r, 2)}"/>`)
-    .join("");
-  const dots = Buffer.from(`<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}"><g fill="#9fb9e3">${circles}</g></svg>`);
-  const lines = Buffer.alloc(width * height * 4);
-  for (let i = 0; i < ink.length; i++) {
-    lines[i * 4] = 28;
-    lines[i * 4 + 1] = 105;
-    lines[i * 4 + 2] = 212;
-    lines[i * 4 + 3] = Math.round(ink[i] * 255);
+function tinted(alpha, width, height, [r, g, b]) {
+  const rgba = Buffer.alloc(width * height * 4);
+  for (let i = 0; i < alpha.length; i++) {
+    rgba[i * 4] = r;
+    rgba[i * 4 + 1] = g;
+    rgba[i * 4 + 2] = b;
+    rgba[i * 4 + 3] = Math.round(alpha[i] * 255);
   }
+  return { input: rgba, raw: { width, height, channels: 4 } };
+}
+
+/** The three layers composed as the UI shows them at rest: wash, lines, contour. */
+async function writePreview(file, { width, height }, body, lines, contour) {
   await sharp({ create: { width, height, channels: 4, background: "#ffffff" } })
-    .composite([{ input: dots }, { input: lines, raw: { width, height, channels: 4 } }])
+    .composite([
+      tinted(body, width, height, [238, 241, 245]),
+      tinted(lines, width, height, [91, 100, 112]),
+      tinted(contour, width, height, [20, 23, 28]),
+    ])
     .png()
     .toFile(file);
 }
@@ -394,44 +409,46 @@ async function buildView(vehicle, viewName, view) {
   const file = join(SOURCES, vehicle.source.file);
   const raster =
     vehicle.source.kind === "svg" ? await inkFromSvg(readFileSync(file, "utf8"), view.box) : await inkFromRaster(file, view);
-  // The silhouette is flooded before any raster erase so a ground line touching the tyres still closes them.
-  const { inside, bbox, area } = silhouette(raster);
+  // The silhouette is flooded before any raster erase so a ground line touching
+  // the tyres still closes them; erased line pixels then leave the silhouette,
+  // so the contour does not trace the ground line's remains.
+  const { inside, wall, bbox, area } = silhouette(raster);
   for (const [x0, y0, x1, y1] of view.eraseRaster ?? []) {
     for (let y = y0; y < Math.min(y1, raster.height); y++) {
       for (let x = x0; x < Math.min(x1, raster.width); x++) {
-        raster.ink[y * raster.width + x] = 0;
-        inside[y * raster.width + x] = 0;
+        const i = y * raster.width + x;
+        raster.ink[i] = 0;
+        if (wall[i]) inside[i] = 0;
       }
     }
   }
+  const { width, height } = raster;
+  const body = bodyMask(inside);
+  const contour = contourMask(inside, width, height);
   const lengthPx = bbox[2] - bbox[0];
   const pxPerMm = lengthPx / vehicle.lengthMm;
-  const grids = {};
-  for (const [name, mm] of Object.entries(PITCHES_MM)) grids[name] = dotGrid(inside, raster.width, bbox, mm * pxPerMm);
   const fill = area / ((bbox[2] - bbox[0]) * (bbox[3] - bbox[1]));
 
   const base = `${vehicle.code}-${viewName}`;
-  await writeLines(join(PUBLIC_OUT, `${base}.png`), raster);
+  await writeAlpha(join(PUBLIC_OUT, `${base}-lines.png`), raster.ink, width, height);
+  await writeAlpha(join(PUBLIC_OUT, `${base}-body.png`), body, width, height, FEATHER);
+  await writeAlpha(join(PUBLIC_OUT, `${base}-contour.png`), contour, width, height, FEATHER);
   const record = {
     code: vehicle.code,
     name: vehicle.name,
     view: viewName,
     source: vehicle.source.note,
-    lines: `/vehicles/${base}.png`,
-    width: raster.width,
-    height: raster.height,
+    layers: { body: `/vehicles/${base}-body.png`, lines: `/vehicles/${base}-lines.png`, contour: `/vehicles/${base}-contour.png` },
+    width,
+    height,
     bbox,
     lengthMm: vehicle.lengthMm,
     pxPerMm: round(pxPerMm, 4),
-    grids: Object.fromEntries(
-      Object.entries(grids).map(([name, g]) => [name, { pitchMm: PITCHES_MM[name], pitch: g.pitch, origin: g.origin, rows: g.rows }]),
-    ),
   };
   writeFileSync(join(CONTENT_OUT, `${base}.json`), JSON.stringify(record));
-  if (previewDir) await writePreview(join(previewDir, `${base}.png`), raster, grids.fine);
+  if (previewDir) await writePreview(join(previewDir, `${base}.png`), raster, body, raster.ink, contour);
   console.log(
-    `${base}: ${String(raster.width)}x${String(raster.height)} px, bbox ${bbox.join(",")}, fill ${fill.toFixed(2)}, ` +
-      `${String(grids.coarse.count)} coarse / ${String(grids.fine.count)} fine dots, ${(pxPerMm * 1000).toFixed(0)} px per metre`,
+    `${base}: ${String(width)}x${String(height)} px, bbox ${bbox.join(",")}, fill ${fill.toFixed(2)}, ${(pxPerMm * 1000).toFixed(0)} px per metre`,
   );
   if (fill < 0.45) console.warn(`  warning: silhouette covers ${fill.toFixed(2)} of its box, the outline may leak`);
 }

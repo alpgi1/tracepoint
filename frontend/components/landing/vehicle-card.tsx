@@ -13,8 +13,8 @@ import { stageRect } from "@/lib/vehicles/layout";
 import { site } from "@/lib/site";
 
 /*
- * One vehicle sold in the magnified market: the side view as dots and
- * lines, the name, 2025 units, verbatims and the weakest domain. A click
+ * One vehicle sold in the magnified market: the side view as a layered
+ * sketch, the name, 2025 units, verbatims and the weakest domain. A click
  * grows the drawing into the place it has on the vehicle screen, then
  * navigates there; with reduced motion it navigates at once.
  */
@@ -60,7 +60,7 @@ export function VehicleCard({ market, vehicle }: VehicleCardProps) {
   return (
     <Link href={href} className="vehicle-card" onClick={onClick}>
       <div ref={drawingRef} className="vehicle-card-drawing">
-        <VehicleDrawing drawing={drawing} density="coarse" />
+        <VehicleDrawing drawing={drawing} />
       </div>
       <span className="vehicle-card-name">
         {vehicle.name} <span className="vehicle-card-code">{vehicle.code}</span>

@@ -2,8 +2,8 @@
 
 | Field | Value |
 |---|---|
-| Date | 2026-10-10 (replaces the globe of step 04; markets made solid layers in step 06; readouts, panel and vehicle cards added in step 07) |
-| Status | Built and verified in steps 05 to 07 |
+| Date | 2026-10-10 (replaces the globe of step 04; markets made solid layers in step 06; readouts, panel and vehicle cards added in step 07; markets grey at rest and vehicles as layered sketches in step 08) |
+| Status | Built and verified in steps 05 to 08 |
 | Files | `components/ui/dotted-world-map.tsx` (React wrapper), `lib/map/renderer.ts` (drawing and animation), `lib/map/data.ts`, `lib/map/regions.ts`, `components/landing/map-stage.tsx`, `components/landing/market-readout.tsx`, `components/landing/market-panel.tsx`, `components/landing/vehicle-card.tsx`, `lib/content/markets.ts` (figures), `lib/site.ts` (copy), `app/globals.css` (tokens) |
 
 ## 1. What it does
@@ -11,8 +11,8 @@
 The whole page is a dotted world map on white: no header, no copy, no footer. Plain land is a
 square grid of light grey dots, like a printed halftone. Antarctica is left off. The three
 markets, China (CN), the United States (US) and the European Union (EU, 27 member states merged
-into one outline), are solid layers: a light blue fill under a darker and thicker blue outline,
-with no dots inside.
+into one outline), are solid layers: at rest a light grey fill under a darker and thicker grey
+outline, with no dots inside; hover and selection turn fill and outline blue.
 
 Each market carries a readout at rest, so the map is the first layer of the analysis and not a
 decoration: the market's name, its 2025 sales and verbatim count, and the domain with the
@@ -21,11 +21,11 @@ Every figure comes from `content/markets.json`, which `scripts/build-content.py`
 the baseline reports, the sales workbook, the customer studies and the configuration; each value
 carries its source there.
 
-Hovering a market deepens its fill and outline. Clicking a market magnifies the map around it
-(900 ms); the market comes to rest in the upper part of the viewport and a panel appears below it
-with the market's figures and one card per vehicle sold there: the vehicle as a drawing (dots
-inside the silhouette, lines on top), its name and code, 2025 units, verbatims and its weakest
-domain. Clicking a card grows the drawing into the place it has on the vehicle screen and
+Hovering a market turns it blue. Clicking a market magnifies the map around it (900 ms); the
+market comes to rest in the upper part of the viewport and a panel appears below it with the
+market's figures and one card per vehicle sold there: the vehicle as a layered sketch (body
+wash, lines, contour; grey at rest, blue when hovered), its name and code, 2025 units, verbatims
+and its weakest domain. Clicking a card grows the drawing into the place it has on the vehicle screen and
 navigates there (`/markets/<market>/<vehicle>`, see `05-vehicle-drawings.md`). Escape, Close or
 a click on open sea returns to the resting map. Desktop is the target; nothing is tuned for
 touch.
@@ -41,7 +41,8 @@ The step 04 hero (dark page, globe, headline column, mono labels, chips, status 
 generic "dark tech" landing and failed the forbidden list (`02-forbidden-list.md`, section 0).
 The team asked for a white page, a blue accent, a flat halftone map and no text on first view
 (D-039 to D-042), then in step 07 for figures on the markets, no Antarctica, a larger map, and
-vehicles as dotted drawings that grow when clicked (D-044 to D-048).
+vehicles as drawings that grow when clicked (D-044 to D-048), and in step 08 for grey markets
+that turn blue on hover and vehicles as layered sketches instead of dot clouds (D-049, D-050).
 
 ## 3. Data
 
@@ -88,10 +89,10 @@ vehicles as dotted drawings that grow when clicked (D-044 to D-048).
   while the map flies and while a market is selected. US and CN readouts sit inside their fills;
   the EU readout, too wide for Europe at rest, sits on the Atlantic with its right edge at the
   Irish coast. A paper-coloured text halo keeps them readable over dots.
-* Colours from `:root` custom properties: `--map-dot #cdd1d6`; market fill `--map-fill #dce7f8`
-  and `--map-fill-active #b9cff2`; market outline `--map-outline #1c69d4` and
-  `--map-outline-active #0f4fae`, always darker than the fill. Vehicle tokens are in
-  `05-vehicle-drawings.md`.
+* Colours from `:root` custom properties: `--map-dot #cdd1d6`; market fill `--map-fill #e9ecf0`
+  (grey, lighter than the dots, darker than the page) and `--map-fill-active #cddcf5` (blue);
+  market outline `--map-outline #8e98a4` and `--map-outline-active #1c69d4`, always darker than
+  the fill. Vehicle tokens are in `05-vehicle-drawings.md`.
 * Draw order per frame: all dots in one fill, then each market as a solid fill under a 1.6 px
   outline (plus 0.35 px per unit of magnification); hover and selection cross-fade the active fill
   and outline on top, scaled by the market's highlight value (0 to 1).
@@ -102,10 +103,10 @@ vehicles as dotted drawings that grow when clicked (D-044 to D-048).
 | State | Behaviour | Timing |
 |---|---|---|
 | Entrance | The canvas fades in once its data is there; readouts appear with the first settle | 600 ms, once |
-| Hover | Fill and outline deepen; the highlight value rises at 1 / 180 ms and falls at 1 / 320 ms; `pointer` cursor over a market | 180 ms in, 320 ms out |
+| Hover | Fill and outline cross-fade from grey to blue; the highlight value rises at 1 / 180 ms and falls at 1 / 320 ms; `pointer` cursor over a market | 180 ms in, 320 ms out |
 | Click on a market | Flight: the market's view centre moves to the focus anchor while k goes to the market's zoom (CN 2.6, US 2.4, EU 3.2), geometric interpolation, cubic in-out; readouts fade out at the start | 900 ms |
 | Settle | The panel appears below the market (fade and 8 px rise) | 240 ms |
-| Card hover | The vehicle's dots deepen (`--vehicle-dot-active`) | 180 ms |
+| Card hover | The vehicle's wash, lines and contour turn blue | 180 ms |
 | Card click | The drawing grows from the card to the vehicle screen's stage (translate and scale, cubic in-out), then the route changes | 480 ms |
 | Close, Escape, click on sea | Flight back to k = 1; the panel leaves at once; readouts return on settle | 900 ms |
 | Resize | Refit, repaint the mask, resample the dots; a selected market stays in focus | immediate |
@@ -129,10 +130,12 @@ vehicles as dotted drawings that grow when clicked (D-044 to D-048).
 --color-ink-2 #5b6470   secondary text and figures
 --color-blue #1c69d4    the one accent, also the market outline and the vehicle lines
 --map-dot #cdd1d6
---map-fill #dce7f8 · --map-fill-active #b9cff2
---map-outline #1c69d4 · --map-outline-active #0f4fae
---vehicle-dot #c5d5ef · --vehicle-dot-active #9fb9e3 · --vehicle-line #1c69d4
---vehicle-heat #1c69d4 · --vehicle-heat-active #0f4fae
+--map-fill #e9ecf0 · --map-fill-active #cddcf5
+--map-outline #8e98a4 · --map-outline-active #1c69d4
+--vehicle-wash #eef1f5 · --vehicle-wash-active #dce7f8
+--vehicle-line #6b7480 · --vehicle-line-active #1c69d4
+--vehicle-contour #14171c · --vehicle-contour-active #0f4fae
+--vehicle-heat #1c69d4
 ```
 
 ## 8. How to tune

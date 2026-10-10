@@ -11,7 +11,7 @@ import { site } from "@/lib/site";
 
 /*
  * Screen 2: one vehicle in one market. The car is the domain selector: each
- * zone of the body is a requirement domain, tinted by that domain's
+ * zone of the body is a requirement domain, washed in blue by that domain's
  * complaint share; hovering or clicking a zone selects the domain, as does
  * the list beside it, which carries the figures. The selected domain shows
  * its complaint themes. Decisions are not built yet.
@@ -56,11 +56,11 @@ export function VehicleWorkspace({ market, vehicle }: VehicleWorkspaceProps) {
       <div className="workspace-body">
         <section className="workspace-stage" aria-label={workspace.stageLabel}>
           <div className="workspace-view">
-            <VehicleDrawing drawing={side} density="fine" zones={ZONES.side} heat={heat} active={shown} />
+            <VehicleDrawing drawing={side} zones={ZONES.side} heat={heat} active={shown} />
             {hasVerbatims ? <ZoneHits zones={ZONES.side} drawing={side} onHover={setHovered} onPick={setActive} /> : null}
           </div>
           <div className="workspace-view workspace-view-top">
-            <VehicleDrawing drawing={top} density="fine" zones={ZONES.top} heat={heat} active={shown} />
+            <VehicleDrawing drawing={top} zones={ZONES.top} heat={heat} active={shown} />
             {hasVerbatims ? <ZoneHits zones={ZONES.top} drawing={top} onHover={setHovered} onPick={setActive} /> : null}
           </div>
           {hasVerbatims ? <p className="workspace-zone-note">{workspace.zoneNote}</p> : null}
