@@ -45,3 +45,17 @@ describe("zones", () => {
     }
   });
 });
+
+describe("vehicle photos", () => {
+  it("exist for every drawing with the cut-out's size and source", async () => {
+    const { photoFor } = await import("./drawings");
+    for (const code of DRAWING_CODES) {
+      const photo = photoFor(code);
+      expect(photo.src).toBe(`/vehicles/${code}-photo-side.webp`);
+      expect(photo.width).toBe(1600);
+      expect(photo.height).toBeGreaterThan(400);
+      expect(photo.height).toBeLessThan(700);
+      expect(photo.source).toContain("configure.bmw.de");
+    }
+  });
+});

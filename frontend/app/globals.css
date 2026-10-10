@@ -120,16 +120,14 @@
 :root {
   /*
    * Vehicle drawings, a layered sketch: a flat body wash, the drawing's lines
-   * in a lighter ink, the outer contour in ink. Like the markets, grey at
-   * rest and blue when hovered; the heat washes use the one blue.
+   * in a mid grey, a thin outer contour one step darker. No frame, no heat.
    */
-  --vehicle-wash: #eef1f5;
-  --vehicle-wash-active: #dce7f8;
-  --vehicle-line: #6b7480;
+  --vehicle-wash: #f3f5f8;
+  --vehicle-wash-active: #e4ecf8;
+  --vehicle-line: #5f6873;
   --vehicle-line-active: #1c69d4;
-  --vehicle-contour: #14171c;
+  --vehicle-contour: #4f5864;
   --vehicle-contour-active: #0f4fae;
-  --vehicle-heat: #1c69d4;
 }
 
 .tap {
@@ -280,26 +278,43 @@
   padding: 0;
 }
 
-/* Vehicle cards: the drawing, then the figures. Hover turns the sketch blue, like a market. */
+/* Vehicle cards: the car's photo, then the figures. The veil covers the page while a photo grows. */
 .vehicle-card {
   display: block;
   color: inherit;
   text-decoration: none;
 }
-.vehicle-card-drawing {
+.vehicle-card-stage {
+  display: flex;
+  align-items: flex-end;
+  aspect-ratio: 1600 / 610;
+}
+.vehicle-card-photo {
   position: relative;
+  width: 100%;
+  transition: transform 0.18s var(--ease-out);
 }
-.vehicle-card:hover .vehicle-body,
-.vehicle-card:focus-visible .vehicle-body {
-  background: var(--vehicle-wash-active);
+.vehicle-card-photo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
-.vehicle-card:hover .vehicle-lines,
-.vehicle-card:focus-visible .vehicle-lines {
-  background: var(--vehicle-line-active);
+.vehicle-card:hover .vehicle-card-photo,
+.vehicle-card:focus-visible .vehicle-card-photo {
+  transform: translateY(-3px);
 }
-.vehicle-card:hover .vehicle-contour,
-.vehicle-card:focus-visible .vehicle-contour {
-  background: var(--vehicle-contour-active);
+.veil {
+  position: fixed;
+  inset: 0;
+  z-index: 25;
+  background: var(--color-paper);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s var(--ease-out);
+}
+.veil[data-on="true"] {
+  opacity: 1;
 }
 .vehicle-card-name {
   display: block;
@@ -322,10 +337,11 @@
   font-variant-numeric: tabular-nums;
 }
 
-/* A vehicle: three alpha masks tinted by tokens and stacked (body wash, lines, contour), heat washes between wash and lines. */
+/* A vehicle: three alpha masks tinted by tokens and stacked (body wash, lines, contour). */
 .vehicle {
   position: relative;
   width: 100%;
+  transition: opacity 0.7s var(--ease-out);
 }
 .vehicle-layer {
   position: absolute;
@@ -338,7 +354,6 @@
   -webkit-mask-repeat: no-repeat;
   -webkit-mask-size: 100% 100%;
   pointer-events: none;
-  transition: background 0.18s var(--ease-out);
 }
 .vehicle-body {
   background: var(--vehicle-wash);
@@ -349,11 +364,30 @@
 .vehicle-contour {
   background: var(--vehicle-contour);
 }
-.vehicle-heat {
-  color: var(--vehicle-heat);
+
+/*
+ * Arriving from the map: the car's photo sits over the drawing's silhouette
+ * box, wheels on the drawn ground, then fades while the sketch appears.
+ */
+.vehicle-photo {
+  position: absolute;
+  height: auto;
+  object-fit: contain;
+  object-position: center bottom;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.7s var(--ease-out);
 }
-.vehicle-heat ellipse {
-  transition: opacity 0.18s var(--ease-out);
+.workspace-view[data-phase="photo"] .vehicle {
+  opacity: 0;
+  transition: none;
+}
+.workspace-view[data-phase="photo"] .vehicle-photo {
+  opacity: 1;
+  transition: none;
+}
+.workspace-view[data-phase="fade"] .vehicle-photo {
+  opacity: 0;
 }
 
 /* Vehicle screen. Numbers match lib/vehicles/layout.ts. */
@@ -408,39 +442,6 @@
 .panel-card > .workspace-h3:first-child {
   margin-top: 0;
 }
-/* Leader lines from the zones of the side view to their rows; the active domain's line is blue. */
-.leader-lines {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  overflow: visible;
-  pointer-events: none;
-}
-.leader-lines path {
-  fill: none;
-  stroke: var(--color-ink-2);
-  stroke-width: 1;
-  opacity: 0.32;
-  transition:
-    stroke 0.18s var(--ease-out),
-    opacity 0.18s var(--ease-out);
-}
-.leader-lines circle {
-  fill: var(--color-paper);
-  stroke: var(--color-ink-2);
-  stroke-width: 1.25;
-  transition: stroke 0.18s var(--ease-out);
-}
-.leader-lines g[data-active="true"] path {
-  stroke: var(--color-blue);
-  stroke-width: 1.5;
-  opacity: 1;
-}
-.leader-lines g[data-active="true"] circle {
-  stroke: var(--color-blue);
-  stroke-width: 2;
-}
 .workspace-stage {
   max-width: 1040px;
   margin: 0 auto;
@@ -452,19 +453,6 @@
 .workspace-view-top {
   width: 62%;
   margin: 40px auto 0;
-}
-.workspace-zone-note {
-  margin-top: 24px;
-  color: var(--color-ink-2);
-  font-size: 0.8125rem;
-}
-.zone-hits {
-  position: absolute;
-  inset: 0;
-}
-.zone-hit {
-  position: absolute;
-  cursor: pointer;
 }
 .workspace-domains {
   padding-top: 4px;
@@ -574,10 +562,10 @@
   .market-panel,
   .callout,
   .callout-lines,
-  .vehicle-layer,
-  .vehicle-heat ellipse,
-  .leader-lines path,
-  .leader-lines circle,
+  .vehicle,
+  .vehicle-photo,
+  .vehicle-card-photo,
+  .veil,
   .domain-row,
   .domain-row-bar > span {
     animation: none;

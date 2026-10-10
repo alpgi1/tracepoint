@@ -4,6 +4,9 @@ import g60Side from "@/content/vehicles/G60-side.json";
 import g60Top from "@/content/vehicles/G60-top.json";
 import g70Side from "@/content/vehicles/G70-side.json";
 import g70Top from "@/content/vehicles/G70-top.json";
+import f70Photo from "@/content/vehicles/F70-photo.json";
+import g60Photo from "@/content/vehicles/G60-photo.json";
+import g70Photo from "@/content/vehicles/G70-photo.json";
 
 /**
  * Drawings produced by scripts/vehicles/build.mjs: alpha masks per view
@@ -37,6 +40,28 @@ const DRAWINGS: Record<DrawingCode, Record<DrawingView, VehicleDrawing>> = {
 
 export function drawingFor(code: DrawingCode, view: DrawingView): VehicleDrawing {
   return DRAWINGS[code][view];
+}
+
+/** A side-profile photo of the configured car, cut out by scripts/vehicles/photos.mjs. */
+export interface VehiclePhoto {
+  code: string;
+  view: "side";
+  source: string;
+  src: string;
+  width: number;
+  height: number;
+  carBox: [number, number, number, number];
+  sourceSize: [number, number];
+}
+
+const PHOTOS: Record<DrawingCode, VehiclePhoto> = {
+  F70: f70Photo as VehiclePhoto,
+  G60: g60Photo as VehiclePhoto,
+  G70: g70Photo as VehiclePhoto,
+};
+
+export function photoFor(code: DrawingCode): VehiclePhoto {
+  return PHOTOS[code];
 }
 
 export const DRAWING_CODES: readonly DrawingCode[] = ["F70", "G60", "G70"];
