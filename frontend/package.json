@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "predev": "node scripts/sync-globe-data.mjs",
+    "predev": "node scripts/sync-map-data.mjs",
     "dev": "next dev",
-    "prebuild": "node scripts/sync-globe-data.mjs",
+    "prebuild": "node scripts/sync-map-data.mjs",
     "build": "next build",
     "start": "next start -p 3400",
     "lint": "eslint",
@@ -46,5 +46,5 @@
     "vitest": "^3.2.7"
   },
   "packageManager": "pnpm@10.28.0",
-  "description": "Tracepoint web UI. Landing page with the interactive market globe; PM workspace from Phase 6."
+  "description": "Tracepoint web UI. Landing page with the dotted market map; PM workspace from Phase 6."
 }

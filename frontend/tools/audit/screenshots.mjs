@@ -1,9 +1,14 @@
 /**
- * Screenshots of the landing page states for the step report: resting globe,
- * a hovered market, a selected (zoomed) market, mobile. Run against a built
- * app started in another shell (`pnpm build && pnpm start`).
+ * Screenshots of the landing page states for the step report: resting map,
+ * a hovered market, the three magnified markets, keyboard focus on a market
+ * key, reduced motion. Run against a built app started in another shell
+ * (`pnpm build && pnpm start`).
  *
  *   node tools/audit/screenshots.mjs http://localhost:3400 [outDir]
+ *
+ * Hover and click go through the real pointer: the market keys are visually
+ * hidden buttons positioned at each market's centre, so their box tells the
+ * script where a market is on the canvas.
  */
 import { mkdirSync } from "node:fs";
 import { join } from "node:path";
@@ -13,13 +18,20 @@ const { chromium } = pkg;
 const [BASE = "http://localhost:3400", OUT = "tools/audit/out"] = process.argv.slice(2);
 mkdirSync(OUT, { recursive: true });
 
-const browser = await chromium.launch({
-  executablePath: "/opt/pw-browsers/chromium",
-  args: ["--use-gl=angle", "--use-angle=swiftshader", "--enable-unsafe-swiftshader"],
-});
+const browser = await chromium.launch({ executablePath: "/opt/pw-browsers/chromium" });
+
+async function marketPoint(page, id) {
+  const box = await page.locator(`button[data-region="${id}"]`).boundingBox();
+  if (!box) throw new Error(`no key for ${id}`);
+  return { x: box.x + box.width / 2, y: box.y + box.height / 2 };
+}
 
 async function shoot(name, viewport, steps, options = {}) {
-  const context = await browser.newContext({ viewport, deviceScaleFactor: 1, reducedMotion: options.reducedMotion ?? "no-preference" });
+  const context = await browser.newContext({
+    viewport,
+    deviceScaleFactor: 1,
+    reducedMotion: options.reducedMotion ?? "no-preference",
+  });
   const page = await context.newPage();
   const errors = [];
   page.on("pageerror", (e) => errors.push(String(e)));
@@ -28,39 +40,51 @@ async function shoot(name, viewport, steps, options = {}) {
   });
   await page.goto(BASE + "/", { waitUntil: "networkidle" });
   await page.waitForSelector('canvas[data-ready="true"]', { timeout: 15000 });
-  await page.waitForTimeout(1800);
+  await page.waitForTimeout(900);
   await steps(page);
   const file = join(OUT, `${name}.png`);
-  await page.screenshot({ path: file, fullPage: options.fullPage ?? false });
+  await page.screenshot({ path: file });
   console.log(`${file}${errors.length ? `  ERRORS: ${errors.join(" | ")}` : ""}`);
   await context.close();
 }
 
 const desktop = { width: 1440, height: 900 };
-const mobile = { width: 390, height: 844 };
+const wide = { width: 1920, height: 1080 };
 
 await shoot("01-resting-1440", desktop, async () => {});
 await shoot("02-hover-eu-1440", desktop, async (page) => {
-  await page.hover('button:has-text("European Union")');
+  const at = await marketPoint(page, "EU");
+  await page.mouse.move(at.x, at.y);
   await page.waitForTimeout(400);
 });
 await shoot("03-selected-eu-1440", desktop, async (page) => {
-  await page.click('button:has-text("European Union")');
-  await page.waitForTimeout(1600);
+  const at = await marketPoint(page, "EU");
+  await page.mouse.move(at.x, at.y);
+  await page.mouse.click(at.x, at.y);
+  await page.waitForTimeout(1400);
 });
 await shoot("04-selected-cn-1440", desktop, async (page) => {
-  await page.click('button:has-text("China")');
-  await page.waitForTimeout(1600);
+  const at = await marketPoint(page, "CN");
+  await page.mouse.move(at.x, at.y);
+  await page.mouse.click(at.x, at.y);
+  await page.waitForTimeout(1400);
 });
 await shoot("05-selected-us-1440", desktop, async (page) => {
-  await page.click('button:has-text("United States")');
-  await page.waitForTimeout(1600);
+  const at = await marketPoint(page, "US");
+  await page.mouse.move(at.x, at.y);
+  await page.mouse.click(at.x, at.y);
+  await page.waitForTimeout(1400);
 });
-await shoot("06-resting-390", mobile, async () => {}, { fullPage: true });
-await shoot("07-selected-us-390", mobile, async (page) => {
-  await page.click('button:has-text("United States")');
-  await page.waitForTimeout(1600);
+await shoot("06-keyboard-focus-us-1440", desktop, async (page) => {
+  await page.keyboard.press("Tab");
+  await page.keyboard.press("Tab");
+  await page.waitForTimeout(400);
 });
-await shoot("08-reduced-motion-1440", desktop, async () => {}, { reducedMotion: "reduce" });
+await shoot("07-resting-1920", wide, async () => {});
+await shoot("08-reduced-motion-selected-eu-1440", desktop, async (page) => {
+  const at = await marketPoint(page, "EU");
+  await page.mouse.click(at.x, at.y);
+  await page.waitForTimeout(200);
+}, { reducedMotion: "reduce" });
 
 await browser.close();

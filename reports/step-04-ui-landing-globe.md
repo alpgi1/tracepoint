@@ -80,7 +80,7 @@ this container inflates canvas numbers, as REGU documented); hover behaviour on 
 
 ## 3. Decisions recorded
 
-D-027 to D-032 in `plan/decisions.md`: Next.js stack for `frontend/`, the frontend track and its
+D-033 to D-038 in `plan/decisions.md` (renumbered in step 05: the backend track had used D-027 to D-032 at the same time): Next.js stack for `frontend/`, the frontend track and its
 documents, the globe hero and its data, the forbidden list with exemptions E1 and E2, the dark
 token set with a draft accent, and the measurement gate.
 

@@ -2,7 +2,6 @@ import { geoCentroid } from "d3-geo";
 import { merge } from "topojson-client";
 import type { GeometryCollection, GeometryObject, MultiPolygon as TopoMultiPolygon, Polygon as TopoPolygon, Topology } from "topojson-specification";
 import type { Feature, MultiPolygon } from "geojson";
-import { latitudeRows, toCartesian } from "./math";
 import type { RegionSpec } from "./regions";
 
 export type WorldTopology = Topology<{ countries: GeometryCollection; land: GeometryCollection }>;
@@ -12,26 +11,15 @@ export interface RegionShape {
   feature: Feature<MultiPolygon>;
 }
 
-/** Dot classification: 0 sea, 1 land, 2 + regionIndex inside a market. */
-export const DOT_SEA = 0;
-export const DOT_LAND = 1;
-export const DOT_REGION = 2;
-
-export type Classifier = (lon: number, lat: number) => number;
-
-export interface DotField {
-  count: number;
-  /** Unit vectors, three floats per dot. */
-  xyz: Float32Array;
-  kind: Uint8Array;
-}
-
-export interface GlobeData {
+export interface MapData {
   land: Feature<MultiPolygon>;
   regions: RegionShape[];
-  dots: DotField;
-  classify: Classifier;
 }
+
+/** Point classification: 0 sea, 1 land, 2 + regionIndex inside a market. */
+export const KIND_SEA = 0;
+export const KIND_LAND = 1;
+export const KIND_REGION = 2;
 
 type Mergeable = TopoPolygon | TopoMultiPolygon;
 
@@ -75,36 +63,6 @@ export function regionShapes(topology: WorldTopology, regions: readonly RegionSp
   });
 }
 
-/** Keep the sample points that fall on land. */
-export function sampleDots(points: { lon: Float64Array; lat: Float64Array }, classify: Classifier): DotField {
-  const { lon, lat } = points;
-  const count = lon.length;
-  const xyz = new Float32Array(count * 3);
-  const kind = new Uint8Array(count);
-  let n = 0;
-  for (let i = 0; i < count; i++) {
-    const k = classify(lon[i], lat[i]);
-    if (k === DOT_SEA) continue;
-    const [x, y, z] = toCartesian(lon[i], lat[i]);
-    xyz[n * 3] = x;
-    xyz[n * 3 + 1] = y;
-    xyz[n * 3 + 2] = z;
-    kind[n] = k;
-    n++;
-  }
-  return { count: n, xyz: xyz.slice(0, n * 3), kind: kind.slice(0, n) };
-}
-
-export interface BuildOptions {
-  /** Dot spacing in degrees of arc, rows and columns alike. */
-  spacing: number;
-  /** Builds the point classifier from the land and region shapes (raster in the browser, exact in tests). */
-  classifier: (land: Feature<MultiPolygon>, regions: RegionShape[]) => Classifier;
-}
-
-export function buildGlobeData(topology: WorldTopology, regions: readonly RegionSpec[], options: BuildOptions): GlobeData {
-  const land = landFeature(topology);
-  const shapes = regionShapes(topology, regions);
-  const classify = options.classifier(land, shapes);
-  return { land, regions: shapes, dots: sampleDots(latitudeRows(options.spacing), classify), classify };
+export function buildMapData(topology: WorldTopology, regions: readonly RegionSpec[]): MapData {
+  return { land: landFeature(topology), regions: regionShapes(topology, regions) };
 }
