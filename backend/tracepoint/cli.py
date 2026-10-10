@@ -123,6 +123,7 @@ def ingest_all() -> None:
     ingest_studies_cmd()
     ingest_sales_cmd()
     ingest_optionlists_cmd(VEHICLES_WITH_CATALOGUE)
+    classify_import(VEHICLES_WITH_FEEDBACK)
 
 
 @audit_app.command("export")
@@ -240,6 +241,19 @@ def classify_gaps(
         )
 
 
+@classify_app.command("import")
+def classify_import(
+    vehicle: list[str] = typer.Option(VEHICLES_WITH_FEEDBACK, "--vehicle", "-v"),
+) -> None:
+    """Apply the committed gap classifications in config/classifications/ (no API call)."""
+    from tracepoint.classify.gap import import_gap_file
+
+    with Session(make_engine()) as session:
+        for code in vehicle:
+            with start_run(session, f"classify.import.{code}", {"vehicle": code}) as run:
+                _echo(f"gap import {code}", import_gap_file(session, run, code))
+
+
 @classify_app.command("segments")
 def classify_segments(
     vehicle: str = typer.Option(..., "--vehicle", "-v"),
@@ -346,6 +360,126 @@ def findings_report(
     path = out_dir / f"{vehicle}_{market or 'ALL'}.md"
     path.write_text(md, encoding="utf-8")
     typer.echo(f"wrote {path}")
+
+
+req_app = typer.Typer(help="Requirements (Phase 4) and gate G2 decisions.", no_args_is_help=True)
+app.add_typer(req_app, name="requirements")
+
+
+@req_app.command("import")
+def requirements_import() -> None:
+    """Import config/requirements/*.yaml and replay config/decisions/requirements.jsonl."""
+    from tracepoint.requirements.store import import_all
+
+    with Session(make_engine()) as session, start_run(session, "requirements.import") as run:
+        for name, stats in import_all(session, run).items():
+            _echo(f"requirements {name}", stats)
+
+
+@req_app.command("decide")
+def requirements_decide(
+    requirement_id: str = typer.Argument(...),
+    decision: str = typer.Argument(..., help="approve / reject / defer"),
+    note: str = typer.Option(..., "--note", help="Rationale (mandatory)"),
+    actor: str = typer.Option(None, "--actor", help="Default: human:<TRACEPOINT_HUMAN_ACTOR_ID>"),
+) -> None:
+    """Gate G2: decide on the current version of one requirement (logged and persisted)."""
+    from tracepoint.requirements.store import decide
+
+    with Session(make_engine()) as session:
+        req = decide(
+            session,
+            requirement_id,
+            decision,
+            note=note,
+            actor=actor or f"human:{get_settings().human_actor_id}",
+        )
+        session.commit()
+        typer.echo(f"{req.id} v{req.version}: {req.status}")
+
+
+@req_app.command("export")
+def requirements_export(
+    vehicle: str | None = typer.Option(None, "--vehicle", "-v"),
+    market: str | None = typer.Option(None, "--market", "-m"),
+    out_dir: Path = typer.Option(None, "--out-dir", help="Default: data/requirements"),
+) -> None:
+    """Write the requirement list (deliverable D2) as Markdown and CSV."""
+    from tracepoint.requirements.report import list_requirements, render_csv, render_markdown
+
+    out = out_dir or get_settings().data_dir / "requirements"
+    out.mkdir(parents=True, exist_ok=True)
+    with Session(make_engine()) as session:
+        reqs = list_requirements(session, vehicle, market)
+    stem = out / f"requirements_{vehicle or 'ALL'}_{market or 'ALL'}"
+    title = f"Requirement list – {vehicle or 'all vehicles'}, {market or 'all markets'}"
+    stem.with_suffix(".md").write_text(render_markdown(reqs, title), encoding="utf-8")
+    stem.with_suffix(".csv").write_text(render_csv(reqs), encoding="utf-8")
+    typer.echo(f"wrote {len(reqs)} requirements to {stem}.md and .csv")
+
+
+agent_app = typer.Typer(
+    help="Agent data access: context packs and drill-down tools.", no_args_is_help=True
+)
+app.add_typer(agent_app, name="agent")
+
+
+@agent_app.command("packs")
+def agent_packs(
+    vehicle: list[str] = typer.Option([], "--vehicle", "-v", help="Default: every vehicle"),
+    out_dir: Path = typer.Option(
+        None, "--out-dir", help="Default: data/context_packs under the repository root"
+    ),
+) -> None:
+    """Build the context pack (JSON + Markdown) of every vehicle × market that has evidence."""
+    from sqlalchemy import select
+
+    from tracepoint.agent.context_pack import build_context_pack, render_markdown
+    from tracepoint.db.models import Market
+    from tracepoint.db.models import Vehicle as VehicleRow
+
+    out = out_dir or get_settings().data_dir / "context_packs"
+    out.mkdir(parents=True, exist_ok=True)
+    with Session(make_engine()) as session, start_run(session, "agent.packs") as run:
+        codes = vehicle or [v.code for v in session.scalars(select(VehicleRow))]
+        markets = [m.code for m in session.scalars(select(Market))]
+        written = []
+        for code in codes:
+            for market in markets:
+                pack = build_context_pack(session, code, market)
+                if not pack["coverage"]["verbatims"] and not pack["studies"]:
+                    continue
+                pack["run_id"] = run.id
+                stem = out / f"{code}_{market}"
+                stem.with_suffix(".json").write_text(
+                    json.dumps(pack, ensure_ascii=False, indent=1, default=str), encoding="utf-8"
+                )
+                stem.with_suffix(".md").write_text(render_markdown(pack), encoding="utf-8")
+                written.append(f"{code}_{market}")
+    typer.echo(f"wrote {len(written)} context packs to {out}: {', '.join(written)}")
+
+
+@agent_app.command("tools")
+def agent_tools() -> None:
+    """Print the tool definitions (name, description, JSON input schema)."""
+    from tracepoint.agent.tools import tool_schemas
+
+    typer.echo(json.dumps(tool_schemas(), indent=1))
+
+
+@agent_app.command("call")
+def agent_call(
+    name: str = typer.Argument(..., help="Tool name, see `tracepoint agent tools`"),
+    args: str = typer.Argument("{}", help="JSON object with the tool arguments"),
+    actor: str = typer.Option("human:pm", "--actor"),
+) -> None:
+    """Call one tool (logged in the audit trail) and print the JSON result."""
+    from tracepoint.agent.tools import call_tool
+
+    with Session(make_engine()) as session:
+        result = call_tool(session, name, json.loads(args), actor_id=actor)
+        session.commit()
+    typer.echo(json.dumps(result, ensure_ascii=False, indent=1, default=str))
 
 
 @app.command("status")

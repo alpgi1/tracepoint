@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import hashlib
+import json
 from collections import Counter
 from dataclasses import dataclass
 from pathlib import Path
@@ -340,5 +342,67 @@ def run_gap_classification(
         entity_id=vehicle_code,
         run_id=run.id,
         after=dict(stats),
+    )
+    return dict(stats)
+
+
+OFFLINE_MODEL = "assistant:claude-opus-5-5"
+
+
+def gap_file(vehicle_code: str) -> Path:
+    return get_settings().config_dir / "classifications" / f"{vehicle_code}_gaps.jsonl"
+
+
+def import_gap_file(
+    session: Session, run: Run, vehicle_code: str, path: Path | None = None
+) -> dict[str, Any]:
+    """Apply gap classifications authored offline: one JSON object per line, ``{"id": <verbatim
+    id>, **GapClassification}``. The file is committed, so the labels survive re-ingestion (which
+    deletes all classification rows of the vehicle) and a fresh database on another machine."""
+    path = path or gap_file(vehicle_code)
+    stats: Counter = Counter()
+    if not path.exists():
+        return {"file": None}
+    index = TaxonomyIndex.load(session)
+    targets = {v.id: v for v in select_targets(session, vehicle_code)}
+    for line in path.read_text(encoding="utf-8").splitlines():
+        if not line.strip():
+            continue
+        data = json.loads(line)
+        verbatim = targets.get(data.pop("id"))
+        if verbatim is None:
+            stats["skipped"] += 1  # unknown id or already imported
+            continue
+        parsed = GapClassification.model_validate(data)
+        if not parsed.labels:
+            stats["no_labels"] += 1
+            continue
+        result = LlmResult(
+            parsed=parsed,
+            text=line,
+            model=OFFLINE_MODEL,
+            input_tokens=None,
+            cached_tokens=None,
+            output_tokens=None,
+            cost_estimate_usd=None,
+            cached=False,
+            llm_call_id=None,
+            input_hash=hashlib.sha256(line.encode()).hexdigest(),
+        )
+        for k, v in apply_result(session, run, index, verbatim, result).items():
+            stats[k] += v
+        stats["classified"] += 1
+    stats["file"] = path.name  # type: ignore[assignment]
+    record_event(
+        session,
+        actor_type="agent",
+        actor_id=ACTOR,
+        action="classification.import_finished",
+        entity_type="vehicle",
+        entity_id=vehicle_code,
+        run_id=run.id,
+        after=dict(stats),
+        model_id=OFFLINE_MODEL,
+        prompt_version=GAP_PROMPT_VERSION,
     )
     return dict(stats)

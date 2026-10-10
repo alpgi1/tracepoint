@@ -112,6 +112,7 @@ for scope in "G60 US" "F70 EU" "G70 US" "G60 EU"; do
   set -- $scope
   tp findings extract --vehicle "$1" --market "$2" | sed 's/, "findings".*//'
 done
+tp requirements import | sed 's/, "excluded".*//'
 OUT="$ROOT/data/reports"; mkdir -p "$OUT/baseline" "$OUT/findings"
 for scope in "F70 EU" "G60 US" "G60 EU" "G70 US"; do
   set -- $scope
@@ -122,6 +123,9 @@ for scope in "G60 US" "F70 EU"; do
   tp findings report --vehicle "$1" --market "$2" --out-dir "$OUT/findings" >/dev/null
 done
 ok "reports written to data/reports/baseline and data/reports/findings (committed samples stay under reports/)"
+tp agent packs
+tp requirements export
+ok "agent context packs written to data/context_packs (tools: cd backend && uv run tracepoint agent tools)"
 
 # ---------------------------------------------------------------------------------------------
 log "7/8 Tests"

@@ -263,7 +263,7 @@ criteria before the next pull request. Sizes: S ≤ 1 day, M 1–3 days, L 3–5
 * **Acceptance:** 100 % of given classification rows resolve to canonical IDs; every level-2 entry
   has a domain; review recorded in the step report.
 
-### WP1.7 LLM gateway, gap classification and segmentation (L) – built in step 04 (gateway, prompts, schemas, few-shot retrieval, segmentation, blind-validation samples); the classification runs themselves wait for the OpenAI API details
+### WP1.7 LLM gateway, gap classification and segmentation (L) – built in step 04; gap classification done offline in step 09 (D-056); blind validation and Source B segmentation still open
 * Gateway: one module wrapping the Anthropic SDK (default model from settings, adaptive thinking,
   explicit effort, structured outputs via Pydantic schemas, prompt caching, Batches runner,
   response cache keyed by input hash, `llm_call` logging with cost estimate, retry policy).
@@ -287,7 +287,7 @@ criteria before the next pull request. Sizes: S ≤ 1 day, M 1–3 days, L 3–5
 * **Acceptance:** every equipment item has `name_en`; a bilingual sample of 50 lines reviewed by
   the team and filed.
 
-### WP1.9 Embeddings, retrieval and agent-facing data access (M) – deferred until the embedding model is named (D-020); SQL filters and text search are available through the API
+### WP1.9 Embeddings, retrieval and agent-facing data access (M) – context packs and drill-down tools done (step 10, D-058) with full-text search; embedding similarity deferred (D-059)
 * Embedding of verbatims, segments, study attributes and equipment items; in-process cosine search
   with SQL pre-filters (vehicle, market, powertrain, source, feedback type, theme, domain).
 * Context-pack builder per vehicle × market (coverage, top themes per feedback type with counts and

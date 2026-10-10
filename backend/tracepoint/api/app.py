@@ -507,3 +507,119 @@ def get_finding(finding_id: str, session: Session = Depends(get_session)) -> dic
             )
         ],
     }
+
+
+@app.get("/requirements")
+def requirements(
+    vehicle: str | None = None,
+    market: str | None = None,
+    domain: str | None = None,
+    status: str | None = None,
+    session: Session = Depends(get_session),
+) -> list[dict[str, Any]]:
+    """Requirement list (deliverable D2), strongest evidence first."""
+    from tracepoint.requirements.report import list_requirements
+
+    rows = list_requirements(session, vehicle, market)
+    return [
+        r
+        for r in rows
+        if (not domain or r["domain"] == domain) and (not status or r["status"] == status)
+    ]
+
+
+@app.get("/requirements/{requirement_id}")
+def requirement_detail(
+    requirement_id: str, session: Session = Depends(get_session)
+) -> dict[str, Any]:
+    """Traceability: requirement -> findings -> evidence references, plus the event history."""
+    from tracepoint.db.models import Requirement
+
+    r = session.get(Requirement, requirement_id)
+    if r is None:
+        raise HTTPException(404, "requirement not found")
+    return {
+        **_row(
+            r,
+            [
+                "id",
+                "vehicle_code",
+                "market_code",
+                "domain_key",
+                "title",
+                "statement",
+                "recommend",
+                "recommend_rationale",
+                "horizon",
+                "horizon_rationale",
+                "markets",
+                "criteria",
+                "assumptions",
+                "uncertainties",
+                "evidence_level",
+                "priority_score",
+                "status",
+                "version",
+            ],
+        ),
+        "findings": [
+            {"role": x.role, **get_finding(x.finding_id, session=session)} for x in r.findings
+        ],
+        "events": [
+            event_to_dict(e)
+            for e in session.scalars(
+                select(AuditEvent)
+                .where(AuditEvent.entity_type == "requirement", AuditEvent.entity_id == r.id)
+                .order_by(AuditEvent.id)
+            )
+        ],
+    }
+
+
+@app.post("/requirements/{requirement_id}/decision")
+def requirement_decision(
+    requirement_id: str,
+    decision: str = Query(..., description="approve / reject / defer"),
+    note: str = Query(..., description="Rationale, mandatory"),
+    actor: str = "human:pm",
+    session: Session = Depends(get_session),
+) -> dict[str, Any]:
+    """Gate G2 decision on the current version; logged and appended to the decisions file."""
+    from tracepoint.requirements.store import decide
+
+    try:
+        req = decide(session, requirement_id, decision, actor=actor, note=note)
+    except ValueError as exc:
+        raise HTTPException(422, str(exc)) from exc
+    session.commit()
+    return {"id": req.id, "version": req.version, "status": req.status}
+
+
+@app.get("/agent/tools")
+def agent_tools() -> list[dict[str, Any]]:
+    """Tool definitions for an LLM agent (name, description, JSON input schema)."""
+    from tracepoint.agent.tools import tool_schemas
+
+    return tool_schemas()
+
+
+@app.post("/agent/tools/{name}")
+def agent_call(
+    name: str,
+    args: dict[str, Any],
+    actor: str = "agent:http",
+    session: Session = Depends(get_session),
+) -> dict[str, Any]:
+    """Run one tool with JSON arguments; the call is logged as an audit event."""
+    from pydantic import ValidationError
+
+    from tracepoint.agent.tools import TOOLS, call_tool
+
+    if name not in TOOLS:
+        raise HTTPException(404, f"unknown tool {name!r}")
+    try:
+        result = call_tool(session, name, args, actor_id=actor)
+    except ValidationError as exc:
+        raise HTTPException(422, exc.errors(include_url=False)) from exc
+    session.commit()
+    return result
