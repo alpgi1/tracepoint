@@ -51,30 +51,25 @@ def test_every_verbatim_has_locator_market_and_run(session):
 
 
 def test_taxonomy_is_canonical_and_mapped(session):
-    assert session.scalar(select(func.count()).select_from(TaxonomyLevel2)) == 225
+    canonical = TaxonomyLevel2.status == "canonical"
+    assert session.scalar(select(func.count()).select_from(TaxonomyLevel2).where(canonical)) == 225
     assert session.scalar(select(func.count()).select_from(TaxonomyLevel3)) == 84
-    assert (
-        session.scalar(
-            select(func.count())
-            .select_from(TaxonomyLevel2)
-            .where(TaxonomyLevel2.domain_key.is_(None))
-        )
-        == 0
+    no_domain = (
+        select(func.count())
+        .select_from(TaxonomyLevel2)
+        .where(canonical, TaxonomyLevel2.domain_key.is_(None))
     )
-    assert (
-        session.scalar(
-            select(func.count())
-            .select_from(TaxonomyLevel3)
-            .where(TaxonomyLevel3.polarity.is_(None))
-        )
-        == 0
+    assert session.scalar(no_domain) == 0
+    no_polarity = (
+        select(func.count()).select_from(TaxonomyLevel3).where(TaxonomyLevel3.polarity.is_(None))
     )
-    unresolved = session.scalar(
+    assert session.scalar(no_polarity) == 0
+    unresolved = (
         select(func.count())
         .select_from(VerbatimClassification)
         .where(VerbatimClassification.status == "unresolved")
     )
-    assert unresolved == 0
+    assert session.scalar(unresolved) == 0
 
 
 def test_study_metrics(session, ingested):

@@ -1,0 +1,6 @@
+# USD per 1 million tokens, used only for cost estimates in the llm_call log.
+# Fill in the model names and prices the team provides with the API details. Unknown models get
+# cost_estimate_usd = null (the token counts are still recorded).
+models: {}
+# Example entry:
+#   my-bulk-model: {input: 0.0, cached_input: 0.0, output: 0.0}

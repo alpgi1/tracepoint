@@ -1,0 +1,18 @@
+# Thresholds and weights for the deterministic finding extraction (Phase 3, step 04).
+voice_of_customer:
+  min_complaint_rows: 5          # theme needs at least this many complaint rows in vehicle × market
+  min_strength_rows: 15          # likes needed for a strength finding
+  min_strength_share: 0.7        # likes / rows for a strength finding
+  unmet_need_wants_share: 0.5    # wants / complaints ≥ → kind = unmet_need (otherwise recurring_complaint)
+  severity_weights: {Defect: 3.0, "Difficult to Use": 2.0, Wants: 1.5}
+  example_quotes: 8              # example verbatim classification rows linked per finding
+quantitative_metrics:
+  gap_vs_peer_mean: 0.3          # score below the peer mean (same study, same market) by this → metric_gap
+  gap_vs_other_market: 0.5       # score below the same vehicle in another market by this → metric_gap
+  bottom3_share: 0.10            # US distribution: bottom-3-box share ≥ → metric_gap
+  weakest_rank: 8                # always flag the N weakest attributes per study as metric_gap
+  strongest_rank: 5              # top N as metric_strength
+evidence_levels:
+  A: {min_source_labels: 2, min_rows: 20, needs_supporting_link: true}
+  B: {min_source_labels: 1, min_rows: 10}
+  C: {min_rows: 5}

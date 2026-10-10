@@ -3,7 +3,7 @@
 | Field | Value |
 |---|---|
 | Version | 1.0 (2026-10-10) |
-| Status | In progress – internal ingestion delivered in step 03 (`reports/step-03-phase-1-internal-ingestion.md`); LLM-dependent work packages deferred until the team provides the OpenAI API details (D-020, D-021) |
+| Status | In progress – internal ingestion delivered in step 03, LLM gateway and classification pipeline delivered in step 04 (`reports/step-04-llm-gateway-classification-findings.md`); the classification runs and WP1.9 embeddings wait for the OpenAI API details (D-020, D-021) |
 | Depends on | `plan/00-master-plan.md`, `reports/step-01-challenge-and-data-analysis.md` |
 | Feeds | Phase 2 (external evidence), Phase 3 (findings) – both consume the evidence store and the agent-facing data access built here |
 
@@ -263,7 +263,7 @@ criteria before the next pull request. Sizes: S ≤ 1 day, M 1–3 days, L 3–5
 * **Acceptance:** 100 % of given classification rows resolve to canonical IDs; every level-2 entry
   has a domain; review recorded in the step report.
 
-### WP1.7 LLM gateway, gap classification and segmentation (L) – deferred until the OpenAI API details arrive (D-021)
+### WP1.7 LLM gateway, gap classification and segmentation (L) – built in step 04 (gateway, prompts, schemas, few-shot retrieval, segmentation, blind-validation samples); the classification runs themselves wait for the OpenAI API details
 * Gateway: one module wrapping the Anthropic SDK (default model from settings, adaptive thinking,
   explicit effort, structured outputs via Pydantic schemas, prompt caching, Batches runner,
   response cache keyed by input hash, `llm_call` logging with cost estimate, retry policy).

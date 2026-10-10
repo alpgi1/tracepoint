@@ -16,6 +16,9 @@ make test          # pytest against tracepoint_test
 make api           # http://localhost:8000/docs
 ```
 
+LLM jobs need `TRACEPOINT_OPENAI_API_KEY`, `TRACEPOINT_OPENAI_MODEL` (reasoning) and optionally
+`TRACEPOINT_OPENAI_MODEL_BULK` (classification, segmentation); without them use `--dry-run`.
+
 Settings are read from environment variables with the `TRACEPOINT_` prefix or a `.env` file at the
 repository root (see `.env.example`).
 
@@ -29,6 +32,12 @@ repository root (see `.env.example`).
 | `tracepoint ingest verbatims` / `studies` / `sales` / `optionlists` / `all` | ingest the input files (idempotent per vehicle) |
 | `tracepoint report baseline --vehicle G60 --market US --out-dir ../reports/baseline` | baseline situation-analysis report (Markdown + JSON) |
 | `tracepoint audit export --format json\|csv [--out file]` | export the audit event log |
+| `tracepoint classify gaps --vehicle G60 [--limit N] [--dry-run]` | LLM gap classification of unclassified rows (dry run: prompts and token estimate only) |
+| `tracepoint classify segments --vehicle G60 [--dry-run]` | LLM segmentation of Source B notes into product / process statements |
+| `tracepoint classify prepare-sample --vehicle G60` | write the blind-validation sample to `config/validation/` |
+| `tracepoint classify validate --vehicle G60` | blind re-classification of the sample; writes `reports/validation/` |
+| `tracepoint findings extract --vehicle G60 --market US` | deterministic finding extraction (voice of customer, study metrics, equipment gaps, links) |
+| `tracepoint findings report --vehicle G60 --market US --out-dir ../reports/findings` | Markdown finding list |
 | `tracepoint settings` | print the effective settings |
 
 ## Layout
@@ -40,6 +49,9 @@ tracepoint/
   ingest/     registry of input files, reference loader, parsers (verbatims, studies, sales, option lists)
   taxonomy/   canonical taxonomy extraction and enrichment
   reports/    baseline situation-analysis report
+  llm/        provider-agnostic LLM gateway (OpenAI first), pricing, strict JSON schemas
+  classify/   gap classification, Source B segmentation, few-shot retrieval, blind validation
+  findings/   deterministic finding extraction, cross-layer links, Markdown report
   api/        FastAPI read API
   cli.py      Typer command line interface
 tests/        pytest suite (ingests docs/ into the test database once per session)
