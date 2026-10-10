@@ -86,7 +86,7 @@ def _voc_drafts(
     )
     if market:
         stmt = stmt.where(Verbatim.market_code == market)
-    rows = session.execute(stmt).all()
+    rows = session.execute(stmt.order_by(VerbatimClassification.id)).all()
     per_theme: dict[str, dict[str, Any]] = defaultdict(
         lambda: {
             "rows": 0,
@@ -130,7 +130,11 @@ def _voc_drafts(
             )
             examples = sorted(
                 [(c, v) for c, v in t["examples"] if c.feedback_type in COMPLAINT_TYPES],
-                key=lambda cv: (-weights.get(cv[0].feedback_type, 1.0), abs(cv[1].char_len - 150)),
+                key=lambda cv: (
+                    -weights.get(cv[0].feedback_type, 1.0),
+                    abs(cv[1].char_len - 150),
+                    cv[0].id,
+                ),
             )[: voc.get("example_quotes", 8)]
             quant = {
                 "rows": t["rows"],
@@ -142,9 +146,11 @@ def _voc_drafts(
                 "complaint_share_of_theme": round(complaints / t["rows"], 3),
                 "share_of_market_complaints_pct": _pct(complaints, total_complaints),
                 "weighted_severity": round(weighted, 1),
-                "by_source": dict(t["sources"]),
-                "by_powertrain": dict(t["pt"]),
-                "by_country": dict(t["countries"].most_common(8)),
+                "by_source": dict(sorted(t["sources"].items())),
+                "by_powertrain": dict(sorted(t["pt"].items())),
+                "by_country": dict(
+                    sorted(t["countries"].most_common(8), key=lambda kv: (-kv[1], kv[0]))
+                ),
                 "total_market_complaint_rows": total_complaints,
             }
             statement = (

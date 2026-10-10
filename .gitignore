@@ -18,3 +18,7 @@ dist/
 .vscode/
 .idea/
 .DS_Store
+
+# database dumps (keep the folder, not the files)
+backups/*
+!backups/.gitkeep
