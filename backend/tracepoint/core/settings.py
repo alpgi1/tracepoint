@@ -31,8 +31,17 @@ class Settings(BaseSettings):
     # nothing in Phase 1 ingestion calls an external API.
     llm_provider: str = "openai"
     openai_api_key: str | None = None
-    openai_model: str = ""
+    openai_base_url: str | None = None
+    openai_model: str = ""  # reasoning jobs (findings narration, requirements, challenges)
+    openai_model_bulk: str = (
+        ""  # bulk jobs (classification, segmentation); falls back to openai_model
+    )
     embedding_model: str = ""
+    llm_max_cost_usd_per_run: float = 25.0
+    llm_concurrency: int = 4
+    llm_timeout_seconds: float = 120.0
+    llm_max_attempts: int = 4
+    llm_temperature: float = 0.0
 
     # Default human actor for audit events created through the CLI / API.
     human_actor_id: str = "pm"
