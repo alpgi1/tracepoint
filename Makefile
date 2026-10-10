@@ -1,7 +1,13 @@
-.PHONY: setup db-start db-create db-init db-reset ingest test lint format api audit-export
+.PHONY: start setup db-start db-create db-init db-reset ingest test lint format api audit-export status
 
 BACKEND=backend
 UV=cd $(BACKEND) && uv
+
+start:            ## one-shot local start (Docker PostgreSQL, ingestion, findings, reports, tests)
+	./start.sh
+
+status:           ## table counts and last runs
+	$(UV) run tracepoint status
 
 setup:            ## install the backend with its dev dependencies
 	$(UV) sync --all-groups

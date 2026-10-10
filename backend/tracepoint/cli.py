@@ -348,6 +348,44 @@ def findings_report(
     typer.echo(f"wrote {path}")
 
 
+@app.command("status")
+def status() -> None:
+    """Print row counts of the main tables and the last runs."""
+    from sqlalchemy import func, select
+
+    from tracepoint.db import models as m
+
+    tables = [
+        ("vehicles", m.Vehicle),
+        ("variants", m.VehicleVariant),
+        ("sources", m.Source),
+        ("verbatims", m.Verbatim),
+        ("classifications", m.VerbatimClassification),
+        ("segments", m.VerbatimSegment),
+        ("taxonomy_level2", m.TaxonomyLevel2),
+        ("study_metrics", m.StudyMetric),
+        ("sales_rows", m.SalesVolume),
+        ("equipment_items", m.EquipmentItem),
+        ("tech_specs", m.TechSpec),
+        ("findings", m.Finding),
+        ("finding_links", m.FindingLink),
+        ("llm_calls", m.LlmCall),
+        ("runs", m.Run),
+        ("audit_events", m.AuditEvent),
+    ]
+    engine = make_engine()
+    with Session(engine) as session:
+        typer.echo(f"database: {engine.url.render_as_string(hide_password=True)}")
+        for name, model in tables:
+            n = session.scalar(select(func.count()).select_from(model))
+            typer.echo(f"  {name:18s} {n:>8}")
+        last = session.scalars(select(m.Run).order_by(m.Run.started_at.desc()).limit(5)).all()
+        if last:
+            typer.echo("last runs:")
+            for r in last:
+                typer.echo(f"  {r.id}  {r.status}")
+
+
 @app.command("settings")
 def show_settings() -> None:
     """Print the effective settings (secrets masked)."""

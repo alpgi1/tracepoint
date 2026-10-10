@@ -1,0 +1,25 @@
+# Local infrastructure for Tracepoint: PostgreSQL 16 with a persistent volume.
+# Started by ./start.sh (or `docker compose up -d`). Override the host port with
+# TRACEPOINT_PG_PORT=5433 if 5432 is taken on your machine.
+services:
+  postgres:
+    image: postgres:16
+    container_name: tracepoint-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: tracepoint
+      POSTGRES_PASSWORD: tracepoint
+      POSTGRES_DB: tracepoint
+    ports:
+      - "${TRACEPOINT_PG_PORT:-5432}:5432"
+    volumes:
+      - tracepoint-pgdata:/var/lib/postgresql/data
+      - ./scripts/db/init:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U tracepoint -d tracepoint"]
+      interval: 5s
+      timeout: 5s
+      retries: 24
+
+volumes:
+  tracepoint-pgdata:
