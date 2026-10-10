@@ -135,12 +135,12 @@ uses the one accent.
 with reduced motion. There is no other entrance.
 
 **E3, text on the landing page (2026-10-10, team decision D-040; revised the same day in step 07
-by D-045).** On first view the page shows the map and, on each market, one readout of real
-figures from `content/markets.json` (name, 2025 units, verbatims, weakest domain or lowest study
-score). Nothing else: no header, no copy, no footer. The h1, the market buttons and the status
-line exist for keyboard and assistive technology and are visually hidden; the buttons appear only
-while focused. The magnified state adds the market panel with the vehicle cards; it is a second
-state, not the first view.
+by D-045, callout cards since step 09, D-051).** On first view the page shows the map and, per
+market, one callout card of real figures from `content/markets.json` (name, 2025 units,
+verbatims, weakest domain or lowest study score) joined to the market by a connector. Nothing
+else: no header, no copy, no footer. The cards are the market buttons; the h1 and the status
+line exist for assistive technology and are visually hidden. The magnified state adds the market
+panel with the vehicle cards; it is a second state, not the first view.
 
 **E4, the card growth (2026-10-10, step 07, from the brief).** A clicked vehicle card grows its
 drawing into the vehicle screen's stage over 480 ms before the route changes. It is the one

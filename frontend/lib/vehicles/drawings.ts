@@ -6,10 +6,10 @@ import g70Side from "@/content/vehicles/G70-side.json";
 import g70Top from "@/content/vehicles/G70-top.json";
 
 /**
- * Drawings produced by scripts/vehicles/build.mjs: three alpha masks per
- * view under public/vehicles (the body as a flat wash, every line of the
- * drawing, the outer contour), tinted with CSS tokens and stacked as layers,
- * plus the silhouette box the zones are measured in.
+ * Drawings produced by scripts/vehicles/build.mjs: alpha masks per view
+ * under public/vehicles (the body as a flat wash, every line of the drawing
+ * at two sizes, the outer contour), tinted with CSS tokens and stacked as
+ * layers, plus the silhouette box the zones are measured in.
  */
 export type DrawingCode = "F70" | "G60" | "G70";
 export type DrawingView = "side" | "top";
@@ -19,7 +19,8 @@ export interface VehicleDrawing {
   name: string;
   view: DrawingView;
   source: string;
-  layers: { body: string; lines: string; contour: string };
+  /** Alpha masks: the body wash, the lines at 1600 px, the same lines thickened at 520 px for cards, the outer contour. */
+  layers: { body: string; lines: string; linesSmall: string; contour: string };
   width: number;
   height: number;
   /** Silhouette box in raster pixels: [x0, y0, x1, y1]. */

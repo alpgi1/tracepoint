@@ -7,7 +7,8 @@
  * three alpha masks the UI tints with CSS tokens, stacked as layers:
  *
  *   public/vehicles/<code>-<view>-body.png     the silhouette (a flat wash)
- *   public/vehicles/<code>-<view>-lines.png    every line of the drawing
+ *   public/vehicles/<code>-<view>-lines.png    every line of the drawing (1600 px)
+ *   public/vehicles/<code>-<view>-lines-small.png  the same lines at 520 px, thickened so they survive the card size
  *   public/vehicles/<code>-<view>-contour.png  the outer contour, heavier
  *   content/vehicles/<code>-<view>.json        size, silhouette box, scale, sources
  *
@@ -33,10 +34,13 @@ const CONTENT_OUT = join(ROOT, "content/vehicles");
 
 /** Width of every rasterised view, px. Shown at most ~1100 px wide on screen. */
 const RASTER_WIDTH = 1600;
+/** Width of the small lines mask for the cards (shown at ~420 px), and the stroke floor that keeps its lines at least a pixel wide. */
+const SMALL_WIDTH = 520;
+const SMALL_MIN_STROKE_PT = 0.8;
 /** Ink coverage above which a pixel is a line for the silhouette flood. */
 const INK = 0.25;
 /** Half-width of the outer contour and the feather of the body wash, px of the 1600 px raster. */
-const CONTOUR_RADIUS = 2;
+const CONTOUR_RADIUS = 1.5;
 const FEATHER = 0.6;
 /** Paper and ink levels of the press raster (grey 0..255), and the gamma that thins its strokes. */
 const PAPER = 235;
@@ -194,6 +198,18 @@ function stripDrawingAnnotations(svg) {
     });
 }
 
+/** Raise every stroke to at least `minPt` and give filled drawing shapes a stroke, so a small render keeps whole lines. */
+function thickenStrokes(svg, minPt) {
+  return svg.replace(/<path\b[^>]*\/?>/g, (tag) => {
+    const sw = /stroke-width="([^"]+)"/.exec(tag);
+    if (sw) return parseFloat(sw[1]) < minPt ? tag.replace(sw[0], `stroke-width="${minPt}"`) : tag;
+    if (/fill="rgb\(0%, 0%, 0%\)"/.test(tag) || !/fill=/.test(tag)) {
+      return tag.replace("<path", `<path stroke="rgb(0%, 0%, 0%)" stroke-width="${(minPt * 0.6).toFixed(2)}" stroke-linejoin="round"`);
+    }
+    return tag;
+  });
+}
+
 function cropSvg(svg, box, width) {
   const [x, y, w, h] = box;
   const height = Math.round((width * h) / w);
@@ -202,8 +218,9 @@ function cropSvg(svg, box, width) {
 }
 
 /** Ink coverage 0..1 per pixel, rendered on white so a page background does not count. */
-async function inkFromSvg(svg, box) {
-  const cropped = cropSvg(stripAnnotations(svg), box, RASTER_WIDTH);
+async function inkFromSvg(svg, box, width = RASTER_WIDTH, minStrokePt = 0) {
+  const stripped = stripAnnotations(svg);
+  const cropped = cropSvg(minStrokePt > 0 ? thickenStrokes(stripped, minStrokePt) : stripped, box, width);
   const { data, info } = await sharp(Buffer.from(cropped))
     .flatten({ background: "#ffffff" })
     .greyscale()
@@ -227,6 +244,34 @@ function eraseShape(shape, left, top) {
   }
   const [cx, cy, r] = shape.circle;
   return `<circle cx="${cx - left}" cy="${cy - top}" r="${r}" fill="#fff"/>`;
+}
+
+/** A smaller copy of an ink raster whose lines stay at least a pixel wide: dilate by one pixel, then resize. */
+async function shrinkInk({ ink, width, height }, targetWidth) {
+  const dilated = Buffer.alloc(width * height);
+  for (let y = 0; y < height; y++) {
+    for (let x = 0; x < width; x++) {
+      let m = 0;
+      for (let dy = -1; dy <= 1; dy++) {
+        for (let dx = -1; dx <= 1; dx++) {
+          const xx = x + dx;
+          const yy = y + dy;
+          if (xx < 0 || yy < 0 || xx >= width || yy >= height) continue;
+          const v = ink[yy * width + xx];
+          if (v > m) m = v;
+        }
+      }
+      dilated[y * width + x] = Math.round(m * 255);
+    }
+  }
+  const targetHeight = Math.round((height * targetWidth) / width);
+  const { data, info } = await sharp(dilated, { raw: { width, height, channels: 1 } })
+    .resize(targetWidth, targetHeight, { kernel: "lanczos3" })
+    .raw()
+    .toBuffer({ resolveWithObject: true });
+  const out = new Float32Array(info.width * info.height);
+  for (let i = 0; i < out.length; i++) out[i] = data[i * info.channels] / 255;
+  return normalise(out, info.width, info.height);
 }
 
 async function inkFromRaster(file, view) {
@@ -348,7 +393,7 @@ function contourMask(inside, width, height) {
       if (open) edge[i] = 1;
     }
   }
-  const r = CONTOUR_RADIUS;
+  const r = Math.round(CONTOUR_RADIUS);
   const horizontal = new Uint8Array(inside.length);
   for (let y = 0; y < height; y++) {
     for (let x = 0; x < width; x++) {
@@ -431,6 +476,19 @@ async function buildView(vehicle, viewName, view) {
 
   const base = `${vehicle.code}-${viewName}`;
   await writeAlpha(join(PUBLIC_OUT, `${base}-lines.png`), raster.ink, width, height);
+  // Cards show the car at about a quarter of the raster width, where the thin lines would break up:
+  // a small mask with thickened strokes (vector) or dilated lines (raster) keeps them whole.
+  const small =
+    vehicle.source.kind === "svg"
+      ? await inkFromSvg(readFileSync(file, "utf8"), view.box, SMALL_WIDTH, SMALL_MIN_STROKE_PT)
+      : await shrinkInk(raster, SMALL_WIDTH);
+  for (const [x0, y0, x1, y1] of view.eraseRaster ?? []) {
+    const f = small.width / width;
+    for (let y = Math.floor(y0 * f); y < Math.min(Math.ceil(y1 * f), small.height); y++) {
+      for (let x = Math.floor(x0 * f); x < Math.min(Math.ceil(x1 * f), small.width); x++) small.ink[y * small.width + x] = 0;
+    }
+  }
+  await writeAlpha(join(PUBLIC_OUT, `${base}-lines-small.png`), small.ink, small.width, small.height);
   await writeAlpha(join(PUBLIC_OUT, `${base}-body.png`), body, width, height, FEATHER);
   await writeAlpha(join(PUBLIC_OUT, `${base}-contour.png`), contour, width, height, FEATHER);
   const record = {
@@ -438,7 +496,12 @@ async function buildView(vehicle, viewName, view) {
     name: vehicle.name,
     view: viewName,
     source: vehicle.source.note,
-    layers: { body: `/vehicles/${base}-body.png`, lines: `/vehicles/${base}-lines.png`, contour: `/vehicles/${base}-contour.png` },
+    layers: {
+      body: `/vehicles/${base}-body.png`,
+      lines: `/vehicles/${base}-lines.png`,
+      linesSmall: `/vehicles/${base}-lines-small.png`,
+      contour: `/vehicles/${base}-contour.png`,
+    },
     width,
     height,
     bbox,

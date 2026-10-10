@@ -196,6 +196,35 @@ docks; Spline scenes (about 1 MB runtime); theme toggles; liquid-glass buttons.
 The globe component the user supplied (`wireframe-dotted-globe`) was taken as the method and
 rewritten; what changed is listed in `03-landing-globe.md`.
 
+### 6.1 Survey for the market callouts and the vehicle screen (step 09, 2026-10-10)
+
+The team asked for 21st.dev components for the figures on the map and for the vehicle screen.
+Search through the 21st.dev API (`POST /api/search`, 33 queries: world map, dotted map, map
+markers, map label, annotation, callout, leader line, connector line, floating / info / stat /
+metric / glass / hover / tooltip card, pin label, hotspot, image hotspots, heatmap, blueprint,
+sketch, technical drawing, product annotation, spec sheet, ranking / progress / bar / data list,
+leaderboard, feature list, detail panel), 343 unique components, 24 previews reviewed on contact
+sheets (`tools/arastirma` method of the portfolio). No component draws annotated cards on a
+dotted map, and none annotates an image with zones. What was found and what was taken:
+
+| Component | What it is | Verdict |
+|---|---|---|
+| World Map 320 (Aceternity) | `dotted-map` SVG world with animated arcs, `framer-motion` | Rejected: no market layers, no zoom, arcs are the decoration the brief excluded; our canvas map already does the dotted ground |
+| Map 4158 "Global Network" | Dotted world with city pills (dot plus name) | Method: the label sits in open space beside its point; our cards do the same with figures |
+| COBE Globe 7686 (shuding) | WebGL globe, markers, arcs, labels by CSS anchor positioning | Rejected: globe (D-041); CSS anchor positioning is Chromium-only today |
+| Annotation (airbnb-visx, callout category) | `@visx/annotation`: subject, connector, label | **Method taken**: subject dot on the market, elbow connector, label card. Not installed: five visx packages for forty lines of SVG; the connector is drawn in the stage |
+| Tooltip 165 (shadcn), Hover card 143, Tooltip metrics card 4319 | Popups on hover | Rejected: the figures must be visible at rest, not on hover |
+| Contact card 4090, Info cards 1440 and 3282, Stats 3947 | Card anatomies: title, icon rows, figure tiles | Method: title, then rows of icon plus value, one hairline border, no gradient, no glow |
+| Location tag 6482 | Pill with a live dot and text swap | Rejected: animation for its own sake |
+| visx Heatmaps 2217, Thermodynamic grid 6787 | Grid heat maps | Not applicable to a body drawing |
+| Progress metric card 8617, Statistics cards | KPI tiles with charts | Candidates for the situation brief (Screen 1), not for the map |
+
+Decision D-051: the market figures are callout cards joined to the markets by elbow connectors
+(`components/landing/market-callout.tsx`, the connector in `map-stage.tsx`); the cards are the
+markets' buttons. Nothing was installed from 21st.dev; every candidate was either a different
+object (globe, popup, grid) or a method we wrote with the tokens, which is the rule the sister
+projects set (section 2, rule 10).
+
 ---
 
 ## 7. Ideas beyond the brief

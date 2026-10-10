@@ -60,7 +60,7 @@ export function VehicleCard({ market, vehicle }: VehicleCardProps) {
   return (
     <Link href={href} className="vehicle-card" onClick={onClick}>
       <div ref={drawingRef} className="vehicle-card-drawing">
-        <VehicleDrawing drawing={drawing} />
+        <VehicleDrawing drawing={drawing} size="card" />
       </div>
       <span className="vehicle-card-name">
         {vehicle.name} <span className="vehicle-card-code">{vehicle.code}</span>

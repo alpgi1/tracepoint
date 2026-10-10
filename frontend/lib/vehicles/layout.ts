@@ -6,7 +6,7 @@
 export const STAGE_TOP = 112;
 export const PAGE_PAD = 48;
 export const ASIDE_WIDTH = 400;
-export const COLUMN_GAP = 48;
+export const COLUMN_GAP = 72;
 export const STAGE_MAX_WIDTH = 1040;
 
 export interface StageRect {

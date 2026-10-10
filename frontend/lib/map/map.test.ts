@@ -43,7 +43,7 @@ describe("market outlines", () => {
 });
 
 describe("projection fit", () => {
-  it("fits the window inside the padded extent and keeps the market centres and readouts on the map", () => {
+  it("fits the window inside the padded extent and keeps the market centres and callouts on the map", () => {
     const projection = geoNaturalEarth1().fitExtent(
       [
         [16, 16],
@@ -66,7 +66,7 @@ describe("projection fit", () => {
     );
     expect(projection.scale()).toBeGreaterThan(sphere.scale() * 1.04);
     for (const region of REGIONS) {
-      for (const point of [region.view.center, region.readoutAt]) {
+      for (const point of [region.view.center, region.callout.subject, region.callout.card]) {
         const at = projection(point);
         expect(at).not.toBeNull();
         const [x, y] = at as [number, number];
@@ -76,6 +76,8 @@ describe("projection fit", () => {
         expect(y).toBeLessThan(y1);
       }
       expect(classify(region.view.center[0], region.view.center[1])).toBe(KIND_REGION + REGIONS.indexOf(region));
+      expect(classify(region.callout.subject[0], region.callout.subject[1])).toBe(KIND_REGION + REGIONS.indexOf(region));
+      expect(classify(region.callout.card[0], region.callout.card[1])).toBe(KIND_SEA); // cards sit in open water
     }
   });
 
