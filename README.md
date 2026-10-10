@@ -36,6 +36,16 @@ unchanged) and runs the test suite. It is safe to re-run.
 
 Set `TRACEPOINT_PG_PORT=5433` before starting if port 5432 is taken on your machine.
 
+Podman instead of Docker (e.g. Fedora): `systemctl --user enable --now podman.socket`, then
+`export DOCKER_HOST=unix:///run/user/$UID/podman/podman.sock` before `./start.sh`.
+
+## Where the data lives
+
+The database is derived, never the source of truth: `./start.sh --reset` on any machine rebuilds
+it from `docs/` (raw inputs), `config/` (authored mappings) and
+`config/classifications/*_gaps.jsonl` (labels for the rows the source files left unclassified).
+Anything that should survive a rebuild must therefore be committed as a file under `config/`.
+
 ## After the start
 
 ```bash

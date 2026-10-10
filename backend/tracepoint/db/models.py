@@ -378,6 +378,57 @@ class FindingLink(Base):
 
 
 # --------------------------------------------------------------------------------------------
+# Requirements (Phase 4): customer-facing, actionable statements derived from findings
+# --------------------------------------------------------------------------------------------
+
+
+class Requirement(Base):
+    __tablename__ = "requirement"
+
+    id: Mapped[str] = mapped_column(String(60), primary_key=True)  # REQ-G60-US-IC-01
+    vehicle_code: Mapped[str] = mapped_column(ForeignKey("vehicle.code"))
+    market_code: Mapped[str | None] = mapped_column(ForeignKey("market.code"))
+    domain_key: Mapped[str] = mapped_column(String(40))
+    title: Mapped[str] = mapped_column(String(200))
+    statement: Mapped[str] = mapped_column(Text)
+    recommend: Mapped[bool] = mapped_column(Boolean)  # the agent's 0/1 "implement?" proposal
+    recommend_rationale: Mapped[str] = mapped_column(Text)
+    horizon: Mapped[str] = mapped_column(String(2))  # H1 / H2
+    horizon_rationale: Mapped[str] = mapped_column(Text)
+    markets: Mapped[list[str]] = mapped_column(JSONB, default=list)  # region applicability
+    criteria: Mapped[list[dict[str, Any]]] = mapped_column(JSONB, default=list)
+    assumptions: Mapped[list[str]] = mapped_column(JSONB, default=list)
+    uncertainties: Mapped[list[str]] = mapped_column(JSONB, default=list)
+    evidence_level: Mapped[str | None] = mapped_column(String(2))  # best level of its findings
+    priority_score: Mapped[float | None] = mapped_column(Float)  # Phase 5
+    status: Mapped[str] = mapped_column(
+        String(16), default="proposed"
+    )  # proposed / approved / rejected / deferred
+    version: Mapped[int] = mapped_column(Integer, default=1)
+    created_by: Mapped[str] = mapped_column(String(80))
+    created_run_id: Mapped[str | None] = mapped_column(ForeignKey("run.id"))
+    updated_run_id: Mapped[str | None] = mapped_column(ForeignKey("run.id"))
+
+    findings: Mapped[list[RequirementFinding]] = relationship(
+        back_populates="requirement",
+        cascade="all, delete-orphan",
+        order_by="RequirementFinding.id",
+    )
+
+
+class RequirementFinding(Base):
+    __tablename__ = "requirement_finding"
+    __table_args__ = (UniqueConstraint("requirement_id", "finding_id"),)
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    requirement_id: Mapped[str] = mapped_column(ForeignKey("requirement.id"))
+    finding_id: Mapped[str] = mapped_column(ForeignKey("finding.id"))
+    role: Mapped[str] = mapped_column(String(16))  # primary / supporting / context
+
+    requirement: Mapped[Requirement] = relationship(back_populates="findings")
+
+
+# --------------------------------------------------------------------------------------------
 # Runs, LLM calls, audit
 # --------------------------------------------------------------------------------------------
 

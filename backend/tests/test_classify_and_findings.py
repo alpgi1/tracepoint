@@ -106,6 +106,39 @@ def test_gap_classification_with_fake_provider(engine, ingested):
         assert prop_rows and prop_rows[0].status == "proposed"
 
 
+def test_import_gap_file_is_idempotent(engine, ingested, tmp_path):
+    import json
+
+    from tracepoint.classify.gap import OFFLINE_MODEL, import_gap_file
+
+    label = {
+        "feedback_type": "Likes",
+        "level2": "Towing eye",
+        "level3": "Like: function",
+        "confidence": 0.8,
+        "rationale": "test",
+    }
+    with Session(engine) as session, start_run(session, "test.classify.import") as run:
+        vid = select_targets(session, "G70", limit=1)[0].id
+        path = tmp_path / "G70_gaps.jsonl"
+        path.write_text(
+            json.dumps({"id": vid, "is_product_feedback": True, "labels": [label]})
+            + "\n"
+            + json.dumps({"id": "G70-UNKNOWN", "is_product_feedback": False, "labels": []})
+            + "\n"
+        )
+        stats = import_gap_file(session, run, "G70", path)
+        assert stats["classified"] == 1 and stats["skipped"] == 1
+        row = session.scalars(
+            select(VerbatimClassification).where(
+                VerbatimClassification.verbatim_id == vid, VerbatimClassification.origin == "llm"
+            )
+        ).one()
+        assert row.status == "canonical" and row.model_id == OFFLINE_MODEL
+        again = import_gap_file(session, run, "G70", path)
+        assert "classified" not in again and again["skipped"] == 2
+
+
 def test_segmentation_with_fake_provider(engine, ingested):
     provider = FakeProvider(
         lambda kw: {
