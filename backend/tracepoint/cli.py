@@ -124,15 +124,39 @@ def ingest_documents_cmd() -> None:
         _echo("group report", ingest_document(session, run))
 
 
+@ingest_app.command("external")
+def ingest_external_cmd(
+    fetch: bool = typer.Option(
+        False,
+        "--fetch",
+        help="Fetch the pages that are not in data/external/ yet, check every claim against "
+        "its page and rewrite config/external/fetched.json. Without it nothing leaves the "
+        "machine.",
+    ),
+    only: list[str] = typer.Option(
+        None, "--only", help="With --fetch: source ids of the lists, e.g. P-01 (repeatable)."
+    ),
+) -> None:
+    """Load the team's external source lists (docs/trend_sources.md,
+    docs/external_sources_v2.json) as far as they are in scope: sources, claims with their
+    verification, and the page text of the sources about our vehicles."""
+    from tracepoint.ingest.external import ingest_external
+
+    with Session(make_engine()) as session, start_run(session, "ingest.external") as run:
+        _echo("external", ingest_external(session, run, fetch=fetch, only=only))
+
+
 @ingest_app.command("all")
 def ingest_all() -> None:
-    """Run the complete internal ingestion in order."""
+    """Run the complete ingestion in order. External evidence is loaded from the committed
+    files and the local page cache; nothing is fetched."""
     ingest_reference()
     ingest_verbatims_cmd(VEHICLES_WITH_FEEDBACK)
     ingest_studies_cmd()
     ingest_sales_cmd()
     ingest_optionlists_cmd(VEHICLES_WITH_CATALOGUE)
     ingest_documents_cmd()
+    ingest_external_cmd(False, None)
     classify_import(VEHICLES_WITH_FEEDBACK)
 
 

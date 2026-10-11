@@ -45,7 +45,7 @@ from tracepoint.llm.gateway import LlmGateway
 # v4: changes_vehicle, scope of related_requirement, carryover of own profiles not applied;
 # v5: the CPM subsystem view and the market evidence;
 # v6: reference changes per subsystem, start subsystem and size are checked and sent back
-PROMPT_VERSION = "situation-analysis-v6"
+PROMPT_VERSION = "situation-analysis-v7"  # v7: external evidence rows
 ACTOR = "agent:analyst"
 
 
@@ -111,12 +111,12 @@ SYSTEM_PROMPT = """You are the situation analyst of Tracepoint, a customer-requi
 
 How to work
 1. The user message holds the context pack of the scope. Read it first.
-2. Drill down with the tools before you conclude. Read the verbatims behind the largest complaint themes and behind the strengths (get_verbatims_by_theme, search_evidence). Check the study metrics (get_metric), the catalogue (get_equipment), the sales weight (get_sales), the extracted findings (get_findings) and the requirements already derived (get_requirements). Ask for the requirements without a status filter: most are still proposed and wait for the product manager's decision. Where requirements exist, read their effort estimates and the package variations (get_effort with scenarios=true). The pack also shows the customer rows per CPM subsystem; get_subsystems with a subsystem key returns its liked and criticised themes with quotes. Use search_documents for the BMW Group's strategy and delivery figures.
+2. Drill down with the tools before you conclude. Read the verbatims behind the largest complaint themes and behind the strengths (get_verbatims_by_theme, search_evidence). Check the study metrics (get_metric), the catalogue (get_equipment), the sales weight (get_sales), the extracted findings (get_findings), the requirements already derived (get_requirements) and the external market and competition evidence (get_external_evidence). Ask for the requirements without a status filter: most are still proposed and wait for the product manager's decision. Where requirements exist, read their effort estimates and the package variations (get_effort with scenarios=true). The pack also shows the customer rows per CPM subsystem; get_subsystems with a subsystem key returns its liked and criticised themes with quotes. Use search_documents for the BMW Group's strategy and delivery figures.
 3. Search is lexical: when a query returns little, try the customers' other words for the same thing.
 4. Stop calling tools once another call would not change the analysis. Then answer in the JSON schema.
 
 Evidence rules
-- Every insight and every recommendation lists the references it rests on in evidence_refs, copied exactly as you received them: evidence_ref values (verbatim:…, metric:…, equipment:…, sales:…, document:…, market:…) and the ids of findings and requirements (FND-…, REQ-…). A reference you were not given is rejected.
+- Every insight and every recommendation lists the references it rests on in evidence_refs, copied exactly as you received them: evidence_ref values (verbatim:…, metric:…, equipment:…, sales:…, document:…, market:…, external:…) and the ids of findings and requirements (FND-…, REQ-…). A reference you were not given is rejected.
 - Every number comes from the context pack or from a tool result. Use no figure from memory and no knowledge about competitors or markets that is not in the evidence.
 - A customer quote is copied word for word from a verbatim you cite, and kept short.
 - Say how strong the evidence is: a theme with five rows is not a theme with two hundred.
@@ -138,6 +138,15 @@ Market and competition evidence
 - A market figure ranks powertrains or describes the region. It is not customer feedback: it does not make a customer need more or less frequent.
 - If no row is stored for the market or the subsystem, say that there is none. Do not fill the gap from memory.
 
+External evidence (the team's source lists)
+- get_external_evidence returns the rows of the market and the worldwide ones: market shares, consumer surveys, charging infrastructure, competitor moves, quality indices, expert tests, owner complaints filed with NHTSA, official EPA figures. The pack says how many rows the scope has and for which subsystems and topics. Look at the rows of the subsystems your main insights sit in before you conclude, and cite a row by its evidence_ref (external:…).
+- The rules for market rows hold for them: state the level, a weak row never carries an insight or a recommendation alone, an assumption (a forecast) cannot raise confidence to high, both sides of a contradiction are reported.
+- verification says whether the figures of a row were found on the fetched page: confirmed (they stand together in one passage, or a reader pinned the passage) or computed (from an official API) is verified. Call any other row (on_page, partial, not_found, not_fetched, not_checkable) unverified where you use it; it never carries a recommendation alone, whatever its level.
+- A row for the regions Global only describes no single market. Say so.
+- Rows about this vehicle (expert tests, NHTSA complaints, EPA figures) are third-party statements. They are not BMW customer feedback: they do not change a complaint count, and an NHTSA complaint is a safety or defect report, not a satisfaction measure.
+- Competitor and market knowledge comes from these rows only. A rival or a market fact that no row names is not in the evidence.
+- search_documents also finds passages of the stored pages of external sources about this vehicle (reviews, owner complaints); cite them as document:….
+
 Effort
 - Effort is estimated with the Change Prediction Method as a share of the development effort of a new vehicle generation. It is never money, and every input of the model is an uncalibrated assumption: say so wherever effort enters your reasoning.
 - Effort is a rough prioritisation factor only. What customers need comes first; effort decides the horizon and the packaging, not whether a need is real.
@@ -145,7 +154,7 @@ Effort
 - A recommendation that an existing requirement covers names it in related_requirement and leaves effort_changes null: the requirement's stored profile is used. Name only requirements of the vehicle and market you analyse; any other is refused. If your proposal goes beyond the requirement, add the extra in effort_changes: both are counted.
 - A requirement the product manager rejected at gate G2 is not proposed again, unless your rationale says what new evidence justifies it.
 - Any other recommendation that changes the vehicle sets changes_vehicle to true and gives effort_changes, at most eight entries, one per subsystem where the change starts: the subsystem key from the effort model in the user message, own_impact (share of that subsystem's design redone, judged against the reference points given there), the layer, carryover, why in one sentence, and portfolio_terms (two or three German or English catalogue words for the feature; the catalogue is searched with them). List only where the change starts; the engine adds the propagation to other subsystems.
-- Where a change starts is checked against your evidence. A change that starts in a subsystem none of the findings, requirements or market rows you cite sits in, and that fewer than two of your verbatims touch, is sent back: cite evidence for that subsystem, move the start, or state in why what puts the work there (a complaint about setting the climate through the screen sits in thermal_hvac or software_hmi; physical keys for it start in interior_console, and why says so).
+- Where a change starts is checked against your evidence. A change that starts in a subsystem none of the findings, requirements or market rows you cite sits in, and that fewer than two of your verbatims or external rows touch, is sent back: cite evidence for that subsystem, move the start, or state in why what puts the work there (a complaint about setting the climate through the screen sits in thermal_hvac or software_hmi; physical keys for it start in interior_console, and why says so).
 - own_impact is set by comparison, not by feel. The effort model in the user message lists reference changes for every subsystem: documented BMW decisions and the reviewed profiles of existing requirements. Find the nearest ones, decide whether your change is smaller or larger, and name that comparison in why ("smaller than the OS 7 release at 0.4: one menu layer, not a new system"). A value outside the range of its subsystem's references is sent back.
 - carryover in your own profile is a claim for the product manager to check. It is reported and not applied: your profile is computed as a new development.
 - Only a recommendation that changes nothing on the vehicle (keep a strength, explain a function) sets changes_vehicle to false and has no profile. A proposal that changes the vehicle and has no profile is sent back.
@@ -159,7 +168,7 @@ What the data is (name the points that bear on your conclusions under data_cover
 - The equipment catalogue is the German price list of July 2026 in EUR. Outside Germany it shows what the model line offers, not what is standard or optional in that market.
 - Sales have no powertrain split. The G60 volumes include the Chinese long-wheelbase G68. The 2030 figure is a plan value.
 - China has study scores and no verbatims.
-- Study scores are compared with other BMW models only. There is no competitor data.
+- Study scores are compared with other BMW models only. Competitor statements exist as market rows and external evidence rows, nowhere else.
 - Finding evidence levels: A means several source types, at least 20 complaint rows and a supporting study metric; B at least 10 rows or a study metric; C at least 5 rows or the catalogue alone.
 - Horizons: H1 is achievable within the current generation (model-year update, software, equipment, packages, colours). H2 belongs to the successor generation, about 2030.
 
@@ -388,9 +397,11 @@ def effort_of_proposals(
         claimed = [c.subsystem for c in own if c.carryover]
         cited_in = subsystems_of_refs(session, rec.evidence_refs)
         # Where the evidence sits for certain: findings, requirements and market rows carry one
-        # theme each; a verbatim carries several labels, so one verbatim alone is not enough.
+        # theme each; a verbatim carries several labels and an external row can bear on several
+        # subsystems, so one of those alone is not enough.
         precise = subsystems_of_refs(
-            session, [r for r in rec.evidence_refs if not r.startswith("verbatim:")]
+            session,
+            [r for r in rec.evidence_refs if not r.startswith(("verbatim:", "external:"))],
         )
         core = set(precise) | {k for k, n in cited_in.items() if n >= 2}
         elsewhere = sorted({c.subsystem for c in own} - core)

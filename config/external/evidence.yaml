@@ -1,0 +1,1271 @@
+# The authored reading of the team's two external source lists (Phase 2, D-007):
+#   docs/trend_sources.md            ids P-01 … X-09 as written there
+#   docs/external_sources_v2.json    ids E-01 … E-55 by position in the file
+#
+# Every entry of the two lists is decided here: it is either under `excluded` with the reason,
+# or under `sources`. `tracepoint ingest external` refuses to run when an entry is undecided,
+# so a row added to a list cannot slip into the database unread.
+#
+# What is in scope (reports/step-01, section 1.1): what customers require of the product in the
+# markets we hold data for (EU, US, CN), for the four vehicles F70, G60, G68 and G70, and the
+# market and competition around it. Out: regulation as a requirement, engineering statistics,
+# pricing, financing and business case, and anything without a customer, market or product
+# statement in it.
+#
+# A source
+#   title     English title (the lists are Turkish)
+#   origin    the institution the data comes from; two outlets that report the same study
+#             count as one source (rule 34)
+#   type      primary (the institution's own page) or secondary (reported by an outlet)
+#   fetch     auto (default for a URL that addresses a page), api, manual (the site forbids
+#             automated access or sits behind a paywall), none (nothing to fetch), with the
+#             reason in why_not_fetched
+#   vehicles  the page is about these vehicles: only then is its text stored and searchable
+#   claims    one row per statement. `statement` is the English form of what the list says,
+#             corrected where the fetched page says otherwise. `topic` groups claims that state
+#             the same thing; the evidence level counts the independent origins of a topic in
+#             a shared region. `figures` (default: the numbers of the statement, years and
+#             single digits left out) or `quote` must stand on the page for `confirmed`.
+#             A claim id is EXT-<source id>-<position>; append, never reorder.
+version: 1
+
+excluded:
+  T7-06: "Regulation of an exterior signal lamp (blue driver-assistance marker lights) that none of our four vehicles carries and no customer theme names; regulation is outside the brief."
+  T8-02: "Leasing attitudes of private buyers: a financing channel, not a requirement on the product; pricing and business case are outside the brief."
+  X-04: "Survey of industry executives about their own plans: no customer, market or product statement a requirement could rest on."
+  X-05: "Patent statistics (HMI patent families 2000 to 2023): technology activity, not customer or market evidence."
+  E-07: "Dropped by the list itself: technical defect statistics, outside the brief."
+  E-08: "Dropped by the list itself: inspection defect rates of cars two to three years old; our model generations are not in it."
+  E-23: "Dropped by the list itself: crash safety and repair cost, outside the brief."
+
+sources:
+  # ---- Powertrain share (primary statistics) ------------------------------------------------
+  P-01:
+    title: ACEA, new car registrations in the EU, full year 2025
+    origin: ACEA
+    claims:
+      - statement: "EU new car registrations 2025 by powertrain: battery electric 17.4 %, plug-in hybrid 9.4 %, hybrid 34.5 %, petrol 26.6 %, diesel 8.9 %."
+        quote: "Battery-electric cars accounted for 17.4% of the EU market share in 2025"
+        kind: market_share
+        subsystems: [powertrain]
+        topic: powertrain_mix
+  P-02:
+    title: ACEA, new car registrations January to August 2026, reported by electrive
+    origin: ACEA
+    type: secondary
+    claims:
+      - statement: "EU new car registrations January to August 2026: battery electric 21.7 %, plug-in hybrid 10.0 %, hybrid 36.6 %; in August 2026 battery electric cars reached 27.7 %."
+        quote: "The market share of fully electric cars consequently rose from 15.8 to 21.7 per cent"
+        kind: market_share
+        subsystems: [powertrain]
+        topic: powertrain_mix
+  P-03:
+    title: CPCA, passenger car retail sales in China, full year 2025, reported by CnEVPost
+    origin: CPCA
+    type: secondary
+    claims:
+      # the list gives a full-year share of 53.9 %; the page states monthly shares only, so
+      # the list's figure is its own computation and is not repeated as a fact
+      - statement: "China 2025: retail sales of new energy vehicles reached 12.81 million (up 17.6 %); their share of passenger car retail was 59.1 % in December 2025, and 39.1 % at luxury brands."
+        kind: market_share
+        subsystems: [powertrain]
+        topic: powertrain_mix
+        quote: "China's NEV retail sales reached 12.81 million units"
+  P-04:
+    title: CPCA, passenger car retail sales in China, August 2026, reported by CnEVPost
+    origin: CPCA
+    type: secondary
+    claims:
+      - statement: "China August 2026: new energy vehicles reached a record 65.2 % of passenger car retail sales, while plug-in hybrid sales fell 29.6 % and range-extender sales 22.2 % year on year."
+        quote: "penetration hits record 65.2%"
+        kind: market_share
+        subsystems: [powertrain]
+        topic: powertrain_mix
+  P-05:
+    title: US Energy Information Administration, Today in Energy, light-duty vehicle sales 2025
+    origin: EIA
+    claims:
+      - statement: "US 2025: hybrid, plug-in hybrid and battery electric vehicles together about 22 % of new light-duty vehicle sales; battery electric 7.5 %, plug-in hybrid 1.6 %."
+        quote: "About 22% of light-duty vehicles sold in 2025 in the United States were hybrid, battery electric"
+        kind: market_share
+        subsystems: [powertrain]
+        topic: powertrain_mix
+  P-06:
+    title: US Energy Information Administration, Today in Energy, sales in the second quarter of 2026
+    origin: EIA
+    claims:
+      - statement: "US second quarter 2026: hybrids a record 16 % of new light-duty vehicle sales, battery electric 6 %, plug-in hybrid 1.4 %."
+        kind: market_share
+        subsystems: [powertrain]
+        topic: powertrain_mix
+      - statement: "In the US luxury segment battery electric vehicles were 14 % of sales in the second quarter of 2026, down from 22 % a year earlier."
+        kind: market_share
+        subsystems: [powertrain]
+        topic: powertrain_mix
+  P-07:
+    title: Argonne National Laboratory, light-duty electric drive vehicle monthly sales updates
+    origin: Argonne National Laboratory
+    claims:
+      - statement: "US: plug-in vehicles were about 9.1 % of light-duty sales in 2025; in August 2026 hybrids sold about 216,000 units and the plug-in share was 7.7 %."
+        kind: market_share
+        subsystems: [powertrain]
+        topic: powertrain_mix
+  P-08:
+    title: Benchmark Mineral Intelligence (Rho Motion data), global EV sales August 2026
+    origin: Rho Motion
+    claims:
+      - statement: "Global sales of electric vehicles (battery electric and plug-in hybrid) reached 1.83 million in August 2026; year to date Europe is up 29 %, China down 12 % and North America down 21 %."
+        quote: "leaving the region down 21% year-to-date"
+        kind: market_share
+        subsystems: [powertrain]
+        regions: [Global, EU, CN, US]
+        topic: powertrain_mix
+
+  # ---- Electrification experience -----------------------------------------------------------
+  T5-01:
+    title: BloombergNEF Electric Vehicle Outlook 2026, executive summary
+    origin: BloombergNEF
+    claims:
+      - statement: "BloombergNEF outlook 2026: electric vehicles reach 38 % of global passenger car sales in 2030, 76 % in China and 58 % in Germany; the forecast for the US in 2040 was cut from 71 % to 57 %."
+        quote: "pushes US passenger EV adoption down to 57% by 2040, compared to 71% in the previous outlook"
+        kind: market_share
+        subsystems: [powertrain]
+        topic: ev_outlook
+        basis: assumption
+  T5-02:
+    title: BCG, Changing Lanes, EV strategies in the US, Europe and China
+    origin: BCG
+    claims:
+      - statement: "BCG outlook: by 2030 plug-in vehicles reach about 80 % of sales in China and about 60 % in Europe but stay below 30 % in the US, where full hybrids grow from 15 % to 28 %."
+        quote: "Sales of HEVs are set to increase from 15% in 2025 to 28% in 2030"
+        kind: market_share
+        subsystems: [powertrain]
+        topic: ev_outlook
+        basis: assumption
+  T5-03:
+    title: IEA Global EV Outlook 2026, trends in electric cars
+    origin: IEA
+    claims:
+      - statement: "Electric car sales share 2025: China about 55 %, Europe 28 %, United States about 10 %."
+        quote: "Close to 55% of new cars sold in China were electric in 2025"
+        kind: market_share
+        subsystems: [powertrain]
+        regions: [Global, CN, EU, US]
+        topic: powertrain_mix
+      # the list also names first 1,000 V models; the page does not say so, and it is left out
+      - statement: "The average range of battery electric cars is almost 380 km and has plateaued in recent years."
+        kind: market_context
+        subsystems: [hv_battery]
+        topic: range_offered
+  T5-04:
+    title: IEA charging infrastructure data, reported by EV Infrastructure News
+    origin: IEA
+    type: secondary
+    claims:
+      # corrected against the page: the list has Europe at about 15, the page gives the EU 11
+      # (15 is the worldwide ratio expected for 2035)
+      - statement: "1.8 million public charging points were added worldwide in 2025, a rise of 33 %. Electric cars per public charging point at the end of 2025: China ten, EU 11, United States 33."
+        kind: infrastructure
+        subsystems: [charging]
+        topic: charging_infrastructure
+        figures: ["1.8", "11", "33"]
+        quote: "the US had 33 electric LDVs per public chargepoint"
+  T5-05:
+    title: Shell Recharge Driver Survey 2026
+    origin: Shell
+    claims:
+      - statement: "Drivers without an electric car who consider one: Europe 40 % (unchanged), United States 27 % (2025: 31 %)."
+        kind: consumer_pull
+        subsystems: [powertrain]
+        regions: [EU, US]
+        topic: ev_purchase_intent
+      - statement: "More than 70 % of electric car drivers in the US and in China say public charging has become more reliable; drivers in the EU and the US lean towards plug-in hybrids."
+        kind: consumer_pull
+        subsystems: [charging]
+        topic: charging_experience
+  T5-06:
+    title: EY Mobility Consumer Index 2025, press release
+    origin: EY
+    claims:
+      - statement: "Worldwide purchase intent for the next 24 months: combustion 50 % (up 13 points), battery electric 14 % (down 10 points); the main concerns are range (29 %) and charging infrastructure (28 %)."
+        quote: "50% of global car buyers intend to purchase an ICE vehicle in the next 24 months"
+        kind: consumer_pull
+        subsystems: [powertrain, hv_battery, charging]
+        topic: ev_purchase_intent
+  T5-07:
+    title: S&P Global Mobility, 2025 electrification consumer survey
+    origin: S&P Global Mobility
+    claims:
+      - statement: "Consumers are willing to wait 30 minutes to an hour for a charging session and accept an average minimum range of 300 miles (480 km); more than half are interested in battery swapping."
+        kind: consumer_pull
+        subsystems: [hv_battery, charging]
+        topic: range_expectation
+  T5-08:
+    title: S&P Global Mobility, light vehicle powertrain outlook 2026
+    origin: S&P Global Mobility
+    claims:
+      - statement: "S&P Global Mobility forecast: battery electric share in Europe 14 % in 2025, 19 % in 2026 and 24 % in 2027; hybrids grow worldwide."
+        kind: market_share
+        subsystems: [powertrain]
+        topic: ev_outlook
+        basis: assumption
+  T5-09:
+    title: Roland Berger EV Charging Index 2026
+    origin: Roland Berger
+    claims:
+      # the list's second figure (about half of China's public network is fast charging) is not
+      # on the page; the page's own count of new charge points differs from the IEA's 1.8 million
+      - statement: "Europe: more than half of all fast charge points are ultra-fast (150 kW or more), up from around 25 % five years ago. Roland Berger counts about 1.1 million new public charge points worldwide in 2025."
+        kind: infrastructure
+        subsystems: [charging]
+        regions: [Global, EU]
+        topic: charging_infrastructure
+        figures: ["150", "25", "1.1"]
+        quote: "more than half of all fast charge points are now ultra-fast capable"
+  T5-10:
+    title: China National Energy Administration charging data, reported by Gasgoo
+    origin: China National Energy Administration
+    type: secondary
+    claims:
+      - statement: "China had 21.48 million charging connectors at the end of March 2026 (up 46.9 % year on year): 4.86 million public and 16.62 million private."
+        kind: infrastructure
+        subsystems: [charging]
+        topic: charging_infrastructure
+  T5-11:
+    title: BMW Group, announcement of the Neue Klasse iX3
+    origin: BMW Group
+    claims:
+      - statement: "BMW's Neue Klasse iX3: up to 805 km WLTP range, charging at up to 400 kW, up to 372 km of range added in 10 minutes. It is the technology the successors of our vehicles can draw on."
+        quote: "With a range of up to 805 kilometres (WLTP) and a peak charging rate of 400 kW"
+        kind: bmw_offer
+        subsystems: [hv_battery, charging]
+        topic: fast_charging_tech
+        figures: ["805", "400", "372"]
+  T5-12:
+    title: BYD, Super e-Platform with megawatt flash charging
+    origin: BYD
+    claims:
+      - statement: "BYD's Super e-Platform charges at 1,000 kW, about 400 km of range in 5 minutes; BYD plans more than 4,000 flash-charging stations in China."
+        quote: "5 minutes of charging for 400 kilometers of range"
+        kind: competitor_move
+        subsystems: [charging, hv_battery]
+        topic: fast_charging_tech
+
+  # ---- Ownership model and offer ------------------------------------------------------------
+  T8-01:
+    title: J.D. Power Valuation Services and Autovista24, European used-car values 2026
+    origin: J.D. Power Valuation Services
+    claims:
+      - statement: "Europe: after 36 months and 60,000 km battery electric cars hold the lowest residual value in every market (Germany: 37.1 % against 48.3 % for petrol); a further decline is expected until 2028."
+        kind: market_context
+        subsystems: [powertrain]
+        topic: residual_values
+        figures: ["37.1", "48.3"]
+  T8-03:
+    title: Cubic3, consumer and OEM attitudes to software-defined vehicles
+    origin: Cubic3
+    claims:
+      - statement: "25 % of drivers have paid for a digital in-car service (44 % of those aged 18 to 24); they expect to pay 7.70 US dollars a month where car makers assume 11; 51 % would pay for services such as automated driving."
+        kind: consumer_pull
+        subsystems: [software_hmi]
+        topic: connected_services_pay
+        figures: ["25", "44", "7.70", "11", "51"]
+  T8-04:
+    title: Tesla Full Self-Driving adoption in the second quarter of 2026, reported by Not a Tesla App
+    origin: Tesla
+    type: secondary
+    claims:
+      - statement: "Tesla reports about 1.48 million paying Full Self-Driving users (up 56 %); the function is active on about 55 % of North American deliveries."
+        kind: competitor_move
+        subsystems: [software_hmi]
+        topic: hands_free_driving
+  T8-05:
+    title: General Motors software and services in the second quarter of 2026, reported by GM Authority
+    origin: General Motors
+    type: secondary
+    claims:
+      - statement: "General Motors: Super Cruise is chosen on 30 to 40 % of the vehicles that offer it; about 22 million GM vehicles can be updated over the air."
+        kind: competitor_move
+        subsystems: [software_hmi, ee_architecture]
+        topic: hands_free_driving
+
+  # ---- Cockpit and HMI ----------------------------------------------------------------------
+  T1-01:
+    title: S&P Global Mobility, 2025 HMI consumer study
+    origin: S&P Global Mobility
+    claims:
+      - statement: "48 % of consumers prefer a mix of touchscreen and physical buttons."
+        kind: consumer_pull
+        subsystems: [software_hmi, interior_console]
+        topic: physical_controls
+      - statement: "Eighty per cent use speech recognition at least occasionally, and more favour the assistant of their phone (40 %) than the car maker's (35 %)."
+        kind: consumer_pull
+        subsystems: [software_hmi]
+        topic: voice_ai_assistant
+      - statement: "Stated willingness to pay for wireless phone charging: 261 US dollars."
+        kind: consumer_pull
+        subsystems: [ee_architecture]
+  T1-02:
+    title: Car makers return to physical buttons (Volkswagen ID. Polo cockpit, Automotive World)
+    origin: Volkswagen
+    claims:
+      - statement: "Volkswagen's new cockpit, first in the ID. Polo, returns to physical buttons, with separate buttons for the climate functions; Volkswagen says it was developed from customer feedback."
+        kind: competitor_move
+        subsystems: [software_hmi, interior_console]
+        topic: physical_controls
+        figures: []
+        quote: "developed based on customer feedback, features a return to physical buttons"
+      - statement: "By the list, not on the fetched page: Mercedes-Benz brings physical controls back on customer feedback, and Geely, BYD, Changan and Chery move the same way."
+        kind: competitor_move
+        subsystems: [software_hmi, interior_console]
+  T1-03:
+    title: BMWBLOG, BMW says users of the new iDrive do not miss the rotary controller
+    origin: BMW Group
+    type: secondary
+    claims:
+      - statement: "BMW says that users of the new iDrive in the iX3 do not ask for the rotary controller back; the direction of the air vents is set on the touchscreen."
+        kind: bmw_offer
+        subsystems: [software_hmi, thermal_hvac]
+        topic: physical_controls
+        side: against
+        quote: "not a single person has requested that we return to the physical dial"
+      - statement: "BMWBLOG expects the 7 Series facelift, due in 2026, to be the first BMW with a display on the passenger side of the dashboard."
+        kind: bmw_offer
+        subsystems: [software_hmi, interior_console]
+        vehicles: [G70]
+        basis: assumption
+        quote: "The 7 Series facelift debuting later this year is likely to introduce it first"
+  T1-04:
+    title: China MIIT standard on physical controls, reported by Paul Tan
+    origin: MIIT China
+    type: secondary
+    claims:
+      - statement: "China's industry ministry finalised a draft rule that requires physical controls for turn signals, hazard lights, horn, gear selector, driver assistance, wipers, defroster and power windows, in effect from 1 July 2027; new models have 13 months to comply and approved models 19. Regulation is context here, not a requirement."
+        kind: regulation_context
+        subsystems: [software_hmi, interior_console]
+        topic: physical_controls
+        quote: "requires automakers to implement physical controls for specific vehicle functions"
+  T1-05:
+    title: ResearchInChina, China head-up display report
+    origin: ResearchInChina
+    claims:
+      - statement: "China: head-up displays were fitted to 15.5 % of new cars in 2024; augmented-reality head-up displays passed 900,000 units (up 300 %)."
+        kind: market_share
+        subsystems: [software_hmi]
+        topic: head_up_display
+  T1-06:
+    title: Omdia, automotive display market in the first half of 2025
+    origin: Omdia
+    claims:
+      - statement: "Automotive display shipments in the first half of 2025: 120.96 million units (up 5.1 %); head-up display shipments up 25.3 %."
+        kind: market_share
+        subsystems: [software_hmi, interior_console]
+        topic: head_up_display
+  T1-07:
+    title: J.D. Power and Tongji University, intelligent cabin innovation index, reported by China Daily
+    origin: J.D. Power
+    type: secondary
+    claims:
+      - statement: "China: 25.3 % of owners criticise the lack of physical buttons."
+        kind: consumer_pull
+        subsystems: [software_hmi, interior_console]
+        topic: physical_controls
+      - statement: "China: 56.5 % use AI-based vehicle control less, naming reliability."
+        kind: consumer_pull
+        subsystems: [software_hmi]
+        topic: voice_ai_assistant
+        side: against
+
+  # ---- In-car AI and digital services -------------------------------------------------------
+  T2-01:
+    title: Deloitte, 2026 Global Automotive Consumer Study
+    origin: Deloitte
+    claims:
+      - statement: "Likely to use AI personalisation in the car: China 76 %, United States 46 %, United Kingdom 42 %, Germany 34 %."
+        kind: consumer_pull
+        subsystems: [software_hmi]
+        regions: [EU, US, CN]
+        topic: voice_ai_assistant
+      - statement: "Would keep the car longer because of over-the-air updates: China 72 %, United States 52 %, Germany 36 %."
+        kind: consumer_pull
+        subsystems: [software_hmi, ee_architecture]
+        regions: [EU, US, CN]
+        topic: over_the_air_updates
+      - statement: "Concerned about the data the car collects: Germany 58 %, United States 62 %, China 44 %."
+        kind: consumer_pull
+        subsystems: [software_hmi]
+        regions: [EU, US, CN]
+        topic: data_privacy
+  T2-02:
+    title: McKinsey, China auto consumer insights 2025
+    origin: McKinsey
+    claims:
+      - statement: "China: technology upgrades raise purchase intent; by the list, 84 % expect a proactive AI assistant in the 2026 edition."
+        kind: consumer_pull
+        subsystems: [software_hmi]
+        topic: voice_ai_assistant
+  T2-03:
+    title: McKinsey, how consumers perceive in-car connectivity and digital services (2023)
+    origin: McKinsey
+    claims:
+      - statement: "54 % of Chinese buyers would change brand for a better digital experience (Germany and the US below 40 %); 30 % value a personal assistant."
+        kind: consumer_pull
+        subsystems: [software_hmi]
+        regions: [Global, CN, EU, US]
+        topic: digital_experience
+  T2-04:
+    title: Counterpoint Research, connected car outlook
+    origin: Counterpoint Research
+    claims:
+      - statement: "94 % of the new cars sold in 2030 will be connected."
+        kind: market_share
+        subsystems: [ee_architecture, software_hmi]
+        basis: assumption
+  T2-05:
+    title: Gasgoo Institute, Chinese smart cockpits report
+    origin: Gasgoo
+    claims:
+      - statement: "China: smart cockpits are in more than 80 % of passenger cars; the market is put at 330 billion yuan in 2030."
+        kind: market_share
+        subsystems: [software_hmi]
+        topic: smart_cockpit_china
+  T2-06:
+    title: BMW Group press, the iX3 at CES 2026 (the list's compilation of AI assistant moves)
+    origin: BMW Group
+    claims:
+      - statement: "BMW showed its AI-powered Intelligent Personal Assistant with Alexa+ technology for the first time at CES 2026, in the iX3; by the list it comes to Germany and the US in the second half of 2026."
+        kind: bmw_offer
+        subsystems: [software_hmi]
+        regions: [EU, US]
+        topic: voice_ai_assistant
+        quote: "AI-powered BMW Intelligent Personal Assistant with Alexa+ technology will be presented to the public"
+      - statement: "By the list's own compilation, not from this page: Mercedes-Benz uses Google Gemini (CLA), GM and Volvo Gemini, Tesla Grok in Europe, BYD, Geely and Zeekr DeepSeek, BMW Alibaba's Qwen in China; cockpits built on large language models were the main theme of Auto China 2026."
+        kind: competitor_move
+        subsystems: [software_hmi]
+        basis: assumption
+  T2-07:
+    title: S&P Global Mobility, CES 2026 spotlights automotive technology
+    origin: S&P Global Mobility
+    claims:
+      - statement: "CES 2026: Honda, Mercedes-Benz and Volkswagen embed large language models for in-car queries; BMW and Mercedes-Benz, among others, showed spatial audio that can be upgraded over the air; monetisation still lags."
+        kind: competitor_move
+        subsystems: [software_hmi]
+        topic: voice_ai_assistant
+        quote: "Honda, Mercedes-Benz and Volkswagen are now embedding large language models for in-car queries"
+
+  # ---- Phone and ecosystem integration ------------------------------------------------------
+  T3-01:
+    title: 9to5Mac, tracker of car makers and CarPlay Ultra
+    origin: 9to5Mac
+    claims:
+      - statement: "CarPlay Ultra is on the road at Aston Martin only. As of April 2026 Acura, Ford, Genesis, Honda, Hyundai, Infiniti, Jaguar, Kia, Land Rover, Lincoln, Nissan and Porsche plan it; Mercedes-Benz abandoned it, and Audi, Volvo, Polestar and Renault decided against it. BMW is not on the list."
+        kind: competitor_move
+        subsystems: [software_hmi]
+        topic: phone_mirroring
+        quote: "here is the full list of automakers who plan to eventually support CarPlay Ultra"
+  T3-02:
+    title: McKinsey data on phone mirroring, reported by The Truth About Cars
+    origin: McKinsey
+    type: secondary
+    claims:
+      - statement: "Worldwide 30 % of electric car buyers and 35 % of combustion car buyers would not buy a car without Apple CarPlay or Android Auto."
+        kind: consumer_pull
+        subsystems: [software_hmi]
+        topic: phone_mirroring
+  T3-03:
+    title: Apple Newsroom, launch of CarPlay Ultra
+    origin: Apple
+    claims:
+      - statement: "Apple CarPlay Ultra (launched May 2025) fills all of the driver's screens, the instrument cluster included, and controls standard functions such as radio and climate; by the list, the roll-out planned for the following 12 months is late."
+        kind: competitor_move
+        subsystems: [software_hmi]
+        topic: phone_mirroring
+        figures: []
+        quote: "manage both standard vehicle functions like the car’s radio and climate"
+  T3-04:
+    title: 9to5Google, Android Auto and Google built-in
+    origin: Google
+    type: secondary
+    claims:
+      - statement: "Android Auto is in more than 250 million cars; Google built-in is on more than 50 models."
+        kind: competitor_move
+        subsystems: [software_hmi]
+        topic: phone_mirroring
+        quote: "more than 50 car models with Google built-in on the road"
+  T3-05:
+    title: Car Connectivity Consortium, digital key certifications 2025
+    origin: Car Connectivity Consortium
+    claims:
+      - statement: "The Car Connectivity Consortium certified 115 digital key products in 2025; 16 car makers were new, among them BMW, Mercedes-Benz, Audi, NIO, XPENG and Zeekr."
+        kind: competitor_move
+        subsystems: [software_hmi, ee_architecture]
+        topic: digital_key
+  T3-06:
+    title: Huawei HIMA and the HarmonyOS cockpit, reported by TechNode
+    origin: Huawei
+    type: secondary
+    claims:
+      # the list's second figure (HMS for Car in more than 70 models) is not on the page
+      - statement: "Huawei's HIMA alliance delivered 589,100 cars in 2025 (up 32 %); by the end of the year more than 1.4 million passenger cars carried Huawei's driver assistance system ADS."
+        kind: competitor_move
+        subsystems: [software_hmi]
+        topic: smart_cockpit_china
+
+  # ---- Driver assistance experience ---------------------------------------------------------
+  T4-01:
+    title: S&P Global Mobility, 2025 autonomous driving consumer survey
+    origin: S&P Global Mobility
+    claims:
+      - statement: "About two thirds of consumers want to use automated functions on the motorway; Level 2 and Level 2+ are preferred to Level 3; consumers are willing to pay extra, above all for fully automatic parking."
+        kind: consumer_pull
+        subsystems: [software_hmi]
+        topic: hands_free_driving
+        figures: []
+        quote: "approximately two-thirds of respondents expressing interest in using autonomous features for highway driving"
+  T4-02:
+    title: AutoPacific, Future Attribute Demand Study 2025
+    origin: AutoPacific
+    claims:
+      - statement: "US: 43 % want hands-free, eyes-on motorway driving (up 20 points); 33 % call it a must-have."
+        kind: consumer_pull
+        subsystems: [software_hmi]
+        topic: hands_free_driving
+  T4-03:
+    title: AutoPacific, 2026 Future Vehicle Planner, reported by WardsAuto
+    origin: AutoPacific
+    type: secondary
+    claims:
+      - statement: "US 2026: heated seats are the most wanted feature at 47 %."
+        kind: consumer_pull
+        subsystems: [seats]
+        topic: seat_comfort_features
+      - statement: "US 2026: automated parking is among the 15 most wanted features for the first time; trust in driver assistance among millennials rose from 56 % to 62 %."
+        kind: consumer_pull
+        subsystems: [software_hmi]
+        topic: hands_free_driving
+  T4-04:
+    title: CAAM, urban NOA assisted driving research report 2025, reported by 36Kr
+    origin: CAAM
+    type: secondary
+    claims:
+      - statement: "China: urban navigate-on-autopilot was on 15.1 % of insured passenger cars from January to November 2025 (up 5.6 points)."
+        kind: market_share
+        subsystems: [software_hmi]
+        topic: driver_assistance_china
+  T4-05:
+    title: Gasgoo, smart driving is far from democratised
+    origin: Gasgoo
+    claims:
+      - statement: "China: Level 2+ hardware was standard on 28 % of cars in 2025 and on more than 41 % in April 2026; about 70 % of activations are on the motorway, and 60 to 70 % of motorway users keep using it."
+        kind: market_share
+        subsystems: [software_hmi]
+        topic: driver_assistance_china
+  T4-06:
+    title: newmobility.news, BMW passes 200 million hands-free kilometres
+    origin: BMW Group
+    type: secondary
+    claims:
+      - statement: "BMW customers have driven more than 200 million kilometres hands-free with the Highway Assistant; Ford's BlueCruise has been approved for 15 European countries since 2024."
+        kind: bmw_offer
+        subsystems: [software_hmi]
+        topic: hands_free_driving
+        quote: "customers have driven more than 200 million kilometers hands-free"
+      - statement: "With the next generation of its driver assistance BMW extends the hands-free Highway Assistant in Europe from one country to more than 20; the iX3 and later models, the 7 Series among them, get it."
+        kind: bmw_offer
+        subsystems: [software_hmi]
+        vehicles: [G70]
+        topic: hands_free_driving
+        figures: []
+        quote: "including the BMW i3 and 7 Series, will offer hands-free assisted driving"
+  T4-07:
+    title: Telemetry, assisted and automated driving forecast, reported by Tech Brew
+    origin: Telemetry
+    type: secondary
+    claims:
+      - statement: "Forecast: by 2028 more than half of new vehicles will have hands-free driving."
+        kind: market_share
+        subsystems: [software_hmi]
+        topic: hands_free_driving
+        basis: assumption
+  T4-08:
+    title: Ford, BlueCruise trends 2025
+    origin: Ford
+    claims:
+      - statement: "Ford: 1.22 million vehicles carry BlueCruise, more than half a million of them added in 2025 (up 80 %); hands-free miles in the US rose 88 %. Ford cites AutoPacific: 43 % of new-car intenders want hands-free motorway driving most."
+        kind: competitor_move
+        subsystems: [software_hmi]
+        topic: hands_free_driving
+
+  # ---- Cabin comfort and well-being ---------------------------------------------------------
+  T6-01:
+    title: ResearchInChina, automotive seat innovation report 2025
+    origin: ResearchInChina
+    claims:
+      - statement: "China: front seats with ventilation, heating and massage as standard rose from 3.7 % (2024) to 5.5 % (first half of 2025) in the 200,000 to 300,000 yuan band; above 300,000 yuan the zero-gravity seat is basic equipment."
+        kind: competitor_move
+        subsystems: [seats]
+        topic: seat_comfort_features
+        figures: ["3.7", "5.5"]
+  T6-02:
+    title: Gasgoo, who set the comfort trap of zero-gravity seats
+    origin: Gasgoo
+    claims:
+      - statement: "China: models with a zero-gravity seat rose from 32 (2022) to 117 (2024), a penetration above 5 %; a safety backlash has begun."
+        kind: competitor_move
+        subsystems: [seats]
+        topic: seat_comfort_features
+  T6-03:
+    title: S&P Global Mobility AutoTechInsight, Auto China 2026 report
+    origin: S&P Global Mobility
+    claims:
+      # the list also names zero-gravity seats and switchable glass; the slides do not
+      - statement: "Auto China 2026: over 60 of the 181 premiere models are D- or E-segment SUVs and MPVs, which brings more and larger displays, above all for rear passengers; rear-seat entertainment with screens and even projectors is becoming common there (Aito M9: 32-inch rear projector)."
+        kind: competitor_move
+        subsystems: [software_hmi]
+        topic: rear_seat_entertainment
+        figures: ["181", "60"]
+        quote: "over 60 of 181 new vehicles are D/E SUV and MPV models"
+  T6-04:
+    title: Asahi Kasei, fifth global automotive consumer survey (cabin)
+    origin: Asahi Kasei
+    claims:
+      - statement: "Almost every fourth driver of a battery electric car names too much noise while driving as the most annoying part of the driving experience; by the list about one in two respondents values a quiet cabin most."
+        kind: consumer_pull
+        subsystems: [body_structure, interior_console]
+        topic: quiet_cabin
+        quote: "almost every fourth user of a BEV mentioned"
+  T6-05:
+    title: AutoPacific Future Attribute Demand Study 2025, reported by Gentherm
+    origin: AutoPacific
+    type: secondary
+    claims:
+      - statement: "US: 38 % want a heated steering wheel, 37 % heated and ventilated front seats."
+        kind: consumer_pull
+        subsystems: [seats, thermal_hvac]
+        topic: seat_comfort_features
+  T6-06:
+    title: AutoScout24 trend study on equipment features (Integral)
+    origin: AutoScout24
+    lang: de
+    claims:
+      - statement: "German-speaking buyers: seat heating is indispensable for 35 % and wanted by 44 %; a panoramic roof is indispensable for 6 %."
+        kind: consumer_pull
+        subsystems: [seats, body_structure]
+        topic: seat_comfort_features
+  T6-07:
+    title: Zhiyan Consulting, in-car fridges in China
+    origin: Zhiyan Consulting
+    lang: zh
+    claims:
+      - statement: "China: a built-in fridge was in about 7.26 % of new energy cars in 2024 and in 0.22 % of combustion cars; Dongchedi lists it on 45 of 385 new energy models (11.7 %)."
+        kind: competitor_move
+        subsystems: [interior_console]
+        topic: in_car_fridge
+  T6-08:
+    title: ifeng, the source of the claim that 5 % use the in-car fridge
+    origin: Deepal
+    type: secondary
+    lang: zh
+    claims:
+      - statement: "Deepal's chairman said at the 2026 World New Energy Vehicle Congress that only 5 % of owners use the in-car fridge, and that rear entertainment screens and in-car karaoke are used fewer than ten times a year; he gave no source and no definition, and the claim was disputed at once."
+        kind: consumer_pull
+        subsystems: [interior_console, software_hmi]
+        topic: in_car_fridge
+        side: against
+        figures: []
+        quote: "车上的冰箱用户实际使用率仅5%"
+
+  # ---- Materials, design and sustainability -------------------------------------------------
+  T7-01:
+    title: Asahi Kasei, fifth global automotive consumer survey (sustainability)
+    origin: Asahi Kasei
+    claims:
+      - statement: "In the West a sustainable car means recyclable materials and production, in China and Japan the powertrain; 35 % in Germany and the US would switch to a more sustainable brand."
+        kind: consumer_pull
+        subsystems: [interior_console]
+        topic: sustainable_materials
+  T7-02:
+    title: McKinsey luxury car survey, Shifting gears
+    origin: McKinsey
+    claims:
+      - statement: "Buyers of cars above 150,000 US dollars rank flawlessness (quality and durability) first and sustainability sixth; 71 % would not consider a Chinese luxury brand."
+        kind: consumer_pull
+        subsystems: [interior_console]
+        topic: luxury_priorities
+        figures: ["71"]
+  T7-03:
+    title: YouGov, the green premium on cars
+    origin: YouGov
+    claims:
+      - statement: "Of the consumers willing to pay more for an environmentally friendly car, 48 % would pay up to 10 % more."
+        kind: consumer_pull
+        subsystems: [interior_console]
+        topic: sustainable_materials
+  T7-04:
+    title: APLF, automotive leather production and consumption in China 2024 to 2025
+    origin: APLF
+    claims:
+      - statement: "China's automotive leather production exceeds 500 million square feet and grows 6 to 8 % in 2025; leather seats are becoming standard in mid-range SUVs."
+        kind: competitor_move
+        subsystems: [seats, interior_console]
+        topic: leather_china
+        figures: ["500"]
+  T7-05:
+    title: ResearchInChina, automotive lighting and ambient light report 2025
+    origin: ResearchInChina
+    claims:
+      - statement: "China: ambient lighting spreads to the roof and the door handles; LED low beams are on 89.1 % of cars."
+        kind: competitor_move
+        subsystems: [interior_console, exterior_design]
+        topic: ambient_lighting
+
+  # ---- Cross-cutting ------------------------------------------------------------------------
+  X-01:
+    title: BCG with NIQ-GfK, what car buyers want
+    origin: BCG
+    claims:
+      - statement: "79 % of those who use partial or high automation find it useful, against 45 % of those who do not use it."
+        kind: consumer_pull
+        subsystems: [software_hmi]
+        topic: hands_free_driving
+      - statement: "Brand loyalty: in Germany 53 % of premium customers intend to buy their brand again, across Europe and the US roughly 40 %, in China only about 10 %. Just 7 % of US consumers would consider a Chinese-made vehicle."
+        kind: consumer_pull
+        topic: brand_pull
+        figures: ["53", "40"]
+        quote: "only about 10% of consumers plan to stand by their current brand"
+  X-02:
+    title: EY Mobility Consumer Index 2025, full report
+    origin: EY
+    claims:
+      - statement: "Comfortable with Level 3 automation or higher: worldwide 26 %, China 47 %, United States 23 %, United Kingdom 21 %, Germany 19 %."
+        kind: consumer_pull
+        subsystems: [software_hmi]
+        topic: hands_free_driving
+      - statement: "47 % see the high price of connected services as a problem."
+        kind: consumer_pull
+        subsystems: [software_hmi]
+        topic: connected_services_pay
+        side: against
+  X-03:
+    title: Roland Berger, Automotive Disruption Radar 14
+    origin: Roland Berger
+    claims:
+      # the two figures are in the full PDF, which Roland Berger sends on request; the page
+      # itself gives the Chinese BEV share of the edition instead
+      - statement: "95 % in China would buy an electric car next; in Germany the consideration of battery electric cars fell from 55 % to 45 %."
+        kind: consumer_pull
+        subsystems: [powertrain]
+        regions: [CN, EU]
+        topic: ev_purchase_intent
+        figures: ["95", "45"]
+      - statement: "Consumer interest in autonomous vehicles falls while investment in them surges; interest in electric vehicles slows but holds."
+        kind: consumer_pull
+        subsystems: [software_hmi]
+        topic: hands_free_driving
+        side: against
+        quote: "Consumer interest in autonomous vehicles falls"
+  X-06:
+    title: S&P Global Mobility AutoTechInsight, CES 2026 webinar slides
+    origin: S&P Global Mobility
+    claims:
+      - statement: "Shown at CES 2026: the Mercedes-Benz CLA as the first model with the next generation of MB.DRIVE driver assistance; Ford plans a next-generation Level 2+ BlueCruise for 2027 and Level 3 eyes-off driving for 2028; AI agents in the cockpit were a common theme."
+        kind: competitor_move
+        subsystems: [software_hmi]
+        topic: hands_free_driving
+        figures: []
+        quote: "Ford to debut next-gen L2+ BlueCruise system in 2027, followed by L3 eyes-off driving in 2028"
+      - statement: "By 2027 BMW brings the technologies of the Neue Klasse platform and architecture to 40 new models and model updates."
+        kind: bmw_offer
+        subsystems: [ee_architecture, software_hmi]
+        quote: "will be integrated across 40 new models and model updates in BMW"
+  X-07:
+    title: Hurun Chinese luxury consumer survey 2026, reported by Dragon Trail
+    origin: Hurun
+    type: secondary
+    claims:
+      - statement: "China 2026: wealthy consumers plan to spend 10.2 % less than in 2025 on goods such as cars, jewellery and clothing, and 12.4 % more on services and experiences."
+        kind: consumer_pull
+        topic: brand_pull
+      - statement: "By the list, not on the fetched page: interest in BMW, Mercedes-Benz and Audi falls in China while brands linked to Huawei are preferred."
+        kind: consumer_pull
+  X-08:
+    title: Google Trends API (alpha)
+    origin: Google
+    fetch: none
+    why_not_fetched: The page describes an API in alpha with access on application; it holds no figure about a vehicle or a market.
+  X-09:
+    title: Baidu Index
+    origin: Baidu
+    fetch: none
+    why_not_fetched: A live search-interest tool behind a login; the list itself marks it as not verified, and no series has been pulled for our vehicles.
+
+  # ---- The source list (docs/external_sources_v2.json) --------------------------------------
+  E-01:
+    title: Auto Express Driver Power 2026 (owner survey, United Kingdom)
+    origin: Auto Express
+    access: Free (top 50 with comments); no raw data.
+    claims:
+      # the list also has the 1 Series in 6th place; the page names it "1 Series Mk3", the
+      # generation before the F70, so it is not our vehicle and is left out
+      - statement: "Auto Express Driver Power 2026 (UK owner survey): the BMW 5 Series (G60) is 17th of 50 with 85.38 %. Owners rank it eighth for driving pleasure, second for front-seat comfort, seventh for visibility and in the top 10 for the built-in navigation and connectivity; handling is 35th, overall quality 25th, running costs 49th, value 48th and fuel economy 32nd, and reliability is called poor."
+        kind: quality_index
+        subsystems: [seats, software_hmi, chassis, powertrain]
+        vehicles: [G60]
+        figures: ["85.38", "35", "25", "49", "48", "32"]
+        quote: "17. BMW 5 Series Mk8 - 85.38%"
+  E-02:
+    title: Euroconsumers federation (Test-Achats, UFC-Que Choisir, OCU)
+    origin: Euroconsumers
+    access: Model results for members only; the public sees brand level.
+  E-03:
+    title: What Car?, review of the BMW 5 Series saloon
+    origin: What Car?
+    vehicles: [G60]
+    access: Free.
+    claims:
+      - statement: "What Car? on the BMW 5 Series (G60): strengths are composed handling, a beautifully finished interior and class-leading infotainment; weaknesses a ride that can be fidgety, an automatic gearbox that is not the slickest, restricted rear visibility, a middle rear seat that is not very comfortable, and equipment that should be standard but costs extra."
+        kind: expert_test
+        subsystems: [software_hmi, chassis, powertrain, seats, interior_console]
+        quote: "Class-leading infotainment"
+  E-04:
+    title: ADAC Autotest (Germany)
+    origin: ADAC
+    lang: de
+    access: Free page and PDF per test; the list links the page that explains the method.
+    claims:
+      - statement: "ADAC Autotest grades (1 is best): BMW i5 1.6, BMW i7 1.7, BMW 1 Series (F70) 2.1; the tests criticise the climate operation on the touchscreen and iDrive."
+        kind: expert_test
+        subsystems: [software_hmi, thermal_hvac]
+        vehicles: [G60, G70, F70]
+        topic: physical_controls
+  E-05:
+    title: Auto Bild 100,000 km endurance test
+    origin: Auto Bild
+    fetch: none
+    why_not_fetched: By the list none of our vehicles is among the fifty cars on the page; it stays as a pointer for comparison tests.
+    access: Partly paid.
+  E-06:
+    title: Auto Motor und Sport
+    origin: Auto Motor und Sport
+    access: Partly paid; automated access is blocked, manual use only.
+  E-09:
+    title: Edmunds, 2025 BMW i5
+    origin: Edmunds
+    vehicles: [G60]
+    access: Free.
+  E-10:
+    title: J.D. Power, 2026 US APEAL study (press release)
+    origin: J.D. Power
+    access: Press release free; model scores are paid.
+    claims:
+      - statement: "J.D. Power APEAL 2026 (US): the BMW 5 Series and the BMW 7 Series rank highest in their segments."
+        kind: quality_index
+        vehicles: [G60, G70]
+  E-11:
+    title: Kelley Blue Book, 2025 BMW i5
+    origin: Kelley Blue Book
+    vehicles: [G60]
+    access: Free; prices on the page are not used (pricing is outside the brief).
+    claims:
+      - statement: "Kelley Blue Book on the 2025 BMW i5: expert rating 4.3 of 5, consumer rating 4.7, 7th among the luxury electric cars of 2025; praised for competitive ranges and its technology, criticised for a firmness that is not for everyone; heated front seats became standard for 2025."
+        kind: expert_test
+        subsystems: [hv_battery, software_hmi, chassis, seats]
+        figures: ["4.3", "4.7"]
+        quote: "Heated front seats become standard"
+  E-12:
+    title: MotorTrend Buyer's Guide
+    origin: MotorTrend
+    access: Partly paid; not verified by the list, manual use.
+  E-13:
+    title: Edmunds long-term road test, 2024 BMW i5 M60
+    origin: Edmunds
+    vehicles: [G60]
+    access: Free.
+    claims:
+      - statement: "Edmunds long-term test of a 2024 BMW i5 M60: cluttered menus, haptic buttons that do not respond while CarPlay is active, and trouble with charge planning."
+        kind: expert_test
+        subsystems: [software_hmi, charging]
+        topic: hmi_complexity
+  E-14:
+    title: Car and Driver instrumented road tests
+    origin: Car and Driver
+    access: Partly paid; not verified by the list.
+  E-15:
+    title: Consumer Reports, road test of the 2025 BMW i5
+    origin: Consumer Reports
+    fetch: manual
+    why_not_fetched: Paywall.
+    access: Paywall; the 70 mph EV range PDF is free.
+  E-16:
+    title: NHTSA Office of Defects Investigation, owner complaints (API)
+    origin: NHTSA
+    api: nhtsa_complaints
+    vehicles: [G60, G70]
+    models:
+      G60: {from_year: 2024, pattern: "^(I5|5 SERIES|530|540|550)"}
+      G70: {from_year: 2023, pattern: "^(I7|7 SERIES|740|750|760)"}
+    access: Free API without a key. Defect and safety complaints written by owners, not a satisfaction measure.
+  E-17:
+    title: 12365auto (CheZhiWang), moderated complaint database
+    origin: 12365auto
+    lang: zh
+    access: Pages are public.
+  E-18:
+    title: Autohome owner reviews (koubei), BMW 5 Series
+    origin: Autohome
+    vehicles: [G68]
+    lang: zh
+    access: Loaded by script; the page as fetched carries the rating, the review tags and the comparison, not the single reviews.
+    claims:
+      # the list also has the 7 Series at 4.36; that rating is on another page
+      - statement: "Autohome owner rating of the BMW 5 Series built in China: 4.46 of 5, behind the Audi A6L and the Volvo S90 (4.50 each) and ahead of the Mercedes-Benz C-Class (4.35); owners report 115 faults per 100 cars after 2 to 12 months."
+        kind: owner_voice
+        figures: ["4.46", "4.50", "4.35", "115"]
+      - statement: "Autohome review tags for the BMW 5 Series (number of mentions): praised are precise steering (19), strong acceleration (16), low fuel consumption (14), a roomy rear seat (13), good sound insulation (11) and the ambient lighting (8); criticised are the high centre tunnel in the rear (8), jerky low-speed driving (7), tyre noise (7), the steering weight (6), little storage space (5) and a slow infotainment system (2)."
+        kind: owner_voice
+        subsystems: [chassis, powertrain, body_structure, interior_console, software_hmi]
+        figures: ["19", "16", "14", "13", "11"]
+        quote: "后排中间地板凸起大"
+  E-19:
+    title: CACSI, China automobile customer satisfaction index (CAQ)
+    origin: China Association for Quality
+    lang: zh
+    access: Summary free; model scores need a login.
+    claims:
+      - statement: "China customer satisfaction index (CACSI): the BMW i5 shares first place among battery-electric mid-to-large sedans; the cockpit is the system with the most reported faults."
+        kind: quality_index
+        subsystems: [software_hmi]
+        vehicles: [G68]
+        topic: infotainment_quality
+  E-20:
+    title: J.D. Power China (APEAL, IQS, TXI)
+    origin: J.D. Power
+    lang: zh
+    access: Press releases and PDFs free.
+    claims:
+      - statement: "J.D. Power China initial quality study: infotainment is the area that worsened most."
+        kind: quality_index
+        subsystems: [software_hmi]
+        topic: infotainment_quality
+  E-21:
+    title: CAAM and CPCA, China sales August 2026 (Xinhua)
+    origin: CPCA
+    type: secondary
+    lang: zh
+    access: Free.
+    claims:
+      - statement: "China August 2026: new energy vehicles 65.2 % of passenger car retail sales; 38.9 % at luxury brands."
+        kind: market_share
+        subsystems: [powertrain]
+        topic: powertrain_mix
+  E-22:
+    title: CCRT, China Consumer Reported Test (CATARC)
+    origin: CATARC
+    lang: zh
+    access: Free; by the list no result for the BMW 5 or 7 Series yet.
+  E-24:
+    title: Dongchedi
+    origin: Dongchedi
+    lang: zh
+    access: App first; JSON end points. The list names it the main target for later collection.
+  E-25:
+    title: ADAC Autokatalog, BMW i5 (G60/G61)
+    origin: ADAC
+    vehicles: [G60]
+    lang: de
+    access: Free HTML.
+    claims:
+      - statement: "ADAC Autotest of the BMW i5 eDrive40 (May 2024), grades from 1 (best): overall 1.6; body 2.6, interior 2.1, comfort 1.9, drive 1.0, handling 2.2, safety 1.2, environment 1.3; running costs 4.6. Weaknesses named: material quality moderate in places, weak points in operation, only average charging power and charging time, the length of the car and the price."
+        kind: expert_test
+        subsystems: [software_hmi, charging, interior_console]
+        topic: hmi_complexity
+        figures: ["1.6", "2.6", "2.1", "1.9", "1.0", "2.2", "1.2", "1.3", "4.6"]
+        quote: "Bedienschwächen"
+  E-26:
+    title: Price lists of other car makers (Mercedes-Benz, Audi, Volvo)
+    origin: Car makers
+    access: Free PDFs. Standard equipment and option codes per trim; the competitor matrix is not curated yet.
+  E-27:
+    title: Carwow UK, BMW 5 Series specifications
+    origin: Carwow
+    vehicles: [G60]
+    access: Free.
+  E-28:
+    title: EV Database, BMW i5 eDrive40 Sedan
+    origin: EV Database
+    fetch: manual
+    why_not_fetched: The site forbids automated collection; reading it is manual work.
+    access: Viewing is free; automated collection is forbidden.
+  E-29:
+    title: Autocar, review of the BMW 5 Series
+    origin: Autocar
+    vehicles: [G60]
+    access: Free.
+    claims:
+      - statement: "Autocar on the BMW 5 Series (G60): climate controls are almost entirely digital and the shortcut keys around the iDrive controller are harder to press at a glance, so all testers looked away from the road more than they wanted; the infotainment system is called convoluted, rear legroom limited for so large a car, and material quality not what it was."
+        kind: expert_test
+        subsystems: [software_hmi, thermal_hvac, interior_console, body_structure]
+        topic: physical_controls
+        figures: []
+        quote: "climate controls are almost entirely digital"
+  E-30:
+    title: Auto Express, BMW i5 interior and technology
+    origin: Auto Express
+    vehicles: [G60]
+    access: Free.
+    claims:
+      - statement: "Auto Express on the BMW i5 (rating 4.0 of 5): superb refinement, excellent build quality and a simplified iDrive; but the air vents are hidden and the direction of the air flow is set in the infotainment menu, a complication the testers could do without while driving, and the steering feels lifeless."
+        kind: expert_test
+        subsystems: [software_hmi, thermal_hvac, chassis]
+        topic: physical_controls
+        figures: ["4.0"]
+        quote: "going into the infotainment menu to change the direction of the air flow"
+  E-31:
+    title: NAF El Prix (Norway), winter range and charging test 2026
+    origin: NAF
+    lang: "no"
+    access: Free to read.
+  E-32:
+    title: Spritmonitor.de, owners' consumption and charging logs
+    origin: Spritmonitor
+    lang: de
+    access: Free.
+  E-33:
+    title: Euro NCAP, 2026 protocol changes
+    origin: Euro NCAP
+    access: Free.
+    claims:
+      - statement: "Euro NCAP's 2026 protocols assess the driver interface: placement, clarity and ease of use of essential controls, including physical buttons for commonly used functions. A consumer rating as context, not a requirement."
+        kind: regulation_context
+        subsystems: [software_hmi, interior_console]
+        topic: physical_controls
+        figures: []
+        quote: "the availability of physical buttons for commonly used functions"
+  E-34:
+    title: McKinsey Mobility Consumer Pulse 2026, Germany (press release)
+    origin: McKinsey
+    lang: de
+    access: Free press release.
+    claims:
+      - statement: "Germany: 31 % intend to buy a battery electric car next."
+        kind: consumer_pull
+        subsystems: [powertrain]
+        topic: ev_purchase_intent
+      - statement: "Germany: buyers expect a range of 560 km or more and charging in under 20 minutes."
+        kind: consumer_pull
+        subsystems: [hv_battery, charging]
+        topic: range_expectation
+  E-35:
+    title: Deloitte Global Automotive Consumer Study 2026
+    origin: Deloitte
+    access: Free PDF; it is the study of T2-01, whose PDF is fetched there.
+  E-36:
+    title: ACEA and EAFO, registrations by powertrain and public charging points
+    origin: ACEA
+    access: Free.
+  E-37:
+    title: US EPA, fueleconomy.gov web services (API)
+    origin: US EPA
+    api: epa_fueleconomy
+    vehicles: [G60, G70]
+    models:
+      G60: {from_year: 2024, pattern: "^(i5|530|540|550)"}
+      G70: {from_year: 2023, pattern: "^(i7|740|750|760)"}
+    access: Free API and CSV.
+  E-38:
+    title: Edmunds EV range test, real range against EPA
+    origin: Edmunds
+    access: Free.
+  E-39:
+    title: Consumer Reports annual auto surveys
+    origin: Consumer Reports
+    fetch: manual
+    why_not_fetched: Paywall, and the site forbids automated collection.
+    access: Paywall; collection forbidden. By the list the only verified large owner source in the US.
+  E-40:
+    title: J.D. Power, 2026 US Initial Quality Study (press release)
+    origin: J.D. Power
+    access: Free press release.
+    claims:
+      - statement: "J.D. Power Initial Quality Study 2026 (US): quality improves in nine of ten categories; infotainment is the one that gets worse, driven largely by connectivity problems."
+        kind: quality_index
+        subsystems: [software_hmi]
+        topic: infotainment_quality
+        figures: []
+        quote: "Infotainment system problems increase year over year"
+      - statement: "J.D. Power Initial Quality Study 2026 (US): 46 % of the owners who reported a distraction problem name the infotainment system or the touchscreen as its source, 18 % the alerts of driver assistance."
+        kind: quality_index
+        subsystems: [software_hmi, interior_console]
+        topic: physical_controls
+  E-41:
+    title: J.D. Power, 2026 US Electric Vehicle Experience ownership study (press release)
+    origin: J.D. Power
+    access: Free press release.
+    claims:
+      - statement: "J.D. Power EVX Ownership 2026 (US): satisfaction of battery-electric owners is at its highest since the study began, satisfaction with public charging rose sharply, and battery electric cars score above plug-in hybrids."
+        kind: quality_index
+        subsystems: [charging]
+        topic: charging_experience
+        quote: "Public charging satisfaction jumps year over year"
+      - statement: "By the list, not on the fetched page: 12 % of DC fast-charging sessions fail (J.D. Power public charging study)."
+        kind: quality_index
+        subsystems: [charging]
+        figures: []
+  E-42:
+    title: Cox Automotive and Kelley Blue Book, EV sales report second quarter 2026
+    origin: Cox Automotive
+    access: Free PDF.
+    claims:
+      - statement: "US sales of the BMW i5: 964 in the second quarter of 2026 (1,434 a year earlier, down 32.8 %) and 1,488 in the first half (3,333 a year earlier, down 55.4 %)."
+        kind: market_share
+        subsystems: [powertrain]
+        vehicles: [G60]
+      - statement: "US sales of the BMW i7: 510 in the second quarter of 2026 (820 a year earlier, down 37.8 %) and 761 in the first half (1,708 a year earlier, down 55.4 %)."
+        kind: market_share
+        subsystems: [powertrain]
+        vehicles: [G70]
+      - statement: "BMW sold 6,547 electric cars in the US in the second quarter of 2026 (11,094 a year earlier, down 41.0 %), 2.5 % of the electric car market."
+        kind: market_share
+        subsystems: [powertrain]
+  E-43:
+    title: J.D. Power, 2026 US Electric Vehicle Consideration study (press release)
+    origin: J.D. Power
+    access: Free press release.
+    claims:
+      - statement: "J.D. Power EV Consideration 2026 (US): shoppers who reject an electric car name charging access (46 %) and charging time (44 %)."
+        kind: consumer_pull
+        subsystems: [charging]
+        topic: ev_purchase_intent
+  E-44:
+    title: AFDC alternative fuel stations API (US charging stations)
+    origin: US Department of Energy
+    fetch: none
+    why_not_fetched: The API needs a key and returns single stations; no claim is drawn from it yet.
+    access: Free API with a key.
+  E-45:
+    title: electrive, BMW electric cars gain Supercharger access in North America
+    origin: BMW Group
+    type: secondary
+    vehicles: [G60, G70]
+    access: Free.
+    claims:
+      - statement: "Since 10 December 2025 BMW electric cars can charge at Tesla Superchargers in the US: more than 2,000 sites with over 25,000 chargers, through an adapter or Magic Dock, billed in the My BMW app; with them BMW drivers reach around 180,000 public charging points in North America. By the list a built-in NACS port follows in 2026, first on the i5 M60."
+        kind: bmw_offer
+        subsystems: [charging]
+        figures: ["2000", "25000", "180000"]
+        quote: "BMW EVs gain Supercharger access in North America"
+  E-46:
+    title: Edmunds consumer reviews, 2025 BMW i5
+    origin: Edmunds
+    vehicles: [G60]
+    access: Free; ownership is not verified and the volume is very low.
+  E-47:
+    title: Bimmerpost, G60 owner forum
+    origin: Bimmerpost
+    fetch: manual
+    why_not_fetched: The forum restricts automated collection; by the list a source of qualitative hints only.
+    access: Free to read; collection restricted; no verification of ownership.
+  E-48:
+    title: C-ICAP smart cockpit rating (CATARC)
+    origin: CATARC
+    lang: zh
+    access: Free; item-level scores from 2026, more than 60 models.
+  E-49:
+    title: i-VISTA intelligent vehicle index (CAERI)
+    origin: CAERI
+    lang: zh
+    access: Free.
+  E-50:
+    title: C-GCAP (CATARC), cabin air quality, cold and motorway range, charging time
+    origin: CATARC
+    lang: zh
+    access: Free.
+  E-51:
+    title: Autohome, BMW 5 Series specification and equipment matrix
+    origin: Autohome
+    vehicles: [G68]
+    lang: zh
+    access: Loaded by script, hard to read automatically.
+  E-52:
+    title: Sohu Auto database, BMW 5 Series owner reviews
+    origin: Sohu Auto
+    lang: zh
+    access: Static HTML; the page pools the reviews of every model year since 2001.
+    claims:
+      - statement: "Sohu Auto lists 1,218 owner reviews for the BMW 5 Series, all model years pooled, with an overall score of 4.51 of 5."
+        kind: owner_voice
+        vehicles: [G68]
+  E-53:
+    title: J.D. Power China smart cockpit study 2025 with Tongji University, reported by NetEase
+    origin: J.D. Power
+    type: secondary
+    lang: zh
+    access: Free summary.
+    claims:
+      - statement: "China: 25.3 % of owners count the lack of dedicated buttons for common functions as a flaw; they rate physical buttons (4.11 of 5) almost as important as touch (4.17)."
+        kind: consumer_pull
+        subsystems: [software_hmi, interior_console]
+        topic: physical_controls
+  E-54:
+    title: McKinsey China auto consumer survey 2026, reported by China Daily
+    origin: McKinsey
+    type: secondary
+    access: Free.
+    claims:
+      - statement: "China 2026: 69 % call urban navigate-on-autopilot a must-have."
+        kind: consumer_pull
+        subsystems: [software_hmi]
+        topic: driver_assistance_china
+      - statement: "China 2026: 84 % expect a proactive AI assistant."
+        kind: consumer_pull
+        subsystems: [software_hmi]
+        topic: voice_ai_assistant
+  E-55:
+    title: Xiaohongshu (RED), lifestyle and design reactions
+    origin: Xiaohongshu
+    lang: zh
+    access: Login wall and strong bot protection; no verification; qualitative hints only.
+
+# The contradictions the trend list asks to keep (rule 35: both sides are shown, never averaged).
+contradictions:
+  - id: C-EU-electrification
+    for: "Registrations: the battery electric share in the EU rose from 17.4 % (2025) to 21.7 % (January to August 2026)."
+    against: "Stated intent: EY measures battery electric purchase intent 10 points lower, and Shell finds consideration in Europe unchanged at 40 %."
+    claims: [EXT-P-01-1, EXT-P-02-1, EXT-T5-06-1, EXT-T5-05-1]
+  - id: C-US-electrification
+    for: "Hybrids grow: a record 16 % of US sales in the second quarter of 2026, and BCG expects full hybrids at 28 % in 2030."
+    against: "Battery electric cars lose share: 6 % overall, and 14 % in the luxury segment after 22 % a year earlier."
+    claims: [EXT-P-06-1, EXT-P-06-2, EXT-T5-02-1]
+  - id: C-CN-electrification
+    for: "The new energy share in China is at a record 65.2 % (August 2026)."
+    against: "Plug-in hybrid and range-extender volumes fall at the same time (29.6 % and 22.2 % lower year on year)."
+    claims: [EXT-P-04-1, EXT-E-21-1]
+  - id: C-range-expectation
+    for: "Customers accept about 480 km (S&P) and new flagship models offer more than 800 km (BMW iX3: 805 km WLTP)."
+    against: "The sales-weighted average range of the electric cars actually sold is about 380 km and no longer rising (IEA)."
+    claims: [EXT-T5-07-1, EXT-T5-03-2, EXT-T5-11-1, EXT-E-34-2]
+  - id: C-cockpit-controls
+    for: "Customers and several car makers go back to physical controls (S&P: 48 % prefer a mix; Volkswagen and others; a Chinese standard from 2027)."
+    against: "BMW keeps the Neue Klasse cockpit digital and says nobody asked for the rotary controller back."
+    claims: [EXT-T1-01-1, EXT-T1-02-1, EXT-T1-03-1, EXT-T1-04-1, EXT-T1-07-1]
+  - id: C-CN-ai-cockpit
+    for: "84 % of Chinese buyers expect a proactive AI assistant (McKinsey)."
+    against: "56.5 % use AI-based vehicle control less because they do not trust its reliability (J.D. Power and Tongji)."
+    claims: [EXT-T2-02-1, EXT-T1-07-2, EXT-E-54-2]
+  - id: C-CN-fridge
+    for: "The built-in fridge spreads: about 7 % of new energy cars in China in 2024."
+    against: "How much it is used is disputed: the 5 % usage figure comes from one executive, without source or definition."
+    claims: [EXT-T6-07-1, EXT-T6-08-1]
+  - id: C-CN-zero-gravity-seat
+    for: "The zero-gravity seat spreads fast in China (32 models in 2022, 117 in 2024)."
+    against: "A safety backlash against the reclined seating position has begun."
+    claims: [EXT-T6-01-1, EXT-T6-02-1]
+  - id: C-CN-leather
+    for: "In the West sustainability is read as recyclable, leather-free materials."
+    against: "In China leather seats are becoming standard in the mid-range, and leather production grows."
+    claims: [EXT-T7-01-1, EXT-T7-04-1]
+  # not in the trend list: the testers of our own vehicle disagree
+  - id: C-G60-infotainment-experts
+    for: "What Car? calls the infotainment of the 5 Series class-leading, and Auto Express finds iDrive simplified."
+    against: "Autocar calls it convoluted and reports that all testers had to look away from the road; ADAC names weak points in operation."
+    claims: [EXT-E-03-1, EXT-E-30-1, EXT-E-29-1, EXT-E-25-1]

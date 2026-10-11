@@ -30,6 +30,7 @@ repository root (see `.env.example`).
 | `tracepoint taxonomy extract` | extract the canonical VFC lists and apply the authored domain map and polarity rules |
 | `tracepoint ingest reference` | load vehicles, markets, countries and the taxonomy from `config/` |
 | `tracepoint ingest verbatims` / `studies` / `sales` / `optionlists` / `documents` / `all` | ingest the input files (idempotent per vehicle); `documents` reads the BMW Group Report page by page and is skipped while the file is unchanged |
+| `tracepoint ingest external [--fetch] [--only P-01]` | load the team's external source lists (`docs/trend_sources.md`, `docs/external_sources_v2.json`) as far as `config/external/evidence.yaml` puts them in scope: sources, claims with the result of the check against their page, and the page text of sources about our vehicles. Without `--fetch` nothing leaves the machine (also run by `ingest all`); `--fetch` downloads what is missing in `data/external/`, re-checks every claim and rewrites `config/external/fetched.json` |
 | `tracepoint report baseline --vehicle G60 --market US --out-dir ../reports/baseline` | baseline situation-analysis report (Markdown + JSON) |
 | `tracepoint audit export --format json\|csv [--out file]` | export the audit event log |
 | `tracepoint classify import [--vehicle G60]` | apply the committed gap labels in `config/classifications/<vehicle>_gaps.jsonl` (no API call; also run by `ingest all`) |

@@ -16,6 +16,8 @@ from sqlalchemy.orm import Session
 
 from tracepoint.db.models import Finding
 from tracepoint.effort.subsystems import (
+    external_rows,
+    external_summary,
     load_market_rows,
     subsystem_view,
     summary_rows,
@@ -23,7 +25,7 @@ from tracepoint.effort.subsystems import (
 )
 from tracepoint.reports.baseline import build_baseline
 
-CONTEXT_PACK_VERSION = "context-pack-v3"  # v3: CPM subsystems and market evidence
+CONTEXT_PACK_VERSION = "context-pack-v4"  # v4: what the external evidence of the scope holds
 _LEVEL_ORDER = case({"A": 0, "B": 1, "C": 2}, value=Finding.evidence_level, else_=3)
 
 
@@ -129,6 +131,11 @@ def build_context_pack(
         "subsystem_rows_unassigned": view["unassignedRows"] if view else 0,
         "subsystems_absent": view["absent"] if view else [],
         "market_evidence": load_market_rows(market_code) if market_code else [],
+        "external_evidence": external_summary(
+            external_rows(session, market_code, vehicle_code), vehicle_code
+        )
+        if market_code
+        else None,
         "findings": [
             {
                 "id": f.id,
@@ -212,6 +219,20 @@ def render_markdown(pack: dict[str, Any]) -> str:
             out.append(f"  - contradiction, for: {c['for']} Against: {c['against']}")
     if not pack["market_evidence"]:
         out.append("- None stored for this market.")
+    ext = pack["external_evidence"]
+    if ext:
+        out += [
+            "",
+            f"## External evidence (market {pack['market']} and worldwide rows; the rows come "
+            "from get_external_evidence)",
+            f"- {ext['rows']} rows, {ext['about_this_vehicle']} about this vehicle, "
+            f"{ext['worldwide_only']} worldwide only, {ext['not_confirmed_on_the_page']} not "
+            "confirmed on the fetched page.",
+            "- Rows per subsystem: "
+            + (", ".join(f"{k} {n}" for k, n in ext["by_subsystem"].items()) or "none")
+            + ".",
+            "- Topics: " + (", ".join(ext["topics"]) or "none") + ".",
+        ]
     out += ["", f"## Strongest findings (market {pack['market']})"]
     out += [
         f"- [{f['evidence_level']}] {f['title']} ({f['kind']}, {f['evidence_count']} evidence) `{f['id']}`"
