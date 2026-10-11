@@ -3,7 +3,7 @@
   "checkpoint_id": "01M4M7R5CB1QZ8NQZHBXF34VTQ",
   "strategy": "manual-commit",
   "branch": "claude/backend-classification-agent-requirements",
-  "checkpoints_count": 6,
+  "checkpoints_count": 8,
   "files_touched": [
     ".env.example",
     "README.md",
@@ -43,13 +43,20 @@
       "compact_transcript": "/0/transcript.jsonl",
       "content_hash": "/0/content_hash.txt",
       "prompt": "/0/prompt.txt"
+    },
+    {
+      "metadata": "/1/metadata.json",
+      "transcript": "/1/full.jsonl",
+      "compact_transcript": "/1/transcript.jsonl",
+      "content_hash": "/1/content_hash.txt",
+      "prompt": "/1/prompt.txt"
     }
   ],
   "token_usage": {
-    "input_tokens": 118,
-    "cache_creation_tokens": 253259,
-    "cache_read_tokens": 10968481,
-    "output_tokens": 107532,
-    "api_call_count": 59
+    "input_tokens": 156,
+    "cache_creation_tokens": 328238,
+    "cache_read_tokens": 12128456,
+    "output_tokens": 120155,
+    "api_call_count": 78
   }
 }
