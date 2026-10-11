@@ -1,7 +1,7 @@
 import { decideRequirement } from "@/app/actions/decide";
 import { dateTime } from "@/lib/content/format";
 import type { Requirement } from "@/lib/content/workspace-types";
-import type { WorkspaceRead } from "@/lib/data/workspace";
+import { liveSetting, type WorkspaceRead } from "@/lib/data/workspace";
 import { site } from "@/lib/site";
 
 /*
@@ -9,7 +9,9 @@ import { site } from "@/lib/site";
  * the mandatory rationale and the three decisions as submit controls,
  * handled by the server action that forwards to the API and returns here.
  * Otherwise the three controls are disabled with the sentence that says
- * why. A notice from the URL reports the outcome of the last submission.
+ * why: this Tracepoint shows the stored data only, or the service that
+ * records decisions does not answer (D-106). A notice from the URL reports
+ * the outcome of the last submission.
  */
 export interface DecisionFormProps {
   requirement: Requirement;
@@ -67,7 +69,7 @@ export function DecisionForm({ requirement: r, read, pathname, notice }: Decisio
             </button>
           </div>
           <p className="workspace-hint">
-            {copy.note} {dateTime(read.snapshot.snapshot.takenAt)}.
+            {liveSetting() === "off" ? copy.note : copy.notAnswering} {dateTime(read.snapshot.snapshot.takenAt)}.
           </p>
         </>
       )}

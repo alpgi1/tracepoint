@@ -13,7 +13,7 @@ import type { CpmCatalogue, CpmView } from "@/lib/content/cpm-types";
 import type { MarketContent, VehicleContent } from "@/lib/content/types";
 import type { WorkspaceSnapshot } from "@/lib/content/workspace-types";
 import { effortContent, estimatePackage } from "@/lib/data/effort";
-import { liveEnabled, readWorkspace } from "@/lib/data/workspace";
+import { readWorkspace } from "@/lib/data/workspace";
 import { site } from "@/lib/site";
 import { hasStage, stageFigures, stageParams } from "@/lib/workspace/figures";
 import { type MatrixPoint, byEvidence, chosenIds, h1Note, matrixPoints, presetIds } from "@/lib/workspace/priorities";
@@ -107,7 +107,7 @@ async function PrioritiesBody({ market: m, vehicle: v, view, searchParams }: { m
             {note ? <H1Sentence note={note} market={m.code} vehicle={v.code} /> : null}
 
             <h3 className="stage-h3">{copy.builderHeading}</h3>
-            {liveEnabled() ? (
+            {read.live ? (
               <>
                 <p className="workspace-hint stage-hint">{copy.builderHint}</p>
                 <Suspense fallback={<div className="stage-pending" aria-busy="true" />}>

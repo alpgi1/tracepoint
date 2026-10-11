@@ -45,19 +45,24 @@ Documentation lives in `docs/` (start with `docs/README.md`).
 
 Run the audit and the screenshots against a built app started in another shell
 (`pnpm build && pnpm start`). Both use the Playwright Chromium installed in this environment
-(`/opt/pw-browsers/chromium`). In the live mode the screenshots make one decision (Defer on
-`REQ-G60-US-PR-03`, with a rationale that names the audit) for the states after a decision.
+(`/opt/pw-browsers/chromium`). The app goes live whenever the backend answers; start it with
+`TRACEPOINT_LIVE=0` for the stored states. In the live mode the screenshots make one decision
+(Defer on `REQ-G60-US-PR-03`, with a rationale that names the audit) for the states after a
+decision only when `TRACEPOINT_SHOTS_DECIDE=1` is set for the script, since the backend keeps it.
 
 ## Live mode
 
 | Variable | Default | Effect |
 |---|---|---|
-| `TRACEPOINT_LIVE` | unset | `1` turns the live mode on: every stage page and the exports read the backend API at request time (the requirement list with its gate statuses, the estimates, the packages, the excluded candidates, the scope's events in one filtered call, the requirement on its page, the analyst's briefs, the D2 export) and merge them into the committed snapshot, whose evidence rows stay; the gate G2 controls on the requirement page become a form whose decision a server action forwards to `POST /requirements/{id}/decision`, and the package builder asks `POST /effort/estimate`. When the API does not answer, the page shows the stored data and says so in one plain line |
+| `TRACEPOINT_LIVE` | unset | Unset: live whenever the backend API answers its health check (asked at most once every 5 s), the stored data otherwise, so gate G2 works as soon as the backend runs (D-106). `1`: always live. `0`: the stored data only, no decisions. In the live mode every stage page and the exports read the backend API at request time (the requirement list with its gate statuses, the estimates, the packages, the excluded candidates, the scope's events in one filtered call, the requirement on its page, the analyst's briefs, the D2 export) and merge them into the committed snapshot, whose evidence rows stay; the gate G2 controls on the requirement page become a form whose decision a server action forwards to `POST /requirements/{id}/decision`, and the package builder asks `POST /effort/estimate`. When the API does not answer, the page shows the stored data and says so in one plain line |
 | `TRACEPOINT_API_URL` | `http://127.0.0.1:8000` | Where the Next.js server finds the backend API, for the live mode and `pnpm snapshot` |
 
 Both are read when the server starts, not when it is built: `pnpm build` once, then
-`TRACEPOINT_LIVE=1 pnpm start` with the backend up (`cd backend && uv run uvicorn
-tracepoint.api.app:app --port 8000`). The browser never calls the API in either mode.
+`pnpm start` with the backend up (`cd backend && uv run uvicorn tracepoint.api.app:app --port
+8000`, or `./start.sh --api` from the repository root); Approve, Reject and Defer on a
+requirement page then record the decision. Without the backend the three controls are disabled
+and say that the service does not answer; a backend started later is picked up on the next page.
+The browser never calls the API in either mode.
 
 ## Layout
 

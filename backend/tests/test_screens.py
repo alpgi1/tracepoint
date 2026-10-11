@@ -88,6 +88,13 @@ def test_plain_words_for_codes():
     assert plain("Owners report seamless Tesla charging; Seamlessly done.") == (
         "Owners report trouble-free Tesla charging; Without trouble done."
     )
+    # the customer texts are customer comments on screen (D-105); a reference to one still leaves
+    assert plain("Verbatims point to firmness; 41.4 per 100 verbatims (verbatim:G60-1) here.") == (
+        "Customer comments point to firmness; 41.4 per 100 customer comments here."
+    )
+    assert plain("Some verbatim rows; no customer verbatims.") == (
+        "Some customer comment rows; no customer comments."
+    )
     assert plain(None) is None
 
 

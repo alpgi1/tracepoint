@@ -259,6 +259,12 @@ prerender that reads at request time in both modes, because the live mode is a s
 (`TRACEPOINT_LIVE=1` on `pnpm start`) and a build must not bake the mode in; the cost in the
 snapshot mode is one read of the in-memory snapshot per request.
 
+Since D-106 the live mode is the default wherever the backend answers: with `TRACEPOINT_LIVE`
+unset the Next.js server asks the API's health check (at most once every 5 s) and goes live when
+it answers, so Approve, Reject and Defer work on a plain `pnpm start` beside a running backend;
+`TRACEPOINT_LIVE=0` keeps the stored data only and `1` forces the live mode. The product manager
+had found the three controls disabled, because nothing in the documented start turned them on.
+
 ---
 
 ## 7. Requests to the backend team
