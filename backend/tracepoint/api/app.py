@@ -5,7 +5,7 @@ from __future__ import annotations
 from collections.abc import Iterator
 from typing import Any, Literal
 
-from fastapi import Depends, FastAPI, HTTPException, Query
+from fastapi import Depends, FastAPI, HTTPException, Path, Query, Response
 from pydantic import BaseModel, Field
 from sqlalchemy import func, or_, select
 from sqlalchemy.orm import Session
@@ -362,6 +362,11 @@ def runs(
 def events(
     entity_type: str | None = None,
     entity_id: str | None = None,
+    entity_prefix: str | None = Query(
+        None,
+        pattern=r"^[A-Za-z0-9:_-]{1,64}$",
+        description="Entities whose id starts with this, e.g. REQ-G60-US- for one scope",
+    ),
     run_id: str | None = None,
     action: str | None = None,
     limit: int = Query(200, le=5000),
@@ -373,6 +378,8 @@ def events(
         stmt = stmt.where(AuditEvent.entity_type == entity_type)
     if entity_id:
         stmt = stmt.where(AuditEvent.entity_id == entity_id)
+    if entity_prefix:
+        stmt = stmt.where(AuditEvent.entity_id.startswith(entity_prefix, autoescape=True))
     if run_id:
         stmt = stmt.where(AuditEvent.run_id == run_id)
     if action:
@@ -529,6 +536,26 @@ def requirements(
     ]
 
 
+@app.get("/requirements/export")
+def requirements_export(
+    vehicle: str | None = None,
+    market: str | None = None,
+    format: Literal["csv", "md"] = "csv",
+    session: Session = Depends(get_session),
+) -> Response:
+    """The requirement list (deliverable D2) as the exporter writes it, each requirement with its
+    effort estimate and its latest gate G2 decision: CSV for spreadsheets, Markdown for reading;
+    the same files as ``tracepoint requirements export``."""
+    from tracepoint.requirements.report import export_rows, render_csv, render_markdown
+
+    rows = export_rows(session, vehicle, market)
+    if format == "md":
+        scope = " ".join(x for x in (vehicle, market) if x) or "all scopes"
+        heading = f"Requirement list, {scope}"
+        return Response(render_markdown(rows, heading), media_type="text/markdown; charset=utf-8")
+    return Response(render_csv(rows), media_type="text/csv; charset=utf-8")
+
+
 @app.get("/requirements/{requirement_id}")
 def requirement_detail(
     requirement_id: str, session: Session = Depends(get_session)
@@ -609,6 +636,99 @@ def effort_model() -> dict[str, Any]:
     from tracepoint.effort.subsystems import model_catalogue
 
     return model_catalogue()
+
+
+@app.get("/overview")
+def overview(session: Session = Depends(get_session)) -> dict[str, Any]:
+    """The markets and the vehicles sold in them, as the landing page shows them: 2025 units,
+    customer verbatims, the domain with the highest complaint share, the weakest study scores
+    (``MarketsContent`` of frontend/lib/content/types.ts). Counts on the workbook labels."""
+    from tracepoint.reports.overview import build_overview
+
+    return build_overview(session)
+
+
+@app.get("/glossary")
+def glossary() -> dict[str, Any]:
+    """Every code the store and the engines use, with the words a product manager reads
+    instead: effort classes and layers, evidence levels, verification, finding kinds, the
+    decisions of a series, the checks of the effort model, subsystems and domains."""
+    from tracepoint.briefs.labels import glossary as vocabulary
+
+    return vocabulary()
+
+
+@app.get("/external")
+def external(
+    market: Literal["EU", "US", "CN", "RoW"],
+    vehicle: Literal["F70", "G60", "G68", "G70"] | None = None,
+    subsystem: str | None = Query(None, pattern=r"^[a-z_]{2,40}$"),
+    topic: str | None = Query(None, pattern=r"^[a-z_]{2,48}$"),
+    kind: str | None = Query(None, pattern=r"^[a-z_]{2,40}$"),
+    verified: bool = Query(False, description="Only rows whose figures stood on their page"),
+    session: Session = Depends(get_session),
+) -> dict[str, Any]:
+    """External evidence of a market (the team's source lists): market shares, surveys, expert
+    tests, owner voices, rivals and regulation, each with its source, how many sources agree and
+    whether its figures stood on the fetched page; rows of the market and worldwide ones, none
+    about another vehicle. The same rows the analysts read through ``get_external_evidence``."""
+    from tracepoint.briefs.external import external_view
+
+    return external_view(
+        session,
+        market,
+        vehicle,
+        subsystem=subsystem,
+        topic=topic,
+        kind=kind,
+        verified_only=verified,
+    )
+
+
+ANALYSIS_KEY = r"^[A-Z][0-9]{2}_(?:[A-Z]{2}|RoW|regions)$"
+
+
+@app.get("/analyses")
+def analyses(
+    vehicle: Literal["F70", "G60", "G68", "G70"] | None = None,
+    market: Literal["EU", "US", "CN", "RoW"] | None = None,
+    kind: Literal["situation", "series"] | None = None,
+) -> list[dict[str, Any]]:
+    """The stored analyses (``data/analyses/`` from runs on this machine, then the committed
+    ``reports/analysis/``): situation analyses of one vehicle in a market or a country, and
+    series analyses across regions, with the vehicle and market pairs each speaks about, the
+    run, the model and the headline. Reading costs no model call."""
+    from tracepoint.briefs.store import index
+
+    return index(vehicle, market, kind)
+
+
+@app.get("/analyses/{key}")
+def analysis(key: str = Path(pattern=ANALYSIS_KEY)) -> dict[str, Any]:
+    """One stored analysis as the run wrote it: the model's answer, the effort engine's
+    estimates, the citations and the trace."""
+    from tracepoint.briefs.store import load
+
+    hit = load(key)
+    if hit is None:
+        raise HTTPException(404, f"no stored analysis {key}")
+    return hit[0]
+
+
+@app.get("/analyses/{key}/brief")
+def analysis_brief(
+    key: str = Path(pattern=ANALYSIS_KEY), session: Session = Depends(get_session)
+) -> dict[str, Any]:
+    """One stored analysis as the product manager reads it: the proposals grouped into change
+    now, change with the next generation and keep (a series: its topics in the five decisions),
+    what customers say grouped by kind, every code in words, every reference resolved against
+    the evidence store, the effort engine's figures with their checks."""
+    from tracepoint.briefs.views import brief
+
+    out = brief(session, key)
+    if out is None:
+        raise HTTPException(404, f"no stored analysis {key}")
+    return out
 
 
 class EffortEstimateBody(BaseModel):

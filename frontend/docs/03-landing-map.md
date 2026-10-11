@@ -20,8 +20,9 @@ with a dot on the market's edge, with the market's name, its 2025 sales and verb
 the domain with the highest complaint share (or, where no verbatims are classified yet, the
 lowest study score), each row with its Lucide icon. The card is the market's button: hovering it
 turns the market, the connector and the card's border blue; clicking it magnifies the market.
-Every figure comes from `content/markets.json`, which `scripts/build-content.py` generates from
-the baseline reports, the sales workbook, the customer studies and the configuration; each value
+Every figure comes from `content/markets.json`, the backend's `GET /overview` written unchanged by
+`pnpm snapshot` (since step 19, D-101; until then `scripts/build-content.py` built the same file from
+the baseline reports, the sales workbook, the customer studies and the configuration); each value
 carries its source there. The pattern is the annotation of visx (subject, connector, label),
 written here with the tokens; see `01-research-notes.md` section 6.1 for the survey.
 
@@ -152,7 +153,7 @@ that turn blue on hover and vehicles as layered sketches instead of dot clouds (
 * Dot pitch and radius: `rebuild` and `drawDots` in `lib/map/renderer.ts`. Outline weight:
   `lineWidth` in `render`. Timings: `GLOW_IN`, `GLOW_OUT`, `FLIGHT_MS`.
 * Callout and panel copy: `lib/site.ts`; domain icons: `lib/content/icons.ts`. Figures:
-  regenerate `content/markets.json` with `pnpm content` after the baseline reports change.
+  refresh `content/markets.json` with `pnpm snapshot` against the running backend.
 * Card width (420 px, same for two or three vehicles) and the shared ground line of the photos
   (`.vehicle-card-stage`, aspect 1600 : 610): `globals.css`.
 

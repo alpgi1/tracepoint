@@ -3,14 +3,15 @@ import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import { CandidateFilters } from "@/components/workspace/candidate-filters";
 import { CandidateTable, ExcludedTable } from "@/components/workspace/candidate-table";
-import { NoRequirements } from "@/components/workspace/no-requirements";
+import { AnalystBrief } from "@/components/workspace/analyst-brief";
 import { SourceLine, StagePending } from "@/components/workspace/source-line";
 import { WorkspaceHeader } from "@/components/workspace/workspace-header";
 import { cpmCatalogue, cpmView } from "@/lib/content/cpm";
-import { allVehicleParams, content, domainName, marketByCode, vehicleHref, vehicleIn } from "@/lib/content/markets";
+import { content, domainName, marketByCode, vehicleHref, vehicleIn } from "@/lib/content/markets";
 import type { MarketContent, VehicleContent } from "@/lib/content/types";
 import type { WorkspaceSnapshot } from "@/lib/content/workspace-types";
-import { readWorkspace, workspaceSnapshot } from "@/lib/data/workspace";
+import { readBriefs } from "@/lib/data/analyses";
+import { readWorkspace } from "@/lib/data/workspace";
 import { site } from "@/lib/site";
 import {
   type Candidate,
@@ -21,17 +22,19 @@ import {
   groupByDomain,
   viewCandidates,
 } from "@/lib/workspace/candidates";
-import { stageFigures } from "@/lib/workspace/figures";
+import { hasStage, stageFigures, stageParams } from "@/lib/workspace/figures";
 
 /*
- * Stage 2 of the scope workspace, Structure & context: all potential
- * requirements of the vehicle in the market with the agent's 0/1 proposal
- * (plan 08 section 4.1). The body reads the workspace at request time (the
- * snapshot, or the API in the live mode, D-085) and the view and the
- * filters from the URL, behind the Suspense boundary (Cache Components).
+ * Stage 2 of the scope workspace, Structure & context (plan 08 section 4.1):
+ * the analyst's brief where an analysis speaks about the scope (step 19),
+ * then all potential requirements of the vehicle in the market with the
+ * agent's 0/1 proposal where the scope carries a requirement set. The body
+ * reads the workspace and the briefs at request time (the snapshot, or the
+ * API in the live mode, D-085) and the view and the filters from the URL,
+ * behind the Suspense boundary (Cache Components).
  */
 export function generateStaticParams() {
-  return allVehicleParams();
+  return stageParams("structure");
 }
 
 type Props = PageProps<"/markets/[market]/[vehicle]/structure">;
@@ -48,7 +51,7 @@ export default async function StructurePage({ params, searchParams }: Props) {
   const { market, vehicle } = await params;
   const m = marketByCode(market);
   const v = m ? vehicleIn(m, vehicle) : undefined;
-  if (!m || !v || !workspaceSnapshot(v.code, m.code)) notFound();
+  if (!m || !v || !hasStage("structure", v.code, m.code)) notFound();
   return (
     <Suspense fallback={<StagePending />}>
       <StructureBody market={m} vehicle={v} searchParams={searchParams} />
@@ -57,11 +60,12 @@ export default async function StructurePage({ params, searchParams }: Props) {
 }
 
 async function StructureBody({ market: m, vehicle: v, searchParams }: { market: MarketContent; vehicle: VehicleContent; searchParams: Props["searchParams"] }) {
-  const [read, query] = await Promise.all([readWorkspace(v.code, m.code), searchParams]);
+  const [read, briefs, query] = await Promise.all([readWorkspace(v.code, m.code), readBriefs(v.code, m.code), searchParams]);
   if (!read) notFound();
   const { snapshot } = read;
   const copy = site.structure;
   const figures = stageFigures(v, m.code, snapshot);
+  const hasSet = snapshot.requirements.length > 0;
   return (
     <div className="workspace">
       <WorkspaceHeader market={m} vehicle={v} current="structure" figures={figures} />
@@ -70,7 +74,24 @@ async function StructureBody({ market: m, vehicle: v, searchParams }: { market: 
           {copy.heading}
         </h2>
         <p className="workspace-hint stage-hint">{copy.hint}</p>
-        {snapshot.requirements.length === 0 ? <NoRequirements market={m} vehicle={v} /> : <Candidates snapshot={snapshot} market={m} vehicle={v} query={query} />}
+        {briefs.situation ? (
+          <AnalystBrief
+            read={briefs.situation}
+            market={m.code}
+            vehicle={v.code}
+            requirementIds={new Set(snapshot.requirements.map((r) => r.id))}
+            regionsHref={briefs.series ? `${vehicleHref(m.code, v.code)}/regions` : null}
+          />
+        ) : null}
+        <h3 className="stage-h3">{copy.candidatesHeading}</h3>
+        {hasSet ? (
+          <>
+            <p className="workspace-hint stage-hint">{copy.candidatesHint}</p>
+            <Candidates snapshot={snapshot} market={m} vehicle={v} query={query} />
+          </>
+        ) : (
+          <p className="stage-empty">{copy.noCandidates}</p>
+        )}
         <SourceLine read={read} />
       </section>
     </div>

@@ -51,10 +51,7 @@ export function DecisionForm({ requirement: r, read, pathname, notice }: Decisio
               {copy.defer}
             </button>
           </div>
-          <p className="workspace-hint">
-            {copy.liveNote} {read.api}
-            {copy.liveActor}
-          </p>
+          <p className="workspace-hint">{copy.liveNote}</p>
         </form>
       ) : (
         <>
@@ -70,7 +67,7 @@ export function DecisionForm({ requirement: r, read, pathname, notice }: Decisio
             </button>
           </div>
           <p className="workspace-hint">
-            {copy.note} {dateTime(read.snapshot.snapshot.takenAt)}.{read.reason ? ` ${site.structure.sourceFallback} ${read.api}: ${read.reason}.` : ""}
+            {copy.note} {dateTime(read.snapshot.snapshot.takenAt)}.
           </p>
         </>
       )}
@@ -86,7 +83,7 @@ function noticeText(notice: { decision?: string; reason?: string }): string | nu
     case "defer":
       return `${copy.recorded} ${copy.outcomes[notice.decision]}.`;
     case "failed":
-      return `${copy.failed}${notice.reason ? ` ${notice.reason}` : ""}`;
+      return `${copy.failed} ${notice.reason === "unreachable" ? copy.unreachable : notice.reason && notice.reason !== "error" ? `${notice.reason}.` : copy.error}`;
     case "invalid":
       return copy.invalid;
     case "note":

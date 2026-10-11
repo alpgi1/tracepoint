@@ -2,21 +2,20 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
-import { NoRequirements } from "@/components/workspace/no-requirements";
 import { EstimateView, H1Sentence, PackagesTable } from "@/components/workspace/package-table";
 import { PriorityMatrix } from "@/components/workspace/priority-matrix";
 import { SourceLine, StagePending } from "@/components/workspace/source-line";
 import { WorkspaceHeader } from "@/components/workspace/workspace-header";
 import { cpmCatalogue, cpmView } from "@/lib/content/cpm";
 import { full } from "@/lib/content/format";
-import { allVehicleParams, marketByCode, vehicleHref, vehicleIn } from "@/lib/content/markets";
+import { marketByCode, vehicleHref, vehicleIn } from "@/lib/content/markets";
 import type { CpmCatalogue, CpmView } from "@/lib/content/cpm-types";
 import type { MarketContent, VehicleContent } from "@/lib/content/types";
 import type { WorkspaceSnapshot } from "@/lib/content/workspace-types";
 import { effortContent, estimatePackage } from "@/lib/data/effort";
-import { readWorkspace, workspaceSnapshot } from "@/lib/data/workspace";
+import { liveEnabled, readWorkspace } from "@/lib/data/workspace";
 import { site } from "@/lib/site";
-import { stageFigures } from "@/lib/workspace/figures";
+import { hasStage, stageFigures, stageParams } from "@/lib/workspace/figures";
 import { type MatrixPoint, byEvidence, chosenIds, h1Note, matrixPoints, presetIds } from "@/lib/workspace/priorities";
 import { requirementHref } from "@/lib/workspace/requirements";
 
@@ -29,7 +28,7 @@ import { requirementHref } from "@/lib/workspace/requirements";
  * estimate, behind its own Suspense boundary.
  */
 export function generateStaticParams() {
-  return allVehicleParams();
+  return stageParams("priorities");
 }
 
 type Props = PageProps<"/markets/[market]/[vehicle]/priorities">;
@@ -47,7 +46,7 @@ export default async function PrioritiesPage({ params, searchParams }: Props) {
   const m = marketByCode(market);
   const v = m ? vehicleIn(m, vehicle) : undefined;
   const view = m && v ? cpmView(v.code, m.code) : undefined;
-  if (!m || !v || !view || !workspaceSnapshot(v.code, m.code)) notFound();
+  if (!m || !v || !view || !hasStage("priorities", v.code, m.code)) notFound();
   return (
     <Suspense fallback={<StagePending />}>
       <PrioritiesBody market={m} vehicle={v} view={view} searchParams={searchParams} />
@@ -79,9 +78,7 @@ async function PrioritiesBody({ market: m, vehicle: v, view, searchParams }: { m
           </Link>
           .
         </p>
-        {snapshot.requirements.length === 0 ? (
-          <NoRequirements market={m} vehicle={v} />
-        ) : (
+        {snapshot.requirements.length === 0 ? null : (
           <>
             <h3 className="stage-h3">{copy.matrixHeading}</h3>
             <p className="workspace-hint stage-hint">{copy.matrixHint}</p>
@@ -110,10 +107,16 @@ async function PrioritiesBody({ market: m, vehicle: v, view, searchParams }: { m
             {note ? <H1Sentence note={note} market={m.code} vehicle={v.code} /> : null}
 
             <h3 className="stage-h3">{copy.builderHeading}</h3>
-            <p className="workspace-hint stage-hint">{copy.builderHint}</p>
-            <Suspense fallback={<div className="stage-pending" aria-busy="true" />}>
-              <Builder snapshot={snapshot} market={m} vehicle={v} catalogue={catalogue} view={view} searchParams={searchParams} />
-            </Suspense>
+            {liveEnabled() ? (
+              <>
+                <p className="workspace-hint stage-hint">{copy.builderHint}</p>
+                <Suspense fallback={<div className="stage-pending" aria-busy="true" />}>
+                  <Builder snapshot={snapshot} market={m} vehicle={v} catalogue={catalogue} view={view} searchParams={searchParams} />
+                </Suspense>
+              </>
+            ) : (
+              <p className="workspace-hint stage-hint">{copy.builderOffline}</p>
+            )}
           </>
         )}
         <SourceLine read={read} />
@@ -232,14 +235,10 @@ async function Builder({ snapshot, market, vehicle, catalogue, view, searchParam
         <>
           <h4 className="stage-h4">{copy.resultHeading}</h4>
           <EstimateView response={result.response} catalogue={catalogue} view={view} market={market.code} vehicle={vehicle.code} />
-          <p className="workspace-hint">
-            {copy.apiBefore} {result.api} {copy.apiAfter}
-          </p>
+          <p className="workspace-hint">{copy.apiDone}</p>
         </>
       ) : (
-        <p className="stage-empty">
-          {copy.apiMissing} ({result.api}: {result.reason})
-        </p>
+        <p className="stage-empty">{copy.apiMissing}</p>
       )}
     </div>
   );

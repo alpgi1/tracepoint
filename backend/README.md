@@ -52,6 +52,12 @@ repository root (see `.env.example`).
 | `tracepoint agent analyze --vehicle G60 --market US` / `--vehicle F70 --country GB` | situation analysis of one vehicle in one market or country by the analyst agent (LLM with tool calls on the stored evidence, needs the OpenAI key). Writes a brief in `data/analyses/<vehicle>_<scope>.md` (the proposals with their CPM effort first, then what customers say, then what is open) and everything in the `.json` beside it (references, change profiles, flags, tool calls); `--detail` also writes the full print as `.detail.md`; `--max-steps`, `--no-cache`. Also `POST /agent/analyze` |
 | `tracepoint agent series --vehicle G60` | one series across its regions, the markets EU, US and CN (5 Series: G60 in EU and US, G68 in CN; the remainder market is left out): the regions side by side per 100 verbatims, study scores by rank, external evidence, and per topic a decision the checks hold against the evidence: change now for all markets, change now for one region, next generation, keep, or no action, each with its CPM effort. Writes `data/analyses/<vehicle>_regions.md` and `.json`. The agent fetches nothing; it reads what is stored |
 | `GET /cpm/{vehicle}?market=US`, `GET /effort/model`, `POST /effort/estimate`, `GET /requirements/{id}/effort` | the CPM contract of `plan/07-frontend-plan.md`: per subsystem the customer rows, liked and criticised blocks with narration, and market evidence (equal to `frontend/content/cpm.json`); the effort model; the effort of a change profile. The agents read the same view through the tool `get_subsystems` and the context pack |
+| `GET /overview` | the landing page's content (`MarketsContent` of `frontend/lib/content/types.ts`): per market the 2025 units of the vehicles sold there, verbatims, the domain with the highest complaint share and the study attribute with the lowest score; per vehicle the same with its three weakest study attributes. Counted on the workbook labels, as `GET /cpm/{vehicle}`; the frontend writes it unchanged into `content/markets.json` (D-101) |
+| `GET /analyses?vehicle=&market=&kind=`, `GET /analyses/{key}`, `GET /analyses/{key}/brief` | the stored analyses without a model call (`data/analyses/` from runs on this machine, then the committed `reports/analysis/`), with the vehicle and market pairs each speaks about; one as the run wrote it; one as the product manager reads it: proposals grouped into change now, with the next generation and keep, what customers say grouped by kind, a series' topics in its five decisions, every code in words, every reference resolved against the store (D-100) |
+| `GET /external?market=&vehicle=&subsystem=&topic=&kind=&verified=` | the external evidence of a market with every code in words: source, origin, date, kind, how many sources agree, whether the figures stood on the page; the rows the analysts read through `get_external_evidence` (D-102) |
+| `GET /glossary` | the product manager's vocabulary: every code the store, the engine and the agents use with the words that stand for it (`tracepoint/briefs/labels.py`) |
+| `GET /requirements/export?vehicle=&market=&format=csv\|md` | the D2 list as `tracepoint requirements export` writes it, since step 19 with each requirement's effort and latest gate G2 decision |
+| `GET /events?entity_prefix=REQ-G60-US-` | the events of one scope in one call (the prefix is taken literally) |
 | `tracepoint settings` | print the effective settings |
 
 ## Layout
@@ -62,13 +68,16 @@ tracepoint/
   db/         SQLAlchemy models and session helpers
   ingest/     registry of input files, reference loader, parsers (verbatims, studies, sales, option lists, group report)
   taxonomy/   canonical taxonomy extraction and enrichment
-  reports/    baseline situation-analysis report
+  reports/    baseline situation-analysis report; overview of the markets for the landing page
   llm/        provider-agnostic LLM gateway (OpenAI first, structured outputs and tool calls), pricing, strict JSON schemas
   classify/   gap classification, Source B segmentation, few-shot retrieval, blind validation
   findings/   deterministic finding extraction, cross-layer links, Markdown report
   agent/      context packs, drill-down tools (logged tool calls), the agent loop and the situation analysis
   requirements/  requirement store (import, versioning, G2 decisions) and D2 exports
   effort/     CPM effort engine (pure), requirement effort store, variations and report
+  briefs/     what the product manager reads: the vocabulary (labels), the agents' sentences in
+              plain words (text), references resolved against the store (refs), the stored analyses
+              (store), their briefs (views) and the external evidence (external)
   api/        FastAPI read API
   cli.py      Typer command line interface
 tests/        pytest suite (ingests docs/ into the test database once per session)

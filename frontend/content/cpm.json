@@ -314,21 +314,77 @@
   "offering_variants": "Variant & Package Offering",
   "general": "General / Cross-cutting"
  },
+ "vehicles": {
+  "F70": {
+   "platform": "FAAR (front-wheel-drive compact)",
+   "absent": [
+    "hv_battery",
+    "charging"
+   ],
+   "note": "All F70 variants in the German catalogue are ICE or 48 V MHEV. The link matrix was written for CLAR and is reused as an assumption; FAAR-specific links are not calibrated."
+  },
+  "G60": {
+   "platform": "CLAR",
+   "absent": [],
+   "note": null
+  },
+  "G68": {
+   "platform": "CLAR",
+   "absent": [],
+   "note": "China long-wheelbase derivative of G60 (Dadong)"
+  },
+  "G70": {
+   "platform": "CLAR",
+   "absent": [],
+   "note": null
+  }
+ },
+ "parameters": {
+  "carryoverFactor": 0.3,
+  "propagationReferenceImpact": 0.3,
+  "platformRule": {
+   "subsystems": [
+    "body_structure",
+    "hv_battery",
+    "powertrain",
+    "ee_architecture"
+   ],
+   "minOwnImpact": 0.8
+  },
+  "certification": {
+   "triggerSubsystems": [
+    "body_structure",
+    "hv_battery",
+    "powertrain"
+   ],
+   "minOwnImpact": 0.3
+  },
+  "k0MaxOwnImpact": 0.1,
+  "maxPathLength": 3,
+  "sizes": {
+   "XS": 1,
+   "S": 5,
+   "M": 15,
+   "L": 50
+  }
+ },
+ "modelHash": "789fcb7624b8",
  "views": {
   "G68_CN": {
    "vehicle": "G68",
    "market": "CN",
+   "country": null,
    "verbatims": 0,
    "platform": "CLAR",
    "absent": [],
    "absentNote": "China long-wheelbase derivative of G60 (Dadong)",
    "rows": 0,
    "unassignedRows": 0,
-   "rowsSource": "no classified verbatims for this vehicle in this market",
+   "rowsSource": "no classified verbatims for this vehicle in this scope",
    "subsystems": [
     {
      "key": "body_structure",
-     "weight": 18.0,
+     "weight": 18,
      "rows": 0,
      "likes": 0,
      "complaints": 0,
@@ -345,7 +401,7 @@
     },
     {
      "key": "chassis",
-     "weight": 10.0,
+     "weight": 10,
      "rows": 0,
      "likes": 0,
      "complaints": 0,
@@ -362,7 +418,7 @@
     },
     {
      "key": "powertrain",
-     "weight": 14.0,
+     "weight": 14,
      "rows": 0,
      "likes": 0,
      "complaints": 0,
@@ -377,6 +433,10 @@
      },
      "market": [
       {
+       "id": "MKT-CN-powertrain-1",
+       "evidence_ref": "market:MKT-CN-powertrain-1",
+       "market": "CN",
+       "subsystem": "powertrain",
        "kind": "market",
        "statement": "China 2025: new-energy vehicle retail sales about 12.8 million, passing combustion cars for the first time.",
        "source": {
@@ -394,7 +454,7 @@
     },
     {
      "key": "hv_battery",
-     "weight": 10.0,
+     "weight": 10,
      "rows": 0,
      "likes": 0,
      "complaints": 0,
@@ -411,7 +471,7 @@
     },
     {
      "key": "thermal_hvac",
-     "weight": 6.0,
+     "weight": 6,
      "rows": 0,
      "likes": 0,
      "complaints": 0,
@@ -428,7 +488,7 @@
     },
     {
      "key": "ee_architecture",
-     "weight": 9.0,
+     "weight": 9,
      "rows": 0,
      "likes": 0,
      "complaints": 0,
@@ -445,7 +505,7 @@
     },
     {
      "key": "software_hmi",
-     "weight": 10.0,
+     "weight": 10,
      "rows": 0,
      "likes": 0,
      "complaints": 0,
@@ -462,7 +522,7 @@
     },
     {
      "key": "interior_console",
-     "weight": 7.0,
+     "weight": 7,
      "rows": 0,
      "likes": 0,
      "complaints": 0,
@@ -477,6 +537,10 @@
      },
      "market": [
       {
+       "id": "MKT-CN-interior_console-1",
+       "evidence_ref": "market:MKT-CN-interior_console-1",
+       "market": "CN",
+       "subsystem": "interior_console",
        "kind": "competitor",
        "statement": "In-car fridge: standard in nearly every new-energy model above 200,000 yuan in China.",
        "source": {
@@ -497,7 +561,7 @@
     },
     {
      "key": "seats",
-     "weight": 5.0,
+     "weight": 5,
      "rows": 0,
      "likes": 0,
      "complaints": 0,
@@ -514,7 +578,7 @@
     },
     {
      "key": "exterior_design",
-     "weight": 6.0,
+     "weight": 6,
      "rows": 0,
      "likes": 0,
      "complaints": 0,
@@ -531,7 +595,7 @@
     },
     {
      "key": "paint_color",
-     "weight": 1.0,
+     "weight": 1,
      "rows": 0,
      "likes": 0,
      "complaints": 0,
@@ -548,7 +612,7 @@
     },
     {
      "key": "charging",
-     "weight": 4.0,
+     "weight": 4,
      "rows": 0,
      "likes": 0,
      "complaints": 0,
@@ -568,17 +632,18 @@
   "G70_CN": {
    "vehicle": "G70",
    "market": "CN",
+   "country": null,
    "verbatims": 0,
    "platform": "CLAR",
    "absent": [],
    "absentNote": null,
    "rows": 0,
    "unassignedRows": 0,
-   "rowsSource": "no classified verbatims for this vehicle in this market",
+   "rowsSource": "no classified verbatims for this vehicle in this scope",
    "subsystems": [
     {
      "key": "body_structure",
-     "weight": 18.0,
+     "weight": 18,
      "rows": 0,
      "likes": 0,
      "complaints": 0,
@@ -595,7 +660,7 @@
     },
     {
      "key": "chassis",
-     "weight": 10.0,
+     "weight": 10,
      "rows": 0,
      "likes": 0,
      "complaints": 0,
@@ -612,7 +677,7 @@
     },
     {
      "key": "powertrain",
-     "weight": 14.0,
+     "weight": 14,
      "rows": 0,
      "likes": 0,
      "complaints": 0,
@@ -627,6 +692,10 @@
      },
      "market": [
       {
+       "id": "MKT-CN-powertrain-1",
+       "evidence_ref": "market:MKT-CN-powertrain-1",
+       "market": "CN",
+       "subsystem": "powertrain",
        "kind": "market",
        "statement": "China 2025: new-energy vehicle retail sales about 12.8 million, passing combustion cars for the first time.",
        "source": {
@@ -644,7 +713,7 @@
     },
     {
      "key": "hv_battery",
-     "weight": 10.0,
+     "weight": 10,
      "rows": 0,
      "likes": 0,
      "complaints": 0,
@@ -661,7 +730,7 @@
     },
     {
      "key": "thermal_hvac",
-     "weight": 6.0,
+     "weight": 6,
      "rows": 0,
      "likes": 0,
      "complaints": 0,
@@ -678,7 +747,7 @@
     },
     {
      "key": "ee_architecture",
-     "weight": 9.0,
+     "weight": 9,
      "rows": 0,
      "likes": 0,
      "complaints": 0,
@@ -695,7 +764,7 @@
     },
     {
      "key": "software_hmi",
-     "weight": 10.0,
+     "weight": 10,
      "rows": 0,
      "likes": 0,
      "complaints": 0,
@@ -712,7 +781,7 @@
     },
     {
      "key": "interior_console",
-     "weight": 7.0,
+     "weight": 7,
      "rows": 0,
      "likes": 0,
      "complaints": 0,
@@ -727,6 +796,10 @@
      },
      "market": [
       {
+       "id": "MKT-CN-interior_console-1",
+       "evidence_ref": "market:MKT-CN-interior_console-1",
+       "market": "CN",
+       "subsystem": "interior_console",
        "kind": "competitor",
        "statement": "In-car fridge: standard in nearly every new-energy model above 200,000 yuan in China.",
        "source": {
@@ -747,7 +820,7 @@
     },
     {
      "key": "seats",
-     "weight": 5.0,
+     "weight": 5,
      "rows": 0,
      "likes": 0,
      "complaints": 0,
@@ -764,7 +837,7 @@
     },
     {
      "key": "exterior_design",
-     "weight": 6.0,
+     "weight": 6,
      "rows": 0,
      "likes": 0,
      "complaints": 0,
@@ -781,7 +854,7 @@
     },
     {
      "key": "paint_color",
-     "weight": 1.0,
+     "weight": 1,
      "rows": 0,
      "likes": 0,
      "complaints": 0,
@@ -798,7 +871,7 @@
     },
     {
      "key": "charging",
-     "weight": 4.0,
+     "weight": 4,
      "rows": 0,
      "likes": 0,
      "complaints": 0,
@@ -818,17 +891,18 @@
   "G60_US": {
    "vehicle": "G60",
    "market": "US",
+   "country": null,
    "verbatims": 3628,
    "platform": "CLAR",
    "absent": [],
    "absentNote": null,
    "rows": 3853,
    "unassignedRows": 37,
-   "rowsSource": "docs/G60_feedback_hackathon.xlsx, classified rows with a canonical level-2 theme and a country in this market; totals equal reports/baseline/G60_US.json",
+   "rowsSource": "classification rows with a canonical level-2 theme, labels given in the feedback workbook; theme to subsystem by config/cpm/theme_subsystem_map.yaml (an assumption)",
    "subsystems": [
     {
      "key": "body_structure",
-     "weight": 18.0,
+     "weight": 18,
      "rows": 543,
      "likes": 210,
      "complaints": 333,
@@ -1161,7 +1235,7 @@
     },
     {
      "key": "chassis",
-     "weight": 10.0,
+     "weight": 10,
      "rows": 445,
      "likes": 306,
      "complaints": 137,
@@ -1478,7 +1552,7 @@
     },
     {
      "key": "powertrain",
-     "weight": 14.0,
+     "weight": 14,
      "rows": 441,
      "likes": 302,
      "complaints": 138,
@@ -1801,6 +1875,10 @@
      },
      "market": [
       {
+       "id": "MKT-US-powertrain-1",
+       "evidence_ref": "market:MKT-US-powertrain-1",
+       "market": "US",
+       "subsystem": "powertrain",
        "kind": "market",
        "statement": "US 2025: electric vehicles 7.8 % of new-vehicle sales (2024: 8.1 %).",
        "source": {
@@ -1818,7 +1896,7 @@
     },
     {
      "key": "hv_battery",
-     "weight": 10.0,
+     "weight": 10,
      "rows": 104,
      "likes": 36,
      "complaints": 68,
@@ -1998,7 +2076,7 @@
     },
     {
      "key": "thermal_hvac",
-     "weight": 6.0,
+     "weight": 6,
      "rows": 79,
      "likes": 11,
      "complaints": 68,
@@ -2251,7 +2329,7 @@
     },
     {
      "key": "ee_architecture",
-     "weight": 9.0,
+     "weight": 9,
      "rows": 313,
      "likes": 62,
      "complaints": 251,
@@ -2576,7 +2654,7 @@
     },
     {
      "key": "software_hmi",
-     "weight": 10.0,
+     "weight": 10,
      "rows": 915,
      "likes": 305,
      "complaints": 608,
@@ -2909,7 +2987,7 @@
     },
     {
      "key": "interior_console",
-     "weight": 7.0,
+     "weight": 7,
      "rows": 432,
      "likes": 197,
      "complaints": 234,
@@ -3234,7 +3312,7 @@
     },
     {
      "key": "seats",
-     "weight": 5.0,
+     "weight": 5,
      "rows": 165,
      "likes": 61,
      "complaints": 104,
@@ -3535,7 +3613,7 @@
     },
     {
      "key": "exterior_design",
-     "weight": 6.0,
+     "weight": 6,
      "rows": 251,
      "likes": 174,
      "complaints": 77,
@@ -3844,7 +3922,7 @@
     },
     {
      "key": "paint_color",
-     "weight": 1.0,
+     "weight": 1,
      "rows": 0,
      "likes": 0,
      "complaints": 0,
@@ -3861,7 +3939,7 @@
     },
     {
      "key": "charging",
-     "weight": 4.0,
+     "weight": 4,
      "rows": 128,
      "likes": 34,
      "complaints": 94,
@@ -4173,17 +4251,18 @@
   "G70_US": {
    "vehicle": "G70",
    "market": "US",
+   "country": null,
    "verbatims": 3800,
    "platform": "CLAR",
    "absent": [],
    "absentNote": null,
    "rows": 3867,
    "unassignedRows": 54,
-   "rowsSource": "docs/G70_feedback_hackathon.xlsx, classified rows with a canonical level-2 theme and a country in this market; totals equal reports/baseline/G70_US.json",
+   "rowsSource": "classification rows with a canonical level-2 theme, labels given in the feedback workbook; theme to subsystem by config/cpm/theme_subsystem_map.yaml (an assumption)",
    "subsystems": [
     {
      "key": "body_structure",
-     "weight": 18.0,
+     "weight": 18,
      "rows": 553,
      "likes": 240,
      "complaints": 311,
@@ -4516,7 +4595,7 @@
     },
     {
      "key": "chassis",
-     "weight": 10.0,
+     "weight": 10,
      "rows": 475,
      "likes": 339,
      "complaints": 135,
@@ -4849,7 +4928,7 @@
     },
     {
      "key": "powertrain",
-     "weight": 14.0,
+     "weight": 14,
      "rows": 399,
      "likes": 281,
      "complaints": 116,
@@ -5172,6 +5251,10 @@
      },
      "market": [
       {
+       "id": "MKT-US-powertrain-1",
+       "evidence_ref": "market:MKT-US-powertrain-1",
+       "market": "US",
+       "subsystem": "powertrain",
        "kind": "market",
        "statement": "US 2025: electric vehicles 7.8 % of new-vehicle sales (2024: 8.1 %).",
        "source": {
@@ -5189,7 +5272,7 @@
     },
     {
      "key": "hv_battery",
-     "weight": 10.0,
+     "weight": 10,
      "rows": 70,
      "likes": 23,
      "complaints": 47,
@@ -5345,7 +5428,7 @@
     },
     {
      "key": "thermal_hvac",
-     "weight": 6.0,
+     "weight": 6,
      "rows": 98,
      "likes": 7,
      "complaints": 91,
@@ -5622,7 +5705,7 @@
     },
     {
      "key": "ee_architecture",
-     "weight": 9.0,
+     "weight": 9,
      "rows": 281,
      "likes": 54,
      "complaints": 227,
@@ -5955,7 +6038,7 @@
     },
     {
      "key": "software_hmi",
-     "weight": 10.0,
+     "weight": 10,
      "rows": 901,
      "likes": 299,
      "complaints": 599,
@@ -6288,7 +6371,7 @@
     },
     {
      "key": "interior_console",
-     "weight": 7.0,
+     "weight": 7,
      "rows": 457,
      "likes": 248,
      "complaints": 207,
@@ -6621,7 +6704,7 @@
     },
     {
      "key": "seats",
-     "weight": 5.0,
+     "weight": 5,
      "rows": 202,
      "likes": 90,
      "complaints": 110,
@@ -6930,7 +7013,7 @@
     },
     {
      "key": "exterior_design",
-     "weight": 6.0,
+     "weight": 6,
      "rows": 290,
      "likes": 188,
      "complaints": 102,
@@ -7223,7 +7306,7 @@
     },
     {
      "key": "paint_color",
-     "weight": 1.0,
+     "weight": 1,
      "rows": 0,
      "likes": 0,
      "complaints": 0,
@@ -7240,7 +7323,7 @@
     },
     {
      "key": "charging",
-     "weight": 4.0,
+     "weight": 4,
      "rows": 87,
      "likes": 20,
      "complaints": 67,
@@ -7512,6 +7595,7 @@
   "F70_EU": {
    "vehicle": "F70",
    "market": "EU",
+   "country": null,
    "verbatims": 1433,
    "platform": "FAAR (front-wheel-drive compact)",
    "absent": [
@@ -7529,7 +7613,7 @@
    "absentNote": "All F70 variants in the German catalogue are ICE or 48 V MHEV. The link matrix was written for CLAR and is reused as an assumption; FAAR-specific links are not calibrated.",
    "rows": 2191,
    "unassignedRows": 100,
-   "rowsSource": "docs/F70_feedback_hackathon.xlsx, classified rows with a canonical level-2 theme and a country in this market; totals equal reports/baseline/F70_EU.json",
+   "rowsSource": "classification rows with a canonical level-2 theme, labels given in the feedback workbook; theme to subsystem by config/cpm/theme_subsystem_map.yaml (an assumption)",
    "subsystems": [
     {
      "key": "body_structure",
@@ -8407,6 +8491,10 @@
      },
      "market": [
       {
+       "id": "MKT-EU-powertrain-1",
+       "evidence_ref": "market:MKT-EU-powertrain-1",
+       "market": "EU",
+       "subsystem": "powertrain",
        "kind": "market",
        "statement": "EU new-car registrations 2025 by powertrain: BEV 17.4 %, hybrid 34.5 %, plug-in hybrid 9.4 %, petrol 26.6 %, diesel 8.9 %.",
        "source": {
@@ -8424,7 +8512,7 @@
     },
     {
      "key": "thermal_hvac",
-     "weight": 7.0,
+     "weight": 7,
      "rows": 31,
      "likes": 2,
      "complaints": 29,
@@ -9648,7 +9736,7 @@
     },
     {
      "key": "exterior_design",
-     "weight": 7.0,
+     "weight": 7,
      "rows": 106,
      "likes": 57,
      "complaints": 49,
@@ -9891,17 +9979,18 @@
   "G60_EU": {
    "vehicle": "G60",
    "market": "EU",
+   "country": null,
    "verbatims": 111,
    "platform": "CLAR",
    "absent": [],
    "absentNote": null,
    "rows": 165,
    "unassignedRows": 2,
-   "rowsSource": "docs/G60_feedback_hackathon.xlsx, classified rows with a canonical level-2 theme and a country in this market; totals equal reports/baseline/G60_EU.json",
+   "rowsSource": "classification rows with a canonical level-2 theme, labels given in the feedback workbook; theme to subsystem by config/cpm/theme_subsystem_map.yaml (an assumption)",
    "subsystems": [
     {
      "key": "body_structure",
-     "weight": 18.0,
+     "weight": 18,
      "rows": 24,
      "likes": 8,
      "complaints": 16,
@@ -10138,7 +10227,7 @@
     },
     {
      "key": "chassis",
-     "weight": 10.0,
+     "weight": 10,
      "rows": 36,
      "likes": 33,
      "complaints": 3,
@@ -10302,7 +10391,7 @@
     },
     {
      "key": "powertrain",
-     "weight": 14.0,
+     "weight": 14,
      "rows": 13,
      "likes": 10,
      "complaints": 3,
@@ -10389,6 +10478,10 @@
      },
      "market": [
       {
+       "id": "MKT-EU-powertrain-1",
+       "evidence_ref": "market:MKT-EU-powertrain-1",
+       "market": "EU",
+       "subsystem": "powertrain",
        "kind": "market",
        "statement": "EU new-car registrations 2025 by powertrain: BEV 17.4 %, hybrid 34.5 %, plug-in hybrid 9.4 %, petrol 26.6 %, diesel 8.9 %.",
        "source": {
@@ -10406,7 +10499,7 @@
     },
     {
      "key": "hv_battery",
-     "weight": 10.0,
+     "weight": 10,
      "rows": 21,
      "likes": 7,
      "complaints": 14,
@@ -10527,7 +10620,7 @@
     },
     {
      "key": "thermal_hvac",
-     "weight": 6.0,
+     "weight": 6,
      "rows": 4,
      "likes": 1,
      "complaints": 3,
@@ -10627,7 +10720,7 @@
     },
     {
      "key": "ee_architecture",
-     "weight": 9.0,
+     "weight": 9,
      "rows": 7,
      "likes": 3,
      "complaints": 4,
@@ -10751,7 +10844,7 @@
     },
     {
      "key": "software_hmi",
-     "weight": 10.0,
+     "weight": 10,
      "rows": 34,
      "likes": 7,
      "complaints": 27,
@@ -10996,7 +11089,7 @@
     },
     {
      "key": "interior_console",
-     "weight": 7.0,
+     "weight": 7,
      "rows": 8,
      "likes": 2,
      "complaints": 6,
@@ -11147,7 +11240,7 @@
     },
     {
      "key": "seats",
-     "weight": 5.0,
+     "weight": 5,
      "rows": 5,
      "likes": 0,
      "complaints": 5,
@@ -11230,7 +11323,7 @@
     },
     {
      "key": "exterior_design",
-     "weight": 6.0,
+     "weight": 6,
      "rows": 7,
      "likes": 1,
      "complaints": 6,
@@ -11346,7 +11439,7 @@
     },
     {
      "key": "paint_color",
-     "weight": 1.0,
+     "weight": 1,
      "rows": 0,
      "likes": 0,
      "complaints": 0,
@@ -11363,7 +11456,7 @@
     },
     {
      "key": "charging",
-     "weight": 4.0,
+     "weight": 4,
      "rows": 4,
      "likes": 0,
      "complaints": 4,
@@ -11449,65 +11542,248 @@
   "G70_EU": {
    "vehicle": "G70",
    "market": "EU",
-   "verbatims": 0,
+   "country": null,
+   "verbatims": 19,
    "platform": "CLAR",
    "absent": [],
    "absentNote": null,
-   "rows": 0,
-   "unassignedRows": 0,
-   "rowsSource": "docs/G70_feedback_hackathon.xlsx holds 33 classified rows for this market, withheld until a baseline report exists for this scope",
+   "rows": 33,
+   "unassignedRows": 3,
+   "rowsSource": "classification rows with a canonical level-2 theme, labels given in the feedback workbook; theme to subsystem by config/cpm/theme_subsystem_map.yaml (an assumption)",
    "subsystems": [
     {
      "key": "body_structure",
-     "weight": 18.0,
-     "rows": 0,
-     "likes": 0,
-     "complaints": 0,
-     "themes": 0,
+     "weight": 18,
+     "rows": 3,
+     "likes": 1,
+     "complaints": 2,
+     "themes": 2,
      "liked": {
-      "narration": null,
-      "themes": []
+      "narration": {
+       "suggestion": "No theme meets the strength rule (at least 15 likes and 70% of its rows), so nothing in this subsystem is flagged to keep.",
+       "summary": "1 likes in 3 rows across 2 themes. Body equipment, overall technology leads with 1 likes of 2 rows.",
+       "basis": "derived"
+      },
+      "themes": [
+       {
+        "theme": "Body equipment, overall technology",
+        "domain": "quality_nvh",
+        "rows": 2,
+        "likes": 1,
+        "quotes": [
+         {
+          "id": "G70-3560",
+          "evidenceRef": "verbatim:G70-3560",
+          "text": "overall it has been a fantastic car so far. i really like the configuration and the level of luxury, and the build feels very solid. it definitely turns heads and has a strong presence on the road, and i enjoy how it drives. my only gripes are with the software. the app itself is excellent, but idri …",
+          "source": "Source A",
+          "powertrain": "PHEV",
+          "country": "GB"
+         }
+        ]
+       }
+      ]
      },
      "criticised": {
-      "narration": null,
-      "themes": []
+      "narration": {
+       "suggestion": "Address Body equipment, overall technology first: 1 complaints of 2 rows, mostly wants (an unmet need).",
+       "summary": "2 complaints in 3 rows: 1 defects, 0 difficult to use, 1 wants. Body equipment, overall technology (1) and Door, front (1) carry 100% of them.",
+       "basis": "derived"
+      },
+      "themes": [
+       {
+        "theme": "Body equipment, overall technology",
+        "domain": "quality_nvh",
+        "rows": 2,
+        "complaints": 1,
+        "defects": 0,
+        "difficultToUse": 0,
+        "wants": 1,
+        "quotes": [
+         {
+          "id": "G70-0538",
+          "evidenceRef": "verbatim:G70-0538",
+          "text": "spending around £128k on a car and then being asked to pay extra for a heated steering wheel is ridiculous. i've owned bmws for many years and this one will be my last. i lodged a complaint with bmw and they did not actually address it at all. to me it's simple: this is a bmw, not some brand that sh …",
+          "source": "Source A",
+          "powertrain": "BEV",
+          "country": "GB"
+         }
+        ]
+       },
+       {
+        "theme": "Door, front",
+        "domain": "quality_nvh",
+        "rows": 1,
+        "complaints": 1,
+        "defects": 1,
+        "difficultToUse": 0,
+        "wants": 0,
+        "quotes": [
+         {
+          "id": "G70-3593",
+          "evidenceRef": "verbatim:G70-3593",
+          "text": "the car failed within the first two weeks, and it was another couple of weeks before the local dealer could even look at it. it was fixed, but the service was extremely poor. the loaner was filthy inside and out, with damage on the front passenger wing and door. i could not get into my bmw id for mo …",
+          "source": "Source A",
+          "powertrain": "PHEV",
+          "country": "GB"
+         }
+        ]
+       }
+      ]
      },
      "market": []
     },
     {
      "key": "chassis",
-     "weight": 10.0,
-     "rows": 0,
-     "likes": 0,
-     "complaints": 0,
-     "themes": 0,
+     "weight": 10,
+     "rows": 5,
+     "likes": 4,
+     "complaints": 1,
+     "themes": 2,
      "liked": {
-      "narration": null,
-      "themes": []
+      "narration": {
+       "suggestion": "No theme meets the strength rule (at least 15 likes and 70% of its rows), so nothing in this subsystem is flagged to keep.",
+       "summary": "4 likes in 5 rows across 2 themes. Drive, driving dynamics and chassis, overall technology leads with 3 likes of 3 rows, then Handling / Riding (1 of 2).",
+       "basis": "derived"
+      },
+      "themes": [
+       {
+        "theme": "Drive, driving dynamics and chassis, overall technology",
+        "domain": "driving_dynamics",
+        "rows": 3,
+        "likes": 3,
+        "quotes": [
+         {
+          "id": "G70-0961",
+          "evidenceRef": "verbatim:G70-0961",
+          "text": "the solid feel, the driving comfort, and how the quality comes across overall and in the small details.",
+          "source": "Source A",
+          "powertrain": "BEV",
+          "country": "NO"
+         }
+        ]
+       },
+       {
+        "theme": "Handling / Riding",
+        "domain": "driving_dynamics",
+        "rows": 2,
+        "likes": 1,
+        "quotes": [
+         {
+          "id": "G70-2503",
+          "evidenceRef": "verbatim:G70-2503",
+          "text": "nice design and solid handling",
+          "source": "Source A",
+          "powertrain": "BEV",
+          "country": "DK"
+         }
+        ]
+       }
+      ]
      },
      "criticised": {
-      "narration": null,
-      "themes": []
+      "narration": {
+       "suggestion": "Address Handling / Riding first: 1 complaints of 2 rows, mostly defects (a recurring complaint).",
+       "summary": "1 complaints in 5 rows: 1 defects, 0 difficult to use, 0 wants. Handling / Riding (1) carries 100% of them.",
+       "basis": "derived"
+      },
+      "themes": [
+       {
+        "theme": "Handling / Riding",
+        "domain": "driving_dynamics",
+        "rows": 2,
+        "complaints": 1,
+        "defects": 1,
+        "difficultToUse": 0,
+        "wants": 0,
+        "quotes": [
+         {
+          "id": "G70-1205",
+          "evidenceRef": "verbatim:G70-1205",
+          "text": "have an i7. it arrived with faults. negotiations and the way the case is handled come across as arrogant and flippant. bmw denmark was contacted and just pointed me to the dealer or to send an email. when you drive the flagship it should simply mean sublime customer care. everything is fine until so …",
+          "source": "Source A",
+          "powertrain": "BEV",
+          "country": "DK"
+         }
+        ]
+       }
+      ]
      },
      "market": []
     },
     {
      "key": "powertrain",
-     "weight": 14.0,
-     "rows": 0,
-     "likes": 0,
-     "complaints": 0,
-     "themes": 0,
+     "weight": 14,
+     "rows": 3,
+     "likes": 2,
+     "complaints": 1,
+     "themes": 1,
      "liked": {
-      "narration": null,
-      "themes": []
+      "narration": {
+       "suggestion": "No theme meets the strength rule (at least 15 likes and 70% of its rows), so nothing in this subsystem is flagged to keep.",
+       "summary": "2 likes in 3 rows across 1 theme. Drivetrain leads with 2 likes of 3 rows.",
+       "basis": "derived"
+      },
+      "themes": [
+       {
+        "theme": "Drivetrain",
+        "domain": "powertrain_range_charging",
+        "rows": 3,
+        "likes": 2,
+        "quotes": [
+         {
+          "id": "G70-1374",
+          "evidenceRef": "verbatim:G70-1374",
+          "text": "incredible engineering and technology, absolutely mind blowing.",
+          "source": "Source A",
+          "powertrain": "PHEV",
+          "country": "GB"
+         },
+         {
+          "id": "G70-2126",
+          "evidenceRef": "verbatim:G70-2126",
+          "text": "bmw 760, very good comfort, easy to drive, uses little petrol, the car is clearly noticable to others",
+          "source": "Source A",
+          "powertrain": "PHEV",
+          "country": "SE"
+         }
+        ]
+       }
+      ]
      },
      "criticised": {
-      "narration": null,
-      "themes": []
+      "narration": {
+       "suggestion": "Address Drivetrain first: 1 complaints of 3 rows, mostly difficult to use (a recurring complaint).",
+       "summary": "1 complaints in 3 rows: 0 defects, 1 difficult to use, 0 wants. Drivetrain (1) carries 100% of them.",
+       "basis": "derived"
+      },
+      "themes": [
+       {
+        "theme": "Drivetrain",
+        "domain": "powertrain_range_charging",
+        "rows": 3,
+        "complaints": 1,
+        "defects": 0,
+        "difficultToUse": 1,
+        "wants": 0,
+        "quotes": [
+         {
+          "id": "G70-3783",
+          "evidenceRef": "verbatim:G70-3783",
+          "text": "i am happy with the new car. it is clearly more comfortable and in general more interesting than the older series i had. still, there are some drawbacks i really cannot ignore: - once the speed goes past about 110-120 km/h, the car is not well insulated anymore, wind noise becomes obvious and distur …",
+          "source": "Source A",
+          "powertrain": "PHEV",
+          "country": "ES"
+         }
+        ]
+       }
+      ]
      },
      "market": [
       {
+       "id": "MKT-EU-powertrain-1",
+       "evidence_ref": "market:MKT-EU-powertrain-1",
+       "market": "EU",
+       "subsystem": "powertrain",
        "kind": "market",
        "statement": "EU new-car registrations 2025 by powertrain: BEV 17.4 %, hybrid 34.5 %, plug-in hybrid 9.4 %, petrol 26.6 %, diesel 8.9 %.",
        "source": {
@@ -11525,126 +11801,524 @@
     },
     {
      "key": "hv_battery",
-     "weight": 10.0,
-     "rows": 0,
+     "weight": 10,
+     "rows": 1,
      "likes": 0,
-     "complaints": 0,
-     "themes": 0,
+     "complaints": 1,
+     "themes": 1,
      "liked": {
-      "narration": null,
+      "narration": {
+       "suggestion": "No likes recorded in this subsystem; nothing is flagged to keep.",
+       "summary": "0 likes in 1 rows across 1 theme.",
+       "basis": "derived"
+      },
       "themes": []
      },
      "criticised": {
-      "narration": null,
-      "themes": []
+      "narration": {
+       "suggestion": "Address High voltage battery first: 1 complaints of 1 rows, mostly difficult to use (a recurring complaint).",
+       "summary": "1 complaints in 1 rows: 0 defects, 1 difficult to use, 0 wants. High voltage battery (1) carries 100% of them.",
+       "basis": "derived"
+      },
+      "themes": [
+       {
+        "theme": "High voltage battery",
+        "domain": "powertrain_range_charging",
+        "rows": 1,
+        "complaints": 1,
+        "defects": 0,
+        "difficultToUse": 1,
+        "wants": 0,
+        "quotes": [
+         {
+          "id": "G70-3783",
+          "evidenceRef": "verbatim:G70-3783",
+          "text": "i am happy with the new car. it is clearly more comfortable and in general more interesting than the older series i had. still, there are some drawbacks i really cannot ignore: - once the speed goes past about 110-120 km/h, the car is not well insulated anymore, wind noise becomes obvious and distur …",
+          "source": "Source A",
+          "powertrain": "PHEV",
+          "country": "ES"
+         }
+        ]
+       }
+      ]
      },
      "market": []
     },
     {
      "key": "thermal_hvac",
-     "weight": 6.0,
-     "rows": 0,
+     "weight": 6,
+     "rows": 1,
      "likes": 0,
-     "complaints": 0,
-     "themes": 0,
+     "complaints": 1,
+     "themes": 1,
      "liked": {
-      "narration": null,
+      "narration": {
+       "suggestion": "No likes recorded in this subsystem; nothing is flagged to keep.",
+       "summary": "0 likes in 1 rows across 1 theme.",
+       "basis": "derived"
+      },
       "themes": []
      },
      "criticised": {
-      "narration": null,
-      "themes": []
+      "narration": {
+       "suggestion": "Address Vehicle, climatization first: 1 complaints of 1 rows, mostly defects (a recurring complaint).",
+       "summary": "1 complaints in 1 rows: 1 defects, 0 difficult to use, 0 wants. Vehicle, climatization (1) carries 100% of them.",
+       "basis": "derived"
+      },
+      "themes": [
+       {
+        "theme": "Vehicle, climatization",
+        "domain": "interior_comfort",
+        "rows": 1,
+        "complaints": 1,
+        "defects": 1,
+        "difficultToUse": 0,
+        "wants": 0,
+        "quotes": [
+         {
+          "id": "G70-3783",
+          "evidenceRef": "verbatim:G70-3783",
+          "text": "i am happy with the new car. it is clearly more comfortable and in general more interesting than the older series i had. still, there are some drawbacks i really cannot ignore: - once the speed goes past about 110-120 km/h, the car is not well insulated anymore, wind noise becomes obvious and distur …",
+          "source": "Source A",
+          "powertrain": "PHEV",
+          "country": "ES"
+         }
+        ]
+       }
+      ]
      },
      "market": []
     },
     {
      "key": "ee_architecture",
-     "weight": 9.0,
-     "rows": 0,
+     "weight": 9,
+     "rows": 1,
      "likes": 0,
-     "complaints": 0,
-     "themes": 0,
+     "complaints": 1,
+     "themes": 1,
      "liked": {
-      "narration": null,
+      "narration": {
+       "suggestion": "No likes recorded in this subsystem; nothing is flagged to keep.",
+       "summary": "0 likes in 1 rows across 1 theme.",
+       "basis": "derived"
+      },
       "themes": []
      },
      "criticised": {
-      "narration": null,
-      "themes": []
+      "narration": {
+       "suggestion": "Address Personal eSIM first: 1 complaints of 1 rows, mostly defects (a recurring complaint).",
+       "summary": "1 complaints in 1 rows: 1 defects, 0 difficult to use, 0 wants. Personal eSIM (1) carries 100% of them.",
+       "basis": "derived"
+      },
+      "themes": [
+       {
+        "theme": "Personal eSIM",
+        "domain": "infotainment_digital",
+        "rows": 1,
+        "complaints": 1,
+        "defects": 1,
+        "difficultToUse": 0,
+        "wants": 0,
+        "quotes": [
+         {
+          "id": "G70-3560",
+          "evidenceRef": "verbatim:G70-3560",
+          "text": "overall it has been a fantastic car so far. i really like the configuration and the level of luxury, and the build feels very solid. it definitely turns heads and has a strong presence on the road, and i enjoy how it drives. my only gripes are with the software. the app itself is excellent, but idri …",
+          "source": "Source A",
+          "powertrain": "PHEV",
+          "country": "GB"
+         }
+        ]
+       }
+      ]
      },
      "market": []
     },
     {
      "key": "software_hmi",
-     "weight": 10.0,
-     "rows": 0,
-     "likes": 0,
-     "complaints": 0,
-     "themes": 0,
+     "weight": 10,
+     "rows": 6,
+     "likes": 1,
+     "complaints": 5,
+     "themes": 5,
      "liked": {
-      "narration": null,
-      "themes": []
+      "narration": {
+       "suggestion": "No theme meets the strength rule (at least 15 likes and 70% of its rows), so nothing in this subsystem is flagged to keep.",
+       "summary": "1 likes in 6 rows across 5 themes. My Modes / driving experience leads with 1 likes of 1 rows.",
+       "basis": "derived"
+      },
+      "themes": [
+       {
+        "theme": "My Modes / driving experience",
+        "domain": "driving_dynamics",
+        "rows": 1,
+        "likes": 1,
+        "quotes": [
+         {
+          "id": "G70-3306",
+          "evidenceRef": "verbatim:G70-3306",
+          "text": "i am very pleased with my new bmw 7 series saloon 750e x drive m sport. the handbook is quite hard to understand when it comes to the automatic parking function.",
+          "source": "Source A",
+          "powertrain": "PHEV",
+          "country": "GB"
+         }
+        ]
+       }
+      ]
      },
      "criticised": {
-      "narration": null,
-      "themes": []
+      "narration": {
+       "suggestion": "Address ConnectedDrive and Infotainment, overall technology first: 2 complaints of 2 rows, mostly defects (a recurring complaint).",
+       "summary": "5 complaints in 6 rows: 4 defects, 1 difficult to use, 0 wants. ConnectedDrive and Infotainment, overall technology (2), Driver assistance, automated driving, overall technology (1) and Remote Software Upgrade/RSU (1) carry 80% of them.",
+       "basis": "derived"
+      },
+      "themes": [
+       {
+        "theme": "ConnectedDrive and Infotainment, overall technology",
+        "domain": "infotainment_digital",
+        "rows": 2,
+        "complaints": 2,
+        "defects": 1,
+        "difficultToUse": 1,
+        "wants": 0,
+        "quotes": [
+         {
+          "id": "G70-3560",
+          "evidenceRef": "verbatim:G70-3560",
+          "text": "overall it has been a fantastic car so far. i really like the configuration and the level of luxury, and the build feels very solid. it definitely turns heads and has a strong presence on the road, and i enjoy how it drives. my only gripes are with the software. the app itself is excellent, but idri …",
+          "source": "Source A",
+          "powertrain": "PHEV",
+          "country": "GB"
+         }
+        ]
+       },
+       {
+        "theme": "Driver assistance, automated driving, overall technology",
+        "domain": "driver_assistance",
+        "rows": 1,
+        "complaints": 1,
+        "defects": 1,
+        "difficultToUse": 0,
+        "wants": 0,
+        "quotes": [
+         {
+          "id": "G70-3593",
+          "evidenceRef": "verbatim:G70-3593",
+          "text": "the car failed within the first two weeks, and it was another couple of weeks before the local dealer could even look at it. it was fixed, but the service was extremely poor. the loaner was filthy inside and out, with damage on the front passenger wing and door. i could not get into my bmw id for mo …",
+          "source": "Source A",
+          "powertrain": "PHEV",
+          "country": "GB"
+         }
+        ]
+       },
+       {
+        "theme": "Remote Software Upgrade/RSU",
+        "domain": "infotainment_digital",
+        "rows": 1,
+        "complaints": 1,
+        "defects": 1,
+        "difficultToUse": 0,
+        "wants": 0,
+        "quotes": [
+         {
+          "id": "G70-3560",
+          "evidenceRef": "verbatim:G70-3560",
+          "text": "overall it has been a fantastic car so far. i really like the configuration and the level of luxury, and the build feels very solid. it definitely turns heads and has a strong presence on the road, and i enjoy how it drives. my only gripes are with the software. the app itself is excellent, but idri …",
+          "source": "Source A",
+          "powertrain": "PHEV",
+          "country": "GB"
+         }
+        ]
+       },
+       {
+        "theme": "Touch screen, operation",
+        "domain": "infotainment_digital",
+        "rows": 1,
+        "complaints": 1,
+        "defects": 1,
+        "difficultToUse": 0,
+        "wants": 0,
+        "quotes": [
+         {
+          "id": "G70-3560",
+          "evidenceRef": "verbatim:G70-3560",
+          "text": "overall it has been a fantastic car so far. i really like the configuration and the level of luxury, and the build feels very solid. it definitely turns heads and has a strong presence on the road, and i enjoy how it drives. my only gripes are with the software. the app itself is excellent, but idri …",
+          "source": "Source A",
+          "powertrain": "PHEV",
+          "country": "GB"
+         }
+        ]
+       }
+      ]
      },
      "market": []
     },
     {
      "key": "interior_console",
-     "weight": 7.0,
-     "rows": 0,
-     "likes": 0,
-     "complaints": 0,
-     "themes": 0,
+     "weight": 7,
+     "rows": 8,
+     "likes": 2,
+     "complaints": 6,
+     "themes": 7,
      "liked": {
-      "narration": null,
-      "themes": []
+      "narration": {
+       "suggestion": "No theme meets the strength rule (at least 15 likes and 70% of its rows), so nothing in this subsystem is flagged to keep.",
+       "summary": "2 likes in 8 rows across 7 themes. Heated steering wheel leads with 1 likes of 2 rows, then Interior design (1 of 1).",
+       "basis": "derived"
+      },
+      "themes": [
+       {
+        "theme": "Heated steering wheel",
+        "domain": "interior_comfort",
+        "rows": 2,
+        "likes": 1,
+        "quotes": [
+         {
+          "id": "G70-0538",
+          "evidenceRef": "verbatim:G70-0538",
+          "text": "spending around £128k on a car and then being asked to pay extra for a heated steering wheel is ridiculous. i've owned bmws for many years and this one will be my last. i lodged a complaint with bmw and they did not actually address it at all. to me it's simple: this is a bmw, not some brand that sh …",
+          "source": "Source A",
+          "powertrain": "BEV",
+          "country": "GB"
+         }
+        ]
+       },
+       {
+        "theme": "Interior design",
+        "domain": "interior_comfort",
+        "rows": 1,
+        "likes": 1,
+        "quotes": [
+         {
+          "id": "G70-3593",
+          "evidenceRef": "verbatim:G70-3593",
+          "text": "the car failed within the first two weeks, and it was another couple of weeks before the local dealer could even look at it. it was fixed, but the service was extremely poor. the loaner was filthy inside and out, with damage on the front passenger wing and door. i could not get into my bmw id for mo …",
+          "source": "Source A",
+          "powertrain": "PHEV",
+          "country": "GB"
+         }
+        ]
+       }
+      ]
      },
      "criticised": {
-      "narration": null,
-      "themes": []
+      "narration": {
+       "suggestion": "Address Center console, front first: 1 complaints of 1 rows, mostly wants (an unmet need).",
+       "summary": "6 complaints in 8 rows: 2 defects, 2 difficult to use, 2 wants. Center console, front (1), Controller operation (1) and Cupholder (1) carry 50% of them.",
+       "basis": "derived"
+      },
+      "themes": [
+       {
+        "theme": "Center console, front",
+        "domain": "interior_comfort",
+        "rows": 1,
+        "complaints": 1,
+        "defects": 0,
+        "difficultToUse": 0,
+        "wants": 1,
+        "quotes": [
+         {
+          "id": "G70-2702",
+          "evidenceRef": "verbatim:G70-2702",
+          "text": "this is probably my 7th or 8th 7 series. while the exterior styling is interesting, the comfort and ergonomics are not at the level of the earlier one. everything has to be operated through the center console, which i do not find safe while driving. the cost-cutting on this kind of vehicle feels rid …",
+          "source": "Source A",
+          "powertrain": "PHEV",
+          "country": "FR"
+         }
+        ]
+       },
+       {
+        "theme": "Controller operation",
+        "domain": "infotainment_digital",
+        "rows": 1,
+        "complaints": 1,
+        "defects": 0,
+        "difficultToUse": 1,
+        "wants": 0,
+        "quotes": [
+         {
+          "id": "G70-1736",
+          "evidenceRef": "verbatim:G70-1736",
+          "text": "the bmw i7 is really outstanding for both comfort and the way it drives. the big all-screen look may be trendy, but at 60, and probably close to your typical buyer age, our crowd likes one button = one function. that is literally my only gribe with this otherwise extraordinary car.",
+          "source": "Source A",
+          "powertrain": "BEV",
+          "country": "FR"
+         }
+        ]
+       },
+       {
+        "theme": "Cupholder",
+        "domain": "space_practicality",
+        "rows": 1,
+        "complaints": 1,
+        "defects": 1,
+        "difficultToUse": 0,
+        "wants": 0,
+        "quotes": [
+         {
+          "id": "G70-3783",
+          "evidenceRef": "verbatim:G70-3783",
+          "text": "i am happy with the new car. it is clearly more comfortable and in general more interesting than the older series i had. still, there are some drawbacks i really cannot ignore: - once the speed goes past about 110-120 km/h, the car is not well insulated anymore, wind noise becomes obvious and distur …",
+          "source": "Source A",
+          "powertrain": "PHEV",
+          "country": "ES"
+         }
+        ]
+       },
+       {
+        "theme": "Glove box",
+        "domain": "space_practicality",
+        "rows": 1,
+        "complaints": 1,
+        "defects": 0,
+        "difficultToUse": 1,
+        "wants": 0,
+        "quotes": [
+         {
+          "id": "G70-3783",
+          "evidenceRef": "verbatim:G70-3783",
+          "text": "i am happy with the new car. it is clearly more comfortable and in general more interesting than the older series i had. still, there are some drawbacks i really cannot ignore: - once the speed goes past about 110-120 km/h, the car is not well insulated anymore, wind noise becomes obvious and distur …",
+          "source": "Source A",
+          "powertrain": "PHEV",
+          "country": "ES"
+         }
+        ]
+       },
+       {
+        "theme": "Heated steering wheel",
+        "domain": "interior_comfort",
+        "rows": 2,
+        "complaints": 1,
+        "defects": 0,
+        "difficultToUse": 0,
+        "wants": 1,
+        "quotes": [
+         {
+          "id": "G70-0538",
+          "evidenceRef": "verbatim:G70-0538",
+          "text": "spending around £128k on a car and then being asked to pay extra for a heated steering wheel is ridiculous. i've owned bmws for many years and this one will be my last. i lodged a complaint with bmw and they did not actually address it at all. to me it's simple: this is a bmw, not some brand that sh …",
+          "source": "Source A",
+          "powertrain": "BEV",
+          "country": "GB"
+         }
+        ]
+       },
+       {
+        "theme": "Steering wheel",
+        "domain": "interior_comfort",
+        "rows": 1,
+        "complaints": 1,
+        "defects": 1,
+        "difficultToUse": 0,
+        "wants": 0,
+        "quotes": [
+         {
+          "id": "G70-3783",
+          "evidenceRef": "verbatim:G70-3783",
+          "text": "i am happy with the new car. it is clearly more comfortable and in general more interesting than the older series i had. still, there are some drawbacks i really cannot ignore: - once the speed goes past about 110-120 km/h, the car is not well insulated anymore, wind noise becomes obvious and distur …",
+          "source": "Source A",
+          "powertrain": "PHEV",
+          "country": "ES"
+         }
+        ]
+       }
+      ]
      },
      "market": []
     },
     {
      "key": "seats",
-     "weight": 5.0,
-     "rows": 0,
+     "weight": 5,
+     "rows": 1,
      "likes": 0,
-     "complaints": 0,
-     "themes": 0,
+     "complaints": 1,
+     "themes": 1,
      "liked": {
-      "narration": null,
+      "narration": {
+       "suggestion": "No likes recorded in this subsystem; nothing is flagged to keep.",
+       "summary": "0 likes in 1 rows across 1 theme.",
+       "basis": "derived"
+      },
       "themes": []
      },
      "criticised": {
-      "narration": null,
-      "themes": []
+      "narration": {
+       "suggestion": "Address Seats first: 1 complaints of 1 rows, mostly defects (a recurring complaint).",
+       "summary": "1 complaints in 1 rows: 1 defects, 0 difficult to use, 0 wants. Seats (1) carries 100% of them.",
+       "basis": "derived"
+      },
+      "themes": [
+       {
+        "theme": "Seats",
+        "domain": "interior_comfort",
+        "rows": 1,
+        "complaints": 1,
+        "defects": 1,
+        "difficultToUse": 0,
+        "wants": 0,
+        "quotes": [
+         {
+          "id": "G70-3783",
+          "evidenceRef": "verbatim:G70-3783",
+          "text": "i am happy with the new car. it is clearly more comfortable and in general more interesting than the older series i had. still, there are some drawbacks i really cannot ignore: - once the speed goes past about 110-120 km/h, the car is not well insulated anymore, wind noise becomes obvious and distur …",
+          "source": "Source A",
+          "powertrain": "PHEV",
+          "country": "ES"
+         }
+        ]
+       }
+      ]
      },
      "market": []
     },
     {
      "key": "exterior_design",
-     "weight": 6.0,
-     "rows": 0,
+     "weight": 6,
+     "rows": 1,
      "likes": 0,
-     "complaints": 0,
-     "themes": 0,
+     "complaints": 1,
+     "themes": 1,
      "liked": {
-      "narration": null,
+      "narration": {
+       "suggestion": "No likes recorded in this subsystem; nothing is flagged to keep.",
+       "summary": "0 likes in 1 rows across 1 theme.",
+       "basis": "derived"
+      },
       "themes": []
      },
      "criticised": {
-      "narration": null,
-      "themes": []
+      "narration": {
+       "suggestion": "Address Exterior rearview mirror first: 1 complaints of 1 rows, mostly wants (an unmet need).",
+       "summary": "1 complaints in 1 rows: 0 defects, 0 difficult to use, 1 wants. Exterior rearview mirror (1) carries 100% of them.",
+       "basis": "derived"
+      },
+      "themes": [
+       {
+        "theme": "Exterior rearview mirror",
+        "domain": "exterior_design",
+        "rows": 1,
+        "complaints": 1,
+        "defects": 0,
+        "difficultToUse": 0,
+        "wants": 1,
+        "quotes": [
+         {
+          "id": "G70-3783",
+          "evidenceRef": "verbatim:G70-3783",
+          "text": "i am happy with the new car. it is clearly more comfortable and in general more interesting than the older series i had. still, there are some drawbacks i really cannot ignore: - once the speed goes past about 110-120 km/h, the car is not well insulated anymore, wind noise becomes obvious and distur …",
+          "source": "Source A",
+          "powertrain": "PHEV",
+          "country": "ES"
+         }
+        ]
+       }
+      ]
      },
      "market": []
     },
     {
      "key": "paint_color",
-     "weight": 1.0,
+     "weight": 1,
      "rows": 0,
      "likes": 0,
      "complaints": 0,
@@ -11661,7 +12335,7 @@
     },
     {
      "key": "charging",
-     "weight": 4.0,
+     "weight": 4,
      "rows": 0,
      "likes": 0,
      "complaints": 0,

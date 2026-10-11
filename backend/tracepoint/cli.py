@@ -439,12 +439,12 @@ def requirements_export(
     out_dir: Path = typer.Option(None, "--out-dir", help="Default: data/requirements"),
 ) -> None:
     """Write the requirement list (deliverable D2) as Markdown and CSV."""
-    from tracepoint.requirements.report import list_requirements, render_csv, render_markdown
+    from tracepoint.requirements.report import export_rows, render_csv, render_markdown
 
     out = out_dir or get_settings().data_dir / "requirements"
     out.mkdir(parents=True, exist_ok=True)
     with Session(make_engine()) as session:
-        reqs = list_requirements(session, vehicle, market)
+        reqs = export_rows(session, vehicle, market)
     stem = out / f"requirements_{vehicle or 'ALL'}_{market or 'ALL'}"
     title = f"Requirement list – {vehicle or 'all vehicles'}, {market or 'all markets'}"
     stem.with_suffix(".md").write_text(render_markdown(reqs, title), encoding="utf-8")

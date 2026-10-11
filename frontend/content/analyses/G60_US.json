@@ -1,0 +1,2276 @@
+{
+ "key": "G60_US",
+ "kind": "situation",
+ "title": "BMW 5 Series Sedan (G60), market US",
+ "vehicle": "G60",
+ "market": "US",
+ "country": null,
+ "origin": "committed with the repository",
+ "file": "reports/analysis/G60_US.json",
+ "run": {
+  "id": "RUN-20261011-035557-agent.analyze.G60.US-2e8f",
+  "ranAt": "2026-10-11T03:55:57+00:00",
+  "model": "gpt-5.4-2026-03-05",
+  "promptVersion": "situation-analysis-v7",
+  "steps": 4,
+  "toolCalls": 22,
+  "costUsd": 0.352,
+  "contextPack": "context-pack-v4"
+ },
+ "headline": "US G60 customers still love the 5 Series for ride, handling and performance, but the main product issues are HMI complexity, seat comfort, and the BEV range/charging experience.",
+ "summary": "The strongest positives remain classic 5 Series strengths: handling, ride comfort, acceleration and overall drivetrain response, plus exterior design. The biggest concentration of complaints sits in Software/HMI, where many separate themes point to one broader usability problem. Seats are the clearest comfort gap, supported by both complaint volume and weak study scores. For electrified use, customers split their frustration between what the car offers itself (range confidence and prediction) and what they face outside the car (public charging compatibility, availability and planning). The first H1 priorities are simpler access to frequent functions, seat comfort tuning, climate-control usability, phone/CarPlay reliability, and better range guidance. A larger real-world range step belongs to H2.",
+ "coverage": "This analysis rests on the US context pack plus drilled-down evidence from 3,628 verbatims in market US (3,610 US, 18 CA), study metrics from US_2025, subsystem aggregation, extracted findings, existing US requirements and CPM effort estimates, and selected external evidence for software/HMI, HV battery and charging. Evidence strength is uneven: the main customer themes cited here are mostly level A or B findings with dozens of rows, while market and external rows are often weak single-source context and are used only as support, not alone.",
+ "proposalGroups": [
+  {
+   "group": "now",
+   "label": "Change now, within the current generation (H1)",
+   "proposals": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    7
+   ]
+  },
+  {
+   "group": "next",
+   "label": "Change with the next generation (H2)",
+   "proposals": [
+    6
+   ]
+  },
+  {
+   "group": "keep",
+   "label": "Keep as it is, or act outside the vehicle",
+   "proposals": [
+    8
+   ]
+  }
+ ],
+ "proposals": [
+  {
+   "n": 1,
+   "group": "now",
+   "title": "Simplify access to frequent functions and reduce menu depth",
+   "proposal": "Consider prioritising a simpler interaction layer for the functions customers use while driving: climate, seat and steering-wheel heating, drive mode, start-stop, assistance on/off, volume, map and phone. Where feasible in the life-cycle impulse, add or restore direct physical access for the highest-frequency controls.",
+   "why": "This is the biggest concentration of complaints in the vehicle: 723 complaints in Software/HMI, with level-A evidence on Operating concept and supporting weak study scores on infotainment menu structure and climate controls. The subsystem concentration matters: many separate complaints likely roll up into one HMI workstream. An existing requirement already covers this. Its CPM estimate is assumption-based, not calibrated, but useful for scale: 3.05% of a new generation, adapt, driven mainly by Software/HMI (own impact 0.1, module change) plus Interior/console (own impact 0.1, module change).",
+   "horizon": "H1",
+   "horizonLabel": "Now (H1)",
+   "requirement": "REQ-G60-US-ID-01",
+   "effort": {
+    "status": "estimated",
+    "statusLabel": "estimated",
+    "basis": "from the change profile of REQ-G60-US-ID-01",
+    "analystProfile": false,
+    "checks": [],
+    "effortPct": 3.05,
+    "p5": 1.47,
+    "p95": 5.48,
+    "decision": "adapt",
+    "decisionLabel": "Adaptation, below 15 % of a new vehicle generation",
+    "stablePct": 100,
+    "borderline": false,
+    "layer": "K2",
+    "layerLabel": "module change",
+    "size": "S",
+    "certification": false,
+    "subsystems": [
+     {
+      "key": "software_hmi",
+      "name": "Software/HMI",
+      "effortPct": 1.81,
+      "risk": 0.1812,
+      "path": null
+     },
+     {
+      "key": "interior_console",
+      "name": "Interior/console",
+      "effortPct": 0.7,
+      "risk": 0.1,
+      "path": null
+     },
+     {
+      "key": "ee_architecture",
+      "name": "E/E architecture",
+      "effortPct": 0.35,
+      "risk": 0.0389,
+      "path": [
+       "Interior/console",
+       "E/E architecture"
+      ]
+     },
+     {
+      "key": "seats",
+      "name": "Seats",
+      "effortPct": 0.1,
+      "risk": 0.02,
+      "path": [
+       "Interior/console",
+       "Seats"
+      ]
+     }
+    ]
+   },
+   "evidence": {
+    "count": 9,
+    "byKind": [
+     {
+      "kind": "finding",
+      "count": 3,
+      "label": "findings"
+     },
+     {
+      "kind": "verbatim",
+      "count": 2,
+      "label": "customer verbatims"
+     },
+     {
+      "kind": "metric",
+      "count": 2,
+      "label": "study scores"
+     },
+     {
+      "kind": "external",
+      "count": 1,
+      "label": "external source"
+     },
+     {
+      "kind": "requirement",
+      "count": 1,
+      "label": "requirement"
+     }
+    ],
+    "items": [
+     {
+      "ref": "FND-G60-US-VOC-operating_concept_operating_system",
+      "kind": "finding",
+      "label": "Operating concept, operating system: 53 complaints (recurring complaint)",
+      "text": null,
+      "meta": "recurring complaint, evidence level A, G60 in United States",
+      "url": null,
+      "verified": null
+     },
+     {
+      "ref": "FND-G60-US-VOC-touch_screen_operation",
+      "kind": "finding",
+      "label": "Touch screen, operation: 35 complaints (recurring complaint)",
+      "text": null,
+      "meta": "recurring complaint, evidence level B, G60 in United States",
+      "url": null,
+      "verified": null
+     },
+     {
+      "ref": "FND-G60-US-VOC-instrument_cluster",
+      "kind": "finding",
+      "label": "Instrument cluster: 38 complaints (recurring complaint)",
+      "text": null,
+      "meta": "recurring complaint, evidence level B, G60 in United States",
+      "url": null,
+      "verified": null
+     },
+     {
+      "ref": "verbatim:G60-0248",
+      "kind": "verbatim",
+      "label": "Customer verbatim G60-0248",
+      "text": "Customer reported that the screen layout is not very intuitive for accessing some functions, even though this is around their eighth or ninth BMW. Customer noted there are numerous manual actions required and that the system relies a lot on touchscreen interaction. Customer stated a BMW genius explained that voice commands are available, but Customer prefers more click-type controls or simpler access instead of going through several layers of menus on the display. Customer commented there are many technical features in the car and feels the system is less intuitive than prior BMW vehicles they have owned. Writer acknowledged the comments and thanked the Customer for providing their experience.",
+      "meta": "US, ICE, Source B",
+      "url": null,
+      "verified": null
+     },
+     {
+      "ref": "verbatim:G60-0397",
+      "kind": "verbatim",
+      "label": "Customer verbatim G60-0397",
+      "text": "Customer stated that replacing physical buttons with more touch screens is a terrible trend, because it makes drivers take their eyes off the road.",
+      "meta": "US, ICE, Source B",
+      "url": null,
+      "verified": null
+     },
+     {
+      "ref": "metric:MET-US-US-G60-infotainment_menu_structure",
+      "kind": "metric",
+      "label": "Menu structure of infotainment system",
+      "text": null,
+      "meta": "study US_2025, G60 in United States, mean 4.88 on 1 to 7, 36 % in the top two boxes, 13 % in the bottom three",
+      "url": null,
+      "verified": null
+     },
+     {
+      "ref": "metric:MET-US-US-G60-climate_controls_usability",
+      "kind": "metric",
+      "label": "Operation of heater/ AC controls",
+      "text": null,
+      "meta": "study US_2025, G60 in United States, mean 4.80 on 1 to 7, 29 % in the top two boxes, 15 % in the bottom three",
+      "url": null,
+      "verified": null
+     },
+     {
+      "ref": "external:EXT-T1-01-1",
+      "kind": "external",
+      "label": "48 % of consumers prefer a mix of touchscreen and physical buttons.",
+      "text": null,
+      "meta": "S&P Global Mobility, 2025 HMI consumer study, S&P Global Mobility, 2026-02-12; consumer survey, figures found on the source page",
+      "url": "https://www.mobilityglobal.com/en-us/automotive-insights/blog/what-consumers-value-in-human-machine-interface-technologies",
+      "verified": true
+     },
+     {
+      "ref": "REQ-G60-US-ID-01",
+      "kind": "requirement",
+      "label": "Frequently used functions reachable with one touch or a physical control",
+      "text": null,
+      "meta": "REQ-G60-US-ID-01",
+      "url": null,
+      "verified": null
+     }
+    ]
+   }
+  },
+  {
+   "n": 2,
+   "group": "now",
+   "title": "Fix seat comfort first, then review feature-content gaps around seats",
+   "proposal": "Consider making seat comfort the first interior hardware priority: improve cushion foam, contour and lumbar travel on the existing seat structure for front and rear seats, then review whether leather, massage and ventilation content should be adjusted once the base comfort issue is solved.",
+   "why": "Seats are the clearest comfort problem with level-A evidence and weak study support. The customer pain is basic comfort and adjustability, not only missing premium features. An existing requirement covers the core comfort fix. Its effort estimate is assumption-based and rough, but it is still an H1 adaptation rather than a new architecture: 4.58% of a new generation, adapt, starting in seats (own impact 0.25, add-on).",
+   "horizon": "H1",
+   "horizonLabel": "Now (H1)",
+   "requirement": "REQ-G60-US-IC-01",
+   "effort": {
+    "status": "estimated",
+    "statusLabel": "estimated",
+    "basis": "from the change profile of REQ-G60-US-IC-01",
+    "analystProfile": false,
+    "checks": [],
+    "effortPct": 4.58,
+    "p5": 2.02,
+    "p95": 7.15,
+    "decision": "adapt",
+    "decisionLabel": "Adaptation, below 15 % of a new vehicle generation",
+    "stablePct": 100,
+    "borderline": false,
+    "layer": "K1",
+    "layerLabel": "add-on",
+    "size": "S",
+    "certification": false,
+    "subsystems": [
+     {
+      "key": "software_hmi",
+      "name": "Software/HMI",
+      "effortPct": 2.21,
+      "risk": 0.2206,
+      "path": [
+       "Seats",
+       "E/E architecture",
+       "Software/HMI"
+      ]
+     },
+     {
+      "key": "seats",
+      "name": "Seats",
+      "effortPct": 1.25,
+      "risk": 0.25,
+      "path": null
+     },
+     {
+      "key": "ee_architecture",
+      "name": "E/E architecture",
+      "effortPct": 0.75,
+      "risk": 0.0829,
+      "path": [
+       "Seats",
+       "E/E architecture"
+      ]
+     },
+     {
+      "key": "thermal_hvac",
+      "name": "Thermal/HVAC",
+      "effortPct": 0.38,
+      "risk": 0.0625,
+      "path": [
+       "Seats",
+       "Thermal/HVAC"
+      ]
+     }
+    ]
+   },
+   "evidence": {
+    "count": 7,
+    "byKind": [
+     {
+      "kind": "finding",
+      "count": 1,
+      "label": "finding"
+     },
+     {
+      "kind": "verbatim",
+      "count": 3,
+      "label": "customer verbatims"
+     },
+     {
+      "kind": "metric",
+      "count": 2,
+      "label": "study scores"
+     },
+     {
+      "kind": "requirement",
+      "count": 1,
+      "label": "requirement"
+     }
+    ],
+    "items": [
+     {
+      "ref": "FND-G60-US-VOC-seats",
+      "kind": "finding",
+      "label": "Seats: 62 complaints (recurring complaint)",
+      "text": null,
+      "meta": "recurring complaint, evidence level A, G60 in United States",
+      "url": null,
+      "verified": null
+     },
+     {
+      "ref": "verbatim:G60-0051",
+      "kind": "verbatim",
+      "label": "Customer verbatim G60-0051",
+      "text": "the interior hard plastics creak a lot and feel low quality. my car also has some fit and finish problems, like the driver side front window rattling.\n\nsound system is weak compared to rivals.\n\nrange estimates are off, the efficiency stats shown are basically made up, and cold weather hits the range very hard.\n\nthe driver seat is extremely uncomfortable, especially in the lower back area, even with the lumbar turned down to minimum.\n\napp remote link to the car is slow and often unreliable, even in the same places over and over - it says commands succeeded but they don't actually work. the app really needs the option to connect straight to the car via wifi or bluetooth when it's in the garage or similar.",
+      "meta": "US, BEV, Source A",
+      "url": null,
+      "verified": null
+     },
+     {
+      "ref": "verbatim:G60-0320",
+      "kind": "verbatim",
+      "label": "Customer verbatim G60-0320",
+      "text": "this car ticks almost all the boxes for me. the key thing is that it is genuinely fun to drive. on top of that, the purchase price felt competitive and the overall value for a new car seemed good.\n\nthe downside is the complexity of the technology. it is not straightforward to learn, and making it simpler would be a very good objective.\n\nthe big negative so far has been getting the driver seat adjusted so i do not end up with serious pain in my lower right back and right knee. i spent hours trying to find a position that worked. my son had to set the seat for me again this week, the second time, and now i can drive for about 30 minutes without pain. i am hoping that will also hold up for my regular 2 hour trips. over the last roughly 35 years i have had teslas and e class mercedes and never ran into this problem. my last mercedes had multi contour seats. my i5 has the upgraded seat package, but i just cannot get it dialed in, there are simply too many adjustments. the current e class mercedes offers an electronic assistant to help the driver find a seat position, and maybe bmw should add something like that too.",
+      "meta": "US, BEV, Source A",
+      "url": null,
+      "verified": null
+     },
+     {
+      "ref": "verbatim:G60-0468",
+      "kind": "verbatim",
+      "label": "Customer verbatim G60-0468",
+      "text": "I had a problem with Seats have insufficient range of adjustment: \"Not as comfy as our 2024 X5, and I keep having to reposition myself to be able to see the heads-up display.\". Which Seat Control Insufficient Range?: Height, Tilt, Which Seat Insufficient Range?: Front passenger seat, Driver seat",
+      "meta": "US, ICE, Source C",
+      "url": null,
+      "verified": null
+     },
+     {
+      "ref": "metric:MET-US-US-G60-seat_comfort",
+      "kind": "metric",
+      "label": "Overall comfort of the seats",
+      "text": null,
+      "meta": "study US_2025, G60 in United States, mean 5.74 on 1 to 7, 67 % in the top two boxes, 4 % in the bottom three",
+      "url": null,
+      "verified": null
+     },
+     {
+      "ref": "metric:MET-US-US-G60-rear_seat_comfort",
+      "kind": "metric",
+      "label": "Comfort of 2nd row seat",
+      "text": null,
+      "meta": "study US_2025, G60 in United States, mean 5.27 on 1 to 7, 47 % in the top two boxes, 5 % in the bottom three",
+      "url": null,
+      "verified": null
+     },
+     {
+      "ref": "REQ-G60-US-IC-01",
+      "kind": "requirement",
+      "label": "Front and rear seats comfortable for long drives across body sizes",
+      "text": null,
+      "meta": "REQ-G60-US-IC-01",
+      "url": null,
+      "verified": null
+     }
+    ]
+   }
+  },
+  {
+   "n": 3,
+   "group": "now",
+   "title": "Treat climate control as a combined usability and performance package",
+   "proposal": "Consider an H1 package that keeps climate controls always visible or directly accessible, preserves key settings per profile, and improves hot-soak cool-down performance for US conditions.",
+   "why": "Climate complaints are frequent enough to stand on their own and also reinforce the broader HMI issue. The existing requirement already bundles the right levers across Thermal/HVAC, Interior/console and Software/HMI. Its effort estimate is assumption-based and rough: 2.58% of a new generation, adapt.",
+   "horizon": "H1",
+   "horizonLabel": "Now (H1)",
+   "requirement": "REQ-G60-US-IC-02",
+   "effort": {
+    "status": "estimated",
+    "statusLabel": "estimated",
+    "basis": "from the change profile of REQ-G60-US-IC-02",
+    "analystProfile": false,
+    "checks": [],
+    "effortPct": 2.58,
+    "p5": 1.25,
+    "p95": 4.75,
+    "decision": "adapt",
+    "decisionLabel": "Adaptation, below 15 % of a new vehicle generation",
+    "stablePct": 100,
+    "borderline": false,
+    "layer": "K2",
+    "layerLabel": "module change",
+    "size": "S",
+    "certification": false,
+    "subsystems": [
+     {
+      "key": "software_hmi",
+      "name": "Software/HMI",
+      "effortPct": 1.14,
+      "risk": 0.114,
+      "path": [
+       "Interior/console",
+       "E/E architecture",
+       "Software/HMI"
+      ]
+     },
+     {
+      "key": "thermal_hvac",
+      "name": "Thermal/HVAC",
+      "effortPct": 0.64,
+      "risk": 0.1064,
+      "path": null
+     },
+     {
+      "key": "ee_architecture",
+      "name": "E/E architecture",
+      "effortPct": 0.4,
+      "risk": 0.0445,
+      "path": [
+       "Thermal/HVAC",
+       "E/E architecture"
+      ]
+     },
+     {
+      "key": "interior_console",
+      "name": "Interior/console",
+      "effortPct": 0.35,
+      "risk": 0.05,
+      "path": null
+     }
+    ]
+   },
+   "evidence": {
+    "count": 6,
+    "byKind": [
+     {
+      "kind": "finding",
+      "count": 1,
+      "label": "finding"
+     },
+     {
+      "kind": "verbatim",
+      "count": 1,
+      "label": "customer verbatim"
+     },
+     {
+      "kind": "metric",
+      "count": 3,
+      "label": "study scores"
+     },
+     {
+      "kind": "requirement",
+      "count": 1,
+      "label": "requirement"
+     }
+    ],
+    "items": [
+     {
+      "ref": "FND-G60-US-VOC-air_conditioning_setting",
+      "kind": "finding",
+      "label": "Air conditioning, setting: 24 complaints (recurring complaint)",
+      "text": null,
+      "meta": "recurring complaint, evidence level A, G60 in United States",
+      "url": null,
+      "verified": null
+     },
+     {
+      "ref": "verbatim:G60-0551",
+      "kind": "verbatim",
+      "label": "Customer verbatim G60-0551",
+      "text": "for a car at this price point, it really should come with leather seats and trim. the interior doors, seats, and center console all feel cheap. the range is not very good, and i do not understand why the ix would have better range. the car takes a long time to cool down, and with no cooled seats that problem is even worse. the brakes could be stronger for a vehicle of this size and weight. some of the center console buttons stick or do not always respond when you press them. the door lock switch is awkward to use and sometimes does not register a press, and since it is a solid piece you cannot easily tell if it actually worked.",
+      "meta": "US, BEV, Source A",
+      "url": null,
+      "verified": null
+     },
+     {
+      "ref": "metric:MET-US-US-G60-climate_controls_usability",
+      "kind": "metric",
+      "label": "Operation of heater/ AC controls",
+      "text": null,
+      "meta": "study US_2025, G60 in United States, mean 4.80 on 1 to 7, 29 % in the top two boxes, 15 % in the bottom three",
+      "url": null,
+      "verified": null
+     },
+     {
+      "ref": "metric:MET-US-US-G60-air_conditioning_performance",
+      "kind": "metric",
+      "label": "Air conditioner performance",
+      "text": null,
+      "meta": "study US_2025, G60 in United States, mean 5.19 on 1 to 7, 39 % in the top two boxes, 7 % in the bottom three",
+      "url": null,
+      "verified": null
+     },
+     {
+      "ref": "metric:MET-US-US-G60-climate_control",
+      "kind": "metric",
+      "label": "Overall performance of climate control system",
+      "text": null,
+      "meta": "study US_2025, G60 in United States, mean 5.14 on 1 to 7, 36 % in the top two boxes, 6 % in the bottom three",
+      "url": null,
+      "verified": null
+     },
+     {
+      "ref": "REQ-G60-US-IC-02",
+      "kind": "requirement",
+      "label": "Climate control direct, strong enough for US heat, and remembers its settings",
+      "text": null,
+      "meta": "REQ-G60-US-IC-02",
+      "url": null,
+      "verified": null
+     }
+    ]
+   }
+  },
+  {
+   "n": 4,
+   "group": "now",
+   "title": "Improve phone integration reliability and charging-tray performance",
+   "proposal": "Consider prioritising a focused digital-quality fix for CarPlay profile binding, source switching and loudness matching, together with wireless charging thermal management so the tray maintains charge during normal use.",
+   "why": "This is a narrower and more actionable digital issue than the full HMI concept, with clear defect content and customer irritation. The existing requirement covers it. Its effort estimate is assumption-based and rough: 1.45% of a new generation, adapt, starting in Software/HMI and Interior/console.",
+   "horizon": "H1",
+   "horizonLabel": "Now (H1)",
+   "requirement": "REQ-G60-US-ID-02",
+   "effort": {
+    "status": "estimated",
+    "statusLabel": "estimated",
+    "basis": "from the change profile of REQ-G60-US-ID-02",
+    "analystProfile": false,
+    "checks": [],
+    "effortPct": 1.45,
+    "p5": 0.69,
+    "p95": 2.67,
+    "decision": "adapt",
+    "decisionLabel": "Adaptation, below 15 % of a new vehicle generation",
+    "stablePct": 100,
+    "borderline": false,
+    "layer": "K1",
+    "layerLabel": "add-on",
+    "size": "S",
+    "certification": false,
+    "subsystems": [
+     {
+      "key": "software_hmi",
+      "name": "Software/HMI",
+      "effortPct": 0.84,
+      "risk": 0.084,
+      "path": [
+       "Interior/console",
+       "E/E architecture",
+       "Software/HMI"
+      ]
+     },
+     {
+      "key": "interior_console",
+      "name": "Interior/console",
+      "effortPct": 0.35,
+      "risk": 0.05,
+      "path": null
+     },
+     {
+      "key": "ee_architecture",
+      "name": "E/E architecture",
+      "effortPct": 0.17,
+      "risk": 0.019,
+      "path": [
+       "Interior/console",
+       "E/E architecture"
+      ]
+     },
+     {
+      "key": "seats",
+      "name": "Seats",
+      "effortPct": 0.05,
+      "risk": 0.01,
+      "path": [
+       "Interior/console",
+       "Seats"
+      ]
+     }
+    ]
+   },
+   "evidence": {
+    "count": 5,
+    "byKind": [
+     {
+      "kind": "finding",
+      "count": 2,
+      "label": "findings"
+     },
+     {
+      "kind": "verbatim",
+      "count": 1,
+      "label": "customer verbatim"
+     },
+     {
+      "kind": "metric",
+      "count": 1,
+      "label": "study score"
+     },
+     {
+      "kind": "requirement",
+      "count": 1,
+      "label": "requirement"
+     }
+    ],
+    "items": [
+     {
+      "ref": "FND-G60-US-VOC-apple_carplay",
+      "kind": "finding",
+      "label": "Apple CarPlay: 37 complaints (recurring complaint)",
+      "text": null,
+      "meta": "recurring complaint, evidence level B, G60 in United States",
+      "url": null,
+      "verified": null
+     },
+     {
+      "ref": "FND-G60-US-VOC-mobile_device_wireless_charging",
+      "kind": "finding",
+      "label": "Mobile device, wireless charging: 26 complaints (recurring complaint)",
+      "text": null,
+      "meta": "recurring complaint, evidence level A, G60 in United States",
+      "url": null,
+      "verified": null
+     },
+     {
+      "ref": "verbatim:G60-0081",
+      "kind": "verbatim",
+      "label": "Customer verbatim G60-0081",
+      "text": "the updated electronic features feel overly complex. with 2 user profiles the system seems to get mixed up, constantly flipping profiles, and even when i'm on mine the other person's music can start playing. the glass controls throw off a lot of glare, with the sun reflecting right into my eyes. there is also no option to turn off the auto start/stop.",
+      "meta": "US, ICE, Source A",
+      "url": null,
+      "verified": null
+     },
+     {
+      "ref": "metric:MET-US-US-G60-phone_charging",
+      "kind": "metric",
+      "label": "Phone charging",
+      "text": null,
+      "meta": "study US_2025, G60 in United States, mean 5.46 on 1 to 7, 56 % in the top two boxes, 10 % in the bottom three",
+      "url": null,
+      "verified": null
+     },
+     {
+      "ref": "REQ-G60-US-ID-02",
+      "kind": "requirement",
+      "label": "Phone integration that just works",
+      "text": null,
+      "meta": "REQ-G60-US-ID-02",
+      "url": null,
+      "verified": null
+     }
+    ]
+   }
+  },
+  {
+   "n": 5,
+   "group": "now",
+   "title": "Improve range confidence and winter guidance in H1",
+   "proposal": "Consider an H1 software-focused response to electric-range dissatisfaction: improve range prediction, winter guidance and route-planning transparency so customers better understand expected range by conditions and usage.",
+   "why": "A large share of range complaints is about confidence, prediction and cold-weather transparency rather than only absolute battery size. The existing H1 requirement covers this and stays small enough for the current generation. Its effort estimate is assumption-based and rough: 0.42% of a new generation, adapt, starting in Software/HMI.",
+   "horizon": "H1",
+   "horizonLabel": "Now (H1)",
+   "requirement": "REQ-G60-US-PR-02",
+   "effort": {
+    "status": "estimated",
+    "statusLabel": "estimated",
+    "basis": "from the change profile of REQ-G60-US-PR-02",
+    "analystProfile": false,
+    "checks": [],
+    "effortPct": 0.42,
+    "p5": 0.18,
+    "p95": 0.75,
+    "decision": "adapt",
+    "decisionLabel": "Adaptation, below 15 % of a new vehicle generation",
+    "stablePct": 100,
+    "borderline": false,
+    "layer": "K1",
+    "layerLabel": "add-on",
+    "size": "XS",
+    "certification": false,
+    "subsystems": [
+     {
+      "key": "software_hmi",
+      "name": "Software/HMI",
+      "effortPct": 0.4,
+      "risk": 0.04,
+      "path": null
+     },
+     {
+      "key": "ee_architecture",
+      "name": "E/E architecture",
+      "effortPct": 0.02,
+      "risk": 0.0027,
+      "path": [
+       "Software/HMI",
+       "E/E architecture"
+      ]
+     }
+    ]
+   },
+   "evidence": {
+    "count": 5,
+    "byKind": [
+     {
+      "kind": "finding",
+      "count": 1,
+      "label": "finding"
+     },
+     {
+      "kind": "verbatim",
+      "count": 3,
+      "label": "customer verbatims"
+     },
+     {
+      "kind": "requirement",
+      "count": 1,
+      "label": "requirement"
+     }
+    ],
+    "items": [
+     {
+      "ref": "FND-G60-US-VOC-electric_range",
+      "kind": "finding",
+      "label": "Electric Range: 67 complaints (recurring complaint)",
+      "text": null,
+      "meta": "recurring complaint, evidence level B, G60 in United States",
+      "url": null,
+      "verified": null
+     },
+     {
+      "ref": "verbatim:G60-0051",
+      "kind": "verbatim",
+      "label": "Customer verbatim G60-0051",
+      "text": "the interior hard plastics creak a lot and feel low quality. my car also has some fit and finish problems, like the driver side front window rattling.\n\nsound system is weak compared to rivals.\n\nrange estimates are off, the efficiency stats shown are basically made up, and cold weather hits the range very hard.\n\nthe driver seat is extremely uncomfortable, especially in the lower back area, even with the lumbar turned down to minimum.\n\napp remote link to the car is slow and often unreliable, even in the same places over and over - it says commands succeeded but they don't actually work. the app really needs the option to connect straight to the car via wifi or bluetooth when it's in the garage or similar.",
+      "meta": "US, BEV, Source A",
+      "url": null,
+      "verified": null
+     },
+     {
+      "ref": "verbatim:G60-0398",
+      "kind": "verbatim",
+      "label": "Customer verbatim G60-0398",
+      "text": "Customer stated he is worried about how the range is estimated. Customer stated he drove a 100 mile round trip into the city and back home. Customer stated the car showed roughly 200 miles of range at departure and less than 60 miles remaining once he got back. Customer stated he used efficient mode only for part of the drive home because he began to doubt if there was enough charge to reach his house. Customer stated the average outside temperature was about 32-35 degrees. Customer stated he did not precondition the vehicle before leaving, but the car was kept in his garage overnight. Customer stated the dealership did not clearly explain how to get the best range, and that this is his first electric vehicle.\n\nWriter advised the figure in the instrument cluster is only an estimate. Writer advised that range is affected by climate control usage, driving style, charging behavior, weather, road terrain, and some other variables. Writer advised that preconditioning the vehicle on a cold day will provide a much more accurate range prediction. Writer advised that heating the vehicle up to optimal temperature consumes a lot of battery power, and that not just the cabin but also the battery itself must be warmed to operate efficiently.",
+      "meta": "US, BEV, Source B",
+      "url": null,
+      "verified": null
+     },
+     {
+      "ref": "verbatim:G60-0443",
+      "kind": "verbatim",
+      "label": "Customer verbatim G60-0443",
+      "text": "it would help to clearly know the range in different driving conditions. performance versus temperature should be shown as well. there seems to be data on this, so why isn't it shared?",
+      "meta": "CA, BEV, Source A",
+      "url": null,
+      "verified": null
+     },
+     {
+      "ref": "REQ-G60-US-PR-02",
+      "kind": "requirement",
+      "label": "Reliable range prediction and cold-weather range guidance for BEV and PHEV",
+      "text": null,
+      "meta": "REQ-G60-US-PR-02",
+      "url": null,
+      "verified": null
+     }
+    ]
+   }
+  },
+  {
+   "n": 6,
+   "group": "next",
+   "title": "Move the larger real-world range step to the successor",
+   "proposal": "Consider treating a meaningful real-world electric-range increase as an H2 successor topic, using the next battery generation rather than trying to force a current-cycle fix.",
+   "why": "Some customers clearly want more absolute range, but the stored requirement already shows this is a new-generation battery change, not an H1 adaptation. The estimate is assumption-based and rough, but directionally clear: 48.98% of a new generation, classed as new generation, starting in HV battery as a platform change.",
+   "horizon": "H2",
+   "horizonLabel": "Next generation (H2)",
+   "requirement": "REQ-G60-US-PR-03",
+   "effort": {
+    "status": "estimated",
+    "statusLabel": "estimated",
+    "basis": "from the change profile of REQ-G60-US-PR-03",
+    "analystProfile": false,
+    "checks": [],
+    "effortPct": 48.98,
+    "p5": 36.73,
+    "p95": 56.87,
+    "decision": "new generation",
+    "decisionLabel": "New generation, 50 % or more, or a platform change without carryover",
+    "stablePct": 100,
+    "borderline": false,
+    "layer": "K3",
+    "layerLabel": "platform change",
+    "size": "L",
+    "certification": true,
+    "subsystems": [
+     {
+      "key": "hv_battery",
+      "name": "HV battery",
+      "effortPct": 10,
+      "risk": 1,
+      "path": null
+     },
+     {
+      "key": "body_structure",
+      "name": "Body/structure",
+      "effortPct": 7.59,
+      "risk": 0.4216,
+      "path": [
+       "HV battery",
+       "Body/structure"
+      ]
+     },
+     {
+      "key": "software_hmi",
+      "name": "Software/HMI",
+      "effortPct": 4.47,
+      "risk": 0.4475,
+      "path": [
+       "HV battery",
+       "E/E architecture",
+       "Software/HMI"
+      ]
+     },
+     {
+      "key": "ee_architecture",
+      "name": "E/E architecture",
+      "effortPct": 4.2,
+      "risk": 0.4667,
+      "path": [
+       "HV battery",
+       "E/E architecture"
+      ]
+     }
+    ]
+   },
+   "evidence": {
+    "count": 5,
+    "byKind": [
+     {
+      "kind": "finding",
+      "count": 1,
+      "label": "finding"
+     },
+     {
+      "kind": "external",
+      "count": 3,
+      "label": "external sources"
+     },
+     {
+      "kind": "requirement",
+      "count": 1,
+      "label": "requirement"
+     }
+    ],
+    "items": [
+     {
+      "ref": "FND-G60-US-VOC-electric_range",
+      "kind": "finding",
+      "label": "Electric Range: 67 complaints (recurring complaint)",
+      "text": null,
+      "meta": "recurring complaint, evidence level B, G60 in United States",
+      "url": null,
+      "verified": null
+     },
+     {
+      "ref": "external:EXT-E-37-A6",
+      "kind": "external",
+      "label": "EPA range and combined consumption, model year 2026 (official US figures): i5 eDrive40 Sedan (19 inch Wheels) 310 mi, 110 MPGe; i5 eDrive40 Sedan (20 inch Wheels) 300 mi, 106 MPGe; i5 eDrive40 Sedan (21 inch Wheels) 278 mi, 98 MPGe; i5 xDrive40 Sedan (19 inch Wheels) 278 mi, 98 MPGe; i5 xDrive40 Sedan (20 inch Wheels) 272 mi, 96 MPGe; i5 xDrive40 Sedan (21 inch Wheels) 259 mi, 91 MPGe; i5 M60 xDrive Sedan (19 inch Wheels) 277 mi, 99 MPGe; i5 M60 xDrive Sedan (20 inch Wheels) 266 mi, 94 MPGe; i5 M60 xDrive Sedan (21 inch Wheels) 259 mi, 91 MPGe.",
+      "text": null,
+      "meta": "US EPA, fueleconomy.gov web services (API), US EPA, 2026-10-11; official specification, computed from an official data service",
+      "url": "https://www.fueleconomy.gov/feg/ws/index.shtml",
+      "verified": true
+     },
+     {
+      "ref": "external:EXT-T5-07-1",
+      "kind": "external",
+      "label": "Consumers are willing to wait 30 minutes to an hour for a charging session and accept an average minimum range of 300 miles (480 km); more than half are interested in battery swapping.",
+      "text": null,
+      "meta": "S&P Global Mobility, 2025 electrification consumer survey, S&P Global Mobility, 2025-12-09; consumer survey, figures found on the source page",
+      "url": "https://autotechinsight.spglobal.com/shop/product/5003676/2025-electrification-consumer-analysis-overcoming-range-anxiety-consumers-weigh-in-on-acceptable-ev-charging-time-and-range",
+      "verified": true
+     },
+     {
+      "ref": "external:EXT-T5-11-1",
+      "kind": "external",
+      "label": "BMW's Neue Klasse iX3: up to 805 km WLTP range, charging at up to 400 kW, up to 372 km of range added in 10 minutes. It is the technology the successors of our vehicles can draw on.",
+      "text": null,
+      "meta": "BMW Group, announcement of the Neue Klasse iX3, BMW Group, 2025-09-05; BMW offer, figures found on the source page",
+      "url": "https://www.bmwgroup.com/en/news/general/2025/the-new-BMW-iX3.html",
+      "verified": true
+     },
+     {
+      "ref": "REQ-G60-US-PR-03",
+      "kind": "requirement",
+      "label": "More real-world electric range in the successor generation",
+      "text": null,
+      "meta": "REQ-G60-US-PR-03",
+      "url": null,
+      "verified": null
+     }
+    ]
+   }
+  },
+  {
+   "n": 7,
+   "group": "now",
+   "title": "Use charging access and planning as the main H1 lever on public charging pain",
+   "proposal": "Consider improving in-car charging guidance first: route planning that prefers working and compatible stations, clearer communication of Tesla/Boostr access and adapter status, and simpler compatibility cues in the UI.",
+   "why": "Customers clearly feel the charging pain, but much of it is infrastructure outside BMW's control. The best vehicle-side response is planning and guidance. Existing evidence also shows some contradiction: public charging satisfaction in the US is improving in external studies, and some G60 owners report trouble-free Tesla charging, so the product opportunity is to reduce uncertainty and failed planning rather than assume the whole network experience can be fixed by the car alone.",
+   "horizon": "H1",
+   "horizonLabel": "Now (H1)",
+   "requirement": null,
+   "effort": {
+    "status": "estimated",
+    "statusLabel": "estimated",
+    "basis": "from the analyst's change profile",
+    "analystProfile": true,
+    "checks": [
+     {
+      "level": "warning",
+      "levelLabel": "check",
+      "rule": "map",
+      "ruleLabel": "change and evidence sit in different subsystems",
+      "text": "the change starts in Software/HMI; the cited evidence sits in charging by the theme mapping. Check the reason given for it"
+     }
+    ],
+    "effortPct": 0.32,
+    "p5": 0.14,
+    "p95": 0.56,
+    "decision": "adapt",
+    "decisionLabel": "Adaptation, below 15 % of a new vehicle generation",
+    "stablePct": 100,
+    "borderline": false,
+    "layer": "K1",
+    "layerLabel": "add-on",
+    "size": "XS",
+    "certification": false,
+    "subsystems": [
+     {
+      "key": "software_hmi",
+      "name": "Software/HMI",
+      "effortPct": 0.3,
+      "risk": 0.03,
+      "path": null
+     },
+     {
+      "key": "ee_architecture",
+      "name": "E/E architecture",
+      "effortPct": 0.02,
+      "risk": 0.002,
+      "path": [
+       "Software/HMI",
+       "E/E architecture"
+      ]
+     }
+    ]
+   },
+   "evidence": {
+    "count": 7,
+    "byKind": [
+     {
+      "kind": "finding",
+      "count": 1,
+      "label": "finding"
+     },
+     {
+      "kind": "verbatim",
+      "count": 3,
+      "label": "customer verbatims"
+     },
+     {
+      "kind": "external",
+      "count": 3,
+      "label": "external sources"
+     }
+    ],
+    "items": [
+     {
+      "ref": "FND-G60-US-VOC-public_charging_external_providers",
+      "kind": "finding",
+      "label": "Public charging / external providers: 55 complaints (recurring complaint)",
+      "text": null,
+      "meta": "recurring complaint, evidence level B, G60 in United States",
+      "url": null,
+      "verified": null
+     },
+     {
+      "ref": "verbatim:G60-0159",
+      "kind": "verbatim",
+      "label": "Customer verbatim G60-0159",
+      "text": "Customer reported that at times it is hard for her to locate a charging station that is compatible.",
+      "meta": "US, BEV, Source B",
+      "url": null,
+      "verified": null
+     },
+     {
+      "ref": "verbatim:G60-0256",
+      "kind": "verbatim",
+      "label": "Customer verbatim G60-0256",
+      "text": "long-distance charging is way too hard with this car. i've owned tesla for years and decided to try bmw, but despite sales staff saying charging wouldn't be an issue, it definitely is. the tesla supercharger agreement is taking far too long, and bmw doesn't have its own fast charging network, which makes owning this car a hassle. if that major problem didn't exist, i'd give the car an 8.",
+      "meta": "US, BEV, Source A",
+      "url": null,
+      "verified": null
+     },
+     {
+      "ref": "verbatim:G60-0500",
+      "kind": "verbatim",
+      "label": "Customer verbatim G60-0500",
+      "text": "range is fine, but it took a long time to get the adapter for a tesla charger. charging options are scarce in smaller towns, tesla has more chargers there.\nno spare tire.",
+      "meta": "US, BEV, Source A",
+      "url": null,
+      "verified": null
+     },
+     {
+      "ref": "external:EXT-T5-04-1",
+      "kind": "external",
+      "label": "1.8 million public charging points were added worldwide in 2025, a rise of 33 %. Electric cars per public charging point at the end of 2025: China ten, EU 11, United States 33.",
+      "text": null,
+      "meta": "IEA charging infrastructure data, reported by EV Infrastructure News, IEA, 2026-05-21; infrastructure, figures found on the source page",
+      "url": "https://www.evinfrastructurenews.com/ev-networks/iea-1-8-million-public-ev-chargepoints-added-globally-in-2025-china-accounts-for-65-",
+      "verified": true
+     },
+     {
+      "ref": "external:EXT-E-45-1",
+      "kind": "external",
+      "label": "Since 10 December 2025 BMW electric cars can charge at Tesla Superchargers in the US: more than 2,000 sites with over 25,000 chargers, through an adapter or Magic Dock, billed in the My BMW app; with them BMW drivers reach around 180,000 public charging points in North America. By the list a built-in NACS port follows in 2026, first on the i5 M60.",
+      "text": null,
+      "meta": "electrive, BMW electric cars gain Supercharger access in North America, BMW Group, 2026-10-11; BMW offer, figures found on the source page",
+      "url": "https://www.electrive.com/2025/12/10/bmw-evs-gain-supercharger-access-in-north-america",
+      "verified": true
+     },
+     {
+      "ref": "external:EXT-E-41-1",
+      "kind": "external",
+      "label": "J.D. Power EVX Ownership 2026 (US): satisfaction of battery-electric owners is at its highest since the study began, satisfaction with public charging rose sharply, and battery electric cars score above plug-in hybrids.",
+      "text": null,
+      "meta": "J.D. Power, 2026 US Electric Vehicle Experience ownership study (press release), J.D. Power, 2026-10-11; quality index, figures found on the source page",
+      "url": "https://www.jdpower.com/business/press-releases/2026-us-electric-vehicle-experience-evx-ownership-study",
+      "verified": true
+     }
+    ]
+   }
+  },
+  {
+   "n": 8,
+   "group": "keep",
+   "title": "Protect the current ride, handling and drivetrain character",
+   "proposal": "Consider treating the current dynamic balance as a protected attribute in future updates and especially in the successor: keep the smooth ride, precise handling and immediate response while solving usability and comfort issues around it.",
+   "why": "This is one of the strongest and cleanest positives in the evidence, with both high like counts and top study scores. The stored preserve requirement already captures it and needs no vehicle change estimate.",
+   "horizon": "H2",
+   "horizonLabel": "Next generation (H2)",
+   "requirement": "REQ-G60-US-DD-03",
+   "effort": {
+    "status": "no_vehicle_change",
+    "statusLabel": "no change on the vehicle",
+    "basis": "from the change profile of REQ-G60-US-DD-03",
+    "analystProfile": false,
+    "checks": []
+   },
+   "evidence": {
+    "count": 5,
+    "byKind": [
+     {
+      "kind": "verbatim",
+      "count": 3,
+      "label": "customer verbatims"
+     },
+     {
+      "kind": "metric",
+      "count": 1,
+      "label": "study score"
+     },
+     {
+      "kind": "requirement",
+      "count": 1,
+      "label": "requirement"
+     }
+    ],
+    "items": [
+     {
+      "ref": "verbatim:G60-0085",
+      "kind": "verbatim",
+      "label": "Customer verbatim G60-0085",
+      "text": "really hugs the road. That is the one thing I love most about the driving feel of my vehicle.",
+      "meta": "US, BEV, Source D",
+      "url": null,
+      "verified": null
+     },
+     {
+      "ref": "verbatim:G60-0030",
+      "kind": "verbatim",
+      "label": "Customer verbatim G60-0030",
+      "text": "Customer stated this is her first BMW after driving Audi for the past seven years, and said the aspect she enjoys most is the drive itself, describing the ride in the car as very smooth.",
+      "meta": "US, ICE, Source B",
+      "url": null,
+      "verified": null
+     },
+     {
+      "ref": "verbatim:G60-0008",
+      "kind": "verbatim",
+      "label": "Customer verbatim G60-0008",
+      "text": "the ride quality is excellent and the road feedback is great. acceleration responds instantly. interior layout and space feel flawless, and overall the car gives a very high-quality impression. on the other hand, the electronics are very complicated and difficult to understand. thankfully there are still some manual push buttons and wheel controls, because without them using the car functions and entertainment would be even more distracting while driving.",
+      "meta": "US, BEV, Source A",
+      "url": null,
+      "verified": null
+     },
+     {
+      "ref": "metric:MET-US-US-G60-acceleration_from_stop",
+      "kind": "metric",
+      "label": "Acceleration from stop",
+      "text": null,
+      "meta": "study US_2025, G60 in United States, mean 6.03 on 1 to 7, 68 % in the top two boxes, 2 % in the bottom three",
+      "url": null,
+      "verified": null
+     },
+     {
+      "ref": "REQ-G60-US-DD-03",
+      "kind": "requirement",
+      "label": "Keep the handling and ride character in the next generation",
+      "text": null,
+      "meta": "REQ-G60-US-DD-03",
+      "url": null,
+      "verified": null
+     }
+    ]
+   }
+  }
+ ],
+ "packages": [
+  {
+   "horizon": "H1",
+   "label": "Now (H1)",
+   "proposals": 6,
+   "sumOfSinglePct": 12.4,
+   "effortPct": 10.57,
+   "p5": 5.48,
+   "p95": 16.17,
+   "decision": "adapt",
+   "decisionLabel": "Adaptation, below 15 % of a new vehicle generation",
+   "stablePct": 91.1,
+   "borderline": false,
+   "layer": "K2",
+   "layerLabel": "module change",
+   "size": "M",
+   "certification": false,
+   "subsystems": [
+    {
+     "key": "software_hmi",
+     "name": "Software/HMI",
+     "effortPct": 5.18,
+     "risk": 0.5177,
+     "path": [
+      "Seats",
+      "E/E architecture",
+      "Software/HMI"
+     ]
+    },
+    {
+     "key": "ee_architecture",
+     "name": "E/E architecture",
+     "effortPct": 1.6,
+     "risk": 0.1776,
+     "path": [
+      "Seats",
+      "E/E architecture"
+     ]
+    },
+    {
+     "key": "seats",
+     "name": "Seats",
+     "effortPct": 1.4,
+     "risk": 0.2796,
+     "path": null
+    },
+    {
+     "key": "interior_console",
+     "name": "Interior/console",
+     "effortPct": 1.31,
+     "risk": 0.1878,
+     "path": null
+    },
+    {
+     "key": "thermal_hvac",
+     "name": "Thermal/HVAC",
+     "effortPct": 1.08,
+     "risk": 0.1799,
+     "path": null
+    }
+   ],
+   "notCounted": [],
+   "checks": []
+  },
+  {
+   "horizon": "H2",
+   "label": "Next generation (H2)",
+   "proposals": 1,
+   "sumOfSinglePct": 48.98,
+   "effortPct": 48.98,
+   "p5": 36.73,
+   "p95": 56.87,
+   "decision": "new generation",
+   "decisionLabel": "New generation, 50 % or more, or a platform change without carryover",
+   "stablePct": 100,
+   "borderline": false,
+   "layer": "K3",
+   "layerLabel": "platform change",
+   "size": "L",
+   "certification": true,
+   "subsystems": [
+    {
+     "key": "hv_battery",
+     "name": "HV battery",
+     "effortPct": 10,
+     "risk": 1,
+     "path": null
+    },
+    {
+     "key": "body_structure",
+     "name": "Body/structure",
+     "effortPct": 7.59,
+     "risk": 0.4216,
+     "path": [
+      "HV battery",
+      "Body/structure"
+     ]
+    },
+    {
+     "key": "software_hmi",
+     "name": "Software/HMI",
+     "effortPct": 4.47,
+     "risk": 0.4475,
+     "path": [
+      "HV battery",
+      "E/E architecture",
+      "Software/HMI"
+     ]
+    },
+    {
+     "key": "ee_architecture",
+     "name": "E/E architecture",
+     "effortPct": 4.2,
+     "risk": 0.4667,
+     "path": [
+      "HV battery",
+      "E/E architecture"
+     ]
+    },
+    {
+     "key": "thermal_hvac",
+     "name": "Thermal/HVAC",
+     "effortPct": 3.26,
+     "risk": 0.5437,
+     "path": [
+      "HV battery",
+      "Thermal/HVAC"
+     ]
+    },
+    {
+     "key": "chassis",
+     "name": "Chassis",
+     "effortPct": 3.11,
+     "risk": 0.3112,
+     "path": [
+      "HV battery",
+      "Chassis"
+     ]
+    }
+   ],
+   "notCounted": [],
+   "checks": []
+  }
+ ],
+ "customers": [
+  {
+   "group": "problems",
+   "label": "What customers complain about",
+   "items": [
+    {
+     "title": "HMI complexity is the broadest product issue, concentrated in one subsystem",
+     "statement": "Infotainment & Digital Services is the largest complaint domain with 752 complaints. In engineering terms, Software/HMI alone carries 723 complaints across 67 themes, far above any other subsystem. The leading theme is Operating concept, operating system with 53 complaints, 39 of them usability issues, and the study also rates Menu structure of infotainment system at 4.879 and Operation of heater/ AC controls at 4.804, both among the weakest attributes. Customers repeatedly describe too many menu layers, profile confusion and a loss of physical controls, even though the same subsystem also has many likes, which shows the issue is not rejection of technology itself but ease of use.",
+     "quote": "\"the screen layout is not very intuitive for accessing some functions\"",
+     "domain": "infotainment_digital",
+     "domainLabel": "Infotainment & Digital Services",
+     "confidence": "high",
+     "confidenceLabel": "high confidence",
+     "subsystems": [
+      {
+       "key": "software_hmi",
+       "name": "Software/HMI",
+       "references": 8
+      },
+      {
+       "key": "interior_console",
+       "name": "Interior/console",
+       "references": 2
+      },
+      {
+       "key": "powertrain",
+       "name": "Powertrain",
+       "references": 1
+      }
+     ],
+     "evidence": {
+      "count": 10,
+      "byKind": [
+       {
+        "kind": "finding",
+        "count": 4,
+        "label": "findings"
+       },
+       {
+        "kind": "verbatim",
+        "count": 3,
+        "label": "customer verbatims"
+       },
+       {
+        "kind": "metric",
+        "count": 2,
+        "label": "study scores"
+       },
+       {
+        "kind": "external",
+        "count": 1,
+        "label": "external source"
+       }
+      ],
+      "items": [
+       {
+        "ref": "FND-G60-US-VOC-operating_concept_operating_system",
+        "kind": "finding",
+        "label": "Operating concept, operating system: 53 complaints (recurring complaint)",
+        "text": null,
+        "meta": "recurring complaint, evidence level A, G60 in United States",
+        "url": null,
+        "verified": null
+       },
+       {
+        "ref": "FND-G60-US-VOC-connecteddrive_and_infotainment_overall_technolo",
+        "kind": "finding",
+        "label": "ConnectedDrive and Infotainment, overall technology: 40 complaints (recurring complaint)",
+        "text": null,
+        "meta": "recurring complaint, evidence level B, G60 in United States",
+        "url": null,
+        "verified": null
+       },
+       {
+        "ref": "FND-G60-US-VOC-touch_screen_operation",
+        "kind": "finding",
+        "label": "Touch screen, operation: 35 complaints (recurring complaint)",
+        "text": null,
+        "meta": "recurring complaint, evidence level B, G60 in United States",
+        "url": null,
+        "verified": null
+       },
+       {
+        "ref": "FND-G60-US-VOC-instrument_cluster",
+        "kind": "finding",
+        "label": "Instrument cluster: 38 complaints (recurring complaint)",
+        "text": null,
+        "meta": "recurring complaint, evidence level B, G60 in United States",
+        "url": null,
+        "verified": null
+       },
+       {
+        "ref": "verbatim:G60-0248",
+        "kind": "verbatim",
+        "label": "Customer verbatim G60-0248",
+        "text": "Customer reported that the screen layout is not very intuitive for accessing some functions, even though this is around their eighth or ninth BMW. Customer noted there are numerous manual actions required and that the system relies a lot on touchscreen interaction. Customer stated a BMW genius explained that voice commands are available, but Customer prefers more click-type controls or simpler access instead of going through several layers of menus on the display. Customer commented there are many technical features in the car and feels the system is less intuitive than prior BMW vehicles they have owned. Writer acknowledged the comments and thanked the Customer for providing their experience.",
+        "meta": "US, ICE, Source B",
+        "url": null,
+        "verified": null
+       },
+       {
+        "ref": "verbatim:G60-0397",
+        "kind": "verbatim",
+        "label": "Customer verbatim G60-0397",
+        "text": "Customer stated that replacing physical buttons with more touch screens is a terrible trend, because it makes drivers take their eyes off the road.",
+        "meta": "US, ICE, Source B",
+        "url": null,
+        "verified": null
+       },
+       {
+        "ref": "verbatim:G60-0081",
+        "kind": "verbatim",
+        "label": "Customer verbatim G60-0081",
+        "text": "the updated electronic features feel overly complex. with 2 user profiles the system seems to get mixed up, constantly flipping profiles, and even when i'm on mine the other person's music can start playing. the glass controls throw off a lot of glare, with the sun reflecting right into my eyes. there is also no option to turn off the auto start/stop.",
+        "meta": "US, ICE, Source A",
+        "url": null,
+        "verified": null
+       },
+       {
+        "ref": "metric:MET-US-US-G60-infotainment_menu_structure",
+        "kind": "metric",
+        "label": "Menu structure of infotainment system",
+        "text": null,
+        "meta": "study US_2025, G60 in United States, mean 4.88 on 1 to 7, 36 % in the top two boxes, 13 % in the bottom three",
+        "url": null,
+        "verified": null
+       },
+       {
+        "ref": "metric:MET-US-US-G60-climate_controls_usability",
+        "kind": "metric",
+        "label": "Operation of heater/ AC controls",
+        "text": null,
+        "meta": "study US_2025, G60 in United States, mean 4.80 on 1 to 7, 29 % in the top two boxes, 15 % in the bottom three",
+        "url": null,
+        "verified": null
+       },
+       {
+        "ref": "external:EXT-T1-01-1",
+        "kind": "external",
+        "label": "48 % of consumers prefer a mix of touchscreen and physical buttons.",
+        "text": null,
+        "meta": "S&P Global Mobility, 2025 HMI consumer study, S&P Global Mobility, 2026-02-12; consumer survey, figures found on the source page",
+        "url": "https://www.mobilityglobal.com/en-us/automotive-insights/blog/what-consumers-value-in-human-machine-interface-technologies",
+        "verified": true
+       }
+      ]
+     }
+    },
+    {
+     "title": "Seat comfort is a real comfort gap, not just a trim preference",
+     "statement": "Seats are the strongest interior complaint theme with 62 complaints, equal to 2.4% of all US complaint rows, and the subsystem has 124 complaints overall. This is supported by weak study scores for Overall comfort of the seats at 5.741 and Comfort of 2nd row seat at 5.269. Verbatims point to firmness, lower-back pain, limited adjustment range and lumbar settings that do not flatten enough. There are also wants around leather, massage and ventilation, but the core issue is basic long-drive comfort and fit across body sizes.",
+     "quote": "\"the driver seat is extremely uncomfortable, especially in the lower back area\"",
+     "domain": "interior_comfort",
+     "domainLabel": "Interior Comfort & Materials",
+     "confidence": "high",
+     "confidenceLabel": "high confidence",
+     "subsystems": [
+      {
+       "key": "seats",
+       "name": "Seats",
+       "references": 5
+      },
+      {
+       "key": "body_structure",
+       "name": "Body/structure",
+       "references": 2
+      },
+      {
+       "key": "software_hmi",
+       "name": "Software/HMI",
+       "references": 2
+      },
+      {
+       "key": "chassis",
+       "name": "Chassis",
+       "references": 1
+      },
+      {
+       "key": "ee_architecture",
+       "name": "E/E architecture",
+       "references": 1
+      },
+      {
+       "key": "hv_battery",
+       "name": "HV battery",
+       "references": 1
+      },
+      {
+       "key": "interior_console",
+       "name": "Interior/console",
+       "references": 1
+      }
+     ],
+     "evidence": {
+      "count": 7,
+      "byKind": [
+       {
+        "kind": "finding",
+        "count": 1,
+        "label": "finding"
+       },
+       {
+        "kind": "verbatim",
+        "count": 3,
+        "label": "customer verbatims"
+       },
+       {
+        "kind": "metric",
+        "count": 2,
+        "label": "study scores"
+       },
+       {
+        "kind": "requirement",
+        "count": 1,
+        "label": "requirement"
+       }
+      ],
+      "items": [
+       {
+        "ref": "FND-G60-US-VOC-seats",
+        "kind": "finding",
+        "label": "Seats: 62 complaints (recurring complaint)",
+        "text": null,
+        "meta": "recurring complaint, evidence level A, G60 in United States",
+        "url": null,
+        "verified": null
+       },
+       {
+        "ref": "verbatim:G60-0051",
+        "kind": "verbatim",
+        "label": "Customer verbatim G60-0051",
+        "text": "the interior hard plastics creak a lot and feel low quality. my car also has some fit and finish problems, like the driver side front window rattling.\n\nsound system is weak compared to rivals.\n\nrange estimates are off, the efficiency stats shown are basically made up, and cold weather hits the range very hard.\n\nthe driver seat is extremely uncomfortable, especially in the lower back area, even with the lumbar turned down to minimum.\n\napp remote link to the car is slow and often unreliable, even in the same places over and over - it says commands succeeded but they don't actually work. the app really needs the option to connect straight to the car via wifi or bluetooth when it's in the garage or similar.",
+        "meta": "US, BEV, Source A",
+        "url": null,
+        "verified": null
+       },
+       {
+        "ref": "verbatim:G60-0320",
+        "kind": "verbatim",
+        "label": "Customer verbatim G60-0320",
+        "text": "this car ticks almost all the boxes for me. the key thing is that it is genuinely fun to drive. on top of that, the purchase price felt competitive and the overall value for a new car seemed good.\n\nthe downside is the complexity of the technology. it is not straightforward to learn, and making it simpler would be a very good objective.\n\nthe big negative so far has been getting the driver seat adjusted so i do not end up with serious pain in my lower right back and right knee. i spent hours trying to find a position that worked. my son had to set the seat for me again this week, the second time, and now i can drive for about 30 minutes without pain. i am hoping that will also hold up for my regular 2 hour trips. over the last roughly 35 years i have had teslas and e class mercedes and never ran into this problem. my last mercedes had multi contour seats. my i5 has the upgraded seat package, but i just cannot get it dialed in, there are simply too many adjustments. the current e class mercedes offers an electronic assistant to help the driver find a seat position, and maybe bmw should add something like that too.",
+        "meta": "US, BEV, Source A",
+        "url": null,
+        "verified": null
+       },
+       {
+        "ref": "verbatim:G60-0468",
+        "kind": "verbatim",
+        "label": "Customer verbatim G60-0468",
+        "text": "I had a problem with Seats have insufficient range of adjustment: \"Not as comfy as our 2024 X5, and I keep having to reposition myself to be able to see the heads-up display.\". Which Seat Control Insufficient Range?: Height, Tilt, Which Seat Insufficient Range?: Front passenger seat, Driver seat",
+        "meta": "US, ICE, Source C",
+        "url": null,
+        "verified": null
+       },
+       {
+        "ref": "metric:MET-US-US-G60-seat_comfort",
+        "kind": "metric",
+        "label": "Overall comfort of the seats",
+        "text": null,
+        "meta": "study US_2025, G60 in United States, mean 5.74 on 1 to 7, 67 % in the top two boxes, 4 % in the bottom three",
+        "url": null,
+        "verified": null
+       },
+       {
+        "ref": "metric:MET-US-US-G60-rear_seat_comfort",
+        "kind": "metric",
+        "label": "Comfort of 2nd row seat",
+        "text": null,
+        "meta": "study US_2025, G60 in United States, mean 5.27 on 1 to 7, 47 % in the top two boxes, 5 % in the bottom three",
+        "url": null,
+        "verified": null
+       },
+       {
+        "ref": "REQ-G60-US-IC-01",
+        "kind": "requirement",
+        "label": "Front and rear seats comfortable for long drives across body sizes",
+        "text": null,
+        "meta": "REQ-G60-US-IC-01",
+        "url": null,
+        "verified": null
+       }
+      ]
+     }
+    },
+    {
+     "title": "Electric range dissatisfaction is partly about absolute range, partly about confidence and winter transparency",
+     "statement": "Electric Range has 67 complaints, 50 of them usability-related, and dominates the HV battery subsystem, which has 89 complaints versus 45 likes. Customers ask for more range, but many verbatims focus on poor predictability, cold-weather drop-off and unclear guidance by condition. At the same time, the evidence is mixed rather than one-sided: the same theme also has 37 likes, and official EPA figures vary widely by variant and wheel size, from 239 to 310 miles for 2025-2026 i5 versions and 34 miles electric for the 550e. This points to a near-term need for better expectation-setting and range guidance, while a larger range step is a successor-generation topic.",
+     "quote": "\"range estimates are off\"",
+     "domain": "powertrain_range_charging",
+     "domainLabel": "Powertrain, Range & Charging",
+     "confidence": "high",
+     "confidenceLabel": "high confidence",
+     "subsystems": [
+      {
+       "key": "hv_battery",
+       "name": "HV battery",
+       "references": 9
+      },
+      {
+       "key": "body_structure",
+       "name": "Body/structure",
+       "references": 1
+      },
+      {
+       "key": "ee_architecture",
+       "name": "E/E architecture",
+       "references": 1
+      },
+      {
+       "key": "interior_console",
+       "name": "Interior/console",
+       "references": 1
+      },
+      {
+       "key": "powertrain",
+       "name": "Powertrain",
+       "references": 1
+      },
+      {
+       "key": "seats",
+       "name": "Seats",
+       "references": 1
+      },
+      {
+       "key": "software_hmi",
+       "name": "Software/HMI",
+       "references": 1
+      }
+     ],
+     "evidence": {
+      "count": 9,
+      "byKind": [
+       {
+        "kind": "finding",
+        "count": 1,
+        "label": "finding"
+       },
+       {
+        "kind": "verbatim",
+        "count": 3,
+        "label": "customer verbatims"
+       },
+       {
+        "kind": "external",
+        "count": 3,
+        "label": "external sources"
+       },
+       {
+        "kind": "requirement",
+        "count": 2,
+        "label": "requirements"
+       }
+      ],
+      "items": [
+       {
+        "ref": "FND-G60-US-VOC-electric_range",
+        "kind": "finding",
+        "label": "Electric Range: 67 complaints (recurring complaint)",
+        "text": null,
+        "meta": "recurring complaint, evidence level B, G60 in United States",
+        "url": null,
+        "verified": null
+       },
+       {
+        "ref": "verbatim:G60-0051",
+        "kind": "verbatim",
+        "label": "Customer verbatim G60-0051",
+        "text": "the interior hard plastics creak a lot and feel low quality. my car also has some fit and finish problems, like the driver side front window rattling.\n\nsound system is weak compared to rivals.\n\nrange estimates are off, the efficiency stats shown are basically made up, and cold weather hits the range very hard.\n\nthe driver seat is extremely uncomfortable, especially in the lower back area, even with the lumbar turned down to minimum.\n\napp remote link to the car is slow and often unreliable, even in the same places over and over - it says commands succeeded but they don't actually work. the app really needs the option to connect straight to the car via wifi or bluetooth when it's in the garage or similar.",
+        "meta": "US, BEV, Source A",
+        "url": null,
+        "verified": null
+       },
+       {
+        "ref": "verbatim:G60-0398",
+        "kind": "verbatim",
+        "label": "Customer verbatim G60-0398",
+        "text": "Customer stated he is worried about how the range is estimated. Customer stated he drove a 100 mile round trip into the city and back home. Customer stated the car showed roughly 200 miles of range at departure and less than 60 miles remaining once he got back. Customer stated he used efficient mode only for part of the drive home because he began to doubt if there was enough charge to reach his house. Customer stated the average outside temperature was about 32-35 degrees. Customer stated he did not precondition the vehicle before leaving, but the car was kept in his garage overnight. Customer stated the dealership did not clearly explain how to get the best range, and that this is his first electric vehicle.\n\nWriter advised the figure in the instrument cluster is only an estimate. Writer advised that range is affected by climate control usage, driving style, charging behavior, weather, road terrain, and some other variables. Writer advised that preconditioning the vehicle on a cold day will provide a much more accurate range prediction. Writer advised that heating the vehicle up to optimal temperature consumes a lot of battery power, and that not just the cabin but also the battery itself must be warmed to operate efficiently.",
+        "meta": "US, BEV, Source B",
+        "url": null,
+        "verified": null
+       },
+       {
+        "ref": "verbatim:G60-0443",
+        "kind": "verbatim",
+        "label": "Customer verbatim G60-0443",
+        "text": "it would help to clearly know the range in different driving conditions. performance versus temperature should be shown as well. there seems to be data on this, so why isn't it shared?",
+        "meta": "CA, BEV, Source A",
+        "url": null,
+        "verified": null
+       },
+       {
+        "ref": "external:EXT-E-37-A3",
+        "kind": "external",
+        "label": "EPA range and combined consumption, model year 2025 (official US figures): i5 eDrive40 Sedan (19 inch Wheels) 295 mi, 105 MPGe; i5 eDrive40 Sedan (20 inch Wheels) 278 mi, 99 MPGe; i5 eDrive40 Sedan (21 inch Wheels) 271 mi, 96 MPGe; i5 M60 xDrive Sedan (19 inch Wheels) 253 mi, 90 MPGe; i5 M60 xDrive Sedan (20 inch Wheels) 250 mi, 88 MPGe; i5 M60 xDrive Sedan (21 inch Wheels) 239 mi, 84 MPGe; i5 xDrive40 Sedan (19 inch Wheels) 266 mi, 93 MPGe; i5 xDrive40 Sedan (20 inch Wheels) 262 mi, 93 MPGe; i5 xDrive40 Sedan (21 inch Wheels) 248 mi, 87 MPGe.",
+        "text": null,
+        "meta": "US EPA, fueleconomy.gov web services (API), US EPA, 2026-10-11; official specification, computed from an official data service",
+        "url": "https://www.fueleconomy.gov/feg/ws/index.shtml",
+        "verified": true
+       },
+       {
+        "ref": "external:EXT-E-37-A6",
+        "kind": "external",
+        "label": "EPA range and combined consumption, model year 2026 (official US figures): i5 eDrive40 Sedan (19 inch Wheels) 310 mi, 110 MPGe; i5 eDrive40 Sedan (20 inch Wheels) 300 mi, 106 MPGe; i5 eDrive40 Sedan (21 inch Wheels) 278 mi, 98 MPGe; i5 xDrive40 Sedan (19 inch Wheels) 278 mi, 98 MPGe; i5 xDrive40 Sedan (20 inch Wheels) 272 mi, 96 MPGe; i5 xDrive40 Sedan (21 inch Wheels) 259 mi, 91 MPGe; i5 M60 xDrive Sedan (19 inch Wheels) 277 mi, 99 MPGe; i5 M60 xDrive Sedan (20 inch Wheels) 266 mi, 94 MPGe; i5 M60 xDrive Sedan (21 inch Wheels) 259 mi, 91 MPGe.",
+        "text": null,
+        "meta": "US EPA, fueleconomy.gov web services (API), US EPA, 2026-10-11; official specification, computed from an official data service",
+        "url": "https://www.fueleconomy.gov/feg/ws/index.shtml",
+        "verified": true
+       },
+       {
+        "ref": "external:EXT-E-37-A5",
+        "kind": "external",
+        "label": "EPA electric range and combined consumption, model year 2025 (official US figures): 550e xDrive Sedan 34 mi electric, 24 mpg on petrol.",
+        "text": null,
+        "meta": "US EPA, fueleconomy.gov web services (API), US EPA, 2026-10-11; official specification, computed from an official data service",
+        "url": "https://www.fueleconomy.gov/feg/ws/index.shtml",
+        "verified": true
+       },
+       {
+        "ref": "REQ-G60-US-PR-02",
+        "kind": "requirement",
+        "label": "Reliable range prediction and cold-weather range guidance for BEV and PHEV",
+        "text": null,
+        "meta": "REQ-G60-US-PR-02",
+        "url": null,
+        "verified": null
+       },
+       {
+        "ref": "REQ-G60-US-PR-03",
+        "kind": "requirement",
+        "label": "More real-world electric range in the successor generation",
+        "text": null,
+        "meta": "REQ-G60-US-PR-03",
+        "url": null,
+        "verified": null
+       }
+      ]
+     }
+    },
+    {
+     "title": "Phone integration reliability is undermining an otherwise strong digital offer",
+     "statement": "Beyond general HMI complexity, there is a specific reliability issue around phone integration. Apple CarPlay has 37 complaints and wireless charging 26 complaints, with 11 defects in the latter. The study score for Phone charging is 5.465, not catastrophic but weaker than the vehicle's driving scores. Customers mention wrong-profile connections, low CarPlay volume, switching confusion and charging trays that do not keep up. This matters because digital expectations are high in this segment and external evidence shows smartphone mirroring ecosystems are expanding strongly, though those rows are global context rather than US customer feedback.",
+     "quote": "\"the system seems to get mixed up, constantly flipping profiles\"",
+     "domain": "infotainment_digital",
+     "domainLabel": "Infotainment & Digital Services",
+     "confidence": "high",
+     "confidenceLabel": "high confidence",
+     "subsystems": [
+      {
+       "key": "software_hmi",
+       "name": "Software/HMI",
+       "references": 4
+      },
+      {
+       "key": "ee_architecture",
+       "name": "E/E architecture",
+       "references": 2
+      },
+      {
+       "key": "interior_console",
+       "name": "Interior/console",
+       "references": 1
+      },
+      {
+       "key": "powertrain",
+       "name": "Powertrain",
+       "references": 1
+      }
+     ],
+     "evidence": {
+      "count": 6,
+      "byKind": [
+       {
+        "kind": "finding",
+        "count": 2,
+        "label": "findings"
+       },
+       {
+        "kind": "verbatim",
+        "count": 1,
+        "label": "customer verbatim"
+       },
+       {
+        "kind": "metric",
+        "count": 1,
+        "label": "study score"
+       },
+       {
+        "kind": "external",
+        "count": 1,
+        "label": "external source"
+       },
+       {
+        "kind": "requirement",
+        "count": 1,
+        "label": "requirement"
+       }
+      ],
+      "items": [
+       {
+        "ref": "FND-G60-US-VOC-apple_carplay",
+        "kind": "finding",
+        "label": "Apple CarPlay: 37 complaints (recurring complaint)",
+        "text": null,
+        "meta": "recurring complaint, evidence level B, G60 in United States",
+        "url": null,
+        "verified": null
+       },
+       {
+        "ref": "FND-G60-US-VOC-mobile_device_wireless_charging",
+        "kind": "finding",
+        "label": "Mobile device, wireless charging: 26 complaints (recurring complaint)",
+        "text": null,
+        "meta": "recurring complaint, evidence level A, G60 in United States",
+        "url": null,
+        "verified": null
+       },
+       {
+        "ref": "verbatim:G60-0081",
+        "kind": "verbatim",
+        "label": "Customer verbatim G60-0081",
+        "text": "the updated electronic features feel overly complex. with 2 user profiles the system seems to get mixed up, constantly flipping profiles, and even when i'm on mine the other person's music can start playing. the glass controls throw off a lot of glare, with the sun reflecting right into my eyes. there is also no option to turn off the auto start/stop.",
+        "meta": "US, ICE, Source A",
+        "url": null,
+        "verified": null
+       },
+       {
+        "ref": "metric:MET-US-US-G60-phone_charging",
+        "kind": "metric",
+        "label": "Phone charging",
+        "text": null,
+        "meta": "study US_2025, G60 in United States, mean 5.46 on 1 to 7, 56 % in the top two boxes, 10 % in the bottom three",
+        "url": null,
+        "verified": null
+       },
+       {
+        "ref": "external:EXT-T3-03-1",
+        "kind": "external",
+        "label": "Apple CarPlay Ultra (launched May 2025) fills all of the driver's screens, the instrument cluster included, and controls standard functions such as radio and climate; by the list, the roll-out planned for the following 12 months is late.",
+        "text": null,
+        "meta": "Apple Newsroom, launch of CarPlay Ultra, Apple, 2025-05-15; competitor move, figures found on the source page",
+        "url": "https://www.apple.com/newsroom/2025/05/carplay-ultra-the-next-generation-of-carplay-begins-rolling-out-today/",
+        "verified": true
+       },
+       {
+        "ref": "REQ-G60-US-ID-02",
+        "kind": "requirement",
+        "label": "Phone integration that just works",
+        "text": null,
+        "meta": "REQ-G60-US-ID-02",
+        "url": null,
+        "verified": null
+       }
+      ]
+     }
+    },
+    {
+     "title": "Hands-free trunk access is a focused usability defect theme with a contained scope",
+     "statement": "Non-contact trunk lid opening has 44 complaints and 39 of them are usability complaints, with almost no offsetting likes. Customers describe inconsistent triggering, unclear foot motion and occasional false openings. Compared with the broad HMI issue, this is a narrower problem concentrated in one body-related feature, so it looks like a targeted fix rather than a concept rethink.",
+     "quote": "\"It rarely works on the first try\"",
+     "domain": "space_practicality",
+     "domainLabel": "Space & Practicality",
+     "confidence": "high",
+     "confidenceLabel": "high confidence",
+     "subsystems": [
+      {
+       "key": "body_structure",
+       "name": "Body/structure",
+       "references": 4
+      }
+     ],
+     "evidence": {
+      "count": 4,
+      "byKind": [
+       {
+        "kind": "finding",
+        "count": 1,
+        "label": "finding"
+       },
+       {
+        "kind": "verbatim",
+        "count": 3,
+        "label": "customer verbatims"
+       }
+      ],
+      "items": [
+       {
+        "ref": "FND-G60-US-VOC-non_contact_trunk_lid_opening",
+        "kind": "finding",
+        "label": "non-contact trunk lid opening: 44 complaints (recurring complaint)",
+        "text": null,
+        "meta": "recurring complaint, evidence level B, G60 in United States",
+        "url": null,
+        "verified": null
+       },
+       {
+        "ref": "verbatim:G60-0488",
+        "kind": "verbatim",
+        "label": "Customer verbatim G60-0488",
+        "text": "I had a minor problem with Trunk/hatch/tailgate - Touch-free sensor doesn't work consistently/DTU: \"Hard to figure out the exact place and movement needed to get it to activate\"",
+        "meta": "US, BEV, Source C",
+        "url": null,
+        "verified": null
+       },
+       {
+        "ref": "verbatim:G60-0835",
+        "kind": "verbatim",
+        "label": "Customer verbatim G60-0835",
+        "text": "I had a very minor problem with Trunk/hatch/tailgate - Touch-free sensor doesn't work consistently/DTU: \"It rarely works on the first try and sometimes will not work at all even after several attempts.\"",
+        "meta": "US, BEV, Source C",
+        "url": null,
+        "verified": null
+       },
+       {
+        "ref": "verbatim:G60-1403",
+        "kind": "verbatim",
+        "label": "Customer verbatim G60-1403",
+        "text": "Customer stated that the smart trunk function seems a bit off. Customer explained that frequently it will fail to open when he is deliberately trying to use it, but then it will randomly open by itself just when he walks past, even though he is not actively attempting to trigger it. Customer added that he is using the digital key. Writer requested that the customer compare how this feature behaves on the current vehicle versus his former BMW 5 Series, asking whether the previous car's smart trunk operated better or similarly. Customer replied that on his previous BMW the smart trunk feature worked flawlessly every single time.",
+        "meta": "US, BEV, Source B",
+        "url": null,
+        "verified": null
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "group": "study",
+   "label": "Where study scores are weak",
+   "items": [
+    {
+     "title": "Climate usability is part of the HMI problem, but also a standalone US comfort issue",
+     "statement": "Climate complaints are spread across Thermal/HVAC and HMI: Thermal/HVAC has 86 complaints and very few likes, with Vehicle, climatization at 26 complaints, Air conditioning, setting at 24, and Blower function at 19. The study score for Operation of heater/ AC controls is 4.804, one of the weakest in the whole study. Customers complain both about how to control climate and about cooling performance or settings persistence, so this is not only a screen-layout issue.",
+     "quote": "\"the car takes a long time to cool down\"",
+     "domain": "interior_comfort",
+     "domainLabel": "Interior Comfort & Materials",
+     "confidence": "high",
+     "confidenceLabel": "high confidence",
+     "subsystems": [
+      {
+       "key": "thermal_hvac",
+       "name": "Thermal/HVAC",
+       "references": 3
+      },
+      {
+       "key": "interior_console",
+       "name": "Interior/console",
+       "references": 2
+      },
+      {
+       "key": "chassis",
+       "name": "Chassis",
+       "references": 1
+      },
+      {
+       "key": "ee_architecture",
+       "name": "E/E architecture",
+       "references": 1
+      },
+      {
+       "key": "hv_battery",
+       "name": "HV battery",
+       "references": 1
+      },
+      {
+       "key": "seats",
+       "name": "Seats",
+       "references": 1
+      }
+     ],
+     "evidence": {
+      "count": 6,
+      "byKind": [
+       {
+        "kind": "finding",
+        "count": 1,
+        "label": "finding"
+       },
+       {
+        "kind": "verbatim",
+        "count": 1,
+        "label": "customer verbatim"
+       },
+       {
+        "kind": "metric",
+        "count": 3,
+        "label": "study scores"
+       },
+       {
+        "kind": "requirement",
+        "count": 1,
+        "label": "requirement"
+       }
+      ],
+      "items": [
+       {
+        "ref": "FND-G60-US-VOC-air_conditioning_setting",
+        "kind": "finding",
+        "label": "Air conditioning, setting: 24 complaints (recurring complaint)",
+        "text": null,
+        "meta": "recurring complaint, evidence level A, G60 in United States",
+        "url": null,
+        "verified": null
+       },
+       {
+        "ref": "verbatim:G60-0551",
+        "kind": "verbatim",
+        "label": "Customer verbatim G60-0551",
+        "text": "for a car at this price point, it really should come with leather seats and trim. the interior doors, seats, and center console all feel cheap. the range is not very good, and i do not understand why the ix would have better range. the car takes a long time to cool down, and with no cooled seats that problem is even worse. the brakes could be stronger for a vehicle of this size and weight. some of the center console buttons stick or do not always respond when you press them. the door lock switch is awkward to use and sometimes does not register a press, and since it is a solid piece you cannot easily tell if it actually worked.",
+        "meta": "US, BEV, Source A",
+        "url": null,
+        "verified": null
+       },
+       {
+        "ref": "metric:MET-US-US-G60-climate_controls_usability",
+        "kind": "metric",
+        "label": "Operation of heater/ AC controls",
+        "text": null,
+        "meta": "study US_2025, G60 in United States, mean 4.80 on 1 to 7, 29 % in the top two boxes, 15 % in the bottom three",
+        "url": null,
+        "verified": null
+       },
+       {
+        "ref": "metric:MET-US-US-G60-air_conditioning_performance",
+        "kind": "metric",
+        "label": "Air conditioner performance",
+        "text": null,
+        "meta": "study US_2025, G60 in United States, mean 5.19 on 1 to 7, 39 % in the top two boxes, 7 % in the bottom three",
+        "url": null,
+        "verified": null
+       },
+       {
+        "ref": "metric:MET-US-US-G60-climate_control",
+        "kind": "metric",
+        "label": "Overall performance of climate control system",
+        "text": null,
+        "meta": "study US_2025, G60 in United States, mean 5.14 on 1 to 7, 36 % in the top two boxes, 6 % in the bottom three",
+        "url": null,
+        "verified": null
+       },
+       {
+        "ref": "REQ-G60-US-IC-02",
+        "kind": "requirement",
+        "label": "Climate control direct, strong enough for US heat, and remembers its settings",
+        "text": null,
+        "meta": "REQ-G60-US-IC-02",
+        "url": null,
+        "verified": null
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "group": "context",
+   "label": "Market context",
+   "items": [
+    {
+     "title": "Public charging is a major BEV pain point, but much of it sits outside the vehicle",
+     "statement": "Public charging / external providers has 55 complaints, almost all from BEV users, and the charging subsystem totals 123 complaints. Customers struggle with finding compatible stations, sparse coverage on some routes, occupied chargers and awkward planning. This is partly a market problem, not only a vehicle problem: external evidence says the United States has 33 EVs per public charging point, versus 11 in the EU and 10 in China, which is medium-strength context. There is also contradictory context: some external rows say US charging satisfaction has improved and some owners report Tesla charging as trouble-free, while many G60 owners still describe the experience as harder than Tesla. So the need is real, but the best H1 lever is in-car routing, compatibility guidance and charging access communication rather than trying to solve infrastructure itself.",
+     "quote": "\"it is hard for her to locate a charging station that is compatible\"",
+     "domain": "powertrain_range_charging",
+     "domainLabel": "Powertrain, Range & Charging",
+     "confidence": "medium",
+     "confidenceLabel": "medium confidence",
+     "subsystems": [
+      {
+       "key": "charging",
+       "name": "Charging",
+       "references": 7
+      }
+     ],
+     "evidence": {
+      "count": 7,
+      "byKind": [
+       {
+        "kind": "finding",
+        "count": 1,
+        "label": "finding"
+       },
+       {
+        "kind": "verbatim",
+        "count": 3,
+        "label": "customer verbatims"
+       },
+       {
+        "kind": "external",
+        "count": 3,
+        "label": "external sources"
+       }
+      ],
+      "items": [
+       {
+        "ref": "FND-G60-US-VOC-public_charging_external_providers",
+        "kind": "finding",
+        "label": "Public charging / external providers: 55 complaints (recurring complaint)",
+        "text": null,
+        "meta": "recurring complaint, evidence level B, G60 in United States",
+        "url": null,
+        "verified": null
+       },
+       {
+        "ref": "verbatim:G60-0159",
+        "kind": "verbatim",
+        "label": "Customer verbatim G60-0159",
+        "text": "Customer reported that at times it is hard for her to locate a charging station that is compatible.",
+        "meta": "US, BEV, Source B",
+        "url": null,
+        "verified": null
+       },
+       {
+        "ref": "verbatim:G60-0256",
+        "kind": "verbatim",
+        "label": "Customer verbatim G60-0256",
+        "text": "long-distance charging is way too hard with this car. i've owned tesla for years and decided to try bmw, but despite sales staff saying charging wouldn't be an issue, it definitely is. the tesla supercharger agreement is taking far too long, and bmw doesn't have its own fast charging network, which makes owning this car a hassle. if that major problem didn't exist, i'd give the car an 8.",
+        "meta": "US, BEV, Source A",
+        "url": null,
+        "verified": null
+       },
+       {
+        "ref": "verbatim:G60-0469",
+        "kind": "verbatim",
+        "label": "Customer verbatim G60-0469",
+        "text": "Customer stated public charging stations are not placed conveniently. Customer stated they are usually out of the way and, when he finds one, it is in a secluded area of the parking lot. Customer stated he does not feel safe using most public chargers.",
+        "meta": "US, BEV, Source B",
+        "url": null,
+        "verified": null
+       },
+       {
+        "ref": "external:EXT-T5-04-1",
+        "kind": "external",
+        "label": "1.8 million public charging points were added worldwide in 2025, a rise of 33 %. Electric cars per public charging point at the end of 2025: China ten, EU 11, United States 33.",
+        "text": null,
+        "meta": "IEA charging infrastructure data, reported by EV Infrastructure News, IEA, 2026-05-21; infrastructure, figures found on the source page",
+        "url": "https://www.evinfrastructurenews.com/ev-networks/iea-1-8-million-public-ev-chargepoints-added-globally-in-2025-china-accounts-for-65-",
+        "verified": true
+       },
+       {
+        "ref": "external:EXT-E-45-1",
+        "kind": "external",
+        "label": "Since 10 December 2025 BMW electric cars can charge at Tesla Superchargers in the US: more than 2,000 sites with over 25,000 chargers, through an adapter or Magic Dock, billed in the My BMW app; with them BMW drivers reach around 180,000 public charging points in North America. By the list a built-in NACS port follows in 2026, first on the i5 M60.",
+        "text": null,
+        "meta": "electrive, BMW electric cars gain Supercharger access in North America, BMW Group, 2026-10-11; BMW offer, figures found on the source page",
+        "url": "https://www.electrive.com/2025/12/10/bmw-evs-gain-supercharger-access-in-north-america",
+        "verified": true
+       },
+       {
+        "ref": "external:EXT-E-41-1",
+        "kind": "external",
+        "label": "J.D. Power EVX Ownership 2026 (US): satisfaction of battery-electric owners is at its highest since the study began, satisfaction with public charging rose sharply, and battery electric cars score above plug-in hybrids.",
+        "text": null,
+        "meta": "J.D. Power, 2026 US Electric Vehicle Experience ownership study (press release), J.D. Power, 2026-10-11; quality index, figures found on the source page",
+        "url": "https://www.jdpower.com/business/press-releases/2026-us-electric-vehicle-experience-evx-ownership-study",
+        "verified": true
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "group": "strengths",
+   "label": "What customers value and should be kept",
+   "items": [
+    {
+     "title": "The core 5 Series dynamic character is a strength to protect",
+     "statement": "The strongest positives remain classic BMW sedan attributes. Handling / Riding has 210 likes, Drivetrain has 349 likes, and the study's strongest attributes include Handling/Maneuverability at 6.058, Overall driving performance at 6.039, Riding comfort at 6.03 and Acceleration from stop at 6.026. Customers consistently praise smoothness, road-holding and immediate response. This is strong evidence and should be protected while fixing usability and comfort issues.",
+     "quote": "\"really hugs the road\"",
+     "domain": "driving_dynamics",
+     "domainLabel": "Driving Experience & Dynamics",
+     "confidence": "high",
+     "confidenceLabel": "high confidence",
+     "subsystems": [
+      {
+       "key": "chassis",
+       "name": "Chassis",
+       "references": 4
+      },
+      {
+       "key": "body_structure",
+       "name": "Body/structure",
+       "references": 1
+      },
+      {
+       "key": "powertrain",
+       "name": "Powertrain",
+       "references": 1
+      },
+      {
+       "key": "software_hmi",
+       "name": "Software/HMI",
+       "references": 1
+      }
+     ],
+     "evidence": {
+      "count": 5,
+      "byKind": [
+       {
+        "kind": "verbatim",
+        "count": 3,
+        "label": "customer verbatims"
+       },
+       {
+        "kind": "metric",
+        "count": 1,
+        "label": "study score"
+       },
+       {
+        "kind": "requirement",
+        "count": 1,
+        "label": "requirement"
+       }
+      ],
+      "items": [
+       {
+        "ref": "verbatim:G60-0085",
+        "kind": "verbatim",
+        "label": "Customer verbatim G60-0085",
+        "text": "really hugs the road. That is the one thing I love most about the driving feel of my vehicle.",
+        "meta": "US, BEV, Source D",
+        "url": null,
+        "verified": null
+       },
+       {
+        "ref": "verbatim:G60-0030",
+        "kind": "verbatim",
+        "label": "Customer verbatim G60-0030",
+        "text": "Customer stated this is her first BMW after driving Audi for the past seven years, and said the aspect she enjoys most is the drive itself, describing the ride in the car as very smooth.",
+        "meta": "US, ICE, Source B",
+        "url": null,
+        "verified": null
+       },
+       {
+        "ref": "verbatim:G60-0008",
+        "kind": "verbatim",
+        "label": "Customer verbatim G60-0008",
+        "text": "the ride quality is excellent and the road feedback is great. acceleration responds instantly. interior layout and space feel flawless, and overall the car gives a very high-quality impression. on the other hand, the electronics are very complicated and difficult to understand. thankfully there are still some manual push buttons and wheel controls, because without them using the car functions and entertainment would be even more distracting while driving.",
+        "meta": "US, BEV, Source A",
+        "url": null,
+        "verified": null
+       },
+       {
+        "ref": "metric:MET-US-US-G60-acceleration_from_stop",
+        "kind": "metric",
+        "label": "Acceleration from stop",
+        "text": null,
+        "meta": "study US_2025, G60 in United States, mean 6.03 on 1 to 7, 68 % in the top two boxes, 2 % in the bottom three",
+        "url": null,
+        "verified": null
+       },
+       {
+        "ref": "REQ-G60-US-DD-03",
+        "kind": "requirement",
+        "label": "Keep the handling and ride character in the next generation",
+        "text": null,
+        "meta": "REQ-G60-US-DD-03",
+        "url": null,
+        "verified": null
+       }
+      ]
+     }
+    }
+   ]
+  }
+ ],
+ "assumptions": [
+  "The German catalogue is not a US order guide, so equipment conclusions are used cautiously and not as sole evidence for US content gaps.",
+  "Country scope is market US; 18 Canadian verbatims are included in the market evidence and a few cited rows come from CA. Study metrics, sales and findings are market-level only.",
+  "External evidence is supportive context only here. Many rows are weak single-source items, some are Global rather than US-specific, and unverified rows were not used alone for recommendations.",
+  "Source B verbatims are call-centre notes and can mix product feedback with explanation or process content; they still align with other sources on the main themes.",
+  "The subsystem mapping and CPM effort model are assumptions. Effort figures are rough prioritisation aids, not measured engineering effort or cost.",
+  "There is only one stored US market row in the pack, about EV share, and it is weak context. There is no stronger stored market-row set for the main interior or HMI issues.",
+  "No additional BMW strategy or delivery document passages were needed because the customer priorities were already clear from verbatims, findings, metrics and requirements."
+ ],
+ "openChecks": [
+  "\"Use charging access and planning as the main H1 lever on public charging pain\": the change starts in Software/HMI; the cited evidence sits in charging by the theme mapping. Cite evidence for Software/HMI, move the start of the change to where the evidence sits, or state in the change's why what puts the work there."
+ ],
+ "effortMethod": "CPM, share of the development effort of a new vehicle generation; never money; every model input is an uncalibrated assumption (config/effort/model.yaml)",
+ "modelHash": "789fcb7624b8",
+ "citations": {
+  "cited": 55,
+  "unknown": [],
+  "quotesLeftOut": 0
+ }
+}

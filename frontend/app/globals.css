@@ -422,6 +422,14 @@
   gap: 24px;
   height: 112px;
 }
+/* On a phone a long vehicle name wraps; the row grows instead of running into the stage bar. */
+@media (max-width: 599px) {
+  .workspace-head-row {
+    height: auto;
+    min-height: 112px;
+    padding: 12px 0;
+  }
+}
 .workspace-back {
   padding: 0 14px;
   color: var(--color-ink);
@@ -1686,6 +1694,7 @@ blockquote.verbatim p {
   display: inline-flex;
   align-items: center;
   min-height: 44px;
+  min-width: 44px;
   margin: -15px 0;
   color: var(--color-blue);
   text-decoration: none;
@@ -1888,4 +1897,163 @@ blockquote.verbatim p {
 }
 .candidate[data-absent="true"] td {
   color: var(--color-ink-2);
+}
+
+/* Step 19: the analyst's brief on stage 2 and the series page. Text in ink,
+   hairlines, the one blue only for links and the effort bars. */
+.brief-headline {
+  max-width: 72ch;
+  margin-top: 14px;
+  font-size: 1.0625rem;
+  font-weight: 500;
+  line-height: 1.45;
+}
+.brief-summary {
+  max-width: 72ch;
+  margin-top: 8px;
+  font-size: 0.9375rem;
+  line-height: 1.55;
+}
+.brief-table {
+  margin-top: 8px;
+}
+.candidate-group .group-explain {
+  display: block;
+  margin: 2px 0 0;
+  color: var(--color-ink-2);
+  font-size: 0.8125rem;
+  font-weight: 400;
+}
+.brief-packages {
+  max-width: 88ch;
+  margin: 12px 0 0;
+  padding-left: 18px;
+  font-size: 0.875rem;
+  line-height: 1.55;
+  font-variant-numeric: tabular-nums;
+}
+.brief-packages li + li {
+  margin-top: 6px;
+}
+.brief-packages b,
+.brief-checks b,
+.brief-insight-title {
+  font-weight: 500;
+}
+.brief-checks {
+  list-style: none;
+  margin: 6px 0 0;
+  padding: 0 0 0 10px;
+  border-left: 2px solid var(--color-line);
+}
+.brief-checks li + li {
+  margin-top: 4px;
+}
+.brief-group {
+  margin-top: 16px;
+}
+.brief-group-label {
+  margin-top: 16px;
+  color: var(--color-ink-2);
+  font-size: 0.875rem;
+}
+.brief-group > .brief-group-label {
+  margin-top: 0;
+}
+.brief-insights {
+  list-style: none;
+  max-width: 80ch;
+  margin: 6px 0 0;
+  padding: 0;
+  border-top: 1px solid var(--color-line);
+}
+.brief-insight {
+  padding: 10px 0;
+  border-bottom: 1px solid var(--color-line);
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+.brief-insight p + p,
+.brief-insight .refs-quote {
+  margin-top: 4px;
+}
+
+/* Resolved references: a details element that opens what each one is. */
+.refs {
+  margin-top: 6px;
+}
+.refs-summary {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 44px;
+  color: var(--color-ink-2);
+  font-size: 0.8125rem;
+  cursor: pointer;
+  list-style: none;
+}
+.refs-summary::-webkit-details-marker {
+  display: none;
+}
+.refs[open] .candidate-chevron {
+  transform: rotate(180deg);
+}
+.refs-list {
+  list-style: none;
+  margin: 0;
+  padding: 0 0 0 22px;
+}
+.refs-item {
+  padding: 6px 0;
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+.refs-item + .refs-item {
+  border-top: 1px solid var(--color-line);
+}
+.refs-meta {
+  display: block;
+  color: var(--color-ink-2);
+  font-size: 0.75rem;
+  font-variant-numeric: tabular-nums;
+}
+blockquote.refs-quote {
+  margin: 2px 0 0;
+  padding: 2px 0 2px 12px;
+  border-left: 2px solid var(--color-line);
+  font-size: 0.8125rem;
+  line-height: 1.5;
+}
+.refs-source {
+  display: inline-block;
+  margin-top: 2px;
+  font-size: 0.75rem;
+}
+
+/* The links from stage 1 to the market evidence and the series page. */
+.workspace-links {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.workspace-links .cpm-market-link {
+  margin: 0;
+}
+
+/* The market evidence page and the dialog's two lists. */
+.market-group {
+  max-width: 88ch;
+  scroll-margin-top: 24px;
+}
+.market-group .cpm-market-list {
+  margin-top: 8px;
+}
+.cpm-market-lists > .cpm-market-list + .cpm-market-list {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid var(--color-line);
+}
+.candidate[aria-current="true"] td {
+  font-weight: 500;
 }

@@ -2,16 +2,15 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
-import { NoRequirements } from "@/components/workspace/no-requirements";
 import { SourceLine, StagePending } from "@/components/workspace/source-line";
 import { WorkspaceHeader } from "@/components/workspace/workspace-header";
 import { full } from "@/lib/content/format";
-import { allVehicleParams, content, domainName, marketByCode, vehicleIn } from "@/lib/content/markets";
+import { content, domainName, marketByCode, vehicleIn } from "@/lib/content/markets";
 import type { DomainKey, MarketContent, VehicleContent } from "@/lib/content/types";
-import { readWorkspace, workspaceSnapshot } from "@/lib/data/workspace";
+import { readWorkspace } from "@/lib/data/workspace";
 import { site } from "@/lib/site";
 import { groupByDomain } from "@/lib/workspace/candidates";
-import { stageFigures } from "@/lib/workspace/figures";
+import { hasStage, stageFigures, stageParams } from "@/lib/workspace/figures";
 import { requirementHref } from "@/lib/workspace/requirements";
 
 /*
@@ -21,7 +20,7 @@ import { requirementHref } from "@/lib/workspace/requirements";
  * workspace at request time (the snapshot, or the API in the live mode).
  */
 export function generateStaticParams() {
-  return allVehicleParams();
+  return stageParams("requirements");
 }
 
 type Props = PageProps<"/markets/[market]/[vehicle]/requirements">;
@@ -38,7 +37,7 @@ export default async function RequirementsIndex({ params }: Props) {
   const { market, vehicle } = await params;
   const m = marketByCode(market);
   const v = m ? vehicleIn(m, vehicle) : undefined;
-  if (!m || !v || !workspaceSnapshot(v.code, m.code)) notFound();
+  if (!m || !v || !hasStage("requirements", v.code, m.code)) notFound();
   return (
     <Suspense fallback={<StagePending />}>
       <IndexBody market={m} vehicle={v} />
@@ -63,57 +62,53 @@ async function IndexBody({ market: m, vehicle: v }: { market: MarketContent; veh
           {copy.heading}
         </h2>
         <p className="workspace-hint stage-hint">{copy.indexHint}</p>
-        {snapshot.requirements.length === 0 ? (
-          <NoRequirements market={m} vehicle={v} />
-        ) : (
-          <div className="table-scroll">
-            <table className="candidate-table">
-              <thead>
-                <tr>
-                  <th scope="col">{copy.columns.id}</th>
-                  <th scope="col">{copy.columns.title}</th>
-                  <th scope="col">{copy.columns.criteria}</th>
-                  <th scope="col">{copy.columns.horizon}</th>
-                  <th scope="col">{copy.columns.evidence}</th>
-                  <th scope="col">{copy.columns.status}</th>
+        <div className="table-scroll">
+          <table className="candidate-table">
+            <thead>
+              <tr>
+                <th scope="col">{copy.columns.id}</th>
+                <th scope="col">{copy.columns.title}</th>
+                <th scope="col">{copy.columns.criteria}</th>
+                <th scope="col">{copy.columns.horizon}</th>
+                <th scope="col">{copy.columns.evidence}</th>
+                <th scope="col">{copy.columns.status}</th>
+              </tr>
+            </thead>
+            {groups.map((group) => (
+              <tbody key={group.domain}>
+                <tr className="candidate-group">
+                  <th scope="rowgroup" colSpan={6}>
+                    {domainName(group.domain as DomainKey)}
+                    <span>{String(group.items.length)}</span>
+                  </th>
                 </tr>
-              </thead>
-              {groups.map((group) => (
-                <tbody key={group.domain}>
-                  <tr className="candidate-group">
-                    <th scope="rowgroup" colSpan={6}>
-                      {domainName(group.domain as DomainKey)}
-                      <span>{String(group.items.length)}</span>
-                    </th>
-                  </tr>
-                  {group.items.map(({ requirement: r }) => {
-                    const onEvidence = r.criteria.filter((c) => c.basis === "evidence").length;
-                    return (
-                      <tr key={r.id} className="candidate">
-                        <td className="candidate-id">
-                          <Link href={requirementHref(m.code, v.code, r.id)} className="id-link">
-                            {r.id}
-                          </Link>
-                        </td>
-                        <td>
-                          <Link href={requirementHref(m.code, v.code, r.id)} className="title-link">
-                            {r.title}
-                          </Link>
-                        </td>
-                        <td className="num">
-                          {full(r.criteria.length)} <span className="cpm-muted">· {full(onEvidence)} {copy.columns.onEvidence}</span>
-                        </td>
-                        <td>{r.horizon}</td>
-                        <td>{r.evidence_level}</td>
-                        <td>{r.status}</td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              ))}
-            </table>
-          </div>
-        )}
+                {group.items.map(({ requirement: r }) => {
+                  const onEvidence = r.criteria.filter((c) => c.basis === "evidence").length;
+                  return (
+                    <tr key={r.id} className="candidate">
+                      <td className="candidate-id">
+                        <Link href={requirementHref(m.code, v.code, r.id)} className="id-link">
+                          {r.id}
+                        </Link>
+                      </td>
+                      <td>
+                        <Link href={requirementHref(m.code, v.code, r.id)} className="title-link">
+                          {r.title}
+                        </Link>
+                      </td>
+                      <td className="num">
+                        {full(r.criteria.length)} <span className="cpm-muted">· {full(onEvidence)} {copy.columns.onEvidence}</span>
+                      </td>
+                      <td>{r.horizon}</td>
+                      <td>{r.evidence_level}</td>
+                      <td>{r.status}</td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            ))}
+          </table>
+        </div>
         <SourceLine read={read} />
       </section>
     </div>

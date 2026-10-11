@@ -24,17 +24,6 @@ from tracepoint.effort.subsystems import (
 CONTENT = json.loads((REPO_ROOT / "frontend/content/cpm.json").read_text(encoding="utf-8"))
 
 
-def _as_content(view: dict) -> dict:
-    """A backend view without the fields it adds to the contract (ids of market rows, country)."""
-    view = json.loads(json.dumps(view))
-    view.pop("country")
-    for sub in view["subsystems"]:
-        for row in sub["market"]:
-            for key in ("id", "evidence_ref", "market", "subsystem"):
-                row.pop(key)
-    return view
-
-
 def test_every_canonical_theme_is_mapped_once(session):
     themes, unassigned = load_theme_map()
     canonical = {t.name for t in session.scalars(select(TaxonomyLevel2)) if t.status == "canonical"}
@@ -43,15 +32,14 @@ def test_every_canonical_theme_is_mapped_once(session):
 
 
 def test_view_equals_the_frontend_content(session):
-    """D-075: `GET /cpm/{vehicle}` and frontend/content/cpm.json are the same object: counts,
-    renormalised weights, absent subsystems, the derived narration, themes, quotes and market
-    rows. The assistant's gap labels, which other tests import, are not part of this basis."""
-    for name in ("G60_US", "F70_EU", "G60_EU", "G68_CN"):
-        want = dict(CONTENT["views"][name])
+    """D-075, D-101: frontend/content/cpm.json is what `GET /cpm/{vehicle}` serves, written by the
+    frontend's snapshot: counts, renormalised weights, absent subsystems, the derived narration,
+    themes, quotes and market rows of every pair on the map; a fresh ingest gives the same. The
+    assistant's gap labels, which other tests import, are not part of this basis."""
+    assert len(CONTENT["views"]) == 7
+    for name, want in CONTENT["views"].items():
         vehicle, market = name.split("_")
-        got = _as_content(subsystem_view(session, vehicle, market, labels="given"))
-        # the content names the workbook as its source, the backend names its counting basis
-        want.pop("rowsSource"), got.pop("rowsSource")
+        got = json.loads(json.dumps(subsystem_view(session, vehicle, market, labels="given")))
         assert got == want, name
     f70 = subsystem_view(session, "F70", "EU")
     assert [a["key"] for a in f70["absent"]] == ["hv_battery", "charging"]

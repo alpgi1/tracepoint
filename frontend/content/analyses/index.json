@@ -1,0 +1,119 @@
+{
+ "snapshot": {
+  "takenAt": "2026-10-11T06:48:45.690Z",
+  "api": "http://127.0.0.1:8000",
+  "codeVersion": "c7f72e1",
+  "endpoints": {
+   "index": "/analyses",
+   "brief": "/analyses/{key}/brief"
+  }
+ },
+ "items": [
+  {
+   "key": "F70_GB",
+   "kind": "situation",
+   "title": "BMW 1 Series (F70), country GB (market EU)",
+   "vehicle": "F70",
+   "market": "EU",
+   "country": "GB",
+   "series": null,
+   "scopes": [
+    {
+     "vehicle": "F70",
+     "market": "EU",
+     "country": "GB"
+    }
+   ],
+   "headline": "F70 GB: the car wins on how it drives, but the touch-first cockpit is the main product problem.",
+   "items": 7,
+   "runId": "RUN-20261011-025010-agent.analyze.F70.GB-52c2",
+   "ranAt": "2026-10-11T02:50:10+00:00",
+   "model": "gpt-5.4-2026-03-05",
+   "promptVersion": "situation-analysis-v6",
+   "origin": "committed with the repository",
+   "file": "reports/analysis/F70_GB.json"
+  },
+  {
+   "key": "G60_US",
+   "kind": "situation",
+   "title": "BMW 5 Series Sedan (G60), market US",
+   "vehicle": "G60",
+   "market": "US",
+   "country": null,
+   "series": null,
+   "scopes": [
+    {
+     "vehicle": "G60",
+     "market": "US",
+     "country": null
+    }
+   ],
+   "headline": "US G60 customers still love the 5 Series for ride, handling and performance, but the main product issues are HMI complexity, seat comfort, and the BEV range/charging experience.",
+   "items": 8,
+   "runId": "RUN-20261011-035557-agent.analyze.G60.US-2e8f",
+   "ranAt": "2026-10-11T03:55:57+00:00",
+   "model": "gpt-5.4-2026-03-05",
+   "promptVersion": "situation-analysis-v7",
+   "origin": "committed with the repository",
+   "file": "reports/analysis/G60_US.json"
+  },
+  {
+   "key": "G68_CN",
+   "kind": "situation",
+   "title": "BMW 5 Series Long Wheelbase (China) (G68), market CN",
+   "vehicle": "G68",
+   "market": "CN",
+   "country": null,
+   "series": null,
+   "scopes": [
+    {
+     "vehicle": "G68",
+     "market": "CN",
+     "country": null
+    }
+   ],
+   "headline": "G68 China shows clear metric weaknesses in equipment perception, connected services, luggage loading, climate/NVH and braking, while brand prestige, reliability and core BMW driving character remain strengths; confidence is limited because there are no China verbatims or existing requirements in scope.",
+   "items": 6,
+   "runId": "RUN-20261011-024902-agent.analyze.G68.CN-300a",
+   "ranAt": "2026-10-11T02:49:02+00:00",
+   "model": "gpt-5.4-2026-03-05",
+   "promptVersion": "situation-analysis-v6",
+   "origin": "committed with the repository",
+   "file": "reports/analysis/G68_CN.json"
+  },
+  {
+   "key": "G60_regions",
+   "kind": "series",
+   "title": "BMW 5 Series: what to change, for whom, and when",
+   "vehicle": "G60",
+   "market": null,
+   "country": null,
+   "series": "5 Series",
+   "scopes": [
+    {
+     "vehicle": "G60",
+     "market": "EU",
+     "country": null
+    },
+    {
+     "vehicle": "G60",
+     "market": "US",
+     "country": null
+    },
+    {
+     "vehicle": "G68",
+     "market": "CN",
+     "country": null
+    }
+   ],
+   "headline": "Prioritise H1 software and regional usability fixes now, keep major EV and China-market hardware shifts for the next generation, and protect the 5 Series’ dynamic strengths.",
+   "items": 10,
+   "runId": "RUN-20261011-045801-agent.series.G60-a1a6",
+   "ranAt": "2026-10-11T04:58:01+00:00",
+   "model": "gpt-5.4-2026-03-05",
+   "promptVersion": "series-analysis-v1",
+   "origin": "committed with the repository",
+   "file": "reports/analysis/G60_regions.json"
+  }
+ ]
+}

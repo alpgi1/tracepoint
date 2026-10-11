@@ -150,7 +150,7 @@ if the team wants the car as a domain selector again.
 ## 8. How to regenerate
 
 ```
-pnpm content     # content/markets.json from reports/baseline, docs/*.xlsx and config/
+pnpm snapshot    # content/markets.json and the other evidence files from the running backend API
 pnpm vehicles    # public/vehicles/*-{body,lines,lines-small,contour}.png and content/vehicles/*.json from assets/vehicles/sources
 pnpm photos      # public/vehicles/*-photo-side.webp and content/vehicles/*-photo.json from assets/vehicles/photos
 node scripts/vehicles/build.mjs --preview /tmp/preview   # plus composites to look at

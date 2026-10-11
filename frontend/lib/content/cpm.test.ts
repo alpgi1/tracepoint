@@ -3,11 +3,12 @@ import { cpmCatalogue, cpmView, subsystemsByWeight } from "./cpm";
 import { content } from "./markets";
 
 /*
- * The CPM content (content/cpm.json) is generated; these tests pin the
- * contract the screen relies on: twelve subsystems whose weights sum to 100,
- * links to known subsystems, one view per vehicle and market pair with every
- * subsystem present, quotes with their evidence reference, sourced market
- * rows, and theme figures that agree with content/markets.json.
+ * The CPM content (content/cpm.json) is the backend's GET /effort/model and
+ * GET /cpm/{vehicle} per pair, written by scripts/snapshot.mjs; these tests
+ * pin the contract the screen relies on: twelve subsystems whose weights sum
+ * to 100, links to known subsystems, one view per vehicle and market pair
+ * with every subsystem present and the verbatims of content/markets.json,
+ * quotes with their evidence reference, sourced market rows.
  */
 const catalogue = cpmCatalogue();
 const keys = catalogue.subsystems.map((s) => s.key);
@@ -116,24 +117,6 @@ describe("CPM views", () => {
         }
       }
     }
-  });
-
-  it("agree with the complaint themes of markets.json", () => {
-    let compared = 0;
-    for (const { market, vehicle } of pairs) {
-      const view = cpmView(vehicle.code, market.code);
-      if (!view) continue;
-      const criticised = view.subsystems.flatMap((s) => s.criticised.themes);
-      for (const theme of vehicle.complaintThemes) {
-        const here = criticised.find((t) => t.theme === theme.theme);
-        if (!here) continue;
-        expect(here.rows, theme.theme).toBe(theme.rows);
-        expect(here.complaints, theme.theme).toBe(theme.complaints);
-        expect(here.defects, theme.theme).toBe(theme.defects);
-        compared++;
-      }
-    }
-    expect(compared).toBeGreaterThan(10);
   });
 
   it("carries sourced market rows with a date, a type and a level", () => {

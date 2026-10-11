@@ -1,0 +1,1896 @@
+{
+ "key": "F70_GB",
+ "kind": "situation",
+ "title": "BMW 1 Series (F70), country GB (market EU)",
+ "vehicle": "F70",
+ "market": "EU",
+ "country": "GB",
+ "origin": "committed with the repository",
+ "file": "reports/analysis/F70_GB.json",
+ "run": {
+  "id": "RUN-20261011-025010-agent.analyze.F70.GB-52c2",
+  "ranAt": "2026-10-11T02:50:10+00:00",
+  "model": "gpt-5.4-2026-03-05",
+  "promptVersion": "situation-analysis-v6",
+  "steps": 2,
+  "toolCalls": 12,
+  "costUsd": 0.1691,
+  "contextPack": "context-pack-v3"
+ },
+ "headline": "F70 GB: the car wins on how it drives, but the touch-first cockpit is the main product problem.",
+ "summary": "In GB feedback, the F70’s strongest asset is still the core BMW experience: customers repeatedly praise driving dynamics, performance, comfort on long trips, fuel economy and exterior design. But the biggest product issue is concentrated in the digital cockpit: touch-only operation, complex infotainment behaviour, unstable software and poor guidance together dominate complaints. This is not one isolated theme; it clusters heavily in Software/HMI, which carries 587 complaints versus 187 likes in the subsystem view. The next priority is to protect the strong driving package while reducing friction in the cockpit and fixing perceived de-contenting and seat issues. Existing EU requirements already cover the main actions, mostly in H1.",
+ "coverage": "This analysis uses the GB verbatim scope for customer voice (1,293 verbatims in the pack; sampled drill-down on the largest complaint and strength themes), plus EU-market findings, study metrics, equipment, sales, requirements, effort estimates and subsystem mapping. Evidence is strong for the main digital themes because they have high row counts in GB and matching EU findings; weaker for market context because only one weak EU powertrain row is stored. Country scope narrows verbatims only; metrics, findings, sales and requirements are EU-market level.",
+ "proposalGroups": [
+  {
+   "group": "now",
+   "label": "Change now, within the current generation (H1)",
+   "proposals": [
+    1,
+    2,
+    4,
+    5,
+    6
+   ]
+  },
+  {
+   "group": "keep",
+   "label": "Keep as it is, or act outside the vehicle",
+   "proposals": [
+    3,
+    7
+   ]
+  }
+ ],
+ "proposals": [
+  {
+   "n": 1,
+   "group": "now",
+   "title": "Reduce touch dependence with physical climate controls and a rotary/haptic controller path.",
+   "proposal": "Consider prioritising the existing EU requirement to restore non-touch control for frequent driving tasks: physical controls for temperature, fan and heating functions, plus a rotary or equivalent haptic controller for map zoom, lists and shortcuts.",
+   "why": "This is the single clearest customer pain point, with strong GB verbatims and the largest EU complaint finding. It also addresses several adjacent themes at once: touch-screen distraction, controller-operation requests, climate-on-screen frustration and some navigation usability complaints. The stored effort estimate is an H1 adaptation, but still one of the larger H1 items; effort is assumption-based and should be used only to package timing, not to question the need.",
+   "horizon": "H1",
+   "horizonLabel": "Now (H1)",
+   "requirement": "REQ-F70-EU-ID-01",
+   "effort": {
+    "status": "estimated",
+    "statusLabel": "estimated",
+    "basis": "from the change profile of REQ-F70-EU-ID-01",
+    "analystProfile": false,
+    "checks": [],
+    "effortPct": 4.17,
+    "p5": 2.13,
+    "p95": 6.41,
+    "decision": "adapt",
+    "decisionLabel": "Adaptation, below 15 % of a new vehicle generation",
+    "stablePct": 100,
+    "borderline": false,
+    "layer": "K2",
+    "layerLabel": "module change",
+    "size": "S",
+    "certification": false,
+    "subsystems": [
+     {
+      "key": "interior_console",
+      "name": "Interior/console",
+      "effortPct": 2.03,
+      "risk": 0.25,
+      "path": null
+     },
+     {
+      "key": "software_hmi",
+      "name": "Software/HMI",
+      "effortPct": 1.66,
+      "risk": 0.1427,
+      "path": null
+     },
+     {
+      "key": "ee_architecture",
+      "name": "E/E architecture",
+      "effortPct": 0.31,
+      "risk": 0.0296,
+      "path": [
+       "Interior/console",
+       "E/E architecture"
+      ]
+     },
+     {
+      "key": "seats",
+      "name": "Seats",
+      "effortPct": 0.09,
+      "risk": 0.015,
+      "path": [
+       "Interior/console",
+       "Seats"
+      ]
+     }
+    ]
+   },
+   "evidence": {
+    "count": 9,
+    "byKind": [
+     {
+      "kind": "finding",
+      "count": 3,
+      "label": "findings"
+     },
+     {
+      "kind": "verbatim",
+      "count": 5,
+      "label": "customer verbatims"
+     },
+     {
+      "kind": "requirement",
+      "count": 1,
+      "label": "requirement"
+     }
+    ],
+    "items": [
+     {
+      "ref": "FND-F70-EU-VOC-touch_screen_operation",
+      "kind": "finding",
+      "label": "Touch screen, operation: 141 complaints (recurring complaint)",
+      "text": null,
+      "meta": "recurring complaint, evidence level B, F70 in European Union",
+      "url": null,
+      "verified": null
+     },
+     {
+      "ref": "FND-F70-EU-VOC-controller_operation",
+      "kind": "finding",
+      "label": "Controller operation: 26 complaints (unmet need)",
+      "text": null,
+      "meta": "unmet need, evidence level B, F70 in European Union",
+      "url": null,
+      "verified": null
+     },
+     {
+      "ref": "FND-F70-EU-VOC-operating_concept_operating_system",
+      "kind": "finding",
+      "label": "Operating concept, operating system: 30 complaints (recurring complaint)",
+      "text": null,
+      "meta": "recurring complaint, evidence level B, F70 in European Union",
+      "url": null,
+      "verified": null
+     },
+     {
+      "ref": "verbatim:F70-0012",
+      "kind": "verbatim",
+      "label": "Customer verbatim F70-0012",
+      "text": "the car drives nicely, is comfy, engine feels strong and the steering is quite light, but getting used to all the touchscreen tech is a nightmare. the previous idrive setup was almost perfect and should have been left alone. for example, getting the preset radio stations back onto the display is almost impossible, and being forced to use a touchscreen while driving is a dangerous distraction. there is no proper written owners manual, just loads of videos, which is disappointing as even a simple booklet would have helped. not being able to choose run flat tyres is a step backwards, and with no spare tyre that could be dangerous.",
+      "meta": "GB, ICE, Source A",
+      "url": null,
+      "verified": null
+     },
+     {
+      "ref": "verbatim:F70-0112",
+      "kind": "verbatim",
+      "label": "Customer verbatim F70-0112",
+      "text": "i really like this car and would easily recommend it, it is a pleasure to drive. only thing is i want proper heating a/c buttons instead of all on the screen, and a dial for the screen too.",
+      "meta": "GB, ICE, Source A",
+      "url": null,
+      "verified": null
+     },
+     {
+      "ref": "verbatim:F70-0134",
+      "kind": "verbatim",
+      "label": "Customer verbatim F70-0134",
+      "text": "i find the 7 speed dct gets slightly jerky at low speeds and when the car is cold. the climate controls on the display are annoying, my daughters older 1 series with real buttons was better. the passenger belt taps on the hard plastic when it is not being worn.",
+      "meta": "GB, ICE, Source A",
+      "url": null,
+      "verified": null
+     },
+     {
+      "ref": "verbatim:F70-0141",
+      "kind": "verbatim",
+      "label": "Customer verbatim F70-0141",
+      "text": "it's a good car, but the way the map magnification is controlled on-screen is extremely dangerous and very distracting, and could easily cause accidents just like using mobile phones. the old setup with a central control knob meant the driver could alter map zoom without taking attention off the road, whereas this new finger-on-screen method does exactly the opposite. i do have a simple workaround that would only need software changes, not a full redesign of the car: the knurled volume wheel could be used for both volume and map zoom, switching between them with a double click on the wheel. i cannot emphasise enough how strongly i feel about this; with this stupid system it is only a matter of time before someone gets killed.",
+      "meta": "GB, ICE, Source A",
+      "url": null,
+      "verified": null
+     },
+     {
+      "ref": "verbatim:F70-0162",
+      "kind": "verbatim",
+      "label": "Customer verbatim F70-0162",
+      "text": "idrive 9 is awful. feels bloated, with loads of stuff nobody needs. trying to use it while actually driving feels unsafe. i really don't want to have a conversation with the car just to adjust the fan. the home screen can't be changed to anything useful. if this system stays like this, i won't buy another bmw. the car itself is very good, but id9 completely kills the fun of driving it.",
+      "meta": "GB, ICE, Source A",
+      "url": null,
+      "verified": null
+     },
+     {
+      "ref": "REQ-F70-EU-ID-01",
+      "kind": "requirement",
+      "label": "Physical controls for climate and a rotary controller option",
+      "text": null,
+      "meta": "REQ-F70-EU-ID-01",
+      "url": null,
+      "verified": null
+     }
+    ]
+   }
+  },
+  {
+   "n": 2,
+   "group": "now",
+   "title": "Stabilise OS behaviour and protect settings across updates before adding more digital complexity.",
+   "proposal": "Consider prioritising software quality work on display stability, freezes, resets and settings retention across updates and connected-function changes.",
+   "why": "Customers distinguish between two digital problems: touch ergonomics and software reliability. This recommendation addresses the second one. It is backed by high complaint volume, a weak connected-services study score and direct defect reports such as blank screens and inconsistent behaviour. The stored effort is relatively modest for H1 compared with console hardware changes, so it is a strong near-term candidate.",
+   "horizon": "H1",
+   "horizonLabel": "Now (H1)",
+   "requirement": "REQ-F70-EU-ID-02",
+   "effort": {
+    "status": "estimated",
+    "statusLabel": "estimated",
+    "basis": "from the change profile of REQ-F70-EU-ID-02",
+    "analystProfile": false,
+    "checks": [],
+    "effortPct": 0.99,
+    "p5": 0.45,
+    "p95": 1.72,
+    "decision": "adapt",
+    "decisionLabel": "Adaptation, below 15 % of a new vehicle generation",
+    "stablePct": 100,
+    "borderline": false,
+    "layer": "K1",
+    "layerLabel": "add-on",
+    "size": "XS",
+    "certification": false,
+    "subsystems": [
+     {
+      "key": "software_hmi",
+      "name": "Software/HMI",
+      "effortPct": 0.93,
+      "risk": 0.08,
+      "path": null
+     },
+     {
+      "key": "ee_architecture",
+      "name": "E/E architecture",
+      "effortPct": 0.06,
+      "risk": 0.0053,
+      "path": [
+       "Software/HMI",
+       "E/E architecture"
+      ]
+     }
+    ]
+   },
+   "evidence": {
+    "count": 6,
+    "byKind": [
+     {
+      "kind": "finding",
+      "count": 1,
+      "label": "finding"
+     },
+     {
+      "kind": "verbatim",
+      "count": 3,
+      "label": "customer verbatims"
+     },
+     {
+      "kind": "metric",
+      "count": 1,
+      "label": "study score"
+     },
+     {
+      "kind": "requirement",
+      "count": 1,
+      "label": "requirement"
+     }
+    ],
+    "items": [
+     {
+      "ref": "FND-F70-EU-VOC-connecteddrive_and_infotainment_overall_technolo",
+      "kind": "finding",
+      "label": "ConnectedDrive and Infotainment, overall technology: 107 complaints (recurring complaint)",
+      "text": null,
+      "meta": "recurring complaint, evidence level B, F70 in European Union",
+      "url": null,
+      "verified": null
+     },
+     {
+      "ref": "verbatim:F70-0027",
+      "kind": "verbatim",
+      "label": "Customer verbatim F70-0027",
+      "text": "the car drives very well and has some lovely features, however i've had problems with both display modules going totally blank several times, always when the outside temperature is under zero degrees. the vehicle is currently with the local dealer for checks and repair.",
+      "meta": "GB, ICE, Source A",
+      "url": null,
+      "verified": null
+     },
+     {
+      "ref": "verbatim:F70-0047",
+      "kind": "verbatim",
+      "label": "Customer verbatim F70-0047",
+      "text": "the driving feel is good, but the software is terrible, the car acts like it has its own mind and starts doing things for no clear reason. very inconsistent behavior. i absolutely hate it!!",
+      "meta": "GB, ICE, Source A",
+      "url": null,
+      "verified": null
+     },
+     {
+      "ref": "verbatim:F70-0161",
+      "kind": "verbatim",
+      "label": "Customer verbatim F70-0161",
+      "text": "the car is enjoyable to drive and uses less petrol than i expected. on the downside it is overcomplicated, with far too much reliance on the display screen where proper physical buttons would be safer and more practical. there are two temperature sliders that stay permanently synced, which makes one of them pointless and irritating. there is also a software issue where the recommended tyre pressures keep changing, apparently because the tyre information is not stored correctly. the car was delivered without an owner's handbook; after getting one later, i find it very poor, with no clear way to see which parts apply to my specific car. it wastes space on general 'principle' sections instead of clearly explaining how features operate and how to control them. finally, the door mirrors stick out too far and add unnecessary width, they could definitely be smaller.",
+      "meta": "GB, ICE, Source A",
+      "url": null,
+      "verified": null
+     },
+     {
+      "ref": "metric:MET-CNEU-EU-F70-connected_services",
+      "kind": "metric",
+      "label": "Connected services",
+      "text": null,
+      "meta": "study CN_EU_2025, F70 in European Union, mean 7.36 on 1 to 10",
+      "url": null,
+      "verified": null
+     },
+     {
+      "ref": "REQ-F70-EU-ID-02",
+      "kind": "requirement",
+      "label": "Stable infotainment and settings that survive updates",
+      "text": null,
+      "meta": "REQ-F70-EU-ID-02",
+      "url": null,
+      "verified": null
+     }
+    ]
+   }
+  },
+  {
+   "n": 3,
+   "group": "keep",
+   "title": "Provide a printed quick-start handbook and improve in-car help filtered to fitted equipment.",
+   "proposal": "Consider implementing the existing requirement for a printed quick-start handbook at delivery and clearer searchable in-car help that only shows functions fitted to the vehicle.",
+   "why": "This does not solve the HMI itself, but it is a low-effort way to reduce frustration quickly, especially for owners moving from earlier BMWs. The complaint volume is large and concentrated, and the proposal is already defined. It is also one of the few actions that can improve perceived usability without waiting for hardware changes.",
+   "horizon": "H1",
+   "horizonLabel": "Now (H1)",
+   "requirement": "REQ-F70-EU-ID-04",
+   "effort": {
+    "status": "estimated",
+    "statusLabel": "estimated",
+    "basis": "from the change profile of REQ-F70-EU-ID-04",
+    "analystProfile": false,
+    "checks": [],
+    "effortPct": 0.23,
+    "p5": 0.1,
+    "p95": 0.41,
+    "decision": "adapt",
+    "decisionLabel": "Adaptation, below 15 % of a new vehicle generation",
+    "stablePct": 100,
+    "borderline": false,
+    "layer": "K0",
+    "layerLabel": "configuration",
+    "size": "XS",
+    "certification": false,
+    "subsystems": [
+     {
+      "key": "software_hmi",
+      "name": "Software/HMI",
+      "effortPct": 0.23,
+      "risk": 0.02,
+      "path": null
+     }
+    ]
+   },
+   "evidence": {
+    "count": 4,
+    "byKind": [
+     {
+      "kind": "finding",
+      "count": 1,
+      "label": "finding"
+     },
+     {
+      "kind": "verbatim",
+      "count": 2,
+      "label": "customer verbatims"
+     },
+     {
+      "kind": "requirement",
+      "count": 1,
+      "label": "requirement"
+     }
+    ],
+    "items": [
+     {
+      "ref": "FND-F70-EU-VOC-owner_s_manual",
+      "kind": "finding",
+      "label": "Owner's Manual: 86 complaints (recurring complaint)",
+      "text": null,
+      "meta": "recurring complaint, evidence level B, F70 in European Union",
+      "url": null,
+      "verified": null
+     },
+     {
+      "ref": "verbatim:F70-0012",
+      "kind": "verbatim",
+      "label": "Customer verbatim F70-0012",
+      "text": "the car drives nicely, is comfy, engine feels strong and the steering is quite light, but getting used to all the touchscreen tech is a nightmare. the previous idrive setup was almost perfect and should have been left alone. for example, getting the preset radio stations back onto the display is almost impossible, and being forced to use a touchscreen while driving is a dangerous distraction. there is no proper written owners manual, just loads of videos, which is disappointing as even a simple booklet would have helped. not being able to choose run flat tyres is a step backwards, and with no spare tyre that could be dangerous.",
+      "meta": "GB, ICE, Source A",
+      "url": null,
+      "verified": null
+     },
+     {
+      "ref": "verbatim:F70-0103",
+      "kind": "verbatim",
+      "label": "Customer verbatim F70-0103",
+      "text": "i like my new car, but i would much rather have a paper manual. having it in an app on my phone or ipad or on the car screen is ok, yet its just easier to check an index and a page number in a book.",
+      "meta": "GB, ICE, Source A",
+      "url": null,
+      "verified": null
+     },
+     {
+      "ref": "REQ-F70-EU-ID-04",
+      "kind": "requirement",
+      "label": "Printed quick-start handbook and better in-car help",
+      "text": null,
+      "meta": "REQ-F70-EU-ID-04",
+      "url": null,
+      "verified": null
+     }
+    ]
+   }
+  },
+  {
+   "n": 4,
+   "group": "now",
+   "title": "Refine launch, low-speed and coasting calibration of the ICE/MHEV powertrain and DCT.",
+   "proposal": "Consider prioritising calibration work for smoother pull-away, less low-speed jerkiness and more natural coast/engine-braking behaviour.",
+   "why": "The powertrain should be protected, not reinvented: customers like its performance and efficiency overall, but a meaningful minority complain about response and gearbox behaviour. Because the theme is strongly positive overall, a calibration-focused fix is likely to improve satisfaction without risking the core strength. The stored effort is assumption-based but still within H1 adaptation territory.",
+   "horizon": "H1",
+   "horizonLabel": "Now (H1)",
+   "requirement": "REQ-F70-EU-PR-01",
+   "effort": {
+    "status": "estimated",
+    "statusLabel": "estimated",
+    "basis": "from the change profile of REQ-F70-EU-PR-01",
+    "analystProfile": false,
+    "checks": [],
+    "effortPct": 3.27,
+    "p5": 1.63,
+    "p95": 6.31,
+    "decision": "adapt",
+    "decisionLabel": "Adaptation, below 15 % of a new vehicle generation",
+    "stablePct": 100,
+    "borderline": false,
+    "layer": "K1",
+    "layerLabel": "add-on",
+    "size": "S",
+    "certification": false,
+    "subsystems": [
+     {
+      "key": "powertrain",
+      "name": "Powertrain",
+      "effortPct": 0.81,
+      "risk": 0.05,
+      "path": null
+     },
+     {
+      "key": "software_hmi",
+      "name": "Software/HMI",
+      "effortPct": 0.8,
+      "risk": 0.0686,
+      "path": [
+       "Powertrain",
+       "E/E architecture",
+       "Software/HMI"
+      ]
+     },
+     {
+      "key": "body_structure",
+      "name": "Body/structure",
+      "effortPct": 0.5,
+      "risk": 0.0239,
+      "path": [
+       "Powertrain",
+       "Body/structure"
+      ]
+     },
+     {
+      "key": "ee_architecture",
+      "name": "E/E architecture",
+      "effortPct": 0.44,
+      "risk": 0.0423,
+      "path": [
+       "Powertrain",
+       "E/E architecture"
+      ]
+     }
+    ]
+   },
+   "evidence": {
+    "count": 7,
+    "byKind": [
+     {
+      "kind": "finding",
+      "count": 2,
+      "label": "findings"
+     },
+     {
+      "kind": "verbatim",
+      "count": 3,
+      "label": "customer verbatims"
+     },
+     {
+      "kind": "metric",
+      "count": 1,
+      "label": "study score"
+     },
+     {
+      "kind": "requirement",
+      "count": 1,
+      "label": "requirement"
+     }
+    ],
+    "items": [
+     {
+      "ref": "FND-F70-EU-VOC-drivetrain",
+      "kind": "finding",
+      "label": "Drivetrain: 123 complaints (recurring complaint)",
+      "text": null,
+      "meta": "recurring complaint, evidence level B, F70 in European Union",
+      "url": null,
+      "verified": null
+     },
+     {
+      "ref": "FND-F70-EU-VOC-transmission",
+      "kind": "finding",
+      "label": "Transmission: 48 complaints (recurring complaint)",
+      "text": null,
+      "meta": "recurring complaint, evidence level B, F70 in European Union",
+      "url": null,
+      "verified": null
+     },
+     {
+      "ref": "verbatim:F70-0010",
+      "kind": "verbatim",
+      "label": "Customer verbatim F70-0010",
+      "text": "its a really good car, definitely feels like an upgrade over my old f40 118i m sport. engine is strong and the mild hybrid gives a nice extra shove and helps with efficiency. it corners and rides very well and im getting better fuel economy than with the f40. some of the cabin materials feel a bit flimsier than before, not a big deal but i did notice. the new cabin layout looks great and all the digital stuff behaves properly. a few oddities though: the keyless entry/exit reacts way too easily, and sometimes the car systems seem to randomly reset, so auto hold ends up switched off in the menu even though i had it on. the speed warning feature is just irritating, even if i can switch it off each trip here in the uk.",
+      "meta": "GB, ICE, Source A",
+      "url": null,
+      "verified": null
+     },
+     {
+      "ref": "verbatim:F70-0134",
+      "kind": "verbatim",
+      "label": "Customer verbatim F70-0134",
+      "text": "i find the 7 speed dct gets slightly jerky at low speeds and when the car is cold. the climate controls on the display are annoying, my daughters older 1 series with real buttons was better. the passenger belt taps on the hard plastic when it is not being worn.",
+      "meta": "GB, ICE, Source A",
+      "url": null,
+      "verified": null
+     },
+     {
+      "ref": "verbatim:F70-0159",
+      "kind": "verbatim",
+      "label": "Customer verbatim F70-0159",
+      "text": "steering and handling are excellent. interior feels upmarket and the seats are very comfortable. economy is very strong yet performance is still good. there is, however, a notable delay on the throttle. the satnav is not as clear or informative as the one in the x2. the speedometer and rev counter are almost useless, hard to read because of the colours and graduated markings, even though the digital speed readout itself is easy to see. far too many settings overall and the menus are awkward to find your way through.",
+      "meta": "GB, ICE, Source A",
+      "url": null,
+      "verified": null
+     },
+     {
+      "ref": "metric:MET-CNEU-EU-F70-fuel_economy",
+      "kind": "metric",
+      "label": "Fuel economy/ energy efficiency",
+      "text": null,
+      "meta": "study CN_EU_2025, F70 in European Union, mean 9.30 on 1 to 10",
+      "url": null,
+      "verified": null
+     },
+     {
+      "ref": "REQ-F70-EU-PR-01",
+      "kind": "requirement",
+      "label": "Smooth dual-clutch gearbox and immediate response when pulling away",
+      "text": null,
+      "meta": "REQ-F70-EU-PR-01",
+      "url": null,
+      "verified": null
+     }
+    ]
+   }
+  },
+  {
+   "n": 5,
+   "group": "now",
+   "title": "Address seat support, lumbar availability and trim durability on volume trims.",
+   "proposal": "Consider implementing the existing seat requirement focused on foam/support tuning, lumbar availability and durability fixes rather than a full seat redesign.",
+   "why": "Seat complaints are meaningful but not universal, and the study score remains decent. That makes a targeted H1 improvement more appropriate than a wholesale concept change. The requirement already packages the likely customer gain areas: support on long drives, lumbar adjustment and durability/noise issues.",
+   "horizon": "H1",
+   "horizonLabel": "Now (H1)",
+   "requirement": "REQ-F70-EU-IC-01",
+   "effort": {
+    "status": "estimated",
+    "statusLabel": "estimated",
+    "basis": "from the change profile of REQ-F70-EU-IC-01",
+    "analystProfile": false,
+    "checks": [],
+    "effortPct": 2.13,
+    "p5": 1,
+    "p95": 3.69,
+    "decision": "adapt",
+    "decisionLabel": "Adaptation, below 15 % of a new vehicle generation",
+    "stablePct": 100,
+    "borderline": false,
+    "layer": "K1",
+    "layerLabel": "add-on",
+    "size": "S",
+    "certification": false,
+    "subsystems": [
+     {
+      "key": "seats",
+      "name": "Seats",
+      "effortPct": 1.16,
+      "risk": 0.2,
+      "path": null
+     },
+     {
+      "key": "software_hmi",
+      "name": "Software/HMI",
+      "effortPct": 0.65,
+      "risk": 0.0559,
+      "path": [
+       "Seats",
+       "E/E architecture",
+       "Software/HMI"
+      ]
+     },
+     {
+      "key": "ee_architecture",
+      "name": "E/E architecture",
+      "effortPct": 0.21,
+      "risk": 0.0203,
+      "path": [
+       "Seats",
+       "E/E architecture"
+      ]
+     },
+     {
+      "key": "thermal_hvac",
+      "name": "Thermal/HVAC",
+      "effortPct": 0.1,
+      "risk": 0.015,
+      "path": [
+       "Seats",
+       "Thermal/HVAC"
+      ]
+     }
+    ]
+   },
+   "evidence": {
+    "count": 6,
+    "byKind": [
+     {
+      "kind": "finding",
+      "count": 1,
+      "label": "finding"
+     },
+     {
+      "kind": "verbatim",
+      "count": 3,
+      "label": "customer verbatims"
+     },
+     {
+      "kind": "metric",
+      "count": 1,
+      "label": "study score"
+     },
+     {
+      "kind": "requirement",
+      "count": 1,
+      "label": "requirement"
+     }
+    ],
+    "items": [
+     {
+      "ref": "FND-F70-EU-VOC-seats",
+      "kind": "finding",
+      "label": "Seats: 50 complaints (recurring complaint)",
+      "text": null,
+      "meta": "recurring complaint, evidence level B, F70 in European Union",
+      "url": null,
+      "verified": null
+     },
+     {
+      "ref": "verbatim:F70-0030",
+      "kind": "verbatim",
+      "label": "Customer verbatim F70-0030",
+      "text": "really nice to drive, feels secure with loads of grip on the road. seats are comfy and supportive, shame there isnt any lumbar support. infotainment is decent but ive hit a few issues. tivo keeps saying no connection and asking to retry, started happening after my annual subscription kicked in.",
+      "meta": "GB, ICE, Source A",
+      "url": null,
+      "verified": null
+     },
+     {
+      "ref": "verbatim:F70-0055",
+      "kind": "verbatim",
+      "label": "Customer verbatim F70-0055",
+      "text": "service has been fine and the car itself is good. the only issue is the creasing on the front alcantara seats, both driver and passenger, they really dont look up to the level of the seats in my earlier bmw cars. i am already in touch with the dealer about this problem and hoping that, if it turns out to be a design fault, it will get sorted out.",
+      "meta": "GB, ICE, Source A",
+      "url": null,
+      "verified": null
+     },
+     {
+      "ref": "verbatim:F70-0152",
+      "kind": "verbatim",
+      "label": "Customer verbatim F70-0152",
+      "text": "if this is the new 120m then the purchase has been an unmitigated disaster. far too complicated, seats uncomfortable, no solid feel. luckily our previous car had not yet been resold so we were able to buy it back. the local dealer did the best deal they could but we still took a considerable loss. this new range is the worst we have experienced. not bmw's finest hour. ([EMAIL])",
+      "meta": "GB, ICE, Source A",
+      "url": null,
+      "verified": null
+     },
+     {
+      "ref": "metric:MET-CNEU-EU-F70-seat_comfort",
+      "kind": "metric",
+      "label": "Overall seating comfort",
+      "text": null,
+      "meta": "study CN_EU_2025, F70 in European Union, mean 8.98 on 1 to 10",
+      "url": null,
+      "verified": null
+     },
+     {
+      "ref": "REQ-F70-EU-IC-01",
+      "kind": "requirement",
+      "label": "Supportive, durable seats with lumbar adjustment",
+      "text": null,
+      "meta": "REQ-F70-EU-IC-01",
+      "url": null,
+      "verified": null
+     }
+    ]
+   }
+  },
+  {
+   "n": 6,
+   "group": "now",
+   "title": "Review silent de-contenting versus F40 and either restore key items or make the downgrade explicit in configuration.",
+   "proposal": "Consider using the existing requirement to review missing convenience items that loyal 1 Series owners expect, restoring the highest-friction items where the platform still carries them, and making any remaining deletions explicit at configuration and handover.",
+   "why": "This is less severe than the HMI problem but important for loyalty and value perception. The complaints are often from repeat BMW owners and are framed as regression, not just missing luxury. Because much of this is content/configuration rather than deep engineering, it may offer good customer impact for limited effort, though some items may need hardware verification.",
+   "horizon": "H1",
+   "horizonLabel": "Now (H1)",
+   "requirement": "REQ-F70-EU-GE-01",
+   "effort": {
+    "status": "estimated",
+    "statusLabel": "estimated",
+    "basis": "from the change profile of REQ-F70-EU-GE-01",
+    "analystProfile": false,
+    "checks": [],
+    "effortPct": 0.24,
+    "p5": 0.11,
+    "p95": 0.42,
+    "decision": "adapt",
+    "decisionLabel": "Adaptation, below 15 % of a new vehicle generation",
+    "stablePct": 100,
+    "borderline": false,
+    "layer": "K0",
+    "layerLabel": "configuration",
+    "size": "XS",
+    "certification": false,
+    "subsystems": [
+     {
+      "key": "interior_console",
+      "name": "Interior/console",
+      "effortPct": 0.24,
+      "risk": 0.03,
+      "path": null
+     }
+    ]
+   },
+   "evidence": {
+    "count": 6,
+    "byKind": [
+     {
+      "kind": "finding",
+      "count": 1,
+      "label": "finding"
+     },
+     {
+      "kind": "verbatim",
+      "count": 2,
+      "label": "customer verbatims"
+     },
+     {
+      "kind": "metric",
+      "count": 2,
+      "label": "study scores"
+     },
+     {
+      "kind": "requirement",
+      "count": 1,
+      "label": "requirement"
+     }
+    ],
+    "items": [
+     {
+      "ref": "FND-F70-EU-VOC-body_equipment_overall_technology",
+      "kind": "finding",
+      "label": "Body equipment, overall technology: 73 complaints (recurring complaint)",
+      "text": null,
+      "meta": "recurring complaint, evidence level B, F70 in European Union",
+      "url": null,
+      "verified": null
+     },
+     {
+      "ref": "verbatim:F70-0072",
+      "kind": "verbatim",
+      "label": "Customer verbatim F70-0072",
+      "text": "I had a 118i m sport before and the 120 m sport has had all the useful bits stripped out and is not a sport model at all! this is our 6th bmw and easily the worst car we've ever had. 1. no 12v socket in the boot, a ridiculous penny pinching move. 2. no phone charging points in the back. 3. no climate controls in the rear. 4. no fog lights. 5. no leather seats. 6. no visible exhaust, sport model?? 7. basic 18\" alloys (19\" were standard on the 118i), sport model?? 8. thin, cheap carpets with poor grip and no m sport trim. every one of these came standard on the 118i m sport and the 120 m sport is marketed as its direct replacement! the 120 m sport is about £7/8k more, plus paying again for all the things removed, making it a pricey car and the worst thing ever to come out of a bmw showroom. total rubbish!",
+      "meta": "GB, ICE, Source A",
+      "url": null,
+      "verified": null
+     },
+     {
+      "ref": "verbatim:F70-0052",
+      "kind": "verbatim",
+      "label": "Customer verbatim F70-0052",
+      "text": "this is my fourth brand new bmw. this version is quite a departure from my old 118i m sport and has lost a number of refinements that used to come as standard, which is a let-down. even so, i'd still score it 10 because of the solid bmw enginering.",
+      "meta": "GB, ICE, Source A",
+      "url": null,
+      "verified": null
+     },
+     {
+      "ref": "metric:MET-CNEU-EU-F70-equipment_level",
+      "kind": "metric",
+      "label": "Level of equipment",
+      "text": null,
+      "meta": "study CN_EU_2025, F70 in European Union, mean 8.26 on 1 to 10",
+      "url": null,
+      "verified": null
+     },
+     {
+      "ref": "metric:MET-CNEU-EU-F70-value_for_money",
+      "kind": "metric",
+      "label": "Value for money",
+      "text": null,
+      "meta": "study CN_EU_2025, F70 in European Union, mean 7.82 on 1 to 10",
+      "url": null,
+      "verified": null
+     },
+     {
+      "ref": "REQ-F70-EU-GE-01",
+      "kind": "requirement",
+      "label": "No silent de-contenting against the previous 1 Series",
+      "text": null,
+      "meta": "REQ-F70-EU-GE-01",
+      "url": null,
+      "verified": null
+     }
+    ]
+   }
+  },
+  {
+   "n": 7,
+   "group": "keep",
+   "title": "Protect the current driving character in any H1 package and in the successor.",
+   "proposal": "Keep sporty handling, strong perceived performance and fuel economy as protected attributes when packaging H1 fixes and when defining the successor.",
+   "why": "The car's strongest equity is still how it drives. Several complaints compare the cockpit unfavourably with older BMWs, but many still say the car itself drives very well. That means corrective work should avoid degrading steering, agility, ride balance or efficiency. An existing preserve requirement already captures this for H2.",
+   "horizon": "H2",
+   "horizonLabel": "Next generation (H2)",
+   "requirement": "REQ-F70-EU-DD-02",
+   "effort": {
+    "status": "no_vehicle_change",
+    "statusLabel": "no change on the vehicle",
+    "basis": "from the change profile of REQ-F70-EU-DD-02",
+    "analystProfile": false,
+    "checks": []
+   },
+   "evidence": {
+    "count": 5,
+    "byKind": [
+     {
+      "kind": "verbatim",
+      "count": 2,
+      "label": "customer verbatims"
+     },
+     {
+      "kind": "metric",
+      "count": 2,
+      "label": "study scores"
+     },
+     {
+      "kind": "requirement",
+      "count": 1,
+      "label": "requirement"
+     }
+    ],
+    "items": [
+     {
+      "ref": "verbatim:F70-0028",
+      "kind": "verbatim",
+      "label": "Customer verbatim F70-0028",
+      "text": "this is my 4th bmw 1 series and easily the best to drive. the mild hybrid setup is excellent, same with the automatic gearbox. i have already done around a 1000 mile round trip to france in great comfort and with superb fuel economy.",
+      "meta": "GB, ICE, Source A",
+      "url": null,
+      "verified": null
+     },
+     {
+      "ref": "verbatim:F70-0025",
+      "kind": "verbatim",
+      "label": "Customer verbatim F70-0025",
+      "text": "the car is fantastic to drive. it's my first automatic and it's incredibly easy to use. i'm very happy with it.",
+      "meta": "GB, ICE, Source A",
+      "url": null,
+      "verified": null
+     },
+     {
+      "ref": "metric:MET-CNEU-EU-F70-sportiness",
+      "kind": "metric",
+      "label": "Sportiness",
+      "text": null,
+      "meta": "study CN_EU_2025, F70 in European Union, mean 9.34 on 1 to 10",
+      "url": null,
+      "verified": null
+     },
+     {
+      "ref": "metric:MET-CNEU-EU-F70-fuel_economy",
+      "kind": "metric",
+      "label": "Fuel economy/ energy efficiency",
+      "text": null,
+      "meta": "study CN_EU_2025, F70 in European Union, mean 9.30 on 1 to 10",
+      "url": null,
+      "verified": null
+     },
+     {
+      "ref": "REQ-F70-EU-DD-02",
+      "kind": "requirement",
+      "label": "Keep the sporty handling and the fuel economy in the next generation",
+      "text": null,
+      "meta": "REQ-F70-EU-DD-02",
+      "url": null,
+      "verified": null
+     }
+    ]
+   }
+  }
+ ],
+ "packages": [
+  {
+   "horizon": "H1",
+   "label": "Now (H1)",
+   "proposals": 6,
+   "sumOfSinglePct": 11.03,
+   "effortPct": 10.33,
+   "p5": 5.66,
+   "p95": 15.71,
+   "decision": "adapt",
+   "decisionLabel": "Adaptation, below 15 % of a new vehicle generation",
+   "stablePct": 91.9,
+   "borderline": false,
+   "layer": "K2",
+   "layerLabel": "module change",
+   "size": "M",
+   "certification": false,
+   "subsystems": [
+    {
+     "key": "software_hmi",
+     "name": "Software/HMI",
+     "effortPct": 3.72,
+     "risk": 0.3203,
+     "path": null
+    },
+    {
+     "key": "interior_console",
+     "name": "Interior/console",
+     "effortPct": 2.29,
+     "risk": 0.2819,
+     "path": null
+    },
+    {
+     "key": "seats",
+     "name": "Seats",
+     "effortPct": 1.24,
+     "risk": 0.2136,
+     "path": null
+    },
+    {
+     "key": "ee_architecture",
+     "name": "E/E architecture",
+     "effortPct": 0.99,
+     "risk": 0.0944,
+     "path": [
+      "Powertrain",
+      "E/E architecture"
+     ]
+    },
+    {
+     "key": "powertrain",
+     "name": "Powertrain",
+     "effortPct": 0.81,
+     "risk": 0.05,
+     "path": null
+    },
+    {
+     "key": "body_structure",
+     "name": "Body/structure",
+     "effortPct": 0.5,
+     "risk": 0.0239,
+     "path": [
+      "Powertrain",
+      "Body/structure"
+     ]
+    }
+   ],
+   "notCounted": [],
+   "checks": []
+  }
+ ],
+ "customers": [
+  {
+   "group": "problems",
+   "label": "What customers complain about",
+   "items": [
+    {
+     "title": "Touch-first operation is the clearest customer pain point and is described as distracting or unsafe while driving.",
+     "statement": "Touch screen, operation is the largest complaint theme in the GB pack at 138 complaints, and the matching EU finding counts 141 complaint rows, 7.4% of all EU complaint rows for F70. Customers do not just dislike the look; they struggle with basic tasks, especially climate and navigation interactions while moving. In the engineering view, this sits inside the much larger Software/HMI concentration with 587 complaints, far above any other subsystem, so many customer irritations likely point to one product area rather than many unrelated fixes.",
+     "quote": "being forced to use a touchscreen while driving is a dangerous distraction.",
+     "domain": "infotainment_digital",
+     "domainLabel": "Infotainment & Digital Services",
+     "confidence": "high",
+     "confidenceLabel": "high confidence",
+     "subsystems": [
+      {
+       "key": "software_hmi",
+       "name": "Software/HMI",
+       "references": 6
+      },
+      {
+       "key": "interior_console",
+       "name": "Interior/console",
+       "references": 2
+      },
+      {
+       "key": "body_structure",
+       "name": "Body/structure",
+       "references": 1
+      },
+      {
+       "key": "chassis",
+       "name": "Chassis",
+       "references": 1
+      },
+      {
+       "key": "powertrain",
+       "name": "Powertrain",
+       "references": 1
+      },
+      {
+       "key": "thermal_hvac",
+       "name": "Thermal/HVAC",
+       "references": 1
+      }
+     ],
+     "evidence": {
+      "count": 7,
+      "byKind": [
+       {
+        "kind": "finding",
+        "count": 3,
+        "label": "findings"
+       },
+       {
+        "kind": "verbatim",
+        "count": 4,
+        "label": "customer verbatims"
+       }
+      ],
+      "items": [
+       {
+        "ref": "FND-F70-EU-VOC-touch_screen_operation",
+        "kind": "finding",
+        "label": "Touch screen, operation: 141 complaints (recurring complaint)",
+        "text": null,
+        "meta": "recurring complaint, evidence level B, F70 in European Union",
+        "url": null,
+        "verified": null
+       },
+       {
+        "ref": "FND-F70-EU-VOC-operating_concept_operating_system",
+        "kind": "finding",
+        "label": "Operating concept, operating system: 30 complaints (recurring complaint)",
+        "text": null,
+        "meta": "recurring complaint, evidence level B, F70 in European Union",
+        "url": null,
+        "verified": null
+       },
+       {
+        "ref": "FND-F70-EU-VOC-controller_operation",
+        "kind": "finding",
+        "label": "Controller operation: 26 complaints (unmet need)",
+        "text": null,
+        "meta": "unmet need, evidence level B, F70 in European Union",
+        "url": null,
+        "verified": null
+       },
+       {
+        "ref": "verbatim:F70-0012",
+        "kind": "verbatim",
+        "label": "Customer verbatim F70-0012",
+        "text": "the car drives nicely, is comfy, engine feels strong and the steering is quite light, but getting used to all the touchscreen tech is a nightmare. the previous idrive setup was almost perfect and should have been left alone. for example, getting the preset radio stations back onto the display is almost impossible, and being forced to use a touchscreen while driving is a dangerous distraction. there is no proper written owners manual, just loads of videos, which is disappointing as even a simple booklet would have helped. not being able to choose run flat tyres is a step backwards, and with no spare tyre that could be dangerous.",
+        "meta": "GB, ICE, Source A",
+        "url": null,
+        "verified": null
+       },
+       {
+        "ref": "verbatim:F70-0112",
+        "kind": "verbatim",
+        "label": "Customer verbatim F70-0112",
+        "text": "i really like this car and would easily recommend it, it is a pleasure to drive. only thing is i want proper heating a/c buttons instead of all on the screen, and a dial for the screen too.",
+        "meta": "GB, ICE, Source A",
+        "url": null,
+        "verified": null
+       },
+       {
+        "ref": "verbatim:F70-0134",
+        "kind": "verbatim",
+        "label": "Customer verbatim F70-0134",
+        "text": "i find the 7 speed dct gets slightly jerky at low speeds and when the car is cold. the climate controls on the display are annoying, my daughters older 1 series with real buttons was better. the passenger belt taps on the hard plastic when it is not being worn.",
+        "meta": "GB, ICE, Source A",
+        "url": null,
+        "verified": null
+       },
+       {
+        "ref": "verbatim:F70-0162",
+        "kind": "verbatim",
+        "label": "Customer verbatim F70-0162",
+        "text": "idrive 9 is awful. feels bloated, with loads of stuff nobody needs. trying to use it while actually driving feels unsafe. i really don't want to have a conversation with the car just to adjust the fan. the home screen can't be changed to anything useful. if this system stays like this, i won't buy another bmw. the car itself is very good, but id9 completely kills the fun of driving it.",
+        "meta": "GB, ICE, Source A",
+        "url": null,
+        "verified": null
+       }
+      ]
+     }
+    },
+    {
+     "title": "Infotainment software quality is a second, separate digital problem: complexity and instability, not only touch ergonomics.",
+     "statement": "ConnectedDrive and Infotainment, overall technology has 98 complaints in the GB pack; the EU finding counts 107 complaints, including 51 defects and 56 usability problems. Customers report blank screens, resets, inconsistent behaviour and menus that feel overcomplicated. This matters because the study also rates connected services weakly at 7.36, reinforcing that the issue is not just a few anecdotes.",
+     "quote": "the software is terrible, the car acts like it has its own mind",
+     "domain": "infotainment_digital",
+     "domainLabel": "Infotainment & Digital Services",
+     "confidence": "high",
+     "confidenceLabel": "high confidence",
+     "subsystems": [
+      {
+       "key": "software_hmi",
+       "name": "Software/HMI",
+       "references": 5
+      },
+      {
+       "key": "chassis",
+       "name": "Chassis",
+       "references": 3
+      },
+      {
+       "key": "exterior_design",
+       "name": "Exterior design",
+       "references": 1
+      },
+      {
+       "key": "interior_console",
+       "name": "Interior/console",
+       "references": 1
+      },
+      {
+       "key": "powertrain",
+       "name": "Powertrain",
+       "references": 1
+      }
+     ],
+     "evidence": {
+      "count": 6,
+      "byKind": [
+       {
+        "kind": "finding",
+        "count": 1,
+        "label": "finding"
+       },
+       {
+        "kind": "verbatim",
+        "count": 4,
+        "label": "customer verbatims"
+       },
+       {
+        "kind": "metric",
+        "count": 1,
+        "label": "study score"
+       }
+      ],
+      "items": [
+       {
+        "ref": "FND-F70-EU-VOC-connecteddrive_and_infotainment_overall_technolo",
+        "kind": "finding",
+        "label": "ConnectedDrive and Infotainment, overall technology: 107 complaints (recurring complaint)",
+        "text": null,
+        "meta": "recurring complaint, evidence level B, F70 in European Union",
+        "url": null,
+        "verified": null
+       },
+       {
+        "ref": "verbatim:F70-0027",
+        "kind": "verbatim",
+        "label": "Customer verbatim F70-0027",
+        "text": "the car drives very well and has some lovely features, however i've had problems with both display modules going totally blank several times, always when the outside temperature is under zero degrees. the vehicle is currently with the local dealer for checks and repair.",
+        "meta": "GB, ICE, Source A",
+        "url": null,
+        "verified": null
+       },
+       {
+        "ref": "verbatim:F70-0047",
+        "kind": "verbatim",
+        "label": "Customer verbatim F70-0047",
+        "text": "the driving feel is good, but the software is terrible, the car acts like it has its own mind and starts doing things for no clear reason. very inconsistent behavior. i absolutely hate it!!",
+        "meta": "GB, ICE, Source A",
+        "url": null,
+        "verified": null
+       },
+       {
+        "ref": "verbatim:F70-0069",
+        "kind": "verbatim",
+        "label": "Customer verbatim F70-0069",
+        "text": "car itself is really excellent, just let down by the new tech system being way too complicated.",
+        "meta": "GB, ICE, Source A",
+        "url": null,
+        "verified": null
+       },
+       {
+        "ref": "verbatim:F70-0161",
+        "kind": "verbatim",
+        "label": "Customer verbatim F70-0161",
+        "text": "the car is enjoyable to drive and uses less petrol than i expected. on the downside it is overcomplicated, with far too much reliance on the display screen where proper physical buttons would be safer and more practical. there are two temperature sliders that stay permanently synced, which makes one of them pointless and irritating. there is also a software issue where the recommended tyre pressures keep changing, apparently because the tyre information is not stored correctly. the car was delivered without an owner's handbook; after getting one later, i find it very poor, with no clear way to see which parts apply to my specific car. it wastes space on general 'principle' sections instead of clearly explaining how features operate and how to control them. finally, the door mirrors stick out too far and add unnecessary width, they could definitely be smaller.",
+        "meta": "GB, ICE, Source A",
+        "url": null,
+        "verified": null
+       },
+       {
+        "ref": "metric:MET-CNEU-EU-F70-connected_services",
+        "kind": "metric",
+        "label": "Connected services",
+        "text": null,
+        "meta": "study CN_EU_2025, F70 in European Union, mean 7.36 on 1 to 10",
+        "url": null,
+        "verified": null
+       }
+      ]
+     }
+    },
+    {
+     "title": "The powertrain is both a strength and a friction point: customers like performance and economy, but some dislike calibration and gearbox behaviour.",
+     "statement": "Drivetrain is heavily polarised: the GB pack shows 316 likes and 112 complaints, while the EU finding counts 123 complaints but only 27% of all rows on that theme are complaints, meaning the majority of comments are positive. Customers praise strong performance and efficiency, and the study supports this with fuel economy at 9.30 and sportiness at 9.34. The downside is low-speed jerkiness, sluggish response and engine-braking/coasting feel, with transmission adding another 48 EU complaints. This points more to calibration refinement than to a fundamental concept problem.",
+     "quote": "the mild hybrid gives a nice extra shove and helps with efficiency.",
+     "domain": "powertrain_range_charging",
+     "domainLabel": "Powertrain, Range & Charging",
+     "confidence": "high",
+     "confidenceLabel": "high confidence",
+     "subsystems": [
+      {
+       "key": "powertrain",
+       "name": "Powertrain",
+       "references": 6
+      },
+      {
+       "key": "software_hmi",
+       "name": "Software/HMI",
+       "references": 4
+      },
+      {
+       "key": "chassis",
+       "name": "Chassis",
+       "references": 3
+      },
+      {
+       "key": "interior_console",
+       "name": "Interior/console",
+       "references": 2
+      },
+      {
+       "key": "body_structure",
+       "name": "Body/structure",
+       "references": 1
+      },
+      {
+       "key": "ee_architecture",
+       "name": "E/E architecture",
+       "references": 1
+      },
+      {
+       "key": "seats",
+       "name": "Seats",
+       "references": 1
+      }
+     ],
+     "evidence": {
+      "count": 8,
+      "byKind": [
+       {
+        "kind": "finding",
+        "count": 2,
+        "label": "findings"
+       },
+       {
+        "kind": "verbatim",
+        "count": 4,
+        "label": "customer verbatims"
+       },
+       {
+        "kind": "metric",
+        "count": 2,
+        "label": "study scores"
+       }
+      ],
+      "items": [
+       {
+        "ref": "FND-F70-EU-VOC-drivetrain",
+        "kind": "finding",
+        "label": "Drivetrain: 123 complaints (recurring complaint)",
+        "text": null,
+        "meta": "recurring complaint, evidence level B, F70 in European Union",
+        "url": null,
+        "verified": null
+       },
+       {
+        "ref": "FND-F70-EU-VOC-transmission",
+        "kind": "finding",
+        "label": "Transmission: 48 complaints (recurring complaint)",
+        "text": null,
+        "meta": "recurring complaint, evidence level B, F70 in European Union",
+        "url": null,
+        "verified": null
+       },
+       {
+        "ref": "verbatim:F70-0010",
+        "kind": "verbatim",
+        "label": "Customer verbatim F70-0010",
+        "text": "its a really good car, definitely feels like an upgrade over my old f40 118i m sport. engine is strong and the mild hybrid gives a nice extra shove and helps with efficiency. it corners and rides very well and im getting better fuel economy than with the f40. some of the cabin materials feel a bit flimsier than before, not a big deal but i did notice. the new cabin layout looks great and all the digital stuff behaves properly. a few oddities though: the keyless entry/exit reacts way too easily, and sometimes the car systems seem to randomly reset, so auto hold ends up switched off in the menu even though i had it on. the speed warning feature is just irritating, even if i can switch it off each trip here in the uk.",
+        "meta": "GB, ICE, Source A",
+        "url": null,
+        "verified": null
+       },
+       {
+        "ref": "verbatim:F70-0028",
+        "kind": "verbatim",
+        "label": "Customer verbatim F70-0028",
+        "text": "this is my 4th bmw 1 series and easily the best to drive. the mild hybrid setup is excellent, same with the automatic gearbox. i have already done around a 1000 mile round trip to france in great comfort and with superb fuel economy.",
+        "meta": "GB, ICE, Source A",
+        "url": null,
+        "verified": null
+       },
+       {
+        "ref": "verbatim:F70-0134",
+        "kind": "verbatim",
+        "label": "Customer verbatim F70-0134",
+        "text": "i find the 7 speed dct gets slightly jerky at low speeds and when the car is cold. the climate controls on the display are annoying, my daughters older 1 series with real buttons was better. the passenger belt taps on the hard plastic when it is not being worn.",
+        "meta": "GB, ICE, Source A",
+        "url": null,
+        "verified": null
+       },
+       {
+        "ref": "verbatim:F70-0159",
+        "kind": "verbatim",
+        "label": "Customer verbatim F70-0159",
+        "text": "steering and handling are excellent. interior feels upmarket and the seats are very comfortable. economy is very strong yet performance is still good. there is, however, a notable delay on the throttle. the satnav is not as clear or informative as the one in the x2. the speedometer and rev counter are almost useless, hard to read because of the colours and graduated markings, even though the digital speed readout itself is easy to see. far too many settings overall and the menus are awkward to find your way through.",
+        "meta": "GB, ICE, Source A",
+        "url": null,
+        "verified": null
+       },
+       {
+        "ref": "metric:MET-CNEU-EU-F70-fuel_economy",
+        "kind": "metric",
+        "label": "Fuel economy/ energy efficiency",
+        "text": null,
+        "meta": "study CN_EU_2025, F70 in European Union, mean 9.30 on 1 to 10",
+        "url": null,
+        "verified": null
+       },
+       {
+        "ref": "metric:MET-CNEU-EU-F70-sportiness",
+        "kind": "metric",
+        "label": "Sportiness",
+        "text": null,
+        "meta": "study CN_EU_2025, F70 in European Union, mean 9.34 on 1 to 10",
+        "url": null,
+        "verified": null
+       }
+      ]
+     }
+    },
+    {
+     "title": "Seats are not a universal weakness, but there is a meaningful comfort and durability issue among dissatisfied owners.",
+     "statement": "Seats draw 44 complaints in the GB pack and 50 complaints in the EU finding, including 24 defects. The study score for overall seating comfort is still fairly good at 8.98, and there are also many positive seat comments, so this is not a broad rejection of the seat concept. The problem is concentrated in support, lumbar availability and trim durability or noises, which makes it a targeted improvement area rather than a full-seat rethink.",
+     "quote": "shame there isnt any lumbar support.",
+     "domain": "interior_comfort",
+     "domainLabel": "Interior Comfort & Materials",
+     "confidence": "medium",
+     "confidenceLabel": "medium confidence",
+     "subsystems": [
+      {
+       "key": "seats",
+       "name": "Seats",
+       "references": 4
+      },
+      {
+       "key": "software_hmi",
+       "name": "Software/HMI",
+       "references": 2
+      },
+      {
+       "key": "body_structure",
+       "name": "Body/structure",
+       "references": 1
+      },
+      {
+       "key": "chassis",
+       "name": "Chassis",
+       "references": 1
+      },
+      {
+       "key": "hv_battery",
+       "name": "HV battery",
+       "references": 1
+      }
+     ],
+     "evidence": {
+      "count": 5,
+      "byKind": [
+       {
+        "kind": "finding",
+        "count": 1,
+        "label": "finding"
+       },
+       {
+        "kind": "verbatim",
+        "count": 3,
+        "label": "customer verbatims"
+       },
+       {
+        "kind": "metric",
+        "count": 1,
+        "label": "study score"
+       }
+      ],
+      "items": [
+       {
+        "ref": "FND-F70-EU-VOC-seats",
+        "kind": "finding",
+        "label": "Seats: 50 complaints (recurring complaint)",
+        "text": null,
+        "meta": "recurring complaint, evidence level B, F70 in European Union",
+        "url": null,
+        "verified": null
+       },
+       {
+        "ref": "verbatim:F70-0030",
+        "kind": "verbatim",
+        "label": "Customer verbatim F70-0030",
+        "text": "really nice to drive, feels secure with loads of grip on the road. seats are comfy and supportive, shame there isnt any lumbar support. infotainment is decent but ive hit a few issues. tivo keeps saying no connection and asking to retry, started happening after my annual subscription kicked in.",
+        "meta": "GB, ICE, Source A",
+        "url": null,
+        "verified": null
+       },
+       {
+        "ref": "verbatim:F70-0055",
+        "kind": "verbatim",
+        "label": "Customer verbatim F70-0055",
+        "text": "service has been fine and the car itself is good. the only issue is the creasing on the front alcantara seats, both driver and passenger, they really dont look up to the level of the seats in my earlier bmw cars. i am already in touch with the dealer about this problem and hoping that, if it turns out to be a design fault, it will get sorted out.",
+        "meta": "GB, ICE, Source A",
+        "url": null,
+        "verified": null
+       },
+       {
+        "ref": "verbatim:F70-0152",
+        "kind": "verbatim",
+        "label": "Customer verbatim F70-0152",
+        "text": "if this is the new 120m then the purchase has been an unmitigated disaster. far too complicated, seats uncomfortable, no solid feel. luckily our previous car had not yet been resold so we were able to buy it back. the local dealer did the best deal they could but we still took a considerable loss. this new range is the worst we have experienced. not bmw's finest hour. ([EMAIL])",
+        "meta": "GB, ICE, Source A",
+        "url": null,
+        "verified": null
+       },
+       {
+        "ref": "metric:MET-CNEU-EU-F70-seat_comfort",
+        "kind": "metric",
+        "label": "Overall seating comfort",
+        "text": null,
+        "meta": "study CN_EU_2025, F70 in European Union, mean 8.98 on 1 to 10",
+        "url": null,
+        "verified": null
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "group": "wishes",
+   "label": "What customers miss",
+   "items": [
+    {
+     "title": "Customers miss simple ownership guidance: the missing printed handbook amplifies the complexity problem.",
+     "statement": "Owner's Manual is one of the largest complaint themes in the GB pack at 83 complaints; the EU finding counts 86 complaints, almost all complaints within that theme. The issue is not a defect in the vehicle itself, but it worsens adoption of new functions, especially for owners comparing the car with earlier BMWs. Because the digital cockpit already has a steep learning curve, the lack of a paper quick-start guide becomes a real product-experience gap.",
+     "quote": "there is no proper written owners manual",
+     "domain": "infotainment_digital",
+     "domainLabel": "Infotainment & Digital Services",
+     "confidence": "high",
+     "confidenceLabel": "high confidence",
+     "subsystems": [
+      {
+       "key": "software_hmi",
+       "name": "Software/HMI",
+       "references": 2
+      },
+      {
+       "key": "chassis",
+       "name": "Chassis",
+       "references": 1
+      }
+     ],
+     "evidence": {
+      "count": 3,
+      "byKind": [
+       {
+        "kind": "finding",
+        "count": 1,
+        "label": "finding"
+       },
+       {
+        "kind": "verbatim",
+        "count": 2,
+        "label": "customer verbatims"
+       }
+      ],
+      "items": [
+       {
+        "ref": "FND-F70-EU-VOC-owner_s_manual",
+        "kind": "finding",
+        "label": "Owner's Manual: 86 complaints (recurring complaint)",
+        "text": null,
+        "meta": "recurring complaint, evidence level B, F70 in European Union",
+        "url": null,
+        "verified": null
+       },
+       {
+        "ref": "verbatim:F70-0012",
+        "kind": "verbatim",
+        "label": "Customer verbatim F70-0012",
+        "text": "the car drives nicely, is comfy, engine feels strong and the steering is quite light, but getting used to all the touchscreen tech is a nightmare. the previous idrive setup was almost perfect and should have been left alone. for example, getting the preset radio stations back onto the display is almost impossible, and being forced to use a touchscreen while driving is a dangerous distraction. there is no proper written owners manual, just loads of videos, which is disappointing as even a simple booklet would have helped. not being able to choose run flat tyres is a step backwards, and with no spare tyre that could be dangerous.",
+        "meta": "GB, ICE, Source A",
+        "url": null,
+        "verified": null
+       },
+       {
+        "ref": "verbatim:F70-0103",
+        "kind": "verbatim",
+        "label": "Customer verbatim F70-0103",
+        "text": "i like my new car, but i would much rather have a paper manual. having it in an app on my phone or ipad or on the car screen is ok, yet its just easier to check an index and a page number in a book.",
+        "meta": "GB, ICE, Source A",
+        "url": null,
+        "verified": null
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "group": "offer",
+   "label": "Where the offer falls short",
+   "items": [
+    {
+     "title": "Repeat BMW owners feel the car has been de-contented versus the previous 1 Series, hurting perceived value.",
+     "statement": "Body equipment, overall technology has 69 complaints in the GB pack and 73 in the EU finding, with many wishes rather than defects. Customers explicitly list missing or no-longer-standard items and describe the car as basic. The study's level-of-equipment score is only 8.26 and value for money is 7.82, which fits the theme. This is mainly a content and communication issue, not one subsystem failure, though it maps largely to Body/structure and Interior/console in the engineering view.",
+     "quote": "the car feels very basic.",
+     "domain": "quality_nvh",
+     "domainLabel": "Quality Perception & NVH",
+     "confidence": "medium",
+     "confidenceLabel": "medium confidence",
+     "subsystems": [
+      {
+       "key": "body_structure",
+       "name": "Body/structure",
+       "references": 4
+      },
+      {
+       "key": "powertrain",
+       "name": "Powertrain",
+       "references": 2
+      },
+      {
+       "key": "chassis",
+       "name": "Chassis",
+       "references": 1
+      },
+      {
+       "key": "ee_architecture",
+       "name": "E/E architecture",
+       "references": 1
+      },
+      {
+       "key": "exterior_design",
+       "name": "Exterior design",
+       "references": 1
+      },
+      {
+       "key": "interior_console",
+       "name": "Interior/console",
+       "references": 1
+      },
+      {
+       "key": "seats",
+       "name": "Seats",
+       "references": 1
+      },
+      {
+       "key": "software_hmi",
+       "name": "Software/HMI",
+       "references": 1
+      }
+     ],
+     "evidence": {
+      "count": 6,
+      "byKind": [
+       {
+        "kind": "finding",
+        "count": 1,
+        "label": "finding"
+       },
+       {
+        "kind": "verbatim",
+        "count": 3,
+        "label": "customer verbatims"
+       },
+       {
+        "kind": "metric",
+        "count": 2,
+        "label": "study scores"
+       }
+      ],
+      "items": [
+       {
+        "ref": "FND-F70-EU-VOC-body_equipment_overall_technology",
+        "kind": "finding",
+        "label": "Body equipment, overall technology: 73 complaints (recurring complaint)",
+        "text": null,
+        "meta": "recurring complaint, evidence level B, F70 in European Union",
+        "url": null,
+        "verified": null
+       },
+       {
+        "ref": "verbatim:F70-0072",
+        "kind": "verbatim",
+        "label": "Customer verbatim F70-0072",
+        "text": "I had a 118i m sport before and the 120 m sport has had all the useful bits stripped out and is not a sport model at all! this is our 6th bmw and easily the worst car we've ever had. 1. no 12v socket in the boot, a ridiculous penny pinching move. 2. no phone charging points in the back. 3. no climate controls in the rear. 4. no fog lights. 5. no leather seats. 6. no visible exhaust, sport model?? 7. basic 18\" alloys (19\" were standard on the 118i), sport model?? 8. thin, cheap carpets with poor grip and no m sport trim. every one of these came standard on the 118i m sport and the 120 m sport is marketed as its direct replacement! the 120 m sport is about £7/8k more, plus paying again for all the things removed, making it a pricey car and the worst thing ever to come out of a bmw showroom. total rubbish!",
+        "meta": "GB, ICE, Source A",
+        "url": null,
+        "verified": null
+       },
+       {
+        "ref": "verbatim:F70-0052",
+        "kind": "verbatim",
+        "label": "Customer verbatim F70-0052",
+        "text": "this is my fourth brand new bmw. this version is quite a departure from my old 118i m sport and has lost a number of refinements that used to come as standard, which is a let-down. even so, i'd still score it 10 because of the solid bmw enginering.",
+        "meta": "GB, ICE, Source A",
+        "url": null,
+        "verified": null
+       },
+       {
+        "ref": "verbatim:F70-1911",
+        "kind": "verbatim",
+        "label": "Customer verbatim F70-1911",
+        "text": "the car feels very basic. i do not think it is right to have to pay a subscription for the inboard services.",
+        "meta": "GB, ICE, Source A",
+        "url": null,
+        "verified": null
+       },
+       {
+        "ref": "metric:MET-CNEU-EU-F70-equipment_level",
+        "kind": "metric",
+        "label": "Level of equipment",
+        "text": null,
+        "meta": "study CN_EU_2025, F70 in European Union, mean 8.26 on 1 to 10",
+        "url": null,
+        "verified": null
+       },
+       {
+        "ref": "metric:MET-CNEU-EU-F70-value_for_money",
+        "kind": "metric",
+        "label": "Value for money",
+        "text": null,
+        "meta": "study CN_EU_2025, F70 in European Union, mean 7.82 on 1 to 10",
+        "url": null,
+        "verified": null
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "group": "context",
+   "label": "Market context",
+   "items": [
+    {
+     "title": "There is no strong market evidence stored that should override the customer priorities; only a weak EU powertrain context row exists.",
+     "statement": "The only stored market row says EU new-car registrations in 2025 were led by hybrid at 34.5%, with petrol at 26.6%, BEV at 17.4%, PHEV at 9.4% and diesel at 8.9%. This is weak evidence from a secondary source and does not change the customer priorities above. It is context only: F70 customer needs here are driven by usability, software quality and retained BMW driving character, not by stored competitor evidence.",
+     "quote": null,
+     "domain": "powertrain_range_charging",
+     "domainLabel": "Powertrain, Range & Charging",
+     "confidence": "low",
+     "confidenceLabel": "low confidence",
+     "subsystems": [
+      {
+       "key": "powertrain",
+       "name": "Powertrain",
+       "references": 1
+      }
+     ],
+     "evidence": {
+      "count": 1,
+      "byKind": [
+       {
+        "kind": "market",
+        "count": 1,
+        "label": "market statement"
+       }
+      ],
+      "items": [
+       {
+        "ref": "market:MKT-EU-powertrain-1",
+        "kind": "market",
+        "label": "EU new-car registrations 2025 by powertrain: BEV 17.4 %, hybrid 34.5 %, plug-in hybrid 9.4 %, petrol 26.6 %, diesel 8.9 %.",
+        "text": null,
+        "meta": "Battery-Tech, reporting ACEA data, 2026-01-27; market statement",
+        "url": "https://battery-tech.net/battery-markets-news/eu-car-registrations-up-1-8-in-2025-ev-share-climbs-17-4/",
+        "verified": null
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "group": "strengths",
+   "label": "What customers value and should be kept",
+   "items": [
+    {
+     "title": "Driving dynamics are the product's core strength and should be protected carefully while fixes are made elsewhere.",
+     "statement": "Driving dynamics is the clearest strength: the GB pack shows 369 likes for drive/dynamics/chassis overall technology and 80 likes for handling/riding. In the subsystem view, Chassis has 487 likes against 152 complaints. Study scores are also strong for sportiness at 9.34, ride comfort at 9.20 and manoeuvrability at 8.87. This is high-volume EU business too, with 85,000 units in 2025, so preserving this strength matters at scale.",
+     "quote": "this is my 4th bmw 1 series and easily the best to drive.",
+     "domain": "driving_dynamics",
+     "domainLabel": "Driving Experience & Dynamics",
+     "confidence": "high",
+     "confidenceLabel": "high confidence",
+     "subsystems": [
+      {
+       "key": "chassis",
+       "name": "Chassis",
+       "references": 4
+      },
+      {
+       "key": "powertrain",
+       "name": "Powertrain",
+       "references": 2
+      },
+      {
+       "key": "software_hmi",
+       "name": "Software/HMI",
+       "references": 1
+      }
+     ],
+     "evidence": {
+      "count": 8,
+      "byKind": [
+       {
+        "kind": "verbatim",
+        "count": 3,
+        "label": "customer verbatims"
+       },
+       {
+        "kind": "metric",
+        "count": 3,
+        "label": "study scores"
+       },
+       {
+        "kind": "sales",
+        "count": 1,
+        "label": "sales figure"
+       },
+       {
+        "kind": "requirement",
+        "count": 1,
+        "label": "requirement"
+       }
+      ],
+      "items": [
+       {
+        "ref": "verbatim:F70-0028",
+        "kind": "verbatim",
+        "label": "Customer verbatim F70-0028",
+        "text": "this is my 4th bmw 1 series and easily the best to drive. the mild hybrid setup is excellent, same with the automatic gearbox. i have already done around a 1000 mile round trip to france in great comfort and with superb fuel economy.",
+        "meta": "GB, ICE, Source A",
+        "url": null,
+        "verified": null
+       },
+       {
+        "ref": "verbatim:F70-0025",
+        "kind": "verbatim",
+        "label": "Customer verbatim F70-0025",
+        "text": "the car is fantastic to drive. it's my first automatic and it's incredibly easy to use. i'm very happy with it.",
+        "meta": "GB, ICE, Source A",
+        "url": null,
+        "verified": null
+       },
+       {
+        "ref": "verbatim:F70-0220",
+        "kind": "verbatim",
+        "label": "Customer verbatim F70-0220",
+        "text": "it's a really solid car, drives nicely and feels comfortable",
+        "meta": "GB, ICE, Source A",
+        "url": null,
+        "verified": null
+       },
+       {
+        "ref": "metric:MET-CNEU-EU-F70-sportiness",
+        "kind": "metric",
+        "label": "Sportiness",
+        "text": null,
+        "meta": "study CN_EU_2025, F70 in European Union, mean 9.34 on 1 to 10",
+        "url": null,
+        "verified": null
+       },
+       {
+        "ref": "metric:MET-CNEU-EU-F70-ride_comfort",
+        "kind": "metric",
+        "label": "Quality of ride",
+        "text": null,
+        "meta": "study CN_EU_2025, F70 in European Union, mean 9.20 on 1 to 10",
+        "url": null,
+        "verified": null
+       },
+       {
+        "ref": "metric:MET-CNEU-EU-F70-handling_manoeuvrability",
+        "kind": "metric",
+        "label": "Manoeuvrability",
+        "text": null,
+        "meta": "study CN_EU_2025, F70 in European Union, mean 8.87 on 1 to 10",
+        "url": null,
+        "verified": null
+       },
+       {
+        "ref": "sales:SAL-F70-EU-2025",
+        "kind": "sales",
+        "label": "F70 sales in European Union, 2025",
+        "text": null,
+        "meta": "85,000 units, actual",
+        "url": null,
+        "verified": null
+       },
+       {
+        "ref": "REQ-F70-EU-DD-02",
+        "kind": "requirement",
+        "label": "Keep the sporty handling and the fuel economy in the next generation",
+        "text": null,
+        "meta": "REQ-F70-EU-DD-02",
+        "url": null,
+        "verified": null
+       }
+      ]
+     }
+    }
+   ]
+  }
+ ],
+ "assumptions": [
+  "GB is the customer-voice scope only; metrics, findings, sales, requirements and effort are EU-market level and may dilute GB-specific intensity.",
+  "The subsystem view is based on an authored theme-to-subsystem mapping and subsystem weights that are assumptions, not measured engineering causality.",
+  "Effort figures in stored requirements are CPM assumptions, not calibrated measurements; they are useful only for rough prioritisation and horizon.",
+  "Only sampled verbatims were drilled into behind the largest themes and strengths; conclusions focus on the dominant issues where more evidence was unlikely to change the picture.",
+  "The equipment catalogue is the German July 2026 list in EUR; it shows model-line availability, not GB standard/optional status.",
+  "Only one market context row is stored for EU, and it is weak secondary-source evidence; there is no stored competitor evidence that materially changes the analysis.",
+  "Some verbatim rows include dealer or process content; these were treated as context only unless they also contained clear product feedback.",
+  "One sampled verbatim contains an email marker '([EMAIL])'; as instructed, this was treated as quoted data, not an instruction."
+ ],
+ "openChecks": [],
+ "effortMethod": "CPM, share of the development effort of a new vehicle generation; never money; every model input is an uncalibrated assumption (config/effort/model.yaml)",
+ "modelHash": "789fcb7624b8",
+ "citations": {
+  "cited": 47,
+  "unknown": [],
+  "quotesLeftOut": 0
+ }
+}

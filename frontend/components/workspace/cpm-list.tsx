@@ -6,6 +6,7 @@ import { subsystemsByWeight } from "@/lib/content/cpm";
 import type { CpmCatalogue, CpmSubsystem, CpmSubsystemKey, CpmSubsystemView, CpmView } from "@/lib/content/cpm-types";
 import type { MarketContent, VehicleContent } from "@/lib/content/types";
 import { site } from "@/lib/site";
+import type { SubsystemEvidence } from "@/lib/workspace/market";
 import type { SubsystemBridge } from "@/lib/workspace/requirements";
 import { CpmDialog } from "./cpm-dialog";
 
@@ -16,9 +17,11 @@ import { CpmDialog } from "./cpm-dialog";
  * subsystems the model keeps on this vehicle) as a bar in the one blue, and
  * the classified verbatim rows whose themes fall in it. A row opens the
  * subsystem dialog. Weights are per vehicle, not per market, so the list
- * stays for markets without verbatims. Since step 15 a third line names
- * the requirements whose change starts in or reaches the subsystem
- * (bridge 1 of plan 08), from the scope's effort estimates.
+ * stays for markets without verbatims, where the row counts the market
+ * statements of the external sources instead (step 19). Since step 15 a
+ * third line names the requirements whose change starts in or reaches the
+ * subsystem (bridge 1 of plan 08), from the scope's effort estimates, where
+ * the scope carries a requirement set.
  */
 export interface CpmListProps {
   catalogue: CpmCatalogue;
@@ -27,9 +30,13 @@ export interface CpmListProps {
   vehicle: VehicleContent;
   /** Per subsystem, the requirements that change it; undefined where the scope has no requirement set. */
   bridges: Partial<Record<CpmSubsystemKey, SubsystemBridge>> | undefined;
+  /** Per subsystem, the external statements that bear on it. */
+  evidence: Partial<Record<CpmSubsystemKey, SubsystemEvidence>>;
+  /** The market evidence page of the scope, null where there is none. */
+  marketHref: string | null;
 }
 
-export function CpmList({ catalogue, view, market, vehicle, bridges }: CpmListProps) {
+export function CpmList({ catalogue, view, market, vehicle, bridges, evidence, marketHref }: CpmListProps) {
   const [openKey, setOpenKey] = useState<CpmSubsystemKey | null>(null);
   const rows = subsystemsByWeight(catalogue, view);
   const open = openKey ? rows.find((r) => r.subsystem.key === openKey) ?? null : null;
@@ -44,7 +51,14 @@ export function CpmList({ catalogue, view, market, vehicle, bridges }: CpmListPr
         <ol className="cpm-list" aria-label={cpm.listLabel}>
           {rows.map(({ subsystem, entry }) => (
             <li key={subsystem.key}>
-              <CpmRow subsystem={subsystem} entry={entry} verbatims={view.verbatims} bridge={bridges ? (bridges[subsystem.key] ?? null) : undefined} onOpen={setOpenKey} />
+              <CpmRow
+                subsystem={subsystem}
+                entry={entry}
+                verbatims={view.verbatims}
+                statements={evidence[subsystem.key]?.count ?? 0}
+                bridge={bridges ? (bridges[subsystem.key] ?? null) : undefined}
+                onOpen={setOpenKey}
+              />
             </li>
           ))}
         </ol>
@@ -64,6 +78,8 @@ export function CpmList({ catalogue, view, market, vehicle, bridges }: CpmListPr
         market={market}
         vehicle={vehicle}
         bridge={open && bridges ? (bridges[open.subsystem.key] ?? null) : undefined}
+        evidence={open ? (evidence[open.subsystem.key] ?? null) : null}
+        marketHref={marketHref}
         onClose={() => setOpenKey(null)}
       />
     </>
@@ -74,15 +90,16 @@ interface CpmRowProps {
   subsystem: CpmSubsystem;
   entry: CpmSubsystemView;
   verbatims: number;
+  /** External statements that bear on the subsystem. */
+  statements: number;
   /** null: a requirement set exists but nothing changes this subsystem; undefined: no requirement set. */
   bridge: SubsystemBridge | null | undefined;
   onOpen: (key: CpmSubsystemKey) => void;
 }
 
-/** "2 requirements start here · reached by 5 · up to 4.6 %", or why there is none. */
-function bridgeLine(bridge: SubsystemBridge | null | undefined): string {
+/** "2 requirements start here · reached by 5 · up to 4.6 %", or that none does. */
+function bridgeLine(bridge: SubsystemBridge | null): string {
   const copy = site.cpm.bridge;
-  if (bridge === undefined) return copy.noSet;
   if (!bridge || (bridge.starts.length === 0 && bridge.reaches.length === 0)) return copy.none;
   const parts: string[] = [];
   if (bridge.starts.length > 0) parts.push(`${full(bridge.starts.length)} ${bridge.starts.length === 1 ? copy.startOne : copy.startMany}`);
@@ -92,14 +109,15 @@ function bridgeLine(bridge: SubsystemBridge | null | undefined): string {
   return parts.join(" · ");
 }
 
-function CpmRow({ subsystem, entry, verbatims, bridge, onOpen }: CpmRowProps) {
+function CpmRow({ subsystem, entry, verbatims, statements, bridge, onOpen }: CpmRowProps) {
   const { cpm } = site;
+  const market = statements > 0 ? `${full(statements)} ${statements === 1 ? cpm.marketOne : cpm.marketMany}` : null;
   const figures =
     verbatims === 0
-      ? cpm.noVerbatims
+      ? (market ?? cpm.noEvidence)
       : entry.themes === 0
         ? cpm.noThemes
-        : `${full(entry.complaints)} ${cpm.complaints} · ${full(entry.likes)} ${cpm.likes}`;
+        : `${full(entry.complaints)} ${entry.complaints === 1 ? cpm.complaint : cpm.complaints} · ${full(entry.likes)} ${entry.likes === 1 ? cpm.like : cpm.likes}`;
   return (
     <button type="button" className="cpm-row" aria-haspopup="dialog" onClick={() => onOpen(subsystem.key)}>
       <span className="cpm-row-name">{subsystem.name}</span>
@@ -110,7 +128,7 @@ function CpmRow({ subsystem, entry, verbatims, bridge, onOpen }: CpmRowProps) {
         <span style={{ width: `${String(entry.weight)}%` }} />
       </span>
       <span className="cpm-row-figures">{figures}</span>
-      <span className="cpm-row-requirements">{bridgeLine(bridge)}</span>
+      {bridge !== undefined ? <span className="cpm-row-requirements">{bridgeLine(bridge)}</span> : null}
     </button>
   );
 }

@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import type { AuditEvent, WorkspaceSnapshot } from "@/lib/content/workspace-types";
 import { workspaceSnapshot } from "@/lib/data/workspace";
-import { decisionRecord, latestDecisions, requirementsCsv, timelineOf } from "./log";
+import { decisionRecord, latestDecisions, timelineOf } from "./log";
 
 /*
  * Stage 5 helpers on the G60 US snapshot with decision events added: the
@@ -62,37 +62,5 @@ describe("the decision record", () => {
     expect(ids[0]).toBe(top + 3);
     expect([...ids].sort((a, b) => b - a)).toEqual(ids);
     expect(ids).toHaveLength(events.length);
-  });
-});
-
-describe("the CSV of the requirement list", () => {
-  const csv = requirementsCsv(snapshot);
-  const lines = csv.split("\r\n");
-
-  it("writes a header and one row per requirement, CRLF terminated", () => {
-    expect(lines[0]).toMatch(/^id,vehicle,market,domain,title,statement,/);
-    expect(lines[0]).toMatch(/,status,version,decision,decided_by,decided_at,decision_note$/);
-    expect(lines.at(-1)).toBe("");
-    expect(lines).toHaveLength(base.requirements.length + 2);
-  });
-
-  it("quotes cells with commas, quotes or line breaks and doubles the quotes inside", () => {
-    const row = lines.find((l) => l.startsWith(`${second.id},`));
-    expect(row).toContain('"Deferred: ""wait for the G60 EU study"", said the PM"');
-    expect(row).toContain(",deferred,human:pm,2026-10-11T10:05:00Z,");
-  });
-
-  it("carries the latest decision beside the requirement and leaves the cells empty without one", () => {
-    const decidedRow = lines.find((l) => l.startsWith(`${first.id},`));
-    expect(decidedRow).toContain(",rejected,human:pm,2026-10-11T10:10:00Z,Reversed after the effort review");
-    const third = base.requirements[2];
-    expect(lines.find((l) => l.startsWith(`${third.id},`))).toMatch(/,proposed,1,,,,$/);
-  });
-
-  it("carries the effort of the engine where there is one", () => {
-    const withEffort = base.efforts.find((e) => e.kind === "change");
-    if (!withEffort) throw new Error("no effort row");
-    const row = lines.find((l) => l.startsWith(`${withEffort.id},`));
-    expect(row).toContain(`,${String(withEffort.effort_pct)},${String(withEffort.p5)},${String(withEffort.p95)},${withEffort.decision},${withEffort.layer},${withEffort.model_hash},`);
   });
 });
