@@ -3,6 +3,7 @@
 import Link, { useLinkStatus } from "next/link";
 import { useSelectedLayoutSegment } from "next/navigation";
 import type { ReactNode } from "react";
+import { FULL_PREFETCH } from "@/lib/static";
 import { type StageKey, stageOfSegment } from "@/lib/workspace/stages";
 
 /*
@@ -24,7 +25,7 @@ export function StageItem({ stage, href, prefetch, children }: StageItemProps) {
   const current = stageOfSegment(useSelectedLayoutSegment()) === stage;
   return (
     <li className="stage" data-current={current ? "true" : undefined}>
-      <Link href={href} prefetch={prefetch ? true : undefined} className="stage-link" aria-current={current ? "page" : undefined}>
+      <Link href={href} prefetch={prefetch ? FULL_PREFETCH : undefined} className="stage-link" aria-current={current ? "page" : undefined}>
         {children}
         <PendingRule />
       </Link>

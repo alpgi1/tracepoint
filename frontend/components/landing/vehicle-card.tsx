@@ -12,6 +12,7 @@ import { drawingFor, photoFor } from "@/lib/vehicles/drawings";
 import { startHandoff } from "@/lib/vehicles/handoff";
 import { photoTarget } from "@/lib/vehicles/layout";
 import { site } from "@/lib/site";
+import { FULL_PREFETCH, asset } from "@/lib/static";
 
 /*
  * One vehicle sold in the magnified market: the configured car's side
@@ -54,7 +55,7 @@ export function VehicleCard({ market, vehicle }: VehicleCardProps) {
     const rect = box.getBoundingClientRect();
     startHandoff({
       code: vehicle.drawing,
-      src: photo.src,
+      src: asset(photo.src),
       from: { left: rect.left, top: rect.top, width: rect.width, height: rect.height },
       to: photoTarget(window.innerWidth, drawing, photo),
       navigate: () => router.push(href),
@@ -62,10 +63,10 @@ export function VehicleCard({ market, vehicle }: VehicleCardProps) {
   };
 
   return (
-    <Link href={href} prefetch className="vehicle-card" onClick={onClick}>
+    <Link href={href} prefetch={FULL_PREFETCH} className="vehicle-card" onClick={onClick}>
       <div className="vehicle-card-stage">
         <div ref={boxRef} className="vehicle-card-photo" style={{ aspectRatio: `${String(photo.width)} / ${String(photo.height)}` }}>
-          <Image src={photo.src} alt="" width={photo.width} height={photo.height} unoptimized draggable={false} />
+          <Image src={asset(photo.src)} alt="" width={photo.width} height={photo.height} unoptimized draggable={false} />
         </div>
       </div>
       <span className="vehicle-card-name">

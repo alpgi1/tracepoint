@@ -6,6 +6,7 @@ import { StageWait } from "@/components/workspace/source-line";
 import { cpmCatalogue, cpmView } from "@/lib/content/cpm";
 import { marketByCode, vehicleIn } from "@/lib/content/markets";
 import { readWorkspace, workspaceScopes, workspaceSnapshot } from "@/lib/data/workspace";
+import { pageQuery } from "@/lib/static";
 import { requirementBySlug, requirementHref } from "@/lib/workspace/requirements";
 
 /*
@@ -48,7 +49,7 @@ async function RequirementBody({ params, searchParams }: { params: Props["params
   const stored = snapshot ? requirementBySlug(snapshot, slug) : undefined;
   if (!m || !v || !view || !stored) notFound();
   const id = stored.requirement.id;
-  const [read, query] = await Promise.all([readWorkspace(v.code, m.code, { detailOf: id }), searchParams]);
+  const [read, query] = await Promise.all([readWorkspace(v.code, m.code, { detailOf: id }), pageQuery(searchParams)]);
   const record = read ? requirementBySlug(read.snapshot, id) : undefined;
   if (!read || !record) notFound();
   const one = (key: string) => (typeof query[key] === "string" ? query[key] : undefined);

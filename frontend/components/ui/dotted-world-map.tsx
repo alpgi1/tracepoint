@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { buildMapData, type MapData, type WorldTopology } from "@/lib/map/data";
 import { MapRenderer } from "@/lib/map/renderer";
+import { asset } from "@/lib/static";
 import type { RegionId, RegionSpec } from "@/lib/map/regions";
 import { cn } from "@/lib/utils";
 
@@ -44,7 +45,7 @@ export interface DottedWorldMapProps {
   className?: string;
 }
 
-const DATA_URL = "/map/countries-110m.json";
+const DATA_URL = asset("/map/countries-110m.json");
 
 let dataPromise: Promise<MapData> | null = null;
 

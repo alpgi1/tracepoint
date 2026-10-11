@@ -15,6 +15,7 @@ import type { MarketContent, VehicleContent } from "@/lib/content/types";
 import type { WorkspaceSnapshot } from "@/lib/content/workspace-types";
 import { effortContent, estimatePackage } from "@/lib/data/effort";
 import { readScope } from "@/lib/data/workspace";
+import { FULL_PREFETCH } from "@/lib/static";
 import { site } from "@/lib/site";
 import { hasStage, stageParams } from "@/lib/workspace/figures";
 import { type MatrixPoint, byEvidence, chosenIds, h1Note, matrixPoints, presetIds } from "@/lib/workspace/priorities";
@@ -76,7 +77,7 @@ async function PrioritiesBody({ params, searchParams }: { params: Props["params"
     <Reveal as="div" className="stage-content">
       <p className="workspace-hint stage-hint">
         {copy.hint} {copy.method}{" "}
-        <Link href={methodHref} prefetch className="cpm-citing-link">
+        <Link href={methodHref} prefetch={FULL_PREFETCH} className="cpm-citing-link">
           {snapshot.snapshot.modelHash ?? effortContent().model.modelHash}
         </Link>
         .
