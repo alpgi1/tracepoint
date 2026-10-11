@@ -4,6 +4,7 @@ import type { MarketCode } from "@/lib/content/types";
 import { site } from "@/lib/site";
 import { type LinearAxis, type LogAxis, type MatrixPoint, effortAxis, horizonGroups, logPosition, rowsAxis } from "@/lib/workspace/priorities";
 import { requirementHref } from "@/lib/workspace/requirements";
+import { requirementArea } from "@/lib/workspace/requirement-name";
 
 /*
  * Stage 4: customer evidence and effort side by side, one row per
@@ -126,12 +127,12 @@ function ChartRow({ point: p, rows, effort, thresholds, href }: ChartRowProps) {
   const change = e && e.kind === "change" ? e : null;
   return (
     <tr className="pchart-row" title={describe(p)}>
-      <td className="candidate-id">
-        <Link href={href} className="id-link">
-          {p.id}
+      <td className="req-area">{requirementArea(p.id)}</td>
+      <td className="pchart-title">
+        <Link href={href} className="title-link">
+          {p.title}
         </Link>
       </td>
-      <td className="pchart-title">{p.title}</td>
       <td className="pchart-level">{p.evidence}</td>
       <td className="pchart-cell">
         <span className="pchart-value">{full(p.complaintRows)}</span>
@@ -195,5 +196,5 @@ function describe(p: MatrixPoint): string {
   const copy = site.priorities;
   const e = p.effort;
   const effort = e && e.kind === "change" ? `${e.effort_pct.toFixed(1)} % (${e.p5.toFixed(1)} to ${e.p95.toFixed(1)}), ${e.decision}` : e ? copy.noChange : copy.noEstimate;
-  return `${p.id}: ${p.title}. ${full(p.complaintRows)} ${copy.columns.rows.toLowerCase()}; ${copy.columns.effort.toLowerCase()} ${effort}; ${copy.columns.evidence.toLowerCase()} ${p.evidence}; ${p.horizon}`;
+  return `${requirementArea(p.id)}: ${p.title}. ${full(p.complaintRows)} ${copy.columns.rows.toLowerCase()}; ${copy.columns.effort.toLowerCase()} ${effort}; ${copy.columns.evidence.toLowerCase()} ${p.evidence}; ${p.horizon}`;
 }

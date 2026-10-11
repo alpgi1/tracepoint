@@ -2821,3 +2821,10 @@ body:has(.cpmx[open]) {
     transition: none;
   }
 }
+
+/* A requirement's customer area where a table lists requirements of several areas (the id stays on the requirement's page). */
+.req-area {
+  color: var(--color-ink-2);
+  font-size: 0.8125rem;
+  white-space: nowrap;
+}

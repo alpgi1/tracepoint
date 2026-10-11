@@ -38,7 +38,6 @@ export function CandidateTable({ groups, view, market, vehicle }: CandidateTable
       <table className="candidate-table">
         <thead>
           <tr>
-            <th scope="col">{copy.columns.id}</th>
             <th scope="col">{copy.columns.title}</th>
             <th scope="col" className="num">
               {copy.columns.recommend}
@@ -54,7 +53,7 @@ export function CandidateTable({ groups, view, market, vehicle }: CandidateTable
         {groups.map((group) => (
           <tbody key={group.domain}>
             <tr className="candidate-group">
-              <th scope="rowgroup" colSpan={7}>
+              <th scope="rowgroup" colSpan={6}>
                 {domainName(group.domain as DomainKey)}
                 <span>{String(group.items.length)}</span>
               </th>
@@ -84,11 +83,6 @@ function CandidateRow({ candidate, view, maxEffort, href }: CandidateRowProps) {
   const hasEstimate = effort !== null && effort.kind === "change";
   return (
     <tr className="candidate">
-      <td className="candidate-id">
-        <Link href={href} className="id-link">
-          {r.id}
-        </Link>
-      </td>
       <td className="candidate-title">
         <details className="candidate-details" open={view === "inbox" ? true : undefined}>
           <summary className="candidate-summary">
@@ -96,6 +90,11 @@ function CandidateRow({ candidate, view, maxEffort, href }: CandidateRowProps) {
             {r.title}
           </summary>
           <div className="candidate-more">
+            <p>
+              <Link href={href} className="cpm-citing-link">
+                {copy.openRequirement}
+              </Link>
+            </p>
             {reasons.length > 0 ? (
               <>
                 <p className="candidate-more-label">{copy.reasonsHeading}</p>

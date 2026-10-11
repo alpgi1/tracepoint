@@ -7,6 +7,7 @@ import type { BriefRead } from "@/lib/data/analyses";
 import { site } from "@/lib/site";
 import { requirementHref } from "@/lib/workspace/requirements";
 import { Checks, EffortCell, EffortLine, PackageLines, ReferenceList } from "./brief-parts";
+import { requirementArea } from "@/lib/workspace/requirement-name";
 
 /*
  * The analyst's brief at the top of stage 2 (plan 08 section 4.1, step 19):
@@ -165,11 +166,11 @@ function ProposalRow({ p, max, market, vehicle, requirementIds, linkOf }: Propos
       </td>
       <td>
         {p.requirement && requirementIds.has(p.requirement) ? (
-          <Link href={requirementHref(market, vehicle, p.requirement)} className="id-link">
-            {p.requirement}
+          <Link href={requirementHref(market, vehicle, p.requirement)} className="title-link">
+            {requirementArea(p.requirement)}
           </Link>
         ) : p.requirement ? (
-          <span className="candidate-id">{p.requirement}</span>
+          <span>{requirementArea(p.requirement)}</span>
         ) : (
           <span className="cpm-muted">{copy.newProposal}</span>
         )}

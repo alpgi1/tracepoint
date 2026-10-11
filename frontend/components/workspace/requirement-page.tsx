@@ -1,3 +1,4 @@
+import { nameRequirements } from "@/lib/data/requirement-titles";
 import Link from "next/link";
 import type { CpmCatalogue } from "@/lib/content/cpm-types";
 import { domainName } from "@/lib/content/markets";
@@ -12,6 +13,7 @@ import { EvidenceList } from "./evidence-list";
 import { Reveal } from "./reveal";
 import { SourceLine } from "./source-line";
 import { Timeline } from "./timeline";
+import { requirementArea } from "@/lib/workspace/requirement-name";
 
 /*
  * Stage 3: one requirement, the D2 record on screen (plan 08 section 4.2).
@@ -51,7 +53,7 @@ export function RequirementPage({ market, vehicle, read, record, catalogue, path
             </Link>
           </li>
           <li aria-current="page">
-            <span className="candidate-id">{r.id}</span>
+            {requirementArea(r.id)}
           </li>
         </ol>
       </nav>
@@ -62,13 +64,13 @@ export function RequirementPage({ market, vehicle, read, record, catalogue, path
         <div>
           <dt>{copy.facts.proposal}</dt>
           <dd>
-            <b>{r.recommend ? copy.facts.recommendYes : copy.facts.recommendNo}</b>. {r.recommend_rationale}
+            <b>{r.recommend ? copy.facts.recommendYes : copy.facts.recommendNo}</b>. {nameRequirements(r.recommend_rationale)}
           </dd>
         </div>
         <div>
           <dt>{copy.facts.horizon}</dt>
           <dd>
-            <b>{r.horizon}</b>. {r.horizon_rationale}
+            <b>{r.horizon}</b>. {nameRequirements(r.horizon_rationale)}
           </dd>
         </div>
         <div>
@@ -91,10 +93,16 @@ export function RequirementPage({ market, vehicle, read, record, catalogue, path
             {r.status}, {copy.facts.version} {String(r.version)}
           </dd>
         </div>
+        <div>
+          <dt>{copy.facts.reference}</dt>
+          <dd>
+            <span className="candidate-id">{r.id}</span> <span className="cpm-muted">({copy.facts.referenceNote})</span>
+          </dd>
+        </div>
       </dl>
 
       <h3 className="stage-h3">{copy.statement}</h3>
-      <p className="requirement-statement">{r.statement}</p>
+      <p className="requirement-statement">{nameRequirements(r.statement)}</p>
 
       <h3 className="stage-h3">{copy.criteriaHeading}</h3>
       <p className="workspace-hint">{copy.criteriaHint}</p>
@@ -153,7 +161,7 @@ function TextList({ items }: { items: string[] }) {
   return (
     <ul className="text-list">
       {items.map((item) => (
-        <li key={item}>{item}</li>
+        <li key={item}>{nameRequirements(item)}</li>
       ))}
     </ul>
   );

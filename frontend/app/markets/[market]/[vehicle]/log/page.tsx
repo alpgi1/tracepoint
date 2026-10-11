@@ -13,6 +13,7 @@ import { asset } from "@/lib/static";
 import { hasStage, stageParams } from "@/lib/workspace/figures";
 import { decisionRecord, timelineOf } from "@/lib/workspace/log";
 import { requirementHref } from "@/lib/workspace/requirements";
+import { requirementArea } from "@/lib/workspace/requirement-name";
 
 /*
  * Stage 5, Documentation (plan 08 section 4.4, D-085): the decision record
@@ -93,11 +94,7 @@ async function LogBody({ params }: { params: Props["params"] }) {
           <tbody>
             {rows.map(({ requirement: r, decision: d }) => (
               <tr key={r.id} className="candidate">
-                <td className="candidate-id">
-                  <Link href={requirementHref(m.code, v.code, r.id)} className="id-link">
-                    {r.id}
-                  </Link>
-                </td>
+                <td className="req-area">{requirementArea(r.id)}</td>
                 <td>
                   <Link href={requirementHref(m.code, v.code, r.id)} className="title-link">
                     {r.title}
@@ -133,7 +130,7 @@ async function LogBody({ params }: { params: Props["params"] }) {
           {full(events.length)} {copy.events}
         </b>
       </p>
-      <Timeline events={events} linkTo={(id) => requirementHref(m.code, v.code, id)} />
+      <Timeline events={events} linkTo={(id) => requirementHref(m.code, v.code, id)} nameOf={(id) => snapshot.requirements.find((r) => r.id === id)?.title} />
       <SourceLine read={read} />
     </Reveal>
   );

@@ -6,6 +6,7 @@ import type { EffortScenario, EstimateResponse } from "@/lib/content/workspace-t
 import { site } from "@/lib/site";
 import { type H1Note, type PackageSubsystemRow, packageRows } from "@/lib/workspace/priorities";
 import { requirementHref } from "@/lib/workspace/requirements";
+import { requirementArea } from "@/lib/workspace/requirement-name";
 
 /*
  * Stage 4: the engine's packages as one hairline table (one row per
@@ -113,7 +114,7 @@ export function H1Sentence({ note, market, vehicle }: { note: H1Note; market: Ma
         <span key={e.id}>
           {i > 0 ? ", " : ""}
           <Link href={requirementHref(market, vehicle, e.id)} className="cpm-citing-link">
-            {e.id}
+            {e.title}
           </Link>{" "}
           {e.effort_pct.toFixed(1)} %
         </span>
@@ -154,16 +155,16 @@ export function EstimateView({ response, catalogue, view, market, vehicle }: { r
           <tbody>
             {response.items.map((item, i) => (
               <tr key={item.requirement ?? String(i)} className="candidate">
-                <td className="candidate-id">
+                <td className="req-area">{item.requirement ? requirementArea(item.requirement) : ""}</td>
+                <td>
                   {item.requirement ? (
-                    <Link href={requirementHref(market, vehicle, item.requirement)} className="id-link">
-                      {item.requirement}
+                    <Link href={requirementHref(market, vehicle, item.requirement)} className="title-link">
+                      {item.title ?? item.requirement}
                     </Link>
                   ) : (
-                    ""
+                    (item.title ?? "")
                   )}
                 </td>
-                <td>{item.title ?? ""}</td>
                 <td>{item.horizon ?? ""}</td>
                 <td className="num">{item.effort_pct.toFixed(1)} %</td>
                 <td className="num-left">

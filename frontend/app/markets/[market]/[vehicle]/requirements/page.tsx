@@ -68,7 +68,6 @@ async function IndexBody({ params }: { params: Props["params"] }) {
         <table className="candidate-table">
           <thead>
             <tr>
-              <th scope="col">{copy.columns.id}</th>
               <th scope="col">{copy.columns.title}</th>
               <th scope="col">{copy.columns.criteria}</th>
               <th scope="col">{copy.columns.horizon}</th>
@@ -79,7 +78,7 @@ async function IndexBody({ params }: { params: Props["params"] }) {
           {groups.map((group) => (
             <tbody key={group.domain}>
               <tr className="candidate-group">
-                <th scope="rowgroup" colSpan={6}>
+                <th scope="rowgroup" colSpan={5}>
                   {domainName(group.domain as DomainKey)}
                   <span>{String(group.items.length)}</span>
                 </th>
@@ -88,11 +87,6 @@ async function IndexBody({ params }: { params: Props["params"] }) {
                 const onEvidence = r.criteria.filter((c) => c.basis === "evidence").length;
                 return (
                   <tr key={r.id} className="candidate">
-                    <td className="candidate-id">
-                      <Link href={requirementHref(m.code, v.code, r.id)} className="id-link">
-                        {r.id}
-                      </Link>
-                    </td>
                     <td>
                       <Link href={requirementHref(m.code, v.code, r.id)} className="title-link">
                         {r.title}

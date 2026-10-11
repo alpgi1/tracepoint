@@ -2,6 +2,7 @@ import Link from "next/link";
 import { dateTime } from "@/lib/content/format";
 import type { AuditEvent } from "@/lib/content/workspace-types";
 import { site } from "@/lib/site";
+import { requirementArea } from "@/lib/workspace/requirement-name";
 
 /*
  * Audit events as a hairline timeline: a rail, one mark per event, the
@@ -15,9 +16,11 @@ export interface TimelineProps {
   events: AuditEvent[];
   /** The route of the requirement an event belongs to, when the list spans a scope. */
   linkTo?: (id: string) => string;
+  /** The title of the requirement an event belongs to; its area otherwise. */
+  nameOf?: (id: string) => string | undefined;
 }
 
-export function Timeline({ events, linkTo }: TimelineProps) {
+export function Timeline({ events, linkTo, nameOf }: TimelineProps) {
   const copy = site.requirements.history;
   if (events.length === 0) return <p className="stage-empty-line">{site.requirements.none}</p>;
   return (
@@ -33,7 +36,7 @@ export function Timeline({ events, linkTo }: TimelineProps) {
                 {linkTo ? (
                   <>
                     <Link href={linkTo(e.entity_id)} className="cpm-citing-link">
-                      {e.entity_id}
+                      {nameOf?.(e.entity_id) ?? requirementArea(e.entity_id)}
                     </Link>{" "}
                     ·{" "}
                   </>

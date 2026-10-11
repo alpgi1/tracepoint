@@ -10,6 +10,7 @@ import type { SubsystemEvidence } from "@/lib/workspace/market";
 import { requirementHref, type SubsystemBridge } from "@/lib/workspace/requirements";
 import { vehicleHref } from "@/lib/content/markets";
 import { ExternalRows } from "./external-rows";
+import { requirementArea } from "@/lib/workspace/requirement-name";
 
 /*
  * The subsystem dialog: covers most of the viewport over the vehicle screen
@@ -206,7 +207,7 @@ function CitingLine({ bridge, market, vehicle }: { bridge: SubsystemBridge | nul
             <span key={r.id}>
               {j > 0 ? ", " : ""}
               <Link href={requirementHref(market.code, vehicle.code, r.id)} className="cpm-citing-link">
-                {r.id}
+                {r.title}
               </Link>
             </span>
           ))}
@@ -252,7 +253,7 @@ function RequirementsBand({ subsystem, bridge, market, vehicle }: { subsystem: C
           {lines.map((r) => (
             <li key={`${r.where}-${r.id}`} className="cpm-requirement">
               <Link href={requirementHref(market.code, vehicle.code, r.id)} className="cpm-requirement-link">
-                <span className="candidate-id">{r.id}</span>
+                <span className="req-area">{requirementArea(r.id)}</span>
                 <span>{r.title}</span>
               </Link>
               <span className="cpm-requirement-figure">

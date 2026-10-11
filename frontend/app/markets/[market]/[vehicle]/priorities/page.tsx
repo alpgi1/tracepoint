@@ -20,6 +20,7 @@ import { site } from "@/lib/site";
 import { hasStage, stageParams } from "@/lib/workspace/figures";
 import { type MatrixPoint, byEvidence, chosenIds, h1Note, matrixPoints, presetIds } from "@/lib/workspace/priorities";
 import { requirementHref } from "@/lib/workspace/requirements";
+import { requirementArea } from "@/lib/workspace/requirement-name";
 
 /*
  * Stage 4, Prioritization (plan 08 section 4.3): customer evidence and
@@ -142,12 +143,12 @@ function MatrixTable({ points, market, vehicle }: { points: MatrixPoint[]; marke
         <tbody>
           {points.map((p) => (
             <tr key={p.id} className="candidate">
-              <td className="candidate-id">
-                <Link href={requirementHref(market.code, vehicle.code, p.id)} className="id-link">
-                  {p.id}
+              <td className="req-area">{requirementArea(p.id)}</td>
+              <td>
+                <Link href={requirementHref(market.code, vehicle.code, p.id)} className="title-link">
+                  {p.title}
                 </Link>
               </td>
-              <td>{p.title}</td>
               <td>{p.horizon}</td>
               <td>{p.evidence}</td>
               <td className="num">{full(p.complaintRows)}</td>
@@ -209,7 +210,7 @@ async function Builder({ snapshot, market, vehicle, catalogue, view, searchParam
                 return (
                   <label key={r.id} className="pick">
                     <input type="checkbox" name="pkg" value={r.id} defaultChecked={chosenSet.has(r.id)} />
-                    <span className="candidate-id">{r.id}</span>
+                    <span className="req-area">{requirementArea(r.id)}</span>
                     <span className="pick-title">{r.title}</span>
                     <span className="pick-figure cpm-muted">{e && e.kind === "change" ? `${e.effort_pct.toFixed(1)} %, ${e.decision}` : (e?.decision ?? "")}</span>
                   </label>

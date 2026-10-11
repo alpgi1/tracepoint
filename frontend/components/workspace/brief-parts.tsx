@@ -1,7 +1,9 @@
+import { nameRequirements } from "@/lib/data/requirement-titles";
 import { ChevronDown } from "lucide-react";
 import Link from "next/link";
 import type { BriefCheck, BriefEffort, BriefPackage, Evidence, ReferenceItem } from "@/lib/content/brief-types";
 import { site } from "@/lib/site";
+import { requirementArea } from "@/lib/workspace/requirement-name";
 
 /*
  * The parts the analyst's brief (stage 2) and the series page share. The
@@ -52,7 +54,7 @@ export function EffortLine({ effort }: { effort: BriefEffort }) {
       {effort.p5?.toFixed(1)} to {effort.p95?.toFixed(1)}, {copy.keptIn} {effort.stablePct?.toFixed(0)}
       {copy.ofRuns}
       {effort.borderline ? `, ${copy.borderline}` : ""}; {copy.layer} {effort.layer} ({effort.layerLabel})
-      {effort.basis ? `, ${effort.basis}` : ""}.{effort.analystProfile ? ` ${capital(copy.analystProfile)}.` : ""}
+      {effort.basis ? `, ${nameRequirements(effort.basis)}` : ""}.{effort.analystProfile ? ` ${capital(copy.analystProfile)}.` : ""}
       {effort.subsystems && effort.subsystems.length > 0 ? ` ${copy.footprint}: ${effort.subsystems.map((s) => `${s.name} ${s.effortPct.toFixed(1)} %`).join(", ")}.` : ""}
     </p>
   );
@@ -104,7 +106,7 @@ export function ReferenceList({ evidence, linkOf }: { evidence: Evidence; linkOf
               ) : (
                 <>
                   <span className="refs-label">{href ? <Link href={href} className="cpm-citing-link">{item.label}</Link> : item.label}</span>
-                  {item.meta ? <span className="refs-meta">{item.meta}</span> : null}
+                  {item.meta ? <span className="refs-meta">{item.kind === "requirement" ? requirementArea(item.ref) : item.meta}</span> : null}
                   {item.url ? (
                     <a href={item.url} className="cpm-citing-link refs-source" target="_blank" rel="noreferrer">
                       {site.brief.source}

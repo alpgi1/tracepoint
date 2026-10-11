@@ -29,7 +29,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const snapshot = m && v ? workspaceSnapshot(v.code, m.code) : undefined;
   const record = snapshot ? requirementBySlug(snapshot, id) : undefined;
   if (!m || !v || !record) return {};
-  return { title: `${record.requirement.id} · ${v.name} in ${m.name}` };
+  return { title: `${record.requirement.title} · ${v.name} in ${m.name}` };
 }
 
 export default function RequirementRoute({ params, searchParams }: Props) {
