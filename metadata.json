@@ -1,0 +1,55 @@
+{
+  "cli_version": "0.11.4",
+  "checkpoint_id": "01M4M7R5CB1QZ8NQZHBXF34VTQ",
+  "strategy": "manual-commit",
+  "branch": "claude/backend-classification-agent-requirements",
+  "checkpoints_count": 6,
+  "files_touched": [
+    ".env.example",
+    "README.md",
+    "backend/README.md",
+    "backend/tests/test_agent.py",
+    "backend/tests/test_audit_and_api.py",
+    "backend/tests/test_ingestion.py",
+    "backend/tests/test_llm_gateway.py",
+    "backend/tracepoint/agent/analysis.py",
+    "backend/tracepoint/agent/context_pack.py",
+    "backend/tracepoint/agent/loop.py",
+    "backend/tracepoint/agent/tools.py",
+    "backend/tracepoint/api/app.py",
+    "backend/tracepoint/cli.py",
+    "backend/tracepoint/db/models.py",
+    "backend/tracepoint/db/session.py",
+    "backend/tracepoint/ingest/documents.py",
+    "backend/tracepoint/ingest/registry.py",
+    "backend/tracepoint/llm/gateway.py",
+    "backend/tracepoint/llm/pricing.py",
+    "backend/tracepoint/reports/baseline.py",
+    "config/llm/pricing.yaml",
+    "plan/decisions.md",
+    "reports/analysis/F70_GB.json",
+    "reports/analysis/F70_GB.md",
+    "reports/analysis/G60_US.json",
+    "reports/analysis/G60_US.md",
+    "reports/step-12-group-report-ingestion.md",
+    "reports/step-13-analyst-agent-loop.md",
+    "start.ps1",
+    "start.sh"
+  ],
+  "sessions": [
+    {
+      "metadata": "/0/metadata.json",
+      "transcript": "/0/full.jsonl",
+      "compact_transcript": "/0/transcript.jsonl",
+      "content_hash": "/0/content_hash.txt",
+      "prompt": "/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 118,
+    "cache_creation_tokens": 253259,
+    "cache_read_tokens": 10968481,
+    "output_tokens": 107532,
+    "api_call_count": 59
+  }
+}

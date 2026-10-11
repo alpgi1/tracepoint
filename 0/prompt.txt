@@ -1,0 +1,21 @@
+dokümanları detaylıca oku, akışı anla ve backend'de neler yapılmış, neler eklenmeli, şu an genel bir analiz için ai agent hazır mı kontrol et, frontend falan önemli değil, verileri işleyebilir mi şu an agent
+
+---
+
+source b segmentation ne?
+
+---
+
+dostum bu demek oluyorki docs'taki bazı dosyalar tam olarak ingest edilmemiş... Evet ya da hayır de net ol
+
+---
+
+tamam yap bunu
+
+---
+
+tamam başka ne kaldı agent'ın çalışması için? ui olmasa bile ben eldeki verilerle bi analiz yapmasını istiyorum. ona ülkeyi ve aracı vericem o da bi analiz yapıcak, buna hazır mı agent backend tarafında neler kalmış
+
+---
+
+tamam bütün bunları hallet, loop'U kur özellikle document'lardaki decision'lara dikkat et sonra bana tekrar rapor ver
