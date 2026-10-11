@@ -1,34 +1,28 @@
 import Link from "next/link";
-import { full, percent, weight } from "@/lib/content/format";
-import type { CpmCatalogue, CpmView } from "@/lib/content/cpm-types";
+import { full, percent } from "@/lib/content/format";
+import type { CpmCatalogue } from "@/lib/content/cpm-types";
 import { vehicleHref } from "@/lib/content/markets";
 import type { MarketCode } from "@/lib/content/types";
 import type { Requirement, RequirementEffort } from "@/lib/content/workspace-types";
 import { site } from "@/lib/site";
-import { footprintOf } from "@/lib/workspace/requirements";
 
 /*
  * The CPM effort of a requirement (plan 08 section 4.2): the figure with its
  * range, class, stability, layer, size and certification add-on; the
- * change profile; the footprint over the vehicle's subsystems, where the
- * twelve-row list of the vehicle screen returns as the effort lens (the
- * weight as the track, the propagated risk as the fill, the value as
- * text, the strongest path beside it); the catalogue scan; the flags with
- * their rule numbers; the model hash. The browser computes nothing: every
- * figure is the engine's. Bars follow the chart rules of the CPM list.
+ * change profile; the catalogue scan; the flags with their rule numbers;
+ * the model hash. The browser computes nothing: every figure is the
+ * engine's.
  */
 export interface EffortBlockProps {
   requirement: Requirement;
   effort: RequirementEffort | null;
   catalogue: CpmCatalogue;
-  view: CpmView;
 }
 
-export function EffortBlock({ requirement, effort, catalogue, view }: EffortBlockProps) {
+export function EffortBlock({ requirement, effort, catalogue }: EffortBlockProps) {
   const copy = site.requirements.effort;
   if (!effort) return <p className="stage-empty">{site.requirements.none}</p>;
   const isChange = effort.kind === "change";
-  const footprint = footprintOf(effort, catalogue, view);
   const names = new Map(catalogue.subsystems.map((s) => [s.key, s.name]));
   return (
     <div className="effort">
@@ -70,35 +64,6 @@ export function EffortBlock({ requirement, effort, catalogue, view }: EffortBloc
               </li>
             ))}
           </ul>
-        </>
-      ) : null}
-
-      {isChange ? (
-        <>
-          <h4 className="stage-h4">{copy.footprintHeading}</h4>
-          <p className="workspace-hint">{copy.footprintHint}</p>
-          <ol className="footprint">
-            {footprint.map((row) => (
-              <li key={row.key} className="footprint-row" data-reached={row.risk > 0 ? "true" : "false"}>
-                <span className="footprint-name">{row.name}</span>
-                <span className="footprint-figure">
-                  {row.risk > 0 ? (
-                    <>
-                      <b>{row.effortPct.toFixed(1)} %</b> · {percent(row.risk)} {copy.ofWeight} {weight(row.weight)}
-                    </>
-                  ) : (
-                    <span className="cpm-muted">{copy.notReached}</span>
-                  )}
-                </span>
-                <span className="footprint-bar" aria-hidden="true" style={{ width: `${String(row.weight)}%` }}>
-                  <span style={{ width: `${String(Math.min(100, row.risk * 100))}%` }} />
-                </span>
-                <span className="footprint-path cpm-muted">
-                  {row.starts ? copy.startsHere : row.path && row.path.length > 1 ? `${copy.via} ${row.path.slice(0, -1).join(" → ")}` : ""}
-                </span>
-              </li>
-            ))}
-          </ol>
         </>
       ) : null}
 

@@ -11,8 +11,8 @@ stage 1 of the scope workspace; its header's stage bar leads to stage 2, Structu
 (`/markets/<market>/<vehicle>/structure`): every potential requirement with the agent's 0/1
 proposal, the views needs a decision, all and left out, filters, and the effort of each change
 from the CPM engine; and to stage 3, Requirements definition (`/requirements`, `/requirements/<id>`):
-the requirement with its criteria, evidence (verbatims as written), assumptions, CPM effort with
-the footprint over the subsystems, and history; and to stage 4, Prioritization (`/priorities`):
+the requirement with its criteria, evidence (verbatims as written), assumptions, CPM effort, and
+history; and to stage 4, Prioritization (`/priorities`):
 effort against customer evidence as a matrix with its table, the engine's H1, H2 and ALL packages,
 a package builder that asks the backend API for any set, and the CPM method sheet
 (`/priorities/method`) with the weights, the link matrix and the back-test. The CPM rows and the

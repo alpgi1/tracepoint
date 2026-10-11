@@ -1,4 +1,4 @@
-import type { CpmCatalogue, CpmSubsystemKey, CpmView } from "@/lib/content/cpm-types";
+import type { CpmSubsystemKey, CpmView } from "@/lib/content/cpm-types";
 import { vehicleHref } from "@/lib/content/markets";
 import type { MarketCode } from "@/lib/content/types";
 import type {
@@ -19,7 +19,7 @@ import type {
 /*
  * Stage 3, Requirements definition: routes, the resolution of evidence
  * references into the snapshot's verbatims, metrics and catalogue items,
- * the effort footprint over the subsystems, and the bridges from the
+ * and the bridges from the
  * vehicle screen (which requirements change a subsystem, which cite a
  * theme). Every function reads the snapshot; nothing is computed beyond
  * joins and shares.
@@ -87,42 +87,6 @@ const ROLE_ORDER = { primary: 0, supporting: 1, context: 2 };
 /** The findings of a detail, primary first, then supporting, then context; ties by id. */
 export function findingsByRole(detail: RequirementDetail): RequirementDetail["findings"] {
   return [...detail.findings].sort((a, b) => ROLE_ORDER[a.role] - ROLE_ORDER[b.role] || a.id.localeCompare(b.id));
-}
-
-export interface FootprintRow {
-  key: CpmSubsystemKey;
-  name: string;
-  /** The subsystem's weight on this vehicle (renormalised, as the CPM list shows it). */
-  weight: number;
-  /** Share of the subsystem's design the change touches, 0 to 1; 0 where it is not reached. */
-  risk: number;
-  /** Effort the subsystem adds, in % of a new vehicle. */
-  effortPct: number;
-  /** Subsystem names along the strongest path, null where the change starts here or is not reached. */
-  path: string[] | null;
-  starts: boolean;
-}
-
-/** Every subsystem present on the vehicle by weight, with the change's footprint on it. */
-export function footprintOf(effort: RequirementEffort | null, catalogue: CpmCatalogue, view: CpmView): FootprintRow[] {
-  const starts = new Set(effort?.changes.map((c) => c.subsystem) ?? []);
-  const touched = new Map(effort?.subsystems.map((s) => [s.subsystem, s]) ?? []);
-  const rows: FootprintRow[] = [];
-  for (const entry of view.subsystems) {
-    const subsystem = catalogue.subsystems.find((s) => s.key === entry.key);
-    if (!subsystem) continue;
-    const hit = touched.get(entry.key);
-    rows.push({
-      key: entry.key,
-      name: subsystem.name,
-      weight: entry.weight,
-      risk: hit?.risk ?? 0,
-      effortPct: hit?.effort_pct ?? 0,
-      path: hit?.path ?? null,
-      starts: starts.has(entry.key),
-    });
-  }
-  return rows.sort((a, b) => b.weight - a.weight || a.name.localeCompare(b.name));
 }
 
 /** One requirement on a bridge: what a CPM row or the dialog needs, nothing more (it travels to the browser). */

@@ -1,17 +1,16 @@
 import { describe, expect, it } from "vitest";
-import { cpmCatalogue, cpmView } from "@/lib/content/cpm";
+import { cpmView } from "@/lib/content/cpm";
 import { workspaceSnapshot } from "@/lib/data/workspace";
-import { bridgesFor, footprintOf, requirementBySlug, requirementHref, requirementsCitingTheme, resolveEvidence } from "./requirements";
+import { bridgesFor, requirementBySlug, requirementHref, requirementsCitingTheme, resolveEvidence } from "./requirements";
 
 /*
  * Stage 3 helpers on the G60 US snapshot: the route, the lookup by slug,
  * the resolution of evidence references into verbatims, metrics and
- * catalogue items, the footprint over the subsystems, and the bridges
+ * catalogue items, and the bridges
  * from the vehicle screen.
  */
 const snapshot = workspaceSnapshot("G60", "US");
 const view = cpmView("G60", "US");
-const catalogue = cpmCatalogue();
 
 describe("requirement routes and lookup", () => {
   it("build lower-case routes and find a requirement by its slug in any case", () => {
@@ -42,27 +41,6 @@ describe("evidence resolution", () => {
       }
     }
     expect([...kinds].sort()).toEqual(["aggregate", "equipment", "finding", "metric", "verbatim"]);
-  });
-});
-
-describe("footprint", () => {
-  it("lists every subsystem of the vehicle by weight with the engine's risk and effort where the change reaches it", () => {
-    if (!snapshot || !view) throw new Error("no snapshot");
-    const effort = snapshot.efforts.find((e) => e.id === "REQ-G60-US-PR-03") ?? null;
-    const rows = footprintOf(effort, catalogue, view);
-    expect(rows).toHaveLength(12);
-    expect(rows[0].name).toBe("Body/structure");
-    const battery = rows.find((r) => r.key === "hv_battery");
-    expect(battery?.starts).toBe(true);
-    expect(battery?.risk).toBe(1);
-    expect(battery?.effortPct).toBe(10);
-    const seats = rows.find((r) => r.key === "seats");
-    expect(seats?.path?.[0]).toBe("HV battery");
-    const paint = rows.find((r) => r.key === "paint_color");
-    expect(paint?.risk).toBe(0);
-    expect(paint?.effortPct).toBe(0);
-    const total = rows.reduce((n, r) => n + r.effortPct, 0);
-    expect(total).toBeLessThanOrEqual(effort?.effort_pct ?? 0);
   });
 });
 

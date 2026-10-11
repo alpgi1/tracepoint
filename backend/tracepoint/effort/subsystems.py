@@ -568,7 +568,7 @@ def subsystem_view(
         "rowsSource": f"classification rows with a canonical level-2 theme, {basis}; theme to "
         "subsystem by config/cpm/theme_subsystem_map.yaml (an assumption)"
         if rows
-        else "no classified verbatims for this vehicle in this scope",
+        else "no classified customer comments for this vehicle in this scope",
         "subsystems": entries,
     }
 

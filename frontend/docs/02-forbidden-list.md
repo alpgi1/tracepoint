@@ -62,6 +62,7 @@ page.
 | Question headings ("Why Tracepoint?") | Declarative headings |
 | Exclamation marks | Full stops |
 | Lorem ipsum, "coming soon", TODO on a delivered page | Real text or no section |
+| The Latin "verbatim" or "verbatims" for the customer texts | "customer comment", "customer comments" (team request after step 19) |
 | Meaningless section labels ("SECTION 01", "ABOUT") | Labels that carry information ("F70 · G60 · G70", "Natural Earth · 1:110m") |
 | Instruction hints as decoration ("scroll to explore", bouncing arrows) | The design makes the next thing obvious; an interactive object gets a real control (the market buttons) |
 
