@@ -1,0 +1,1955 @@
+{
+ "run_id": "RUN-20261011-044019-agent.series.G60-f66e",
+ "series": "5 Series",
+ "lead_vehicle": "G60",
+ "prompt_version": "series-analysis-v1",
+ "pack_version": "series-pack-v1",
+ "model": "gpt-5.4-2026-03-05",
+ "regions": [
+  {
+   "label": "EU",
+   "name": "Europe",
+   "vehicle": "G60",
+   "market": "EU",
+   "country": null,
+   "verbatims": 111,
+   "countries": {
+    "NO": 8,
+    "FI": 9,
+    "DK": 20,
+    "GB": 36,
+    "FR": 8,
+    "ES": 1,
+    "SE": 28,
+    "LV": 1
+   },
+   "sales_2025": 115000,
+   "sales_2030": 127000,
+   "sales_ref": "sales:SAL-G60-EU-2025",
+   "sales_of": null,
+   "complaint_rows": 176,
+   "like_rows": 140,
+   "findings": 35,
+   "requirements": 0,
+   "study": "CN_EU_2025",
+   "external_rows_in_pack": 20
+  },
+  {
+   "label": "US",
+   "name": "United States",
+   "vehicle": "G60",
+   "market": "US",
+   "country": null,
+   "verbatims": 3628,
+   "countries": {
+    "US": 3610,
+    "CA": 18
+   },
+   "sales_2025": 78000,
+   "sales_2030": 80000,
+   "sales_ref": "sales:SAL-G60-US-2025",
+   "sales_of": null,
+   "complaint_rows": 2625,
+   "like_rows": 2263,
+   "findings": 226,
+   "requirements": 20,
+   "study": "US_2025",
+   "external_rows_in_pack": 20
+  },
+  {
+   "label": "CN",
+   "name": "China",
+   "vehicle": "G68",
+   "market": "CN",
+   "country": null,
+   "verbatims": 0,
+   "countries": {},
+   "sales_2025": 75000,
+   "sales_2030": 78000,
+   "sales_ref": "sales:SAL-G60-CN-2025",
+   "sales_of": null,
+   "complaint_rows": 0,
+   "like_rows": 0,
+   "findings": 17,
+   "requirements": 0,
+   "study": "CN_EU_2025",
+   "external_rows_in_pack": 18
+  },
+  {
+   "label": "JP",
+   "name": "Japan",
+   "vehicle": "G60",
+   "market": "RoW",
+   "country": "JP",
+   "verbatims": 53,
+   "countries": {
+    "JP": 53
+   },
+   "sales_2025": 28000,
+   "sales_2030": 31000,
+   "sales_ref": "sales:SAL-G60-RoW-2025",
+   "sales_of": "whole RoW market",
+   "complaint_rows": 25,
+   "like_rows": 58,
+   "findings": 11,
+   "requirements": 0,
+   "external_rows_in_pack": 0
+  },
+  {
+   "label": "KR",
+   "name": "South Korea",
+   "vehicle": "G60",
+   "market": "RoW",
+   "country": "KR",
+   "verbatims": 205,
+   "countries": {
+    "KR": 205
+   },
+   "sales_2025": 28000,
+   "sales_2030": 31000,
+   "sales_ref": "sales:SAL-G60-RoW-2025",
+   "sales_of": "whole RoW market",
+   "complaint_rows": 98,
+   "like_rows": 205,
+   "findings": 11,
+   "requirements": 0,
+   "external_rows_in_pack": 0
+  }
+ ],
+ "analysis": {
+  "headline": "Prioritise H1 improvements to everyday controls and climate use across markets, add regional fixes for US practicality and China cockpit expectations, keep the dynamic strengths, and leave any real electric-range gain to the next generation.",
+  "answer": "The main product work now is easier everyday use: simpler access to frequent functions and more direct climate operation are supported by customer or study evidence in EU, US and CN, and they can be done on the current car. Regionally, the US needs practicality fixes such as storage and the hands-free tailgate, while China needs a stronger cockpit offer with more direct controls and better digital execution. EU also needs better range confidence now, but a meaningful electric-range increase is a successor topic. Keep the current ride, handling and drivetrain character, which is a broad strength across the regions.",
+  "regions": [
+   {
+    "region": "EU",
+    "expects": [
+     "Easy climate and infotainment operation without digging through screens; software/HMI complaints run at 41.4 per 100 verbatims (46 rows), connected services are 3rd weakest of 37, and climate control is 6th weakest of 37.",
+     "Better electric range confidence and efficiency for electrified use; Electric Range complaints run at 13.5 per 100 (15 rows), fuel economy is 4th weakest of 37, and BEV share is 17.4% in 2025 rising to 21.7% in Jan-Aug 2026.",
+     "More practical luggage and rear space for a large sedan; loading ease is 1st weakest of 37, rear roominess 5th weakest, and luggage capacity 7th weakest of 37.",
+     "Watch body equipment quality and usability rather than launch a separate body change now; body equipment complaints run at 11.7 per 100 (13 rows), but the clearer near-term fixes sit in controls, loading and digital use."
+    ],
+    "evidence_refs": [
+     "metric:MET-CNEU-EU-G60-connected_services",
+     "metric:MET-CNEU-EU-G60-climate_control",
+     "FND-G60-EU-VOC-electric_range",
+     "metric:MET-CNEU-EU-G60-fuel_economy",
+     "metric:MET-CNEU-EU-G60-loading_ease",
+     "metric:MET-CNEU-EU-G60-rear_roominess",
+     "metric:MET-CNEU-EU-G60-cargo_capacity",
+     "FND-G60-EU-VOC-body_equipment_overall_technology",
+     "external:EXT-P-01-1",
+     "external:EXT-P-02-1"
+    ]
+   },
+   {
+    "region": "US",
+    "expects": [
+     "Frequently used functions reachable in one touch and simpler controls; controls usability is 11th weakest of 103 and operating-concept complaints run at 1.5 per 100 (53 rows).",
+     "Climate control that is direct, strong in heat and keeps settings; climate control is 14th weakest of 103 and there is an existing H1 requirement for this.",
+     "Better everyday storage and phone integration; interior storage is 15th weakest of 103 and there are existing H1 requirements for storage and phone integration."
+    ],
+    "evidence_refs": [
+     "metric:MET-US-US-G60-controls_usability",
+     "FND-G60-US-VOC-operating_concept_operating_system",
+     "metric:MET-US-US-G60-climate_control",
+     "REQ-G60-US-IC-02",
+     "metric:MET-US-US-G60-interior_storage",
+     "REQ-G60-US-SP-02",
+     "REQ-G60-US-ID-02"
+    ]
+   },
+   {
+    "region": "CN",
+    "expects": [
+     "Connected services and smartphone integration that feel local and current; connected services are 2nd weakest of 37 and smartphone integration 10th weakest of 37.",
+     "A cockpit with more direct controls despite a digital layout; level of equipment is 4th weakest of 37 and China-specific market rows show 25.3% criticise the lack of physical buttons.",
+     "Watch braking and front-seat roominess on the current car, but do not open separate hardware work now; braking is 3rd weakest of 37 and front interior roominess 8th weakest of 37, yet no China verbatims are stored to show the exact failure mode.",
+     "Strong AI assistant and advanced digital experience, but reliable enough to trust; 84% expect a proactive AI assistant while 56.5% use AI vehicle control less because of reliability concerns."
+    ],
+    "evidence_refs": [
+     "metric:MET-CNEU-CN-G68-connected_services",
+     "metric:MET-CNEU-CN-G68-smartphone_integration",
+     "metric:MET-CNEU-CN-G68-equipment_level",
+     "metric:MET-CNEU-CN-G68-braking",
+     "metric:MET-CNEU-CN-G68-front_roominess",
+     "external:EXT-E-53-1",
+     "external:EXT-E-54-2",
+     "external:EXT-T1-07-2"
+    ]
+   },
+   {
+    "region": "JP",
+    "expects": [
+     "Strong drivetrain and ride/handling character; likes are 26.4 per 100 for drivetrain and 26.4 for handling/riding.",
+     "No clear regional weakness from the small sample; only 53 verbatims and no study for this region.",
+     "Watch drivetrain complaints, which are 11.3 per 100 (6 rows), before changing the product."
+    ],
+    "evidence_refs": [
+     "FND-G60-RoW-VOC-drivetrain",
+     "sales:SAL-G60-RoW-2025"
+    ]
+   },
+   {
+    "region": "KR",
+    "expects": [
+     "Strong drivetrain and body-tech appeal; likes are 30.2 per 100 for drivetrain and 13.7 for body equipment/technology.",
+     "Navigation and remote parking need watching, but the signal is regional and smaller than EU/US HMI issues; navigation complaints are 2.9 per 100 (6 rows), remote controlled parking 2.4 (5 rows).",
+     "No study is stored for this region, so changes should wait for stronger confirmation unless shared with other markets."
+    ],
+    "evidence_refs": [
+     "FND-G60-RoW-VOC-navigation",
+     "FND-G60-RoW-VOC-remote_controlled_parking",
+     "sales:SAL-G60-RoW-2025"
+    ]
+   }
+  ],
+  "topics": [
+   {
+    "title": "Frequently used functions without menu hunting",
+    "regions": [
+     {
+      "region": "EU",
+      "customers": "Strong signal: software/HMI complaints run at 41.4 per 100 verbatims (46 rows); ConnectedDrive/infotainment complaints are 4.5 per 100 (5 rows), My Modes 4.5, Speed Limit Assistant 3.6, and connected services are the 3rd weakest study attribute of 37.",
+      "market": "Testers repeatedly say climate and other functions are too digital and distracting; 48% of consumers prefer a mix of touchscreen and physical buttons.",
+      "weight": "strong"
+     },
+     {
+      "region": "US",
+      "customers": "Strong signal: software/HMI complaints run at 19.9 per 100 (723 rows); operating concept is 1.5 per 100 (53 rows), touch screen 1.0 (35), instrument cluster 1.0 (38), and controls usability is 11th weakest of 103.",
+      "market": "US quality data says 46% of distraction problems come from infotainment or touchscreen, and 48% of consumers prefer mixed controls.",
+      "weight": "strong"
+     },
+     {
+      "region": "CN",
+      "customers": "No customer text for this region; study-only signal: connected services are 2nd weakest of 37, controls usability 13th weakest, and smartphone integration 10th weakest.",
+      "market": "Strong China market pull for direct controls: 25.3% criticise the lack of physical buttons, and a 2027 China rule sets physical-control expectations for key functions.",
+      "weight": "strong"
+     },
+     {
+      "region": "JP",
+      "customers": "Weak signal: software/HMI complaints are 5.7 per 100 (3 rows), with 1 navigation row and 1 operating-system row in a 53-verbatim sample.",
+      "market": null,
+      "weight": "weak"
+     },
+     {
+      "region": "KR",
+      "customers": "Moderate signal: software/HMI complaints are 14.1 per 100 (29 rows), with navigation 2.9 per 100 (6 rows), remote controlled parking 2.4 (5), and touch screen 1.5 (3).",
+      "market": null,
+      "weight": "moderate"
+     }
+    ],
+    "our_offer": "The car offers automatic climate control as standard and Parking Assistant as standard, with Parking Assistant Professional optional; no stored catalogue row shows dedicated climate keys.",
+    "rivals": "Stored market rows say Volkswagen is returning to separate physical climate buttons, while China buyers and regulators are moving the same way.",
+    "decision": "change_now_all_markets",
+    "target_regions": [
+     "EU",
+     "US",
+     "CN",
+     "JP",
+     "KR"
+    ],
+    "action": "Add an always-visible shortcut layer for the most-used functions and reduce taps for climate, drive mode, map, phone and assistance controls. Where the current panel allows it, add or repurpose direct controls for the highest-frequency functions, with China and the large Western markets first in line.",
+    "why": "EU and US both show clear customer pain, and China market evidence points the same way even without verbatims. This is not next-generation only because the stored US requirement shows an H1 path on the current car, even if a fuller physical-control rethink belongs later.",
+    "related_requirement": "REQ-G60-US-ID-01",
+    "effort_changes": null,
+    "confidence": "high",
+    "evidence_refs": [
+     "FND-G60-EU-VOC-connecteddrive_and_infotainment_overall_technolo",
+     "FND-G60-EU-VOC-my_modes_driving_experience",
+     "FND-G60-EU-VOC-speed_limit_assistant",
+     "metric:MET-CNEU-EU-G60-connected_services",
+     "FND-G60-US-VOC-operating_concept_operating_system",
+     "FND-G60-US-VOC-touch_screen_operation",
+     "FND-G60-US-VOC-instrument_cluster",
+     "metric:MET-US-US-G60-controls_usability",
+     "metric:MET-CNEU-CN-G68-connected_services",
+     "metric:MET-CNEU-CN-G68-smartphone_integration",
+     "external:EXT-T1-01-1",
+     "external:EXT-E-40-2",
+     "external:EXT-E-53-1",
+     "external:EXT-T1-04-1",
+     "external:EXT-E-29-1",
+     "external:EXT-E-30-1",
+     "REQ-G60-US-ID-01",
+     "equipment:EQ-G60-0044"
+    ]
+   },
+   {
+    "title": "Climate setting that is direct and remembers",
+    "regions": [
+     {
+      "region": "EU",
+      "customers": "Moderate signal: thermal/HVAC complaints are 5.4 per 100 (6 rows), climate control is the 6th weakest study attribute of 37, and software complaints overlap with climate operation.",
+      "market": "EU tests repeatedly criticise touchscreen climate operation and hidden vent control.",
+      "weight": "moderate"
+     },
+     {
+      "region": "US",
+      "customers": "Strong signal: climate control is the 14th weakest of 103, and there is an existing H1 requirement built from 24 air-conditioning-setting complaints plus blower and control-panel complaints.",
+      "market": "US buyers want comfort features, and touchscreen distraction data supports simpler climate access.",
+      "weight": "strong"
+     },
+     {
+      "region": "CN",
+      "customers": "No customer text for this region; study-only signal: climate control is 7th weakest of 37.",
+      "market": "China physical-control evidence supports direct access for defrost and other common functions, but no stored China row speaks specifically about cooling performance.",
+      "weight": "moderate"
+     },
+     {
+      "region": "JP",
+      "customers": "Weak signal: thermal/HVAC complaints are 5.7 per 100 (3 rows) in a 53-verbatim sample.",
+      "market": null,
+      "weight": "weak"
+     },
+     {
+      "region": "KR",
+      "customers": "Weak signal: thermal/HVAC complaints are 1.5 per 100 (3 rows).",
+      "market": null,
+      "weight": "weak"
+     }
+    ],
+    "our_offer": "Automatic climate control is standard across G60 variants in the stored catalogue, with 4-zone climate control listed for i5 M60 and as package content.",
+    "rivals": "No rival-specific stored row on climate hardware, but stored competitor evidence on physical controls points toward separate climate access.",
+    "decision": "change_now_all_markets",
+    "target_regions": [
+     "EU",
+     "US",
+     "CN",
+     "JP",
+     "KR"
+    ],
+    "action": "Keep temperature and fan controls always visible, preserve key climate settings by driver profile, and tune airflow and vent behaviour where current hardware allows. Prioritise heat-soak cooling and setting persistence in US calibration, while using the same software simplification in all markets.",
+    "why": "US has the clearest direct evidence and an existing H1 requirement; EU and CN study and test evidence point the same way, so one shared software step is justified now. A larger hardware rethink is not needed for the first step and would be disproportionate for JP and KR.",
+    "related_requirement": "REQ-G60-US-IC-02",
+    "effort_changes": null,
+    "confidence": "high",
+    "evidence_refs": [
+     "metric:MET-CNEU-EU-G60-climate_control",
+     "metric:MET-US-US-G60-climate_control",
+     "metric:MET-CNEU-CN-G68-climate_control",
+     "external:EXT-E-04-1",
+     "external:EXT-E-29-1",
+     "external:EXT-E-30-1",
+     "external:EXT-E-40-2",
+     "REQ-G60-US-IC-02",
+     "equipment:EQ-G60-0044",
+     "equipment:EQ-G60-0045",
+     "equipment:EQ-G60-0085"
+    ]
+   },
+   {
+    "title": "Electric range confidence now, more real range next generation",
+    "regions": [
+     {
+      "region": "EU",
+      "customers": "Strong signal: Electric Range complaints run at 13.5 per 100 verbatims (15 rows), the highest by far; fuel economy is 4th weakest of 37 and environmental friendliness 8th weakest.",
+      "market": "EU electrification is high and rising, with BEV share 17.4% in 2025 and 21.7% in Jan-Aug 2026; fast-charging infrastructure is improving, so vehicle-side range confidence matters more.",
+      "weight": "strong"
+     },
+     {
+      "region": "US",
+      "customers": "Weak-to-moderate signal: Electric Range complaints are 1.8 per 100 (67 rows), but there is an existing H1 requirement for reliable range prediction and an H2 requirement for more real-world range.",
+      "market": "US BEV share is lower and luxury-BEV share fell to 14%; charging access improved with Tesla Superchargers, but charging access and time still deter buyers.",
+      "weight": "moderate"
+     },
+     {
+      "region": "CN",
+      "customers": "No customer text for this region; study signal is mixed, with fuel economy 17th weakest of 37, not a standout weakness.",
+      "market": "China NEV share is 65.2% overall and 38.9% at luxury brands, but the stored competitive pressure is more about charging speed and digital features than a direct G68 range complaint.",
+      "weight": "moderate"
+     },
+     {
+      "region": "JP",
+      "customers": "No signal on electric range; no hv_battery complaints in 53 verbatims.",
+      "market": null,
+      "weight": "none"
+     },
+     {
+      "region": "KR",
+      "customers": "No signal on electric range; no hv_battery complaints in 205 verbatims.",
+      "market": null,
+      "weight": "none"
+     }
+    ],
+    "our_offer": "The current car is criticised for only average charging power and charging time, and the stored US requirement set already separates H1 range prediction from H2 battery change.",
+    "rivals": "Stored China market rows mention BYD's 1,000 kW charging platform, showing where the market is heading, but no stored rival row proves a direct same-class range gap for every region.",
+    "decision": "next_generation",
+    "target_regions": [
+     "EU",
+     "US",
+     "CN",
+     "JP",
+     "KR"
+    ],
+    "action": "Take a small H1 step with better range prediction, winter guidance and trip planning for electrified variants, especially in EU and US. Put the real answer—meaningfully more real-world electric range—into the successor with the next battery generation.",
+    "why": "EU is the only region with a strong customer complaint rate today, but the stored effort model classifies a true range increase as a new-generation battery change. That makes H2 the right main decision, with a separate H1 software step justified by EU and supported by the existing US requirement set.",
+    "related_requirement": "REQ-G60-US-PR-03",
+    "effort_changes": null,
+    "confidence": "high",
+    "evidence_refs": [
+     "FND-G60-EU-VOC-electric_range",
+     "metric:MET-CNEU-EU-G60-fuel_economy",
+     "metric:MET-CNEU-EU-G60-environmental_friendliness",
+     "FND-G60-US-VOC-electric_range",
+     "external:EXT-P-01-1",
+     "external:EXT-P-02-1",
+     "external:EXT-P-05-1",
+     "external:EXT-P-06-2",
+     "external:EXT-E-43-1",
+     "external:EXT-T5-09-1",
+     "external:EXT-T5-12-1",
+     "REQ-G60-US-PR-03",
+     "REQ-G60-US-PR-02",
+     "external:EXT-E-25-1"
+    ]
+   },
+   {
+    "title": "Connected services that feel reliable and local",
+    "regions": [
+     {
+      "region": "EU",
+      "customers": "Strong signal: connected services are the 3rd weakest study attribute of 37, and ConnectedDrive/infotainment complaints run at 4.5 per 100 (5 rows).",
+      "market": "EU tests disagree on infotainment quality overall, but several cite operational weak points.",
+      "weight": "strong"
+     },
+     {
+      "region": "US",
+      "customers": "Moderate signal: connected services are 12th weakest of 103; software complaints are large overall, but phone integration is the clearer stored US requirement.",
+      "market": "US quality data says infotainment is the only category getting worse, largely from connectivity problems; CarPlay and Android Auto are important purchase factors.",
+      "weight": "moderate"
+     },
+     {
+      "region": "CN",
+      "customers": "No customer text for this region; strong study-only signal: connected services are 2nd weakest of 37 and smartphone integration 10th weakest of 37.",
+      "market": "China buyers expect a stronger AI and smart-cockpit experience, so weak connected services cut against market expectations.",
+      "weight": "strong"
+     },
+     {
+      "region": "JP",
+      "customers": "No clear signal; 0 ConnectedDrive rows and only 1 navigation row in a small sample.",
+      "market": null,
+      "weight": "none"
+     },
+     {
+      "region": "KR",
+      "customers": "Weak signal: 1 ConnectedDrive row and 6 navigation rows.",
+      "market": null,
+      "weight": "weak"
+     }
+    ],
+    "our_offer": "not stored",
+    "rivals": "No direct rival feature comparison is stored for connected-services quality; the stored market rows only show broader AI and cockpit expectations.",
+    "decision": "change_now_regional",
+    "target_regions": [
+     "EU",
+     "CN"
+    ],
+    "action": "Improve connected-service reliability, account and profile persistence, and local digital-service execution first in EU and China. In China, pair this with stronger local smart-cockpit behaviour; in EU, focus on reliability and simpler service access.",
+    "why": "EU and CN are the regions where study evidence clearly puts connected services near the bottom, while US pain is broader HMI and phone integration rather than connected services alone. The work starts in software because the evidence is about service behaviour and usability; any E/E effects are secondary propagation, not the starting change.",
+    "related_requirement": null,
+    "effort_changes": [
+     {
+      "subsystem": "software_hmi",
+      "own_impact": 0.04,
+      "layer": "K1",
+      "carryover": false,
+      "why": "A reliability and service-flow update is comparable to the stored profile for profile persistence and smaller than the OS7 OTA reference.",
+      "portfolio_terms": [
+       "ConnectedDrive",
+       "Navigation",
+       "BMW ID"
+      ]
+     }
+    ],
+    "confidence": "medium",
+    "evidence_refs": [
+     "metric:MET-CNEU-EU-G60-connected_services",
+     "FND-G60-EU-VOC-connecteddrive_and_infotainment_overall_technolo",
+     "metric:MET-US-US-G60-connected_services",
+     "metric:MET-CNEU-CN-G68-connected_services",
+     "metric:MET-CNEU-CN-G68-smartphone_integration",
+     "external:EXT-E-40-1",
+     "external:EXT-E-54-2",
+     "external:EXT-T2-01-1"
+    ]
+   },
+   {
+    "title": "China cockpit with more direct controls and stronger AI",
+    "regions": [
+     {
+      "region": "EU",
+      "customers": "Moderate signal on direct controls, but AI pull is lower; software/HMI complaints are high, yet this is not the region with the strongest AI expectation.",
+      "market": "Likely AI personalisation use is 34% in Germany and 42% in the UK, well below China.",
+      "weight": "weak"
+     },
+     {
+      "region": "US",
+      "customers": "Moderate signal on controls, but AI pull is lower than China and current US requirements already cover simpler controls.",
+      "market": "Likely AI personalisation use is 46% in the US; hands-free driving matters more than proactive AI in the stored rows.",
+      "weight": "weak"
+     },
+     {
+      "region": "CN",
+      "customers": "No customer text for this region; study and market signal are strong: connected services are 2nd weakest of 37, equipment level 4th weakest, and smartphone integration 10th weakest.",
+      "market": "China has the strongest stored pull for this topic: 25.3% criticise lack of physical buttons, 84% expect a proactive AI assistant, and 69% call urban navigate-on-autopilot a must-have, though reliability concerns remain.",
+      "weight": "strong"
+     },
+     {
+      "region": "JP",
+      "customers": "No signal.",
+      "market": null,
+      "weight": "none"
+     },
+     {
+      "region": "KR",
+      "customers": "No signal.",
+      "market": null,
+      "weight": "none"
+     }
+    ],
+    "our_offer": "BMW has shown an AI-powered Intelligent Personal Assistant with Alexa+ technology for Germany and the US, but no stored row confirms it for China on this series.",
+    "rivals": "Stored China rows show rapid market movement toward AI cockpit features, urban assisted driving and rear-seat digital experiences, but no one stored rival row is enough alone to decide the case.",
+    "decision": "change_now_regional",
+    "target_regions": [
+     "CN"
+    ],
+    "action": "Create a China-specific cockpit package on the current car: direct access for the most-used functions within the existing panel, stronger local AI assistant behaviour, and China-tuned connected-service execution. Keep the step software-led now and reserve any full hardware cockpit redesign for the successor.",
+    "why": "China has no verbatims, so the case rests on aligned study and market evidence; both are strong and point to a need that is clearly stronger than elsewhere. A regional variant is worth it because China is a large market at 75,000 sales in 2025 and its market is moving faster than EU or US on cockpit expectations.",
+    "related_requirement": null,
+    "effort_changes": [
+     {
+      "subsystem": "software_hmi",
+      "own_impact": 0.1,
+      "layer": "K2",
+      "carryover": false,
+      "why": "A China-specific shortcut and assistant layer is comparable to the stored H1 direct-controls requirement and still below a full OS replacement.",
+      "portfolio_terms": [
+       "ConnectedDrive",
+       "BMW Intelligent Personal Assistant",
+       "Navigation"
+      ]
+     },
+     {
+      "subsystem": "interior_console",
+      "own_impact": 0.05,
+      "layer": "K1",
+      "carryover": false,
+      "why": "Limited direct-control additions or repurposed controls fit the current panel better than a new console module.",
+      "portfolio_terms": [
+       "Klima",
+       "iDrive",
+       "defroster"
+      ]
+     }
+    ],
+    "confidence": "medium",
+    "evidence_refs": [
+     "metric:MET-CNEU-CN-G68-connected_services",
+     "metric:MET-CNEU-CN-G68-equipment_level",
+     "metric:MET-CNEU-CN-G68-smartphone_integration",
+     "external:EXT-E-53-1",
+     "external:EXT-E-54-2",
+     "external:EXT-E-54-1",
+     "external:EXT-T1-04-1",
+     "external:EXT-T1-07-2",
+     "external:EXT-T2-01-1",
+     "sales:SAL-G60-CN-2025"
+    ]
+   },
+   {
+    "title": "Practical luggage and loading in EU; watch front roominess and braking in China",
+    "regions": [
+     {
+      "region": "EU",
+      "customers": "Strong signal: loading ease is the 1st weakest study attribute of 37, rear roominess 5th weakest, luggage capacity 7th weakest, and body equipment complaints run at 11.7 per 100 (13 rows).",
+      "market": "EU tests also mention limited rear legroom for so large a car.",
+      "weight": "strong"
+     },
+     {
+      "region": "US",
+      "customers": "No clear luggage-space weakness: loading ease is 46th weakest of 103 and luggage capacity 40th weakest, though there are 25 luggage-compartment complaints and 44 hands-free-tailgate complaints.",
+      "market": null,
+      "weight": "weak"
+     },
+     {
+      "region": "CN",
+      "customers": "No customer text for this region; study-only watchpoints are braking at 3rd weakest of 37 and front interior roominess at 8th weakest of 37.",
+      "market": "No stored China market row explains whether these are packaging, seat, visibility or calibration issues, so the exact fix is not yet clear.",
+      "weight": "moderate"
+     },
+     {
+      "region": "JP",
+      "customers": "No signal: no luggage-compartment complaints in 53 verbatims.",
+      "market": null,
+      "weight": "none"
+     },
+     {
+      "region": "KR",
+      "customers": "Weak signal: luggage-compartment complaints are 1.5 per 100 (3 rows) in 205 verbatims.",
+      "market": null,
+      "weight": "weak"
+     }
+    ],
+    "our_offer": "not stored",
+    "rivals": null,
+    "decision": "no_action",
+    "target_regions": [],
+    "action": "Do not open a separate body or package change yet. For EU, monitor whether the next evidence wave keeps pointing to luggage and rear-space dissatisfaction after the HMI and tailgate-related fixes; for China, read the next customer-text wave to learn whether braking is pedal feel, low-speed smoothness or safety confidence, and whether front roominess is seat, console or visibility related.",
+    "why": "EU clearly shows a packaging weakness, but the stored evidence does not yet isolate a fix that fits the current car rather than the next body update. China has two study weaknesses but no verbatims, so the failure mode is too unclear for a product change now.",
+    "related_requirement": null,
+    "effort_changes": null,
+    "confidence": "medium",
+    "evidence_refs": [
+     "metric:MET-CNEU-EU-G60-loading_ease",
+     "metric:MET-CNEU-EU-G60-rear_roominess",
+     "metric:MET-CNEU-EU-G60-cargo_capacity",
+     "FND-G60-EU-VOC-body_equipment_overall_technology",
+     "external:EXT-E-29-1",
+     "metric:MET-US-US-G60-loading_ease",
+     "metric:MET-US-US-G60-cargo_capacity",
+     "FND-G60-US-VOC-luggage_compartment",
+     "FND-G60-US-VOC-non_contact_trunk_lid_opening",
+     "metric:MET-CNEU-CN-G68-braking",
+     "metric:MET-CNEU-CN-G68-front_roominess"
+    ]
+   },
+   {
+    "title": "Practical storage for everyday items",
+    "regions": [
+     {
+      "region": "EU",
+      "customers": "Moderate signal: interior storage is 11th weakest of 37, but only limited direct complaint evidence is stored for this region.",
+      "market": null,
+      "weight": "weak"
+     },
+     {
+      "region": "US",
+      "customers": "Strong signal: interior storage is 15th weakest of 103 and storage-compartment complaints run at 0.8 per 100 (28 rows), with an existing H1 requirement.",
+      "market": "No direct rival row is stored, but this is a clear everyday-use complaint in the largest verbatim base.",
+      "weight": "strong"
+     },
+     {
+      "region": "CN",
+      "customers": "No customer text for this region; study says interior storage is 24th weakest of 37, so not a weakness.",
+      "market": "Autohome review tags mention little storage space in 5 owner-review tags.",
+      "weight": "weak"
+     },
+     {
+      "region": "JP",
+      "customers": "Weak signal: 1 storage-compartment row in a 53-verbatim sample.",
+      "market": null,
+      "weight": "weak"
+     },
+     {
+      "region": "KR",
+      "customers": "Weak signal: storage-compartment complaints are 2.0 per 100 (4 rows).",
+      "market": null,
+      "weight": "weak"
+     }
+    ],
+    "our_offer": "not stored",
+    "rivals": null,
+    "decision": "change_now_regional",
+    "target_regions": [
+     "US"
+    ],
+    "action": "Add back the everyday storage pieces US owners miss, such as more usable console storage and small-item stowage, using trim-part changes in the life-cycle update.",
+    "why": "This is clearly stronger in the US than elsewhere by both study and complaint evidence, while EU and CN do not show the same need. The existing US requirement already covers an H1 adaptation path, so there is no reason to broaden it to all markets.",
+    "related_requirement": "REQ-G60-US-SP-02",
+    "effort_changes": null,
+    "confidence": "high",
+    "evidence_refs": [
+     "metric:MET-CNEU-EU-G60-interior_storage",
+     "metric:MET-US-US-G60-interior_storage",
+     "metric:MET-CNEU-CN-G68-interior_storage",
+     "FND-G60-US-VOC-storage_compartments",
+     "REQ-G60-US-SP-02",
+     "external:EXT-E-18-2"
+    ]
+   },
+   {
+    "title": "Hands-free tailgate that works first time",
+    "regions": [
+     {
+      "region": "EU",
+      "customers": "No signal: non-contact trunk opening complaints are 0.0 per 100, though loading ease is the weakest study attribute.",
+      "market": null,
+      "weight": "none"
+     },
+     {
+      "region": "US",
+      "customers": "Strong regional signal: non-contact trunk lid opening complaints run at 1.2 per 100 verbatims (44 rows), twice any other region and effectively unique here.",
+      "market": "US study does not show a luggage weakness, so this is a feature-execution issue rather than package-space issue.",
+      "weight": "strong"
+     },
+     {
+      "region": "CN",
+      "customers": "No customer text for this region; loading ease is weak in study, but no stored evidence points to hands-free tailgate execution.",
+      "market": null,
+      "weight": "none"
+     },
+     {
+      "region": "JP",
+      "customers": "No signal.",
+      "market": null,
+      "weight": "none"
+     },
+     {
+      "region": "KR",
+      "customers": "No signal.",
+      "market": null,
+      "weight": "none"
+     }
+    ],
+    "our_offer": "No stored catalogue row confirms hands-free tailgate content for this search, so only the customer signal is stored here.",
+    "rivals": null,
+    "decision": "change_now_regional",
+    "target_regions": [
+     "US"
+    ],
+    "action": "Fix kick-sensor detection and make the tailgate open on the first try, with an easy close action from inside where fitted.",
+    "why": "This is the clearest single-region complaint in the pack: it is unique to the US at 44 rows and not echoed elsewhere. It is also already covered by an H1 US requirement, so a regional fix is the right scope.",
+    "related_requirement": "REQ-G60-US-SP-01",
+    "effort_changes": null,
+    "confidence": "high",
+    "evidence_refs": [
+     "FND-G60-US-VOC-non_contact_trunk_lid_opening",
+     "REQ-G60-US-SP-01",
+     "metric:MET-CNEU-EU-G60-loading_ease",
+     "metric:MET-CNEU-CN-G68-loading_ease"
+    ]
+   },
+   {
+    "title": "Keep the ride, handling and drivetrain character",
+    "regions": [
+     {
+      "region": "EU",
+      "customers": "Strong strength: likes are 24.3 per 100 for drive/driving dynamics/chassis and 15.3 for drivetrain; ride comfort is the strongest study attribute at 37th of 37.",
+      "market": "EU tests praise refinement and composed handling even when they criticise other areas.",
+      "weight": "strong"
+     },
+     {
+      "region": "US",
+      "customers": "Strong strength: handling/riding is 5.8 per 100 likes (210 rows), drivetrain 9.6 (349), manoeuvrability is 102nd of 103 and ride comfort 100th of 103, both near the top.",
+      "market": "US expert and owner rows rate the car highly overall and praise dynamics more than they criticise them.",
+      "weight": "strong"
+     },
+     {
+      "region": "CN",
+      "customers": "No customer text for this region; study strength is clear on sportiness 35th of 37 and roadholding 37th of 37.",
+      "market": "China owner-review tags praise precise steering and strong acceleration.",
+      "weight": "strong"
+     },
+     {
+      "region": "JP",
+      "customers": "Strong strength: drivetrain likes are 26.4 per 100 (14 rows) and handling/riding likes are 26.4 (14 rows).",
+      "market": null,
+      "weight": "strong"
+     },
+     {
+      "region": "KR",
+      "customers": "Strong strength: drivetrain likes are 30.2 per 100 (62 rows) and handling/riding likes are 12.2 (25 rows).",
+      "market": null,
+      "weight": "strong"
+     }
+    ],
+    "our_offer": "The current car already delivers the dynamic character customers praise; no stored evidence suggests a product change is needed here.",
+    "rivals": null,
+    "decision": "keep",
+    "target_regions": [],
+    "action": "Do not trade away the current 5 Series balance of ride comfort, manoeuvrability and drivetrain appeal while fixing HMI, climate or packaging issues.",
+    "why": "This is one of the few strengths that is broad across every region in the pack, including the study markets and both Asian country samples. It should constrain other changes rather than trigger new work.",
+    "related_requirement": null,
+    "effort_changes": null,
+    "confidence": "high",
+    "evidence_refs": [
+     "metric:MET-CNEU-EU-G60-ride_comfort",
+     "metric:MET-US-US-G60-handling_manoeuvrability",
+     "metric:MET-US-US-G60-ride_comfort",
+     "metric:MET-CNEU-CN-G68-sportiness",
+     "metric:MET-CNEU-CN-G68-roadholding",
+     "REQ-G60-US-DD-03",
+     "external:EXT-E-30-1",
+     "external:EXT-E-18-2"
+    ]
+   }
+  ],
+  "optimum_version": {
+   "every_market": [
+    "Frequently used functions without menu hunting",
+    "Climate setting that is direct and remembers"
+   ],
+   "regional": [
+    {
+     "region": "EU",
+     "items": [
+      "Connected services that feel reliable and local",
+      "Electric range confidence now, with real range increase in the next generation"
+     ]
+    },
+    {
+     "region": "US",
+     "items": [
+      "Practical storage for everyday items",
+      "Hands-free tailgate that works first time"
+     ]
+    },
+    {
+     "region": "CN",
+     "items": [
+      "Connected services that feel reliable and local",
+      "China cockpit with more direct controls and stronger AI"
+     ]
+    }
+   ],
+   "next_generation": [
+    "Electric range confidence now, more real range next generation"
+   ],
+   "keep": [
+    "Keep the ride, handling and drivetrain character"
+   ]
+  },
+  "unknowns": [
+   "China has no verbatims, so China decisions rely on study and market evidence rather than direct customer text.",
+   "No country-specific external rows are stored for Japan or Korea, so regional calls there stay low-confidence unless shared with larger markets.",
+   "The stored catalogue is the German price list, so regional standard-content differences outside Germany are not fully visible.",
+   "No stored rival-by-rival comparison answers how far competitors in each region outperform the 5 Series on connected services or storage.",
+   "EU luggage and rear-space dissatisfaction is clear, but the stored evidence does not isolate whether the best fix is trim, seat, opening geometry or a larger body-package change."
+  ]
+ },
+ "topics": [
+  {
+   "horizon": "H1",
+   "evidence_by_region": {
+    "EU": 6,
+    "US": 7,
+    "CN": 5
+   },
+   "subsystems": {
+    "body_structure": 1,
+    "chassis": 1,
+    "thermal_hvac": 2,
+    "software_hmi": 12,
+    "interior_console": 5
+   }
+  },
+  {
+   "horizon": "H1",
+   "evidence_by_region": {
+    "EU": 4,
+    "US": 3,
+    "CN": 1
+   },
+   "subsystems": {
+    "body_structure": 1,
+    "chassis": 1,
+    "thermal_hvac": 4,
+    "software_hmi": 4,
+    "interior_console": 3
+   }
+  },
+  {
+   "horizon": "H2",
+   "evidence_by_region": {
+    "EU": 7,
+    "US": 6,
+    "CN": 1
+   },
+   "subsystems": {
+    "powertrain": 4,
+    "hv_battery": 5,
+    "software_hmi": 1,
+    "interior_console": 1,
+    "charging": 4
+   }
+  },
+  {
+   "horizon": "H1",
+   "evidence_by_region": {
+    "EU": 3,
+    "US": 3,
+    "CN": 4
+   },
+   "subsystems": {
+    "software_hmi": 4
+   }
+  },
+  {
+   "horizon": "H1",
+   "evidence_by_region": {
+    "EU": 1,
+    "US": 1,
+    "CN": 9
+   },
+   "subsystems": {
+    "software_hmi": 6,
+    "interior_console": 2
+   }
+  },
+  {
+   "horizon": "H1",
+   "evidence_by_region": {
+    "EU": 5,
+    "US": 4,
+    "CN": 2
+   },
+   "subsystems": {
+    "body_structure": 4,
+    "thermal_hvac": 1,
+    "software_hmi": 1,
+    "interior_console": 1
+   }
+  },
+  {
+   "horizon": "H1",
+   "evidence_by_region": {
+    "EU": 1,
+    "US": 3,
+    "CN": 2
+   },
+   "subsystems": {
+    "body_structure": 1,
+    "chassis": 1,
+    "powertrain": 1,
+    "software_hmi": 1,
+    "interior_console": 3
+   }
+  },
+  {
+   "horizon": "H1",
+   "evidence_by_region": {
+    "EU": 1,
+    "US": 2,
+    "CN": 1
+   },
+   "subsystems": {
+    "body_structure": 2
+   }
+  },
+  {
+   "horizon": "H1",
+   "evidence_by_region": {
+    "EU": 2,
+    "US": 3,
+    "CN": 3
+   },
+   "subsystems": {
+    "body_structure": 1,
+    "chassis": 3,
+    "powertrain": 1,
+    "thermal_hvac": 1,
+    "software_hmi": 2,
+    "interior_console": 1
+   }
+  }
+ ],
+ "effort": {
+  "method": "CPM, share of the development effort of a new vehicle generation; never money; every model input is an uncalibrated assumption (config/effort/model.yaml)",
+  "model_hash": "789fcb7624b8",
+  "recommendations": [
+   {
+    "source": "change profile of REQ-G60-US-ID-01",
+    "flags": [],
+    "evidence_subsystems": {
+     "body_structure": 1,
+     "chassis": 1,
+     "thermal_hvac": 2,
+     "software_hmi": 12,
+     "interior_console": 5
+    },
+    "size_references": [],
+    "status": "estimated",
+    "effort_pct": 3.05,
+    "p5": 1.47,
+    "p95": 5.48,
+    "decision": "adapt",
+    "decision_stable_pct": 100.0,
+    "layer": "K2",
+    "size": "S",
+    "certification": false,
+    "subsystems": [
+     {
+      "subsystem": "software_hmi",
+      "name": "Software/HMI",
+      "risk": 0.1812,
+      "effort_pct": 1.81,
+      "path": null
+     },
+     {
+      "subsystem": "interior_console",
+      "name": "Interior/console",
+      "risk": 0.1,
+      "effort_pct": 0.7,
+      "path": null
+     },
+     {
+      "subsystem": "ee_architecture",
+      "name": "E/E architecture",
+      "risk": 0.0389,
+      "effort_pct": 0.35,
+      "path": [
+       "Interior/console",
+       "E/E architecture"
+      ]
+     },
+     {
+      "subsystem": "seats",
+      "name": "Seats",
+      "risk": 0.02,
+      "effort_pct": 0.1,
+      "path": [
+       "Interior/console",
+       "Seats"
+      ]
+     }
+    ],
+    "portfolio": [],
+    "changes": [
+     {
+      "subsystem": "software_hmi",
+      "own_impact": 0.1,
+      "layer": "K2",
+      "carryover": false,
+      "why": "Shortcut layer and widget placement for ten functions",
+      "portfolio_terms": []
+     },
+     {
+      "subsystem": "interior_console",
+      "own_impact": 0.1,
+      "layer": "K2",
+      "carryover": false,
+      "why": "Physical controls where the panel allows them",
+      "portfolio_terms": []
+     }
+    ]
+   },
+   {
+    "source": "change profile of REQ-G60-US-IC-02",
+    "flags": [],
+    "evidence_subsystems": {
+     "body_structure": 1,
+     "chassis": 1,
+     "thermal_hvac": 4,
+     "software_hmi": 4,
+     "interior_console": 3
+    },
+    "size_references": [],
+    "status": "estimated",
+    "effort_pct": 2.58,
+    "p5": 1.25,
+    "p95": 4.75,
+    "decision": "adapt",
+    "decision_stable_pct": 100.0,
+    "layer": "K2",
+    "size": "S",
+    "certification": false,
+    "subsystems": [
+     {
+      "subsystem": "software_hmi",
+      "name": "Software/HMI",
+      "risk": 0.114,
+      "effort_pct": 1.14,
+      "path": [
+       "Interior/console",
+       "E/E architecture",
+       "Software/HMI"
+      ]
+     },
+     {
+      "subsystem": "thermal_hvac",
+      "name": "Thermal/HVAC",
+      "risk": 0.1064,
+      "effort_pct": 0.64,
+      "path": null
+     },
+     {
+      "subsystem": "ee_architecture",
+      "name": "E/E architecture",
+      "risk": 0.0445,
+      "effort_pct": 0.4,
+      "path": [
+       "Thermal/HVAC",
+       "E/E architecture"
+      ]
+     },
+     {
+      "subsystem": "interior_console",
+      "name": "Interior/console",
+      "risk": 0.05,
+      "effort_pct": 0.35,
+      "path": null
+     }
+    ],
+    "portfolio": [],
+    "changes": [
+     {
+      "subsystem": "thermal_hvac",
+      "own_impact": 0.1,
+      "layer": "K2",
+      "carryover": false,
+      "why": "Vent and blower tuning for heat-soak cool-down",
+      "portfolio_terms": []
+     },
+     {
+      "subsystem": "interior_console",
+      "own_impact": 0.05,
+      "layer": "K1",
+      "carryover": false,
+      "why": "Always-visible temperature and fan control",
+      "portfolio_terms": []
+     },
+     {
+      "subsystem": "software_hmi",
+      "own_impact": 0.03,
+      "layer": "K1",
+      "carryover": false,
+      "why": "Persist recirculation, sync and seat-ventilation defaults per profile",
+      "portfolio_terms": []
+     }
+    ]
+   },
+   {
+    "source": "change profile of REQ-G60-US-PR-03",
+    "flags": [],
+    "evidence_subsystems": {
+     "powertrain": 4,
+     "hv_battery": 5,
+     "software_hmi": 1,
+     "interior_console": 1,
+     "charging": 4
+    },
+    "size_references": [],
+    "status": "estimated",
+    "effort_pct": 48.98,
+    "p5": 36.73,
+    "p95": 56.87,
+    "decision": "new generation",
+    "decision_stable_pct": 100.0,
+    "layer": "K3",
+    "size": "L",
+    "certification": true,
+    "subsystems": [
+     {
+      "subsystem": "hv_battery",
+      "name": "HV battery",
+      "risk": 1.0,
+      "effort_pct": 10.0,
+      "path": null
+     },
+     {
+      "subsystem": "body_structure",
+      "name": "Body/structure",
+      "risk": 0.4216,
+      "effort_pct": 7.59,
+      "path": [
+       "HV battery",
+       "Body/structure"
+      ]
+     },
+     {
+      "subsystem": "software_hmi",
+      "name": "Software/HMI",
+      "risk": 0.4475,
+      "effort_pct": 4.47,
+      "path": [
+       "HV battery",
+       "E/E architecture",
+       "Software/HMI"
+      ]
+     },
+     {
+      "subsystem": "ee_architecture",
+      "name": "E/E architecture",
+      "risk": 0.4667,
+      "effort_pct": 4.2,
+      "path": [
+       "HV battery",
+       "E/E architecture"
+      ]
+     }
+    ],
+    "portfolio": [],
+    "changes": [
+     {
+      "subsystem": "hv_battery",
+      "own_impact": 1.0,
+      "layer": "K3",
+      "carryover": false,
+      "why": "New cell and pack generation for more range (same case as the Gen6 anchor)",
+      "portfolio_terms": []
+     }
+    ]
+   },
+   {
+    "source": "analyst's change profile",
+    "flags": [
+     {
+      "level": "info",
+      "rule": "43",
+      "text": "software_hmi: already standard on G60 (standard on 10, optional on 0 of 10 G60 variants); check whether only configuration (K0) is needed"
+     }
+    ],
+    "evidence_subsystems": {
+     "software_hmi": 4
+    },
+    "size_references": [
+     {
+      "subsystem": "software_hmi",
+      "own_impact": 0.04,
+      "references": 33,
+      "nearest_below": {
+       "own_impact": 0.04,
+       "layer": "K1",
+       "carryover": false,
+       "source": "REQ-G70-US-ID-03",
+       "label": "Rear view on demand, wireless streaming to the theatre screen"
+      },
+      "nearest_above": {
+       "own_impact": 0.04,
+       "layer": "K1",
+       "carryover": false,
+       "source": "REQ-F70-EU-ID-06",
+       "label": "Route preferences, road-class filter, zoom without the touch screen"
+      }
+     }
+    ],
+    "status": "estimated",
+    "effort_pct": 0.42,
+    "p5": 0.18,
+    "p95": 0.75,
+    "decision": "adapt",
+    "decision_stable_pct": 100.0,
+    "layer": "K1",
+    "size": "XS",
+    "certification": false,
+    "subsystems": [
+     {
+      "subsystem": "software_hmi",
+      "name": "Software/HMI",
+      "risk": 0.04,
+      "effort_pct": 0.4,
+      "path": null
+     },
+     {
+      "subsystem": "ee_architecture",
+      "name": "E/E architecture",
+      "risk": 0.0027,
+      "effort_pct": 0.02,
+      "path": [
+       "Software/HMI",
+       "E/E architecture"
+      ]
+     }
+    ],
+    "portfolio": [
+     {
+      "subsystem": "software_hmi",
+      "terms": [
+       "ConnectedDrive",
+       "Navigation",
+       "BMW ID"
+      ],
+      "level": 0,
+      "vehicles": {
+       "G60": {
+        "status": "standard",
+        "item": "ConnectedDrive Services"
+       }
+      },
+      "own_variants": {
+       "standard": 10,
+       "optional": 0,
+       "total": 10
+      }
+     }
+    ],
+    "changes": [
+     {
+      "subsystem": "software_hmi",
+      "own_impact": 0.04,
+      "layer": "K1",
+      "carryover": false,
+      "why": "A reliability and service-flow update is comparable to the stored profile for profile persistence and smaller than the OS7 OTA reference.",
+      "portfolio_terms": [
+       "ConnectedDrive",
+       "Navigation",
+       "BMW ID"
+      ]
+     }
+    ]
+   },
+   {
+    "source": "analyst's change profile",
+    "flags": [
+     {
+      "level": "info",
+      "rule": "43",
+      "text": "software_hmi: already standard on G60 (standard on 10, optional on 0 of 10 G60 variants); check whether only configuration (K0) is needed"
+     },
+     {
+      "level": "info",
+      "rule": "43",
+      "text": "interior_console: already standard on G60 (standard on 10, optional on 0 of 10 G60 variants); check whether only configuration (K0) is needed"
+     }
+    ],
+    "evidence_subsystems": {
+     "software_hmi": 6,
+     "interior_console": 2
+    },
+    "size_references": [
+     {
+      "subsystem": "software_hmi",
+      "own_impact": 0.1,
+      "references": 33,
+      "nearest_below": {
+       "own_impact": 0.1,
+       "layer": "K2",
+       "carryover": false,
+       "source": "REQ-G70-US-ID-01",
+       "label": "Shortcut concept and reliable voice commands"
+      },
+      "nearest_above": {
+       "own_impact": 0.1,
+       "layer": "K2",
+       "carryover": false,
+       "source": "REQ-G60-US-ID-01",
+       "label": "Shortcut layer and widget placement for ten functions"
+      }
+     },
+     {
+      "subsystem": "interior_console",
+      "own_impact": 0.05,
+      "references": 19,
+      "nearest_below": {
+       "own_impact": 0.05,
+       "layer": "K1",
+       "carryover": false,
+       "source": "REQ-G70-US-ID-04",
+       "label": "Audio tuning and speaker placement"
+      },
+      "nearest_above": {
+       "own_impact": 0.05,
+       "layer": "K1",
+       "carryover": false,
+       "source": "REQ-F70-EU-IC-03",
+       "label": "Light guides and default brightness"
+      }
+     }
+    ],
+    "status": "estimated",
+    "effort_pct": 2.06,
+    "p5": 0.99,
+    "p95": 3.64,
+    "decision": "adapt",
+    "decision_stable_pct": 100.0,
+    "layer": "K2",
+    "size": "S",
+    "certification": false,
+    "subsystems": [
+     {
+      "subsystem": "software_hmi",
+      "name": "Software/HMI",
+      "risk": 0.1413,
+      "effort_pct": 1.41,
+      "path": null
+     },
+     {
+      "subsystem": "interior_console",
+      "name": "Interior/console",
+      "risk": 0.05,
+      "effort_pct": 0.35,
+      "path": null
+     },
+     {
+      "subsystem": "ee_architecture",
+      "name": "E/E architecture",
+      "risk": 0.0229,
+      "effort_pct": 0.21,
+      "path": [
+       "Interior/console",
+       "E/E architecture"
+      ]
+     },
+     {
+      "subsystem": "seats",
+      "name": "Seats",
+      "risk": 0.01,
+      "effort_pct": 0.05,
+      "path": [
+       "Interior/console",
+       "Seats"
+      ]
+     }
+    ],
+    "portfolio": [
+     {
+      "subsystem": "software_hmi",
+      "terms": [
+       "ConnectedDrive",
+       "BMW Intelligent Personal Assistant",
+       "Navigation"
+      ],
+      "level": 0,
+      "vehicles": {
+       "G60": {
+        "status": "standard",
+        "item": "ConnectedDrive Services"
+       }
+      },
+      "own_variants": {
+       "standard": 10,
+       "optional": 0,
+       "total": 10
+      }
+     },
+     {
+      "subsystem": "interior_console",
+      "terms": [
+       "Klima",
+       "iDrive",
+       "defroster"
+      ],
+      "level": 0,
+      "vehicles": {
+       "F70": {
+        "status": "standard",
+        "item": "2-zone automatic climate control with extended features"
+       },
+       "G60": {
+        "status": "standard",
+        "item": "Automatic climate control"
+       },
+       "G70": {
+        "status": "standard",
+        "item": "BMW Panoramic iDrive"
+       }
+      },
+      "own_variants": {
+       "standard": 10,
+       "optional": 0,
+       "total": 10
+      }
+     }
+    ],
+    "changes": [
+     {
+      "subsystem": "software_hmi",
+      "own_impact": 0.1,
+      "layer": "K2",
+      "carryover": false,
+      "why": "A China-specific shortcut and assistant layer is comparable to the stored H1 direct-controls requirement and still below a full OS replacement.",
+      "portfolio_terms": [
+       "ConnectedDrive",
+       "BMW Intelligent Personal Assistant",
+       "Navigation"
+      ]
+     },
+     {
+      "subsystem": "interior_console",
+      "own_impact": 0.05,
+      "layer": "K1",
+      "carryover": false,
+      "why": "Limited direct-control additions or repurposed controls fit the current panel better than a new console module.",
+      "portfolio_terms": [
+       "Klima",
+       "iDrive",
+       "defroster"
+      ]
+     }
+    ]
+   },
+   {
+    "source": null,
+    "flags": [],
+    "evidence_subsystems": {
+     "body_structure": 4,
+     "thermal_hvac": 1,
+     "software_hmi": 1,
+     "interior_console": 1
+    },
+    "size_references": [],
+    "status": "no_vehicle_change"
+   },
+   {
+    "source": "change profile of REQ-G60-US-SP-02",
+    "flags": [],
+    "evidence_subsystems": {
+     "body_structure": 1,
+     "chassis": 1,
+     "powertrain": 1,
+     "software_hmi": 1,
+     "interior_console": 3
+    },
+    "size_references": [],
+    "status": "estimated",
+    "effort_pct": 2.08,
+    "p5": 0.94,
+    "p95": 4.07,
+    "decision": "adapt",
+    "decision_stable_pct": 100.0,
+    "layer": "K1",
+    "size": "S",
+    "certification": false,
+    "subsystems": [
+     {
+      "subsystem": "software_hmi",
+      "name": "Software/HMI",
+      "risk": 0.0902,
+      "effort_pct": 0.9,
+      "path": [
+       "Interior/console",
+       "E/E architecture",
+       "Software/HMI"
+      ]
+     },
+     {
+      "subsystem": "interior_console",
+      "name": "Interior/console",
+      "risk": 0.1,
+      "effort_pct": 0.7,
+      "path": null
+     },
+     {
+      "subsystem": "ee_architecture",
+      "name": "E/E architecture",
+      "risk": 0.0325,
+      "effort_pct": 0.29,
+      "path": [
+       "Interior/console",
+       "E/E architecture"
+      ]
+     },
+     {
+      "subsystem": "seats",
+      "name": "Seats",
+      "risk": 0.02,
+      "effort_pct": 0.1,
+      "path": [
+       "Interior/console",
+       "Seats"
+      ]
+     }
+    ],
+    "portfolio": [],
+    "changes": [
+     {
+      "subsystem": "interior_console",
+      "own_impact": 0.1,
+      "layer": "K1",
+      "carryover": false,
+      "why": "Seat-back pockets, sunglasses holder, covered tray, larger door pockets",
+      "portfolio_terms": []
+     }
+    ]
+   },
+   {
+    "source": "change profile of REQ-G60-US-SP-01",
+    "flags": [],
+    "evidence_subsystems": {
+     "body_structure": 2
+    },
+    "size_references": [],
+    "status": "estimated",
+    "effort_pct": 0.61,
+    "p5": 0.29,
+    "p95": 1.17,
+    "decision": "adapt",
+    "decision_stable_pct": 100.0,
+    "layer": "K1",
+    "size": "XS",
+    "certification": false,
+    "subsystems": [
+     {
+      "subsystem": "exterior_design",
+      "name": "Exterior design",
+      "risk": 0.04,
+      "effort_pct": 0.24,
+      "path": null
+     },
+     {
+      "subsystem": "software_hmi",
+      "name": "Software/HMI",
+      "risk": 0.0179,
+      "effort_pct": 0.18,
+      "path": [
+       "Exterior design",
+       "E/E architecture",
+       "Software/HMI"
+      ]
+     },
+     {
+      "subsystem": "body_structure",
+      "name": "Body/structure",
+      "risk": 0.0027,
+      "effort_pct": 0.05,
+      "path": [
+       "Exterior design",
+       "Body/structure"
+      ]
+     },
+     {
+      "subsystem": "chassis",
+      "name": "Chassis",
+      "risk": 0.0053,
+      "effort_pct": 0.05,
+      "path": [
+       "Exterior design",
+       "Body/structure",
+       "Chassis"
+      ]
+     }
+    ],
+    "portfolio": [],
+    "changes": [
+     {
+      "subsystem": "exterior_design",
+      "own_impact": 0.04,
+      "layer": "K1",
+      "carryover": false,
+      "why": "Kick-sensor calibration and a close button on the lid",
+      "portfolio_terms": []
+     }
+    ]
+   },
+   {
+    "source": null,
+    "flags": [],
+    "evidence_subsystems": {
+     "body_structure": 1,
+     "chassis": 3,
+     "powertrain": 1,
+     "thermal_hvac": 1,
+     "software_hmi": 2,
+     "interior_console": 1
+    },
+    "size_references": [],
+    "status": "no_vehicle_change"
+   }
+  ],
+  "packages": [
+   {
+    "horizon": "H1",
+    "proposals": 6,
+    "sum_of_single_pct": 10.8,
+    "effort_pct": 9.28,
+    "p5": 4.87,
+    "p95": 15.14,
+    "decision": "adapt",
+    "decision_stable_pct": 94.5,
+    "layer": "K2",
+    "size": "M",
+    "certification": false,
+    "subsystems": [
+     {
+      "subsystem": "software_hmi",
+      "name": "Software/HMI",
+      "risk": 0.4656,
+      "effort_pct": 4.66,
+      "path": null
+     },
+     {
+      "subsystem": "interior_console",
+      "name": "Interior/console",
+      "risk": 0.2719,
+      "effort_pct": 1.9,
+      "path": null
+     },
+     {
+      "subsystem": "ee_architecture",
+      "name": "E/E architecture",
+      "risk": 0.1392,
+      "effort_pct": 1.25,
+      "path": [
+       "Interior/console",
+       "E/E architecture"
+      ]
+     },
+     {
+      "subsystem": "thermal_hvac",
+      "name": "Thermal/HVAC",
+      "risk": 0.1378,
+      "effort_pct": 0.83,
+      "path": null
+     },
+     {
+      "subsystem": "seats",
+      "name": "Seats",
+      "risk": 0.0595,
+      "effort_pct": 0.3,
+      "path": [
+       "Interior/console",
+       "Seats"
+      ]
+     },
+     {
+      "subsystem": "exterior_design",
+      "name": "Exterior design",
+      "risk": 0.04,
+      "effort_pct": 0.24,
+      "path": null
+     }
+    ],
+    "not_counted": [],
+    "flags": []
+   },
+   {
+    "horizon": "H2",
+    "proposals": 1,
+    "sum_of_single_pct": 48.98,
+    "effort_pct": 48.98,
+    "p5": 36.73,
+    "p95": 56.87,
+    "decision": "new generation",
+    "decision_stable_pct": 100.0,
+    "layer": "K3",
+    "size": "L",
+    "certification": true,
+    "subsystems": [
+     {
+      "subsystem": "hv_battery",
+      "name": "HV battery",
+      "risk": 1.0,
+      "effort_pct": 10.0,
+      "path": null
+     },
+     {
+      "subsystem": "body_structure",
+      "name": "Body/structure",
+      "risk": 0.4216,
+      "effort_pct": 7.59,
+      "path": [
+       "HV battery",
+       "Body/structure"
+      ]
+     },
+     {
+      "subsystem": "software_hmi",
+      "name": "Software/HMI",
+      "risk": 0.4475,
+      "effort_pct": 4.47,
+      "path": [
+       "HV battery",
+       "E/E architecture",
+       "Software/HMI"
+      ]
+     },
+     {
+      "subsystem": "ee_architecture",
+      "name": "E/E architecture",
+      "risk": 0.4667,
+      "effort_pct": 4.2,
+      "path": [
+       "HV battery",
+       "E/E architecture"
+      ]
+     },
+     {
+      "subsystem": "thermal_hvac",
+      "name": "Thermal/HVAC",
+      "risk": 0.5437,
+      "effort_pct": 3.26,
+      "path": [
+       "HV battery",
+       "Thermal/HVAC"
+      ]
+     },
+     {
+      "subsystem": "chassis",
+      "name": "Chassis",
+      "risk": 0.3112,
+      "effort_pct": 3.11,
+      "path": [
+       "HV battery",
+       "Chassis"
+      ]
+     }
+    ],
+    "not_counted": [],
+    "flags": []
+   }
+  ],
+  "open_faults": []
+ },
+ "citations": {
+  "cited": 76,
+  "unknown": [
+   "FND-G60-EU-VOC-speed_limit_assistant"
+  ]
+ },
+ "trace": {
+  "steps": 4,
+  "cached_steps": 0,
+  "hit_step_limit": false,
+  "cost_usd": 0.3991,
+  "tool_calls": [
+   {
+    "tool": "get_equipment",
+    "args": {
+     "vehicle": "G60",
+     "query": "Klima",
+     "limit": 20
+    },
+    "total": 3
+   },
+   {
+    "tool": "get_equipment",
+    "args": {
+     "vehicle": "G60",
+     "query": "Parking",
+     "limit": 20
+    },
+    "total": 2
+   },
+   {
+    "tool": "get_equipment",
+    "args": {
+     "vehicle": "G60",
+     "query": "Head-Up",
+     "limit": 20
+    },
+    "total": 0
+   },
+   {
+    "tool": "get_equipment",
+    "args": {
+     "vehicle": "G60",
+     "query": "Sitzheizung",
+     "limit": 20
+    },
+    "total": 1
+   },
+   {
+    "tool": "get_external_evidence",
+    "args": {
+     "market": "EU",
+     "vehicle": "G60",
+     "topic": "physical_controls",
+     "limit": 10
+    },
+    "total": 7
+   },
+   {
+    "tool": "get_external_evidence",
+    "args": {
+     "market": "US",
+     "vehicle": "G60",
+     "topic": "physical_controls",
+     "limit": 10
+    },
+    "total": 3
+   },
+   {
+    "tool": "get_external_evidence",
+    "args": {
+     "market": "CN",
+     "vehicle": "G68",
+     "topic": "physical_controls",
+     "limit": 10
+    },
+    "total": 6
+   },
+   {
+    "tool": "get_external_evidence",
+    "args": {
+     "market": "CN",
+     "vehicle": "G68",
+     "topic": "voice_ai_assistant",
+     "limit": 10
+    },
+    "total": 6
+   },
+   {
+    "tool": "get_external_evidence",
+    "args": {
+     "market": "US",
+     "vehicle": "G60",
+     "topic": "charging_experience",
+     "limit": 10
+    },
+    "total": 2
+   },
+   {
+    "tool": "get_external_evidence",
+    "args": {
+     "market": "EU",
+     "vehicle": "G60",
+     "topic": "charging_infrastructure",
+     "limit": 10
+    },
+    "total": 2
+   },
+   {
+    "tool": "get_requirements",
+    "args": {
+     "vehicle": "G60",
+     "market": "US"
+    },
+    "total": 20
+   },
+   {
+    "tool": "get_effort",
+    "args": {
+     "vehicle": "G60",
+     "market": "US",
+     "scenarios": true
+    },
+    "total": 20
+   },
+   {
+    "tool": "get_findings",
+    "args": {
+     "vehicle": "G60",
+     "market": "EU",
+     "domain": "software_hmi",
+     "limit": 20
+    },
+    "total": null
+   },
+   {
+    "tool": "get_findings",
+    "args": {
+     "vehicle": "G68",
+     "market": "CN",
+     "limit": 20
+    },
+    "total": 17
+   },
+   {
+    "tool": "get_findings",
+    "args": {
+     "vehicle": "G60",
+     "market": "EU",
+     "domain": "body_structure",
+     "limit": 20
+    },
+    "total": null
+   },
+   {
+    "tool": "get_findings",
+    "args": {
+     "vehicle": "G60",
+     "market": "EU",
+     "domain": "space_practicality",
+     "limit": 20
+    },
+    "total": 7
+   },
+   {
+    "tool": "get_findings",
+    "args": {
+     "vehicle": "G60",
+     "market": "US",
+     "domain": "space_practicality",
+     "limit": 20
+    },
+    "total": 20
+   }
+  ],
+  "llm_call_ids": [
+   91,
+   92,
+   93,
+   94
+  ]
+ }
+}

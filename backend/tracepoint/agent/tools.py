@@ -259,8 +259,26 @@ class EquipmentArgs(BaseModel):
     limit: int = Field(30, ge=1, le=200)
 
 
+def _unknown_domain(session: Session, domain: str | None) -> dict[str, Any] | None:
+    """A filter on a domain that does not exist finds nothing and would read as "no rows"; say
+    what the domains are instead (a CPM subsystem key is the usual mix-up)."""
+    from tracepoint.reports.baseline import _domain_names
+
+    names = _domain_names(session)
+    if not domain or not names or domain in names:
+        return None
+    return {
+        "error": f"unknown domain {domain!r}; a domain is a vehicle domain, not a CPM subsystem",
+        "domains": list(names),
+    }
+
+
 def get_equipment(session: Session, a: EquipmentArgs) -> dict[str, Any]:
-    """Catalogue items with price and standard / optional / not-available status per variant."""
+    """Catalogue items (German price list) with price and standard / optional / not-available
+    status per variant. Search with query: a word of the item name, German or English, e.g.
+    'Klima', 'Sitzheizung', 'Head-Up', 'charging'. domain is a vehicle domain key."""
+    if problem := _unknown_domain(session, a.domain):
+        return problem
     rows = api.equipment(vehicle=a.vehicle, group=a.group, q=a.query, session=session)
     rows = [
         {
@@ -306,7 +324,10 @@ class FindingsArgs(BaseModel):
 
 
 def get_findings(session: Session, a: FindingsArgs) -> dict[str, Any]:
-    """Extracted findings; drill into one with the API route /findings/{id} for its evidence."""
+    """Extracted findings; drill into one with the API route /findings/{id} for its evidence.
+    domain is a vehicle domain key."""
+    if problem := _unknown_domain(session, a.domain):
+        return problem
     stmt = select(Finding).where(Finding.vehicle_code == a.vehicle, Finding.status != "withdrawn")
     for col, val in (
         (Finding.market_code, a.market),
@@ -350,8 +371,12 @@ class RequirementsArgs(BaseModel):
 
 
 def get_requirements(session: Session, a: RequirementsArgs) -> dict[str, Any]:
-    """Derived requirements with acceptance criteria, linked findings and decision status."""
+    """Derived requirements with acceptance criteria, linked findings and decision status.
+    domain is a vehicle domain key."""
     from tracepoint.requirements.report import list_requirements
+
+    if problem := _unknown_domain(session, a.domain):
+        return problem
 
     rows = [
         r
