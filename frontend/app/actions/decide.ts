@@ -1,7 +1,8 @@
 "use server";
 
+import { refresh } from "next/cache";
 import { redirect } from "next/navigation";
-import { API_URL, liveEnabled } from "@/lib/data/workspace";
+import { API_URL, liveSetting } from "@/lib/data/workspace";
 
 /*
  * Gate G2 from the requirement page (D-085): the form posts here, the
@@ -26,7 +27,8 @@ export async function decideRequirement(formData: FormData): Promise<void> {
   // Only a workspace page of ours is a valid return address.
   const back = /^\/markets\/[a-z]{2}\/[a-z0-9]{3}\/requirements\/[a-z0-9-]+$/.test(backRaw) ? backRaw : "/";
   const outcome = (status: string, reason?: string) => `${back}?decision=${status}${reason ? `&reason=${encodeURIComponent(reason.slice(0, 200))}` : ""}#decision`;
-  if (!liveEnabled()) redirect(outcome("offline"));
+  // Only a Tracepoint set to the stored data refuses; otherwise the API answers or the failure says it did not.
+  if (liveSetting() === "off") redirect(outcome("offline"));
   if (!ID.test(id) || !DECISIONS.has(decision)) redirect(outcome("invalid"));
   if (note.length < 3) redirect(outcome("note"));
   let failure: string | null = null;
@@ -51,5 +53,7 @@ export async function decideRequirement(formData: FormData): Promise<void> {
   } catch {
     failure = "unreachable";
   }
+  // The scope layout's stage bar counts the decisions: render it again with the page.
+  if (!failure) refresh();
   redirect(failure ? outcome("failed", failure) : outcome(decision));
 }

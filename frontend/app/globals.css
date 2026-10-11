@@ -19,6 +19,8 @@
 
   --ease-out: cubic-bezier(0.25, 1, 0.5, 1);
   --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  /* Moves that start on a click: under way at once, a long settle (step 20). */
+  --ease-emphasized: cubic-bezier(0.2, 0, 0, 1);
 
   --radius: 0.25rem;
 }
@@ -1205,6 +1207,23 @@ a.stage-link:hover .stage-name {
 }
 .stage-pending {
   min-height: 240px;
+}
+/* A screen's place while its content is read: the line shows only when the read takes longer than a moment (step 20). */
+.stage-wait {
+  min-height: 240px;
+  padding-top: 4px;
+}
+.stage-wait-line {
+  color: var(--color-ink-2);
+  font-size: 0.8125rem;
+  line-height: 1.45;
+  opacity: 0;
+  animation: wait-in 0.24s var(--ease-out) 0.9s forwards;
+}
+@keyframes wait-in {
+  to {
+    opacity: 1;
+  }
 }
 .stage-source {
   margin-top: 28px;
@@ -2697,6 +2716,80 @@ body:has(.cpmx[open]) {
   }
 }
 
+/* ---------- step 20: motion between the screens (forbidden list exemptions E6 and E7) ---------- */
+
+/*
+ * The car is the one part of the page that moves between the screens: the
+ * root is left out of view transitions, so the browser captures only the
+ * car (cheap) and the rest of the page changes live, without a crossfade.
+ * Clicks go through to the page while the car moves.
+ */
+:root {
+  view-transition-name: none;
+}
+::view-transition {
+  pointer-events: none;
+}
+
+/* The car between the stage and the header's corner (VehicleDock, E7). */
+::view-transition-group(.vehicle-dock) {
+  animation-duration: 0.45s;
+  animation-timing-function: var(--ease-emphasized);
+}
+::view-transition-old(.vehicle-dock),
+::view-transition-new(.vehicle-dock) {
+  animation-duration: 0.45s;
+  animation-timing-function: var(--ease-emphasized);
+}
+
+/* The car in the header's corner, on every screen of the scope but the vehicle screen. */
+.workspace-head-text {
+  min-width: 0;
+}
+.workspace-dock {
+  display: block;
+  flex: none;
+  width: 176px;
+  margin-left: auto;
+  border-radius: calc(var(--radius) * 1.5);
+}
+.workspace-dock .vehicle-lines {
+  transition: background 0.18s var(--ease-out);
+}
+.workspace-dock:hover .vehicle-lines,
+.workspace-dock:focus-visible .vehicle-lines {
+  background: var(--vehicle-line-active);
+}
+.stage-bar-frame {
+  height: 48px;
+}
+/* The part of a screen read at request time sits in the flow of the screen's own blocks (Reveal). */
+.stage-content {
+  display: contents;
+}
+/* A stage clicked before its frame was prefetched shows its rule faintly until the navigation commits. */
+.stage-link {
+  position: relative;
+}
+.stage-pending-rule {
+  position: absolute;
+  right: 0;
+  bottom: -2px;
+  left: 0;
+  height: 2px;
+  background: var(--color-blue);
+  opacity: 0;
+  transition: opacity 0.12s var(--ease-out);
+}
+.stage-pending-rule[data-pending="true"] {
+  opacity: 0.4;
+}
+@media (max-width: 599px) {
+  .workspace-dock {
+    display: none;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .brand-mark,
   .brand-name,
@@ -2714,5 +2807,17 @@ body:has(.cpmx[open]) {
     stroke-dasharray: none;
     stroke-dashoffset: 0;
     animation: none;
+  }
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
+  .stage-wait-line {
+    animation-duration: 1ms;
+  }
+  .workspace-dock .vehicle-lines,
+  .stage-pending-rule {
+    transition: none;
   }
 }

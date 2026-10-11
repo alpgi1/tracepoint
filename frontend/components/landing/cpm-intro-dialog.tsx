@@ -5,7 +5,7 @@ import type { CpmIntro, IntroExample, IntroNode } from "@/lib/content/cpm-intro"
 import { site } from "@/lib/site";
 
 /*
- * The CPM explainer the brand mark opens (step 20, D-107): a dialog over the
+ * The CPM explainer the brand mark opens (step 20, D-112): a dialog over the
  * centre of the map, not the whole screen, that says in three numbered steps
  * what the Change Prediction Method does and shows it on one documented BMW
  * decision per effort class from the engine's back-test: the subsystem where
@@ -15,7 +15,7 @@ import { site } from "@/lib/site";
  * and read in about fifteen seconds.
  *
  * Method after the 21st.dev survey of step 20 (frontend/docs/01-research-notes.md
- * 6.6): the anatomy of the onboarding dialogs (the visual first, a short
+ * 6.7): the anatomy of the onboarding dialogs (the visual first, a short
  * title, a few lines of text, one way out) and the curved connectors
  * between node boxes of Magic UI's Animated Beam (Dillion Verma, MIT),
  * drawn here once per opening instead of the beam's endless gradient loop.

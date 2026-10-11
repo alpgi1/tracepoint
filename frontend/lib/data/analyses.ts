@@ -64,7 +64,7 @@ async function get<T>(path: string): Promise<T> {
 /** The briefs of a scope at request time: the situation brief and the series brief, each read live in the live mode. */
 export async function readBriefs(vehicle: string, market: string): Promise<{ situation: BriefRead | null; series: BriefRead | null }> {
   await connection();
-  if (!liveEnabled()) {
+  if (!(await liveEnabled())) {
     const found = analysesFor(vehicle, market);
     const fromStore = (item: AnalysisSummary | null): BriefRead | null => {
       const brief = item ? storedBrief(item.key) : undefined;

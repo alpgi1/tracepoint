@@ -7,7 +7,7 @@ import { BmwRoundel } from "./bmw-roundel";
 import { CpmIntroDialog } from "./cpm-intro-dialog";
 
 /*
- * The brand mark at the foot of the map (step 20, D-107): the BMW roundel
+ * The brand mark at the foot of the map (step 20, D-112): the BMW roundel
  * on the left, a hairline, the product's name, after the team's partner
  * lockup (logo, rule, name in the logo's grey). It is one button and opens
  * the CPM explainer. It hides with the callouts while the map flies and

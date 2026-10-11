@@ -3,23 +3,27 @@ import type { DrawingCode } from "./drawings";
 import type { Box } from "./layout";
 
 /**
- * Hand-over from the map to the vehicle screen. The card starts a job and
- * navigates at once; a layer in the root layout carries the car's photo
- * across the route change, moves it from the card to the place the sketch
- * has on the vehicle screen, then fades it out while that screen reveals
- * the sketch. The vehicle screen reports the exact target once it has laid
- * out, so the photo lands on the pixel; the card's computed box is the
- * fallback if the screen is slow to arrive.
+ * Hand-over from the map to the vehicle screen. The card starts a job; a
+ * layer in the root layout carries the car's photo across the route change.
+ * The photo leaves the card at once, towards the place the sketch has on
+ * the vehicle screen as the layout computes it, while a paper veil covers
+ * the map; the layer asks for the navigation once the veil is in, so the
+ * map is never seen to change. The vehicle screen reports the exact target
+ * once it has laid out (the photo then lands on the pixel), the veil clears,
+ * and the photo fades out while that screen reveals the sketch (step 20).
  */
 export interface HandoffJob {
   id: number;
   code: DrawingCode;
   src: string;
   from: Box;
-  fallbackTo: Box;
+  /** The target as computed from the layout before the vehicle screen exists. */
+  to: Box;
+  /** Called by the layer when the veil covers the map. */
+  navigate: () => void;
 }
 
-export type HandoffPhase = "veil" | "moving" | "fading" | "reveal";
+export type HandoffPhase = "veil" | "screen" | "fading" | "reveal";
 
 export interface HandoffState {
   job: HandoffJob | null;

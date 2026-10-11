@@ -43,6 +43,10 @@ export const site = {
     regionsLink: "across its regions",
     marketLink: "Market evidence",
     moreLabel: "More on this market and series",
+    /** The car in the header's corner links back to the vehicle screen (step 20). */
+    dockLabel: "Back to the situation analysis",
+    /** Shown in a screen's place only when its content takes longer than a moment to read (step 20). */
+    reading: "Reading the workspace",
   },
   /** The five stages of the scope workspace, named as on the BMW process slide (step 14, plan 08). */
   stages: {
@@ -233,6 +237,7 @@ export const site = {
       rationale: "Rationale, mandatory",
       rationaleHint: "Why this decision, for the audit trail",
       note: "A decision holds for one version of the requirement and needs a rationale; it is kept in the audit trail and survives every update of the requirement list. Decisions are recorded when Tracepoint runs live; this page shows the data as stored on",
+      notAnswering: "A decision holds for one version of the requirement and needs a rationale; it is kept in the audit trail and survives every update of the requirement list. The Tracepoint service that records decisions does not answer right now; once it runs, reload this page to decide. Until then this page shows the data as stored on",
       liveNote: "The decision is recorded in your role as product manager, with your rationale, in the audit trail, and holds for this version of the requirement.",
       recorded: "Decision recorded:",
       outcomes: { approve: "approved", reject: "rejected", defer: "deferred" } as Record<string, string>,
@@ -533,7 +538,7 @@ export const site = {
       citingNone: "No requirement of this scope cites these themes yet.",
     },
   },
-  /** The brand mark at the foot of the map and the CPM explainer it opens (step 20, D-107). */
+  /** The brand mark at the foot of the map and the CPM explainer it opens (step 20, D-112). */
   intro: {
     logo: "BMW",
     opens: "How the effort figure is made",

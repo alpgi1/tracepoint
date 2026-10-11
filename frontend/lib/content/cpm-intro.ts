@@ -2,7 +2,7 @@ import type { EffortContent } from "@/lib/data/effort";
 import type { BacktestRow, EffortDecision } from "./workspace-types";
 
 /*
- * The CPM explainer behind the brand mark on the map (step 20, D-107): what
+ * The CPM explainer behind the brand mark on the map (step 20, D-112): what
  * the Change Prediction Method does, told with the engine's own model and
  * one documented BMW decision per effort class from its back-test. Built on
  * the server from content/effort.json; the client receives only these few

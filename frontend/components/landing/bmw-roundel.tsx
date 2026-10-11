@@ -2,7 +2,7 @@
  * The BMW roundel in its grey version as BMW publishes it for the web (the
  * drawing "BMW-logo-grey-fallback-53px", taken from Wikimedia Commons,
  * File:BMW_logo_(gray).svg, on 2026-10-11, and matching the logo the team
- * supplied). A trademark of BMW AG, shown on the map by team decision D-107
+ * supplied). A trademark of BMW AG, shown on the map by team decision D-112
  * for the hackathon prototype. The paths are unchanged; only the export's
  * nested groups are flattened into the 53 by 53 drawing. The colours are the
  * logo's own, as tokens in globals.css (--bmw-blue, --bmw-grey).

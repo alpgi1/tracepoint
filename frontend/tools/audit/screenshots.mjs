@@ -11,11 +11,14 @@
  * set, 1920 px), stage 3 and the bridges, stage 4 (the evidence and effort
  * chart scrolled into view) and the method sheet,
  * and stage 5 with gate G2 (one decision is made when the app runs in the
- * live mode), and since step 20 the CPM explainer of the brand mark (one
- * state per class, a projector-sized viewport, the drawing mid-way). Run against a built app started in another shell
- * (`pnpm build && pnpm start`).
+ * live mode and TRACEPOINT_SHOTS_DECIDE=1 is set here, since the app goes
+ * live whenever the backend answers, D-106), and the motion of step 20 (the
+ * car moving into the header's corner and back, a stage's content arriving,
+ * the corner car focused, the header on a phone). Run against a built app
+ * started in another shell (`pnpm build && pnpm start`).
  *
  *   node tools/audit/screenshots.mjs http://localhost:3400 [outDir]
+ *   SHOTS_ONLY="^3[67]-" node tools/audit/screenshots.mjs http://localhost:3400 [outDir]
  *
  * Hover and click go through the real pointer: the market callout cards are
  * the market buttons, so their box tells the script where to click.
@@ -49,7 +52,11 @@ async function clickFirstCard(page) {
   await page.mouse.click(card.x + card.width / 2, card.y + card.height / 3);
 }
 
+// SHOTS_ONLY=<regular expression> takes only the matching states (the live states of step 17, for example).
+const ONLY = process.env.SHOTS_ONLY ? new RegExp(process.env.SHOTS_ONLY) : null;
+
 async function shoot(name, viewport, steps, options = {}) {
+  if (ONLY && !ONLY.test(name)) return;
   const context = await browser.newContext({
     viewport,
     deviceScaleFactor: 1,
@@ -91,15 +98,16 @@ await shoot("06-card-hover-eu-1440", desktop, async (page) => {
   await page.mouse.move(card.x + card.width / 2, card.y + card.height / 3);
   await page.waitForTimeout(300);
 });
+// Step 20: the photo leaves the card with the click; the vehicle screen is there by about 300 ms.
 await shoot("07-photo-moving-eu-1440", desktop, async (page) => {
   await selectMarket(page, "EU");
   await clickFirstCard(page);
-  await page.waitForTimeout(560);
+  await page.waitForTimeout(320);
 });
 await shoot("08-photo-fading-eu-f70-1440", desktop, async (page) => {
   await selectMarket(page, "EU");
   await clickFirstCard(page);
-  await page.waitForTimeout(1450);
+  await page.waitForTimeout(1250);
 });
 await shoot("09-vehicle-eu-f70-1440", desktop, async () => {}, { path: "/markets/eu/f70" });
 await shoot("10-vehicle-us-g70-hover-1440", desktop, async (page) => {
@@ -177,8 +185,9 @@ await shoot("32-method-us-g60-1440", desktop, async (page) => {
 await shoot("33-priorities-eu-f70-1920", wide, async () => {}, { path: "/markets/eu/f70/priorities" });
 
 // Step 17: stage 5, the decision record and the audit trail; gate G2 on the requirement page.
-// In the live mode (TRACEPOINT_LIVE=1 on the app, the backend API up) the form is live and one
-// decision is made on REQ-G60-US-PR-03 for the record; otherwise the controls are disabled.
+// In the live mode (the backend API up, unless TRACEPOINT_LIVE=0 on the app) the form is live; one
+// decision is made on REQ-G60-US-PR-03 for the record only when TRACEPOINT_SHOTS_DECIDE=1 asks for
+// it, because the backend keeps every decision. Otherwise the controls are disabled.
 await shoot("34-log-us-g60-1440", desktop, async () => {}, { path: "/markets/us/g60/log" });
 await shoot("35-requirement-us-g60-pr-03-decision-1440", desktop, async (page) => {
   await page.locator("#decision").scrollIntoViewIfNeeded();
@@ -186,7 +195,7 @@ await shoot("35-requirement-us-g60-pr-03-decision-1440", desktop, async (page) =
 }, { path: "/markets/us/g60/requirements/req-g60-us-pr-03" });
 await shoot("36-requirement-us-g60-pr-03-decided-1440", desktop, async (page) => {
   const note = page.locator("textarea[name=note]");
-  if ((await note.count()) === 0) return;
+  if (process.env.TRACEPOINT_SHOTS_DECIDE !== "1" || (await note.count()) === 0) return;
   await note.fill("Test decision from the frontend audit of step 19, to be reverted.");
   await page.getByRole("button", { name: "Defer" }).click();
   await page.waitForURL(/decision=defer/, { timeout: 15000 });
@@ -253,5 +262,27 @@ await shoot("54-explainer-spreading-1440", desktop, async (page) => {
   await page.locator(".brand-mark").click();
   await page.waitForTimeout(450);
 });
+// Step 20: the motion between the screens. The car on its way into the header's corner and back,
+// a stage's content arriving under the header that stays, the corner car with keyboard focus,
+// the header on a phone (no corner car there).
+await shoot("50-dock-moving-us-g60-1440", desktop, async (page) => {
+  await page.locator('.stage-link[href="/markets/us/g60/structure"]').click();
+  await page.waitForTimeout(220);
+}, { path: "/markets/us/g60" });
+await shoot("51-undock-moving-us-g60-1440", desktop, async (page) => {
+  await page.locator(".workspace-dock").click();
+  await page.waitForTimeout(220);
+}, { path: "/markets/us/g60/structure" });
+await shoot("52-stage-arriving-us-g60-1440", desktop, async (page) => {
+  await page.locator('.stage-link[href="/markets/us/g60/requirements"]').click();
+  await page.waitForTimeout(120);
+}, { path: "/markets/us/g60/structure" });
+await shoot("53-dock-focus-us-g60-1440", desktop, async (page) => {
+  await page.locator(".workspace-dock").focus();
+  await page.keyboard.press("Shift+Tab");
+  await page.keyboard.press("Tab");
+  await page.waitForTimeout(250);
+}, { path: "/markets/us/g60/requirements" });
+await shoot("54-structure-us-g60-375", phone, async () => {}, { path: "/markets/us/g60/structure" });
 
 await browser.close();

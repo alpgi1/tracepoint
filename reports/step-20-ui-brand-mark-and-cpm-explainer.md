@@ -6,7 +6,7 @@
 | Author | Claude (AI assistant), on request of the team |
 | Status | Done and measured |
 | Track | Frontend only; no backend code or data touched |
-| Decision | D-107 in `plan/decisions.md`; exemptions E6 and E7 in `frontend/docs/02-forbidden-list.md` |
+| Decision | D-112 in `plan/decisions.md`; exemptions E8 and E9 in `frontend/docs/02-forbidden-list.md` |
 
 ## 1. What the team asked for
 
@@ -43,7 +43,7 @@ one fits.
     `789fcb7624b8`), "every weight and link is the team's assumption, not calibrated", the
     reference (Clarkson, Simons, Eckert 2004) and the snapshot date.
   * The drawing plays once per opening and per chosen class: the start box, each further column
-    220 ms later with its links drawn in, then the dot on the scale, about one second (E7).
+    220 ms later with its links drawn in, then the dot on the scale, about one second (E9).
     Reduced motion shows it complete.
 * **The data** (`lib/content/cpm-intro.ts`): built on the server from `content/effort.json` and
   passed to the map as a few fields; nothing is computed for the screen. Per class, the example
@@ -51,7 +51,7 @@ one fits.
   most subsystems (ties to the larger effort, then the id); its subsystems become columns by
   path length, each linked to the subsystem its path arrives from, ordered by the parent's row
   and then by effort so links cross as little as possible.
-* **21st.dev survey** (`frontend/docs/01-research-notes.md` 6.6): the registry's search API now
+* **21st.dev survey** (`frontend/docs/01-research-notes.md` 6.7): the registry's search API now
   needs a key, so the public modal listing (131 demos) and the Animated Beam page were read and
   six previews rendered on a contact sheet. Taken as method: the onboarding dialog's anatomy
   (visual first, short title, a few lines, one way out) and Magic UI's Animated Beam (curved
@@ -60,8 +60,8 @@ one fits.
 * **Audit tools**: the page audit's dialog check now opens the explainer on the landing page
   (name, headings, tap targets, keyboard tour inside the dialog, Escape, focus back on the mark);
   five screenshot states (one per class, 1280 by 720, the drawing mid-way).
-* **Documents**: D-107; exemptions E6 (the roundel, by team decision, against the "no BMW logos"
-  row) and E7 (the drawing's motion), E3 revised; `03-landing-map.md` sections 1, 5, 6 and 7;
+* **Documents**: D-112; exemptions E8 (the roundel, by team decision, against the "no BMW logos"
+  row) and E9 (the drawing's motion), E3 revised; `03-landing-map.md` sections 1, 5, 6 and 7;
   `frontend/README.md`; `frontend/docs/README.md`.
 
 ## 3. What was verified
@@ -80,21 +80,21 @@ one fits.
 * Every figure is the effort snapshot's: the model's count of subsystems, thresholds, path
   length and add-on, the back-test rows and summary, the model hash and the snapshot date. The
   example is selected by a rule, not by hand.
-* The BMW roundel is the one exception to "no BMW logos or brand assets", written as E6 by team
-  decision D-107; it is unaltered and used once.
+* The BMW roundel is the one exception to "no BMW logos or brand assets", written as E8 by team
+  decision D-112; it is unaltered and used once.
 * No em or en dash, emoji, exclamation mark, cliché, question heading or decorative label
   (measured by the audit's text scan, the dialog included).
 * One accent: the start box, the links, the selected class, the dot and its range. The class
   and the figures are text; the bands and the line strength repeat what the text says.
 * Motion: only on the click that opens the explainer or picks a class, once, under 1.2 s,
-  `opacity`, `transform` and the links' dash offset (E7); nothing with reduced motion.
+  `opacity`, `transform` and the links' dash offset (E9); nothing with reduced motion.
 * No gradient, glow, shimmer, imagery or loader; the drawing is inline SVG.
 * Keyboard: the mark and every control in the explainer reachable with the ring; tap targets
   44 px or more, measured.
 * No placeholder comment, hard-coded colour in a component (the roundel's colours are tokens)
   or new dependency.
 * Team decisions changed: D-040 and E3 (the map alone on first view) now allow the brand mark;
-  the forbidden list's "no BMW logos" row has the exception E6. Both are written, at the team's
+  the forbidden list's "no BMW logos" row has the exception E8. Both are written, at the team's
   request.
 
 ## 5. Not done, and open for the team

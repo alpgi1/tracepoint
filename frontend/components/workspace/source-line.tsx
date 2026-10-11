@@ -23,7 +23,16 @@ export function SourceLine({ read }: { read: WorkspaceRead }) {
   );
 }
 
-/** The empty shell a stage shows while its body is read at request time. */
-export function StagePending() {
-  return <div className="workspace stage-pending" aria-busy="true" />;
+/**
+ * A screen's place while its content is read at request time (step 20):
+ * empty under the header, with a line that says so only when the read takes
+ * longer than a moment (globals.css delays it), so a quick read never
+ * flashes a message.
+ */
+export function StageWait() {
+  return (
+    <div className="stage-wait" aria-busy="true">
+      <p className="stage-wait-line">{site.workspace.reading}</p>
+    </div>
+  );
 }

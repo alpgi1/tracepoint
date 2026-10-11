@@ -34,7 +34,7 @@ navigates there (`/markets/<market>/<vehicle>`, see `05-vehicle-drawings.md`). E
 a click on open sea returns to the resting map. Desktop is the target; nothing is tuned for
 touch.
 
-At the foot of the resting map sits the brand mark (step 20, D-107): the BMW roundel on the
+At the foot of the resting map sits the brand mark (step 20, D-112): the BMW roundel on the
 left, a hairline, "Tracepoint" in Archivo in the roundel's grey, after the team's partner
 lockup. It is one button and opens the CPM explainer, a dialog over the middle of the map (980
 px wide at most, 665 px tall at 1440 by 900): three numbered steps on the left (the vehicle as
@@ -133,7 +133,7 @@ that turn blue on hover and vehicles as layered sketches instead of dot clouds (
 | Card click | The route changes at once; a paper veil dissolves the map (220 ms) while the photo moves from the card straight to its place on the vehicle screen (720 ms) and the veil clears; on arrival the photo fades out (900 ms) and the sketch is revealed behind it (700 ms, from 420 ms into the fade). See `05-vehicle-drawings.md` 4b | about 2.2 s in all |
 | Close, Escape, click on sea | Flight back to k = 1; the panel leaves at once; callouts return on settle | 900 ms |
 | Resize | Refit, repaint the mask, resample the dots; a selected market stays in focus | immediate |
-| Brand mark click | The explainer fades in with an 8 px rise; its drawing plays once: the start box, each further column 220 ms later with its links drawn in, then the figure's dot on the scale (E7). Choosing another class replays it | 200 ms, then about 1 s |
+| Brand mark click | The explainer fades in with an 8 px rise; its drawing plays once: the start box, each further column 220 ms later with its links drawn in, then the figure's dot on the scale (E9). Choosing another class replays it | 200 ms, then about 1 s |
 | Reduced motion | No fade, instant flights and highlights, no card growth (direct navigation), the explainer complete at once | |
 
 ## 6. Accessibility

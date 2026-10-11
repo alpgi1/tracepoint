@@ -2,7 +2,8 @@
 
 The agents write for a product manager but now and then leave a code in a sentence: a subsystem
 key (``software_hmi``), a field name (``own_impact``), a layer (``K2``), an evidence reference,
-now and then a word of marketing filler. ``plain`` turns those into the words the screens use and
+now and then a word of marketing filler or the Latin "verbatims" for the customer comments.
+``plain`` turns those into the words the screens use and
 leaves everything else as the agent wrote it; requirement ids stay, they are what a product
 manager looks up. The stored JSON keeps
 the original; the brief is a reading of it. The result is plain text: the screens render it as
@@ -62,6 +63,9 @@ FILLER = {
     "simply ": "",
 }
 _FILLER = re.compile(r"\b(" + "|".join(map(re.escape, FILLER)) + r")", re.I)
+# The screens call the customer texts "customer comments" (D-105); analyses written before the
+# prompts said so still write "verbatims". Evidence references are gone by the time this runs.
+_VERBATIM = re.compile(r"\b(?:(?P<customer>[Cc]ustomer)\s+)?(?P<v>[Vv])erbatim(?P<s>s?)\b")
 _DASH_RANGE = re.compile(r"(?<=\d)\s*[\u2013\u2014]\s*(?=\d)")
 _DASH = re.compile(r"\s*[\u2013\u2014]\s*")
 _SPACE = re.compile(r"[ \t]{2,}")
@@ -95,6 +99,11 @@ def _filler(m: re.Match[str]) -> str:
     return word[:1].upper() + word[1:] if m.group(1)[:1].isupper() else word
 
 
+def _verbatim(m: re.Match[str]) -> str:
+    customer = m.group("customer") or ("Customer" if m.group("v") == "V" else "customer")
+    return f"{customer} comment{m.group('s')}"
+
+
 def plain(text: str | None) -> str | None:
     """One sentence or paragraph of an agent in the product manager's words."""
     if text is None:
@@ -107,6 +116,7 @@ def plain(text: str | None) -> str | None:
     )
     out = _LAYER.sub(_layer, out)
     out = _FILLER.sub(_filler, out)
+    out = _VERBATIM.sub(_verbatim, out)
     out = _DASH_RANGE.sub(" to ", out)
     out = _DASH.sub(", ", out)
     out = _SPACE.sub(" ", out).replace(" ,", ",").replace(" .", ".")

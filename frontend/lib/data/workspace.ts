@@ -1,4 +1,5 @@
 import { connection } from "next/server";
+import { cache } from "react";
 import F70_EU from "@/content/workspace/F70_EU.json";
 import G60_EU from "@/content/workspace/G60_EU.json";
 import G60_US from "@/content/workspace/G60_US.json";
@@ -20,8 +21,8 @@ import type {
  * Reads of the PM workspace (plan 08 section 6, D-079 and D-085). The
  * committed snapshots under content/workspace/ (the backend API's own
  * responses written by scripts/snapshot.mjs) are the base of
- * every read. In the live mode (TRACEPOINT_LIVE=1 and the API answering at
- * TRACEPOINT_API_URL) a read replaces what changes with the API's current
+ * every read. In the live mode (the API answering at TRACEPOINT_API_URL,
+ * unless TRACEPOINT_LIVE=0) a read replaces what changes with the API's current
  * answer: the requirement list with its gate statuses, the estimates, the
  * packages, the excluded candidates, the events, and on a requirement page
  * its detail. The evidence (verbatims, metrics, catalogue items, the
@@ -57,9 +58,42 @@ export function scopesWithRequirements(): { vehicle: string; market: string }[] 
 export const API_URL = (process.env.TRACEPOINT_API_URL ?? "http://127.0.0.1:8000").replace(/\/$/, "");
 const EVENT_LIMIT = 5000;
 const TIMEOUT_MS = 4000;
+const PROBE_TIMEOUT_MS = 1500;
+const PROBE_TTL_MS = 5000;
 
-export function liveEnabled(): boolean {
-  return process.env.TRACEPOINT_LIVE === "1";
+/**
+ * TRACEPOINT_LIVE (D-106): "1" always reads and writes live, "0" only shows
+ * the stored data, and unset goes live whenever the API answers, so the
+ * gate G2 controls work as soon as the backend runs.
+ */
+export type LiveSetting = "on" | "off" | "auto";
+
+export function liveSetting(): LiveSetting {
+  const value = process.env.TRACEPOINT_LIVE;
+  return value === "1" ? "on" : value === "0" ? "off" : "auto";
+}
+
+let probe: { at: number; up: Promise<boolean> } | null = null;
+
+/**
+ * Whether a request reads and writes live. In the automatic setting the
+ * API's health check decides, asked at most once every few seconds, so a
+ * backend started after the app is picked up on the next page and pages
+ * without it stay as fast as the stored data. Request time only: callers
+ * have awaited connection() or run in a server action.
+ */
+export async function liveEnabled(): Promise<boolean> {
+  const setting = liveSetting();
+  if (setting !== "auto") return setting === "on";
+  const now = Date.now();
+  if (!probe || now - probe.at > PROBE_TTL_MS) {
+    const up = fetch(`${API_URL}/health`, { cache: "no-store", signal: AbortSignal.timeout(PROBE_TIMEOUT_MS) }).then(
+      (response) => response.ok,
+      () => false,
+    );
+    probe = { at: now, up };
+  }
+  return probe.up;
 }
 
 /** What a read of the workspace returns: the data, and whether the API or the snapshot answered. */
@@ -108,7 +142,7 @@ export async function readWorkspace(vehicle: string, market: string, options: { 
   await connection();
   const base = workspaceSnapshot(vehicle, market);
   if (!base) return undefined;
-  if (!liveEnabled()) return { snapshot: base, live: false, api: API_URL, readAt: null, reason: null };
+  if (!(await liveEnabled())) return { snapshot: base, live: false, api: API_URL, readAt: null, reason: null };
   const q = `vehicle=${base.vehicle}&market=${base.market}`;
   try {
     const [requirements, efforts, scenarios, scope, events] = await Promise.all([
@@ -131,3 +165,10 @@ export async function readWorkspace(vehicle: string, market: string, options: { 
     return { snapshot: base, live: false, api: API_URL, readAt: null, reason: error instanceof Error ? error.message : String(error) };
   }
 }
+
+/**
+ * The workspace of a scope, read once per request (step 20): the scope
+ * layout's stage figures and the page below it share the read when they
+ * render together, on a direct visit or a refresh.
+ */
+export const readScope = cache((vehicle: string, market: string) => readWorkspace(vehicle, market));
