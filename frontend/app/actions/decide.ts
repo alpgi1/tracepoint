@@ -1,5 +1,6 @@
 "use server";
 
+import { refresh } from "next/cache";
 import { redirect } from "next/navigation";
 import { API_URL, liveSetting } from "@/lib/data/workspace";
 
@@ -52,5 +53,7 @@ export async function decideRequirement(formData: FormData): Promise<void> {
   } catch {
     failure = "unreachable";
   }
+  // The scope layout's stage bar counts the decisions: render it again with the page.
+  if (!failure) refresh();
   redirect(failure ? outcome("failed", failure) : outcome(decision));
 }

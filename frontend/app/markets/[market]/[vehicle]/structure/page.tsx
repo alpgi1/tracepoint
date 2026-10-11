@@ -4,14 +4,14 @@ import { Suspense } from "react";
 import { CandidateFilters } from "@/components/workspace/candidate-filters";
 import { CandidateTable, ExcludedTable } from "@/components/workspace/candidate-table";
 import { AnalystBrief } from "@/components/workspace/analyst-brief";
-import { SourceLine, StagePending } from "@/components/workspace/source-line";
-import { WorkspaceHeader } from "@/components/workspace/workspace-header";
+import { Reveal } from "@/components/workspace/reveal";
+import { SourceLine, StageWait } from "@/components/workspace/source-line";
 import { cpmCatalogue, cpmView } from "@/lib/content/cpm";
 import { content, domainName, marketByCode, vehicleHref, vehicleIn } from "@/lib/content/markets";
 import type { MarketContent, VehicleContent } from "@/lib/content/types";
 import type { WorkspaceSnapshot } from "@/lib/content/workspace-types";
 import { readBriefs } from "@/lib/data/analyses";
-import { readWorkspace } from "@/lib/data/workspace";
+import { readScope } from "@/lib/data/workspace";
 import { site } from "@/lib/site";
 import {
   type Candidate,
@@ -22,7 +22,7 @@ import {
   groupByDomain,
   viewCandidates,
 } from "@/lib/workspace/candidates";
-import { hasStage, stageFigures, stageParams } from "@/lib/workspace/figures";
+import { hasStage, stageParams } from "@/lib/workspace/figures";
 
 /*
  * Stage 2 of the scope workspace, Structure & context (plan 08 section 4.1):
@@ -31,7 +31,9 @@ import { hasStage, stageFigures, stageParams } from "@/lib/workspace/figures";
  * agent's 0/1 proposal where the scope carries a requirement set. The body
  * reads the workspace and the briefs at request time (the snapshot, or the
  * API in the live mode, D-085) and the view and the filters from the URL,
- * behind the Suspense boundary (Cache Components).
+ * behind the Suspense boundary (Cache Components). The header is the scope
+ * layout's; the heading and the hint are static and show the moment the
+ * stage is clicked, the rest rises in when it is read (step 20).
  */
 export function generateStaticParams() {
   return stageParams("structure");
@@ -47,54 +49,53 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return { title: `${site.structure.heading} · ${v.name} in ${m.name}` };
 }
 
-export default async function StructurePage({ params, searchParams }: Props) {
+export default function StructurePage({ params, searchParams }: Props) {
+  const copy = site.structure;
+  return (
+    <Reveal className="stage-body" aria-labelledby="structure-heading">
+      <h2 id="structure-heading" className="stage-h">
+        {copy.heading}
+      </h2>
+      <p className="workspace-hint stage-hint">{copy.hint}</p>
+      <Suspense fallback={<StageWait />}>
+        <StructureBody params={params} searchParams={searchParams} />
+      </Suspense>
+    </Reveal>
+  );
+}
+
+async function StructureBody({ params, searchParams }: { params: Props["params"]; searchParams: Props["searchParams"] }) {
   const { market, vehicle } = await params;
   const m = marketByCode(market);
   const v = m ? vehicleIn(m, vehicle) : undefined;
   if (!m || !v || !hasStage("structure", v.code, m.code)) notFound();
-  return (
-    <Suspense fallback={<StagePending />}>
-      <StructureBody market={m} vehicle={v} searchParams={searchParams} />
-    </Suspense>
-  );
-}
-
-async function StructureBody({ market: m, vehicle: v, searchParams }: { market: MarketContent; vehicle: VehicleContent; searchParams: Props["searchParams"] }) {
-  const [read, briefs, query] = await Promise.all([readWorkspace(v.code, m.code), readBriefs(v.code, m.code), searchParams]);
+  const [read, briefs, query] = await Promise.all([readScope(v.code, m.code), readBriefs(v.code, m.code), searchParams]);
   if (!read) notFound();
   const { snapshot } = read;
   const copy = site.structure;
-  const figures = stageFigures(v, m.code, snapshot);
   const hasSet = snapshot.requirements.length > 0;
   return (
-    <div className="workspace">
-      <WorkspaceHeader market={m} vehicle={v} current="structure" figures={figures} />
-      <section className="stage-body" aria-labelledby="structure-heading">
-        <h2 id="structure-heading" className="stage-h">
-          {copy.heading}
-        </h2>
-        <p className="workspace-hint stage-hint">{copy.hint}</p>
-        {briefs.situation ? (
-          <AnalystBrief
-            read={briefs.situation}
-            market={m.code}
-            vehicle={v.code}
-            requirementIds={new Set(snapshot.requirements.map((r) => r.id))}
-            regionsHref={briefs.series ? `${vehicleHref(m.code, v.code)}/regions` : null}
-          />
-        ) : null}
-        <h3 className="stage-h3">{copy.candidatesHeading}</h3>
-        {hasSet ? (
-          <>
-            <p className="workspace-hint stage-hint">{copy.candidatesHint}</p>
-            <Candidates snapshot={snapshot} market={m} vehicle={v} query={query} />
-          </>
-        ) : (
-          <p className="stage-empty">{copy.noCandidates}</p>
-        )}
-        <SourceLine read={read} />
-      </section>
-    </div>
+    <Reveal as="div" className="stage-content">
+      {briefs.situation ? (
+        <AnalystBrief
+          read={briefs.situation}
+          market={m.code}
+          vehicle={v.code}
+          requirementIds={new Set(snapshot.requirements.map((r) => r.id))}
+          regionsHref={briefs.series ? `${vehicleHref(m.code, v.code)}/regions` : null}
+        />
+      ) : null}
+      <h3 className="stage-h3">{copy.candidatesHeading}</h3>
+      {hasSet ? (
+        <>
+          <p className="workspace-hint stage-hint">{copy.candidatesHint}</p>
+          <Candidates snapshot={snapshot} market={m} vehicle={v} query={query} />
+        </>
+      ) : (
+        <p className="stage-empty">{copy.noCandidates}</p>
+      )}
+      <SourceLine read={read} />
+    </Reveal>
   );
 }
 

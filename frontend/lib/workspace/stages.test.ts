@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { hasStage, scopeContent, stageParams } from "./figures";
-import { STAGES, stageAvailable, stageHref } from "./stages";
+import { STAGES, stageAvailable, stageHref, stageOfSegment } from "./stages";
 import { workspaceSnapshot } from "@/lib/data/workspace";
 
 /*
@@ -33,5 +33,17 @@ describe("stages per scope", () => {
     expect(stageAvailable("documentation", scope)).toBe(false);
     expect(stageParams("documentation").map((p) => `${p.vehicle}_${p.market}`).sort()).toEqual(["f70_eu", "g60_us", "g70_us"]);
     expect(stageParams("structure").map((p) => `${p.vehicle}_${p.market}`).sort()).toEqual(["f70_eu", "g60_us", "g68_cn", "g70_us"]);
+  });
+});
+
+describe("the stage of a route segment (step 20)", () => {
+  it("marks the stage a page belongs to, its sub-pages included", () => {
+    expect(stageOfSegment(null)).toBe("situation");
+    expect(stageOfSegment("regions")).toBe("situation");
+    expect(stageOfSegment("market")).toBe("situation");
+    expect(stageOfSegment("structure")).toBe("structure");
+    expect(stageOfSegment("requirements")).toBe("requirements");
+    expect(stageOfSegment("priorities")).toBe("priorities");
+    expect(stageOfSegment("log")).toBe("documentation");
   });
 });

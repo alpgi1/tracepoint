@@ -10,7 +10,9 @@ import type { CandidateFilter, CandidateView } from "@/lib/workspace/candidates"
  * after the tabs with a count of the 21st.dev survey (coss "tabs with
  * count badge", Origin UI "tabs with line"; research notes 6.3): the count
  * is text beside the name, not a badge; the current view carries the one
- * blue rule and aria-current.
+ * blue rule and aria-current. A view or a cleared filter is the same
+ * screen with a new query: its content swaps at once, without the arrival
+ * of a new screen (Reveal, step 20).
  */
 export interface FilterOption {
   value: string;

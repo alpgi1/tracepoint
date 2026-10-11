@@ -43,6 +43,10 @@ export const site = {
     regionsLink: "across its regions",
     marketLink: "Market evidence",
     moreLabel: "More on this market and series",
+    /** The car in the header's corner links back to the vehicle screen (step 20). */
+    dockLabel: "Back to the situation analysis",
+    /** Shown in a screen's place only when its content takes longer than a moment to read (step 20). */
+    reading: "Reading the workspace",
   },
   /** The five stages of the scope workspace, named as on the BMW process slide (step 14, plan 08). */
   stages: {

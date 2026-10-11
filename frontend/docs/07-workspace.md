@@ -3,8 +3,8 @@
 | Field | Value |
 |---|---|
 | Date | 2026-10-11, step 14 |
-| Status | Built and verified: step 14 (D-078 to D-080) the data layer, the stage bar and stage 2; step 15 (D-083) stage 3 and the bridges; step 16 (D-084) stage 4, the package builder and the method sheet, its scatter replaced by the evidence and effort chart (D-106); step 17 (D-099) stage 5 and the live mode; step 19 (D-100 to D-104) the integration with the backend: one data feed, the analyst's brief, the series and the market evidence pages, the stages that exist per scope, the exports of the backend, the copy in the product manager's words (section 4d) |
-| Files | `scripts/snapshot.mjs` (the data feed), `lib/data/analyses.ts`, `lib/data/exports.ts`, `lib/content/brief-types.ts`, `lib/workspace/market.ts`, `components/workspace/analyst-brief.tsx`, `series-view.tsx`, `brief-parts.tsx`, `external-rows.tsx`, `app/markets/[market]/[vehicle]/regions/page.tsx`, `market/page.tsx`, `log/requirements.md/route.ts` (step 19), `content/workspace/*.json` (the API's responses, committed), `lib/content/workspace-types.ts` (the contract), `lib/data/workspace.ts` (reads), `lib/workspace/candidates.ts` (the candidate rules), `lib/workspace/requirements.ts` (routes, evidence resolution, bridges), `lib/workspace/stages.ts` and `figures.ts` (the stage bar's data), `components/workspace/workspace-header.tsx`, `stage-bar.tsx`, `candidate-filters.tsx`, `candidate-table.tsx`, `requirement-page.tsx`, `evidence-list.tsx`, `effort-block.tsx`, `app/markets/[market]/[vehicle]/structure/page.tsx`, `requirements/page.tsx`, `requirements/[id]/page.tsx`, `priorities/page.tsx`, `priorities/method/page.tsx`, `priority-chart.tsx`, `package-table.tsx`, `lib/workspace/priorities.ts`, `lib/data/effort.ts` (the effort model file and the one live read, `POST /effort/estimate`), `content/effort.json`, `lib/site.ts` (copy), `app/globals.css` (step 14 and 15 blocks), `lib/content/workspace.test.ts`, `lib/workspace/requirements.test.ts`, `tools/audit/screenshots.mjs` |
+| Status | Built and verified: step 14 (D-078 to D-080) the data layer, the stage bar and stage 2; step 15 (D-083) stage 3 and the bridges; step 16 (D-084) stage 4, the package builder and the method sheet, its scatter replaced by the evidence and effort chart (D-106); step 17 (D-099) stage 5 and the live mode; step 19 (D-100 to D-104) the integration with the backend: one data feed, the analyst's brief, the series and the market evidence pages, the stages that exist per scope, the exports of the backend, the copy in the product manager's words (section 4d); step 20 (D-108 to D-111) the scope layout with the header that stays, the arrival of a screen, the car in the header's corner, the hand-over that starts with the click (section 4e) |
+| Files | `app/markets/[market]/[vehicle]/layout.tsx` (the scope layout), `components/workspace/reveal.tsx`, `stage-item.tsx`, `vehicle-dock.tsx`, `lib/vehicles/dock.ts` (step 20), `scripts/snapshot.mjs` (the data feed), `lib/data/analyses.ts`, `lib/data/exports.ts`, `lib/content/brief-types.ts`, `lib/workspace/market.ts`, `components/workspace/analyst-brief.tsx`, `series-view.tsx`, `brief-parts.tsx`, `external-rows.tsx`, `app/markets/[market]/[vehicle]/regions/page.tsx`, `market/page.tsx`, `log/requirements.md/route.ts` (step 19), `content/workspace/*.json` (the API's responses, committed), `lib/content/workspace-types.ts` (the contract), `lib/data/workspace.ts` (reads), `lib/workspace/candidates.ts` (the candidate rules), `lib/workspace/requirements.ts` (routes, evidence resolution, bridges), `lib/workspace/stages.ts` and `figures.ts` (the stage bar's data), `components/workspace/workspace-header.tsx`, `stage-bar.tsx`, `candidate-filters.tsx`, `candidate-table.tsx`, `requirement-page.tsx`, `evidence-list.tsx`, `effort-block.tsx`, `app/markets/[market]/[vehicle]/structure/page.tsx`, `requirements/page.tsx`, `requirements/[id]/page.tsx`, `priorities/page.tsx`, `priorities/method/page.tsx`, `priority-chart.tsx`, `package-table.tsx`, `lib/workspace/priorities.ts`, `lib/data/effort.ts` (the effort model file and the one live read, `POST /effort/estimate`), `content/effort.json`, `lib/site.ts` (copy), `app/globals.css` (step 14 and 15 blocks), `lib/content/workspace.test.ts`, `lib/workspace/requirements.test.ts`, `tools/audit/screenshots.mjs` |
 | Plan | `plan/08-engineering-workbench-plan.md` sections 3, 4.1 to 4.3, 4.5 and 6 |
 
 ## 1. What it is
@@ -70,9 +70,16 @@ action `app/actions/decide.ts` (gate G2, section 4c); the browser never calls th
 ## 3. The header and the stage bar
 
 `workspace-header.tsx` replaces the header the vehicle screen had; `stage-bar.tsx` sits under
-it on a hairline. The header's height is written in `lib/vehicles/layout.ts` (`STAGE_TOP` = 112
-px row + 1 px hairline + 48 px bar + 16 px), because the hand-over from the map lands the car's
-photo under it (D-055; the screen still reports the measured target).
+it on a hairline. Since step 20 (D-108) both belong to the scope layout,
+`app/markets/[market]/[vehicle]/layout.tsx`, and stay on screen while the product manager moves
+between the stages and their pages. The current stage follows the route segment on the client
+(`stage-item.tsx`, `stageOfSegment`: the regions and market pages are stage 1, a requirement
+page stage 3, the method sheet stage 4); the figures show the stored workspace in the static
+frame and the live one once it is read; a gate G2 decision refreshes the router, so the bar
+counts it. On every screen but the vehicle screen the car sits small at the right of the header
+row (`05-vehicle-drawings.md` 4c). The header's height is written in `lib/vehicles/layout.ts`
+(`STAGE_TOP` = 112 px row + 1 px hairline + 48 px bar + 16 px), because the hand-over from the
+map lands the car's photo under it (D-055; the screen still reports the measured target).
 
 Each stage is a list item with its number in a 22 px hairline ring, the name, and the figure it
 holds: stage 1 the subsystems on the vehicle and the market's verbatims; stage 2 the candidates
@@ -339,6 +346,49 @@ subsystem keys, layer codes, field names and marketing filler turned into plain 
 file paths or commands: the source line says "Data as stored on" or "Live data, read on", a
 failed live read says the live service did not answer, a decision outside the live mode says
 decisions are recorded when Tracepoint runs live. Those details live in the READMEs.
+
+## 4e. Step 20: moving between the screens (D-108 to D-111)
+
+The team reported that the step from the situation analysis to Structure & context froze for
+half a second, that the hand-over from the map stopped after the click, and asked for the car to
+stay small in the top right corner on the other screens. Measured before the change (production
+build, headless Chromium, timeline of mutations and frames in the page):
+
+| Navigation | Before | After (1x CPU) |
+|---|---|---|
+| Stage 1 to stage 2 | the old page frozen for 100 ms (350 ms at 4x), then a blank page for 300 ms, then the whole page at once, with a 146 ms long task at 4x | the stage marked and the body cleared at once, the heading in place by 180 ms, the car in the corner by 500 ms, the content rising after it |
+| Stage 2 to stage 3 | the same pattern | the heading by 60 ms, the content by 360 ms (React holds a revealed boundary 300 ms after its fallback) |
+| Map to vehicle screen | the photo waited 330 ms (up to 670 ms) for the screen, then moved while the screen rendered (167 ms without a frame at 4x) | the photo moves with the click; the screen is there at 260 ms under the clearing veil |
+
+Root causes: every page read its route parameters outside any Suspense boundary and wrapped its
+whole content, header included, in one boundary with an empty fallback, so Partial Prefetching
+had no frame to show and the router waited on the server, then showed the empty fallback; the
+hand-over layer waited for the vehicle screen's target before it moved the photo.
+
+What changed:
+
+* The scope layout holds the header (above). Every page reads its parameters behind a Suspense
+  boundary, so every link prefetches an instant frame; links that need their own URL's frame
+  prefetch it (`prefetch` on the vehicle cards, the stage-1 link and the corner car, the method
+  sheet link).
+* A stage's static heading and hint are part of that frame (Structure & context, Requirements
+  definition, Prioritization, Documentation); the content read at request time streams into a
+  `stage-content` block under them.
+* `components/workspace/reveal.tsx` animates the arrival (forbidden list E6); `StageWait` keeps
+  the place empty and says "Reading the workspace" only after 0.9 s; a stage clicked before its
+  frame was prefetched shows its rule faintly (`useLinkStatus`).
+* The car moves between the stage and the header's corner as a view transition of the car alone
+  (E7). A whole-screen exit fade was built and removed: capturing the page cost 150 to 250 ms
+  without a frame in the headless renderer.
+* The hand-over starts with the click (E4, D-111).
+
+Verified with the production build: the timelines above, frame strips of each transition from
+the screencast, back and forward navigation (the browser's own history restores the screen at
+once, without the car's move), the corner car as a link (450 ms move back), a third hand-over
+in one session, reduced motion (no reveal, no move, the view transitions finish at once), a
+live decision (the stage bar went from 2 to 3 decided at once), and the page audit (30 pages, 0
+findings). Not measured: the capture time of the car's view transition on a machine with a GPU
+(60 to 100 ms in the headless software renderer).
 
 ## 5. The inbox rules (`lib/workspace/candidates.ts`)
 
