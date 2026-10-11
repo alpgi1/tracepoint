@@ -1,0 +1,1313 @@
+{
+ "snapshot": {
+  "takenAt": "2026-10-11T03:55:19.547Z",
+  "api": "http://127.0.0.1:8000",
+  "codeVersion": "e06b37f",
+  "endpoints": {
+   "model": "/effort/model",
+   "backtest": "/effort/backtest"
+  }
+ },
+ "model": {
+  "generatedAt": "2026-10-11",
+  "method": {
+   "name": "Change Prediction Method",
+   "reference": "Clarkson, Simons, Eckert (2004), Predicting Change Propagation in Complex Design, Journal of Mechanical Design 126(5)",
+   "url": "https://oro.open.ac.uk/18626",
+   "engine": "backend/tracepoint/effort/cpm.py",
+   "modelSource": "config/effort/model.yaml",
+   "modelVersion": 1,
+   "basis": "assumption, not calibrated",
+   "thresholds": {
+    "adaptBelowPercent": 15,
+    "newGenerationFromPercent": 50
+   },
+   "certificationAddOnPercent": 12
+  },
+  "subsystems": [
+   {
+    "key": "body_structure",
+    "name": "Body/structure",
+    "weight": 18,
+    "basis": "Team estimate: split of the non-drivetrain ~64-70 % of vehicle cost (Thunder Said Energy 2024) across body, chassis and interior",
+    "certificationTrigger": true,
+    "links": [
+     {
+      "to": "interior_console",
+      "likelihood": 0.5,
+      "impact": 0.3,
+      "why": "Interior parts are fixed to the body in white"
+     },
+     {
+      "to": "exterior_design",
+      "likelihood": 0.4,
+      "impact": 0.3,
+      "why": "Outer skin follows the structure"
+     },
+     {
+      "to": "chassis",
+      "likelihood": 0.5,
+      "impact": 0.4,
+      "why": "Axle mounting points and wheelbase"
+     }
+    ]
+   },
+   {
+    "key": "chassis",
+    "name": "Chassis",
+    "weight": 10,
+    "basis": "Team estimate (same split)",
+    "certificationTrigger": false,
+    "links": [
+     {
+      "to": "body_structure",
+      "likelihood": 0.3,
+      "impact": 0.2,
+      "why": "Mounting points"
+     }
+    ]
+   },
+   {
+    "key": "powertrain",
+    "name": "Powertrain",
+    "weight": 14,
+    "basis": "Powertrain + HV battery + charging = 28, drivetrain ~30 % (ICE) to ~36 % (EV) of vehicle cost (Thunder Said Energy 2024)",
+    "certificationTrigger": true,
+    "links": [
+     {
+      "to": "body_structure",
+      "likelihood": 0.4,
+      "impact": 0.3,
+      "why": "Package space, mounts, tunnel"
+     },
+     {
+      "to": "thermal_hvac",
+      "likelihood": 0.6,
+      "impact": 0.3,
+      "why": "Cooling circuits"
+     },
+     {
+      "to": "ee_architecture",
+      "likelihood": 0.6,
+      "impact": 0.3,
+      "why": "Control units and wiring"
+     },
+     {
+      "to": "software_hmi",
+      "likelihood": 0.7,
+      "impact": 0.2,
+      "why": "Drive modes, energy displays"
+     },
+     {
+      "to": "chassis",
+      "likelihood": 0.4,
+      "impact": 0.2,
+      "why": "Axle loads and drive shafts"
+     }
+    ]
+   },
+   {
+    "key": "hv_battery",
+    "name": "HV battery",
+    "weight": 10,
+    "basis": "Part of the drivetrain share above",
+    "certificationTrigger": true,
+    "links": [
+     {
+      "to": "body_structure",
+      "likelihood": 0.8,
+      "impact": 0.5,
+      "why": "The pack sits in the floor; new pack dimensions change floor and crash structure"
+     },
+     {
+      "to": "thermal_hvac",
+      "likelihood": 0.9,
+      "impact": 0.6,
+      "why": "Cell cooling and heat pump are sized for the pack"
+     },
+     {
+      "to": "ee_architecture",
+      "likelihood": 0.8,
+      "impact": 0.5,
+      "why": "High-voltage network, battery management and voltage level"
+     },
+     {
+      "to": "charging",
+      "likelihood": 0.9,
+      "impact": 0.7,
+      "why": "Charge power, voltage (400 / 800 V) and inlet hardware follow the pack"
+     },
+     {
+      "to": "chassis",
+      "likelihood": 0.6,
+      "impact": 0.3,
+      "why": "Mass and its distribution change springs, dampers, brakes"
+     },
+     {
+      "to": "software_hmi",
+      "likelihood": 0.7,
+      "impact": 0.2,
+      "why": "Range, charging and energy screens"
+     }
+    ]
+   },
+   {
+    "key": "thermal_hvac",
+    "name": "Thermal/HVAC",
+    "weight": 6,
+    "basis": "Team estimate",
+    "certificationTrigger": false,
+    "links": [
+     {
+      "to": "ee_architecture",
+      "likelihood": 0.4,
+      "impact": 0.2,
+      "why": "Climate control units and actuators"
+     }
+    ]
+   },
+   {
+    "key": "ee_architecture",
+    "name": "E/E architecture",
+    "weight": 9,
+    "basis": "E/E + software = 19; electronics 16 % of premium component cost in 2020, expected 35 % by 2025 (Bosch 2020)",
+    "certificationTrigger": false,
+    "links": [
+     {
+      "to": "software_hmi",
+      "likelihood": 0.8,
+      "impact": 0.4,
+      "why": "Software runs on and talks through the E/E architecture"
+     }
+    ]
+   },
+   {
+    "key": "software_hmi",
+    "name": "Software/HMI",
+    "weight": 10,
+    "basis": "Part of the electronics share above",
+    "certificationTrigger": false,
+    "links": [
+     {
+      "to": "ee_architecture",
+      "likelihood": 0.2,
+      "impact": 0.1,
+      "why": "Rarely: more compute or bandwidth"
+     }
+    ]
+   },
+   {
+    "key": "interior_console",
+    "name": "Interior/console",
+    "weight": 7,
+    "basis": "Team estimate (non-drivetrain split)",
+    "certificationTrigger": false,
+    "links": [
+     {
+      "to": "ee_architecture",
+      "likelihood": 0.4,
+      "impact": 0.1,
+      "why": "Switches, 12 V supply, buses"
+     },
+     {
+      "to": "thermal_hvac",
+      "likelihood": 0.2,
+      "impact": 0.1,
+      "why": "Vents and air ducts"
+     },
+     {
+      "to": "software_hmi",
+      "likelihood": 0.6,
+      "impact": 0.1,
+      "why": "Menus and settings for new functions"
+     },
+     {
+      "to": "seats",
+      "likelihood": 0.3,
+      "impact": 0.2,
+      "why": "Package space between console and seats"
+     }
+    ]
+   },
+   {
+    "key": "seats",
+    "name": "Seats",
+    "weight": 5,
+    "basis": "Team estimate (non-drivetrain split)",
+    "certificationTrigger": false,
+    "links": [
+     {
+      "to": "ee_architecture",
+      "likelihood": 0.5,
+      "impact": 0.1,
+      "why": "Seat control units and supply"
+     },
+     {
+      "to": "thermal_hvac",
+      "likelihood": 0.5,
+      "impact": 0.15,
+      "why": "Seat ventilation / climate integration"
+     },
+     {
+      "to": "software_hmi",
+      "likelihood": 0.6,
+      "impact": 0.1,
+      "why": "Seat settings and profiles"
+     }
+    ]
+   },
+   {
+    "key": "exterior_design",
+    "name": "Exterior design",
+    "weight": 6,
+    "basis": "Team estimate; includes lighting, closures' visible parts, wheels",
+    "certificationTrigger": false,
+    "links": [
+     {
+      "to": "ee_architecture",
+      "likelihood": 0.4,
+      "impact": 0.1,
+      "why": "Lights, sensors behind the skin"
+     },
+     {
+      "to": "body_structure",
+      "likelihood": 0.2,
+      "impact": 0.1,
+      "why": "Mounting points of skin parts"
+     }
+    ]
+   },
+   {
+    "key": "paint_color",
+    "name": "Paint/color",
+    "weight": 1,
+    "basis": "Team estimate",
+    "certificationTrigger": false,
+    "links": [
+     {
+      "to": "exterior_design",
+      "likelihood": 0.1,
+      "impact": 0.05,
+      "why": "Colour and trim combinations"
+     }
+    ]
+   },
+   {
+    "key": "charging",
+    "name": "Charging",
+    "weight": 4,
+    "basis": "Part of the drivetrain share above",
+    "certificationTrigger": false,
+    "links": []
+   }
+  ],
+  "mapping": {
+   "source": "config/cpm/theme_subsystem_map.yaml, the team's assignment of every level-2 theme to one subsystem (assumption)",
+   "themes": 222,
+   "unassigned": [
+    "Accessories / Parts",
+    "General enquiry: customer feedback",
+    "Owner's Manual"
+   ]
+  },
+  "marketContextSource": "config/cpm/market_context.yaml (rules 31 to 36 of the team's rule set v0.2)",
+  "narrationSource": "suggestion and summary per block are template text derived from the counts and config/findings/findings.yaml (strength and unmet-need rules); basis 'derived' until the backend's agent writes them",
+  "domains": {
+   "exterior_design": "Exterior & Design",
+   "interior_comfort": "Interior Comfort & Materials",
+   "space_practicality": "Space & Practicality",
+   "infotainment_digital": "Infotainment & Digital Services",
+   "driver_assistance": "Driver Assistance & Parking",
+   "powertrain_range_charging": "Powertrain, Range & Charging",
+   "driving_dynamics": "Driving Experience & Dynamics",
+   "quality_nvh": "Quality Perception & NVH",
+   "offering_variants": "Variant & Package Offering",
+   "general": "General / Cross-cutting"
+  },
+  "vehicles": {
+   "F70": {
+    "platform": "FAAR (front-wheel-drive compact)",
+    "absent": [
+     "hv_battery",
+     "charging"
+    ],
+    "note": "All F70 variants in the German catalogue are ICE or 48 V MHEV. The link matrix was written for CLAR and is reused as an assumption; FAAR-specific links are not calibrated."
+   },
+   "G60": {
+    "platform": "CLAR",
+    "absent": [],
+    "note": null
+   },
+   "G68": {
+    "platform": "CLAR",
+    "absent": [],
+    "note": "China long-wheelbase derivative of G60 (Dadong)"
+   },
+   "G70": {
+    "platform": "CLAR",
+    "absent": [],
+    "note": null
+   }
+  },
+  "modelHash": "789fcb7624b8"
+ },
+ "backtest": {
+  "rows": [
+   {
+    "id": "g30-lci-colours-wheels",
+    "name": "New colors/wheels (G30 LCI 2020)",
+    "anchor": true,
+    "independent": true,
+    "effort_pct": 0.79,
+    "layer": "K1",
+    "decision": "adapt",
+    "size": "XS",
+    "certification_add_on": false,
+    "platform_change": false,
+    "subsystems": [
+     {
+      "subsystem": "paint_color",
+      "name": "Paint/color",
+      "risk": 0.5,
+      "effort_pct": 0.5,
+      "path": null
+     },
+     {
+      "subsystem": "software_hmi",
+      "name": "Software/HMI",
+      "risk": 0.0128,
+      "effort_pct": 0.13,
+      "path": [
+       "Paint/color",
+       "Exterior design",
+       "E/E architecture",
+       "Software/HMI"
+      ]
+     },
+     {
+      "subsystem": "body_structure",
+      "name": "Body/structure",
+      "risk": 0.002,
+      "effort_pct": 0.04,
+      "path": [
+       "Paint/color",
+       "Exterior design",
+       "Body/structure"
+      ]
+     },
+     {
+      "subsystem": "chassis",
+      "name": "Chassis",
+      "risk": 0.004,
+      "effort_pct": 0.04,
+      "path": [
+       "Paint/color",
+       "Exterior design",
+       "Body/structure",
+       "Chassis"
+      ]
+     },
+     {
+      "subsystem": "ee_architecture",
+      "name": "E/E architecture",
+      "risk": 0.004,
+      "effort_pct": 0.04,
+      "path": [
+       "Paint/color",
+       "Exterior design",
+       "E/E architecture"
+      ]
+     },
+     {
+      "subsystem": "exterior_design",
+      "name": "Exterior design",
+      "risk": 0.005,
+      "effort_pct": 0.03,
+      "path": [
+       "Paint/color",
+       "Exterior design"
+      ]
+     },
+     {
+      "subsystem": "interior_console",
+      "name": "Interior/console",
+      "risk": 0.003,
+      "effort_pct": 0.02,
+      "path": [
+       "Paint/color",
+       "Exterior design",
+       "Body/structure",
+       "Interior/console"
+      ]
+     }
+    ],
+    "effort_raw": 0.7910000000000005,
+    "p5": 0.42,
+    "p95": 1.27,
+    "decision_stable_pct": 100,
+    "score_stable_pct": 100,
+    "actual": "adapt",
+    "ok": true,
+    "k3_rule": false
+   },
+   {
+    "id": "g30-lci-lights-bumper",
+    "name": "New headlights + front bumper (G30 LCI)",
+    "anchor": true,
+    "independent": true,
+    "effort_pct": 5.74,
+    "layer": "K2",
+    "decision": "adapt",
+    "size": "M",
+    "certification_add_on": false,
+    "platform_change": false,
+    "subsystems": [
+     {
+      "subsystem": "exterior_design",
+      "name": "Exterior design",
+      "risk": 0.5,
+      "effort_pct": 3,
+      "path": null
+     },
+     {
+      "subsystem": "software_hmi",
+      "name": "Software/HMI",
+      "risk": 0.1332,
+      "effort_pct": 1.33,
+      "path": [
+       "Exterior design",
+       "E/E architecture",
+       "Software/HMI"
+      ]
+     },
+     {
+      "subsystem": "chassis",
+      "name": "Chassis",
+      "risk": 0.04,
+      "effort_pct": 0.4,
+      "path": [
+       "Exterior design",
+       "Body/structure",
+       "Chassis"
+      ]
+     },
+     {
+      "subsystem": "ee_architecture",
+      "name": "E/E architecture",
+      "risk": 0.0438,
+      "effort_pct": 0.39,
+      "path": [
+       "Exterior design",
+       "E/E architecture"
+      ]
+     },
+     {
+      "subsystem": "body_structure",
+      "name": "Body/structure",
+      "risk": 0.02,
+      "effort_pct": 0.36,
+      "path": [
+       "Exterior design",
+       "Body/structure"
+      ]
+     },
+     {
+      "subsystem": "interior_console",
+      "name": "Interior/console",
+      "risk": 0.03,
+      "effort_pct": 0.21,
+      "path": [
+       "Exterior design",
+       "Body/structure",
+       "Interior/console"
+      ]
+     },
+     {
+      "subsystem": "seats",
+      "name": "Seats",
+      "risk": 0.006,
+      "effort_pct": 0.03,
+      "path": [
+       "Exterior design",
+       "Body/structure",
+       "Interior/console",
+       "Seats"
+      ]
+     },
+     {
+      "subsystem": "thermal_hvac",
+      "name": "Thermal/HVAC",
+      "risk": 0.002,
+      "effort_pct": 0.01,
+      "path": [
+       "Exterior design",
+       "Body/structure",
+       "Interior/console",
+       "Thermal/HVAC"
+      ]
+     }
+    ],
+    "effort_raw": 5.738880000000001,
+    "p5": 3.38,
+    "p95": 8.42,
+    "decision_stable_pct": 100,
+    "score_stable_pct": 100,
+    "actual": "adapt",
+    "ok": true,
+    "k3_rule": false
+   },
+   {
+    "id": "g30-lci-os7",
+    "name": "New software OS 7 + OTA (G30 LCI 2020)",
+    "anchor": true,
+    "independent": true,
+    "effort_pct": 4.18,
+    "layer": "K2",
+    "decision": "adapt",
+    "size": "S",
+    "certification_add_on": false,
+    "platform_change": false,
+    "subsystems": [
+     {
+      "subsystem": "software_hmi",
+      "name": "Software/HMI",
+      "risk": 0.4,
+      "effort_pct": 4,
+      "path": null
+     },
+     {
+      "subsystem": "ee_architecture",
+      "name": "E/E architecture",
+      "risk": 0.02,
+      "effort_pct": 0.18,
+      "path": [
+       "Software/HMI",
+       "E/E architecture"
+      ]
+     }
+    ],
+    "effort_raw": 4.18,
+    "p5": 1.84,
+    "p95": 7.31,
+    "decision_stable_pct": 100,
+    "score_stable_pct": 100,
+    "actual": "adapt",
+    "ok": true,
+    "k3_rule": false
+   },
+   {
+    "id": "g30-lci-545e",
+    "name": "New PHEV 545e from module kit (G30 LCI)",
+    "anchor": true,
+    "independent": true,
+    "effort_pct": 9.36,
+    "layer": "K2",
+    "decision": "adapt",
+    "size": "M",
+    "certification_add_on": false,
+    "platform_change": false,
+    "subsystems": [
+     {
+      "subsystem": "powertrain",
+      "name": "Powertrain",
+      "risk": 0.4,
+      "effort_pct": 5.6,
+      "path": null
+     },
+     {
+      "subsystem": "software_hmi",
+      "name": "Software/HMI",
+      "risk": 0.1212,
+      "effort_pct": 1.21,
+      "path": [
+       "Powertrain",
+       "E/E architecture",
+       "Software/HMI"
+      ]
+     },
+     {
+      "subsystem": "body_structure",
+      "name": "Body/structure",
+      "risk": 0.0429,
+      "effort_pct": 0.77,
+      "path": [
+       "Powertrain",
+       "Body/structure"
+      ]
+     },
+     {
+      "subsystem": "ee_architecture",
+      "name": "E/E architecture",
+      "risk": 0.0755,
+      "effort_pct": 0.68,
+      "path": [
+       "Powertrain",
+       "E/E architecture"
+      ]
+     },
+     {
+      "subsystem": "chassis",
+      "name": "Chassis",
+      "risk": 0.0474,
+      "effort_pct": 0.47,
+      "path": [
+       "Powertrain",
+       "Body/structure",
+       "Chassis"
+      ]
+     },
+     {
+      "subsystem": "thermal_hvac",
+      "name": "Thermal/HVAC",
+      "risk": 0.0551,
+      "effort_pct": 0.33,
+      "path": [
+       "Powertrain",
+       "Thermal/HVAC"
+      ]
+     },
+     {
+      "subsystem": "interior_console",
+      "name": "Interior/console",
+      "risk": 0.0233,
+      "effort_pct": 0.16,
+      "path": [
+       "Powertrain",
+       "Body/structure",
+       "Interior/console"
+      ]
+     },
+     {
+      "subsystem": "exterior_design",
+      "name": "Exterior design",
+      "risk": 0.0187,
+      "effort_pct": 0.11,
+      "path": [
+       "Powertrain",
+       "Body/structure",
+       "Exterior design"
+      ]
+     },
+     {
+      "subsystem": "seats",
+      "name": "Seats",
+      "risk": 0.0036,
+      "effort_pct": 0.02,
+      "path": [
+       "Powertrain",
+       "Body/structure",
+       "Interior/console",
+       "Seats"
+      ]
+     }
+    ],
+    "effort_raw": 9.362527708198124,
+    "p5": 5,
+    "p95": 13.85,
+    "decision_stable_pct": 98.1,
+    "score_stable_pct": 98.1,
+    "actual": "adapt",
+    "ok": true,
+    "k3_rule": false
+   },
+   {
+    "id": "g68-lwb",
+    "name": "Long wheelbase G68 China (at launch)",
+    "anchor": true,
+    "independent": true,
+    "effort_pct": 25.22,
+    "layer": "K2",
+    "decision": "major revision",
+    "size": "L",
+    "certification_add_on": true,
+    "platform_change": false,
+    "subsystems": [
+     {
+      "subsystem": "body_structure",
+      "name": "Body/structure",
+      "risk": 0.4,
+      "effort_pct": 7.2,
+      "path": null
+     },
+     {
+      "subsystem": "chassis",
+      "name": "Chassis",
+      "risk": 0.2,
+      "effort_pct": 2,
+      "path": [
+       "Body/structure",
+       "Chassis"
+      ]
+     },
+     {
+      "subsystem": "software_hmi",
+      "name": "Software/HMI",
+      "risk": 0.1463,
+      "effort_pct": 1.46,
+      "path": [
+       "Body/structure",
+       "Interior/console",
+       "E/E architecture",
+       "Software/HMI"
+      ]
+     },
+     {
+      "subsystem": "interior_console",
+      "name": "Interior/console",
+      "risk": 0.15,
+      "effort_pct": 1.05,
+      "path": [
+       "Body/structure",
+       "Interior/console"
+      ]
+     },
+     {
+      "subsystem": "exterior_design",
+      "name": "Exterior design",
+      "risk": 0.12,
+      "effort_pct": 0.72,
+      "path": [
+       "Body/structure",
+       "Exterior design"
+      ]
+     },
+     {
+      "subsystem": "ee_architecture",
+      "name": "E/E architecture",
+      "risk": 0.0563,
+      "effort_pct": 0.51,
+      "path": [
+       "Body/structure",
+       "Interior/console",
+       "E/E architecture"
+      ]
+     },
+     {
+      "subsystem": "seats",
+      "name": "Seats",
+      "risk": 0.03,
+      "effort_pct": 0.15,
+      "path": [
+       "Body/structure",
+       "Interior/console",
+       "Seats"
+      ]
+     },
+     {
+      "subsystem": "thermal_hvac",
+      "name": "Thermal/HVAC",
+      "risk": 0.0211,
+      "effort_pct": 0.13,
+      "path": [
+       "Body/structure",
+       "Interior/console",
+       "Seats",
+       "Thermal/HVAC"
+      ]
+     }
+    ],
+    "effort_raw": 25.2164003203968,
+    "p5": 16.9,
+    "p95": 32.78,
+    "decision_stable_pct": 98.3,
+    "score_stable_pct": 98.3,
+    "actual": "major revision",
+    "ok": true,
+    "k3_rule": false
+   },
+   {
+    "id": "gen6-battery-7-series",
+    "name": "Gen6/800V battery (7 Series successor)",
+    "anchor": true,
+    "independent": true,
+    "effort_pct": 48.98,
+    "layer": "K3",
+    "decision": "new generation",
+    "size": "L",
+    "certification_add_on": true,
+    "platform_change": true,
+    "subsystems": [
+     {
+      "subsystem": "hv_battery",
+      "name": "HV battery",
+      "risk": 1,
+      "effort_pct": 10,
+      "path": null
+     },
+     {
+      "subsystem": "body_structure",
+      "name": "Body/structure",
+      "risk": 0.4216,
+      "effort_pct": 7.59,
+      "path": [
+       "HV battery",
+       "Body/structure"
+      ]
+     },
+     {
+      "subsystem": "software_hmi",
+      "name": "Software/HMI",
+      "risk": 0.4475,
+      "effort_pct": 4.47,
+      "path": [
+       "HV battery",
+       "E/E architecture",
+       "Software/HMI"
+      ]
+     },
+     {
+      "subsystem": "ee_architecture",
+      "name": "E/E architecture",
+      "risk": 0.4667,
+      "effort_pct": 4.2,
+      "path": [
+       "HV battery",
+       "E/E architecture"
+      ]
+     },
+     {
+      "subsystem": "thermal_hvac",
+      "name": "Thermal/HVAC",
+      "risk": 0.5437,
+      "effort_pct": 3.26,
+      "path": [
+       "HV battery",
+       "Thermal/HVAC"
+      ]
+     },
+     {
+      "subsystem": "chassis",
+      "name": "Chassis",
+      "risk": 0.3112,
+      "effort_pct": 3.11,
+      "path": [
+       "HV battery",
+       "Chassis"
+      ]
+     },
+     {
+      "subsystem": "charging",
+      "name": "Charging",
+      "risk": 0.63,
+      "effort_pct": 2.52,
+      "path": [
+       "HV battery",
+       "Charging"
+      ]
+     },
+     {
+      "subsystem": "interior_console",
+      "name": "Interior/console",
+      "risk": 0.1438,
+      "effort_pct": 1.01,
+      "path": [
+       "HV battery",
+       "Body/structure",
+       "Interior/console"
+      ]
+     },
+     {
+      "subsystem": "exterior_design",
+      "name": "Exterior design",
+      "risk": 0.1155,
+      "effort_pct": 0.69,
+      "path": [
+       "HV battery",
+       "Body/structure",
+       "Exterior design"
+      ]
+     },
+     {
+      "subsystem": "seats",
+      "name": "Seats",
+      "risk": 0.024,
+      "effort_pct": 0.12,
+      "path": [
+       "HV battery",
+       "Body/structure",
+       "Interior/console",
+       "Seats"
+      ]
+     }
+    ],
+    "effort_raw": 48.97717230219264,
+    "p5": 36.73,
+    "p95": 56.87,
+    "decision_stable_pct": 100,
+    "score_stable_pct": 71.5,
+    "actual": "new generation",
+    "ok": true,
+    "k3_rule": true
+   },
+   {
+    "id": "i4-lci-2025-range",
+    "name": "i4 LCI 2025: 613 km range, +10% power",
+    "anchor": true,
+    "independent": true,
+    "effort_pct": 11.49,
+    "layer": "K2",
+    "decision": "adapt",
+    "size": "M",
+    "certification_add_on": false,
+    "platform_change": false,
+    "subsystems": [
+     {
+      "subsystem": "hv_battery",
+      "name": "HV battery",
+      "risk": 0.3,
+      "effort_pct": 3,
+      "path": null
+     },
+     {
+      "subsystem": "body_structure",
+      "name": "Body/structure",
+      "risk": 0.1295,
+      "effort_pct": 2.33,
+      "path": [
+       "HV battery",
+       "Body/structure"
+      ]
+     },
+     {
+      "subsystem": "software_hmi",
+      "name": "Software/HMI",
+      "risk": 0.1523,
+      "effort_pct": 1.52,
+      "path": [
+       "HV battery",
+       "E/E architecture",
+       "Software/HMI"
+      ]
+     },
+     {
+      "subsystem": "ee_architecture",
+      "name": "E/E architecture",
+      "risk": 0.15,
+      "effort_pct": 1.35,
+      "path": [
+       "HV battery",
+       "E/E architecture"
+      ]
+     },
+     {
+      "subsystem": "chassis",
+      "name": "Chassis",
+      "risk": 0.0994,
+      "effort_pct": 0.99,
+      "path": [
+       "HV battery",
+       "Chassis"
+      ]
+     },
+     {
+      "subsystem": "thermal_hvac",
+      "name": "Thermal/HVAC",
+      "risk": 0.164,
+      "effort_pct": 0.98,
+      "path": [
+       "HV battery",
+       "Thermal/HVAC"
+      ]
+     },
+     {
+      "subsystem": "charging",
+      "name": "Charging",
+      "risk": 0.189,
+      "effort_pct": 0.76,
+      "path": [
+       "HV battery",
+       "Charging"
+      ]
+     },
+     {
+      "subsystem": "interior_console",
+      "name": "Interior/console",
+      "risk": 0.0438,
+      "effort_pct": 0.31,
+      "path": [
+       "HV battery",
+       "Body/structure",
+       "Interior/console"
+      ]
+     },
+     {
+      "subsystem": "exterior_design",
+      "name": "Exterior design",
+      "risk": 0.0351,
+      "effort_pct": 0.21,
+      "path": [
+       "HV battery",
+       "Body/structure",
+       "Exterior design"
+      ]
+     },
+     {
+      "subsystem": "seats",
+      "name": "Seats",
+      "risk": 0.0072,
+      "effort_pct": 0.04,
+      "path": [
+       "HV battery",
+       "Body/structure",
+       "Interior/console",
+       "Seats"
+      ]
+     }
+    ],
+    "effort_raw": 11.491462466709462,
+    "p5": 5,
+    "p95": 16.07,
+    "decision_stable_pct": 91.2,
+    "score_stable_pct": 91.2,
+    "actual": "adapt",
+    "ok": true,
+    "k3_rule": false
+   },
+   {
+    "id": "ix3-lwb-china",
+    "name": "iX3 Long Wheelbase China (2026, at launch)",
+    "anchor": true,
+    "independent": false,
+    "effort_pct": 25.22,
+    "layer": "K2",
+    "decision": "major revision",
+    "size": "L",
+    "certification_add_on": true,
+    "platform_change": false,
+    "subsystems": [
+     {
+      "subsystem": "body_structure",
+      "name": "Body/structure",
+      "risk": 0.4,
+      "effort_pct": 7.2,
+      "path": null
+     },
+     {
+      "subsystem": "chassis",
+      "name": "Chassis",
+      "risk": 0.2,
+      "effort_pct": 2,
+      "path": [
+       "Body/structure",
+       "Chassis"
+      ]
+     },
+     {
+      "subsystem": "software_hmi",
+      "name": "Software/HMI",
+      "risk": 0.1463,
+      "effort_pct": 1.46,
+      "path": [
+       "Body/structure",
+       "Interior/console",
+       "E/E architecture",
+       "Software/HMI"
+      ]
+     },
+     {
+      "subsystem": "interior_console",
+      "name": "Interior/console",
+      "risk": 0.15,
+      "effort_pct": 1.05,
+      "path": [
+       "Body/structure",
+       "Interior/console"
+      ]
+     },
+     {
+      "subsystem": "exterior_design",
+      "name": "Exterior design",
+      "risk": 0.12,
+      "effort_pct": 0.72,
+      "path": [
+       "Body/structure",
+       "Exterior design"
+      ]
+     },
+     {
+      "subsystem": "ee_architecture",
+      "name": "E/E architecture",
+      "risk": 0.0563,
+      "effort_pct": 0.51,
+      "path": [
+       "Body/structure",
+       "Interior/console",
+       "E/E architecture"
+      ]
+     },
+     {
+      "subsystem": "seats",
+      "name": "Seats",
+      "risk": 0.03,
+      "effort_pct": 0.15,
+      "path": [
+       "Body/structure",
+       "Interior/console",
+       "Seats"
+      ]
+     },
+     {
+      "subsystem": "thermal_hvac",
+      "name": "Thermal/HVAC",
+      "risk": 0.0211,
+      "effort_pct": 0.13,
+      "path": [
+       "Body/structure",
+       "Interior/console",
+       "Seats",
+       "Thermal/HVAC"
+      ]
+     }
+    ],
+    "effort_raw": 25.2164003203968,
+    "p5": 16.9,
+    "p95": 32.78,
+    "decision_stable_pct": 98.3,
+    "score_stable_pct": 98.3,
+    "actual": "major revision",
+    "ok": true,
+    "k3_rule": false
+   },
+   {
+    "id": "fridge-console",
+    "name": "Fridge (center console)",
+    "anchor": false,
+    "independent": true,
+    "effort_pct": 6.04,
+    "layer": "K2",
+    "decision": "adapt",
+    "size": "M",
+    "certification_add_on": false,
+    "platform_change": false,
+    "subsystems": [
+     {
+      "subsystem": "software_hmi",
+      "name": "Software/HMI",
+      "risk": 0.2533,
+      "effort_pct": 2.53,
+      "path": [
+       "Interior/console",
+       "E/E architecture",
+       "Software/HMI"
+      ]
+     },
+     {
+      "subsystem": "interior_console",
+      "name": "Interior/console",
+      "risk": 0.3,
+      "effort_pct": 2.1,
+      "path": null
+     },
+     {
+      "subsystem": "ee_architecture",
+      "name": "E/E architecture",
+      "risk": 0.095,
+      "effort_pct": 0.85,
+      "path": [
+       "Interior/console",
+       "E/E architecture"
+      ]
+     },
+     {
+      "subsystem": "seats",
+      "name": "Seats",
+      "risk": 0.06,
+      "effort_pct": 0.3,
+      "path": [
+       "Interior/console",
+       "Seats"
+      ]
+     },
+     {
+      "subsystem": "thermal_hvac",
+      "name": "Thermal/HVAC",
+      "risk": 0.0421,
+      "effort_pct": 0.25,
+      "path": [
+       "Interior/console",
+       "Seats",
+       "Thermal/HVAC"
+      ]
+     }
+    ],
+    "effort_raw": 6.040546996762382,
+    "p5": 2.76,
+    "p95": 8.3,
+    "decision_stable_pct": 100,
+    "score_stable_pct": 100,
+    "actual": null,
+    "ok": null,
+    "k3_rule": false
+   },
+   {
+    "id": "front-seat-ventilation",
+    "name": "Front seat ventilation (developed new)",
+    "anchor": false,
+    "independent": true,
+    "effort_pct": 5.45,
+    "layer": "K2",
+    "decision": "adapt",
+    "size": "M",
+    "certification_add_on": false,
+    "platform_change": false,
+    "subsystems": [
+     {
+      "subsystem": "software_hmi",
+      "name": "Software/HMI",
+      "risk": 0.2609,
+      "effort_pct": 2.61,
+      "path": [
+       "Seats",
+       "E/E architecture",
+       "Software/HMI"
+      ]
+     },
+     {
+      "subsystem": "seats",
+      "name": "Seats",
+      "risk": 0.3,
+      "effort_pct": 1.5,
+      "path": null
+     },
+     {
+      "subsystem": "ee_architecture",
+      "name": "E/E architecture",
+      "risk": 0.0989,
+      "effort_pct": 0.89,
+      "path": [
+       "Seats",
+       "E/E architecture"
+      ]
+     },
+     {
+      "subsystem": "thermal_hvac",
+      "name": "Thermal/HVAC",
+      "risk": 0.075,
+      "effort_pct": 0.45,
+      "path": [
+       "Seats",
+       "Thermal/HVAC"
+      ]
+     }
+    ],
+    "effort_raw": 5.449840000000001,
+    "p5": 2.41,
+    "p95": 7.75,
+    "decision_stable_pct": 100,
+    "score_stable_pct": 100,
+    "actual": null,
+    "ok": null,
+    "k3_rule": false
+   }
+  ],
+  "hits": 8,
+  "anchors": 8,
+  "independent_hits": 7,
+  "independent_anchors": 7,
+  "runs": 2000,
+  "spread": 0.5,
+  "scope": "all",
+  "seed": 42,
+  "model_hash": "789fcb7624b8"
+ }
+}

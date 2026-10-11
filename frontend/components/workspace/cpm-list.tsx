@@ -6,6 +6,7 @@ import { subsystemsByWeight } from "@/lib/content/cpm";
 import type { CpmCatalogue, CpmSubsystem, CpmSubsystemKey, CpmSubsystemView, CpmView } from "@/lib/content/cpm-types";
 import type { MarketContent, VehicleContent } from "@/lib/content/types";
 import { site } from "@/lib/site";
+import type { SubsystemBridge } from "@/lib/workspace/requirements";
 import { CpmDialog } from "./cpm-dialog";
 
 /*
@@ -15,16 +16,20 @@ import { CpmDialog } from "./cpm-dialog";
  * subsystems the model keeps on this vehicle) as a bar in the one blue, and
  * the classified verbatim rows whose themes fall in it. A row opens the
  * subsystem dialog. Weights are per vehicle, not per market, so the list
- * stays for markets without verbatims.
+ * stays for markets without verbatims. Since step 15 a third line names
+ * the requirements whose change starts in or reaches the subsystem
+ * (bridge 1 of plan 08), from the scope's effort estimates.
  */
 export interface CpmListProps {
   catalogue: CpmCatalogue;
   view: CpmView;
   market: MarketContent;
   vehicle: VehicleContent;
+  /** Per subsystem, the requirements that change it; undefined where the scope has no requirement set. */
+  bridges: Partial<Record<CpmSubsystemKey, SubsystemBridge>> | undefined;
 }
 
-export function CpmList({ catalogue, view, market, vehicle }: CpmListProps) {
+export function CpmList({ catalogue, view, market, vehicle, bridges }: CpmListProps) {
   const [openKey, setOpenKey] = useState<CpmSubsystemKey | null>(null);
   const rows = subsystemsByWeight(catalogue, view);
   const open = openKey ? rows.find((r) => r.subsystem.key === openKey) ?? null : null;
@@ -39,7 +44,7 @@ export function CpmList({ catalogue, view, market, vehicle }: CpmListProps) {
         <ol className="cpm-list" aria-label={cpm.listLabel}>
           {rows.map(({ subsystem, entry }) => (
             <li key={subsystem.key}>
-              <CpmRow subsystem={subsystem} entry={entry} verbatims={view.verbatims} onOpen={setOpenKey} />
+              <CpmRow subsystem={subsystem} entry={entry} verbatims={view.verbatims} bridge={bridges ? (bridges[subsystem.key] ?? null) : undefined} onOpen={setOpenKey} />
             </li>
           ))}
         </ol>
@@ -58,6 +63,7 @@ export function CpmList({ catalogue, view, market, vehicle }: CpmListProps) {
         view={view}
         market={market}
         vehicle={vehicle}
+        bridge={open && bridges ? (bridges[open.subsystem.key] ?? null) : undefined}
         onClose={() => setOpenKey(null)}
       />
     </>
@@ -68,10 +74,25 @@ interface CpmRowProps {
   subsystem: CpmSubsystem;
   entry: CpmSubsystemView;
   verbatims: number;
+  /** null: a requirement set exists but nothing changes this subsystem; undefined: no requirement set. */
+  bridge: SubsystemBridge | null | undefined;
   onOpen: (key: CpmSubsystemKey) => void;
 }
 
-function CpmRow({ subsystem, entry, verbatims, onOpen }: CpmRowProps) {
+/** "2 requirements start here · reached by 5 · up to 4.6 %", or why there is none. */
+function bridgeLine(bridge: SubsystemBridge | null | undefined): string {
+  const copy = site.cpm.bridge;
+  if (bridge === undefined) return copy.noSet;
+  if (!bridge || (bridge.starts.length === 0 && bridge.reaches.length === 0)) return copy.none;
+  const parts: string[] = [];
+  if (bridge.starts.length > 0) parts.push(`${full(bridge.starts.length)} ${bridge.starts.length === 1 ? copy.startOne : copy.startMany}`);
+  if (bridge.reaches.length > 0) parts.push(`${bridge.reaches.length === 1 ? copy.reachedOne : copy.reachedMany} ${full(bridge.reaches.length)}`);
+  const max = Math.max(...[...bridge.starts, ...bridge.reaches].map((r) => r.effortPct));
+  parts.push(`${copy.upTo} ${max.toFixed(1)} %`);
+  return parts.join(" · ");
+}
+
+function CpmRow({ subsystem, entry, verbatims, bridge, onOpen }: CpmRowProps) {
   const { cpm } = site;
   const figures =
     verbatims === 0
@@ -89,6 +110,7 @@ function CpmRow({ subsystem, entry, verbatims, onOpen }: CpmRowProps) {
         <span style={{ width: `${String(entry.weight)}%` }} />
       </span>
       <span className="cpm-row-figures">{figures}</span>
+      <span className="cpm-row-requirements">{bridgeLine(bridge)}</span>
     </button>
   );
 }

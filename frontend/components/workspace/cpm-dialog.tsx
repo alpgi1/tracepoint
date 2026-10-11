@@ -1,10 +1,13 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { full, weight } from "@/lib/content/format";
 import type { CpmBlock, CpmCatalogue, CpmCriticisedTheme, CpmLikedTheme, CpmMarketRow, CpmSubsystem, CpmSubsystemView, CpmView } from "@/lib/content/cpm-types";
 import type { MarketContent, VehicleContent } from "@/lib/content/types";
 import { site } from "@/lib/site";
+import { requirementHref, type SubsystemBridge } from "@/lib/workspace/requirements";
+import { vehicleHref } from "@/lib/content/markets";
 
 /*
  * The subsystem dialog: covers most of the viewport over the vehicle screen
@@ -12,7 +15,10 @@ import { site } from "@/lib/site";
  * team's sketch (step 13, revision 2): Liked and Disliked, each a
  * one-sentence suggestion and a short summary beside the likes or complaints
  * per theme as columns rising from or hanging under one baseline; then the
- * market analysis with the sourced statements for the market. Built on the
+ * market analysis with the sourced statements for the market; since step
+ * 15 a fourth band with the requirements that change the subsystem
+ * (bridge 2 of plan 08) and, under the disliked suggestion, the
+ * requirements on the criticised themes (bridge 3). Built on the
  * native dialog element (showModal): the top layer, Escape, focus containment
  * and the return of focus come from the browser, nothing is installed.
  * Method after the scrolling dialogs with a sticky header seen in the
@@ -27,17 +33,19 @@ export interface CpmDialogProps {
   view: CpmView;
   market: MarketContent;
   vehicle: VehicleContent;
+  /** null: a requirement set exists but nothing changes this subsystem; undefined: no requirement set. */
+  bridge: SubsystemBridge | null | undefined;
   onClose: () => void;
 }
 
 const TITLE_ID = "cpm-dialog-title";
 
-export function CpmDialog({ subsystem, entry, catalogue, view, market, vehicle, onClose }: CpmDialogProps) {
+export function CpmDialog({ subsystem, entry, catalogue, view, market, vehicle, bridge, onClose }: CpmDialogProps) {
   const ref = useRef<HTMLDialogElement>(null);
   const open = subsystem !== null && entry !== null;
   // The last shown subsystem stays rendered while the dialog fades out (state kept from the previous render).
-  const [shown, setShown] = useState<{ subsystem: CpmSubsystem; entry: CpmSubsystemView } | null>(null);
-  if (subsystem && entry && (shown?.subsystem !== subsystem || shown.entry !== entry)) setShown({ subsystem, entry });
+  const [shown, setShown] = useState<{ subsystem: CpmSubsystem; entry: CpmSubsystemView; bridge: SubsystemBridge | null | undefined } | null>(null);
+  if (subsystem && entry && (shown?.subsystem !== subsystem || shown.entry !== entry)) setShown({ subsystem, entry, bridge });
 
   useEffect(() => {
     const el = ref.current;
@@ -71,10 +79,11 @@ interface DialogContentProps {
   view: CpmView;
   market: MarketContent;
   vehicle: VehicleContent;
+  bridge: SubsystemBridge | null | undefined;
   onClose: () => void;
 }
 
-function DialogContent({ subsystem, entry, view, market, vehicle, onClose }: DialogContentProps) {
+function DialogContent({ subsystem, entry, view, market, vehicle, bridge, onClose }: DialogContentProps) {
   const copy = site.cpm.dialog;
   const hasVerbatims = view.verbatims > 0;
   const rowsLine =
@@ -126,8 +135,10 @@ function DialogContent({ subsystem, entry, view, market, vehicle, onClose }: Dia
               <ThemeBars caption={copy.complaintsPerTheme} direction="down" items={entry.criticised.themes.map((t) => ({ label: t.theme, value: t.complaints }))} />
             ) : null
           }
+          below={entry.criticised.themes.length > 0 && bridge !== undefined ? <CitingLine bridge={bridge} market={market} vehicle={vehicle} /> : null}
         />
         <MarketBand rows={entry.market} market={market} />
+        <RequirementsBand subsystem={subsystem} bridge={bridge} market={market} vehicle={vehicle} />
       </div>
     </div>
   );
@@ -140,9 +151,11 @@ interface BandProps {
   hasVerbatims: boolean;
   empty: string;
   chart: React.ReactNode;
+  /** Under the summary: the requirements on the criticised themes (bridge 3). */
+  below?: React.ReactNode;
 }
 
-function Band({ id, heading, block, hasVerbatims, empty, chart }: BandProps) {
+function Band({ id, heading, block, hasVerbatims, empty, chart, below }: BandProps) {
   const copy = site.cpm.dialog;
   return (
     <section className="cpm-band" aria-labelledby={id}>
@@ -156,12 +169,91 @@ function Band({ id, heading, block, hasVerbatims, empty, chart }: BandProps) {
           <>
             <p className="cpm-band-lead">{block.narration.suggestion}</p>
             <p className="cpm-band-summary">{block.narration.summary}</p>
+            {below}
           </>
         ) : (
           <p className="cpm-empty">{empty}</p>
         )}
       </div>
       {chart}
+    </section>
+  );
+}
+
+/** Bridge 3: the requirements citing the subsystem's criticised themes, theme by theme. */
+function CitingLine({ bridge, market, vehicle }: { bridge: SubsystemBridge | null; market: MarketContent; vehicle: VehicleContent }) {
+  const copy = site.cpm.dialog;
+  const citing = bridge?.citing ?? [];
+  if (citing.length === 0) return <p className="cpm-citing cpm-muted">{copy.citingNone}</p>;
+  return (
+    <div className="cpm-citing">
+      <span className="cpm-muted">{copy.citingHeading}.</span>{" "}
+      {citing.map((c, i) => (
+        <span key={c.theme}>
+          {i > 0 ? " " : ""}
+          {c.theme}:{" "}
+          {c.requirements.map((r, j) => (
+            <span key={r.id}>
+              {j > 0 ? ", " : ""}
+              <Link href={requirementHref(market.code, vehicle.code, r.id)} className="cpm-citing-link">
+                {r.id}
+              </Link>
+            </span>
+          ))}
+          .
+        </span>
+      ))}
+    </div>
+  );
+}
+
+/** Bridge 2: the fourth band, the requirements whose change starts in or reaches the subsystem. */
+function RequirementsBand({ subsystem, bridge, market, vehicle }: { subsystem: CpmSubsystem; bridge: SubsystemBridge | null | undefined; market: MarketContent; vehicle: VehicleContent }) {
+  const copy = site.cpm.dialog;
+  const starts = bridge?.starts ?? [];
+  const reaches = bridge?.reaches ?? [];
+  const lines = [...starts.map((r) => ({ ...r, where: copy.startsHere })), ...reaches.map((r) => ({ ...r, where: copy.reaches }))];
+  return (
+    <section className="cpm-band cpm-band-requirements" aria-labelledby="cpm-requirements">
+      <div className="cpm-band-text">
+        <h3 id="cpm-requirements" className="cpm-band-h">
+          {copy.requirementsHeading} {subsystem.name}
+        </h3>
+        {bridge === undefined ? (
+          <p className="cpm-empty">{copy.noSet}</p>
+        ) : lines.length === 0 ? (
+          <p className="cpm-empty">
+            {copy.noRequirementsBefore} {subsystem.name} {copy.noRequirementsAfter}
+          </p>
+        ) : (
+          <>
+            <p className="cpm-band-lead">
+              {full(starts.length)} {copy.startsHere}, {full(reaches.length)} {copy.reaches}.
+            </p>
+            <p className="cpm-band-summary">{copy.requirementsLead}</p>
+            <p className="cpm-band-summary">
+              <Link href={`${vehicleHref(market.code, vehicle.code)}/structure?view=all&subsystem=${subsystem.key}`} className="tap cpm-market-link">
+                {copy.toStructure}
+              </Link>
+            </p>
+          </>
+        )}
+      </div>
+      {lines.length > 0 ? (
+        <ol className="cpm-requirement-list">
+          {lines.map((r) => (
+            <li key={`${r.where}-${r.id}`} className="cpm-requirement">
+              <Link href={requirementHref(market.code, vehicle.code, r.id)} className="cpm-requirement-link">
+                <span className="candidate-id">{r.id}</span>
+                <span>{r.title}</span>
+              </Link>
+              <span className="cpm-requirement-figure">
+                {r.horizon} · {r.kind === "change" ? `${r.effortPct.toFixed(1)} %, ${r.decision}` : r.decision} · {r.where}
+              </span>
+            </li>
+          ))}
+        </ol>
+      ) : null}
     </section>
   );
 }

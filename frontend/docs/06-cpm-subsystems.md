@@ -112,6 +112,14 @@ platform) and the study card of step 07 below it.
 * **Motion.** 200 ms fade and 8 px rise on open, 160 ms on close, through `@starting-style` and
   `transition-behavior: allow-discrete`; none under reduced motion.
 
+## 5a. Step 15: the requirements on the row and in the dialog
+
+Each row carries a third line with the requirements whose change starts in or reaches the
+subsystem and the largest effort among them; the dialog carries a fourth band, "Requirements that
+change {subsystem}", and under the disliked suggestion the requirements citing the criticised
+themes. See `07-workspace.md` section 4a; the data comes from the workspace snapshot, not from
+`cpm.json`.
+
 ## 6. The contract with the backend (`lib/content/cpm-types.ts`)
 
 The types mirror `content/cpm.json` and are the shape of `GET /cpm/subsystems` (the catalogue)
