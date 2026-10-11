@@ -15,9 +15,15 @@ from sqlalchemy import case, select
 from sqlalchemy.orm import Session
 
 from tracepoint.db.models import Finding
+from tracepoint.effort.subsystems import (
+    load_market_rows,
+    subsystem_view,
+    summary_rows,
+    theme_subsystem,
+)
 from tracepoint.reports.baseline import build_baseline
 
-CONTEXT_PACK_VERSION = "context-pack-v2"
+CONTEXT_PACK_VERSION = "context-pack-v3"  # v3: CPM subsystems and market evidence
 _LEVEL_ORDER = case({"A": 0, "B": 1, "C": 2}, value=Finding.evidence_level, else_=3)
 
 
@@ -58,6 +64,12 @@ def build_context_pack(
         )
     ).all()
     cov = rep["coverage"]
+    # the engineering view of the same rows; the counting basis is the baseline's (all labels)
+    view = (
+        subsystem_view(session, vehicle_code, market_code, country_code, labels="all")
+        if market_code
+        else None
+    )
     return {
         "pack": CONTEXT_PACK_VERSION,
         "generated_at": datetime.now(UTC).isoformat(timespec="seconds"),
@@ -85,6 +97,7 @@ def build_context_pack(
                         "wants",
                     )
                 },
+                "subsystem": theme_subsystem(r["theme"]),
                 "quotes": _quotes(r["quotes"]),
             }
             for r in rep["top_complaint_themes"][:top]
@@ -112,6 +125,10 @@ def build_context_pack(
             "optional_on_all_variants": rep["equipment"]["optional_on_all_variants"][:10],
         },
         "sales": rep["sales"],
+        "subsystems": summary_rows(view) if view else [],
+        "subsystem_rows_unassigned": view["unassignedRows"] if view else 0,
+        "subsystems_absent": view["absent"] if view else [],
+        "market_evidence": load_market_rows(market_code) if market_code else [],
         "findings": [
             {
                 "id": f.id,
@@ -144,7 +161,8 @@ def render_markdown(pack: dict[str, Any]) -> str:
     out += ["", "## Top complaint themes"]
     for t in pack["top_complaints"]:
         out.append(
-            f"- **{t['theme']}** ({t['domain']}): {t['complaints']} complaints "
+            f"- **{t['theme']}** ({t['domain']}, subsystem {t['subsystem'] or 'none'}): "
+            f"{t['complaints']} complaints "
             f"(defect {t['defects']}, difficult {t['difficult_to_use']}, wants {t['wants']})"
         )
         out += [f'  - "{q["text"]}" [{q["evidence_ref"]}]' for q in t["quotes"]]
@@ -164,6 +182,36 @@ def render_markdown(pack: dict[str, Any]) -> str:
         for e in pack["equipment"]["optional_on_all_variants"]
     ]
     out += ["", "## Sales (units)", "```", json.dumps(pack["sales"]["by_year"]), "```"]
+    out += [
+        "",
+        "## CPM subsystems: the same customer rows in the engineering view",
+        "Theme to subsystem mapping and weights (share of the development effort of a new "
+        f"generation) are assumptions. {pack['subsystem_rows_unassigned']} rows belong to no "
+        "subsystem."
+        + "".join(
+            f" {a['name']} is not on this vehicle ({a['rows']} rows fall there)."
+            for a in pack["subsystems_absent"]
+        ),
+    ]
+    out += [
+        f"- {s['name']} `{s['subsystem']}` (weight {s['weight']}): {s['complaints']} complaints, "
+        f"{s['likes']} likes"
+        + (f"; most criticised: {', '.join(s['top_criticised'])}" if s["top_criticised"] else "")
+        for s in pack["subsystems"]
+    ]
+    out += ["", f"## Market and competition evidence (market {pack['market']})"]
+    for m in pack["market_evidence"]:
+        src = m["source"]
+        out.append(
+            f"- [{m['kind']}, level {m['level']}, {m['basis']}, {src['type']} source] "
+            f"{m['statement']} ({src['title']}, {src['date']}; subsystem {m['subsystem']}) "
+            f"[{m['evidence_ref']}]" + (f" Note: {m['note']}" if m["note"] else "")
+        )
+        if m["contradiction"]:
+            c = m["contradiction"]
+            out.append(f"  - contradiction, for: {c['for']} Against: {c['against']}")
+    if not pack["market_evidence"]:
+        out.append("- None stored for this market.")
     out += ["", f"## Strongest findings (market {pack['market']})"]
     out += [
         f"- [{f['evidence_level']}] {f['title']} ({f['kind']}, {f['evidence_count']} evidence) `{f['id']}`"

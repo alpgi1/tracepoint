@@ -27,6 +27,12 @@ from tracepoint.db.models import (
     Verbatim,
     VerbatimClassification,
 )
+from tracepoint.effort.subsystems import (
+    subsystem_names,
+    subsystem_view,
+    summary_rows,
+    theme_subsystem,
+)
 
 Vehicle = Literal["F70", "G60", "G68", "G70"]
 MarketCode = Literal["EU", "US", "CN", "RoW"]
@@ -188,6 +194,7 @@ def get_verbatims_by_theme(session: Session, a: VerbatimsByThemeArgs) -> dict[st
     return {
         "theme": theme.name,
         "domain": theme.domain_key,
+        "subsystem": theme_subsystem(theme.name),
         "total": total,
         "items": _compact_verbatims(session, list(rows)),
     }
@@ -295,6 +302,7 @@ def get_findings(session: Session, a: FindingsArgs) -> dict[str, Any]:
             a.limit
         )
     ).all()
+    theme_names = {t.id: t.name for t in session.scalars(select(TaxonomyLevel2))}
     return {
         "total": total,
         "items": [
@@ -303,6 +311,7 @@ def get_findings(session: Session, a: FindingsArgs) -> dict[str, Any]:
                 "kind": f.kind,
                 "layer": f.layer,
                 "domain": f.domain_key,
+                "subsystem": theme_subsystem(theme_names.get(f.theme_level2_id)),
                 "title": f.title,
                 "statement": f.statement,
                 "evidence_level": f.evidence_level,
@@ -331,6 +340,59 @@ def get_requirements(session: Session, a: RequirementsArgs) -> dict[str, Any]:
         if (not a.domain or r["domain"] == a.domain) and (not a.status or r["status"] == a.status)
     ]
     return {"total": len(rows), "items": rows}
+
+
+class SubsystemsArgs(BaseModel):
+    vehicle: Vehicle
+    market: MarketCode
+    country: CountryCode | None = None
+    subsystem: str | None = Field(
+        None, description="Subsystem key, e.g. software_hmi; omit for the overview of all twelve"
+    )
+
+
+def get_subsystems(session: Session, a: SubsystemsArgs) -> dict[str, Any]:
+    """The customer voice through the twelve CPM subsystems (the engineering view, where effort
+    propagates): classification rows, likes and complaints per subsystem, and the market and
+    competitor evidence of the market. With a subsystem: its liked and criticised themes with
+    quotes. The theme to subsystem mapping and the weights are assumptions."""
+    names = subsystem_names()
+    if a.subsystem and a.subsystem not in names:
+        return {"error": f"unknown subsystem {a.subsystem!r}", "subsystems": list(names)}
+    view = subsystem_view(
+        session, a.vehicle, a.market, a.country, labels="all", subsystem=a.subsystem
+    )
+    items = summary_rows(view)
+    if a.subsystem:
+        detail = next((s for s in view["subsystems"] if s["key"] == a.subsystem), None)
+        if detail is None:
+            return {
+                "error": f"{a.vehicle} has no {a.subsystem} subsystem",
+                "note": view["absentNote"],
+            }
+        items = [
+            {
+                **{k: v for k, v in row.items() if not k.startswith("top_")},
+                "liked": detail["liked"]["themes"],
+                "criticised": detail["criticised"]["themes"],
+            }
+            for row in items
+            if row["subsystem"] == a.subsystem
+        ]
+    return {
+        "total": len(items),
+        "basis": view["rowsSource"],
+        "rows": view["rows"],
+        "unassigned_rows": view["unassignedRows"],
+        "not_on_this_vehicle": view["absent"],
+        "items": items,
+        "market_evidence": [
+            r
+            for s in view["subsystems"]
+            for r in s["market"]
+            if not a.subsystem or s["key"] == a.subsystem
+        ],
+    }
 
 
 class EffortArgs(BaseModel):
@@ -375,6 +437,7 @@ TOOLS: dict[str, tuple[type[BaseModel], Callable[[Session, Any], dict[str, Any]]
     "get_findings": (FindingsArgs, get_findings),
     "get_requirements": (RequirementsArgs, get_requirements),
     "get_effort": (EffortArgs, get_effort),
+    "get_subsystems": (SubsystemsArgs, get_subsystems),
 }
 
 

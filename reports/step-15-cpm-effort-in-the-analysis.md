@@ -90,7 +90,7 @@ the pushed commit found that they were trusted too far; all of the following is 
 * Carryover in an analyst's profile is reported and not applied: the profile is computed as a
   new development, and the report shows the figure with the claim beside it.
 * The size limits (eight changes per proposal, five catalogue terms per change, 20 proposals)
-  are part of the answer schema (D-076): the provider enforces them and an answer beyond them
+  are part of the answer schema (D-077): the provider enforces them and an answer beyond them
   is rejected as a whole. A first version cut a profile to its first eight changes and still
   showed the estimate; nothing is cut now. Terms under four characters or with a wildcard are
   not searched and are named in a flag.

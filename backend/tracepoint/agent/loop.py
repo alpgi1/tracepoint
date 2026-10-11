@@ -48,7 +48,7 @@ def collect_refs(obj: Any, into: set[str]) -> set[str]:
     """Every evidence reference and entity id in a tool result or context pack."""
     if isinstance(obj, dict):
         for key, value in obj.items():
-            if key in ("evidence_ref", "id") and isinstance(value, str):
+            if key in ("evidence_ref", "evidenceRef", "id") and isinstance(value, str):
                 into.add(value)
             else:
                 collect_refs(value, into)

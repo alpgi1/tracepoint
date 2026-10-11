@@ -36,12 +36,16 @@ from tracepoint.effort.store import (
     evaluate,
     evaluate_changes,
     horizon_flags,
+    reference_changes,
 )
+from tracepoint.effort.subsystems import subsystem_names, subsystems_of_refs
 from tracepoint.llm.gateway import LlmGateway
 
 # v2: the loop's untrusted-data rule joins the prompt; v3: CPM effort and change profiles;
-# v4: changes_vehicle, scope of related_requirement, carryover of own profiles not applied
-PROMPT_VERSION = "situation-analysis-v4"
+# v4: changes_vehicle, scope of related_requirement, carryover of own profiles not applied;
+# v5: the CPM subsystem view and the market evidence;
+# v6: reference changes per subsystem, start subsystem and size are checked and sent back
+PROMPT_VERSION = "situation-analysis-v6"
 ACTOR = "agent:analyst"
 
 
@@ -107,12 +111,12 @@ SYSTEM_PROMPT = """You are the situation analyst of Tracepoint, a customer-requi
 
 How to work
 1. The user message holds the context pack of the scope. Read it first.
-2. Drill down with the tools before you conclude. Read the verbatims behind the largest complaint themes and behind the strengths (get_verbatims_by_theme, search_evidence). Check the study metrics (get_metric), the catalogue (get_equipment), the sales weight (get_sales), the extracted findings (get_findings) and the requirements already derived (get_requirements). Ask for the requirements without a status filter: most are still proposed and wait for the product manager's decision. Where requirements exist, read their effort estimates and the package variations (get_effort with scenarios=true). Use search_documents for the BMW Group's strategy and delivery figures.
+2. Drill down with the tools before you conclude. Read the verbatims behind the largest complaint themes and behind the strengths (get_verbatims_by_theme, search_evidence). Check the study metrics (get_metric), the catalogue (get_equipment), the sales weight (get_sales), the extracted findings (get_findings) and the requirements already derived (get_requirements). Ask for the requirements without a status filter: most are still proposed and wait for the product manager's decision. Where requirements exist, read their effort estimates and the package variations (get_effort with scenarios=true). The pack also shows the customer rows per CPM subsystem; get_subsystems with a subsystem key returns its liked and criticised themes with quotes. Use search_documents for the BMW Group's strategy and delivery figures.
 3. Search is lexical: when a query returns little, try the customers' other words for the same thing.
 4. Stop calling tools once another call would not change the analysis. Then answer in the JSON schema.
 
 Evidence rules
-- Every insight and every recommendation lists the references it rests on in evidence_refs, copied exactly as you received them: evidence_ref values (verbatim:…, metric:…, equipment:…, sales:…, document:…) and the ids of findings and requirements (FND-…, REQ-…). A reference you were not given is rejected.
+- Every insight and every recommendation lists the references it rests on in evidence_refs, copied exactly as you received them: evidence_ref values (verbatim:…, metric:…, equipment:…, sales:…, document:…, market:…) and the ids of findings and requirements (FND-…, REQ-…). A reference you were not given is rejected.
 - Every number comes from the context pack or from a tool result. Use no figure from memory and no knowledge about competitors or markets that is not in the evidence.
 - A customer quote is copied word for word from a verbatim you cite, and kept short.
 - Say how strong the evidence is: a theme with five rows is not a theme with two hundred.
@@ -122,6 +126,18 @@ Scope of the analysis
 - Out of scope: regulation and homologation, engineering specifications, pricing and business case. Dealer, service-process and finance topics are not product feedback; mention them as context at most.
 - Recommendations are proposals. The product manager decides; do not write them as decisions. Where a requirement that already exists covers a recommendation, put its id in related_requirement and cite it.
 
+Two views of the same customer rows
+- Customers speak in themes and domains; effort propagates in the twelve CPM subsystems. Each theme is mapped to one subsystem (an authored assumption). The pack lists the complaint and like counts per subsystem, and tools return the subsystem of a theme or a finding.
+- Use the subsystem view to see where the complaints concentrate in engineering terms, and say so where it changes the picture: many small complaints in one subsystem can be one piece of work, and a subsystem with a high weight and few complaints is expensive to touch for little customer gain.
+- Insights stay in the customer's terms (theme, domain). The report adds the subsystems of the evidence you cite; you do not list them.
+
+Market and competition evidence
+- The pack and get_subsystems carry market and competitor statements, each with its source, date, an evidence level (weak: one source, medium: two, strong: three or more) and a basis (evidence or assumption). Cite them by their evidence_ref (market:…) and state the level in your words.
+- A weak row is context; it never carries an insight or a recommendation alone. A row whose basis is an assumption cannot raise confidence to high.
+- Where a row carries a contradiction, report both sides. Never average them.
+- A market figure ranks powertrains or describes the region. It is not customer feedback: it does not make a customer need more or less frequent.
+- If no row is stored for the market or the subsystem, say that there is none. Do not fill the gap from memory.
+
 Effort
 - Effort is estimated with the Change Prediction Method as a share of the development effort of a new vehicle generation. It is never money, and every input of the model is an uncalibrated assumption: say so wherever effort enters your reasoning.
 - Effort is a rough prioritisation factor only. What customers need comes first; effort decides the horizon and the packaging, not whether a need is real.
@@ -129,6 +145,8 @@ Effort
 - A recommendation that an existing requirement covers names it in related_requirement and leaves effort_changes null: the requirement's stored profile is used. Name only requirements of the vehicle and market you analyse; any other is refused. If your proposal goes beyond the requirement, add the extra in effort_changes: both are counted.
 - A requirement the product manager rejected at gate G2 is not proposed again, unless your rationale says what new evidence justifies it.
 - Any other recommendation that changes the vehicle sets changes_vehicle to true and gives effort_changes, at most eight entries, one per subsystem where the change starts: the subsystem key from the effort model in the user message, own_impact (share of that subsystem's design redone, judged against the reference points given there), the layer, carryover, why in one sentence, and portfolio_terms (two or three German or English catalogue words for the feature; the catalogue is searched with them). List only where the change starts; the engine adds the propagation to other subsystems.
+- Where a change starts is checked against your evidence. A change that starts in a subsystem none of the findings, requirements or market rows you cite sits in, and that fewer than two of your verbatims touch, is sent back: cite evidence for that subsystem, move the start, or state in why what puts the work there (a complaint about setting the climate through the screen sits in thermal_hvac or software_hmi; physical keys for it start in interior_console, and why says so).
+- own_impact is set by comparison, not by feel. The effort model in the user message lists reference changes for every subsystem: documented BMW decisions and the reviewed profiles of existing requirements. Find the nearest ones, decide whether your change is smaller or larger, and name that comparison in why ("smaller than the OS 7 release at 0.4: one menu layer, not a new system"). A value outside the range of its subsystem's references is sent back.
 - carryover in your own profile is a claim for the product manager to check. It is reported and not applied: your profile is computed as a new development.
 - Only a recommendation that changes nothing on the vehicle (keep a strength, explain a function) sets changes_vehicle to false and has no profile. A proposal that changes the vehicle and has no profile is sent back.
 - Horizon follows effort: H1 holds what stays an adaptation of the current model. A major revision or a new generation belongs to H2, or is split into an H1 step and an H2 step. Several H1 proposals add up: get_effort shows what the existing H1 requirements already come to as one package.
@@ -223,8 +241,59 @@ def effort_brief(engine: Engine) -> str:
         "above that or any K3 change without carryover a new generation.",
         "Reference points for own_impact (documented BMW decisions):",
         *anchors,
+        "Reference changes per subsystem (own_impact, layer, source: what was changed). The "
+        "smallest, a middle and the largest of each; n is how many exist:",
+        *_reference_lines(set(engine.base.weights)),
     ]
     return "\n".join(lines)
+
+
+MIN_REFERENCES = 3  # fewer than this is no scale to hold a size against
+
+
+def _reference_text(r: dict[str, Any]) -> str:
+    label = r["label"] if len(r["label"]) <= 70 else r["label"][:70] + " …"
+    return f"{r['own_impact']} {r['layer']}, {r['source']}: {label}"
+
+
+def _reference_lines(present: set[str]) -> list[str]:
+    lines = []
+    for key, rows in reference_changes().items():
+        if key not in present:
+            continue
+        picks = {0: rows[0], len(rows) // 2: rows[len(rows) // 2], len(rows) - 1: rows[-1]}
+        lines.append(
+            f"- {key} (n={len(rows)}): " + " | ".join(_reference_text(r) for r in picks.values())
+        )
+    return lines
+
+
+def _size_check(c: Change) -> tuple[dict[str, Any], str | None]:
+    """Where an analyst's own_impact stands among the reference changes of its subsystem, and
+    the complaint if it is outside their range."""
+    rows = reference_changes().get(c.subsystem, [])
+    below = [r for r in rows if r["own_impact"] <= c.own_impact]
+    above = [r for r in rows if r["own_impact"] >= c.own_impact]
+    info = {
+        "subsystem": c.subsystem,
+        "own_impact": c.own_impact,
+        "references": len(rows),
+        "nearest_below": below[-1] if below else None,
+        "nearest_above": above[0] if above else None,
+    }
+    if len(rows) < MIN_REFERENCES:
+        return info, None
+    if not above:
+        return info, (
+            f"own_impact {c.own_impact} for {c.subsystem} is above every reference change of "
+            f"that subsystem (largest: {_reference_text(rows[-1])})"
+        )
+    if not below:
+        return info, (
+            f"own_impact {c.own_impact} for {c.subsystem} is below every reference change of "
+            f"that subsystem (smallest: {_reference_text(rows[0])})"
+        )
+    return info, None
 
 
 _EFFORT_KEYS = ("effort_pct", "p5", "p95", "decision", "decision_stable_pct", "layer", "size")
@@ -317,6 +386,54 @@ def effort_of_proposals(
             sources.append(f"change profile of {req.id}")
         own = list(rec.effort_changes or [])
         claimed = [c.subsystem for c in own if c.carryover]
+        cited_in = subsystems_of_refs(session, rec.evidence_refs)
+        # Where the evidence sits for certain: findings, requirements and market rows carry one
+        # theme each; a verbatim carries several labels, so one verbatim alone is not enough.
+        precise = subsystems_of_refs(
+            session, [r for r in rec.evidence_refs if not r.startswith("verbatim:")]
+        )
+        core = set(precise) | {k for k, n in cited_in.items() if n >= 2}
+        elsewhere = sorted({c.subsystem for c in own} - core)
+        if own and not core:
+            flags.append(
+                _flag(
+                    "info",
+                    "map",
+                    "the cited evidence pins no subsystem (no finding, requirement or market "
+                    "row with a theme, and no two verbatims in one subsystem), so where the "
+                    "change starts cannot be checked against it",
+                )
+            )
+        elif elsewhere:
+            text = (
+                f"the change starts in {', '.join(elsewhere)}; the cited evidence sits in "
+                f"{', '.join(sorted(core))} by the theme mapping"
+            )
+            flags.append(_flag("warning", "map", text + ". Check the reason given for it"))
+            faults.append(
+                f'"{rec.title}": {text}. Cite evidence for {", ".join(elsewhere)}, move the '
+                "start of the change to where the evidence sits, or state in the change's why "
+                "what puts the work there."
+            )
+        sizes = []
+        for c in own:
+            info, problem = _size_check(c)
+            sizes.append(info)
+            if problem:
+                flags.append(_flag("warning", "size", problem))
+                faults.append(
+                    f'"{rec.title}": {problem}. Correct own_impact, or state in why what makes '
+                    "this change larger or smaller than that reference."
+                )
+            elif info["references"] < MIN_REFERENCES:
+                flags.append(
+                    _flag(
+                        "info",
+                        "size",
+                        f"{c.subsystem} has {info['references']} reference change(s); the size "
+                        "of this change rests on the analyst's judgement alone",
+                    )
+                )
         unsearched = sorted({t for c in own for t in c.portfolio_terms if not _searchable(t)})
         if unsearched:
             flags.append(
@@ -331,7 +448,12 @@ def effort_of_proposals(
         if own:
             sources.append("analyst's change profile")
         changes = stored_changes + own
-        row: dict[str, Any] = {"source": " plus ".join(sources) or None, "flags": flags}
+        row: dict[str, Any] = {
+            "source": " plus ".join(sources) or None,
+            "flags": flags,
+            "evidence_subsystems": cited_in,
+            "size_references": sizes,
+        }
         rows.append(row)
         if not changes:
             # only a declared "nothing changes" passes without an estimate
@@ -486,6 +608,10 @@ def run_analysis(
     quotes = unverified_quotes(session, result.parsed)
     effort, effort_faults = effort_of_proposals(session, vehicle, market, result.parsed)
     effort["open_faults"] = effort_faults  # what the one correction did not settle
+    # the engineering view of each insight, computed from its references, not written by the model
+    insight_subsystems = [
+        subsystems_of_refs(session, i.evidence_refs) for i in result.parsed.insights
+    ]
     out = {
         "run_id": run.id,
         "vehicle": vehicle,
@@ -497,6 +623,11 @@ def run_analysis(
         "model": result.model,
         "analysis": result.parsed.model_dump(),
         "effort": effort,
+        "subsystems": {
+            "basis": "theme to subsystem by config/cpm/theme_subsystem_map.yaml (an assumption); "
+            "references per subsystem among those the insight cites",
+            "insights": insight_subsystems,
+        },
         "citations": {
             "cited": len(result.cited_refs),
             "unknown": result.unknown_refs,
@@ -552,6 +683,17 @@ def render_analysis(out: dict[str, Any]) -> str:
     def refs(items: list[str]) -> str:
         return ", ".join(f"`{r}`" + (" (not verified)" if r in unknown else "") for r in items)
 
+    names = subsystem_names()
+
+    def subsystem_line(hits: dict[str, int]) -> list[str]:
+        if not hits:
+            return []
+        return [
+            "",
+            "Subsystems of the cited evidence: "
+            + ", ".join(f"{names[k]} ({n})" for k, n in hits.items()),
+        ]
+
     def effort_lines(e: dict[str, Any]) -> list[str]:
         flags = [f"- {f['level']} ({f['rule']}): {f['text']}" for f in e["flags"]]
         if e["status"] == "no_vehicle_change":
@@ -575,6 +717,29 @@ def render_analysis(out: dict[str, Any]) -> str:
                 + (f": {c['why']}" if c["why"] else "")
                 for c in e["changes"]
             ],
+            *[
+                f"- size of {r['subsystem']} {r['own_impact']} among {r['references']} "
+                "reference change(s): "
+                + "; ".join(
+                    f"{side} {_reference_text(r[key])}"
+                    for side, key in (
+                        ("at or below", "nearest_below"),
+                        ("at or above", "nearest_above"),
+                    )
+                    if r[key]
+                )
+                for r in e["size_references"]
+                if r["references"]
+            ],
+            # what the catalogue terms matched, so a flag of rule 43 can be judged
+            *[
+                f"- catalogue scan for {p['subsystem']} with {', '.join(p['terms'])}: "
+                + (
+                    "; ".join(f"{v} {x['status']} ({x['item']})" for v, x in p["vehicles"].items())
+                    or "no item"
+                )
+                for p in e["portfolio"]
+            ],
             *flags,
         ]
 
@@ -596,7 +761,7 @@ def render_analysis(out: dict[str, Any]) -> str:
         "",
         "## Insights",
     ]
-    for i in a["insights"]:
+    for i, hits in zip(a["insights"], out["subsystems"]["insights"], strict=True):
         lines += [
             "",
             f"### {i['title']}",
@@ -610,6 +775,7 @@ def render_analysis(out: dict[str, Any]) -> str:
                 "",
                 f"> {i['customer_quote']}" + (flag if i["customer_quote"] in loose_quotes else ""),
             ]
+        lines += subsystem_line(hits)
         lines += ["", f"Evidence: {refs(i['evidence_refs'])}"]
     lines += ["", "## Recommendations (proposals for the product manager)"]
     for r, e in zip(a["recommendations"], effort["recommendations"], strict=True):
@@ -617,6 +783,7 @@ def render_analysis(out: dict[str, Any]) -> str:
         if r["related_requirement"]:
             lines += ["", f"Existing requirement: {refs([r['related_requirement']])}"]
         lines += effort_lines(e)
+        lines += subsystem_line(e["evidence_subsystems"])
         lines += ["", f"Evidence: {refs(r['evidence_refs'])}"]
     lines += [
         "",
@@ -632,6 +799,11 @@ def render_analysis(out: dict[str, Any]) -> str:
             f"{p['decision_stable_pct']:.0f} % of the runs · sum of the single estimates "
             f"{p['sum_of_single_pct']} %"
         )
+        if p["subsystems"]:
+            lines.append(
+                "  - footprint: "
+                + ", ".join(f"{s['name']} {s['effort_pct']} %" for s in p["subsystems"])
+            )
         lines += [f"  - {f['level']} (rule {f['rule']}): {f['text']}" for f in p["flags"]]
         lines += [f"  - not counted, no usable change profile: {t}" for t in p["not_counted"]]
     if not effort["packages"]:

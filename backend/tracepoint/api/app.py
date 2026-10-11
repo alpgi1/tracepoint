@@ -583,6 +583,78 @@ def requirement_detail(
     }
 
 
+@app.get("/cpm/{vehicle}")
+def cpm_view(
+    vehicle: Literal["F70", "G60", "G68", "G70"],
+    market: Literal["EU", "US", "CN", "RoW"],
+    country: str | None = Query(None, pattern=r"^[A-Z]{2}$"),
+    labels: Literal["given", "all"] = "given",
+    session: Session = Depends(get_session),
+) -> dict[str, Any]:
+    """Per CPM subsystem present on the vehicle: weight, customer rows, the liked and the
+    criticised block (narration, themes with quotes) and the market evidence (`CpmView` of
+    frontend/lib/content/cpm-types.ts). `labels=given` counts the workbook labels, as the
+    frontend content and the committed baselines do; `labels=all` adds the assistant's gap
+    labels."""
+    from tracepoint.effort.subsystems import subsystem_view
+
+    return subsystem_view(session, vehicle, market, country, labels=labels)
+
+
+@app.get("/effort/model")
+def effort_model() -> dict[str, Any]:
+    """The effort model the engine computes with (config/effort/model.yaml): the twelve
+    subsystems with weight, basis, certification trigger and links, thresholds, and the
+    subsystems each vehicle does not have. Assumptions, not calibrated."""
+    from tracepoint.effort.subsystems import model_catalogue
+
+    return model_catalogue()
+
+
+class EffortEstimateBody(BaseModel):
+    vehicle: Literal["F70", "G60", "G68", "G70"]
+    market: Literal["EU", "US", "CN", "RoW"] | None = None
+    requirement_ids: list[str] = Field(default_factory=list, max_length=60)
+    changes: list[dict[str, Any]] = Field(default_factory=list, max_length=8)
+
+
+@app.post("/effort/estimate")
+def effort_estimate(
+    body: EffortEstimateBody, session: Session = Depends(get_session)
+) -> dict[str, Any]:
+    """Effort of a package of stored requirement profiles (`requirement_ids`) and free changes
+    (`changes` with subsystem, own_impact, layer, carryover): each item on its own, and all
+    combined per subsystem, which is not their sum (rule 45): percent of a new vehicle
+    generation, P5 to P95, class, stability, size and the footprint. Nothing is stored."""
+    from pydantic import ValidationError
+
+    from tracepoint.effort.cpm import Change
+    from tracepoint.effort.store import estimate_package
+
+    if not body.requirement_ids and not body.changes:
+        raise HTTPException(422, "give requirement_ids, changes or both")
+    try:
+        changes = [Change.model_validate({"layer": "K2", **c}) for c in body.changes]
+        return estimate_package(session, body.vehicle, body.market, body.requirement_ids, changes)
+    except ValidationError as exc:
+        raise HTTPException(422, exc.errors(include_url=False, include_input=False)) from exc
+    except ValueError as exc:  # outside the scope, or a change that breaks a rule of the model
+        raise HTTPException(422, str(exc)) from exc
+
+
+@app.get("/requirements/{requirement_id}/effort")
+def requirement_effort(
+    requirement_id: str, session: Session = Depends(get_session)
+) -> dict[str, Any]:
+    """The stored effort estimate of one requirement."""
+    from tracepoint.effort.store import list_efforts
+
+    row = next((r for r in list_efforts(session) if r["id"] == requirement_id), None)
+    if row is None:
+        raise HTTPException(404, f"no effort estimate for {requirement_id}")
+    return row
+
+
 @app.get("/effort/backtest")
 def effort_backtest(
     runs: int = Query(2000, ge=100, le=10000), scope: str = Query("all", pattern="^(all|matrix)$")
