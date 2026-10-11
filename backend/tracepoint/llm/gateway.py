@@ -15,7 +15,7 @@ import time
 from collections.abc import Callable
 from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass, field, replace
-from datetime import UTC, datetime
+from datetime import UTC, datetime, timedelta
 from typing import Any, Protocol, TypeVar
 
 from pydantic import BaseModel, ValidationError
@@ -339,6 +339,14 @@ class LlmGateway:
         )
         return float(total or 0.0)
 
+    def day_spent_usd(self) -> float:
+        total = self.session.scalar(
+            select(func.coalesce(func.sum(LlmCall.cost_estimate_usd), 0.0)).where(
+                LlmCall.created_at >= datetime.now(UTC) - timedelta(hours=24)
+            )
+        )
+        return float(total or 0.0)
+
     def _parse(self, text: str, schema_model: type[T] | None) -> Any:
         clean = _strip_fences(text)
         if schema_model is None:
@@ -579,6 +587,12 @@ class LlmGateway:
         cap = self.settings.llm_max_cost_usd_per_run
         if cap and self.run_spent_usd() >= cap:
             raise LlmBudgetExceeded(f"run cost cap of USD {cap} reached")
+        day_cap = self.settings.llm_max_cost_usd_per_day
+        if day_cap and self.day_spent_usd() >= day_cap:
+            raise LlmBudgetExceeded(
+                f"cost cap of USD {day_cap} per 24 hours reached "
+                "(TRACEPOINT_LLM_MAX_COST_USD_PER_DAY)"
+            )
         temperature = (
             req.temperature if req.temperature is not None else self.settings.llm_temperature
         )

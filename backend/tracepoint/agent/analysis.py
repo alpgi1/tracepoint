@@ -20,7 +20,7 @@ from tracepoint.core.audit import record_event
 from tracepoint.db.models import Country, Run, Verbatim
 from tracepoint.llm.gateway import LlmGateway
 
-PROMPT_VERSION = "situation-analysis-v1"
+PROMPT_VERSION = "situation-analysis-v2"  # v2: the loop's untrusted-data rule joins the prompt
 ACTOR = "agent:analyst"
 
 
@@ -90,12 +90,13 @@ What the data is (name the points that bear on your conclusions under data_cover
 Write in English, plainly, for a product manager who will check your references."""
 
 _generated_line = re.compile(r", generated [^.]*\.")
-_not_alnum = re.compile(r"[^a-z0-9]+")
+_not_alnum = re.compile(r"[\W_]+")  # Unicode-aware: letters of any script are kept
 
 
 def unverified_quotes(session: Session, analysis: SituationAnalysis) -> list[str]:
     """Customer quotes that are not found word for word in a verbatim the insight cites
-    (compared on letters and digits only, so punctuation and spacing do not matter)."""
+    (compared on letters and digits only, so punctuation and spacing do not matter). A quote
+    with nothing left to compare counts as not found."""
 
     def plain(text: str) -> str:
         return _not_alnum.sub(" ", text.lower()).strip()
@@ -106,7 +107,8 @@ def unverified_quotes(session: Session, analysis: SituationAnalysis) -> list[str
             continue
         ids = [r.split(":", 1)[1] for r in insight.evidence_refs if r.startswith("verbatim:")]
         texts = session.scalars(select(Verbatim.text).where(Verbatim.id.in_(ids))).all()
-        if not any(plain(insight.customer_quote) in plain(t) for t in texts):
+        quote = plain(insight.customer_quote)
+        if not quote or not any(quote in plain(t) for t in texts):
             missing.append(insight.customer_quote)
     return missing
 

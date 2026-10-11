@@ -8,12 +8,19 @@ from pydantic import BaseModel, ValidationError
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
-from tracepoint.agent.analysis import render_analysis, resolve_scope, run_analysis
+from tracepoint.agent.analysis import (
+    Insight,
+    SituationAnalysis,
+    render_analysis,
+    resolve_scope,
+    run_analysis,
+    unverified_quotes,
+)
 from tracepoint.agent.context_pack import build_context_pack, render_markdown
-from tracepoint.agent.loop import run_agent
+from tracepoint.agent.loop import UNTRUSTED_DATA_RULE, run_agent
 from tracepoint.agent.tools import TOOLS, call_tool, tool_schemas
 from tracepoint.core.runs import start_run
-from tracepoint.db.models import AuditEvent
+from tracepoint.db.models import AuditEvent, Verbatim
 from tracepoint.llm.gateway import FakeProvider, LlmGateway, ProviderResponse
 
 # WP1.9 acceptance: hand-written queries return relevant evidence in the top five
@@ -142,6 +149,7 @@ def test_agent_loop_runs_tools_and_corrects_unknown_citation(engine, ingested):
     tool_turns = [t for t in turns[1]["history"] if t["role"] == "tool"]
     assert len(tool_turns) == 3 and "unknown tool" in tool_turns[2]["content"]
     assert "verbatim:INVENTED" in turns[2]["history"][-1]["content"]  # the correction request
+    assert turns[0]["system"].endswith(UNTRUSTED_DATA_RULE)
 
 
 def test_agent_loop_must_answer_at_the_step_limit(engine, ingested):
@@ -210,7 +218,7 @@ def test_situation_analysis_for_a_country(engine, ingested):
             out = run_analysis(session, run, gateway, "F70", country="gb")
         event = session.scalar(select(AuditEvent).where(AuditEvent.action == "analysis.created"))
         assert event.actor_id == "agent:analyst" and event.run_id == out["run_id"]
-        assert event.prompt_version == "situation-analysis-v1"
+        assert event.prompt_version == "situation-analysis-v2"
         with pytest.raises(ValueError, match="belongs to market EU"):
             resolve_scope(session, "US", "GB")
         with pytest.raises(ValueError, match="no evidence"):
@@ -224,3 +232,34 @@ def test_situation_analysis_for_a_country(engine, ingested):
     assert out["citations"]["unverified_quotes"] == ["a sentence no customer wrote"]
     text = render_analysis(out)
     assert "## Insights" in text and "`REQ-INVENTED` (not verified)" in text
+
+
+def test_quote_check_does_not_pass_quotes_it_cannot_compare(engine, ingested):
+    def analysis(quote, refs):
+        insight = Insight(
+            title="t",
+            kind="context",
+            domain="general",
+            statement="s",
+            customer_quote=quote,
+            evidence_refs=refs,
+            confidence="low",
+        )
+        return SituationAnalysis(
+            headline="h",
+            summary="s",
+            data_coverage="d",
+            insights=[insight],
+            recommendations=[],
+            assumptions_and_gaps=[],
+        )
+
+    with Session(engine) as session:
+        verbatim = session.scalars(select(Verbatim).where(Verbatim.char_len > 80)).first()
+        ref = f"verbatim:{verbatim.id}"
+        real = verbatim.text[10:60].upper()  # case and punctuation do not matter
+        assert unverified_quotes(session, analysis(real, [ref])) == []
+        # nothing comparable (punctuation, or a script the old ASCII filter emptied) is not a match
+        for quote in ("…", "座席が硬い"):
+            assert unverified_quotes(session, analysis(quote, [ref])) == [quote]
+        assert unverified_quotes(session, analysis(real, ["FND-X"])) == [real]  # no verbatim cited

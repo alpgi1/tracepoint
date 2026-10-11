@@ -85,7 +85,19 @@ Live runs with `gpt-5.4` (dated snapshot `gpt-5.4-2026-03-05`), samples of the f
 * Passages of the BMW Group Report reach the provider through `search_documents` (see step 12:
   the PDF metadata carries a "CONFIDENTIAL" template marking; the team should confirm).
 
-## 4. Next step
+## 4. Addendum after the security review (D-066)
+
+* The quote check passed any quote without ASCII letters or digits (punctuation only, or another
+  script). It now compares letters of any script and counts an empty comparison as not found.
+* Verbatims and report pages are third-party text. The loop now tells every agent that tool
+  results are data and never instructions (prompt `situation-analysis-v2`; the samples under
+  `reports/analysis/` were written with v1). This is a mitigation, not a guarantee; the tools
+  only read, so a followed injection can change the text of an analysis and nothing else.
+* `TRACEPOINT_LLM_MAX_COST_USD_PER_DAY` (default 50) caps all runs of the last 24 hours. The
+  endpoint itself is still unauthenticated and has to stay on localhost.
+* 51 tests passed. The four live analyses were not repeated with v2.
+
+## 5. Next step
 
 The same loop with other prompts and schemas: the challenge agent (D-010), and a requirement
 agent for the scopes without a requirement file. Phase 5 (scoring and weights) is independent of

@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+from datetime import UTC, datetime
 
 import pytest
 from pydantic import BaseModel
@@ -96,6 +97,25 @@ def test_gateway_budget_cap(engine, ingested, monkeypatch):
         monkeypatch.setattr(gw, "run_spent_usd", lambda: 0.5)
         with pytest.raises(LlmBudgetExceeded):
             gw.complete(_req("capped"), Answer)
+
+
+def test_gateway_daily_cap_spans_runs(engine, ingested):
+    provider = FakeProvider(lambda kw: {"label": "ok", "score": 0.5, "note": None})
+    with Session(engine) as session, start_run(session, "test.llm.daycap") as run:
+        earlier = LlmCall(
+            purpose="other run",
+            provider="fake",
+            model="m",
+            input_hash="x",
+            cost_estimate_usd=2.0,
+            created_at=datetime.now(UTC),
+        )
+        session.add(earlier)
+        session.flush()
+        gw = LlmGateway(session, provider, run.id, Settings(llm_max_cost_usd_per_day=1.0))
+        with pytest.raises(LlmBudgetExceeded, match="per 24 hours"):
+            gw.complete(_req("day cap"), Answer)
+        session.delete(earlier)
 
 
 def test_fake_provider_payload_is_json():
