@@ -60,13 +60,16 @@ Tp ingest all
 Ok "internal files ingested"
 
 Step "6/8 Findings and reports"
-foreach ($s in @(@("G60","US"), @("F70","EU"), @("G70","US"), @("G60","EU"))) { Tp findings extract --vehicle $s[0] --market $s[1] }
+foreach ($s in @(@("G60","US"), @("F70","EU"), @("G70","US"), @("G60","EU"), @("F70","RoW"), @("G60","RoW"), @("G70","RoW"), @("G70","EU"), @("G68","CN"), @("G70","CN"))) { Tp findings extract --vehicle $s[0] --market $s[1] }
 Tp requirements import
+Tp effort backtest
+Tp effort estimate
 New-Item -ItemType Directory -Force data\reports\baseline, data\reports\findings *> $null
 foreach ($s in @(@("F70","EU"), @("G60","US"), @("G60","EU"), @("G70","US"))) { Tp report baseline --vehicle $s[0] --market $s[1] --out-dir (Resolve-Path data\reports\baseline) }
 foreach ($s in @(@("G60","US"), @("F70","EU"))) { Tp findings report --vehicle $s[0] --market $s[1] --out-dir (Resolve-Path data\reports\findings) }
 Tp agent packs
 Tp requirements export
+Tp effort report
 Ok "reports written"
 
 Step "7/8 Tests"

@@ -87,6 +87,13 @@ INTERNAL_FILES: dict[str, InternalFile] = {
         "German price and equipment catalogue BMW 7 Series (July 2026)",
         "G70",
     ),
+    "group_report": InternalFile(
+        "group_report",
+        "BMW-Group-Report-2025-en.pdf",
+        "pdf",
+        "portfolio_offering",
+        "BMW Group Report 2025 (strategy, deliveries by region, outlook, sustainability)",
+    ),
 }
 
 

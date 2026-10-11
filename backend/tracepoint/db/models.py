@@ -299,6 +299,22 @@ class TechSpec(Base):
     created_run_id: Mapped[str | None] = mapped_column(ForeignKey("run.id"))
 
 
+class DocumentPage(Base):
+    """One page of a prose document (annual report); the page is the locator and the unit of
+    retrieval."""
+
+    __tablename__ = "document_page"
+
+    id: Mapped[str] = mapped_column(String(64), primary_key=True)
+    source_id: Mapped[str] = mapped_column(ForeignKey("source.id"))
+    page: Mapped[int] = mapped_column(Integer)
+    section: Mapped[str | None] = mapped_column(String(200))
+    text: Mapped[str] = mapped_column(Text)
+    char_len: Mapped[int] = mapped_column(Integer)
+    locator: Mapped[dict[str, Any]] = mapped_column(JSONB)
+    created_run_id: Mapped[str | None] = mapped_column(ForeignKey("run.id"))
+
+
 class Embedding(Base):
     """Vector store (provider and model to be decided by the team; filled in a later step)."""
 
@@ -426,6 +442,34 @@ class RequirementFinding(Base):
     role: Mapped[str] = mapped_column(String(16))  # primary / supporting / context
 
     requirement: Mapped[Requirement] = relationship(back_populates="findings")
+
+
+class RequirementEffort(Base):
+    """CPM effort estimate of one requirement (Phase 5 input): share of a new vehicle generation,
+    never money. Profiles live in ``config/effort/requirements/``; the model in
+    ``config/effort/model.yaml`` (identified by ``model_hash``)."""
+
+    __tablename__ = "requirement_effort"
+
+    requirement_id: Mapped[str] = mapped_column(ForeignKey("requirement.id"), primary_key=True)
+    requirement_version: Mapped[int] = mapped_column(Integer)
+    kind: Mapped[str] = mapped_column(String(24))  # change / preserve / no_vehicle_change
+    effort_pct: Mapped[float] = mapped_column(Float)
+    p5: Mapped[float] = mapped_column(Float)
+    p95: Mapped[float] = mapped_column(Float)
+    decision: Mapped[str] = mapped_column(String(24))  # no change / adapt / major revision / ...
+    decision_stable_pct: Mapped[float] = mapped_column(Float)
+    layer: Mapped[str] = mapped_column(String(2))  # K0 .. K3
+    size: Mapped[str] = mapped_column(String(4))  # XS .. XL
+    certification: Mapped[bool] = mapped_column(Boolean)
+    changes: Mapped[list[dict[str, Any]]] = mapped_column(JSONB, default=list)
+    subsystems: Mapped[list[dict[str, Any]]] = mapped_column(JSONB, default=list)
+    portfolio: Mapped[list[dict[str, Any]]] = mapped_column(JSONB, default=list)
+    flags: Mapped[list[dict[str, Any]]] = mapped_column(JSONB, default=list)
+    note: Mapped[str | None] = mapped_column(Text)
+    model_hash: Mapped[str] = mapped_column(String(16))
+    created_run_id: Mapped[str | None] = mapped_column(ForeignKey("run.id"))
+    updated_run_id: Mapped[str | None] = mapped_column(ForeignKey("run.id"))
 
 
 # --------------------------------------------------------------------------------------------

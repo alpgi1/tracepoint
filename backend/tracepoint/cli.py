@@ -115,6 +115,15 @@ def ingest_optionlists_cmd(
                 _echo(f"optionlist {code}", ingest_optionlist(session, run, code))
 
 
+@ingest_app.command("documents")
+def ingest_documents_cmd() -> None:
+    """Ingest the BMW Group Report (PDF) page by page; skipped when the file is unchanged."""
+    from tracepoint.ingest.documents import ingest_document
+
+    with Session(make_engine()) as session, start_run(session, "ingest.documents") as run:
+        _echo("group report", ingest_document(session, run))
+
+
 @ingest_app.command("all")
 def ingest_all() -> None:
     """Run the complete internal ingestion in order."""
@@ -123,6 +132,7 @@ def ingest_all() -> None:
     ingest_studies_cmd()
     ingest_sales_cmd()
     ingest_optionlists_cmd(VEHICLES_WITH_CATALOGUE)
+    ingest_documents_cmd()
     classify_import(VEHICLES_WITH_FEEDBACK)
 
 
@@ -482,6 +492,125 @@ def agent_call(
     typer.echo(json.dumps(result, ensure_ascii=False, indent=1, default=str))
 
 
+@agent_app.command("analyze")
+def agent_analyze(
+    vehicle: str = typer.Option(..., "--vehicle", "-v"),
+    market: str | None = typer.Option(None, "--market", "-m", help="EU, US, CN or RoW"),
+    country: str | None = typer.Option(
+        None, "--country", "-c", help="Country code, e.g. GB; narrows the customer verbatims"
+    ),
+    max_steps: int = typer.Option(12, "--max-steps", help="Agent turns before it has to answer"),
+    no_cache: bool = typer.Option(False, "--no-cache", help="Do not reuse stored LLM answers"),
+    out_dir: Path = typer.Option(
+        None, "--out-dir", help="Default: data/analyses under the repository root"
+    ),
+) -> None:
+    """Situation analysis of one vehicle in a market or country by the analyst agent (LLM with
+    tool calls); writes Markdown and JSON."""
+    from tracepoint.agent.analysis import PROMPT_VERSION, render_analysis, run_analysis
+
+    out = out_dir or get_settings().data_dir / "analyses"
+    out.mkdir(parents=True, exist_ok=True)
+    scope = country.upper() if country else market
+    config = {
+        "vehicle": vehicle,
+        "market": market,
+        "country": country,
+        "max_steps": max_steps,
+        "prompt_version": PROMPT_VERSION,
+    }
+    with (
+        Session(make_engine()) as session,
+        start_run(session, f"agent.analyze.{vehicle}.{scope}", config) as run,
+    ):
+        result = run_analysis(
+            session,
+            run,
+            _gateway(session, run.id, False),
+            vehicle,
+            market,
+            country,
+            max_steps=max_steps,
+            use_cache=not no_cache,
+        )
+    stem = out / f"{vehicle}_{scope}"
+    stem.with_suffix(".json").write_text(
+        json.dumps(result, ensure_ascii=False, indent=1, default=str), encoding="utf-8"
+    )
+    stem.with_suffix(".md").write_text(render_analysis(result), encoding="utf-8")
+    trace = result["trace"]
+    typer.echo(
+        f"wrote {stem}.md and .json: {trace['steps']} steps ({trace['cached_steps']} cached), "
+        f"{len(trace['tool_calls'])} tool calls, USD {trace['cost_usd']}, "
+        f"{result['citations']['cited']} references, "
+        f"{len(result['citations']['unknown'])} not verified, "
+        f"{len(result['citations']['unverified_quotes'])} quotes not found"
+    )
+
+
+effort_app = typer.Typer(
+    help="CPM effort estimates (rules 41-52): back-test, estimates, variations.",
+    no_args_is_help=True,
+)
+app.add_typer(effort_app, name="effort")
+_SCOPE_HELP = "all: W, L, I, certification add-on, carryover factor, own impacts; matrix: W, L, I"
+
+
+@effort_app.command("backtest")
+def effort_backtest(
+    runs: int = typer.Option(2000, "--runs"),
+    scope: str = typer.Option("all", "--scope", help=_SCOPE_HELP),
+    seed: int = typer.Option(42, "--seed"),
+    as_json: bool = typer.Option(False, "--json"),
+) -> None:
+    """Classify the documented BMW decisions in config/effort/anchors.yaml (no database)."""
+    from tracepoint.effort.cpm import backtest, load_anchors, load_model, render_backtest
+
+    result = backtest(load_model(), load_anchors(), n=runs, scope=scope, seed=seed)
+    typer.echo(json.dumps(result, indent=1) if as_json else render_backtest(result))
+    if result["hits"] != result["anchors"]:
+        raise typer.Exit(1)
+
+
+@effort_app.command("estimate")
+def effort_estimate(
+    runs: int = typer.Option(2000, "--runs"),
+    scope: str = typer.Option("all", "--scope", help=_SCOPE_HELP),
+) -> None:
+    """Estimate every requirement from config/effort/requirements/*.yaml (logged, versioned)."""
+    from tracepoint.effort.cpm import load_model, model_hash
+    from tracepoint.effort.store import estimate_all
+
+    snapshot = {"model_hash": model_hash(load_model()), "runs": runs, "scope": scope}
+    with Session(make_engine()) as session, start_run(session, "effort.estimate", snapshot) as run:
+        _echo("effort", estimate_all(session, run, runs=runs, scope=scope))
+
+
+@effort_app.command("report")
+def effort_report(
+    vehicle: str | None = typer.Option(None, "--vehicle", "-v"),
+    market: str | None = typer.Option(None, "--market", "-m"),
+    out_dir: Path = typer.Option(None, "--out-dir", help="Default: data/effort"),
+) -> None:
+    """Markdown report per vehicle × market: variations, requirements, flags, subsystems."""
+    from tracepoint.effort.cpm import backtest, load_anchors, load_model
+    from tracepoint.effort.report import render_markdown
+    from tracepoint.effort.store import list_efforts, scenarios
+
+    out = out_dir or get_settings().data_dir / "effort"
+    out.mkdir(parents=True, exist_ok=True)
+    bt = backtest(load_model(), load_anchors())
+    with Session(make_engine()) as session:
+        rows = list_efforts(session, vehicle, market)
+        scopes = sorted({(r["vehicle"], r["market"]) for r in rows})
+        for v, m in scopes:
+            sel = [r for r in rows if (r["vehicle"], r["market"]) == (v, m)]
+            md = render_markdown(sel, scenarios(session, v, m), f"Effort estimate – {v} {m}", bt)
+            path = out / f"effort_{v}_{m}.md"
+            path.write_text(md, encoding="utf-8")
+            typer.echo(f"wrote {path} ({len(sel)} requirements)")
+
+
 @app.command("status")
 def status() -> None:
     """Print row counts of the main tables and the last runs."""
@@ -501,7 +630,10 @@ def status() -> None:
         ("sales_rows", m.SalesVolume),
         ("equipment_items", m.EquipmentItem),
         ("tech_specs", m.TechSpec),
+        ("document_pages", m.DocumentPage),
         ("findings", m.Finding),
+        ("requirements", m.Requirement),
+        ("efforts", m.RequirementEffort),
         ("finding_links", m.FindingLink),
         ("llm_calls", m.LlmCall),
         ("runs", m.Run),

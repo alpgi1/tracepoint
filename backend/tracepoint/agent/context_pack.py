@@ -17,7 +17,7 @@ from sqlalchemy.orm import Session
 from tracepoint.db.models import Finding
 from tracepoint.reports.baseline import build_baseline
 
-CONTEXT_PACK_VERSION = "context-pack-v1"
+CONTEXT_PACK_VERSION = "context-pack-v2"
 _LEVEL_ORDER = case({"A": 0, "B": 1, "C": 2}, value=Finding.evidence_level, else_=3)
 
 
@@ -37,9 +37,16 @@ def _metric(m: dict[str, Any]) -> dict[str, Any]:
 
 
 def build_context_pack(
-    session: Session, vehicle_code: str, market_code: str | None, *, top: int = 8
+    session: Session,
+    vehicle_code: str,
+    market_code: str | None,
+    *,
+    country_code: str | None = None,
+    top: int = 8,
 ) -> dict[str, Any]:
-    rep = build_baseline(session, vehicle_code, market_code)
+    """With ``country_code`` the customer voice (coverage, domains, themes, quotes) is that
+    country's; studies, equipment, sales and findings stay those of the market."""
+    rep = build_baseline(session, vehicle_code, market_code, country_code)
     stmt = select(Finding).where(
         Finding.vehicle_code == vehicle_code, Finding.status != "withdrawn"
     )
@@ -56,8 +63,10 @@ def build_context_pack(
         "generated_at": datetime.now(UTC).isoformat(timespec="seconds"),
         "vehicle": rep["vehicle"],
         "market": rep["market"],
+        "country": country_code,
         "coverage": {
-            k: cov[k] for k in ("verbatims", "by_source", "by_powertrain", "by_feedback_type")
+            k: cov[k]
+            for k in ("verbatims", "by_source", "by_powertrain", "by_country", "by_feedback_type")
         },
         "domains": [
             {k: d[k] for k in ("domain", "name", "rows", "likes", "complaints", "complaint_share")}
@@ -121,9 +130,11 @@ def build_context_pack(
 def render_markdown(pack: dict[str, Any]) -> str:
     v = pack["vehicle"]
     out = [
-        f"# Context pack – {v['name']} ({v['code']}), market {pack['market']}",
+        f"# Context pack – {v['name']} ({v['code']}), market {pack['market']}"
+        + (f", customer voice of country {pack['country']} only" if pack.get("country") else ""),
         f"{pack['pack']}, generated {pack['generated_at']}. "
-        f"Verbatims: {pack['coverage']['verbatims']}.",
+        f"Verbatims: {pack['coverage']['verbatims']} "
+        f"(by country {json.dumps(pack['coverage']['by_country'])}).",
         "",
         "## Domains (complaint share of classified rows)",
     ]
@@ -153,7 +164,7 @@ def render_markdown(pack: dict[str, Any]) -> str:
         for e in pack["equipment"]["optional_on_all_variants"]
     ]
     out += ["", "## Sales (units)", "```", json.dumps(pack["sales"]["by_year"]), "```"]
-    out += ["", "## Strongest findings"]
+    out += ["", f"## Strongest findings (market {pack['market']})"]
     out += [
         f"- [{f['evidence_level']}] {f['title']} ({f['kind']}, {f['evidence_count']} evidence) `{f['id']}`"
         for f in pack["findings"]

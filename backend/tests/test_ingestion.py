@@ -200,3 +200,39 @@ def test_runs_and_audit_events(session):
     } <= actions
     for e in session.scalars(select(AuditEvent).limit(50)):
         assert e.actor_type in ("human", "agent", "system") and e.ts is not None and e.entity_id
+
+
+def test_group_report_pages_read_in_column_order():
+    import pdfplumber
+
+    from tracepoint.ingest.documents import page_text
+    from tracepoint.ingest.registry import file_path
+
+    with pdfplumber.open(file_path("group_report")) as pdf:
+        section, table_page = page_text(pdf.pages[60])
+        _, headline_page = page_text(pdf.pages[64])
+    assert section == "Overview of the BMW Group"
+    # the prose column is not interleaved with the table beside it, and table rows stay whole
+    assert "and Rolls-Royce\nMotor Cars for 5,385 units" in table_page
+    assert "Spartanburg (USA) 412,799 396,117 4.2" in table_page
+    # a headline across the gutters does not merge the columns; line-break hyphens are joined
+    assert "reductions in research and development expenditure" in headline_page.replace("\n", " ")
+
+
+def test_group_report_ingestion_and_search(session):
+    from tracepoint.agent.tools import call_tool
+    from tracepoint.core.runs import start_run
+    from tracepoint.db.models import DocumentPage
+    from tracepoint.ingest.documents import ingest_document
+
+    for _ in range(2):  # a second run replaces the pages
+        with start_run(session, "test.ingest.documents") as run:
+            assert ingest_document(session, run, max_pages=5)["pages"] == 5
+    pages = session.scalars(select(DocumentPage).order_by(DocumentPage.page)).all()
+    assert [p.page for p in pages] == [1, 2, 3, 4, 5]
+    assert all(p.locator["page"] == p.page and p.created_run_id for p in pages)
+    hit = call_tool(session, "search_documents", {"query": "strategic goals all-electric"})
+    assert hit["items"][0]["evidence_ref"] == "document:DOC-GROUP-REPORT-0003"
+    # no page holds every word: any-word matching takes over
+    assert call_tool(session, "search_documents", {"query": "zzzunknown strategic"})["total"]
+    session.rollback()

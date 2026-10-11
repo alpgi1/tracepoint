@@ -23,7 +23,11 @@ def pricing_table() -> dict[str, dict[str, float]]:
 def estimate_cost_usd(
     model: str, input_tokens: int | None, cached_tokens: int | None, output_tokens: int | None
 ) -> float | None:
-    price = pricing_table().get(model)
+    # The API reports dated snapshots (gpt-5.4-mini-2026-03-17); price them by the longest
+    # alias they extend, so gpt-5.4-mini-* is not billed as gpt-5.4.
+    table = pricing_table()
+    alias = max((k for k in table if model == k or model.startswith(f"{k}-")), key=len, default="")
+    price = table.get(alias)
     if price is None or input_tokens is None or output_tokens is None:
         return None
     cached = cached_tokens or 0

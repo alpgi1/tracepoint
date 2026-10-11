@@ -1,0 +1,77 @@
+# Back-test anchors: publicly documented BMW decisions, classified by the same engine and inputs
+# (`tracepoint effort backtest`). `changes` are authored like requirement change profiles.
+# `independent: false` marks an anchor that repeats the inputs of another one, so it is not an
+# independent test (the iX3 LWB uses the same inputs as the G68).
+anchors:
+  - id: g30-lci-colours-wheels
+    name: New colors/wheels (G30 LCI 2020)
+    changes: [{subsystem: paint_color, own_impact: 0.5, layer: K1, why: "New paint shades and wheel designs on existing interfaces"}]
+    actual: adapt
+    evidence: Delivered with the G30 facelift 2020
+    source: https://www.bmwblog.com/2020/05/26/bmw-5-series-facelift
+  - id: g30-lci-lights-bumper
+    name: New headlights + front bumper (G30 LCI)
+    changes: [{subsystem: exterior_design, own_impact: 0.5, layer: K2, why: "New headlight units and front bumper on the same body"}]
+    actual: adapt
+    evidence: Delivered with the G30 facelift 2020
+    source: https://www.bmwblog.com/2020/05/26/bmw-5-series-facelift
+  - id: g30-lci-os7
+    name: New software OS 7 + OTA (G30 LCI 2020)
+    changes: [{subsystem: software_hmi, own_impact: 0.4, layer: K2, why: "New operating system release with over-the-air capability"}]
+    actual: adapt
+    evidence: Delivered with the G30 facelift 2020
+    source: https://www.bmwblog.com/2020/05/26/bmw-5-series-facelift
+  - id: g30-lci-545e
+    name: New PHEV 545e from module kit (G30 LCI)
+    changes: [{subsystem: powertrain, own_impact: 0.4, layer: K2, carryover: true, why: "Plug-in hybrid drive taken from the modular kit already used on CLAR"}]
+    actual: adapt
+    evidence: Delivered with the G30 facelift 2020
+    source: https://www.bmwblog.com/2020/05/26/bmw-5-series-facelift
+  - id: g68-lwb
+    name: Long wheelbase G68 China (at launch)
+    changes:
+      - subsystem: body_structure
+        own_impact: 0.4
+        layer: K2
+        why: >-
+          Stretched body on the same platform, developed in parallel with the G60. Rule 42 lists
+          the wheelbase as K3; here the platform is prepared for it and the body is not replaced
+          (40 %), so it is a K2 module change. See the note in reports/step-12-cpm-effort-engine.md.
+    actual: major revision
+    evidence: Separate China derivative at generation launch
+    source: https://en.wikipedia.org/wiki/BMW_5_Series_(G60)
+  - id: gen6-battery-7-series
+    name: Gen6/800V battery (7 Series successor)
+    changes: [{subsystem: hv_battery, own_impact: 1.0, layer: K3, why: "New cell format and 800 V architecture"}]
+    actual: new generation
+    evidence: Not retrofitted to CLAR; the 7 Series gets it with its Neue Klasse successor
+    source: BMW Group Report 2025, p. 24, 59, 81
+  - id: i4-lci-2025-range
+    name: "i4 LCI 2025: 613 km range, +10% power"
+    changes: [{subsystem: hv_battery, own_impact: 0.3, layer: K2, carryover: true, why: "Improved cells of the same battery generation"}]
+    actual: adapt
+    evidence: Delivered with the 2025 facelift
+    source: BMW Group Report 2025, p. 46
+  - id: ix3-lwb-china
+    name: iX3 Long Wheelbase China (2026, at launch)
+    changes: [{subsystem: body_structure, own_impact: 0.4, layer: K2, why: "Same inputs as the G68"}]
+    actual: major revision
+    evidence: Separate China version at launch, 2026
+    source: BMW Group Report 2025, p. 28
+    independent: false
+
+# New proposals evaluated by the same engine (no actual outcome). Generic: they ignore the
+# portfolio; the requirement profiles in config/effort/requirements/ apply the portfolio scan.
+proposals:
+  - id: fridge-console
+    name: Fridge (center console)
+    changes: [{subsystem: interior_console, own_impact: 0.3, layer: K2, why: "Cool box in the centre console, new for BMW"}]
+    actual: adapt
+    evidence: proposal
+    source: proposal
+  - id: front-seat-ventilation
+    name: Front seat ventilation (developed new)
+    changes: [{subsystem: seats, own_impact: 0.3, layer: K2, why: "Ventilated seat developed without carryover"}]
+    actual: adapt
+    evidence: proposal
+    source: proposal
