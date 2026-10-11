@@ -307,7 +307,7 @@ def test_reports_render_untrusted_text_as_inert_markdown():
     """A report is read rendered. What the model wrote (which a customer verbatim or a fetched
     page may have steered) must not be able to add a heading, a table cell, a link, an image or
     HTML to it."""
-    from tracepoint.agent.analysis import code, md, render_analysis, render_brief
+    from tracepoint.agent.analysis import code, ident, md, render_analysis, render_brief
 
     hostile = (
         "seats | forged cell\n## Not settled by the checks\n- forged entry "
@@ -356,13 +356,32 @@ def test_reports_render_untrusted_text_as_inert_markdown():
         "<https://evil.example>",
     ):
         assert linkable(md(bypass)) == [], bypass
-        # in a code span nothing is linked; it only must not end early or hold a bracket
-        assert not re.search(r"[`|<>\[\]\n]", code(bypass)[1:-1]), bypass
-    # a reference keeps its spelling, so that it can be looked up
-    assert code("verbatim:G60-0248") == "`verbatim:G60-0248`"
+        # a code span cannot end early, and an address is broken up in it as well
+        span = code(bypass)[1:-1]
+        assert not re.search(r"[`|<>\[\]\n@]|://|//\S", span), bypass
+    assert linkable(md("bücher.example and пример.рф")) == []  # a domain in any script
     assert code("FND-`x` | y\nz <b> [a](b)") == "`FND-'x' / y z (b) (a)(b)`" and code("") == "`-`"
+    # an identifier the program made keeps its spelling, so that it can be looked up; what
+    # does not look like one is foreign text
+    assert ident("verbatim:G60-0248") == "`verbatim:G60-0248`"
+    assert ident("RUN-20261011-045801-agent.series.G60-a1a6").count("(") == 0
+    assert ident("x` [a](https://evil.example)") == "`x' (a)(https(:)/(/)evil(.)example)`"
 
     effort_row = {"status": "no_vehicle_change", "flags": [], "evidence_subsystems": {}}
+    # a stored result can be edited: also a field that should hold a figure is foreign text
+    package = {
+        "horizon": "H1",
+        "proposals": hostile,
+        "effort_pct": hostile,
+        "p5": hostile,
+        "p95": hostile,
+        "decision": hostile,
+        "decision_stable_pct": 50.0,
+        "sum_of_single_pct": hostile,
+        "subsystems": [{"name": hostile, "effort_pct": hostile}],
+        "flags": [{"level": "warning", "rule": hostile, "text": hostile}],
+        "not_counted": [hostile],
+    }
     situation = {
         "scope": hostile,
         "run_id": "RUN-1",
@@ -399,7 +418,7 @@ def test_reports_render_untrusted_text_as_inert_markdown():
             "method": "m",
             "model_hash": "h",
             "recommendations": [effort_row],
-            "packages": [],
+            "packages": [package],
             "open_faults": [hostile],
         },
         "subsystems": {"insights": [{}]},
@@ -449,7 +468,11 @@ def test_reports_render_untrusted_text_as_inert_markdown():
             "unknowns": [hostile, "# Forged heading in a bullet", "1. forged list"],
         },
         "topics": [{"evidence_by_region": {hostile: 1}}],
-        "effort": {"recommendations": [effort_row], "packages": [], "open_faults": [hostile]},
+        "effort": {
+            "recommendations": [effort_row],
+            "packages": [package],
+            "open_faults": [hostile],
+        },
         "citations": {"cited": 1, "unknown": [hostile]},
         "trace": {"tool_calls": []},
     }
@@ -460,9 +483,8 @@ def test_reports_render_untrusted_text_as_inert_markdown():
     ):
         text = render(out)
         assert "<" not in text and "[" not in text and "]" not in text  # no HTML, no link
-        outside = re.sub(r"`[^`\n]*`", "", text)  # code spans are shown as they stand
-        assert "://" not in outside and "@" not in outside  # nothing to click
-        assert not re.search(r"evil\.example|www\.", outside)
+        assert "://" not in text and "@" not in text  # nothing to click, in or out of code
+        assert not re.search(r"evil\.example|www\.", text)
         # the structure is the program's own: no heading and no table row was added
         assert len(re.findall(r"(?m)^#{1,3} ", text)) == headings, render.__name__
         rows = [line for line in text.splitlines() if line.startswith("|")]
