@@ -9,7 +9,7 @@
 
 ## 1. Delivered
 
-Decisions D-091 to D-096.
+Decisions D-091 to D-097.
 
 ### 1.1 The series analysis (`agent/series.py`, `tracepoint agent series --vehicle G60`)
 
@@ -98,11 +98,12 @@ The three sample analyses under `reports/analysis/` are re-rendered from their J
 22 to 15 and 23 to 13 thousand characters. Their text is that of the earlier prompt;
 `situation-analysis-v8` asks for short fields.
 
-**After two security reviews (D-094, D-096).** The reports are read rendered, and their text
-comes from the model. Whatever this program did not write now goes through one escaping
-function and is shown character for character: one line, no HTML or entity, no emphasis, link,
-image or code span, no table cell, no heading, list or rule (also not inside a bullet or a
-quote), no address a renderer would make clickable. A title holding a line break and `## ` used
+**After three security reviews (D-094, D-096, D-097).** The reports are read rendered, and
+their text comes from the model. Whatever this program did not write now goes through one
+function and is shown as text: one line, no HTML or entity, no emphasis or code span, no table
+cell, no heading, list or rule (also not inside a bullet or a quote), and no link in any
+flavour of Markdown: square brackets become round ones and an address is broken up where it
+stands. A title holding a line break and `## ` used
 to make a section of its own.
 
 ### 1.3 The agent fetches nothing (D-093)

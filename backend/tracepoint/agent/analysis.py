@@ -703,27 +703,40 @@ def run_analysis(
     return out
 
 
-# What makes a reader's program turn plain text into a link: a scheme before "//", "www."
-# wherever it stands, and "@" (e-mail and mailto: addresses). They are rewritten in the visible
-# text itself, because an entity or an escape only hides them from some renderers.
-_scheme = re.compile(r":(?=//)")
-_www = re.compile(r"(www)\.", re.I)
-_md_punctuation = re.compile(r"([`*_{}\[\]|~#$])")
+# Renderers do not agree on what a link is. One follows CommonMark, the next links a bare
+# "evil.example/x", a "//host", a "javascript:" or an address behind an entity, and one that
+# does not honour a backslash reads "\[x\](y)" as a link. So nothing here relies on an escape
+# or an entity to stop a link: brackets are replaced, and whatever could be read as an address
+# is rewritten in the visible text.
+_address = (
+    (re.compile(r"([A-Za-z][A-Za-z0-9+.-]*):(?=\S)"), r"\1(:)"),  # any scheme
+    (re.compile(r"//(?=\S)"), "/(/)"),  # "//host", with or without a scheme before it
+    (re.compile(r"(www)\.", re.I), r"\1(.)"),
+    (re.compile(r"(?<=[A-Za-z0-9])\.(?=[A-Za-z]{2,})"), "(.)"),  # a domain: "evil.example"
+    (re.compile(r"@"), "(at)"),  # e-mail, mailto:, user and repository mentions
+)
+_md_punctuation = re.compile(r"([`*_{}|~#$])")
 _ordered_item = re.compile(r"^(\d{1,9})([.)])(?=\s|$)")
 _bullet_or_rule = re.compile(r"^([-+=])(?=[\s\-+=]|$)")
+
+
+def _no_address(text: str) -> str:
+    for pattern, shown in _address:
+        text = pattern.sub(shown, text)
+    return text
 
 
 def md(text: Any) -> str:
     """Text that this program did not write (the model's, a customer's, a web page's) as inert
     Markdown. The reports are read rendered, so such text must not be able to add anything of
-    its own: it becomes one line and is shown character for character, with no HTML and no
-    entity, no emphasis, link, image or code span, no table cell, no heading, list or rule
-    (also not inside a bullet or a quote, where a line is parsed as a block again), and no
-    address a renderer would make clickable."""
+    its own: it becomes one line and is shown as text, with no HTML and no entity, no emphasis
+    or code span, no table cell, no heading, list or rule (also not inside a bullet or a quote,
+    where a line is parsed as a block again), and no link in any flavour of Markdown: square
+    brackets become round ones and an address is broken up where it stands."""
     text = " ".join(str(text or "").split())
     # the two characters that could undo what follows go first
     text = text.replace("&", "&amp;").replace("\\", "\\\\")
-    text = _www.sub(r"\1[.]", _scheme.sub("[:]", text)).replace("@", "[at]")
+    text = _no_address(text.replace("[", "(").replace("]", ")"))
     text = text.replace("<", "&lt;").replace(">", "&gt;")
     text = _md_punctuation.sub(r"\\\1", text)
     return _bullet_or_rule.sub(r"\\\1", _ordered_item.sub(r"\1\\\2", text))
@@ -731,12 +744,12 @@ def md(text: Any) -> str:
 
 def code(text: Any) -> str:
     """An identifier or argument this program did not write, as a code span it cannot break
-    out of. A code span shows its content as it is, so nothing in it can be escaped: what could
-    end the span, or read as markup or an address outside one, is replaced."""
+    out of. A code span is shown as it stands and nothing in it is linked, so a reference keeps
+    its exact spelling for looking it up; only what could end the span or a table cell, or
+    read as markup if the span were lost, is replaced."""
     text = " ".join(str(text or "").split())
     for char, plain in (("`", "'"), ("|", "/"), ("<", "("), (">", ")"), ("[", "("), ("]", ")")):
         text = text.replace(char, plain)
-    text = _www.sub(r"\1 ", _scheme.sub(": ", text)).replace("@", " at ")
     return f"`{text or '-'}`"
 
 

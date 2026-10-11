@@ -314,30 +314,53 @@ def test_reports_render_untrusted_text_as_inert_markdown():
         "<img src=x onerror=alert(1)> [click](https://evil.example) ![p](http://evil.example/p) "
         "`code` **Check: all fine** _www.evil.example a@evil.example &#35; $x$ \\| tail"
     )
+
+    def linkable(text: str) -> list[str]:
+        """What some renderer would turn into a link or an image, in any flavour."""
+        return [
+            name
+            for name, pattern in (
+                ("bracket", r"[\[\]]"),
+                ("scheme", r"[A-Za-z][A-Za-z0-9+.-]*:\S"),
+                ("slashes", r"//\S"),
+                ("www", r"(?i)www\."),
+                ("domain", r"[A-Za-z0-9]\.[A-Za-z]{2,}"),
+                ("at", r"@"),
+                ("entity", r"&#"),
+                ("html", r"[<>]"),
+            )
+            if re.search(pattern, text)
+        ]
+
     safe = md(hostile)
-    assert "\n" not in safe and "<" not in safe and ">" not in safe
-    assert not re.search(r"(?<!\\)[|\[\]`*_~#$]", safe)  # every one of them is escaped
-    assert "://" not in safe and "www." not in safe and "@" not in safe  # nothing to click
-    assert "&#" not in safe  # an entity is shown as typed, not decoded
+    assert "\n" not in safe and linkable(safe) == []
+    assert not re.search(r"(?<!\\)[|`*_~#$]", safe)  # every one of them is escaped
     # a line of its own, or the content of a bullet or a quote, cannot open a block
     assert md("# heading") == "\\# heading" and md("1. item") == "1\\. item"
     assert md("- item") == "\\- item" and md("---") == "\\---"
-    assert md("3.05 % · adapt") == "3.05 % · adapt" and md("-5 % in Q2") == "-5 % in Q2"
-    # ways round a narrower filter: no word boundary, no slashes, an entity, capitals, a
-    # bracket the text escaped itself
+    # ordinary prose and figures are left as they are
+    plain = "Check: e.g. the U.S. at 10:30, ratio 3:1, 3.05 % · adapt, -5 % (carryover: true)"
+    assert md(plain) == plain and md("gpt-5.4-2026-03-05") == "gpt-5.4-2026-03-05"
+    # renderers disagree on what a link is, so every form is broken up in the visible text
     for bypass in (
-        "_www.evil.example",
+        "[click](https://evil.example/x)",
+        "![p](//evil.example/p)",
+        "evil.example/path and bit.ly/x",
+        "_www.Evil.example",
         "mailto:a@evil.example",
+        "javascript:alert(1)",
+        "data:text/html,x",
         "https&#58;//evil.example",
         "HTTPS://Evil.example",
         "\\[x\\](https://evil.example)",
+        "<https://evil.example>",
     ):
-        out = md(bypass)
-        assert "://" not in out and "www." not in out.lower() and "@" not in out, bypass
-        assert "&#" not in out and not re.search(r"(?<!\\)[\[\]]", out), bypass
-    assert code("FND-`x` | y\nz <b> http://e.example a@b.c") == (
-        "`FND-'x' / y z (b) http: //e.example a at b.c`"
-    )
+        assert linkable(md(bypass)) == [], bypass
+        # in a code span nothing is linked; it only must not end early or hold a bracket
+        assert not re.search(r"[`|<>\[\]\n]", code(bypass)[1:-1]), bypass
+    # a reference keeps its spelling, so that it can be looked up
+    assert code("verbatim:G60-0248") == "`verbatim:G60-0248`"
+    assert code("FND-`x` | y\nz <b> [a](b)") == "`FND-'x' / y z (b) (a)(b)`" and code("") == "`-`"
 
     effort_row = {"status": "no_vehicle_change", "flags": [], "evidence_subsystems": {}}
     situation = {
@@ -436,8 +459,10 @@ def test_reports_render_untrusted_text_as_inert_markdown():
         (render_series, series, 7, 6),
     ):
         text = render(out)
-        assert "<" not in text and "://" not in text  # no HTML, no address to click
-        assert not re.search(r"(?<!\\)\]\(", text)  # no link or image: every ] is escaped
+        assert "<" not in text and "[" not in text and "]" not in text  # no HTML, no link
+        outside = re.sub(r"`[^`\n]*`", "", text)  # code spans are shown as they stand
+        assert "://" not in outside and "@" not in outside  # nothing to click
+        assert not re.search(r"evil\.example|www\.", outside)
         # the structure is the program's own: no heading and no table row was added
         assert len(re.findall(r"(?m)^#{1,3} ", text)) == headings, render.__name__
         rows = [line for line in text.splitlines() if line.startswith("|")]
@@ -446,4 +471,3 @@ def test_reports_render_untrusted_text_as_inert_markdown():
         assert not re.search(r"(?m)^- forged entry", text)
         # and none inside a bullet or a quote, where a line is parsed as a block again
         assert not re.search(r"(?m)^\s*(?:[-*+>]|\d+[.)])\s+(?:#{1,6}\s|>|[-*+]\s|\d+[.)]\s)", text)
-        assert "@" not in text and "www." not in text

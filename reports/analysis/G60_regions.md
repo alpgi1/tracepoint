@@ -219,7 +219,7 @@ Keep:
 - China front interior roominess is weak in study, but there is no customer text or market row that shows whether the issue is seat packaging, dashboard packaging or expectation versus rivals.
 
 ## Not settled by the checks
-- What sets a region apart is passed over: EU: Rear interior roominess: 5th weakest of 37 (score 7.46) against US 29th weakest of 103, CN 30th weakest of 37 \[metric:MET-CNEU-EU-G60-rear\_roominess\]; EU: Luggage capacity: 7th weakest of 37 (score 7.54) against US 40th weakest of 103, CN 31st weakest of 37 \[metric:MET-CNEU-EU-G60-cargo\_capacity\]. Deal with each in a topic or in that region's expectations, say what follows from it (also if that is to watch it and change nothing), and cite its reference there.
+- What sets a region apart is passed over: EU: Rear interior roominess: 5th weakest of 37 (score 7.46) against US 29th weakest of 103, CN 30th weakest of 37 (metric(:)MET-CNEU-EU-G60-rear\_roominess); EU: Luggage capacity: 7th weakest of 37 (score 7.54) against US 40th weakest of 103, CN 31st weakest of 37 (metric(:)MET-CNEU-EU-G60-cargo\_capacity). Deal with each in a topic or in that region's expectations, say what follows from it (also if that is to watch it and change nothing), and cite its reference there.
 
 ---
 Run `RUN-20261011-045801-agent.series.G60-a1a6` · gpt-5.4-2026-03-05 · series-analysis-v1 · 74 references cited, 0 not verified · 17 tool calls, all on the stored evidence. References, change profiles and tool calls are in the JSON file of the same name.
