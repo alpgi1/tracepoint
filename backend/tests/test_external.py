@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import httpx
 from sqlalchemy import func, select
 from sqlalchemy.orm import Session
 
@@ -9,12 +10,15 @@ from tracepoint.agent.tools import call_tool
 from tracepoint.core.runs import start_run
 from tracepoint.db.models import DocumentPage, ExternalEvidence, ExternalSource, Source
 from tracepoint.effort.subsystems import external_rows, subsystems_of_refs
+from tracepoint.ingest import external
 from tracepoint.ingest.external import (
+    Fetcher,
     claim_figures,
     html_text,
     ingest_external,
     load_fetched,
     load_registry,
+    public_address,
     set_levels,
     verify_claim,
 )
@@ -78,6 +82,39 @@ def test_page_text_keeps_the_article_and_drops_the_chrome():
     text = html_text(html.encode())
     assert text.startswith("Headline\nBEV share was 17.4 %.")
     assert not any(word in text for word in ("Menu entry", "Site header", "Imprint", "var a"))
+
+
+def test_fetcher_stays_on_public_hosts_and_bounds_the_body(monkeypatch):
+    for url in (
+        "http://127.0.0.1/admin",
+        "http://169.254.169.254/latest/meta-data/",
+        "http://10.0.0.5/",
+        "http://[::1]/",
+        "file:///etc/passwd",
+        "ftp://8.8.8.8/",
+    ):
+        assert not public_address(url), url
+    assert public_address("https://8.8.8.8/page")
+
+    def answer(request: httpx.Request) -> httpx.Response:
+        if request.url.path == "/moved":  # a public page that points inwards
+            return httpx.Response(302, headers={"location": "http://169.254.169.254/latest"})
+        if request.url.path == "/loop":
+            return httpx.Response(302, headers={"location": "/loop"})
+        if request.url.path == "/robots.txt":
+            return httpx.Response(404)
+        return httpx.Response(200, content=b"x" * 5000, headers={"content-type": "text/html"})
+
+    monkeypatch.setattr(external, "HOST_PAUSE_SECONDS", 0)
+    fetcher = Fetcher()
+    fetcher.client = httpx.Client(transport=httpx.MockTransport(answer))
+    assert fetcher.snapshot("https://8.8.8.8/moved")[0]["status"] == "non_public_address"
+    assert fetcher.snapshot("https://8.8.8.8/loop")[0]["status"] == "too_many_redirects"
+    record, body = fetcher.snapshot("https://8.8.8.8/page")
+    assert (record["status"], len(body)) == ("fetched", 5000)
+    monkeypatch.setattr(external, "MAX_BYTES", 1000)  # cut off while reading
+    record, body = fetcher.snapshot("https://8.8.8.8/page")
+    assert (record["status"], body) == ("too_large", None)
 
 
 def test_level_counts_independent_origins_of_a_topic_and_region():

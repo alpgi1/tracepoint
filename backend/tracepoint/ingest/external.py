@@ -22,8 +22,10 @@ from __future__ import annotations
 
 import hashlib
 import io
+import ipaddress
 import json
 import re
+import socket
 import time
 from collections import Counter
 from datetime import UTC, date, datetime
@@ -48,7 +50,9 @@ USER_AGENT = (
     "Mozilla/5.0 (compatible; TracepointResearch/0.1; +https://github.com/alpgi1/tracepoint)"
 )
 ROBOTS_NAME = "TracepointResearch"  # the name robots.txt rules are matched against
-MAX_BYTES = 30_000_000
+MAX_BYTES = 30_000_000  # a body is cut off here while it is read, not after
+MAX_REDIRECTS = 5
+REQUEST_SECONDS = 120.0  # for one body; the client's own timeout only bounds each read
 MAX_PDF_PAGES = 150
 HOST_PAUSE_SECONDS = 1.0
 PAGE_CHARS = 1800  # size of one searchable chunk of a web page
@@ -445,14 +449,33 @@ def _write_json(path: Path, data: Any) -> None:
     )
 
 
+class Refused(ValueError):
+    """The client will not make or finish a request; the reason becomes the fetch status."""
+
+
+def public_address(url: str) -> bool:
+    """http(s) to a host all of whose addresses are public. A listed URL, or a redirect a page
+    answers with, must not reach the machine's own network (loopback, private and link-local
+    ranges, the cloud metadata address)."""
+    parts = urlsplit(url)
+    if parts.scheme not in ("http", "https") or not parts.hostname:
+        return False
+    try:
+        found = socket.getaddrinfo(parts.hostname, parts.port or 443, type=socket.SOCK_STREAM)
+        return all(ipaddress.ip_address(info[4][0].split("%")[0]).is_global for info in found)
+    except (OSError, ValueError):
+        return False
+
+
 class Fetcher:
     """One polite client: it says who it is, asks robots.txt, waits between two requests to a
-    host, and never retries a refusal."""
+    host, and never retries a refusal. It follows redirects itself, so that every hop is
+    checked, and reads a body only up to ``MAX_BYTES``."""
 
     def __init__(self) -> None:
         self.client = httpx.Client(
             headers={"User-Agent": USER_AGENT, "Accept-Language": "en,de;q=0.8,zh;q=0.6"},
-            follow_redirects=True,
+            follow_redirects=False,
             timeout=40.0,
         )
         self.robots: dict[str, RobotFileParser | None] = {}
@@ -464,26 +487,47 @@ class Fetcher:
             time.sleep(pause)
         self.last[host] = time.monotonic()
 
+    def get(self, url: str, headers: dict[str, str] | None = None) -> tuple[httpx.Response, bytes]:
+        """(response, body) of one GET. Raises ``Refused`` for a hop to a non-public address,
+        too many redirects, a body beyond ``MAX_BYTES`` or one that takes too long."""
+        for _ in range(MAX_REDIRECTS + 1):
+            # ponytail: the address is checked before the connection, not pinned to it; a host
+            # that changes its DNS answer in between gets through. Pin the resolved address in
+            # the transport if this ever runs unattended or behind the API.
+            if not public_address(url):
+                raise Refused("non_public_address")
+            self._wait(urlsplit(url).netloc)
+            deadline = time.monotonic() + REQUEST_SECONDS
+            with self.client.stream("GET", url, headers=headers) as res:
+                if res.is_redirect and "location" in res.headers:
+                    url = str(res.url.join(res.headers["location"]))
+                    continue
+                body = bytearray()
+                for chunk in res.iter_bytes():
+                    body += chunk
+                    if len(body) > MAX_BYTES:
+                        raise Refused("too_large")
+                    if time.monotonic() > deadline:
+                        raise Refused("too_slow")
+                return res, bytes(body)
+        raise Refused("too_many_redirects")
+
     def allowed(self, url: str) -> bool:
         parts = urlsplit(url)
         host = f"{parts.scheme}://{parts.netloc}"
         if host not in self.robots:
             rules: RobotFileParser | None = None
             try:
-                self._wait(parts.netloc)
-                res = self.client.get(f"{host}/robots.txt")
-                if res.status_code == 200 and "<html" not in res.text[:500].lower():
+                res, body = self.get(f"{host}/robots.txt")
+                text = body.decode("utf-8", errors="replace")
+                if res.status_code == 200 and "<html" not in text[:500].lower():
                     rules = RobotFileParser()
-                    rules.parse(res.text.splitlines())
-            except httpx.HTTPError:
+                    rules.parse(text.splitlines())
+            except (httpx.HTTPError, Refused):
                 pass  # no readable rules: the page request decides
             self.robots[host] = rules
         rules = self.robots[host]
         return rules is None or rules.can_fetch(ROBOTS_NAME, url)
-
-    def get(self, url: str, **kw: Any) -> httpx.Response:
-        self._wait(urlsplit(url).netloc)
-        return self.client.get(url, **kw)
 
     def snapshot(self, url: str) -> tuple[dict[str, Any], bytes | None]:
         """(record of the request, body or None). Nothing is raised: a refusal is a result."""
@@ -494,7 +538,9 @@ class Fetcher:
         try:
             if not self.allowed(url):
                 return {**record, "status": "blocked_by_robots"}, None
-            res = self.get(url)
+            res, body = self.get(url)
+        except Refused as exc:
+            return {**record, "status": str(exc)}, None
         except httpx.HTTPError as exc:
             return {**record, "status": "error", "detail": type(exc).__name__}, None
         record |= {
@@ -504,9 +550,6 @@ class Fetcher:
         }
         if res.status_code != 200:
             return {**record, "status": f"http_{res.status_code}"}, None
-        body = res.content
-        if len(body) > MAX_BYTES:
-            return {**record, "status": "too_large", "bytes": len(body)}, None
         charset = res.headers.get("content-type", "")
         record |= {
             "status": "fetched",
@@ -571,9 +614,10 @@ EPA = "https://www.fueleconomy.gov/ws/rest/vehicle"
 
 
 def _json(fetcher: Fetcher, url: str) -> Any:
-    res = fetcher.get(url, headers={"Accept": "application/json"})
-    res.raise_for_status()
-    return res.json() if res.content.strip() else None
+    res, body = fetcher.get(url, headers={"Accept": "application/json"})
+    if res.status_code != 200:
+        raise ValueError(f"HTTP {res.status_code} from {url}")
+    return json.loads(body) if body.strip() else None
 
 
 def _as_list(value: Any) -> list[Any]:
