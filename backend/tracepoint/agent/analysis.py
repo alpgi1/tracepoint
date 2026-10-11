@@ -712,7 +712,8 @@ _address = (
     (re.compile(r"([A-Za-z][A-Za-z0-9+.-]*):(?=\S)"), r"\1(:)"),  # any scheme
     (re.compile(r"//(?=\S)"), "/(/)"),  # "//host", with or without a scheme before it
     (re.compile(r"(www)\.", re.I), r"\1(.)"),
-    (re.compile(r"(?<=[A-Za-z0-9])\.(?=[A-Za-z]{2,})"), "(.)"),  # a domain: "evil.example"
+    # a domain, in any script: "evil.example", "bücher.example" (a figure like 3.05 is none)
+    (re.compile(r"(?<=\w)\.(?=[^\W\d_]{2,})"), "(.)"),
     (re.compile(r"@"), "(at)"),  # e-mail, mailto:, user and repository mentions
 )
 _md_punctuation = re.compile(r"([`*_{}|~#$])")
@@ -743,14 +744,25 @@ def md(text: Any) -> str:
 
 
 def code(text: Any) -> str:
-    """An identifier or argument this program did not write, as a code span it cannot break
-    out of. A code span is shown as it stands and nothing in it is linked, so a reference keeps
-    its exact spelling for looking it up; only what could end the span or a table cell, or
-    read as markup if the span were lost, is replaced."""
+    """Text this program did not write, as a code span it cannot break out of. Nothing in a
+    code span can be escaped, so what could end the span or a table cell is replaced; an
+    address is broken up here too, in case a renderer links inside code."""
     text = " ".join(str(text or "").split())
     for char, plain in (("`", "'"), ("|", "/"), ("<", "("), (">", ")"), ("[", "("), ("]", ")")):
         text = text.replace(char, plain)
-    return f"`{text or '-'}`"
+    return f"`{_no_address(text) or '-'}`"
+
+
+_identifier = re.compile(r"[A-Za-z0-9][A-Za-z0-9._:-]{0,159}")
+
+
+def ident(text: Any) -> str:
+    """An identifier this program made (a run id, a reference the store handed out), shown
+    exactly as it is so that it can be looked up. It has to look like one: letters, digits and
+    ``. _ : -`` only, which can neither end a code span nor form an address with a path.
+    Anything else is treated as foreign text."""
+    text = str(text or "")
+    return f"`{text}`" if _identifier.fullmatch(text) else code(text)
 
 
 def effort_text(e: dict[str, Any]) -> str:
@@ -770,7 +782,7 @@ def package_lines(effort: dict[str, Any]) -> list[str]:
     for p in effort["packages"]:
         when = "Now (H1)" if p["horizon"] == "H1" else "Next generation (H2)"
         lines.append(
-            f"- {when}: {p['proposals']} change(s) together **{p['effort_pct']} %** of a new "
+            f"- {when}: {md(p['proposals'])} change(s) together **{md(p['effort_pct'])} %** of a new "
             f"vehicle generation ({md(p['decision'])}); work that proposals share counts once."
             + "".join(f" Not counted, no usable change profile: {md(t)}." for t in p["not_counted"])
         )
@@ -821,8 +833,8 @@ def render_brief(out: dict[str, Any]) -> str:
         ]
         if e["status"] == "estimated":
             lines.append(
-                f"- Effort: {e['effort_pct']} % of a new vehicle generation ({md(e['decision'])}, "
-                f"P5–P95 {e['p5']}–{e['p95']}), from the {md(e['source'])}."
+                f"- Effort: {md(e['effort_pct'])} % of a new vehicle generation ({md(e['decision'])}, "
+                f"P5–P95 {md(e['p5'])}–{md(e['p95'])}), from the {md(e['source'])}."
             )
         elif e["status"] != "no_vehicle_change":
             lines.append("- Effort: **not estimated** (no usable change profile).")
@@ -845,8 +857,8 @@ def render_brief(out: dict[str, Any]) -> str:
     lines += [
         "",
         "---",
-        f"Run {code(out['run_id'])} · {md(out['model'])} · {md(out['prompt_version'])} · "
-        f"{out['citations']['cited']} references cited, {len(unknown)} not verified"
+        f"Run {ident(out['run_id'])} · {md(out['model'])} · {md(out['prompt_version'])} · "
+        f"{md(out['citations']['cited'])} references cited, {len(unknown)} not verified"
         + (f" ({', '.join(code(u) for u in unknown)})" if unknown else "")
         + f" · {len(loose)} quotes not found in their verbatims and left out · "
         f"{len(out['trace']['tool_calls'])} tool calls. References, change profiles and tool "
@@ -863,7 +875,7 @@ def render_analysis(out: dict[str, Any]) -> str:
     loose_quotes = set(out["citations"]["unverified_quotes"])
 
     def refs(items: list[str]) -> str:
-        return ", ".join(code(r) + (" (not verified)" if r in unknown else "") for r in items)
+        return ", ".join(code(r) + " (not verified)" if r in unknown else ident(r) for r in items)
 
     names = subsystem_names()
 
@@ -873,7 +885,7 @@ def render_analysis(out: dict[str, Any]) -> str:
         return [
             "",
             "Subsystems of the cited evidence: "
-            + ", ".join(f"{names[k]} ({n})" for k, n in hits.items()),
+            + ", ".join(f"{md(names[k])} ({md(n)})" for k, n in hits.items()),
         ]
 
     def effort_lines(e: dict[str, Any]) -> list[str]:
@@ -887,20 +899,20 @@ def render_analysis(out: dict[str, Any]) -> str:
             return ["", text, *flags]
         return [
             "",
-            f"Effort (CPM estimate): **{e['effort_pct']} %** of a new vehicle generation "
-            f"(P5–P95 {e['p5']}–{e['p95']}) · {md(e['decision'])}, kept in "
+            f"Effort (CPM estimate): **{md(e['effort_pct'])} %** of a new vehicle generation "
+            f"(P5–P95 {md(e['p5'])}–{md(e['p95'])}) · {md(e['decision'])}, kept in "
             f"{e['decision_stable_pct']:.0f} % of the sensitivity runs · size {md(e['size'])} · "
             f"layer {md(e['layer'])}"
             + (" · certification add-on" if e["certification"] else "")
             + f" · from the {md(e['source'])}",
             *[
-                f"- {md(c['subsystem'])} {c['own_impact']} {md(c['layer'])}"
+                f"- {md(c['subsystem'])} {md(c['own_impact'])} {md(c['layer'])}"
                 + (" carryover" if c["carryover"] else "")
                 + (f": {md(c['why'])}" if c["why"] else "")
                 for c in e["changes"]
             ],
             *[
-                f"- size of {md(r['subsystem'])} {r['own_impact']} among {r['references']} "
+                f"- size of {md(r['subsystem'])} {md(r['own_impact'])} among {md(r['references'])} "
                 "reference change(s): "
                 + "; ".join(
                     f"{side} {md(_reference_text(r[key]))}"
@@ -932,11 +944,11 @@ def render_analysis(out: dict[str, Any]) -> str:
     lines = [
         f"# Situation analysis – {md(out['scope'])}",
         "",
-        f"Run {code(out['run_id'])} · {md(out['model'])} · {md(out['prompt_version'])} · "
-        f"{trace['steps']} steps, {len(trace['tool_calls'])} tool calls · "
-        f"{out['citations']['cited']} references cited, {len(unknown)} not verified · "
+        f"Run {ident(out['run_id'])} · {md(out['model'])} · {md(out['prompt_version'])} · "
+        f"{md(trace['steps'])} steps, {len(trace['tool_calls'])} tool calls · "
+        f"{md(out['citations']['cited'])} references cited, {len(unknown)} not verified · "
         f"{len(loose_quotes)} quotes not found in their verbatims · "
-        f"effort model {code(effort['model_hash'])}",
+        f"effort model {ident(effort['model_hash'])}",
         "",
         f"**{md(a['headline'])}**",
         "",
@@ -987,15 +999,15 @@ def render_analysis(out: dict[str, Any]) -> str:
     ]
     for p in effort["packages"]:
         lines.append(
-            f"- **{md(p['horizon'])}**: {p['proposals']} proposal(s) with a change, together "
-            f"**{p['effort_pct']} %** (P5–P95 {p['p5']}–{p['p95']}) · {md(p['decision'])}, kept "
+            f"- **{md(p['horizon'])}**: {md(p['proposals'])} proposal(s) with a change, together "
+            f"**{md(p['effort_pct'])} %** (P5–P95 {md(p['p5'])}–{md(p['p95'])}) · {md(p['decision'])}, kept "
             f"in {p['decision_stable_pct']:.0f} % of the runs · sum of the single estimates "
-            f"{p['sum_of_single_pct']} %"
+            f"{md(p['sum_of_single_pct'])} %"
         )
         if p["subsystems"]:
             lines.append(
                 "  - footprint: "
-                + ", ".join(f"{md(s['name'])} {s['effort_pct']} %" for s in p["subsystems"])
+                + ", ".join(f"{md(s['name'])} {md(s['effort_pct'])} %" for s in p["subsystems"])
             )
         lines += [
             f"  - {md(f['level'])} (rule {md(f['rule'])}): {md(f['text'])}" for f in p["flags"]

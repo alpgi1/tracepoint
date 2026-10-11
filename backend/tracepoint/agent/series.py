@@ -36,6 +36,7 @@ from tracepoint.agent.analysis import (
     effort_brief,
     effort_of_proposals,
     effort_text,
+    ident,
     md,
     package_lines,
     warnings_of,
@@ -1101,8 +1102,8 @@ def render_series(out: dict[str, Any]) -> str:
         lines.append(f"- Why this way: {clean(t['why'])}")
         if e["status"] == "estimated":
             lines.append(
-                f"- Effort: {e['effort_pct']} % of a new vehicle generation ({md(e['decision'])}, "
-                f"P5–P95 {e['p5']}–{e['p95']}), from the {md(e['source'])}."
+                f"- Effort: {md(e['effort_pct'])} % of a new vehicle generation ({md(e['decision'])}, "
+                f"P5–P95 {md(e['p5'])}–{md(e['p95'])}), from the {md(e['source'])}."
             )
         elif e["status"] != "no_vehicle_change":
             lines.append("- Effort: **not estimated** (no usable change profile).")
@@ -1139,8 +1140,8 @@ def render_series(out: dict[str, Any]) -> str:
     lines += [
         "",
         "---",
-        f"Run {code(out['run_id'])} · {md(out['model'])} · {md(out['prompt_version'])} · "
-        f"{out['citations']['cited']} references cited, {len(unknown)} not verified"
+        f"Run {ident(out['run_id'])} · {md(out['model'])} · {md(out['prompt_version'])} · "
+        f"{md(out['citations']['cited'])} references cited, {len(unknown)} not verified"
         + (f" ({', '.join(code(u) for u in unknown)})" if unknown else "")
         + f" · {len(out['trace']['tool_calls'])} tool calls, all on the stored evidence. References, "
         "change profiles and tool calls are in the JSON file of the same name.",

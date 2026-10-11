@@ -9,7 +9,7 @@
 
 ## 1. Delivered
 
-Decisions D-091 to D-097.
+Decisions D-091 to D-098.
 
 ### 1.1 The series analysis (`agent/series.py`, `tracepoint agent series --vehicle G60`)
 
@@ -98,7 +98,7 @@ The three sample analyses under `reports/analysis/` are re-rendered from their J
 22 to 15 and 23 to 13 thousand characters. Their text is that of the earlier prompt;
 `situation-analysis-v8` asks for short fields.
 
-**After three security reviews (D-094, D-096, D-097).** The reports are read rendered, and
+**After four security reviews (D-094, D-096, D-097, D-098).** The reports are read rendered, and
 their text comes from the model. Whatever this program did not write now goes through one
 function and is shown as text: one line, no HTML or entity, no emphasis or code span, no table
 cell, no heading, list or rule (also not inside a bullet or a quote), and no link in any
