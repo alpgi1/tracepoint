@@ -46,6 +46,8 @@ const FEATHER = 0.6;
 const PAPER = 235;
 const BLACK = 70;
 const RASTER_GAMMA = 1.6;
+/** Blur (sigma, px of the 1600 px raster) that smooths a raster drawing's silhouette before its contour is traced. */
+const RASTER_SMOOTH = 3;
 
 const argv = process.argv.slice(2);
 const previewDir = argv.includes("--preview") ? argv[argv.indexOf("--preview") + 1] : null;
@@ -86,28 +88,42 @@ const VEHICLES = [
       note: "BMW Group PressClub, The new BMW 7 Series, Specifications (04/2022), page 9",
     },
     views: {
+      // Erase shapes are the dimension annotations only (source px): arrow shafts, arrowheads and figures; the
+      // car's lines they cross are bridged. The ground line (y 873) touches the tyres, so it is erased after
+      // the silhouette flood, below the tyres' lowest row (raster px); pockets are in raster px too.
       side: {
-        box: [50, 582, 995, 289],
+        box: [50, 582, 995, 297],
         erase: [
-          { rect: [532, 612, 559, 674] },
-          { rect: [733, 618, 763, 674] },
-          { line: [540, 672, 524, 764] },
-          { line: [737.5, 672, 701, 760] },
-          { circle: [524, 761, 7] },
-          { circle: [702, 757, 7] },
+          // 1010, front headroom
+          { line: [553.5, 623, 550.5, 633], width: 5 },
+          { rect: [550, 613, 557, 624] },
+          { rect: [536, 636, 555, 670] },
+          { line: [540.5, 675, 526, 758], width: 5 },
+          { rect: [521, 757, 529, 766] },
+          // 981, rear headroom
+          { line: [760, 626, 753.5, 641], width: 5 },
+          { rect: [756, 622, 764, 631] },
+          { rect: [735, 642, 757, 668] },
+          { line: [739.5, 672, 702, 757], width: 5 },
+          { rect: [698, 754, 706, 763] },
         ],
+        eraseRaster: [[0, 467, 1600, 478]],
+        // The strip between the sill (y 840) and the ground line, closed off by the tyres, is outside.
+        pockets: [[756, 441]],
       },
       top: {
-        box: [50, 1040, 995, 405],
+        box: [50, 1040, 995, 412],
         erase: [
-          { rect: [502, 1226, 525, 1282] },
-          { rect: [671, 1226, 696, 1282] },
-          { line: [513, 1094, 513, 1410] },
-          { line: [682.5, 1094, 682.5, 1410] },
-          { rect: [508, 1094, 519, 1110] },
-          { rect: [508, 1385, 519, 1410] },
-          { rect: [677, 1094, 688, 1110] },
-          { rect: [677, 1385, 688, 1410] },
+          // 1576, front track
+          { line: [513.3, 1104, 513.3, 1398], width: 3 },
+          { rect: [510, 1097, 517, 1104] },
+          { rect: [510, 1398, 517, 1405] },
+          { rect: [505, 1235, 520, 1268] },
+          // 1515, rear track
+          { line: [682.3, 1107, 682.3, 1393], width: 3 },
+          { rect: [679, 1100, 686, 1107] },
+          { rect: [679, 1393, 686, 1400] },
+          { rect: [676, 1236, 690, 1264] },
         ],
       },
     },
@@ -234,17 +250,80 @@ async function inkFromSvg(svg, box, width = RASTER_WIDTH, minStrokePt = 0) {
 
 /* ---------- raster source ---------- */
 
+/** An erase shape as SVG in black, for the erase mask. Lines are `width` px wide (default 4). */
 function eraseShape(shape, left, top) {
   if (shape.rect) {
     const [x0, y0, x1, y1] = shape.rect;
-    return `<rect x="${x0 - left}" y="${y0 - top}" width="${x1 - x0}" height="${y1 - y0}" fill="#fff"/>`;
+    return `<rect x="${x0 - left}" y="${y0 - top}" width="${x1 - x0}" height="${y1 - y0}" fill="#000"/>`;
   }
   if (shape.line) {
     const [x0, y0, x1, y1] = shape.line;
-    return `<line x1="${x0 - left}" y1="${y0 - top}" x2="${x1 - left}" y2="${y1 - top}" stroke="#fff" stroke-width="6" stroke-linecap="round"/>`;
+    return `<line x1="${x0 - left}" y1="${y0 - top}" x2="${x1 - left}" y2="${y1 - top}" stroke="#000" stroke-width="${shape.width ?? 4}" stroke-linecap="round"/>`;
   }
   const [cx, cy, r] = shape.circle;
-  return `<circle cx="${cx - left}" cy="${cy - top}" r="${r}" fill="#fff"/>`;
+  return `<circle cx="${cx - left}" cy="${cy - top}" r="${r}" fill="#000"/>`;
+}
+
+/**
+ * Directions for bridging, as unit steps: eight half-quadrant angles, so a
+ * line crossing an erased arrow at any slant finds its other side.
+ */
+const BRIDGE_DIRECTIONS = Array.from({ length: 8 }, (_, k) => [Math.cos((k * Math.PI) / 8), Math.sin((k * Math.PI) / 8)]);
+/** Bridging: the furthest an erased pixel looks for ink on each side, the widest gap a line is carried across, px, and the least ink that counts as a line. */
+const BRIDGE_REACH = 7;
+const BRIDGE_SPAN = 9;
+const BRIDGE_INK = 0.3;
+
+/**
+ * Restore the car's lines where an erased annotation crossed them. Each
+ * erased pixel looks both ways along each direction for the nearest
+ * unerased pixel; where a line runs on from both, in that same direction,
+ * and the gap between them is short (a line crosses an arrow the short way),
+ * the line ran through and is redrawn with the fainter of the two ends. The
+ * arrow itself has paper beside it, and two neighbouring lines that both
+ * cross it are not joined: from one to the other is not along either.
+ */
+function bridge(coverage, erased, width, height) {
+  const out = Float32Array.from(coverage);
+  const at = (x, y) => {
+    const xi = Math.round(x);
+    const yi = Math.round(y);
+    if (xi < 0 || yi < 0 || xi >= width || yi >= height) return null;
+    return yi * width + xi;
+  };
+  const inkAt = (x, y) => {
+    const i = at(x, y);
+    return i === null || erased[i] ? 0 : coverage[i];
+  };
+  // A thin line's ink is shared between two rows (or columns) where it is anti-aliased: a line is seen where the
+  // pixel or a neighbour across the direction holds enough ink.
+  const lineAt = (x, y, dx, dy) => Math.max(inkAt(x, y), inkAt(x - dy, y + dx), inkAt(x + dy, y - dx));
+  // The nearest unerased pixel along a direction: its distance and ink, where a line runs on along that direction
+  // for two more pixels (else 0, so the edge of a line merely touched at a slant does not count).
+  const reach = (x, y, dx, dy) => {
+    for (let t = 1; t <= BRIDGE_REACH; t++) {
+      const i = at(x + dx * t, y + dy * t);
+      if (i === null) break;
+      if (erased[i]) continue;
+      const seen = Math.min(...[t, t + 1, t + 2].map((u) => lineAt(x + dx * u, y + dy * u, dx, dy)));
+      return [t, seen >= BRIDGE_INK ? coverage[i] : -1];
+    }
+    return [Infinity, -1];
+  };
+  for (let y = 0; y < height; y++) {
+    for (let x = 0; x < width; x++) {
+      const i = y * width + x;
+      if (!erased[i]) continue;
+      let ink = 0;
+      for (const [dx, dy] of BRIDGE_DIRECTIONS) {
+        const [ta, a] = reach(x, y, dx, dy);
+        const [tb, b] = reach(x, y, -dx, -dy);
+        if (ta + tb <= BRIDGE_SPAN && a >= 0 && b >= 0) ink = Math.max(ink, Math.min(a, b));
+      }
+      out[i] = ink;
+    }
+  }
+  return out;
 }
 
 /** A smaller copy of an ink raster whose lines stay at least a pixel wide: dilate by one pixel, then resize. */
@@ -277,22 +356,27 @@ async function shrinkInk({ ink, width, height }, targetWidth) {
 
 async function inkFromRaster(file, view) {
   const [left, top, width, height] = view.box;
+  // The annotations are drawn into a mask and erased from the coverage; the car's lines they crossed are then bridged.
   const shapes = (view.erase ?? []).map((s) => eraseShape(s, left, top)).join("");
-  const overlay = Buffer.from(`<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}">${shapes}</svg>`);
+  const maskSvg = Buffer.from(`<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}">${shapes}</svg>`);
+  const maskRaw = await sharp(maskSvg).ensureAlpha().extractChannel(3).raw().toBuffer();
+  const erased = new Uint8Array(width * height);
+  for (let i = 0; i < erased.length; i++) erased[i] = maskRaw[i] > 0 ? 1 : 0;
   const { data, info } = await sharp(file)
     .extract({ left, top, width, height })
-    .composite([{ input: overlay }])
     .flatten({ background: "#ffffff" })
     .greyscale()
     .raw()
     .toBuffer({ resolveWithObject: true });
-  // The erase overlay adds an alpha channel, so read with the stride sharp reports.
-  const coverage = Buffer.alloc(info.width * info.height);
+  let coverage = new Float32Array(info.width * info.height);
   for (let i = 0; i < coverage.length; i++) {
-    coverage[i] = Math.round(255 * clamp((PAPER - data[i * info.channels]) / (PAPER - BLACK), 0, 1));
+    coverage[i] = erased[i] ? 0 : clamp((PAPER - data[i * info.channels]) / (PAPER - BLACK), 0, 1);
   }
+  coverage = bridge(coverage, erased, info.width, info.height);
+  const bytes = Buffer.alloc(coverage.length);
+  for (let i = 0; i < coverage.length; i++) bytes[i] = Math.round(255 * coverage[i]);
   const outHeight = Math.round((info.height * RASTER_WIDTH) / info.width);
-  const resized = await sharp(coverage, { raw: { width: info.width, height: info.height, channels: 1 } })
+  const resized = await sharp(bytes, { raw: { width: info.width, height: info.height, channels: 1 } })
     .resize(RASTER_WIDTH, outHeight, { kernel: "lanczos3" })
     .raw()
     .toBuffer({ resolveWithObject: true });
@@ -386,6 +470,16 @@ function silhouette({ ink, width, height }, pockets = []) {
     if (y > y1) y1 = y;
   }
   return { inside, wall, bbox: [x0, y0, x1 + 1, y1 + 1], area };
+}
+
+/** A binary mask blurred by `sigma` px and thresholded at half: steps and wobbles narrower than the blur go. */
+async function smoothMask(mask, width, height, sigma) {
+  const bytes = Buffer.alloc(mask.length);
+  for (let i = 0; i < mask.length; i++) bytes[i] = mask[i] ? 255 : 0;
+  const blurred = await sharp(bytes, { raw: { width, height, channels: 1 } }).blur(sigma).raw().toBuffer({ resolveWithObject: true });
+  const out = new Uint8Array(mask.length);
+  for (let i = 0; i < out.length; i++) out[i] = blurred.data[i * blurred.info.channels] >= 128 ? 1 : 0;
+  return out;
 }
 
 /** The silhouette as a soft-edged alpha mask. */
@@ -483,8 +577,11 @@ async function buildView(vehicle, viewName, view) {
     }
   }
   const { width, height } = raster;
-  const body = bodyMask(inside);
-  const contour = contourMask(inside, width, height);
+  // The raster's outline steps and wobbles by a pixel or two after upscaling; a smoothed silhouette gives the
+  // contour the vector drawings' clean edge.
+  const shape = vehicle.source.kind === "png" ? await smoothMask(inside, width, height, RASTER_SMOOTH) : inside;
+  const body = bodyMask(shape);
+  const contour = contourMask(shape, width, height);
   const lengthPx = bbox[2] - bbox[0];
   const pxPerMm = lengthPx / vehicle.lengthMm;
   const fill = area / ((bbox[2] - bbox[0]) * (bbox[3] - bbox[1]));
