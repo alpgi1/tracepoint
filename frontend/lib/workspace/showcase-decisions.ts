@@ -30,8 +30,8 @@ export const STATUS_OF: Record<Decision, string> = {
   reject: "rejected",
   defer: "deferred",
 };
-export const SHOWCASE_ACTOR = "you (this browser)";
-export const EXAMPLE_ACTOR = "product manager (example)";
+export const SHOWCASE_ACTOR = "product manager";
+export const EXAMPLE_ACTOR = "product manager";
 
 const KEY = "tracepoint.showcase.decisions.v1";
 const SEEDED = "tracepoint.showcase.seeded.v1";
@@ -53,12 +53,26 @@ function read(): LocalDecision[] {
   let value = EMPTY;
   try {
     const parsed: unknown = raw ? JSON.parse(raw) : [];
-    if (Array.isArray(parsed)) value = parsed as LocalDecision[];
+    if (Array.isArray(parsed)) value = (parsed as LocalDecision[]).map(tidy);
   } catch {
     value = EMPTY;
   }
   cache = { raw, value };
   return value;
+}
+
+/** Notes that are not a rationale (an early test entry such as "nice") read as a standard rationale. */
+const PLACEHOLDER = new Set(["nice", "ok", "okay", "test", "good"]);
+const STANDARD_NOTE: Record<Decision, string> = {
+  approve:
+    "Approved for the package. The customer evidence supports the change and the effort fits the plan.",
+  reject: "Rejected. The evidence does not justify the effort in this cycle.",
+  defer: "Deferred to a later horizon until the evidence is stronger.",
+};
+function tidy(d: LocalDecision): LocalDecision {
+  return PLACEHOLDER.has(d.note.trim().toLowerCase())
+    ? { ...d, note: STANDARD_NOTE[d.decision] }
+    : d;
 }
 
 function write(value: LocalDecision[]) {
