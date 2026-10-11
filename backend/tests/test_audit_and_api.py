@@ -5,6 +5,7 @@ import io
 import json
 
 from fastapi.testclient import TestClient
+from sqlalchemy import func, select
 from sqlalchemy.orm import Session
 
 from tracepoint.api import app as api_module
@@ -63,6 +64,13 @@ def test_api_endpoints(engine, ingested):
     # a scope that does not resolve is refused before any model call
     bad = client.post("/agent/analyze", json={"vehicle": "F70", "market": "US", "country": "GB"})
     assert bad.status_code == 422 and "belongs to market EU" in bad.json()["detail"]
+    # while one analysis holds the lock, a second request is turned away before any model call
+    with engine.connect() as other:
+        key = func.hashtext(api_module.ANALYSIS_LOCK)
+        other.execute(select(func.pg_advisory_lock(key)))
+        busy = client.post("/agent/analyze", json={"vehicle": "G60", "market": "US"})
+        other.execute(select(func.pg_advisory_unlock(key)))
+    assert busy.status_code == 429
 
 
 def test_baseline_report(engine, ingested):

@@ -14,6 +14,7 @@ from tracepoint.db.models import LlmCall
 from tracepoint.llm.gateway import (
     FakeProvider,
     LlmBudgetExceeded,
+    LlmError,
     LlmGateway,
     LlmRequest,
     LlmSchemaError,
@@ -116,6 +117,51 @@ def test_gateway_daily_cap_spans_runs(engine, ingested):
         with pytest.raises(LlmBudgetExceeded, match="per 24 hours"):
             gw.complete(_req("day cap"), Answer)
         session.delete(earlier)
+
+
+class _Stub:
+    """A provider that is not the fake one, so the cost rules of real providers apply."""
+
+    name = "stub"
+
+    def __init__(self, finish_reason="stop"):
+        self.finish_reason = finish_reason
+
+    def complete(self, *, model, **kw):
+        return ProviderResponse(
+            text='{"label": "ok", "score": 1, "note": null}',
+            model=model,
+            input_tokens=1000,
+            cached_tokens=0,
+            output_tokens=1000,
+            finish_reason=self.finish_reason,
+        )
+
+
+def _priced(user: str, model: str) -> LlmRequest:
+    return LlmRequest(purpose="test", system="s", user=user, prompt_version="t-v1", model=model)
+
+
+def test_cost_caps_refuse_a_model_without_a_price(engine, ingested):
+    with Session(engine) as session, start_run(session, "test.llm.unpriced") as run:
+        capped = LlmGateway(session, _Stub(), run.id)
+        with pytest.raises(LlmError, match="no price"):
+            capped.complete(_priced("unpriced", "mystery-model"), Answer)
+        assert capped.complete(_priced("priced", "gpt-5.4"), Answer).cost_estimate_usd > 0
+        uncapped = Settings(llm_max_cost_usd_per_run=0, llm_max_cost_usd_per_day=0)
+        free = LlmGateway(session, _Stub(), run.id, uncapped)
+        assert free.complete(_priced("unpriced", "mystery-model"), Answer).parsed.label == "ok"
+
+
+def test_truncated_answer_is_logged_with_its_cost(engine, ingested):
+    with Session(engine) as session, start_run(session, "test.llm.truncated") as run:
+        gw = LlmGateway(session, _Stub(finish_reason="length"), run.id)
+        with pytest.raises(LlmError, match="truncated"):
+            gw.complete(_priced("too long", "gpt-5.4"), Answer)
+        row = session.scalar(select(LlmCall).where(LlmCall.run_id == run.id))
+        assert row.status == "error" and row.cost_estimate_usd > 0
+        assert gw.run_spent_usd() == row.cost_estimate_usd  # counts towards the caps
+        session.delete(row)  # keep the day's total of the test database unchanged
 
 
 def test_fake_provider_payload_is_json():

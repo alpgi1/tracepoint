@@ -1,6 +1,6 @@
 # USD per 1 million tokens, used only for cost estimates in the llm_call log.
-# Unknown models get cost_estimate_usd = null (the token counts are still recorded), and null
-# costs do not count towards TRACEPOINT_LLM_MAX_COST_USD_PER_RUN.
+# The cost caps (TRACEPOINT_LLM_MAX_COST_USD_PER_RUN / _PER_DAY) count these estimates, so the
+# gateway refuses a model that has no price here while a cap is set.
 # Keys are model aliases; the dated snapshot the API reports (gpt-5.4-2026-03-05) matches its
 # alias. Standard-tier prices from the OpenAI model pages, checked 2026-10-11.
 models:

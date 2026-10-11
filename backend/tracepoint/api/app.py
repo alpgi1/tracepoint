@@ -612,6 +612,9 @@ def agent_tools() -> list[dict[str, Any]]:
     return tool_schemas()
 
 
+ANALYSIS_LOCK = "tracepoint.agent.analyze"
+
+
 class AnalysisBody(BaseModel):
     vehicle: Literal["F70", "G60", "G68", "G70"]
     market: Literal["EU", "US", "CN", "RoW"] | None = None
@@ -629,8 +632,17 @@ def agent_analyze(body: AnalysisBody, session: Session = Depends(get_session)) -
 
     try:
         market, country = resolve_scope(session, body.market, body.country)
+    except ValueError as exc:
+        raise HTTPException(422, str(exc)) from exc
+    # One analysis at a time through the API. A run commits its LLM costs when it ends, so
+    # parallel requests would each pass the cost caps without seeing the others' spending. The
+    # lock lives until this request's transaction ends, in every API process.
+    lock = func.pg_try_advisory_xact_lock(func.hashtext(ANALYSIS_LOCK))
+    if not session.scalar(select(lock)):
+        raise HTTPException(429, "an analysis is already running; try again when it has finished")
+    try:
         provider = make_provider()
-    except (ValueError, LlmError) as exc:
+    except LlmError as exc:
         raise HTTPException(422, str(exc)) from exc
     kind = f"agent.analyze.{body.vehicle}.{country or market}"
     try:

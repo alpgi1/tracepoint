@@ -95,7 +95,12 @@ Live runs with `gpt-5.4` (dated snapshot `gpt-5.4-2026-03-05`), samples of the f
   only read, so a followed injection can change the text of an analysis and nothing else.
 * `TRACEPOINT_LLM_MAX_COST_USD_PER_DAY` (default 50) caps all runs of the last 24 hours. The
   endpoint itself is still unauthenticated and has to stay on localhost.
-* 51 tests passed. The four live analyses were not repeated with v2.
+* Second review (D-067): a model without a price is refused while a cost cap is set; billed
+  answers the gateway rejects are logged with their cost; the endpoint runs one analysis at a
+  time (HTTP 429 for a second request), since a run commits its costs only when it ends.
+* 53 tests passed. One live analysis with v2 through the endpoint (G60, country KR): 2 model
+  turns, 11 tool calls, 31 references, none unverified, USD 0.09. The other three scopes were not
+  repeated with v2.
 
 ## 5. Next step
 

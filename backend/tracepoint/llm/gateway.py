@@ -31,7 +31,10 @@ T = TypeVar("T", bound=BaseModel)
 
 
 class LlmError(RuntimeError):
-    """Base class for gateway errors."""
+    """Base class for gateway errors. ``response`` is set when the provider did answer (and
+    billed) but the answer is unusable."""
+
+    response: ProviderResponse | None = None
 
 
 class LlmRetryableError(LlmError):
@@ -436,7 +439,7 @@ class LlmGateway:
                     llm_call_id=hit.id,
                     input_hash=ihash,
                 )
-        resp = self._call_with_retries(req, model, schema, ihash)
+        resp = self._billed_call(req, model, schema, ihash)
         parsed = None
         attempts_total = 1
         try:
@@ -450,7 +453,11 @@ class LlmGateway:
                 if req.history
                 else replace(req, user=f"{req.user}\n\n{note}")
             )
-            resp = self._call_with_retries(repair, model, schema, ihash)
+            # the rejected answer was billed too
+            self._record(
+                req, model, ihash, resp, status="error", error=str(exc), latency_ms=0, attempts=1
+            )
+            resp = self._billed_call(repair, model, schema, ihash)
             parsed = None if resp.tool_calls else self._parse(resp.text, schema_model)
             attempts_total = 2
         latency = int(resp.__dict__.get("_latency_ms", 0))
@@ -532,7 +539,7 @@ class LlmGateway:
                     req,
                     model,
                     ihash,
-                    None,
+                    getattr(resp, "response", None),
                     status="error",
                     error=str(resp)[:2000],
                     latency_ms=0,
@@ -581,13 +588,42 @@ class LlmGateway:
 
     # ---- internals ----------------------------------------------------------------------------
 
+    def _billed_call(
+        self, req: LlmRequest, model: str, schema: dict[str, Any] | None, ihash: str
+    ) -> ProviderResponse:
+        """Provider call whose unusable but billed answer is logged before the error goes on."""
+        try:
+            return self._call_with_retries(req, model, schema, ihash)
+        except LlmError as exc:
+            if exc.response is not None:
+                self._record(
+                    req,
+                    model,
+                    ihash,
+                    exc.response,
+                    status="error",
+                    error=str(exc),
+                    latency_ms=0,
+                    attempts=1,
+                )
+            raise
+
     def _call_with_retries(
         self, req: LlmRequest, model: str, schema: dict[str, Any] | None, ihash: str | None
     ) -> ProviderResponse:
         cap = self.settings.llm_max_cost_usd_per_run
+        day_cap = self.settings.llm_max_cost_usd_per_day
+        if (
+            (cap or day_cap)
+            and not isinstance(self.provider, FakeProvider)
+            and estimate_cost_usd(model, 0, 0, 0) is None
+        ):
+            raise LlmError(
+                f"model {model!r} has no price in config/llm/pricing.yaml, so the cost caps "
+                "cannot count it; add its price or set both caps to 0"
+            )
         if cap and self.run_spent_usd() >= cap:
             raise LlmBudgetExceeded(f"run cost cap of USD {cap} reached")
-        day_cap = self.settings.llm_max_cost_usd_per_day
         if day_cap and self.day_spent_usd() >= day_cap:
             raise LlmBudgetExceeded(
                 f"cost cap of USD {day_cap} per 24 hours reached "
@@ -615,7 +651,9 @@ class LlmGateway:
                 )
                 resp.__dict__["_latency_ms"] = int((time.monotonic() - started) * 1000)
                 if resp.finish_reason == "length":
-                    raise LlmError("provider answer truncated (max_output_tokens too small)")
+                    exc = LlmError("provider answer truncated (max_output_tokens too small)")
+                    exc.response = resp  # billed all the same: the caller logs it with its cost
+                    raise exc
                 return resp
             except LlmRetryableError as exc:
                 last_error = exc
