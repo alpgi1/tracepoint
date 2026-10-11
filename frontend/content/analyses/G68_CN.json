@@ -1,0 +1,1478 @@
+{
+ "key": "G68_CN",
+ "kind": "situation",
+ "title": "BMW 5 Series Long Wheelbase (China) (G68), market CN",
+ "vehicle": "G68",
+ "market": "CN",
+ "country": null,
+ "origin": "committed with the repository",
+ "file": "reports/analysis/G68_CN.json",
+ "run": {
+  "id": "RUN-20261011-024902-agent.analyze.G68.CN-300a",
+  "ranAt": "2026-10-11T02:49:02+00:00",
+  "model": "gpt-5.4-2026-03-05",
+  "promptVersion": "situation-analysis-v6",
+  "steps": 2,
+  "toolCalls": 12,
+  "costUsd": 0.1142,
+  "contextPack": "context-pack-v3"
+ },
+ "headline": "G68 China shows clear metric weaknesses in equipment perception, connected services, luggage loading, climate/NVH and braking, while brand prestige, reliability and core BMW driving character remain strengths; confidence is limited because there are no China verbatims or existing requirements in scope.",
+ "summary": "For G68 in China, the evidence is entirely quantitative plus two market-context rows: there are no customer verbatims, no subsystem-classified rows, no sales rows and no stored requirements. The CN_EU_2025 study points to the first priorities: equipment level is a major relative weakness at 7.49 and 2.33 below the peer mean, connected services is the second-weakest attribute at 7.35, ease of loading luggage is the weakest attribute at 7.25, braking is third-weakest at 7.38 and 0.44 below peer mean, climate control is seventh-weakest at 7.58 and 1.24 below peer mean, and quietness is sixth-weakest at 7.52 and 1.87 below peer mean. At the same time, roadholding 8.92, sportiness 8.86, prestige 8.90 and reliability 8.84 should be protected. In China market context, there is weak evidence that new-energy vehicles have overtaken combustion retail sales, and medium competitor evidence that in-car fridges are widely offered above 200,000 yuan, though actual usage is disputed. With no direct customer voice, recommendations should stay conservative and focus first on validating the equipment/content gap and digital-service gap, then on targeted H1 improvements where the current model can adapt.",
+ "coverage": "Analysis rests on 37 study metrics from CN_EU_2025, 17 stored findings, 12 subsystem overview rows showing zero classified customer rows, 2 market/competitor context rows, and BMW Group report passages on China and electrified demand. There are 0 verbatims for G68 CN, 0 stored requirements, 0 stored effort estimates for this scope, 0 sales rows, and equipment searches returned no matching items for the tested queries. Evidence strength is therefore medium for metric-based insights, low for feature-specific root causes, and low for any recommendation that depends on unmet-feature detail rather than the study scores themselves.",
+ "proposalGroups": [
+  {
+   "group": "now",
+   "label": "Change now, within the current generation (H1)",
+   "proposals": [
+    1,
+    2,
+    3,
+    4,
+    5
+   ]
+  },
+  {
+   "group": "keep",
+   "label": "Keep as it is, or act outside the vehicle",
+   "proposals": [
+    6
+   ]
+  }
+ ],
+ "proposals": [
+  {
+   "n": 1,
+   "group": "now",
+   "title": "Validate and close the China equipment/content gap first",
+   "proposal": "Review China-specific standard content and package logic for G68, aiming to lift perceived equipment level with visible comfort and convenience items that the current vehicle can already carry.",
+   "why": "Equipment level is the fourth-weakest study attribute at 7.49 and sits 2.33 below the peer mean, the largest peer gap in the evidence. Because there are no verbatims, the first move should be a content/package review rather than a large hardware redesign. The medium competitor row on in-car fridges suggests one possible visible gap in China, but the contradiction means it should be treated as one candidate, not as a mandatory answer.",
+   "horizon": "H1",
+   "horizonLabel": "Now (H1)",
+   "requirement": null,
+   "effort": {
+    "status": "estimated",
+    "statusLabel": "estimated",
+    "basis": "from the analyst's change profile",
+    "analystProfile": true,
+    "checks": [
+     {
+      "level": "warning",
+      "levelLabel": "check",
+      "rule": "43",
+      "ruleLabel": "catalogue scan",
+      "text": "Interior/console: catalogue shows G70 standard; the change could carry over (carryover: true) instead of a new development"
+     }
+    ],
+    "effortPct": 0.21,
+    "p5": 0.09,
+    "p95": 0.38,
+    "decision": "adapt",
+    "decisionLabel": "Adaptation, below 15 % of a new vehicle generation",
+    "stablePct": 100,
+    "borderline": false,
+    "layer": "K0",
+    "layerLabel": "configuration",
+    "size": "XS",
+    "certification": false,
+    "subsystems": [
+     {
+      "key": "interior_console",
+      "name": "Interior/console",
+      "effortPct": 0.21,
+      "risk": 0.03,
+      "path": null
+     }
+    ]
+   },
+   "evidence": {
+    "count": 3,
+    "byKind": [
+     {
+      "kind": "finding",
+      "count": 1,
+      "label": "finding"
+     },
+     {
+      "kind": "metric",
+      "count": 1,
+      "label": "study score"
+     },
+     {
+      "kind": "market",
+      "count": 1,
+      "label": "market statement"
+     }
+    ],
+    "items": [
+     {
+      "ref": "FND-G68-CN-MET-cn_eu_2025-equipment_level",
+      "kind": "finding",
+      "label": "Level of equipment: weak study rating (7.49)",
+      "text": null,
+      "meta": "weak study score, evidence level B, G68 in China",
+      "url": null,
+      "verified": null
+     },
+     {
+      "ref": "metric:MET-CNEU-CN-G68-equipment_level",
+      "kind": "metric",
+      "label": "Level of equipment",
+      "text": null,
+      "meta": "study CN_EU_2025, G68 in China, mean 7.49 on 1 to 10",
+      "url": null,
+      "verified": null
+     },
+     {
+      "ref": "market:MKT-CN-interior_console-1",
+      "kind": "market",
+      "label": "In-car fridge: standard in nearly every new-energy model above 200,000 yuan in China.",
+      "text": null,
+      "meta": "Gasgoo, \"Only 5 % use in-car fridges\", 2026-10-08; competitor statement",
+      "url": "https://autonews.gasgoo.com/articles/ev/only-5-use-in-car-fridges-its-time-to-end-the-nev-feature-arms-race-2108189097536745472",
+      "verified": null
+     }
+    ]
+   }
+  },
+  {
+   "n": 2,
+   "group": "now",
+   "title": "Prioritise a China connected-services improvement package",
+   "proposal": "Assess which connected services for G68 in China are missing, weakly localised or unreliable, and prioritise a software/service update package that improves the perceived usefulness of connected functions without changing the core HMI concept.",
+   "why": "Connected services are the second-weakest attribute at 7.35, while infotainment ease of use, features and navigation all score above 8.3. That pattern points to service content, localisation or backend performance rather than a broad cockpit usability problem. With no verbatims, the recommendation should stay at package level and be validated against China service logs and feature availability.",
+   "horizon": "H1",
+   "horizonLabel": "Now (H1)",
+   "requirement": null,
+   "effort": {
+    "status": "estimated",
+    "statusLabel": "estimated",
+    "basis": "from the analyst's change profile",
+    "analystProfile": true,
+    "checks": [
+     {
+      "level": "warning",
+      "levelLabel": "check",
+      "rule": "43",
+      "ruleLabel": "catalogue scan",
+      "text": "Software/HMI: catalogue shows G60 standard, G70 standard; the change could carry over (carryover: true) instead of a new development"
+     }
+    ],
+    "effortPct": 0.32,
+    "p5": 0.14,
+    "p95": 0.56,
+    "decision": "adapt",
+    "decisionLabel": "Adaptation, below 15 % of a new vehicle generation",
+    "stablePct": 100,
+    "borderline": false,
+    "layer": "K1",
+    "layerLabel": "add-on",
+    "size": "XS",
+    "certification": false,
+    "subsystems": [
+     {
+      "key": "software_hmi",
+      "name": "Software/HMI",
+      "effortPct": 0.3,
+      "risk": 0.03,
+      "path": null
+     },
+     {
+      "key": "ee_architecture",
+      "name": "E/E architecture",
+      "effortPct": 0.02,
+      "risk": 0.002,
+      "path": [
+       "Software/HMI",
+       "E/E architecture"
+      ]
+     }
+    ]
+   },
+   "evidence": {
+    "count": 5,
+    "byKind": [
+     {
+      "kind": "finding",
+      "count": 1,
+      "label": "finding"
+     },
+     {
+      "kind": "metric",
+      "count": 4,
+      "label": "study scores"
+     }
+    ],
+    "items": [
+     {
+      "ref": "FND-G68-CN-MET-cn_eu_2025-connected_services",
+      "kind": "finding",
+      "label": "Connected services: weak study rating (7.35)",
+      "text": null,
+      "meta": "weak study score, evidence level B, G68 in China",
+      "url": null,
+      "verified": null
+     },
+     {
+      "ref": "metric:MET-CNEU-CN-G68-connected_services",
+      "kind": "metric",
+      "label": "Connected services",
+      "text": null,
+      "meta": "study CN_EU_2025, G68 in China, mean 7.35 on 1 to 10",
+      "url": null,
+      "verified": null
+     },
+     {
+      "ref": "metric:MET-CNEU-CN-G68-infotainment_ease_of_use",
+      "kind": "metric",
+      "label": "Easy to use information and entertainment system including in-car apps",
+      "text": null,
+      "meta": "study CN_EU_2025, G68 in China, mean 8.35 on 1 to 10",
+      "url": null,
+      "verified": null
+     },
+     {
+      "ref": "metric:MET-CNEU-CN-G68-infotainment_features",
+      "kind": "metric",
+      "label": "Features of information and entertainment system including in-car apps",
+      "text": null,
+      "meta": "study CN_EU_2025, G68 in China, mean 8.37 on 1 to 10",
+      "url": null,
+      "verified": null
+     },
+     {
+      "ref": "metric:MET-CNEU-CN-G68-navigation",
+      "kind": "metric",
+      "label": "Integrated navigation system",
+      "text": null,
+      "meta": "study CN_EU_2025, G68 in China, mean 8.52 on 1 to 10",
+      "url": null,
+      "verified": null
+     }
+    ]
+   }
+  },
+  {
+   "n": 3,
+   "group": "now",
+   "title": "Investigate a low-effort luggage-access improvement for the current model",
+   "proposal": "Check whether trunk opening height, lid actuation, loading lip aids or convenience functions can be improved for China within the current generation, and reserve geometry-heavy changes for the successor if the issue is structural.",
+   "why": "Loading ease is the weakest measured attribute at 7.25, yet luggage capacity is 8.73 and rear roominess 8.71. That points to access convenience rather than lack of space. With no verbatims or subsystem evidence, start with current-model convenience measures and only escalate to body changes if validation shows the root cause is opening geometry.",
+   "horizon": "H1",
+   "horizonLabel": "Now (H1)",
+   "requirement": null,
+   "effort": {
+    "status": "estimated",
+    "statusLabel": "estimated",
+    "basis": "from the analyst's change profile",
+    "analystProfile": true,
+    "checks": [
+     {
+      "level": "warning",
+      "levelLabel": "check",
+      "rule": "43",
+      "ruleLabel": "catalogue scan",
+      "text": "Exterior & Design: catalogue shows F70 optional, G70 standard; the change could carry over (carryover: true) instead of a new development"
+     }
+    ],
+    "effortPct": 0.45,
+    "p5": 0.21,
+    "p95": 0.88,
+    "decision": "adapt",
+    "decisionLabel": "Adaptation, below 15 % of a new vehicle generation",
+    "stablePct": 100,
+    "borderline": false,
+    "layer": "K1",
+    "layerLabel": "add-on",
+    "size": "XS",
+    "certification": false,
+    "subsystems": [
+     {
+      "key": "exterior_design",
+      "name": "Exterior design",
+      "effortPct": 0.18,
+      "risk": 0.03,
+      "path": null
+     },
+     {
+      "key": "software_hmi",
+      "name": "Software/HMI",
+      "effortPct": 0.13,
+      "risk": 0.0134,
+      "path": [
+       "Exterior design",
+       "E/E architecture",
+       "Software/HMI"
+      ]
+     },
+     {
+      "key": "body_structure",
+      "name": "Body/structure",
+      "effortPct": 0.04,
+      "risk": 0.002,
+      "path": [
+       "Exterior design",
+       "Body/structure"
+      ]
+     },
+     {
+      "key": "chassis",
+      "name": "Chassis",
+      "effortPct": 0.04,
+      "risk": 0.004,
+      "path": [
+       "Exterior design",
+       "Body/structure",
+       "Chassis"
+      ]
+     }
+    ]
+   },
+   "evidence": {
+    "count": 4,
+    "byKind": [
+     {
+      "kind": "finding",
+      "count": 1,
+      "label": "finding"
+     },
+     {
+      "kind": "metric",
+      "count": 3,
+      "label": "study scores"
+     }
+    ],
+    "items": [
+     {
+      "ref": "FND-G68-CN-MET-cn_eu_2025-loading_ease",
+      "kind": "finding",
+      "label": "Ease of loading/ unloading luggage: weak study rating (7.25)",
+      "text": null,
+      "meta": "weak study score, evidence level B, G68 in China",
+      "url": null,
+      "verified": null
+     },
+     {
+      "ref": "metric:MET-CNEU-CN-G68-loading_ease",
+      "kind": "metric",
+      "label": "Ease of loading/ unloading luggage",
+      "text": null,
+      "meta": "study CN_EU_2025, G68 in China, mean 7.25 on 1 to 10",
+      "url": null,
+      "verified": null
+     },
+     {
+      "ref": "metric:MET-CNEU-CN-G68-cargo_capacity",
+      "kind": "metric",
+      "label": "Luggage capacity",
+      "text": null,
+      "meta": "study CN_EU_2025, G68 in China, mean 8.73 on 1 to 10",
+      "url": null,
+      "verified": null
+     },
+     {
+      "ref": "metric:MET-CNEU-CN-G68-rear_roominess",
+      "kind": "metric",
+      "label": "Rear interior roominess",
+      "text": null,
+      "meta": "study CN_EU_2025, G68 in China, mean 8.71 on 1 to 10",
+      "url": null,
+      "verified": null
+     }
+    ]
+   }
+  },
+  {
+   "n": 4,
+   "group": "now",
+   "title": "Tune climate comfort and cabin quietness as premium-quality fixes",
+   "proposal": "Run a China-focused comfort package review covering HVAC tuning and acoustic countermeasures that can be adapted in the current model, while protecting the existing build-quality and reliability strengths.",
+   "why": "Climate control at 7.58 and quietness at 7.52 are both weak, with quietness especially far below peer mean. Since build quality and reliability remain strong, targeted comfort execution improvements are more likely than a broad quality problem. The lack of verbatims means the exact root cause is not yet evidenced, so the proposal should begin with validation and targeted adaptation.",
+   "horizon": "H1",
+   "horizonLabel": "Now (H1)",
+   "requirement": null,
+   "effort": {
+    "status": "estimated",
+    "statusLabel": "estimated",
+    "basis": "from the analyst's change profile",
+    "analystProfile": true,
+    "checks": [
+     {
+      "level": "warning",
+      "levelLabel": "check",
+      "rule": "43",
+      "ruleLabel": "catalogue scan",
+      "text": "Thermal/HVAC: catalogue shows F70 standard, G60 standard, G70 standard; the change could carry over (carryover: true) instead of a new development"
+     }
+    ],
+    "effortPct": 3.17,
+    "p5": 1.59,
+    "p95": 5.56,
+    "decision": "adapt",
+    "decisionLabel": "Adaptation, below 15 % of a new vehicle generation",
+    "stablePct": 100,
+    "borderline": false,
+    "layer": "K2",
+    "layerLabel": "module change",
+    "size": "S",
+    "certification": false,
+    "subsystems": [
+     {
+      "key": "body_structure",
+      "name": "Body/structure",
+      "effortPct": 0.9,
+      "risk": 0.05,
+      "path": null
+     },
+     {
+      "key": "software_hmi",
+      "name": "Software/HMI",
+      "effortPct": 0.67,
+      "risk": 0.0671,
+      "path": [
+       "Thermal/HVAC",
+       "E/E architecture",
+       "Software/HMI"
+      ]
+     },
+     {
+      "key": "thermal_hvac",
+      "name": "Thermal/HVAC",
+      "effortPct": 0.62,
+      "risk": 0.1032,
+      "path": null
+     },
+     {
+      "key": "chassis",
+      "name": "Chassis",
+      "effortPct": 0.33,
+      "risk": 0.0333,
+      "path": [
+       "Body/structure",
+       "Chassis"
+      ]
+     }
+    ]
+   },
+   "evidence": {
+    "count": 8,
+    "byKind": [
+     {
+      "kind": "finding",
+      "count": 4,
+      "label": "findings"
+     },
+     {
+      "kind": "metric",
+      "count": 4,
+      "label": "study scores"
+     }
+    ],
+    "items": [
+     {
+      "ref": "FND-G68-CN-MET-cn_eu_2025-climate_control",
+      "kind": "finding",
+      "label": "Heating/ ventilation/ air conditioning: weak study rating (7.58)",
+      "text": null,
+      "meta": "weak study score, evidence level B, G68 in China",
+      "url": null,
+      "verified": null
+     },
+     {
+      "ref": "FND-G68-CN-MET-cn_eu_2025-quietness",
+      "kind": "finding",
+      "label": "Quietness when driving: weak study rating (7.52)",
+      "text": null,
+      "meta": "weak study score, evidence level B, G68 in China",
+      "url": null,
+      "verified": null
+     },
+     {
+      "ref": "FND-G68-CN-MET-cn_eu_2025-build_quality",
+      "kind": "finding",
+      "label": "Overall build quality: weak study rating (8.81)",
+      "text": null,
+      "meta": "weak study score, evidence level B, G68 in China",
+      "url": null,
+      "verified": null
+     },
+     {
+      "ref": "FND-G68-CN-MET-STRENGTH-cn_eu_2025-reliability",
+      "kind": "finding",
+      "label": "Reliability: strong study rating (8.84)",
+      "text": null,
+      "meta": "strong study score, evidence level B, G68 in China",
+      "url": null,
+      "verified": null
+     },
+     {
+      "ref": "metric:MET-CNEU-CN-G68-climate_control",
+      "kind": "metric",
+      "label": "Heating/ ventilation/ air conditioning",
+      "text": null,
+      "meta": "study CN_EU_2025, G68 in China, mean 7.58 on 1 to 10",
+      "url": null,
+      "verified": null
+     },
+     {
+      "ref": "metric:MET-CNEU-CN-G68-quietness",
+      "kind": "metric",
+      "label": "Quietness when driving",
+      "text": null,
+      "meta": "study CN_EU_2025, G68 in China, mean 7.52 on 1 to 10",
+      "url": null,
+      "verified": null
+     },
+     {
+      "ref": "metric:MET-CNEU-CN-G68-build_quality",
+      "kind": "metric",
+      "label": "Overall build quality",
+      "text": null,
+      "meta": "study CN_EU_2025, G68 in China, mean 8.81 on 1 to 10",
+      "url": null,
+      "verified": null
+     },
+     {
+      "ref": "metric:MET-CNEU-CN-G68-reliability",
+      "kind": "metric",
+      "label": "Reliability",
+      "text": null,
+      "meta": "study CN_EU_2025, G68 in China, mean 8.84 on 1 to 10",
+      "url": null,
+      "verified": null
+     }
+    ]
+   }
+  },
+  {
+   "n": 5,
+   "group": "now",
+   "title": "Address braking feel/performance without disturbing the car's dynamic strengths",
+   "proposal": "Review brake tuning and hardware/content choices for China to improve braking confidence while preserving the roadholding and sportiness that customers already rate highly.",
+   "why": "Braking is the third-weakest attribute at 7.38, while roadholding is the strongest attribute and sportiness is also among the top five. This is a focused dynamic issue, not a reason to rework the whole chassis character. With no verbatims, a targeted brake-feel and stopping-confidence review is the proportionate first step.",
+   "horizon": "H1",
+   "horizonLabel": "Now (H1)",
+   "requirement": null,
+   "effort": {
+    "status": "estimated",
+    "statusLabel": "estimated",
+    "basis": "from the analyst's change profile",
+    "analystProfile": true,
+    "checks": [
+     {
+      "level": "warning",
+      "levelLabel": "check",
+      "rule": "43",
+      "ruleLabel": "catalogue scan",
+      "text": "chassis: catalogue shows G60 standard, G70 standard; the change could carry over (carryover: true) instead of a new development"
+     }
+    ],
+    "effortPct": 1.3,
+    "p5": 0.61,
+    "p95": 2.33,
+    "decision": "adapt",
+    "decisionLabel": "Adaptation, below 15 % of a new vehicle generation",
+    "stablePct": 100,
+    "borderline": false,
+    "layer": "K1",
+    "layerLabel": "add-on",
+    "size": "S",
+    "certification": false,
+    "subsystems": [
+     {
+      "key": "chassis",
+      "name": "Chassis",
+      "effortPct": 0.8,
+      "risk": 0.08,
+      "path": null
+     },
+     {
+      "key": "body_structure",
+      "name": "Body/structure",
+      "effortPct": 0.29,
+      "risk": 0.016,
+      "path": [
+       "Chassis",
+       "Body/structure"
+      ]
+     },
+     {
+      "key": "interior_console",
+      "name": "Interior/console",
+      "effortPct": 0.08,
+      "risk": 0.012,
+      "path": [
+       "Chassis",
+       "Body/structure",
+       "Interior/console"
+      ]
+     },
+     {
+      "key": "exterior_design",
+      "name": "Exterior design",
+      "effortPct": 0.06,
+      "risk": 0.0096,
+      "path": [
+       "Chassis",
+       "Body/structure",
+       "Exterior design"
+      ]
+     }
+    ]
+   },
+   "evidence": {
+    "count": 6,
+    "byKind": [
+     {
+      "kind": "finding",
+      "count": 3,
+      "label": "findings"
+     },
+     {
+      "kind": "metric",
+      "count": 3,
+      "label": "study scores"
+     }
+    ],
+    "items": [
+     {
+      "ref": "FND-G68-CN-MET-cn_eu_2025-braking",
+      "kind": "finding",
+      "label": "Braking: weak study rating (7.38)",
+      "text": null,
+      "meta": "weak study score, evidence level B, G68 in China",
+      "url": null,
+      "verified": null
+     },
+     {
+      "ref": "FND-G68-CN-MET-STRENGTH-cn_eu_2025-roadholding",
+      "kind": "finding",
+      "label": "Roadholding: strong study rating (8.92)",
+      "text": null,
+      "meta": "strong study score, evidence level B, G68 in China",
+      "url": null,
+      "verified": null
+     },
+     {
+      "ref": "FND-G68-CN-MET-STRENGTH-cn_eu_2025-sportiness",
+      "kind": "finding",
+      "label": "Sportiness: strong study rating (8.86)",
+      "text": null,
+      "meta": "strong study score, evidence level B, G68 in China",
+      "url": null,
+      "verified": null
+     },
+     {
+      "ref": "metric:MET-CNEU-CN-G68-braking",
+      "kind": "metric",
+      "label": "Braking",
+      "text": null,
+      "meta": "study CN_EU_2025, G68 in China, mean 7.38 on 1 to 10",
+      "url": null,
+      "verified": null
+     },
+     {
+      "ref": "metric:MET-CNEU-CN-G68-roadholding",
+      "kind": "metric",
+      "label": "Roadholding",
+      "text": null,
+      "meta": "study CN_EU_2025, G68 in China, mean 8.92 on 1 to 10",
+      "url": null,
+      "verified": null
+     },
+     {
+      "ref": "metric:MET-CNEU-CN-G68-sportiness",
+      "kind": "metric",
+      "label": "Sportiness",
+      "text": null,
+      "meta": "study CN_EU_2025, G68 in China, mean 8.86 on 1 to 10",
+      "url": null,
+      "verified": null
+     }
+    ]
+   }
+  },
+  {
+   "n": 6,
+   "group": "keep",
+   "title": "Protect the BMW core strengths in any China adaptation",
+   "proposal": "Keep roadholding, sportiness, prestige cues and reliability intact when changing content or tuning for China; avoid fixes that trade away the current dynamic identity.",
+   "why": "The strongest measured attributes are roadholding 8.92, prestige 8.90, sportiness 8.86 and reliability 8.84. These are the assets that still support overall satisfaction at 8.77 despite several weak areas. The product action should therefore be selective, not a broad repositioning.",
+   "horizon": "H1",
+   "horizonLabel": "Now (H1)",
+   "requirement": null,
+   "effort": {
+    "status": "no_vehicle_change",
+    "statusLabel": "no change on the vehicle",
+    "basis": null,
+    "analystProfile": false,
+    "checks": []
+   },
+   "evidence": {
+    "count": 10,
+    "byKind": [
+     {
+      "kind": "finding",
+      "count": 5,
+      "label": "findings"
+     },
+     {
+      "kind": "metric",
+      "count": 5,
+      "label": "study scores"
+     }
+    ],
+    "items": [
+     {
+      "ref": "FND-G68-CN-MET-STRENGTH-cn_eu_2025-roadholding",
+      "kind": "finding",
+      "label": "Roadholding: strong study rating (8.92)",
+      "text": null,
+      "meta": "strong study score, evidence level B, G68 in China",
+      "url": null,
+      "verified": null
+     },
+     {
+      "ref": "FND-G68-CN-MET-STRENGTH-cn_eu_2025-brand_prestige",
+      "kind": "finding",
+      "label": "Prestige/ manufacturer reputation: strong study rating (8.9)",
+      "text": null,
+      "meta": "strong study score, evidence level B, G68 in China",
+      "url": null,
+      "verified": null
+     },
+     {
+      "ref": "FND-G68-CN-MET-STRENGTH-cn_eu_2025-reliability",
+      "kind": "finding",
+      "label": "Reliability: strong study rating (8.84)",
+      "text": null,
+      "meta": "strong study score, evidence level B, G68 in China",
+      "url": null,
+      "verified": null
+     },
+     {
+      "ref": "FND-G68-CN-MET-STRENGTH-cn_eu_2025-sportiness",
+      "kind": "finding",
+      "label": "Sportiness: strong study rating (8.86)",
+      "text": null,
+      "meta": "strong study score, evidence level B, G68 in China",
+      "url": null,
+      "verified": null
+     },
+     {
+      "ref": "FND-G68-CN-MET-cn_eu_2025-overall_satisfaction",
+      "kind": "finding",
+      "label": "Overall product satisfaction: weak study rating (8.77)",
+      "text": null,
+      "meta": "weak study score, evidence level B, G68 in China",
+      "url": null,
+      "verified": null
+     },
+     {
+      "ref": "metric:MET-CNEU-CN-G68-roadholding",
+      "kind": "metric",
+      "label": "Roadholding",
+      "text": null,
+      "meta": "study CN_EU_2025, G68 in China, mean 8.92 on 1 to 10",
+      "url": null,
+      "verified": null
+     },
+     {
+      "ref": "metric:MET-CNEU-CN-G68-brand_prestige",
+      "kind": "metric",
+      "label": "Prestige/ manufacturer reputation",
+      "text": null,
+      "meta": "study CN_EU_2025, G68 in China, mean 8.90 on 1 to 10",
+      "url": null,
+      "verified": null
+     },
+     {
+      "ref": "metric:MET-CNEU-CN-G68-sportiness",
+      "kind": "metric",
+      "label": "Sportiness",
+      "text": null,
+      "meta": "study CN_EU_2025, G68 in China, mean 8.86 on 1 to 10",
+      "url": null,
+      "verified": null
+     },
+     {
+      "ref": "metric:MET-CNEU-CN-G68-reliability",
+      "kind": "metric",
+      "label": "Reliability",
+      "text": null,
+      "meta": "study CN_EU_2025, G68 in China, mean 8.84 on 1 to 10",
+      "url": null,
+      "verified": null
+     },
+     {
+      "ref": "metric:MET-CNEU-CN-G68-overall_satisfaction",
+      "kind": "metric",
+      "label": "Overall product satisfaction",
+      "text": null,
+      "meta": "study CN_EU_2025, G68 in China, mean 8.77 on 1 to 10",
+      "url": null,
+      "verified": null
+     }
+    ]
+   }
+  }
+ ],
+ "packages": [
+  {
+   "horizon": "H1",
+   "label": "Now (H1)",
+   "proposals": 5,
+   "sumOfSinglePct": 5.45,
+   "effortPct": 5.34,
+   "p5": 2.78,
+   "p95": 8.85,
+   "decision": "adapt",
+   "decisionLabel": "Adaptation, below 15 % of a new vehicle generation",
+   "stablePct": 100,
+   "borderline": false,
+   "layer": "K2",
+   "layerLabel": "module change",
+   "size": "M",
+   "certification": false,
+   "subsystems": [
+    {
+     "key": "body_structure",
+     "name": "Body/structure",
+     "effortPct": 1.21,
+     "risk": 0.0671,
+     "path": null
+    },
+    {
+     "key": "chassis",
+     "name": "Chassis",
+     "effortPct": 1.14,
+     "risk": 0.1142,
+     "path": null
+    },
+    {
+     "key": "software_hmi",
+     "name": "Software/HMI",
+     "effortPct": 1.09,
+     "risk": 0.1093,
+     "path": [
+      "Thermal/HVAC",
+      "E/E architecture",
+      "Software/HMI"
+     ]
+    },
+    {
+     "key": "thermal_hvac",
+     "name": "Thermal/HVAC",
+     "effortPct": 0.62,
+     "risk": 0.1041,
+     "path": null
+    },
+    {
+     "key": "interior_console",
+     "name": "Interior/console",
+     "effortPct": 0.48,
+     "risk": 0.0684,
+     "path": null
+    },
+    {
+     "key": "ee_architecture",
+     "name": "E/E architecture",
+     "effortPct": 0.4,
+     "risk": 0.0449,
+     "path": [
+      "Thermal/HVAC",
+      "E/E architecture"
+     ]
+    }
+   ],
+   "notCounted": [],
+   "checks": []
+  }
+ ],
+ "customers": [
+  {
+   "group": "study",
+   "label": "Where study scores are weak",
+   "items": [
+    {
+     "title": "Equipment/content perception is the clearest relative weakness",
+     "statement": "In CN_EU_2025, 'Level of equipment' scores 7.49, rank 4 of 37 weakest attributes for G68 in China and 2.33 below the peer mean of other BMW models in the same market. This is the largest peer gap among the listed product attributes and points to a content or package issue before a pure engineering issue.",
+     "quote": null,
+     "domain": "offering_variants",
+     "domainLabel": "Variant & Package Offering",
+     "confidence": "medium",
+     "confidenceLabel": "medium confidence",
+     "subsystems": [],
+     "evidence": {
+      "count": 2,
+      "byKind": [
+       {
+        "kind": "finding",
+        "count": 1,
+        "label": "finding"
+       },
+       {
+        "kind": "metric",
+        "count": 1,
+        "label": "study score"
+       }
+      ],
+      "items": [
+       {
+        "ref": "FND-G68-CN-MET-cn_eu_2025-equipment_level",
+        "kind": "finding",
+        "label": "Level of equipment: weak study rating (7.49)",
+        "text": null,
+        "meta": "weak study score, evidence level B, G68 in China",
+        "url": null,
+        "verified": null
+       },
+       {
+        "ref": "metric:MET-CNEU-CN-G68-equipment_level",
+        "kind": "metric",
+        "label": "Level of equipment",
+        "text": null,
+        "meta": "study CN_EU_2025, G68 in China, mean 7.49 on 1 to 10",
+        "url": null,
+        "verified": null
+       }
+      ]
+     }
+    },
+    {
+     "title": "Connected services are a top customer-perceived weakness",
+     "statement": "Connected services score 7.35, rank 2 of 37 weakest attributes in CN_EU_2025 for G68 China. By contrast, adjacent infotainment attributes are materially better: ease of use 8.35, features 8.37 and navigation 8.52. The issue therefore looks more like service ecosystem performance or relevance than a broad HMI usability problem.",
+     "quote": null,
+     "domain": "infotainment_digital",
+     "domainLabel": "Infotainment & Digital Services",
+     "confidence": "medium",
+     "confidenceLabel": "medium confidence",
+     "subsystems": [],
+     "evidence": {
+      "count": 5,
+      "byKind": [
+       {
+        "kind": "finding",
+        "count": 1,
+        "label": "finding"
+       },
+       {
+        "kind": "metric",
+        "count": 4,
+        "label": "study scores"
+       }
+      ],
+      "items": [
+       {
+        "ref": "FND-G68-CN-MET-cn_eu_2025-connected_services",
+        "kind": "finding",
+        "label": "Connected services: weak study rating (7.35)",
+        "text": null,
+        "meta": "weak study score, evidence level B, G68 in China",
+        "url": null,
+        "verified": null
+       },
+       {
+        "ref": "metric:MET-CNEU-CN-G68-connected_services",
+        "kind": "metric",
+        "label": "Connected services",
+        "text": null,
+        "meta": "study CN_EU_2025, G68 in China, mean 7.35 on 1 to 10",
+        "url": null,
+        "verified": null
+       },
+       {
+        "ref": "metric:MET-CNEU-CN-G68-infotainment_ease_of_use",
+        "kind": "metric",
+        "label": "Easy to use information and entertainment system including in-car apps",
+        "text": null,
+        "meta": "study CN_EU_2025, G68 in China, mean 8.35 on 1 to 10",
+        "url": null,
+        "verified": null
+       },
+       {
+        "ref": "metric:MET-CNEU-CN-G68-infotainment_features",
+        "kind": "metric",
+        "label": "Features of information and entertainment system including in-car apps",
+        "text": null,
+        "meta": "study CN_EU_2025, G68 in China, mean 8.37 on 1 to 10",
+        "url": null,
+        "verified": null
+       },
+       {
+        "ref": "metric:MET-CNEU-CN-G68-navigation",
+        "kind": "metric",
+        "label": "Integrated navigation system",
+        "text": null,
+        "meta": "study CN_EU_2025, G68 in China, mean 8.52 on 1 to 10",
+        "url": null,
+        "verified": null
+       }
+      ]
+     }
+    },
+    {
+     "title": "Practical loading is the weakest measured attribute despite decent luggage-capacity perception",
+     "statement": "Ease of loading/unloading luggage is the weakest attribute in the study at 7.25, while luggage capacity itself is much stronger at 8.73. Rear roominess is also strong at 8.71. This suggests the issue is not cabin or trunk volume in general, but access, opening geometry or loading convenience.",
+     "quote": null,
+     "domain": "space_practicality",
+     "domainLabel": "Space & Practicality",
+     "confidence": "medium",
+     "confidenceLabel": "medium confidence",
+     "subsystems": [],
+     "evidence": {
+      "count": 4,
+      "byKind": [
+       {
+        "kind": "finding",
+        "count": 1,
+        "label": "finding"
+       },
+       {
+        "kind": "metric",
+        "count": 3,
+        "label": "study scores"
+       }
+      ],
+      "items": [
+       {
+        "ref": "FND-G68-CN-MET-cn_eu_2025-loading_ease",
+        "kind": "finding",
+        "label": "Ease of loading/ unloading luggage: weak study rating (7.25)",
+        "text": null,
+        "meta": "weak study score, evidence level B, G68 in China",
+        "url": null,
+        "verified": null
+       },
+       {
+        "ref": "metric:MET-CNEU-CN-G68-loading_ease",
+        "kind": "metric",
+        "label": "Ease of loading/ unloading luggage",
+        "text": null,
+        "meta": "study CN_EU_2025, G68 in China, mean 7.25 on 1 to 10",
+        "url": null,
+        "verified": null
+       },
+       {
+        "ref": "metric:MET-CNEU-CN-G68-cargo_capacity",
+        "kind": "metric",
+        "label": "Luggage capacity",
+        "text": null,
+        "meta": "study CN_EU_2025, G68 in China, mean 8.73 on 1 to 10",
+        "url": null,
+        "verified": null
+       },
+       {
+        "ref": "metric:MET-CNEU-CN-G68-rear_roominess",
+        "kind": "metric",
+        "label": "Rear interior roominess",
+        "text": null,
+        "meta": "study CN_EU_2025, G68 in China, mean 8.71 on 1 to 10",
+        "url": null,
+        "verified": null
+       }
+      ]
+     }
+    },
+    {
+     "title": "Climate comfort and quietness are both weak enough to affect premium perception",
+     "statement": "Heating/ventilation/air conditioning scores 7.58, rank 7 of 37 weakest and 1.24 below the peer mean; quietness when driving scores 7.52, rank 6 of 37 weakest and 1.87 below peer mean. Build quality remains high at 8.81 and reliability at 8.84, so the premium gap appears to be more about comfort execution than basic quality trust.",
+     "quote": null,
+     "domain": "interior_comfort",
+     "domainLabel": "Interior Comfort & Materials",
+     "confidence": "medium",
+     "confidenceLabel": "medium confidence",
+     "subsystems": [],
+     "evidence": {
+      "count": 8,
+      "byKind": [
+       {
+        "kind": "finding",
+        "count": 4,
+        "label": "findings"
+       },
+       {
+        "kind": "metric",
+        "count": 4,
+        "label": "study scores"
+       }
+      ],
+      "items": [
+       {
+        "ref": "FND-G68-CN-MET-cn_eu_2025-climate_control",
+        "kind": "finding",
+        "label": "Heating/ ventilation/ air conditioning: weak study rating (7.58)",
+        "text": null,
+        "meta": "weak study score, evidence level B, G68 in China",
+        "url": null,
+        "verified": null
+       },
+       {
+        "ref": "FND-G68-CN-MET-cn_eu_2025-quietness",
+        "kind": "finding",
+        "label": "Quietness when driving: weak study rating (7.52)",
+        "text": null,
+        "meta": "weak study score, evidence level B, G68 in China",
+        "url": null,
+        "verified": null
+       },
+       {
+        "ref": "FND-G68-CN-MET-cn_eu_2025-build_quality",
+        "kind": "finding",
+        "label": "Overall build quality: weak study rating (8.81)",
+        "text": null,
+        "meta": "weak study score, evidence level B, G68 in China",
+        "url": null,
+        "verified": null
+       },
+       {
+        "ref": "FND-G68-CN-MET-STRENGTH-cn_eu_2025-reliability",
+        "kind": "finding",
+        "label": "Reliability: strong study rating (8.84)",
+        "text": null,
+        "meta": "strong study score, evidence level B, G68 in China",
+        "url": null,
+        "verified": null
+       },
+       {
+        "ref": "metric:MET-CNEU-CN-G68-climate_control",
+        "kind": "metric",
+        "label": "Heating/ ventilation/ air conditioning",
+        "text": null,
+        "meta": "study CN_EU_2025, G68 in China, mean 7.58 on 1 to 10",
+        "url": null,
+        "verified": null
+       },
+       {
+        "ref": "metric:MET-CNEU-CN-G68-quietness",
+        "kind": "metric",
+        "label": "Quietness when driving",
+        "text": null,
+        "meta": "study CN_EU_2025, G68 in China, mean 7.52 on 1 to 10",
+        "url": null,
+        "verified": null
+       },
+       {
+        "ref": "metric:MET-CNEU-CN-G68-build_quality",
+        "kind": "metric",
+        "label": "Overall build quality",
+        "text": null,
+        "meta": "study CN_EU_2025, G68 in China, mean 8.81 on 1 to 10",
+        "url": null,
+        "verified": null
+       },
+       {
+        "ref": "metric:MET-CNEU-CN-G68-reliability",
+        "kind": "metric",
+        "label": "Reliability",
+        "text": null,
+        "meta": "study CN_EU_2025, G68 in China, mean 8.84 on 1 to 10",
+        "url": null,
+        "verified": null
+       }
+      ]
+     }
+    },
+    {
+     "title": "Braking is a specific dynamic weakness inside an otherwise strong driving package",
+     "statement": "Braking scores 7.38, rank 3 of 37 weakest and 0.44 below the peer mean, while roadholding is the strongest attribute at 8.92, sportiness is 8.86, ride comfort is 8.45 and manoeuvrability is 8.48. Customers appear to value the car's dynamic character overall, but braking pulls that package down.",
+     "quote": null,
+     "domain": "driving_dynamics",
+     "domainLabel": "Driving Experience & Dynamics",
+     "confidence": "medium",
+     "confidenceLabel": "medium confidence",
+     "subsystems": [],
+     "evidence": {
+      "count": 8,
+      "byKind": [
+       {
+        "kind": "finding",
+        "count": 3,
+        "label": "findings"
+       },
+       {
+        "kind": "metric",
+        "count": 5,
+        "label": "study scores"
+       }
+      ],
+      "items": [
+       {
+        "ref": "FND-G68-CN-MET-cn_eu_2025-braking",
+        "kind": "finding",
+        "label": "Braking: weak study rating (7.38)",
+        "text": null,
+        "meta": "weak study score, evidence level B, G68 in China",
+        "url": null,
+        "verified": null
+       },
+       {
+        "ref": "FND-G68-CN-MET-STRENGTH-cn_eu_2025-roadholding",
+        "kind": "finding",
+        "label": "Roadholding: strong study rating (8.92)",
+        "text": null,
+        "meta": "strong study score, evidence level B, G68 in China",
+        "url": null,
+        "verified": null
+       },
+       {
+        "ref": "FND-G68-CN-MET-STRENGTH-cn_eu_2025-sportiness",
+        "kind": "finding",
+        "label": "Sportiness: strong study rating (8.86)",
+        "text": null,
+        "meta": "strong study score, evidence level B, G68 in China",
+        "url": null,
+        "verified": null
+       },
+       {
+        "ref": "metric:MET-CNEU-CN-G68-braking",
+        "kind": "metric",
+        "label": "Braking",
+        "text": null,
+        "meta": "study CN_EU_2025, G68 in China, mean 7.38 on 1 to 10",
+        "url": null,
+        "verified": null
+       },
+       {
+        "ref": "metric:MET-CNEU-CN-G68-roadholding",
+        "kind": "metric",
+        "label": "Roadholding",
+        "text": null,
+        "meta": "study CN_EU_2025, G68 in China, mean 8.92 on 1 to 10",
+        "url": null,
+        "verified": null
+       },
+       {
+        "ref": "metric:MET-CNEU-CN-G68-sportiness",
+        "kind": "metric",
+        "label": "Sportiness",
+        "text": null,
+        "meta": "study CN_EU_2025, G68 in China, mean 8.86 on 1 to 10",
+        "url": null,
+        "verified": null
+       },
+       {
+        "ref": "metric:MET-CNEU-CN-G68-ride_comfort",
+        "kind": "metric",
+        "label": "Quality of ride",
+        "text": null,
+        "meta": "study CN_EU_2025, G68 in China, mean 8.45 on 1 to 10",
+        "url": null,
+        "verified": null
+       },
+       {
+        "ref": "metric:MET-CNEU-CN-G68-handling_manoeuvrability",
+        "kind": "metric",
+        "label": "Manoeuvrability",
+        "text": null,
+        "meta": "study CN_EU_2025, G68 in China, mean 8.48 on 1 to 10",
+        "url": null,
+        "verified": null
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "group": "context",
+   "label": "Market context",
+   "items": [
+    {
+     "title": "China market context raises the importance of electrified relevance and visible comfort features, but only as context",
+     "statement": "There is weak market evidence that new-energy vehicle retail sales in China reached about 12.8 million and passed combustion cars for the first time. There is also medium competitor evidence that in-car fridges are standard in nearly every new-energy model above 200,000 yuan in China, but that row carries a contradiction because actual usage is disputed. These rows do not prove a G68 customer need on their own, but they help explain why equipment perception may be under pressure in China.",
+     "quote": null,
+     "domain": "powertrain_range_charging",
+     "domainLabel": "Powertrain, Range & Charging",
+     "confidence": "low",
+     "confidenceLabel": "low confidence",
+     "subsystems": [
+      {
+       "key": "interior_console",
+       "name": "Interior/console",
+       "references": 1
+      },
+      {
+       "key": "powertrain",
+       "name": "Powertrain",
+       "references": 1
+      }
+     ],
+     "evidence": {
+      "count": 2,
+      "byKind": [
+       {
+        "kind": "market",
+        "count": 2,
+        "label": "market statements"
+       }
+      ],
+      "items": [
+       {
+        "ref": "market:MKT-CN-powertrain-1",
+        "kind": "market",
+        "label": "China 2025: new-energy vehicle retail sales about 12.8 million, passing combustion cars for the first time.",
+        "text": null,
+        "meta": "Energy Intelligence, reporting CPCA data, 2026-01-12; market statement",
+        "url": "https://www.energyintel.com/0000019b-b19e-dfaa-a19f-f19f05150000",
+        "verified": null
+       },
+       {
+        "ref": "market:MKT-CN-interior_console-1",
+        "kind": "market",
+        "label": "In-car fridge: standard in nearly every new-energy model above 200,000 yuan in China.",
+        "text": null,
+        "meta": "Gasgoo, \"Only 5 % use in-car fridges\", 2026-10-08; competitor statement",
+        "url": "https://autonews.gasgoo.com/articles/ev/only-5-use-in-car-fridges-its-time-to-end-the-nev-feature-arms-race-2108189097536745472",
+        "verified": null
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "group": "strengths",
+   "label": "What customers value and should be kept",
+   "items": [
+    {
+     "title": "Brand and core BMW attributes are worth protecting",
+     "statement": "Prestige/manufacturer reputation scores 8.90, reliability 8.84, roadholding 8.92 and sportiness 8.86, all among the strongest attributes in CN_EU_2025. Overall satisfaction is still 8.77, but it trails the peer mean by 0.87, so the task is to close specific weaknesses without diluting these strengths.",
+     "quote": null,
+     "domain": "general",
+     "domainLabel": "General / Cross-cutting",
+     "confidence": "medium",
+     "confidenceLabel": "medium confidence",
+     "subsystems": [],
+     "evidence": {
+      "count": 10,
+      "byKind": [
+       {
+        "kind": "finding",
+        "count": 5,
+        "label": "findings"
+       },
+       {
+        "kind": "metric",
+        "count": 5,
+        "label": "study scores"
+       }
+      ],
+      "items": [
+       {
+        "ref": "FND-G68-CN-MET-STRENGTH-cn_eu_2025-brand_prestige",
+        "kind": "finding",
+        "label": "Prestige/ manufacturer reputation: strong study rating (8.9)",
+        "text": null,
+        "meta": "strong study score, evidence level B, G68 in China",
+        "url": null,
+        "verified": null
+       },
+       {
+        "ref": "FND-G68-CN-MET-STRENGTH-cn_eu_2025-reliability",
+        "kind": "finding",
+        "label": "Reliability: strong study rating (8.84)",
+        "text": null,
+        "meta": "strong study score, evidence level B, G68 in China",
+        "url": null,
+        "verified": null
+       },
+       {
+        "ref": "FND-G68-CN-MET-STRENGTH-cn_eu_2025-roadholding",
+        "kind": "finding",
+        "label": "Roadholding: strong study rating (8.92)",
+        "text": null,
+        "meta": "strong study score, evidence level B, G68 in China",
+        "url": null,
+        "verified": null
+       },
+       {
+        "ref": "FND-G68-CN-MET-STRENGTH-cn_eu_2025-sportiness",
+        "kind": "finding",
+        "label": "Sportiness: strong study rating (8.86)",
+        "text": null,
+        "meta": "strong study score, evidence level B, G68 in China",
+        "url": null,
+        "verified": null
+       },
+       {
+        "ref": "FND-G68-CN-MET-cn_eu_2025-overall_satisfaction",
+        "kind": "finding",
+        "label": "Overall product satisfaction: weak study rating (8.77)",
+        "text": null,
+        "meta": "weak study score, evidence level B, G68 in China",
+        "url": null,
+        "verified": null
+       },
+       {
+        "ref": "metric:MET-CNEU-CN-G68-brand_prestige",
+        "kind": "metric",
+        "label": "Prestige/ manufacturer reputation",
+        "text": null,
+        "meta": "study CN_EU_2025, G68 in China, mean 8.90 on 1 to 10",
+        "url": null,
+        "verified": null
+       },
+       {
+        "ref": "metric:MET-CNEU-CN-G68-reliability",
+        "kind": "metric",
+        "label": "Reliability",
+        "text": null,
+        "meta": "study CN_EU_2025, G68 in China, mean 8.84 on 1 to 10",
+        "url": null,
+        "verified": null
+       },
+       {
+        "ref": "metric:MET-CNEU-CN-G68-roadholding",
+        "kind": "metric",
+        "label": "Roadholding",
+        "text": null,
+        "meta": "study CN_EU_2025, G68 in China, mean 8.92 on 1 to 10",
+        "url": null,
+        "verified": null
+       },
+       {
+        "ref": "metric:MET-CNEU-CN-G68-sportiness",
+        "kind": "metric",
+        "label": "Sportiness",
+        "text": null,
+        "meta": "study CN_EU_2025, G68 in China, mean 8.86 on 1 to 10",
+        "url": null,
+        "verified": null
+       },
+       {
+        "ref": "metric:MET-CNEU-CN-G68-overall_satisfaction",
+        "kind": "metric",
+        "label": "Overall product satisfaction",
+        "text": null,
+        "meta": "study CN_EU_2025, G68 in China, mean 8.77 on 1 to 10",
+        "url": null,
+        "verified": null
+       }
+      ]
+     }
+    }
+   ]
+  }
+ ],
+ "assumptions": [
+  "There are no G68 China verbatims in the dataset, so no direct customer quotes can be provided and no complaint-theme drill-down was possible.",
+  "China has study scores but no verbatims in this scope; all customer insights therefore come from metrics and authored findings, not from raw customer language.",
+  "No stored requirements exist for G68 CN, so no recommendation could be linked to an existing REQ id.",
+  "No stored effort estimates exist for G68 CN; the change profiles above are analyst proposals based on the CPM reference points and must be treated as rough, assumption-based prioritisation only.",
+  "The subsystem view contains zero classified rows, so it cannot be used here to concentrate complaints in engineering terms.",
+  "Equipment searches for tested terms returned no matching catalogue items; the catalogue is the German July 2026 price list and may not reflect China standard/optional logic even when items exist on the model line.",
+  "Sales data for G68 CN is empty, so no volume weighting can be added.",
+  "BMW Group report passages on China and electrified demand are market context, not customer feedback; they should not be read as proof of a specific customer need on G68.",
+  "The competitor fridge row is medium evidence but contradictory: widespread offering is supported better than actual usage, so it can inform validation of the equipment gap but cannot justify a feature decision on its own.",
+  "Study scores are compared only with other BMW models, not competitors; a weak score means weak within BMW's portfolio evidence, not necessarily weak versus the external market."
+ ],
+ "openChecks": [],
+ "effortMethod": "CPM, share of the development effort of a new vehicle generation; never money; every model input is an uncalibrated assumption (config/effort/model.yaml)",
+ "modelHash": "789fcb7624b8",
+ "citations": {
+  "cited": 33,
+  "unknown": [],
+  "quotesLeftOut": 0
+ }
+}

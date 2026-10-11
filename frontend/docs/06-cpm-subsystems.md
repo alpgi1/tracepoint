@@ -4,7 +4,7 @@
 |---|---|
 | Date | 2026-10-11, step 13 |
 | Status | Built and verified (D-073, D-074, D-075); dialog revised to three bands the same day (D-076) |
-| Files | `config/effort/model.yaml` (the engine's model, read), `config/cpm/theme_subsystem_map.yaml`, `config/cpm/market_context.yaml` (inputs), `scripts/build-cpm.py` (pipeline), `content/cpm.json` (output), `lib/content/cpm-types.ts` (the contract), `lib/content/cpm.ts` (loader), `components/workspace/cpm-list.tsx`, `components/workspace/cpm-dialog.tsx`, `components/workspace/vehicle-workspace.tsx`, `lib/site.ts` (copy), `app/globals.css` (step 13 block), `lib/content/cpm.test.ts`, `tools/audit/page-audit.mjs` (dialog pass), `tools/audit/screenshots.mjs` |
+| Files | `config/effort/model.yaml` (the engine's model, read), `config/cpm/theme_subsystem_map.yaml`, `config/cpm/market_context.yaml` (inputs), the backend's `GET /cpm/{vehicle}` (`backend/tracepoint/effort/subsystems.py`, the pipeline since step 19; `scripts/build-cpm.py` until then), `content/cpm.json` (output, written by `pnpm snapshot`), `lib/content/cpm-types.ts` (the contract), `lib/content/cpm.ts` (loader), `components/workspace/cpm-list.tsx`, `components/workspace/cpm-dialog.tsx`, `components/workspace/vehicle-workspace.tsx`, `lib/site.ts` (copy), `app/globals.css` (step 13 block), `lib/content/cpm.test.ts`, `tools/audit/page-audit.mjs` (dialog pass), `tools/audit/screenshots.mjs` |
 | Plan | `plan/07-frontend-plan.md` sections 4 to 7 |
 
 ## 1. What it is
@@ -32,7 +32,12 @@ a change is measured by how it propagates, not by counting changes).
 | `config/cpm/market_context.yaml` | Market and competitor statements per market and subsystem: statement, kind, source (title, URL, date, primary or secondary), level, basis, note, contradiction | The four web rows of the team's rule set v0.2 (EU, CN, US powertrain shares; the China fridge), with the verification notes written there. Every other market × subsystem pair is empty and says so |
 | `docs/<vehicle>_feedback_hackathon.xlsx` | The classified rows: feedback type, level-2 theme, country, powertrain, text | Read as in the baseline reports; the gap labels of D-056 are not in the committed baselines and are therefore not counted here either |
 
-## 3. Pipeline (`pnpm content`, second step `scripts/build-cpm.py`)
+## 3. Pipeline (the backend's `subsystem_view` since step 19)
+
+Since step 19 (D-101) the backend computes this view (`GET /cpm/{vehicle}?market=`) and
+`pnpm snapshot` writes its answer unchanged into `content/cpm.json`; the frontend's own build script
+is gone. The steps below are what the backend does, unchanged from the script it replaced; the
+backend's test holds the committed file equal to a fresh computation for every pair on the map.
 
 1. Validates the inputs: every canonical theme named exactly once, the model's weights sum to
    100, every link and every market row names a known subsystem.

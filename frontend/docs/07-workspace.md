@@ -1,10 +1,10 @@
-# The scope workspace: the stage bar, the data layer, stages 2 to 5 and the live mode
+# The scope workspace: the stage bar, the data layer, stages 2 to 5, the live mode and the backend's briefs
 
 | Field | Value |
 |---|---|
 | Date | 2026-10-11, step 14 |
-| Status | Built and verified: step 14 (D-078 to D-080) the data layer, the stage bar and stage 2; step 15 (D-083) stage 3 and the bridges; step 16 (D-084) stage 4, the package builder and the method sheet. Stage 5 and the live mode follow in step 17 |
-| Files | `scripts/snapshot-workspace.mjs` (snapshot), `content/workspace/*.json` (the API's responses, committed), `lib/content/workspace-types.ts` (the contract), `lib/data/workspace.ts` (reads), `lib/workspace/candidates.ts` (the candidate rules), `lib/workspace/requirements.ts` (routes, evidence resolution, footprint, bridges), `lib/workspace/stages.ts` and `figures.ts` (the stage bar's data), `components/workspace/workspace-header.tsx`, `stage-bar.tsx`, `candidate-filters.tsx`, `candidate-table.tsx`, `requirement-page.tsx`, `evidence-list.tsx`, `effort-block.tsx`, `app/markets/[market]/[vehicle]/structure/page.tsx`, `requirements/page.tsx`, `requirements/[id]/page.tsx`, `priorities/page.tsx`, `priorities/method/page.tsx`, `priority-matrix.tsx`, `package-table.tsx`, `no-requirements.tsx`, `lib/workspace/priorities.ts`, `lib/data/effort.ts` (the effort model file and the one live read, `POST /effort/estimate`), `content/effort.json`, `lib/site.ts` (copy), `app/globals.css` (step 14 and 15 blocks), `lib/content/workspace.test.ts`, `lib/workspace/requirements.test.ts`, `tools/audit/screenshots.mjs` |
+| Status | Built and verified: step 14 (D-078 to D-080) the data layer, the stage bar and stage 2; step 15 (D-083) stage 3 and the bridges; step 16 (D-084) stage 4, the package builder and the method sheet; step 17 (D-099) stage 5 and the live mode; step 19 (D-100 to D-104) the integration with the backend: one data feed, the analyst's brief, the series and the market evidence pages, the stages that exist per scope, the exports of the backend, the copy in the product manager's words (section 4d) |
+| Files | `scripts/snapshot.mjs` (the data feed), `lib/data/analyses.ts`, `lib/data/exports.ts`, `lib/content/brief-types.ts`, `lib/workspace/market.ts`, `components/workspace/analyst-brief.tsx`, `series-view.tsx`, `brief-parts.tsx`, `external-rows.tsx`, `app/markets/[market]/[vehicle]/regions/page.tsx`, `market/page.tsx`, `log/requirements.md/route.ts` (step 19), `content/workspace/*.json` (the API's responses, committed), `lib/content/workspace-types.ts` (the contract), `lib/data/workspace.ts` (reads), `lib/workspace/candidates.ts` (the candidate rules), `lib/workspace/requirements.ts` (routes, evidence resolution, footprint, bridges), `lib/workspace/stages.ts` and `figures.ts` (the stage bar's data), `components/workspace/workspace-header.tsx`, `stage-bar.tsx`, `candidate-filters.tsx`, `candidate-table.tsx`, `requirement-page.tsx`, `evidence-list.tsx`, `effort-block.tsx`, `app/markets/[market]/[vehicle]/structure/page.tsx`, `requirements/page.tsx`, `requirements/[id]/page.tsx`, `priorities/page.tsx`, `priorities/method/page.tsx`, `priority-matrix.tsx`, `package-table.tsx`, `lib/workspace/priorities.ts`, `lib/data/effort.ts` (the effort model file and the one live read, `POST /effort/estimate`), `content/effort.json`, `lib/site.ts` (copy), `app/globals.css` (step 14 and 15 blocks), `lib/content/workspace.test.ts`, `lib/workspace/requirements.test.ts`, `tools/audit/screenshots.mjs` |
 | Plan | `plan/08-engineering-workbench-plan.md` sections 3, 4.1 to 4.3, 4.5 and 6 |
 
 ## 1. What it is
@@ -26,7 +26,7 @@ but counts and the share of a bar.
 
 | Piece | What |
 |---|---|
-| `scripts/snapshot-workspace.mjs` (`pnpm snapshot`) | Calls the running backend API once per vehicle × market pair of `content/markets.json` and writes its responses unchanged to `content/workspace/<VEHICLE>_<MARKET>.json`: `GET /requirements`, `GET /effort/requirements`, `GET /effort/scenarios`, the excluded candidates (the scope event `requirements.candidates_excluded`) and the requirement events (`GET /events?entity_type=requirement`, the scope's share by the entity id prefix). The file records when it was taken, the endpoints, the backend's code version of its latest run and the effort model hash |
+| `scripts/snapshot.mjs` (`pnpm snapshot`) | Since step 19 the one data feed of the frontend (section 4d). Per vehicle × market pair of `GET /overview` it writes the API's responses unchanged to `content/workspace/<VEHICLE>_<MARKET>.json`: `GET /requirements`, `GET /effort/requirements`, `GET /effort/scenarios`, the excluded candidates (the scope event `requirements.candidates_excluded`), the requirement events (`GET /events?entity_type=requirement&entity_prefix=REQ-<V>-<M>-`, one filtered call since step 19), the external evidence (`GET /external`) and the D2 exports (`GET /requirements/export`). The file records when it was taken, the endpoints, the backend's code version of its latest run and the effort model hash |
 | `lib/content/workspace-types.ts` | The contract, field for field in the backend's own names (snake_case): `Requirement` (D2 fields, D-060), `RequirementEffort` (D-062: effort in % of a new vehicle, P5 to P95, decision, stability, layer, size, the changes, the subsystems reached with the strongest path, the catalogue scan, flags with rule numbers, the model hash, `stale`), `EffortScenario` (the H1, H2 and ALL packages, rule 45), `ExcludedCandidate`, `AuditEvent` (D-026) |
 | `lib/data/workspace.ts` | `workspaceSnapshot(vehicle, market)`, `workspaceScopes()`, `scopesWithRequirements()` over one static import per snapshot file (the test checks that the folder and the list agree), and since step 17 `readWorkspace(vehicle, market, { detailOf? })`: the read every stage page and the CSV route make at request time, the snapshot or, in the live mode, the snapshot with the API's current answers merged in (`mergeLive`, pure and tested). Imported by server components, the server action and the route handler only, so the browser never receives a snapshot and never calls the API |
 | `lib/workspace/candidates.ts` | Joins a requirement with its estimate (`Candidate`: `starts`, the subsystems of the change profile; `reaches`, the subsystems the change propagates to), the inbox rules (section 4), the filters, the domain grouping and the stage counts |
@@ -255,6 +255,66 @@ submission that reaches the action without the live mode comes back as `offline`
   above the text.
 
 The stage bar's fifth figure ("n decided of m, k events") links here since step 17.
+
+## 4d. Step 19: the integration with the backend (D-100 to D-104)
+
+**One data feed.** `pnpm snapshot` (`scripts/snapshot.mjs`) is the only way evidence enters
+`content/`: `markets.json` is `GET /overview`, `cpm.json` is `GET /effort/model` plus
+`GET /cpm/{vehicle}?market=` per pair, `effort.json` the model and the back-test,
+`analyses/` the briefs (`GET /analyses`, `GET /analyses/{key}/brief`), `workspace/*.json` the
+scope's requirements, estimates, packages, events, evidence, external evidence and exports. The
+frontend's two Python builders that re-implemented the backend's counting (`build-content.py`,
+`build-cpm.py`) are gone; they had drifted (the G70 in the European Union has 19 verbatims in the
+evidence store and showed none). The backend's tests hold the committed `markets.json` and
+`cpm.json` equal to a fresh computation.
+
+**Which stages exist.** `lib/workspace/stages.ts` and `figures.ts` (`scopeContent`, `hasStage`,
+`stageParams`): the situation analysis exists for every scope; Structure & context where the
+scope carries a requirement set or an analyst's brief; stages 3 to 5 where it carries a
+requirement set. A stage without content is plain text in the stage bar and its route renders the
+not-found page (Next.js 16.4 serves the app shell of an unlisted param first, so the status is 200;
+the bar never links there). The empty-state component of steps 14 to 17 is removed, as are the CPM
+rows' "no requirement set" line, the dialog's requirements band without a set, the Liked and
+Disliked bands of a market without verbatims and the "Phase 2" sentence of the market band.
+
+**The analyst's brief (stage 2).** `components/workspace/analyst-brief.tsx` renders
+`GET /analyses/{key}/brief` of the situation analysis that speaks about the scope (`G60_US`,
+`G68_CN`, and for the F70 in the European Union `F70_GB`, the analysis of one country, labelled so):
+the headline and summary; the proposals in one hairline table grouped into change now (H1), with
+the next generation (H2) and keep or act outside the vehicle, each row opening the proposal, the
+reasoning, the effort with range, class, stability, layer, basis and footprint, the checks of the
+effort engine and the evidence, every reference read back from the store (a customer verbatim as
+written in a blockquote, a finding, a study score, an external source with its link); the engine's
+packages per horizon; what customers say grouped by kind; the assumptions and the open checks. In
+the live mode the brief is read from the API, so a new run shows without a new snapshot.
+
+**The series across its regions** (`/regions`, a page of stage 1). `series-view.tsx` renders the
+series brief (`G60_regions`, the 5 Series in the European Union, the United States and China with
+the G68): the answer, the regions side by side (verbatims, units 2025 and 2030, study), the topics
+sorted into the five decisions (change now in every region, change now in one region, next
+generation, keep, no action), each opening the regional evidence (customers, market and rivals,
+signal), the car today, rivals, the reasoning, the effort and the references; the packages, what
+each region expects, the optimum version per region, and what the data cannot answer.
+
+**Market evidence** (`/market`, a page of stage 1, and the dialog). `GET /external` of the scope:
+the statements of the team's external sources with their source, origin, date, how many
+independent sources agree and whether their figures were found on the page, grouped by subsystem
+(a statement on several subsystems under each). The subsystem dialog shows the team's market rows
+and the first three external statements on the subsystem with a link to the page; a CPM row of a
+market without verbatims counts its market statements instead.
+
+**Exports.** `/log/requirements.csv` and `/log/requirements.md` serve the backend's D2 exporter
+(`GET /requirements/export`), which since step 19 carries each requirement's effort and latest
+G2 decision; the snapshot stores both files, the live mode asks the API. The frontend's own CSV
+writer is removed.
+
+**The product manager's words** (D-103). The codes arrive with their words from the backend's
+vocabulary (`GET /glossary`, `tracepoint/briefs/labels.py`); the agents' sentences arrive with
+subsystem keys, layer codes, field names and marketing filler turned into plain words
+(`tracepoint/briefs/text.py`). The UI copy (`lib/site.ts`) no longer names endpoints, settings,
+file paths or commands: the source line says "Data as stored on" or "Live data, read on", a
+failed live read says the live service did not answer, a decision outside the live mode says
+decisions are recorded when Tracepoint runs live. Those details live in the READMEs.
 
 ## 5. The inbox rules (`lib/workspace/candidates.ts`)
 

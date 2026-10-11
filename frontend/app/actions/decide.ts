@@ -10,6 +10,9 @@ import { API_URL, liveEnabled } from "@/lib/data/workspace";
  * The browser never calls the API. The backend sets the actor from its
  * own configuration (TRACEPOINT_HUMAN_ACTOR_ID, D-014), records the event
  * and appends the line to config/decisions/requirements.jsonl (D-061).
+ * A failure returns as a word the page can say (D-103): "unreachable" when
+ * the service did not answer, "error" when it failed, or the backend's own
+ * sentence when it refused the decision.
  */
 const ID = /^REQ-[A-Z0-9]{3}-[A-Z]{2,3}-[A-Z]{2}-\d{2}$/;
 const DECISIONS = new Set(["approve", "reject", "defer"]);
@@ -36,17 +39,17 @@ export async function decideRequirement(formData: FormData): Promise<void> {
       signal: AbortSignal.timeout(TIMEOUT_MS),
     });
     if (!response.ok) {
-      let detail = `HTTP ${String(response.status)}`;
+      let detail = "error";
       try {
         const body = (await response.json()) as { detail?: unknown };
-        if (typeof body.detail === "string") detail = body.detail;
+        if (response.status < 500 && typeof body.detail === "string") detail = body.detail;
       } catch {
-        // the status alone is the reason
+        // no sentence from the backend: the failure stays "error"
       }
       failure = detail;
     }
-  } catch (error) {
-    failure = error instanceof Error ? error.message : String(error);
+  } catch {
+    failure = "unreachable";
   }
   redirect(failure ? outcome("failed", failure) : outcome(decision));
 }

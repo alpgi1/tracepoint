@@ -6,8 +6,10 @@ import { full, weight } from "@/lib/content/format";
 import type { CpmBlock, CpmCatalogue, CpmCriticisedTheme, CpmLikedTheme, CpmMarketRow, CpmSubsystem, CpmSubsystemView, CpmView } from "@/lib/content/cpm-types";
 import type { MarketContent, VehicleContent } from "@/lib/content/types";
 import { site } from "@/lib/site";
+import type { SubsystemEvidence } from "@/lib/workspace/market";
 import { requirementHref, type SubsystemBridge } from "@/lib/workspace/requirements";
 import { vehicleHref } from "@/lib/content/markets";
+import { ExternalRows } from "./external-rows";
 
 /*
  * The subsystem dialog: covers most of the viewport over the vehicle screen
@@ -24,7 +26,11 @@ import { vehicleHref } from "@/lib/content/markets";
  * Method after the scrolling dialogs with a sticky header seen in the
  * 21st.dev survey (frontend/docs/01-research-notes.md 6.2), written here with
  * the tokens; the columns follow the chart rules (one series in the one
- * blue, thin marks, values on the caps, text in ink).
+ * blue, thin marks, values on the caps, text in ink). Since step 19 the
+ * market band also carries the external sources that bear on the
+ * subsystem, the first few with a link to all of them; a market without
+ * customer verbatims shows no Liked and Disliked bands, and a scope without
+ * a requirement set no requirements band.
  */
 export interface CpmDialogProps {
   subsystem: CpmSubsystem | null;
@@ -35,17 +41,21 @@ export interface CpmDialogProps {
   vehicle: VehicleContent;
   /** null: a requirement set exists but nothing changes this subsystem; undefined: no requirement set. */
   bridge: SubsystemBridge | null | undefined;
+  /** The external statements on the subsystem, null where none bears on it. */
+  evidence: SubsystemEvidence | null;
+  /** The market evidence page of the scope. */
+  marketHref: string | null;
   onClose: () => void;
 }
 
 const TITLE_ID = "cpm-dialog-title";
 
-export function CpmDialog({ subsystem, entry, catalogue, view, market, vehicle, bridge, onClose }: CpmDialogProps) {
+export function CpmDialog({ subsystem, entry, catalogue, view, market, vehicle, bridge, evidence, marketHref, onClose }: CpmDialogProps) {
   const ref = useRef<HTMLDialogElement>(null);
   const open = subsystem !== null && entry !== null;
   // The last shown subsystem stays rendered while the dialog fades out (state kept from the previous render).
-  const [shown, setShown] = useState<{ subsystem: CpmSubsystem; entry: CpmSubsystemView; bridge: SubsystemBridge | null | undefined } | null>(null);
-  if (subsystem && entry && (shown?.subsystem !== subsystem || shown.entry !== entry)) setShown({ subsystem, entry, bridge });
+  const [shown, setShown] = useState<{ subsystem: CpmSubsystem; entry: CpmSubsystemView; bridge: SubsystemBridge | null | undefined; evidence: SubsystemEvidence | null } | null>(null);
+  if (subsystem && entry && (shown?.subsystem !== subsystem || shown.entry !== entry)) setShown({ subsystem, entry, bridge, evidence });
 
   useEffect(() => {
     const el = ref.current;
@@ -67,7 +77,7 @@ export function CpmDialog({ subsystem, entry, catalogue, view, market, vehicle, 
         if (event.target === event.currentTarget) onClose();
       }}
     >
-      {shown ? <DialogContent {...shown} catalogue={catalogue} view={view} market={market} vehicle={vehicle} onClose={onClose} /> : null}
+      {shown ? <DialogContent {...shown} catalogue={catalogue} view={view} market={market} vehicle={vehicle} marketHref={marketHref} onClose={onClose} /> : null}
     </dialog>
   );
 }
@@ -80,18 +90,19 @@ interface DialogContentProps {
   market: MarketContent;
   vehicle: VehicleContent;
   bridge: SubsystemBridge | null | undefined;
+  evidence: SubsystemEvidence | null;
+  marketHref: string | null;
   onClose: () => void;
 }
 
-function DialogContent({ subsystem, entry, view, market, vehicle, bridge, onClose }: DialogContentProps) {
+function DialogContent({ subsystem, entry, view, market, vehicle, bridge, evidence, marketHref, onClose }: DialogContentProps) {
   const copy = site.cpm.dialog;
   const hasVerbatims = view.verbatims > 0;
-  const rowsLine =
-    hasVerbatims && entry.rows > 0
-      ? `${full(entry.rows)} ${site.cpm.rows}: ${full(entry.complaints)} ${site.cpm.complaints}, ${full(entry.likes)} ${site.cpm.likes}`
-      : hasVerbatims
-        ? site.cpm.noThemes
-        : site.cpm.noVerbatims;
+  const rowsLine = !hasVerbatims
+    ? null
+    : entry.rows > 0
+      ? `${full(entry.rows)} ${site.cpm.rows}: ${full(entry.complaints)} ${entry.complaints === 1 ? site.cpm.complaint : site.cpm.complaints}, ${full(entry.likes)} ${entry.likes === 1 ? site.cpm.like : site.cpm.likes}`
+      : site.cpm.noThemes;
   return (
     <div className="cpm-dialog-frame">
       <header className="cpm-dialog-head">
@@ -104,7 +115,8 @@ function DialogContent({ subsystem, entry, view, market, vehicle, bridge, onClos
             {hasVerbatims ? `${full(view.verbatims)} ${site.readout.verbatims}` : site.readout.noVerbatims}
           </p>
           <p className="cpm-dialog-meta">
-            {copy.weight} {weight(entry.weight)} {site.cpm.weightOf} <span className="cpm-muted">{copy.weightNote}</span> · {rowsLine}
+            {copy.weight} {weight(entry.weight)} {site.cpm.weightOf} <span className="cpm-muted">{copy.weightNote}</span>
+            {rowsLine ? ` · ${rowsLine}` : ""}
           </p>
         </div>
         <button type="button" className="tap cpm-dialog-close" onClick={onClose}>
@@ -112,11 +124,12 @@ function DialogContent({ subsystem, entry, view, market, vehicle, bridge, onClos
         </button>
       </header>
       <div className="cpm-dialog-body">
+        {hasVerbatims ? (
+          <>
         <Band
           id="cpm-liked"
           heading={copy.likedHeading}
           block={entry.liked}
-          hasVerbatims={hasVerbatims}
           empty={copy.noLikes}
           chart={
             entry.liked.themes.length > 0 ? (
@@ -128,7 +141,6 @@ function DialogContent({ subsystem, entry, view, market, vehicle, bridge, onClos
           id="cpm-criticised"
           heading={copy.criticisedHeading}
           block={entry.criticised}
-          hasVerbatims={hasVerbatims}
           empty={copy.noComplaints}
           chart={
             entry.criticised.themes.length > 0 ? (
@@ -137,8 +149,10 @@ function DialogContent({ subsystem, entry, view, market, vehicle, bridge, onClos
           }
           below={entry.criticised.themes.length > 0 && bridge !== undefined ? <CitingLine bridge={bridge} market={market} vehicle={vehicle} /> : null}
         />
-        <MarketBand rows={entry.market} market={market} />
-        <RequirementsBand subsystem={subsystem} bridge={bridge} market={market} vehicle={vehicle} />
+          </>
+        ) : null}
+        <MarketBand rows={entry.market} subsystem={subsystem} evidence={evidence} market={market} vehicle={vehicle} marketHref={marketHref} />
+        {bridge !== undefined ? <RequirementsBand subsystem={subsystem} bridge={bridge} market={market} vehicle={vehicle} /> : null}
       </div>
     </div>
   );
@@ -148,24 +162,20 @@ interface BandProps {
   id: string;
   heading: string;
   block: CpmBlock<CpmLikedTheme> | CpmBlock<CpmCriticisedTheme>;
-  hasVerbatims: boolean;
   empty: string;
   chart: React.ReactNode;
   /** Under the summary: the requirements on the criticised themes (bridge 3). */
   below?: React.ReactNode;
 }
 
-function Band({ id, heading, block, hasVerbatims, empty, chart, below }: BandProps) {
-  const copy = site.cpm.dialog;
+function Band({ id, heading, block, empty, chart, below }: BandProps) {
   return (
     <section className="cpm-band" aria-labelledby={id}>
       <div className="cpm-band-text">
         <h3 id={id} className="cpm-band-h">
           {heading}
         </h3>
-        {!hasVerbatims ? (
-          <p className="cpm-empty">{copy.noVerbatims}</p>
-        ) : block.narration ? (
+        {block.narration ? (
           <>
             <p className="cpm-band-lead">{block.narration.suggestion}</p>
             <p className="cpm-band-summary">{block.narration.summary}</p>
@@ -208,7 +218,7 @@ function CitingLine({ bridge, market, vehicle }: { bridge: SubsystemBridge | nul
 }
 
 /** Bridge 2: the fourth band, the requirements whose change starts in or reaches the subsystem. */
-function RequirementsBand({ subsystem, bridge, market, vehicle }: { subsystem: CpmSubsystem; bridge: SubsystemBridge | null | undefined; market: MarketContent; vehicle: VehicleContent }) {
+function RequirementsBand({ subsystem, bridge, market, vehicle }: { subsystem: CpmSubsystem; bridge: SubsystemBridge | null; market: MarketContent; vehicle: VehicleContent }) {
   const copy = site.cpm.dialog;
   const starts = bridge?.starts ?? [];
   const reaches = bridge?.reaches ?? [];
@@ -219,9 +229,7 @@ function RequirementsBand({ subsystem, bridge, market, vehicle }: { subsystem: C
         <h3 id="cpm-requirements" className="cpm-band-h">
           {copy.requirementsHeading} {subsystem.name}
         </h3>
-        {bridge === undefined ? (
-          <p className="cpm-empty">{copy.noSet}</p>
-        ) : lines.length === 0 ? (
+        {lines.length === 0 ? (
           <p className="cpm-empty">
             {copy.noRequirementsBefore} {subsystem.name} {copy.noRequirementsAfter}
           </p>
@@ -301,58 +309,80 @@ function ThemeBars({ caption, direction, items }: ThemeBarsProps) {
   );
 }
 
-function MarketBand({ rows, market }: { rows: CpmMarketRow[]; market: MarketContent }) {
+interface MarketBandProps {
+  rows: CpmMarketRow[];
+  subsystem: CpmSubsystem;
+  evidence: SubsystemEvidence | null;
+  market: MarketContent;
+  vehicle: VehicleContent;
+  marketHref: string | null;
+}
+
+function MarketBand({ rows, subsystem, evidence, market, vehicle, marketHref }: MarketBandProps) {
   const copy = site.cpm.dialog;
-  const marketRows = rows.filter((r) => r.kind === "market").length;
-  const competitorRows = rows.length - marketRows;
+  const external = evidence?.count ?? 0;
+  const total = rows.length + external;
   return (
     <section className="cpm-band cpm-band-market" aria-labelledby="cpm-market">
       <div className="cpm-band-text">
         <h3 id="cpm-market" className="cpm-band-h">
           {copy.marketHeading} {market.name}
         </h3>
-        {rows.length === 0 ? (
+        {total === 0 ? (
           <p className="cpm-empty">
-            {copy.noMarketBefore} {market.name} {copy.noMarketAfter}
+            {copy.noMarketBefore} {subsystem.name} {copy.noMarketAfter}
           </p>
         ) : (
           <>
             <p className="cpm-band-lead">
-              {full(rows.length)} {copy.marketCountBefore} {rows.length === 1 ? copy.statementOne : copy.statementMany} {copy.marketCountMiddle} {market.name}{" "}
-              {copy.marketCountAfter}: {full(marketRows)} {copy.kinds.market}, {full(competitorRows)} {copy.kinds.competitor}.
+              {full(total)} {copy.marketCountBefore} {total === 1 ? copy.statementOne : copy.statementMany} {copy.marketCountMiddle} {market.name} {copy.marketCountAfter}
+              {rows.length > 0 ? `: ${full(rows.length)} ${copy.teamRows}` : ""}
+              {external > 0 ? `${rows.length > 0 ? "," : ":"} ${full(external)} ${copy.externalRows}, ${full(evidence?.verified ?? 0)} ${copy.verifiedRows}` : ""}.
             </p>
             <p className="cpm-band-summary">{copy.levelNote}</p>
+            {marketHref && external > 0 ? (
+              <p className="cpm-band-summary">
+                <a href={`${marketHref}#${subsystem.key}`} className="tap cpm-market-link">
+                  {copy.externalMore} {market.name}
+                </a>
+              </p>
+            ) : null}
           </>
         )}
       </div>
-      {rows.length > 0 ? (
-        <ul className="cpm-market-list">
-          {rows.map((row) => (
-            <li key={row.source.url} className="cpm-market-row">
-              <p className="cpm-market-statement">
-                <span className="cpm-kind">{copy.kinds[row.kind]}</span>
-                {row.statement}
-              </p>
-              <a className="tap cpm-market-link" href={row.source.url} target="_blank" rel="noreferrer">
-                {row.source.title}
-              </a>
-              <p className="cpm-market-source">
-                {row.source.date} · {copy.sourceTypes[row.source.type]} · {copy.levels[row.level]} · {copy.bases[row.basis]}
-              </p>
-              {row.note ? <p className="cpm-market-note">{row.note}</p> : null}
-              {row.contradiction ? (
-                <>
-                  <p className="cpm-market-note">
-                    <span className="cpm-muted">{copy.contradictionFor}</span> {row.contradiction.for}
+      {total > 0 ? (
+        <div className="cpm-market-lists">
+          {rows.length > 0 ? (
+            <ul className="cpm-market-list">
+              {rows.map((row) => (
+                <li key={row.source.url} className="cpm-market-row">
+                  <p className="cpm-market-statement">
+                    <span className="cpm-kind">{copy.kinds[row.kind]}</span>
+                    {row.statement}
                   </p>
-                  <p className="cpm-market-note">
-                    <span className="cpm-muted">{copy.contradictionAgainst}</span> {row.contradiction.against}
+                  <a className="tap cpm-market-link" href={row.source.url} target="_blank" rel="noreferrer">
+                    {row.source.title}
+                  </a>
+                  <p className="cpm-market-source">
+                    {row.source.date} · {copy.sourceTypes[row.source.type]} · {copy.levels[row.level]} · {copy.bases[row.basis]}
                   </p>
-                </>
-              ) : null}
-            </li>
-          ))}
-        </ul>
+                  {row.note ? <p className="cpm-market-note">{row.note}</p> : null}
+                  {row.contradiction ? (
+                    <>
+                      <p className="cpm-market-note">
+                        <span className="cpm-muted">{copy.contradictionFor}</span> {row.contradiction.for}
+                      </p>
+                      <p className="cpm-market-note">
+                        <span className="cpm-muted">{copy.contradictionAgainst}</span> {row.contradiction.against}
+                      </p>
+                    </>
+                  ) : null}
+                </li>
+              ))}
+            </ul>
+          ) : null}
+          {evidence && evidence.rows.length > 0 ? <ExternalRows rows={evidence.rows} vehicle={vehicle.code} /> : null}
+        </div>
       ) : null}
     </section>
   );

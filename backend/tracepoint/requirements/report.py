@@ -1,4 +1,8 @@
-"""Requirement list exports (deliverable D2): Markdown for reading, CSV for spreadsheets."""
+"""Requirement list exports (deliverable D2): Markdown for reading, CSV for spreadsheets.
+
+Since step 19 an exported row also carries the requirement's effort estimate and its latest gate
+G2 decision (``export_rows``), so the list a product manager downloads from the workspace and the
+one the CLI writes are the same file."""
 
 from __future__ import annotations
 
@@ -9,7 +13,7 @@ from typing import Any
 from sqlalchemy import case, select
 from sqlalchemy.orm import Session
 
-from tracepoint.db.models import Finding, Requirement
+from tracepoint.db.models import AuditEvent, Finding, Requirement
 
 _LEVEL = case({"A": 0, "B": 1, "C": 2}, value=Requirement.evidence_level, else_=3)
 
@@ -65,6 +69,50 @@ def list_requirements(
     ]
 
 
+DECIDED = "requirement.decided"
+
+
+def export_rows(
+    session: Session, vehicle: str | None = None, market: str | None = None
+) -> list[dict[str, Any]]:
+    """The requirement list with each requirement's effort estimate and latest G2 decision."""
+    from tracepoint.effort.store import list_efforts
+
+    rows = list_requirements(session, vehicle, market)
+    efforts = {e["id"]: e for e in list_efforts(session, vehicle, market)}
+    latest: dict[str, AuditEvent] = {}
+    if rows:
+        for e in session.scalars(
+            select(AuditEvent)
+            .where(
+                AuditEvent.action == DECIDED,
+                AuditEvent.entity_id.in_([r["id"] for r in rows]),
+            )
+            .order_by(AuditEvent.id)
+        ):
+            latest[e.entity_id] = e
+    for r in rows:
+        e = efforts.get(r["id"])
+        r["effort"] = (
+            {k: e[k] for k in ("effort_pct", "p5", "p95", "decision", "layer", "model_hash")}
+            if e and e["kind"] == "change"
+            else None
+        )
+        d = latest.get(r["id"])
+        r["decision"] = (
+            {
+                "status": (d.after or {}).get("status"),
+                "by": d.actor_id,
+                "at": d.ts.isoformat(),
+                "note": d.rationale,
+                "version": (d.after or {}).get("version"),
+            }
+            if d
+            else None
+        )
+    return rows
+
+
 def render_markdown(reqs: list[dict[str, Any]], heading: str) -> str:
     out = [f"# {heading}", "", f"{len(reqs)} requirements. Priority scores follow in Phase 5.", ""]
     for r in reqs:
@@ -95,6 +143,17 @@ def render_markdown(reqs: list[dict[str, Any]], heading: str) -> str:
             out.append("**Assumptions:** " + "; ".join(r["assumptions"]))
         if r["uncertainties"]:
             out.append("**Uncertainties:** " + "; ".join(r["uncertainties"]))
+        if e := r.get("effort"):
+            out.append(
+                f"**Effort:** {e['effort_pct']} % of a new vehicle generation ({e['decision']}, "
+                f"P5 to P95 {e['p5']} to {e['p95']}, layer {e['layer']}), effort model "
+                f"{e['model_hash']}, assumptions not calibrated"
+            )
+        if d := r.get("decision"):
+            out.append(
+                f"**Decision:** {d['status']} by {d['by']} on {d['at'][:10]} (version "
+                f"{d['version']}): {d['note'] or ''}"
+            )
         out.append("")
     return "\n".join(out)
 
@@ -123,9 +182,20 @@ def render_csv(reqs: list[dict[str, Any]]) -> str:
             "uncertainties",
             "status",
             "version",
+            "effort_pct",
+            "effort_p5",
+            "effort_p95",
+            "effort_decision",
+            "effort_layer",
+            "effort_model_hash",
+            "decision",
+            "decided_by",
+            "decided_at",
+            "decision_note",
         ]
     )
     for r in reqs:
+        e, d = r.get("effort") or {}, r.get("decision") or {}
         w.writerow(
             [
                 r["id"],
@@ -150,6 +220,16 @@ def render_csv(reqs: list[dict[str, Any]]) -> str:
                 " | ".join(r["uncertainties"]),
                 r["status"],
                 r["version"],
+                e.get("effort_pct", ""),
+                e.get("p5", ""),
+                e.get("p95", ""),
+                e.get("decision", ""),
+                e.get("layer", ""),
+                e.get("model_hash", ""),
+                d.get("status", ""),
+                d.get("by", ""),
+                d.get("at", ""),
+                d.get("note", "") or "",
             ]
         )
     return buf.getvalue()

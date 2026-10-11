@@ -19,15 +19,17 @@ import type {
 /*
  * Reads of the PM workspace (plan 08 section 6, D-079 and D-085). The
  * committed snapshots under content/workspace/ (the backend API's own
- * responses written by scripts/snapshot-workspace.mjs) are the base of
+ * responses written by scripts/snapshot.mjs) are the base of
  * every read. In the live mode (TRACEPOINT_LIVE=1 and the API answering at
  * TRACEPOINT_API_URL) a read replaces what changes with the API's current
  * answer: the requirement list with its gate statuses, the estimates, the
  * packages, the excluded candidates, the events, and on a requirement page
- * its detail. The evidence (verbatims, metrics, catalogue items) stays
- * from the snapshot; it does not change between decisions. Server side
- * only, imported by server components and route handlers: the browser
- * never receives a whole snapshot and never calls the API.
+ * its detail. The evidence (verbatims, metrics, catalogue items, the
+ * external statements) stays from the snapshot; it does not change between
+ * decisions. The scope's events are one call since step 19 (the API's
+ * entity_prefix filter). Server side only, imported by server components
+ * and route handlers: the browser never receives a whole snapshot and never
+ * calls the API.
  */
 // The JSON's string fields are wider than the literal unions of the contract (status, horizon, basis); the test checks them.
 const snapshots: Record<string, WorkspaceSnapshot> = Object.fromEntries(
@@ -114,7 +116,7 @@ export async function readWorkspace(vehicle: string, market: string, options: { 
       get<RequirementEffort[]>(`/effort/requirements?${q}`),
       get<EffortScenario[]>(`/effort/scenarios?${q}`),
       get<{ items: AuditEvent[] }>(`/events?entity_type=scope&entity_id=${base.vehicle}:${base.market}`),
-      get<{ items: AuditEvent[] }>(`/events?entity_type=requirement&limit=${String(EVENT_LIMIT)}`),
+      get<{ items: AuditEvent[] }>(`/events?entity_type=requirement&entity_prefix=REQ-${base.vehicle}-${base.market}-&limit=${String(EVENT_LIMIT)}`),
     ]);
     const wanted = options.detailOf ? requirements.find((r) => r.id.toLowerCase() === options.detailOf?.toLowerCase()) : undefined;
     const detail = wanted ? await get<RequirementDetail>(`/requirements/${wanted.id}`) : undefined;

@@ -1,13 +1,15 @@
 "use client";
 
+import Link from "next/link";
 import { useLayoutEffect, useRef } from "react";
 import { VehicleDrawing } from "@/components/vehicles/vehicle-drawing";
-import { scaleTop, score } from "@/lib/content/format";
+import { full, scaleTop, score } from "@/lib/content/format";
 import type { CpmCatalogue, CpmView } from "@/lib/content/cpm-types";
 import type { MarketContent, VehicleContent } from "@/lib/content/types";
 import { drawingFor, photoFor } from "@/lib/vehicles/drawings";
 import { arriveHandoff, useSketchPhase } from "@/lib/vehicles/handoff";
 import { site } from "@/lib/site";
+import type { SubsystemEvidence } from "@/lib/workspace/market";
 import type { SubsystemBridge } from "@/lib/workspace/requirements";
 import type { StageFigures } from "@/lib/workspace/stages";
 import type { CpmSubsystemKey } from "@/lib/content/cpm-types";
@@ -29,9 +31,13 @@ export interface VehicleWorkspaceProps {
   cpm: { catalogue: CpmCatalogue; view: CpmView };
   figures: StageFigures;
   bridges: Partial<Record<CpmSubsystemKey, SubsystemBridge>> | undefined;
+  /** The external statements per subsystem, for the rows and the dialog (step 19). */
+  evidence: Partial<Record<CpmSubsystemKey, SubsystemEvidence>>;
+  /** The market evidence page and the series page of the scope, where they exist. */
+  links: { market: { href: string; statements: number } | null; regions: { href: string; series: string } | null };
 }
 
-export function VehicleWorkspace({ market, vehicle, cpm, figures, bridges }: VehicleWorkspaceProps) {
+export function VehicleWorkspace({ market, vehicle, cpm, figures, bridges, evidence, links }: VehicleWorkspaceProps) {
   const hasVerbatims = vehicle.verbatims > 0;
   const side = drawingFor(vehicle.drawing, "side");
   const top = drawingFor(vehicle.drawing, "top");
@@ -70,7 +76,21 @@ export function VehicleWorkspace({ market, vehicle, cpm, figures, bridges }: Veh
           </div>
         </section>
         <aside className="workspace-domains">
-          <CpmList catalogue={cpm.catalogue} view={cpm.view} market={market} vehicle={vehicle} bridges={bridges} />
+          <CpmList catalogue={cpm.catalogue} view={cpm.view} market={market} vehicle={vehicle} bridges={bridges} evidence={evidence} marketHref={links.market?.href ?? null} />
+          {links.market || links.regions ? (
+            <nav className="panel-card workspace-links" aria-label={workspace.moreLabel}>
+              {links.market ? (
+                <Link href={links.market.href} className="tap cpm-market-link">
+                  {site.market.heading} {market.name}, {full(links.market.statements)} {site.market.statements}
+                </Link>
+              ) : null}
+              {links.regions ? (
+                <Link href={links.regions.href} className="tap cpm-market-link">
+                  {links.regions.series} {workspace.regionsLink}
+                </Link>
+              ) : null}
+            </nav>
+          ) : null}
           {!hasVerbatims ? (
             <section className="panel-card">
               <h2 className="workspace-h2">{workspace.noVerbatimsHeading}</h2>

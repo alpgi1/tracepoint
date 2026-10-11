@@ -2,20 +2,23 @@
  "vehicle": "F70",
  "market": "EU",
  "snapshot": {
-  "takenAt": "2026-10-11T03:21:44.581Z",
+  "takenAt": "2026-10-11T06:48:45.690Z",
   "api": "http://127.0.0.1:8000",
-  "codeVersion": "e06b37f",
+  "codeVersion": "c7f72e1",
   "modelHash": "789fcb7624b8",
   "endpoints": {
    "requirements": "/requirements?vehicle=F70&market=EU",
    "efforts": "/effort/requirements?vehicle=F70&market=EU",
    "scenarios": "/effort/scenarios?vehicle=F70&market=EU",
    "excluded": "/events?entity_type=scope&entity_id=F70:EU",
-   "events": "/events?entity_type=requirement&limit=5000",
+   "events": "/events?entity_type=requirement&entity_prefix=REQ-F70-EU-&limit=5000",
    "details": "/requirements/{id}",
    "verbatims": "/verbatims/{id}",
    "metrics": "/studies",
-   "equipment": "/equipment?vehicle={vehicle}"
+   "equipment": "/equipment?vehicle={vehicle}",
+   "external": "/external?market=EU&vehicle=F70",
+   "exportCsv": "/requirements/export?vehicle=F70&market=EU&format=csv",
+   "exportMd": "/requirements/export?vehicle=F70&market=EU&format=md"
   }
  },
  "requirements": [
@@ -2604,9 +2607,9 @@
  ],
  "events": [
   {
-   "id": 3083,
-   "ts": "2026-10-11T02:43:05.157275+00:00",
-   "run_id": "RUN-20261011-024304-requirements.import-56c4",
+   "id": 3086,
+   "ts": "2026-10-11T05:57:33.025422+00:00",
+   "run_id": "RUN-20261011-055732-requirements.import-e8e4",
    "actor_type": "agent",
    "actor_id": "assistant:claude-opus-5-5",
    "action": "requirement.created",
@@ -2675,9 +2678,9 @@
    "parent_event_id": null
   },
   {
-   "id": 3084,
-   "ts": "2026-10-11T02:43:05.173565+00:00",
-   "run_id": "RUN-20261011-024304-requirements.import-56c4",
+   "id": 3087,
+   "ts": "2026-10-11T05:57:33.045632+00:00",
+   "run_id": "RUN-20261011-055732-requirements.import-e8e4",
    "actor_type": "agent",
    "actor_id": "assistant:claude-opus-5-5",
    "action": "requirement.created",
@@ -2742,9 +2745,9 @@
    "parent_event_id": null
   },
   {
-   "id": 3085,
-   "ts": "2026-10-11T02:43:05.182120+00:00",
-   "run_id": "RUN-20261011-024304-requirements.import-56c4",
+   "id": 3088,
+   "ts": "2026-10-11T05:57:33.054221+00:00",
+   "run_id": "RUN-20261011-055732-requirements.import-e8e4",
    "actor_type": "agent",
    "actor_id": "assistant:claude-opus-5-5",
    "action": "requirement.created",
@@ -2800,9 +2803,9 @@
    "parent_event_id": null
   },
   {
-   "id": 3086,
-   "ts": "2026-10-11T02:43:05.189364+00:00",
-   "run_id": "RUN-20261011-024304-requirements.import-56c4",
+   "id": 3089,
+   "ts": "2026-10-11T05:57:33.060866+00:00",
+   "run_id": "RUN-20261011-055732-requirements.import-e8e4",
    "actor_type": "agent",
    "actor_id": "assistant:claude-opus-5-5",
    "action": "requirement.created",
@@ -2852,9 +2855,9 @@
    "parent_event_id": null
   },
   {
-   "id": 3087,
-   "ts": "2026-10-11T02:43:05.196864+00:00",
-   "run_id": "RUN-20261011-024304-requirements.import-56c4",
+   "id": 3090,
+   "ts": "2026-10-11T05:57:33.068027+00:00",
+   "run_id": "RUN-20261011-055732-requirements.import-e8e4",
    "actor_type": "agent",
    "actor_id": "assistant:claude-opus-5-5",
    "action": "requirement.created",
@@ -2897,9 +2900,9 @@
    "parent_event_id": null
   },
   {
-   "id": 3088,
-   "ts": "2026-10-11T02:43:05.203997+00:00",
-   "run_id": "RUN-20261011-024304-requirements.import-56c4",
+   "id": 3091,
+   "ts": "2026-10-11T05:57:33.075707+00:00",
+   "run_id": "RUN-20261011-055732-requirements.import-e8e4",
    "actor_type": "agent",
    "actor_id": "assistant:claude-opus-5-5",
    "action": "requirement.created",
@@ -2953,9 +2956,9 @@
    "parent_event_id": null
   },
   {
-   "id": 3089,
-   "ts": "2026-10-11T02:43:05.210515+00:00",
-   "run_id": "RUN-20261011-024304-requirements.import-56c4",
+   "id": 3092,
+   "ts": "2026-10-11T05:57:33.082243+00:00",
+   "run_id": "RUN-20261011-055732-requirements.import-e8e4",
    "actor_type": "agent",
    "actor_id": "assistant:claude-opus-5-5",
    "action": "requirement.created",
@@ -3009,9 +3012,9 @@
    "parent_event_id": null
   },
   {
-   "id": 3090,
-   "ts": "2026-10-11T02:43:05.221754+00:00",
-   "run_id": "RUN-20261011-024304-requirements.import-56c4",
+   "id": 3093,
+   "ts": "2026-10-11T05:57:33.089636+00:00",
+   "run_id": "RUN-20261011-055732-requirements.import-e8e4",
    "actor_type": "agent",
    "actor_id": "assistant:claude-opus-5-5",
    "action": "requirement.created",
@@ -3073,9 +3076,9 @@
    "parent_event_id": null
   },
   {
-   "id": 3091,
-   "ts": "2026-10-11T02:43:05.231353+00:00",
-   "run_id": "RUN-20261011-024304-requirements.import-56c4",
+   "id": 3094,
+   "ts": "2026-10-11T05:57:33.098065+00:00",
+   "run_id": "RUN-20261011-055732-requirements.import-e8e4",
    "actor_type": "agent",
    "actor_id": "assistant:claude-opus-5-5",
    "action": "requirement.created",
@@ -3118,9 +3121,9 @@
    "parent_event_id": null
   },
   {
-   "id": 3092,
-   "ts": "2026-10-11T02:43:05.238708+00:00",
-   "run_id": "RUN-20261011-024304-requirements.import-56c4",
+   "id": 3095,
+   "ts": "2026-10-11T05:57:33.103656+00:00",
+   "run_id": "RUN-20261011-055732-requirements.import-e8e4",
    "actor_type": "agent",
    "actor_id": "assistant:claude-opus-5-5",
    "action": "requirement.created",
@@ -3178,9 +3181,9 @@
    "parent_event_id": null
   },
   {
-   "id": 3093,
-   "ts": "2026-10-11T02:43:05.247575+00:00",
-   "run_id": "RUN-20261011-024304-requirements.import-56c4",
+   "id": 3096,
+   "ts": "2026-10-11T05:57:33.109426+00:00",
+   "run_id": "RUN-20261011-055732-requirements.import-e8e4",
    "actor_type": "agent",
    "actor_id": "assistant:claude-opus-5-5",
    "action": "requirement.created",
@@ -3231,9 +3234,9 @@
    "parent_event_id": null
   },
   {
-   "id": 3094,
-   "ts": "2026-10-11T02:43:05.256036+00:00",
-   "run_id": "RUN-20261011-024304-requirements.import-56c4",
+   "id": 3097,
+   "ts": "2026-10-11T05:57:33.115835+00:00",
+   "run_id": "RUN-20261011-055732-requirements.import-e8e4",
    "actor_type": "agent",
    "actor_id": "assistant:claude-opus-5-5",
    "action": "requirement.created",
@@ -3298,9 +3301,9 @@
    "parent_event_id": null
   },
   {
-   "id": 3095,
-   "ts": "2026-10-11T02:43:05.263856+00:00",
-   "run_id": "RUN-20261011-024304-requirements.import-56c4",
+   "id": 3098,
+   "ts": "2026-10-11T05:57:33.122470+00:00",
+   "run_id": "RUN-20261011-055732-requirements.import-e8e4",
    "actor_type": "agent",
    "actor_id": "assistant:claude-opus-5-5",
    "action": "requirement.created",
@@ -3366,9 +3369,9 @@
    "parent_event_id": null
   },
   {
-   "id": 3096,
-   "ts": "2026-10-11T02:43:05.272015+00:00",
-   "run_id": "RUN-20261011-024304-requirements.import-56c4",
+   "id": 3099,
+   "ts": "2026-10-11T05:57:33.129133+00:00",
+   "run_id": "RUN-20261011-055732-requirements.import-e8e4",
    "actor_type": "agent",
    "actor_id": "assistant:claude-opus-5-5",
    "action": "requirement.created",
@@ -3424,9 +3427,9 @@
    "parent_event_id": null
   },
   {
-   "id": 3097,
-   "ts": "2026-10-11T02:43:05.279974+00:00",
-   "run_id": "RUN-20261011-024304-requirements.import-56c4",
+   "id": 3100,
+   "ts": "2026-10-11T05:57:33.135484+00:00",
+   "run_id": "RUN-20261011-055732-requirements.import-e8e4",
    "actor_type": "agent",
    "actor_id": "assistant:claude-opus-5-5",
    "action": "requirement.created",
@@ -3480,9 +3483,9 @@
    "parent_event_id": null
   },
   {
-   "id": 3098,
-   "ts": "2026-10-11T02:43:05.287973+00:00",
-   "run_id": "RUN-20261011-024304-requirements.import-56c4",
+   "id": 3101,
+   "ts": "2026-10-11T05:57:33.141138+00:00",
+   "run_id": "RUN-20261011-055732-requirements.import-e8e4",
    "actor_type": "agent",
    "actor_id": "assistant:claude-opus-5-5",
    "action": "requirement.created",
@@ -3536,9 +3539,9 @@
    "parent_event_id": null
   },
   {
-   "id": 3099,
-   "ts": "2026-10-11T02:43:05.296214+00:00",
-   "run_id": "RUN-20261011-024304-requirements.import-56c4",
+   "id": 3102,
+   "ts": "2026-10-11T05:57:33.147196+00:00",
+   "run_id": "RUN-20261011-055732-requirements.import-e8e4",
    "actor_type": "agent",
    "actor_id": "assistant:claude-opus-5-5",
    "action": "requirement.created",
@@ -3596,9 +3599,9 @@
    "parent_event_id": null
   },
   {
-   "id": 3100,
-   "ts": "2026-10-11T02:43:05.305189+00:00",
-   "run_id": "RUN-20261011-024304-requirements.import-56c4",
+   "id": 3103,
+   "ts": "2026-10-11T05:57:33.153693+00:00",
+   "run_id": "RUN-20261011-055732-requirements.import-e8e4",
    "actor_type": "agent",
    "actor_id": "assistant:claude-opus-5-5",
    "action": "requirement.created",
@@ -3650,9 +3653,9 @@
    "parent_event_id": null
   },
   {
-   "id": 3145,
-   "ts": "2026-10-11T02:43:09.045740+00:00",
-   "run_id": "RUN-20261011-024308-effort.estimate-321f",
+   "id": 3148,
+   "ts": "2026-10-11T05:57:35.353732+00:00",
+   "run_id": "RUN-20261011-055734-effort.estimate-ca49",
    "actor_type": "system",
    "actor_id": "effort-engine",
    "action": "effort.estimated",
@@ -3746,9 +3749,9 @@
    "parent_event_id": null
   },
   {
-   "id": 3146,
-   "ts": "2026-10-11T02:43:09.064111+00:00",
-   "run_id": "RUN-20261011-024308-effort.estimate-321f",
+   "id": 3149,
+   "ts": "2026-10-11T05:57:35.371878+00:00",
+   "run_id": "RUN-20261011-055734-effort.estimate-ca49",
    "actor_type": "system",
    "actor_id": "effort-engine",
    "action": "effort.estimated",
@@ -3806,9 +3809,9 @@
    "parent_event_id": null
   },
   {
-   "id": 3147,
-   "ts": "2026-10-11T02:43:09.068545+00:00",
-   "run_id": "RUN-20261011-024308-effort.estimate-321f",
+   "id": 3150,
+   "ts": "2026-10-11T05:57:35.375318+00:00",
+   "run_id": "RUN-20261011-055734-effort.estimate-ca49",
    "actor_type": "system",
    "actor_id": "effort-engine",
    "action": "effort.estimated",
@@ -3839,9 +3842,9 @@
    "parent_event_id": null
   },
   {
-   "id": 3148,
-   "ts": "2026-10-11T02:43:09.080006+00:00",
-   "run_id": "RUN-20261011-024308-effort.estimate-321f",
+   "id": 3151,
+   "ts": "2026-10-11T05:57:35.386099+00:00",
+   "run_id": "RUN-20261011-055734-effort.estimate-ca49",
    "actor_type": "system",
    "actor_id": "effort-engine",
    "action": "effort.estimated",
@@ -3889,9 +3892,9 @@
    "parent_event_id": null
   },
   {
-   "id": 3149,
-   "ts": "2026-10-11T02:43:09.101890+00:00",
-   "run_id": "RUN-20261011-024308-effort.estimate-321f",
+   "id": 3152,
+   "ts": "2026-10-11T05:57:35.403990+00:00",
+   "run_id": "RUN-20261011-055734-effort.estimate-ca49",
    "actor_type": "system",
    "actor_id": "effort-engine",
    "action": "effort.estimated",
@@ -3949,9 +3952,9 @@
    "parent_event_id": null
   },
   {
-   "id": 3150,
-   "ts": "2026-10-11T02:43:09.122982+00:00",
-   "run_id": "RUN-20261011-024308-effort.estimate-321f",
+   "id": 3153,
+   "ts": "2026-10-11T05:57:35.422849+00:00",
+   "run_id": "RUN-20261011-055734-effort.estimate-ca49",
    "actor_type": "system",
    "actor_id": "effort-engine",
    "action": "effort.estimated",
@@ -4009,9 +4012,9 @@
    "parent_event_id": null
   },
   {
-   "id": 3151,
-   "ts": "2026-10-11T02:43:09.171793+00:00",
-   "run_id": "RUN-20261011-024308-effort.estimate-321f",
+   "id": 3154,
+   "ts": "2026-10-11T05:57:35.467340+00:00",
+   "run_id": "RUN-20261011-055734-effort.estimate-ca49",
    "actor_type": "system",
    "actor_id": "effort-engine",
    "action": "effort.estimated",
@@ -4113,9 +4116,9 @@
    "parent_event_id": null
   },
   {
-   "id": 3152,
-   "ts": "2026-10-11T02:43:09.251886+00:00",
-   "run_id": "RUN-20261011-024308-effort.estimate-321f",
+   "id": 3155,
+   "ts": "2026-10-11T05:57:35.522292+00:00",
+   "run_id": "RUN-20261011-055734-effort.estimate-ca49",
    "actor_type": "system",
    "actor_id": "effort-engine",
    "action": "effort.estimated",
@@ -4232,9 +4235,9 @@
    "parent_event_id": null
   },
   {
-   "id": 3153,
-   "ts": "2026-10-11T02:43:09.322877+00:00",
-   "run_id": "RUN-20261011-024308-effort.estimate-321f",
+   "id": 3156,
+   "ts": "2026-10-11T05:57:35.571163+00:00",
+   "run_id": "RUN-20261011-055734-effort.estimate-ca49",
    "actor_type": "system",
    "actor_id": "effort-engine",
    "action": "effort.estimated",
@@ -4324,9 +4327,9 @@
    "parent_event_id": null
   },
   {
-   "id": 3154,
-   "ts": "2026-10-11T02:43:09.373756+00:00",
-   "run_id": "RUN-20261011-024308-effort.estimate-321f",
+   "id": 3157,
+   "ts": "2026-10-11T05:57:35.623009+00:00",
+   "run_id": "RUN-20261011-055734-effort.estimate-ca49",
    "actor_type": "system",
    "actor_id": "effort-engine",
    "action": "effort.estimated",
@@ -4475,9 +4478,9 @@
    "parent_event_id": null
   },
   {
-   "id": 3155,
-   "ts": "2026-10-11T02:43:09.377130+00:00",
-   "run_id": "RUN-20261011-024308-effort.estimate-321f",
+   "id": 3158,
+   "ts": "2026-10-11T05:57:35.626282+00:00",
+   "run_id": "RUN-20261011-055734-effort.estimate-ca49",
    "actor_type": "system",
    "actor_id": "effort-engine",
    "action": "effort.estimated",
@@ -4508,9 +4511,9 @@
    "parent_event_id": null
   },
   {
-   "id": 3156,
-   "ts": "2026-10-11T02:43:09.481034+00:00",
-   "run_id": "RUN-20261011-024308-effort.estimate-321f",
+   "id": 3159,
+   "ts": "2026-10-11T05:57:35.693266+00:00",
+   "run_id": "RUN-20261011-055734-effort.estimate-ca49",
    "actor_type": "system",
    "actor_id": "effort-engine",
    "action": "effort.estimated",
@@ -4644,9 +4647,9 @@
    "parent_event_id": null
   },
   {
-   "id": 3157,
-   "ts": "2026-10-11T02:43:09.560649+00:00",
-   "run_id": "RUN-20261011-024308-effort.estimate-321f",
+   "id": 3160,
+   "ts": "2026-10-11T05:57:35.772198+00:00",
+   "run_id": "RUN-20261011-055734-effort.estimate-ca49",
    "actor_type": "system",
    "actor_id": "effort-engine",
    "action": "effort.estimated",
@@ -4772,9 +4775,9 @@
    "parent_event_id": null
   },
   {
-   "id": 3158,
-   "ts": "2026-10-11T02:43:09.581044+00:00",
-   "run_id": "RUN-20261011-024308-effort.estimate-321f",
+   "id": 3161,
+   "ts": "2026-10-11T05:57:35.789682+00:00",
+   "run_id": "RUN-20261011-055734-effort.estimate-ca49",
    "actor_type": "system",
    "actor_id": "effort-engine",
    "action": "effort.estimated",
@@ -4832,9 +4835,9 @@
    "parent_event_id": null
   },
   {
-   "id": 3159,
-   "ts": "2026-10-11T02:43:09.630437+00:00",
-   "run_id": "RUN-20261011-024308-effort.estimate-321f",
+   "id": 3162,
+   "ts": "2026-10-11T05:57:35.859278+00:00",
+   "run_id": "RUN-20261011-055734-effort.estimate-ca49",
    "actor_type": "system",
    "actor_id": "effort-engine",
    "action": "effort.estimated",
@@ -4955,9 +4958,9 @@
    "parent_event_id": null
   },
   {
-   "id": 3160,
-   "ts": "2026-10-11T02:43:09.704107+00:00",
-   "run_id": "RUN-20261011-024308-effort.estimate-321f",
+   "id": 3163,
+   "ts": "2026-10-11T05:57:35.930841+00:00",
+   "run_id": "RUN-20261011-055734-effort.estimate-ca49",
    "actor_type": "system",
    "actor_id": "effort-engine",
    "action": "effort.estimated",
@@ -5074,9 +5077,9 @@
    "parent_event_id": null
   },
   {
-   "id": 3161,
-   "ts": "2026-10-11T02:43:09.800394+00:00",
-   "run_id": "RUN-20261011-024308-effort.estimate-321f",
+   "id": 3164,
+   "ts": "2026-10-11T05:57:36.019696+00:00",
+   "run_id": "RUN-20261011-055734-effort.estimate-ca49",
    "actor_type": "system",
    "actor_id": "effort-engine",
    "action": "effort.estimated",
@@ -5201,9 +5204,9 @@
    "parent_event_id": null
   },
   {
-   "id": 3162,
-   "ts": "2026-10-11T02:43:09.811986+00:00",
-   "run_id": "RUN-20261011-024308-effort.estimate-321f",
+   "id": 3165,
+   "ts": "2026-10-11T05:57:36.030557+00:00",
+   "run_id": "RUN-20261011-055734-effort.estimate-ca49",
    "actor_type": "system",
    "actor_id": "effort-engine",
    "action": "effort.estimated",
@@ -5332,8 +5335,8 @@
      "status": "proposed",
      "version": 1,
      "created_by": "agent:finding-extractor",
-     "created_run_id": "RUN-20261011-024249-findings.extract-49d1",
-     "updated_run_id": "RUN-20261011-024249-findings.extract-49d1",
+     "created_run_id": "RUN-20261011-055717-findings.extract-d8c5",
+     "updated_run_id": "RUN-20261011-055717-findings.extract-d8c5",
      "evidence": [
       {
        "evidence_ref": "vclass:F70-1631#2",
@@ -5394,9 +5397,9 @@
      "links_in": [],
      "events": [
       {
-       "id": 2558,
-       "ts": "2026-10-11T02:42:50.258248+00:00",
-       "run_id": "RUN-20261011-024249-findings.extract-49d1",
+       "id": 2561,
+       "ts": "2026-10-11T05:57:17.608146+00:00",
+       "run_id": "RUN-20261011-055717-findings.extract-d8c5",
        "actor_type": "agent",
        "actor_id": "agent:finding-extractor",
        "action": "finding.created",
@@ -5480,8 +5483,8 @@
      "status": "proposed",
      "version": 1,
      "created_by": "agent:finding-extractor",
-     "created_run_id": "RUN-20261011-024249-findings.extract-49d1",
-     "updated_run_id": "RUN-20261011-024249-findings.extract-49d1",
+     "created_run_id": "RUN-20261011-055717-findings.extract-d8c5",
+     "updated_run_id": "RUN-20261011-055717-findings.extract-d8c5",
      "evidence": [
       {
        "evidence_ref": "vclass:F70-0745#5",
@@ -5542,9 +5545,9 @@
      "links_in": [],
      "events": [
       {
-       "id": 2538,
-       "ts": "2026-10-11T02:42:50.158670+00:00",
-       "run_id": "RUN-20261011-024249-findings.extract-49d1",
+       "id": 2541,
+       "ts": "2026-10-11T05:57:17.515090+00:00",
+       "run_id": "RUN-20261011-055717-findings.extract-d8c5",
        "actor_type": "agent",
        "actor_id": "agent:finding-extractor",
        "action": "finding.created",
@@ -5643,9 +5646,9 @@
    },
    "events": [
     {
-     "id": 3096,
-     "ts": "2026-10-11T02:43:05.272015+00:00",
-     "run_id": "RUN-20261011-024304-requirements.import-56c4",
+     "id": 3099,
+     "ts": "2026-10-11T05:57:33.129133+00:00",
+     "run_id": "RUN-20261011-055732-requirements.import-e8e4",
      "actor_type": "agent",
      "actor_id": "assistant:claude-opus-5-5",
      "action": "requirement.created",
@@ -5701,9 +5704,9 @@
      "parent_event_id": null
     },
     {
-     "id": 3158,
-     "ts": "2026-10-11T02:43:09.581044+00:00",
-     "run_id": "RUN-20261011-024308-effort.estimate-321f",
+     "id": 3161,
+     "ts": "2026-10-11T05:57:35.789682+00:00",
+     "run_id": "RUN-20261011-055734-effort.estimate-ca49",
      "actor_type": "system",
      "actor_id": "effort-engine",
      "action": "effort.estimated",
@@ -5841,8 +5844,8 @@
      "status": "proposed",
      "version": 1,
      "created_by": "agent:finding-extractor",
-     "created_run_id": "RUN-20261011-024249-findings.extract-49d1",
-     "updated_run_id": "RUN-20261011-024249-findings.extract-49d1",
+     "created_run_id": "RUN-20261011-055717-findings.extract-d8c5",
+     "updated_run_id": "RUN-20261011-055717-findings.extract-d8c5",
      "evidence": [
       {
        "evidence_ref": "vclass:F70-0318#1",
@@ -5915,9 +5918,9 @@
      ],
      "events": [
       {
-       "id": 2544,
-       "ts": "2026-10-11T02:42:50.191504+00:00",
-       "run_id": "RUN-20261011-024249-findings.extract-49d1",
+       "id": 2547,
+       "ts": "2026-10-11T05:57:17.542265+00:00",
+       "run_id": "RUN-20261011-055717-findings.extract-d8c5",
        "actor_type": "agent",
        "actor_id": "agent:finding-extractor",
        "action": "finding.created",
@@ -5996,8 +5999,8 @@
      "status": "proposed",
      "version": 1,
      "created_by": "agent:finding-extractor",
-     "created_run_id": "RUN-20261011-024249-findings.extract-49d1",
-     "updated_run_id": "RUN-20261011-024249-findings.extract-49d1",
+     "created_run_id": "RUN-20261011-055717-findings.extract-d8c5",
+     "updated_run_id": "RUN-20261011-055717-findings.extract-d8c5",
      "evidence": [
       {
        "evidence_ref": "metric:MET-CNEU-EU-F70-ride_comfort",
@@ -6033,9 +6036,9 @@
      ],
      "events": [
       {
-       "id": 2618,
-       "ts": "2026-10-11T02:42:50.592301+00:00",
-       "run_id": "RUN-20261011-024249-findings.extract-49d1",
+       "id": 2621,
+       "ts": "2026-10-11T05:57:17.905780+00:00",
+       "run_id": "RUN-20261011-055717-findings.extract-d8c5",
        "actor_type": "agent",
        "actor_id": "agent:finding-extractor",
        "action": "finding.created",
@@ -6110,8 +6113,8 @@
      "status": "proposed",
      "version": 1,
      "created_by": "agent:finding-extractor",
-     "created_run_id": "RUN-20261011-024249-findings.extract-49d1",
-     "updated_run_id": "RUN-20261011-024249-findings.extract-49d1",
+     "created_run_id": "RUN-20261011-055717-findings.extract-d8c5",
+     "updated_run_id": "RUN-20261011-055717-findings.extract-d8c5",
      "evidence": [
       {
        "evidence_ref": "equipment:EQ-F70-0024",
@@ -6136,9 +6139,9 @@
      "links_in": [],
      "events": [
       {
-       "id": 2631,
-       "ts": "2026-10-11T02:42:50.654488+00:00",
-       "run_id": "RUN-20261011-024249-findings.extract-49d1",
+       "id": 2634,
+       "ts": "2026-10-11T05:57:17.964860+00:00",
+       "run_id": "RUN-20261011-055717-findings.extract-d8c5",
        "actor_type": "agent",
        "actor_id": "agent:finding-extractor",
        "action": "finding.created",
@@ -6325,9 +6328,9 @@
    },
    "events": [
     {
-     "id": 3092,
-     "ts": "2026-10-11T02:43:05.238708+00:00",
-     "run_id": "RUN-20261011-024304-requirements.import-56c4",
+     "id": 3095,
+     "ts": "2026-10-11T05:57:33.103656+00:00",
+     "run_id": "RUN-20261011-055732-requirements.import-e8e4",
      "actor_type": "agent",
      "actor_id": "assistant:claude-opus-5-5",
      "action": "requirement.created",
@@ -6385,9 +6388,9 @@
      "parent_event_id": null
     },
     {
-     "id": 3154,
-     "ts": "2026-10-11T02:43:09.373756+00:00",
-     "run_id": "RUN-20261011-024308-effort.estimate-321f",
+     "id": 3157,
+     "ts": "2026-10-11T05:57:35.623009+00:00",
+     "run_id": "RUN-20261011-055734-effort.estimate-ca49",
      "actor_type": "system",
      "actor_id": "effort-engine",
      "action": "effort.estimated",
@@ -6602,8 +6605,8 @@
      "status": "proposed",
      "version": 1,
      "created_by": "agent:finding-extractor",
-     "created_run_id": "RUN-20261011-024249-findings.extract-49d1",
-     "updated_run_id": "RUN-20261011-024249-findings.extract-49d1",
+     "created_run_id": "RUN-20261011-055717-findings.extract-d8c5",
+     "updated_run_id": "RUN-20261011-055717-findings.extract-d8c5",
      "evidence": [
       {
        "evidence_ref": "metric:MET-CNEU-EU-F70-sportiness",
@@ -6628,9 +6631,9 @@
      "links_in": [],
      "events": [
       {
-       "id": 2616,
-       "ts": "2026-10-11T02:42:50.583330+00:00",
-       "run_id": "RUN-20261011-024249-findings.extract-49d1",
+       "id": 2619,
+       "ts": "2026-10-11T05:57:17.891228+00:00",
+       "run_id": "RUN-20261011-055717-findings.extract-d8c5",
        "actor_type": "agent",
        "actor_id": "agent:finding-extractor",
        "action": "finding.created",
@@ -6702,8 +6705,8 @@
      "status": "proposed",
      "version": 1,
      "created_by": "agent:finding-extractor",
-     "created_run_id": "RUN-20261011-024249-findings.extract-49d1",
-     "updated_run_id": "RUN-20261011-024249-findings.extract-49d1",
+     "created_run_id": "RUN-20261011-055717-findings.extract-d8c5",
+     "updated_run_id": "RUN-20261011-055717-findings.extract-d8c5",
      "evidence": [
       {
        "evidence_ref": "metric:MET-CNEU-EU-F70-fuel_economy",
@@ -6739,9 +6742,9 @@
      ],
      "events": [
       {
-       "id": 2615,
-       "ts": "2026-10-11T02:42:50.578438+00:00",
-       "run_id": "RUN-20261011-024249-findings.extract-49d1",
+       "id": 2618,
+       "ts": "2026-10-11T05:57:17.887672+00:00",
+       "run_id": "RUN-20261011-055717-findings.extract-d8c5",
        "actor_type": "agent",
        "actor_id": "agent:finding-extractor",
        "action": "finding.created",
@@ -6808,8 +6811,8 @@
      "status": "proposed",
      "version": 1,
      "created_by": "agent:finding-extractor",
-     "created_run_id": "RUN-20261011-024249-findings.extract-49d1",
-     "updated_run_id": "RUN-20261011-024249-findings.extract-49d1",
+     "created_run_id": "RUN-20261011-055717-findings.extract-d8c5",
+     "updated_run_id": "RUN-20261011-055717-findings.extract-d8c5",
      "evidence": [
       {
        "evidence_ref": "vclass:F70-0622#1",
@@ -6864,9 +6867,9 @@
      "links_in": [],
      "events": [
       {
-       "id": 2529,
-       "ts": "2026-10-11T02:42:50.114475+00:00",
-       "run_id": "RUN-20261011-024249-findings.extract-49d1",
+       "id": 2532,
+       "ts": "2026-10-11T05:57:17.472444+00:00",
+       "run_id": "RUN-20261011-055717-findings.extract-d8c5",
        "actor_type": "agent",
        "actor_id": "agent:finding-extractor",
        "action": "finding.created",
@@ -6927,9 +6930,9 @@
    },
    "events": [
     {
-     "id": 3093,
-     "ts": "2026-10-11T02:43:05.247575+00:00",
-     "run_id": "RUN-20261011-024304-requirements.import-56c4",
+     "id": 3096,
+     "ts": "2026-10-11T05:57:33.109426+00:00",
+     "run_id": "RUN-20261011-055732-requirements.import-e8e4",
      "actor_type": "agent",
      "actor_id": "assistant:claude-opus-5-5",
      "action": "requirement.created",
@@ -6980,9 +6983,9 @@
      "parent_event_id": null
     },
     {
-     "id": 3155,
-     "ts": "2026-10-11T02:43:09.377130+00:00",
-     "run_id": "RUN-20261011-024308-effort.estimate-321f",
+     "id": 3158,
+     "ts": "2026-10-11T05:57:35.626282+00:00",
+     "run_id": "RUN-20261011-055734-effort.estimate-ca49",
      "actor_type": "system",
      "actor_id": "effort-engine",
      "action": "effort.estimated",
@@ -7091,8 +7094,8 @@
      "status": "proposed",
      "version": 1,
      "created_by": "agent:finding-extractor",
-     "created_run_id": "RUN-20261011-024249-findings.extract-49d1",
-     "updated_run_id": "RUN-20261011-024249-findings.extract-49d1",
+     "created_run_id": "RUN-20261011-055717-findings.extract-d8c5",
+     "updated_run_id": "RUN-20261011-055717-findings.extract-d8c5",
      "evidence": [
       {
        "evidence_ref": "vclass:F70-0537#1",
@@ -7153,9 +7156,9 @@
      "links_in": [],
      "events": [
       {
-       "id": 2564,
-       "ts": "2026-10-11T02:42:50.289631+00:00",
-       "run_id": "RUN-20261011-024249-findings.extract-49d1",
+       "id": 2567,
+       "ts": "2026-10-11T05:57:17.633418+00:00",
+       "run_id": "RUN-20261011-055717-findings.extract-d8c5",
        "actor_type": "agent",
        "actor_id": "agent:finding-extractor",
        "action": "finding.created",
@@ -7238,8 +7241,8 @@
      "status": "proposed",
      "version": 1,
      "created_by": "agent:finding-extractor",
-     "created_run_id": "RUN-20261011-024249-findings.extract-49d1",
-     "updated_run_id": "RUN-20261011-024249-findings.extract-49d1",
+     "created_run_id": "RUN-20261011-055717-findings.extract-d8c5",
+     "updated_run_id": "RUN-20261011-055717-findings.extract-d8c5",
      "evidence": [
       {
        "evidence_ref": "vclass:F70-0196#2",
@@ -7300,9 +7303,9 @@
      "links_in": [],
      "events": [
       {
-       "id": 2568,
-       "ts": "2026-10-11T02:42:50.314520+00:00",
-       "run_id": "RUN-20261011-024249-findings.extract-49d1",
+       "id": 2571,
+       "ts": "2026-10-11T05:57:17.652613+00:00",
+       "run_id": "RUN-20261011-055717-findings.extract-d8c5",
        "actor_type": "agent",
        "actor_id": "agent:finding-extractor",
        "action": "finding.created",
@@ -7464,9 +7467,9 @@
    },
    "events": [
     {
-     "id": 3097,
-     "ts": "2026-10-11T02:43:05.279974+00:00",
-     "run_id": "RUN-20261011-024304-requirements.import-56c4",
+     "id": 3100,
+     "ts": "2026-10-11T05:57:33.135484+00:00",
+     "run_id": "RUN-20261011-055732-requirements.import-e8e4",
      "actor_type": "agent",
      "actor_id": "assistant:claude-opus-5-5",
      "action": "requirement.created",
@@ -7520,9 +7523,9 @@
      "parent_event_id": null
     },
     {
-     "id": 3159,
-     "ts": "2026-10-11T02:43:09.630437+00:00",
-     "run_id": "RUN-20261011-024308-effort.estimate-321f",
+     "id": 3162,
+     "ts": "2026-10-11T05:57:35.859278+00:00",
+     "run_id": "RUN-20261011-055734-effort.estimate-ca49",
      "actor_type": "system",
      "actor_id": "effort-engine",
      "action": "effort.estimated",
@@ -7723,8 +7726,8 @@
      "status": "proposed",
      "version": 1,
      "created_by": "agent:finding-extractor",
-     "created_run_id": "RUN-20261011-024249-findings.extract-49d1",
-     "updated_run_id": "RUN-20261011-024249-findings.extract-49d1",
+     "created_run_id": "RUN-20261011-055717-findings.extract-d8c5",
+     "updated_run_id": "RUN-20261011-055717-findings.extract-d8c5",
      "evidence": [
       {
        "evidence_ref": "vclass:F70-2008#1",
@@ -7791,9 +7794,9 @@
      ],
      "events": [
       {
-       "id": 2561,
-       "ts": "2026-10-11T02:42:50.272566+00:00",
-       "run_id": "RUN-20261011-024249-findings.extract-49d1",
+       "id": 2564,
+       "ts": "2026-10-11T05:57:17.621096+00:00",
+       "run_id": "RUN-20261011-055717-findings.extract-d8c5",
        "actor_type": "agent",
        "actor_id": "agent:finding-extractor",
        "action": "finding.created",
@@ -8024,8 +8027,8 @@
      "status": "proposed",
      "version": 1,
      "created_by": "agent:finding-extractor",
-     "created_run_id": "RUN-20261011-024249-findings.extract-49d1",
-     "updated_run_id": "RUN-20261011-024249-findings.extract-49d1",
+     "created_run_id": "RUN-20261011-055717-findings.extract-d8c5",
+     "updated_run_id": "RUN-20261011-055717-findings.extract-d8c5",
      "evidence": [
       {
        "evidence_ref": "equipment:EQ-F70-0003",
@@ -8104,9 +8107,9 @@
      "links_in": [],
      "events": [
       {
-       "id": 2635,
-       "ts": "2026-10-11T02:42:50.674647+00:00",
-       "run_id": "RUN-20261011-024249-findings.extract-49d1",
+       "id": 2638,
+       "ts": "2026-10-11T05:57:17.983081+00:00",
+       "run_id": "RUN-20261011-055717-findings.extract-d8c5",
        "actor_type": "agent",
        "actor_id": "agent:finding-extractor",
        "action": "finding.created",
@@ -8410,9 +8413,9 @@
    },
    "events": [
     {
-     "id": 3098,
-     "ts": "2026-10-11T02:43:05.287973+00:00",
-     "run_id": "RUN-20261011-024304-requirements.import-56c4",
+     "id": 3101,
+     "ts": "2026-10-11T05:57:33.141138+00:00",
+     "run_id": "RUN-20261011-055732-requirements.import-e8e4",
      "actor_type": "agent",
      "actor_id": "assistant:claude-opus-5-5",
      "action": "requirement.created",
@@ -8466,9 +8469,9 @@
      "parent_event_id": null
     },
     {
-     "id": 3160,
-     "ts": "2026-10-11T02:43:09.704107+00:00",
-     "run_id": "RUN-20261011-024308-effort.estimate-321f",
+     "id": 3163,
+     "ts": "2026-10-11T05:57:35.930841+00:00",
+     "run_id": "RUN-20261011-055734-effort.estimate-ca49",
      "actor_type": "system",
      "actor_id": "effort-engine",
      "action": "effort.estimated",
@@ -8669,8 +8672,8 @@
      "status": "proposed",
      "version": 1,
      "created_by": "agent:finding-extractor",
-     "created_run_id": "RUN-20261011-024249-findings.extract-49d1",
-     "updated_run_id": "RUN-20261011-024249-findings.extract-49d1",
+     "created_run_id": "RUN-20261011-055717-findings.extract-d8c5",
+     "updated_run_id": "RUN-20261011-055717-findings.extract-d8c5",
      "evidence": [
       {
        "evidence_ref": "vclass:F70-1792#L2",
@@ -8742,9 +8745,9 @@
      "links_in": [],
      "events": [
       {
-       "id": 2519,
-       "ts": "2026-10-11T02:42:50.044345+00:00",
-       "run_id": "RUN-20261011-024249-findings.extract-49d1",
+       "id": 2522,
+       "ts": "2026-10-11T05:57:17.409613+00:00",
+       "run_id": "RUN-20261011-055717-findings.extract-d8c5",
        "actor_type": "agent",
        "actor_id": "agent:finding-extractor",
        "action": "finding.created",
@@ -8836,9 +8839,9 @@
    },
    "events": [
     {
-     "id": 3100,
-     "ts": "2026-10-11T02:43:05.305189+00:00",
-     "run_id": "RUN-20261011-024304-requirements.import-56c4",
+     "id": 3103,
+     "ts": "2026-10-11T05:57:33.153693+00:00",
+     "run_id": "RUN-20261011-055732-requirements.import-e8e4",
      "actor_type": "agent",
      "actor_id": "assistant:claude-opus-5-5",
      "action": "requirement.created",
@@ -8890,9 +8893,9 @@
      "parent_event_id": null
     },
     {
-     "id": 3162,
-     "ts": "2026-10-11T02:43:09.811986+00:00",
-     "run_id": "RUN-20261011-024308-effort.estimate-321f",
+     "id": 3165,
+     "ts": "2026-10-11T05:57:36.030557+00:00",
+     "run_id": "RUN-20261011-055734-effort.estimate-ca49",
      "actor_type": "system",
      "actor_id": "effort-engine",
      "action": "effort.estimated",
@@ -9021,8 +9024,8 @@
      "status": "proposed",
      "version": 1,
      "created_by": "agent:finding-extractor",
-     "created_run_id": "RUN-20261011-024249-findings.extract-49d1",
-     "updated_run_id": "RUN-20261011-024249-findings.extract-49d1",
+     "created_run_id": "RUN-20261011-055717-findings.extract-d8c5",
+     "updated_run_id": "RUN-20261011-055717-findings.extract-d8c5",
      "evidence": [
       {
        "evidence_ref": "vclass:F70-0481#1",
@@ -9089,9 +9092,9 @@
      ],
      "events": [
       {
-       "id": 2547,
-       "ts": "2026-10-11T02:42:50.206206+00:00",
-       "run_id": "RUN-20261011-024249-findings.extract-49d1",
+       "id": 2550,
+       "ts": "2026-10-11T05:57:17.556123+00:00",
+       "run_id": "RUN-20261011-055717-findings.extract-d8c5",
        "actor_type": "agent",
        "actor_id": "agent:finding-extractor",
        "action": "finding.created",
@@ -9179,8 +9182,8 @@
      "status": "proposed",
      "version": 1,
      "created_by": "agent:finding-extractor",
-     "created_run_id": "RUN-20261011-024249-findings.extract-49d1",
-     "updated_run_id": "RUN-20261011-024249-findings.extract-49d1",
+     "created_run_id": "RUN-20261011-055717-findings.extract-d8c5",
+     "updated_run_id": "RUN-20261011-055717-findings.extract-d8c5",
      "evidence": [
       {
        "evidence_ref": "equipment:EQ-F70-0119",
@@ -9205,9 +9208,9 @@
      "links_in": [],
      "events": [
       {
-       "id": 2633,
-       "ts": "2026-10-11T02:42:50.665085+00:00",
-       "run_id": "RUN-20261011-024249-findings.extract-49d1",
+       "id": 2636,
+       "ts": "2026-10-11T05:57:17.972933+00:00",
+       "run_id": "RUN-20261011-055717-findings.extract-d8c5",
        "actor_type": "agent",
        "actor_id": "agent:finding-extractor",
        "action": "finding.created",
@@ -9352,9 +9355,9 @@
    },
    "events": [
     {
-     "id": 3089,
-     "ts": "2026-10-11T02:43:05.210515+00:00",
-     "run_id": "RUN-20261011-024304-requirements.import-56c4",
+     "id": 3092,
+     "ts": "2026-10-11T05:57:33.082243+00:00",
+     "run_id": "RUN-20261011-055732-requirements.import-e8e4",
      "actor_type": "agent",
      "actor_id": "assistant:claude-opus-5-5",
      "action": "requirement.created",
@@ -9408,9 +9411,9 @@
      "parent_event_id": null
     },
     {
-     "id": 3151,
-     "ts": "2026-10-11T02:43:09.171793+00:00",
-     "run_id": "RUN-20261011-024308-effort.estimate-321f",
+     "id": 3154,
+     "ts": "2026-10-11T05:57:35.467340+00:00",
+     "run_id": "RUN-20261011-055734-effort.estimate-ca49",
      "actor_type": "system",
      "actor_id": "effort-engine",
      "action": "effort.estimated",
@@ -9591,8 +9594,8 @@
      "status": "proposed",
      "version": 1,
      "created_by": "agent:finding-extractor",
-     "created_run_id": "RUN-20261011-024249-findings.extract-49d1",
-     "updated_run_id": "RUN-20261011-024249-findings.extract-49d1",
+     "created_run_id": "RUN-20261011-055717-findings.extract-d8c5",
+     "updated_run_id": "RUN-20261011-055717-findings.extract-d8c5",
      "evidence": [
       {
        "evidence_ref": "vclass:F70-1237#1",
@@ -9659,9 +9662,9 @@
      "links_in": [],
      "events": [
       {
-       "id": 2585,
-       "ts": "2026-10-11T02:42:50.407757+00:00",
-       "run_id": "RUN-20261011-024249-findings.extract-49d1",
+       "id": 2588,
+       "ts": "2026-10-11T05:57:17.730634+00:00",
+       "run_id": "RUN-20261011-055717-findings.extract-d8c5",
        "actor_type": "agent",
        "actor_id": "agent:finding-extractor",
        "action": "finding.created",
@@ -9745,8 +9748,8 @@
      "status": "proposed",
      "version": 1,
      "created_by": "agent:finding-extractor",
-     "created_run_id": "RUN-20261011-024249-findings.extract-49d1",
-     "updated_run_id": "RUN-20261011-024249-findings.extract-49d1",
+     "created_run_id": "RUN-20261011-055717-findings.extract-d8c5",
+     "updated_run_id": "RUN-20261011-055717-findings.extract-d8c5",
      "evidence": [
       {
        "evidence_ref": "vclass:F70-1125#L3",
@@ -9807,9 +9810,9 @@
      "links_in": [],
      "events": [
       {
-       "id": 2563,
-       "ts": "2026-10-11T02:42:50.284198+00:00",
-       "run_id": "RUN-20261011-024249-findings.extract-49d1",
+       "id": 2566,
+       "ts": "2026-10-11T05:57:17.629452+00:00",
+       "run_id": "RUN-20261011-055717-findings.extract-d8c5",
        "actor_type": "agent",
        "actor_id": "agent:finding-extractor",
        "action": "finding.created",
@@ -9893,8 +9896,8 @@
      "status": "proposed",
      "version": 1,
      "created_by": "agent:finding-extractor",
-     "created_run_id": "RUN-20261011-024249-findings.extract-49d1",
-     "updated_run_id": "RUN-20261011-024249-findings.extract-49d1",
+     "created_run_id": "RUN-20261011-055717-findings.extract-d8c5",
+     "updated_run_id": "RUN-20261011-055717-findings.extract-d8c5",
      "evidence": [
       {
        "evidence_ref": "vclass:F70-1904#1",
@@ -9961,9 +9964,9 @@
      "links_in": [],
      "events": [
       {
-       "id": 2602,
-       "ts": "2026-10-11T02:42:50.510086+00:00",
-       "run_id": "RUN-20261011-024249-findings.extract-49d1",
+       "id": 2605,
+       "ts": "2026-10-11T05:57:17.819676+00:00",
+       "run_id": "RUN-20261011-055717-findings.extract-d8c5",
        "actor_type": "agent",
        "actor_id": "agent:finding-extractor",
        "action": "finding.created",
@@ -10041,8 +10044,8 @@
      "status": "proposed",
      "version": 1,
      "created_by": "agent:finding-extractor",
-     "created_run_id": "RUN-20261011-024249-findings.extract-49d1",
-     "updated_run_id": "RUN-20261011-024249-findings.extract-49d1",
+     "created_run_id": "RUN-20261011-055717-findings.extract-d8c5",
+     "updated_run_id": "RUN-20261011-055717-findings.extract-d8c5",
      "evidence": [
       {
        "evidence_ref": "metric:MET-CNEU-EU-F70-climate_control",
@@ -10088,9 +10091,9 @@
      ],
      "events": [
       {
-       "id": 2623,
-       "ts": "2026-10-11T02:42:50.615856+00:00",
-       "run_id": "RUN-20261011-024249-findings.extract-49d1",
+       "id": 2626,
+       "ts": "2026-10-11T05:57:17.927632+00:00",
+       "run_id": "RUN-20261011-055717-findings.extract-d8c5",
        "actor_type": "agent",
        "actor_id": "agent:finding-extractor",
        "action": "finding.created",
@@ -10242,9 +10245,9 @@
    },
    "events": [
     {
-     "id": 3090,
-     "ts": "2026-10-11T02:43:05.221754+00:00",
-     "run_id": "RUN-20261011-024304-requirements.import-56c4",
+     "id": 3093,
+     "ts": "2026-10-11T05:57:33.089636+00:00",
+     "run_id": "RUN-20261011-055732-requirements.import-e8e4",
      "actor_type": "agent",
      "actor_id": "assistant:claude-opus-5-5",
      "action": "requirement.created",
@@ -10306,9 +10309,9 @@
      "parent_event_id": null
     },
     {
-     "id": 3152,
-     "ts": "2026-10-11T02:43:09.251886+00:00",
-     "run_id": "RUN-20261011-024308-effort.estimate-321f",
+     "id": 3155,
+     "ts": "2026-10-11T05:57:35.522292+00:00",
+     "run_id": "RUN-20261011-055734-effort.estimate-ca49",
      "actor_type": "system",
      "actor_id": "effort-engine",
      "action": "effort.estimated",
@@ -10498,8 +10501,8 @@
      "status": "proposed",
      "version": 1,
      "created_by": "agent:finding-extractor",
-     "created_run_id": "RUN-20261011-024249-findings.extract-49d1",
-     "updated_run_id": "RUN-20261011-024249-findings.extract-49d1",
+     "created_run_id": "RUN-20261011-055717-findings.extract-d8c5",
+     "updated_run_id": "RUN-20261011-055717-findings.extract-d8c5",
      "evidence": [
       {
        "evidence_ref": "vclass:F70-2009#1",
@@ -10560,9 +10563,9 @@
      "links_in": [],
      "events": [
       {
-       "id": 2571,
-       "ts": "2026-10-11T02:42:50.331255+00:00",
-       "run_id": "RUN-20261011-024249-findings.extract-49d1",
+       "id": 2574,
+       "ts": "2026-10-11T05:57:17.667238+00:00",
+       "run_id": "RUN-20261011-055717-findings.extract-d8c5",
        "actor_type": "agent",
        "actor_id": "agent:finding-extractor",
        "action": "finding.created",
@@ -10694,9 +10697,9 @@
    },
    "events": [
     {
-     "id": 3091,
-     "ts": "2026-10-11T02:43:05.231353+00:00",
-     "run_id": "RUN-20261011-024304-requirements.import-56c4",
+     "id": 3094,
+     "ts": "2026-10-11T05:57:33.098065+00:00",
+     "run_id": "RUN-20261011-055732-requirements.import-e8e4",
      "actor_type": "agent",
      "actor_id": "assistant:claude-opus-5-5",
      "action": "requirement.created",
@@ -10739,9 +10742,9 @@
      "parent_event_id": null
     },
     {
-     "id": 3153,
-     "ts": "2026-10-11T02:43:09.322877+00:00",
-     "run_id": "RUN-20261011-024308-effort.estimate-321f",
+     "id": 3156,
+     "ts": "2026-10-11T05:57:35.571163+00:00",
+     "run_id": "RUN-20261011-055734-effort.estimate-ca49",
      "actor_type": "system",
      "actor_id": "effort-engine",
      "action": "effort.estimated",
@@ -10918,8 +10921,8 @@
      "status": "proposed",
      "version": 1,
      "created_by": "agent:finding-extractor",
-     "created_run_id": "RUN-20261011-024249-findings.extract-49d1",
-     "updated_run_id": "RUN-20261011-024249-findings.extract-49d1",
+     "created_run_id": "RUN-20261011-055717-findings.extract-d8c5",
+     "updated_run_id": "RUN-20261011-055717-findings.extract-d8c5",
      "evidence": [
       {
        "evidence_ref": "vclass:F70-1767#2",
@@ -10980,9 +10983,9 @@
      "links_in": [],
      "events": [
       {
-       "id": 2543,
-       "ts": "2026-10-11T02:42:50.186961+00:00",
-       "run_id": "RUN-20261011-024249-findings.extract-49d1",
+       "id": 2546,
+       "ts": "2026-10-11T05:57:17.537460+00:00",
+       "run_id": "RUN-20261011-055717-findings.extract-d8c5",
        "actor_type": "agent",
        "actor_id": "agent:finding-extractor",
        "action": "finding.created",
@@ -11067,8 +11070,8 @@
      "status": "proposed",
      "version": 1,
      "created_by": "agent:finding-extractor",
-     "created_run_id": "RUN-20261011-024249-findings.extract-49d1",
-     "updated_run_id": "RUN-20261011-024249-findings.extract-49d1",
+     "created_run_id": "RUN-20261011-055717-findings.extract-d8c5",
+     "updated_run_id": "RUN-20261011-055717-findings.extract-d8c5",
      "evidence": [
       {
        "evidence_ref": "vclass:F70-1875#2",
@@ -11129,9 +11132,9 @@
      "links_in": [],
      "events": [
       {
-       "id": 2576,
-       "ts": "2026-10-11T02:42:50.357608+00:00",
-       "run_id": "RUN-20261011-024249-findings.extract-49d1",
+       "id": 2579,
+       "ts": "2026-10-11T05:57:17.687334+00:00",
+       "run_id": "RUN-20261011-055717-findings.extract-d8c5",
        "actor_type": "agent",
        "actor_id": "agent:finding-extractor",
        "action": "finding.created",
@@ -11215,8 +11218,8 @@
      "status": "proposed",
      "version": 1,
      "created_by": "agent:finding-extractor",
-     "created_run_id": "RUN-20261011-024249-findings.extract-49d1",
-     "updated_run_id": "RUN-20261011-024249-findings.extract-49d1",
+     "created_run_id": "RUN-20261011-055717-findings.extract-d8c5",
+     "updated_run_id": "RUN-20261011-055717-findings.extract-d8c5",
      "evidence": [
       {
        "evidence_ref": "vclass:F70-0599#L4",
@@ -11277,9 +11280,9 @@
      "links_in": [],
      "events": [
       {
-       "id": 2531,
-       "ts": "2026-10-11T02:42:50.125171+00:00",
-       "run_id": "RUN-20261011-024249-findings.extract-49d1",
+       "id": 2534,
+       "ts": "2026-10-11T05:57:17.483683+00:00",
+       "run_id": "RUN-20261011-055717-findings.extract-d8c5",
        "actor_type": "agent",
        "actor_id": "agent:finding-extractor",
        "action": "finding.created",
@@ -11364,8 +11367,8 @@
      "status": "proposed",
      "version": 1,
      "created_by": "agent:finding-extractor",
-     "created_run_id": "RUN-20261011-024249-findings.extract-49d1",
-     "updated_run_id": "RUN-20261011-024249-findings.extract-49d1",
+     "created_run_id": "RUN-20261011-055717-findings.extract-d8c5",
+     "updated_run_id": "RUN-20261011-055717-findings.extract-d8c5",
      "evidence": [
       {
        "evidence_ref": "vclass:F70-2110#L2",
@@ -11426,9 +11429,9 @@
      "links_in": [],
      "events": [
       {
-       "id": 2551,
-       "ts": "2026-10-11T02:42:50.226550+00:00",
-       "run_id": "RUN-20261011-024249-findings.extract-49d1",
+       "id": 2554,
+       "ts": "2026-10-11T05:57:17.577437+00:00",
+       "run_id": "RUN-20261011-055717-findings.extract-d8c5",
        "actor_type": "agent",
        "actor_id": "agent:finding-extractor",
        "action": "finding.created",
@@ -11564,9 +11567,9 @@
    },
    "events": [
     {
-     "id": 3083,
-     "ts": "2026-10-11T02:43:05.157275+00:00",
-     "run_id": "RUN-20261011-024304-requirements.import-56c4",
+     "id": 3086,
+     "ts": "2026-10-11T05:57:33.025422+00:00",
+     "run_id": "RUN-20261011-055732-requirements.import-e8e4",
      "actor_type": "agent",
      "actor_id": "assistant:claude-opus-5-5",
      "action": "requirement.created",
@@ -11635,9 +11638,9 @@
      "parent_event_id": null
     },
     {
-     "id": 3145,
-     "ts": "2026-10-11T02:43:09.045740+00:00",
-     "run_id": "RUN-20261011-024308-effort.estimate-321f",
+     "id": 3148,
+     "ts": "2026-10-11T05:57:35.353732+00:00",
+     "run_id": "RUN-20261011-055734-effort.estimate-ca49",
      "actor_type": "system",
      "actor_id": "effort-engine",
      "action": "effort.estimated",
@@ -11819,8 +11822,8 @@
      "status": "proposed",
      "version": 1,
      "created_by": "agent:finding-extractor",
-     "created_run_id": "RUN-20261011-024249-findings.extract-49d1",
-     "updated_run_id": "RUN-20261011-024249-findings.extract-49d1",
+     "created_run_id": "RUN-20261011-055717-findings.extract-d8c5",
+     "updated_run_id": "RUN-20261011-055717-findings.extract-d8c5",
      "evidence": [
       {
        "evidence_ref": "vclass:F70-2110#L3",
@@ -11893,9 +11896,9 @@
      ],
      "events": [
       {
-       "id": 2541,
-       "ts": "2026-10-11T02:42:50.177195+00:00",
-       "run_id": "RUN-20261011-024249-findings.extract-49d1",
+       "id": 2544,
+       "ts": "2026-10-11T05:57:17.528160+00:00",
+       "run_id": "RUN-20261011-055717-findings.extract-d8c5",
        "actor_type": "agent",
        "actor_id": "agent:finding-extractor",
        "action": "finding.created",
@@ -11981,8 +11984,8 @@
      "status": "proposed",
      "version": 1,
      "created_by": "agent:finding-extractor",
-     "created_run_id": "RUN-20261011-024249-findings.extract-49d1",
-     "updated_run_id": "RUN-20261011-024249-findings.extract-49d1",
+     "created_run_id": "RUN-20261011-055717-findings.extract-d8c5",
+     "updated_run_id": "RUN-20261011-055717-findings.extract-d8c5",
      "evidence": [
       {
        "evidence_ref": "vclass:F70-1558#L3",
@@ -12043,9 +12046,9 @@
      "links_in": [],
      "events": [
       {
-       "id": 2607,
-       "ts": "2026-10-11T02:42:50.535203+00:00",
-       "run_id": "RUN-20261011-024249-findings.extract-49d1",
+       "id": 2610,
+       "ts": "2026-10-11T05:57:17.848913+00:00",
+       "run_id": "RUN-20261011-055717-findings.extract-d8c5",
        "actor_type": "agent",
        "actor_id": "agent:finding-extractor",
        "action": "finding.created",
@@ -12123,8 +12126,8 @@
      "status": "proposed",
      "version": 1,
      "created_by": "agent:finding-extractor",
-     "created_run_id": "RUN-20261011-024249-findings.extract-49d1",
-     "updated_run_id": "RUN-20261011-024249-findings.extract-49d1",
+     "created_run_id": "RUN-20261011-055717-findings.extract-d8c5",
+     "updated_run_id": "RUN-20261011-055717-findings.extract-d8c5",
      "evidence": [
       {
        "evidence_ref": "metric:MET-CNEU-EU-F70-connected_services",
@@ -12155,9 +12158,9 @@
      ],
      "events": [
       {
-       "id": 2626,
-       "ts": "2026-10-11T02:42:50.629232+00:00",
-       "run_id": "RUN-20261011-024249-findings.extract-49d1",
+       "id": 2629,
+       "ts": "2026-10-11T05:57:17.941352+00:00",
+       "run_id": "RUN-20261011-055717-findings.extract-d8c5",
        "actor_type": "agent",
        "actor_id": "agent:finding-extractor",
        "action": "finding.created",
@@ -12250,9 +12253,9 @@
    },
    "events": [
     {
-     "id": 3084,
-     "ts": "2026-10-11T02:43:05.173565+00:00",
-     "run_id": "RUN-20261011-024304-requirements.import-56c4",
+     "id": 3087,
+     "ts": "2026-10-11T05:57:33.045632+00:00",
+     "run_id": "RUN-20261011-055732-requirements.import-e8e4",
      "actor_type": "agent",
      "actor_id": "assistant:claude-opus-5-5",
      "action": "requirement.created",
@@ -12317,9 +12320,9 @@
      "parent_event_id": null
     },
     {
-     "id": 3146,
-     "ts": "2026-10-11T02:43:09.064111+00:00",
-     "run_id": "RUN-20261011-024308-effort.estimate-321f",
+     "id": 3149,
+     "ts": "2026-10-11T05:57:35.371878+00:00",
+     "run_id": "RUN-20261011-055734-effort.estimate-ca49",
      "actor_type": "system",
      "actor_id": "effort-engine",
      "action": "effort.estimated",
@@ -12459,8 +12462,8 @@
      "status": "proposed",
      "version": 1,
      "created_by": "agent:finding-extractor",
-     "created_run_id": "RUN-20261011-024249-findings.extract-49d1",
-     "updated_run_id": "RUN-20261011-024249-findings.extract-49d1",
+     "created_run_id": "RUN-20261011-055717-findings.extract-d8c5",
+     "updated_run_id": "RUN-20261011-055717-findings.extract-d8c5",
      "evidence": [
       {
        "evidence_ref": "vclass:F70-1275#L3",
@@ -12521,9 +12524,9 @@
      "links_in": [],
      "events": [
       {
-       "id": 2554,
-       "ts": "2026-10-11T02:42:50.239857+00:00",
-       "run_id": "RUN-20261011-024249-findings.extract-49d1",
+       "id": 2557,
+       "ts": "2026-10-11T05:57:17.589476+00:00",
+       "run_id": "RUN-20261011-055717-findings.extract-d8c5",
        "actor_type": "agent",
        "actor_id": "agent:finding-extractor",
        "action": "finding.created",
@@ -12626,8 +12629,8 @@
      "status": "proposed",
      "version": 1,
      "created_by": "agent:finding-extractor",
-     "created_run_id": "RUN-20261011-024249-findings.extract-49d1",
-     "updated_run_id": "RUN-20261011-024249-findings.extract-49d1",
+     "created_run_id": "RUN-20261011-055717-findings.extract-d8c5",
+     "updated_run_id": "RUN-20261011-055717-findings.extract-d8c5",
      "evidence": [
       {
        "evidence_ref": "equipment:EQ-F70-0020",
@@ -12658,9 +12661,9 @@
      "links_in": [],
      "events": [
       {
-       "id": 2630,
-       "ts": "2026-10-11T02:42:50.648721+00:00",
-       "run_id": "RUN-20261011-024249-findings.extract-49d1",
+       "id": 2633,
+       "ts": "2026-10-11T05:57:17.960406+00:00",
+       "run_id": "RUN-20261011-055717-findings.extract-d8c5",
        "actor_type": "agent",
        "actor_id": "agent:finding-extractor",
        "action": "finding.created",
@@ -12750,9 +12753,9 @@
    },
    "events": [
     {
-     "id": 3085,
-     "ts": "2026-10-11T02:43:05.182120+00:00",
-     "run_id": "RUN-20261011-024304-requirements.import-56c4",
+     "id": 3088,
+     "ts": "2026-10-11T05:57:33.054221+00:00",
+     "run_id": "RUN-20261011-055732-requirements.import-e8e4",
      "actor_type": "agent",
      "actor_id": "assistant:claude-opus-5-5",
      "action": "requirement.created",
@@ -12808,9 +12811,9 @@
      "parent_event_id": null
     },
     {
-     "id": 3147,
-     "ts": "2026-10-11T02:43:09.068545+00:00",
-     "run_id": "RUN-20261011-024308-effort.estimate-321f",
+     "id": 3150,
+     "ts": "2026-10-11T05:57:35.375318+00:00",
+     "run_id": "RUN-20261011-055734-effort.estimate-ca49",
      "actor_type": "system",
      "actor_id": "effort-engine",
      "action": "effort.estimated",
@@ -12920,8 +12923,8 @@
      "status": "proposed",
      "version": 1,
      "created_by": "agent:finding-extractor",
-     "created_run_id": "RUN-20261011-024249-findings.extract-49d1",
-     "updated_run_id": "RUN-20261011-024249-findings.extract-49d1",
+     "created_run_id": "RUN-20261011-055717-findings.extract-d8c5",
+     "updated_run_id": "RUN-20261011-055717-findings.extract-d8c5",
      "evidence": [
       {
        "evidence_ref": "vclass:F70-1504#2",
@@ -12982,9 +12985,9 @@
      "links_in": [],
      "events": [
       {
-       "id": 2521,
-       "ts": "2026-10-11T02:42:50.061539+00:00",
-       "run_id": "RUN-20261011-024249-findings.extract-49d1",
+       "id": 2524,
+       "ts": "2026-10-11T05:57:17.424598+00:00",
+       "run_id": "RUN-20261011-055717-findings.extract-d8c5",
        "actor_type": "agent",
        "actor_id": "agent:finding-extractor",
        "action": "finding.created",
@@ -13073,9 +13076,9 @@
    },
    "events": [
     {
-     "id": 3086,
-     "ts": "2026-10-11T02:43:05.189364+00:00",
-     "run_id": "RUN-20261011-024304-requirements.import-56c4",
+     "id": 3089,
+     "ts": "2026-10-11T05:57:33.060866+00:00",
+     "run_id": "RUN-20261011-055732-requirements.import-e8e4",
      "actor_type": "agent",
      "actor_id": "assistant:claude-opus-5-5",
      "action": "requirement.created",
@@ -13125,9 +13128,9 @@
      "parent_event_id": null
     },
     {
-     "id": 3148,
-     "ts": "2026-10-11T02:43:09.080006+00:00",
-     "run_id": "RUN-20261011-024308-effort.estimate-321f",
+     "id": 3151,
+     "ts": "2026-10-11T05:57:35.386099+00:00",
+     "run_id": "RUN-20261011-055734-effort.estimate-ca49",
      "actor_type": "system",
      "actor_id": "effort-engine",
      "action": "effort.estimated",
@@ -13247,8 +13250,8 @@
      "status": "proposed",
      "version": 1,
      "created_by": "agent:finding-extractor",
-     "created_run_id": "RUN-20261011-024249-findings.extract-49d1",
-     "updated_run_id": "RUN-20261011-024249-findings.extract-49d1",
+     "created_run_id": "RUN-20261011-055717-findings.extract-d8c5",
+     "updated_run_id": "RUN-20261011-055717-findings.extract-d8c5",
      "evidence": [
       {
        "evidence_ref": "vclass:F70-1208#1",
@@ -13309,9 +13312,9 @@
      "links_in": [],
      "events": [
       {
-       "id": 2562,
-       "ts": "2026-10-11T02:42:50.278378+00:00",
-       "run_id": "RUN-20261011-024249-findings.extract-49d1",
+       "id": 2565,
+       "ts": "2026-10-11T05:57:17.625569+00:00",
+       "run_id": "RUN-20261011-055717-findings.extract-d8c5",
        "actor_type": "agent",
        "actor_id": "agent:finding-extractor",
        "action": "finding.created",
@@ -13410,9 +13413,9 @@
    },
    "events": [
     {
-     "id": 3087,
-     "ts": "2026-10-11T02:43:05.196864+00:00",
-     "run_id": "RUN-20261011-024304-requirements.import-56c4",
+     "id": 3090,
+     "ts": "2026-10-11T05:57:33.068027+00:00",
+     "run_id": "RUN-20261011-055732-requirements.import-e8e4",
      "actor_type": "agent",
      "actor_id": "assistant:claude-opus-5-5",
      "action": "requirement.created",
@@ -13455,9 +13458,9 @@
      "parent_event_id": null
     },
     {
-     "id": 3149,
-     "ts": "2026-10-11T02:43:09.101890+00:00",
-     "run_id": "RUN-20261011-024308-effort.estimate-321f",
+     "id": 3152,
+     "ts": "2026-10-11T05:57:35.403990+00:00",
+     "run_id": "RUN-20261011-055734-effort.estimate-ca49",
      "actor_type": "system",
      "actor_id": "effort-engine",
      "action": "effort.estimated",
@@ -13594,8 +13597,8 @@
      "status": "proposed",
      "version": 1,
      "created_by": "agent:finding-extractor",
-     "created_run_id": "RUN-20261011-024249-findings.extract-49d1",
-     "updated_run_id": "RUN-20261011-024249-findings.extract-49d1",
+     "created_run_id": "RUN-20261011-055717-findings.extract-d8c5",
+     "updated_run_id": "RUN-20261011-055717-findings.extract-d8c5",
      "evidence": [
       {
        "evidence_ref": "vclass:F70-0128#1",
@@ -13662,9 +13665,9 @@
      "links_in": [],
      "events": [
       {
-       "id": 2549,
-       "ts": "2026-10-11T02:42:50.216845+00:00",
-       "run_id": "RUN-20261011-024249-findings.extract-49d1",
+       "id": 2552,
+       "ts": "2026-10-11T05:57:17.566635+00:00",
+       "run_id": "RUN-20261011-055717-findings.extract-d8c5",
        "actor_type": "agent",
        "actor_id": "agent:finding-extractor",
        "action": "finding.created",
@@ -13742,8 +13745,8 @@
      "status": "proposed",
      "version": 1,
      "created_by": "agent:finding-extractor",
-     "created_run_id": "RUN-20261011-024249-findings.extract-49d1",
-     "updated_run_id": "RUN-20261011-024249-findings.extract-49d1",
+     "created_run_id": "RUN-20261011-055717-findings.extract-d8c5",
+     "updated_run_id": "RUN-20261011-055717-findings.extract-d8c5",
      "evidence": [
       {
        "evidence_ref": "metric:MET-CNEU-EU-F70-navigation",
@@ -13774,9 +13777,9 @@
      ],
      "events": [
       {
-       "id": 2613,
-       "ts": "2026-10-11T02:42:50.568312+00:00",
-       "run_id": "RUN-20261011-024249-findings.extract-49d1",
+       "id": 2616,
+       "ts": "2026-10-11T05:57:17.880332+00:00",
+       "run_id": "RUN-20261011-055717-findings.extract-d8c5",
        "actor_type": "agent",
        "actor_id": "agent:finding-extractor",
        "action": "finding.created",
@@ -13869,9 +13872,9 @@
    },
    "events": [
     {
-     "id": 3088,
-     "ts": "2026-10-11T02:43:05.203997+00:00",
-     "run_id": "RUN-20261011-024304-requirements.import-56c4",
+     "id": 3091,
+     "ts": "2026-10-11T05:57:33.075707+00:00",
+     "run_id": "RUN-20261011-055732-requirements.import-e8e4",
      "actor_type": "agent",
      "actor_id": "assistant:claude-opus-5-5",
      "action": "requirement.created",
@@ -13925,9 +13928,9 @@
      "parent_event_id": null
     },
     {
-     "id": 3150,
-     "ts": "2026-10-11T02:43:09.122982+00:00",
-     "run_id": "RUN-20261011-024308-effort.estimate-321f",
+     "id": 3153,
+     "ts": "2026-10-11T05:57:35.422849+00:00",
+     "run_id": "RUN-20261011-055734-effort.estimate-ca49",
      "actor_type": "system",
      "actor_id": "effort-engine",
      "action": "effort.estimated",
@@ -14072,8 +14075,8 @@
      "status": "proposed",
      "version": 1,
      "created_by": "agent:finding-extractor",
-     "created_run_id": "RUN-20261011-024249-findings.extract-49d1",
-     "updated_run_id": "RUN-20261011-024249-findings.extract-49d1",
+     "created_run_id": "RUN-20261011-055717-findings.extract-d8c5",
+     "updated_run_id": "RUN-20261011-055717-findings.extract-d8c5",
      "evidence": [
       {
        "evidence_ref": "vclass:F70-1133#L3",
@@ -14145,9 +14148,9 @@
      "links_in": [],
      "events": [
       {
-       "id": 2524,
-       "ts": "2026-10-11T02:42:50.083703+00:00",
-       "run_id": "RUN-20261011-024249-findings.extract-49d1",
+       "id": 2527,
+       "ts": "2026-10-11T05:57:17.441991+00:00",
+       "run_id": "RUN-20261011-055717-findings.extract-d8c5",
        "actor_type": "agent",
        "actor_id": "agent:finding-extractor",
        "action": "finding.created",
@@ -14233,8 +14236,8 @@
      "status": "proposed",
      "version": 1,
      "created_by": "agent:finding-extractor",
-     "created_run_id": "RUN-20261011-024249-findings.extract-49d1",
-     "updated_run_id": "RUN-20261011-024249-findings.extract-49d1",
+     "created_run_id": "RUN-20261011-055717-findings.extract-d8c5",
+     "updated_run_id": "RUN-20261011-055717-findings.extract-d8c5",
      "evidence": [
       {
        "evidence_ref": "vclass:F70-1686#1",
@@ -14301,9 +14304,9 @@
      ],
      "events": [
       {
-       "id": 2550,
-       "ts": "2026-10-11T02:42:50.221939+00:00",
-       "run_id": "RUN-20261011-024249-findings.extract-49d1",
+       "id": 2553,
+       "ts": "2026-10-11T05:57:17.572379+00:00",
+       "run_id": "RUN-20261011-055717-findings.extract-d8c5",
        "actor_type": "agent",
        "actor_id": "agent:finding-extractor",
        "action": "finding.created",
@@ -14382,8 +14385,8 @@
      "status": "proposed",
      "version": 1,
      "created_by": "agent:finding-extractor",
-     "created_run_id": "RUN-20261011-024249-findings.extract-49d1",
-     "updated_run_id": "RUN-20261011-024249-findings.extract-49d1",
+     "created_run_id": "RUN-20261011-055717-findings.extract-d8c5",
+     "updated_run_id": "RUN-20261011-055717-findings.extract-d8c5",
      "evidence": [
       {
        "evidence_ref": "metric:MET-CNEU-EU-F70-acceleration",
@@ -14414,9 +14417,9 @@
      ],
      "events": [
       {
-       "id": 2614,
-       "ts": "2026-10-11T02:42:50.572502+00:00",
-       "run_id": "RUN-20261011-024249-findings.extract-49d1",
+       "id": 2617,
+       "ts": "2026-10-11T05:57:17.883973+00:00",
+       "run_id": "RUN-20261011-055717-findings.extract-d8c5",
        "actor_type": "agent",
        "actor_id": "agent:finding-extractor",
        "action": "finding.created",
@@ -14585,9 +14588,9 @@
    },
    "events": [
     {
-     "id": 3094,
-     "ts": "2026-10-11T02:43:05.256036+00:00",
-     "run_id": "RUN-20261011-024304-requirements.import-56c4",
+     "id": 3097,
+     "ts": "2026-10-11T05:57:33.115835+00:00",
+     "run_id": "RUN-20261011-055732-requirements.import-e8e4",
      "actor_type": "agent",
      "actor_id": "assistant:claude-opus-5-5",
      "action": "requirement.created",
@@ -14652,9 +14655,9 @@
      "parent_event_id": null
     },
     {
-     "id": 3156,
-     "ts": "2026-10-11T02:43:09.481034+00:00",
-     "run_id": "RUN-20261011-024308-effort.estimate-321f",
+     "id": 3159,
+     "ts": "2026-10-11T05:57:35.693266+00:00",
+     "run_id": "RUN-20261011-055734-effort.estimate-ca49",
      "actor_type": "system",
      "actor_id": "effort-engine",
      "action": "effort.estimated",
@@ -14861,8 +14864,8 @@
      "status": "proposed",
      "version": 1,
      "created_by": "agent:finding-extractor",
-     "created_run_id": "RUN-20261011-024249-findings.extract-49d1",
-     "updated_run_id": "RUN-20261011-024249-findings.extract-49d1",
+     "created_run_id": "RUN-20261011-055717-findings.extract-d8c5",
+     "updated_run_id": "RUN-20261011-055717-findings.extract-d8c5",
      "evidence": [
       {
        "evidence_ref": "metric:MET-CNEU-EU-F70-quietness",
@@ -14887,9 +14890,9 @@
      "links_in": [],
      "events": [
       {
-       "id": 2625,
-       "ts": "2026-10-11T02:42:50.624428+00:00",
-       "run_id": "RUN-20261011-024249-findings.extract-49d1",
+       "id": 2628,
+       "ts": "2026-10-11T05:57:17.937028+00:00",
+       "run_id": "RUN-20261011-055717-findings.extract-d8c5",
        "actor_type": "agent",
        "actor_id": "agent:finding-extractor",
        "action": "finding.created",
@@ -14968,8 +14971,8 @@
      "status": "proposed",
      "version": 1,
      "created_by": "agent:finding-extractor",
-     "created_run_id": "RUN-20261011-024249-findings.extract-49d1",
-     "updated_run_id": "RUN-20261011-024249-findings.extract-49d1",
+     "created_run_id": "RUN-20261011-055717-findings.extract-d8c5",
+     "updated_run_id": "RUN-20261011-055717-findings.extract-d8c5",
      "evidence": [
       {
        "evidence_ref": "vclass:F70-1978#1",
@@ -15036,9 +15039,9 @@
      "links_in": [],
      "events": [
       {
-       "id": 2580,
-       "ts": "2026-10-11T02:42:50.378905+00:00",
-       "run_id": "RUN-20261011-024249-findings.extract-49d1",
+       "id": 2583,
+       "ts": "2026-10-11T05:57:17.703289+00:00",
+       "run_id": "RUN-20261011-055717-findings.extract-d8c5",
        "actor_type": "agent",
        "actor_id": "agent:finding-extractor",
        "action": "finding.created",
@@ -15117,8 +15120,8 @@
      "status": "proposed",
      "version": 1,
      "created_by": "agent:finding-extractor",
-     "created_run_id": "RUN-20261011-024249-findings.extract-49d1",
-     "updated_run_id": "RUN-20261011-024249-findings.extract-49d1",
+     "created_run_id": "RUN-20261011-055717-findings.extract-d8c5",
+     "updated_run_id": "RUN-20261011-055717-findings.extract-d8c5",
      "evidence": [
       {
        "evidence_ref": "metric:MET-CNEU-EU-F70-build_quality",
@@ -15154,9 +15157,9 @@
      ],
      "events": [
       {
-       "id": 2624,
-       "ts": "2026-10-11T02:42:50.620099+00:00",
-       "run_id": "RUN-20261011-024249-findings.extract-49d1",
+       "id": 2627,
+       "ts": "2026-10-11T05:57:17.932687+00:00",
+       "run_id": "RUN-20261011-055717-findings.extract-d8c5",
        "actor_type": "agent",
        "actor_id": "agent:finding-extractor",
        "action": "finding.created",
@@ -15316,9 +15319,9 @@
    },
    "events": [
     {
-     "id": 3099,
-     "ts": "2026-10-11T02:43:05.296214+00:00",
-     "run_id": "RUN-20261011-024304-requirements.import-56c4",
+     "id": 3102,
+     "ts": "2026-10-11T05:57:33.147196+00:00",
+     "run_id": "RUN-20261011-055732-requirements.import-e8e4",
      "actor_type": "agent",
      "actor_id": "assistant:claude-opus-5-5",
      "action": "requirement.created",
@@ -15376,9 +15379,9 @@
      "parent_event_id": null
     },
     {
-     "id": 3161,
-     "ts": "2026-10-11T02:43:09.800394+00:00",
-     "run_id": "RUN-20261011-024308-effort.estimate-321f",
+     "id": 3164,
+     "ts": "2026-10-11T05:57:36.019696+00:00",
+     "run_id": "RUN-20261011-055734-effort.estimate-ca49",
      "actor_type": "system",
      "actor_id": "effort-engine",
      "action": "effort.estimated",
@@ -15582,8 +15585,8 @@
      "status": "proposed",
      "version": 1,
      "created_by": "agent:finding-extractor",
-     "created_run_id": "RUN-20261011-024249-findings.extract-49d1",
-     "updated_run_id": "RUN-20261011-024249-findings.extract-49d1",
+     "created_run_id": "RUN-20261011-055717-findings.extract-d8c5",
+     "updated_run_id": "RUN-20261011-055717-findings.extract-d8c5",
      "evidence": [
       {
        "evidence_ref": "vclass:F70-0419#L2",
@@ -15661,9 +15664,9 @@
      ],
      "events": [
       {
-       "id": 2587,
-       "ts": "2026-10-11T02:42:50.420937+00:00",
-       "run_id": "RUN-20261011-024249-findings.extract-49d1",
+       "id": 2590,
+       "ts": "2026-10-11T05:57:17.739965+00:00",
+       "run_id": "RUN-20261011-055717-findings.extract-d8c5",
        "actor_type": "agent",
        "actor_id": "agent:finding-extractor",
        "action": "finding.created",
@@ -15748,8 +15751,8 @@
      "status": "proposed",
      "version": 1,
      "created_by": "agent:finding-extractor",
-     "created_run_id": "RUN-20261011-024249-findings.extract-49d1",
-     "updated_run_id": "RUN-20261011-024249-findings.extract-49d1",
+     "created_run_id": "RUN-20261011-055717-findings.extract-d8c5",
+     "updated_run_id": "RUN-20261011-055717-findings.extract-d8c5",
      "evidence": [
       {
        "evidence_ref": "vclass:F70-0341#1",
@@ -15816,9 +15819,9 @@
      ],
      "events": [
       {
-       "id": 2569,
-       "ts": "2026-10-11T02:42:50.320402+00:00",
-       "run_id": "RUN-20261011-024249-findings.extract-49d1",
+       "id": 2572,
+       "ts": "2026-10-11T05:57:17.657129+00:00",
+       "run_id": "RUN-20261011-055717-findings.extract-d8c5",
        "actor_type": "agent",
        "actor_id": "agent:finding-extractor",
        "action": "finding.created",
@@ -15903,8 +15906,8 @@
      "status": "proposed",
      "version": 1,
      "created_by": "agent:finding-extractor",
-     "created_run_id": "RUN-20261011-024249-findings.extract-49d1",
-     "updated_run_id": "RUN-20261011-024249-findings.extract-49d1",
+     "created_run_id": "RUN-20261011-055717-findings.extract-d8c5",
+     "updated_run_id": "RUN-20261011-055717-findings.extract-d8c5",
      "evidence": [
       {
        "evidence_ref": "vclass:F70-0197#1",
@@ -15965,9 +15968,9 @@
      "links_in": [],
      "events": [
       {
-       "id": 2590,
-       "ts": "2026-10-11T02:42:50.438871+00:00",
-       "run_id": "RUN-20261011-024249-findings.extract-49d1",
+       "id": 2593,
+       "ts": "2026-10-11T05:57:17.757682+00:00",
+       "run_id": "RUN-20261011-055717-findings.extract-d8c5",
        "actor_type": "agent",
        "actor_id": "agent:finding-extractor",
        "action": "finding.created",
@@ -16045,8 +16048,8 @@
      "status": "proposed",
      "version": 1,
      "created_by": "agent:finding-extractor",
-     "created_run_id": "RUN-20261011-024249-findings.extract-49d1",
-     "updated_run_id": "RUN-20261011-024249-findings.extract-49d1",
+     "created_run_id": "RUN-20261011-055717-findings.extract-d8c5",
+     "updated_run_id": "RUN-20261011-055717-findings.extract-d8c5",
      "evidence": [
       {
        "evidence_ref": "metric:MET-CNEU-EU-F70-loading_ease",
@@ -16077,9 +16080,9 @@
      ],
      "events": [
       {
-       "id": 2620,
-       "ts": "2026-10-11T02:42:50.602884+00:00",
-       "run_id": "RUN-20261011-024249-findings.extract-49d1",
+       "id": 2623,
+       "ts": "2026-10-11T05:57:17.916359+00:00",
+       "run_id": "RUN-20261011-055717-findings.extract-d8c5",
        "actor_type": "agent",
        "actor_id": "agent:finding-extractor",
        "action": "finding.created",
@@ -16191,8 +16194,8 @@
      "status": "proposed",
      "version": 1,
      "created_by": "agent:finding-extractor",
-     "created_run_id": "RUN-20261011-024249-findings.extract-49d1",
-     "updated_run_id": "RUN-20261011-024249-findings.extract-49d1",
+     "created_run_id": "RUN-20261011-055717-findings.extract-d8c5",
+     "updated_run_id": "RUN-20261011-055717-findings.extract-d8c5",
      "evidence": [
       {
        "evidence_ref": "equipment:EQ-F70-0124",
@@ -16229,9 +16232,9 @@
      "links_in": [],
      "events": [
       {
-       "id": 2639,
-       "ts": "2026-10-11T02:42:50.700045+00:00",
-       "run_id": "RUN-20261011-024249-findings.extract-49d1",
+       "id": 2642,
+       "ts": "2026-10-11T05:57:18.006507+00:00",
+       "run_id": "RUN-20261011-055717-findings.extract-d8c5",
        "actor_type": "agent",
        "actor_id": "agent:finding-extractor",
        "action": "finding.created",
@@ -16432,9 +16435,9 @@
    },
    "events": [
     {
-     "id": 3095,
-     "ts": "2026-10-11T02:43:05.263856+00:00",
-     "run_id": "RUN-20261011-024304-requirements.import-56c4",
+     "id": 3098,
+     "ts": "2026-10-11T05:57:33.122470+00:00",
+     "run_id": "RUN-20261011-055732-requirements.import-e8e4",
      "actor_type": "agent",
      "actor_id": "assistant:claude-opus-5-5",
      "action": "requirement.created",
@@ -16500,9 +16503,9 @@
      "parent_event_id": null
     },
     {
-     "id": 3157,
-     "ts": "2026-10-11T02:43:09.560649+00:00",
-     "run_id": "RUN-20261011-024308-effort.estimate-321f",
+     "id": 3160,
+     "ts": "2026-10-11T05:57:35.772198+00:00",
+     "run_id": "RUN-20261011-055734-effort.estimate-ca49",
      "actor_type": "system",
      "actor_id": "effort-engine",
      "action": "effort.estimated",
@@ -30790,5 +30793,2278 @@
     }
    ]
   }
+ },
+ "external": {
+  "market": "EU",
+  "marketName": "European Union",
+  "vehicle": "F70",
+  "total": 51,
+  "verified": 36,
+  "aboutVehicle": 1,
+  "bySubsystem": {
+   "software_hmi": 32,
+   "powertrain": 12,
+   "interior_console": 9,
+   "ee_architecture": 5,
+   "thermal_hvac": 2,
+   "body_structure": 2,
+   "hv_battery": 1,
+   "charging": 1,
+   "seats": 1
+  },
+  "topics": [
+   "brand_pull",
+   "connected_services_pay",
+   "data_privacy",
+   "digital_experience",
+   "digital_key",
+   "ev_outlook",
+   "ev_purchase_intent",
+   "hands_free_driving",
+   "head_up_display",
+   "luxury_priorities",
+   "over_the_air_updates",
+   "phone_mirroring",
+   "physical_controls",
+   "powertrain_mix",
+   "quiet_cabin",
+   "residual_values",
+   "seat_comfort_features",
+   "sustainable_materials",
+   "voice_ai_assistant"
+  ],
+  "items": [
+   {
+    "id": "EXT-E-04-1",
+    "evidence_ref": "external:EXT-E-04-1",
+    "kind": "expert_test",
+    "statement": "ADAC Autotest grades (1 is best): BMW i5 1.6, BMW i7 1.7, BMW 1 Series (F70) 2.1; the tests criticise the climate operation on the touchscreen and iDrive.",
+    "regions": [
+     "EU"
+    ],
+    "subsystems": [
+     "software_hmi",
+     "thermal_hvac"
+    ],
+    "vehicles": [
+     "G60",
+     "G70",
+     "F70"
+    ],
+    "topic": "physical_controls",
+    "level": "strong",
+    "sources_agreeing": 6,
+    "basis": "evidence",
+    "trust": 4,
+    "verification": "not_found",
+    "source": {
+     "title": "ADAC Autotest (Germany)",
+     "origin": "ADAC",
+     "url": "https://www.adac.de/rund-ums-fahrzeug/tests/autotest/autotest-hintergrundstory/",
+     "date": "2026-10-11",
+     "type": "primary"
+    },
+    "contradiction": null,
+    "kindLabel": "expert test",
+    "levelLabel": "three or more independent sources",
+    "verified": false,
+    "verificationLabel": "figures not found on the source page",
+    "trustLabel": "high",
+    "basisLabel": "measured or reported",
+    "regionNames": [
+     "European Union"
+    ],
+    "subsystemNames": [
+     "Software/HMI",
+     "Thermal/HVAC"
+    ],
+    "aboutVehicle": true
+   },
+   {
+    "id": "EXT-E-33-1",
+    "evidence_ref": "external:EXT-E-33-1",
+    "kind": "regulation_context",
+    "statement": "Euro NCAP's 2026 protocols assess the driver interface: placement, clarity and ease of use of essential controls, including physical buttons for commonly used functions. A consumer rating as context, not a requirement.",
+    "regions": [
+     "EU"
+    ],
+    "subsystems": [
+     "software_hmi",
+     "interior_console"
+    ],
+    "vehicles": [],
+    "topic": "physical_controls",
+    "level": "strong",
+    "sources_agreeing": 5,
+    "basis": "evidence",
+    "trust": 4,
+    "verification": "confirmed",
+    "source": {
+     "title": "Euro NCAP, 2026 protocol changes",
+     "origin": "Euro NCAP",
+     "url": "https://www.euroncap.com/press-media/euro-ncap-announces-2026-protocol-changes-to-tackle-modern-driving-risks/",
+     "date": "2026-10-11",
+     "type": "primary"
+    },
+    "contradiction": null,
+    "kindLabel": "regulation",
+    "levelLabel": "three or more independent sources",
+    "verified": true,
+    "verificationLabel": "figures found on the source page",
+    "trustLabel": "high",
+    "basisLabel": "measured or reported",
+    "regionNames": [
+     "European Union"
+    ],
+    "subsystemNames": [
+     "Software/HMI",
+     "Interior/console"
+    ],
+    "aboutVehicle": false
+   },
+   {
+    "id": "EXT-P-01-1",
+    "evidence_ref": "external:EXT-P-01-1",
+    "kind": "market_share",
+    "statement": "EU new car registrations 2025 by powertrain: battery electric 17.4 %, plug-in hybrid 9.4 %, hybrid 34.5 %, petrol 26.6 %, diesel 8.9 %.",
+    "regions": [
+     "EU"
+    ],
+    "subsystems": [
+     "powertrain"
+    ],
+    "vehicles": [],
+    "topic": "powertrain_mix",
+    "level": "strong",
+    "sources_agreeing": 3,
+    "basis": "evidence",
+    "trust": 4,
+    "verification": "confirmed",
+    "source": {
+     "title": "ACEA, new car registrations in the EU, full year 2025",
+     "origin": "ACEA",
+     "url": "https://www.acea.auto/pc-registrations/new-car-registrations-1-8-in-2025-battery-electric-17-4-market-share/",
+     "date": "2026-01-27",
+     "type": "primary"
+    },
+    "contradiction": {
+     "for": "Registrations: the battery electric share in the EU rose from 17.4 % (2025) to 21.7 % (January to August 2026).",
+     "against": "Stated intent: EY measures battery electric purchase intent 10 points lower, and Shell finds consideration in Europe unchanged at 40 %."
+    },
+    "kindLabel": "market share",
+    "levelLabel": "three or more independent sources",
+    "verified": true,
+    "verificationLabel": "figures found on the source page",
+    "trustLabel": "high",
+    "basisLabel": "measured or reported",
+    "regionNames": [
+     "European Union"
+    ],
+    "subsystemNames": [
+     "Powertrain"
+    ],
+    "aboutVehicle": false
+   },
+   {
+    "id": "EXT-P-02-1",
+    "evidence_ref": "external:EXT-P-02-1",
+    "kind": "market_share",
+    "statement": "EU new car registrations January to August 2026: battery electric 21.7 %, plug-in hybrid 10.0 %, hybrid 36.6 %; in August 2026 battery electric cars reached 27.7 %.",
+    "regions": [
+     "EU"
+    ],
+    "subsystems": [
+     "powertrain"
+    ],
+    "vehicles": [],
+    "topic": "powertrain_mix",
+    "level": "strong",
+    "sources_agreeing": 3,
+    "basis": "evidence",
+    "trust": 4,
+    "verification": "confirmed",
+    "source": {
+     "title": "ACEA, new car registrations January to August 2026, reported by electrive",
+     "origin": "ACEA",
+     "url": "https://www.electrive.com/2026/09/24/eu-bevs-made-up-more-than-a-quarter-of-new-cars-sold-in-august/",
+     "date": "2026-09-24",
+     "type": "secondary"
+    },
+    "contradiction": {
+     "for": "Registrations: the battery electric share in the EU rose from 17.4 % (2025) to 21.7 % (January to August 2026).",
+     "against": "Stated intent: EY measures battery electric purchase intent 10 points lower, and Shell finds consideration in Europe unchanged at 40 %."
+    },
+    "kindLabel": "market share",
+    "levelLabel": "three or more independent sources",
+    "verified": true,
+    "verificationLabel": "figures found on the source page",
+    "trustLabel": "high",
+    "basisLabel": "measured or reported",
+    "regionNames": [
+     "European Union"
+    ],
+    "subsystemNames": [
+     "Powertrain"
+    ],
+    "aboutVehicle": false
+   },
+   {
+    "id": "EXT-T1-01-1",
+    "evidence_ref": "external:EXT-T1-01-1",
+    "kind": "consumer_pull",
+    "statement": "48 % of consumers prefer a mix of touchscreen and physical buttons.",
+    "regions": [
+     "Global",
+     "EU",
+     "US",
+     "CN"
+    ],
+    "subsystems": [
+     "software_hmi",
+     "interior_console"
+    ],
+    "vehicles": [],
+    "topic": "physical_controls",
+    "level": "strong",
+    "sources_agreeing": 7,
+    "basis": "evidence",
+    "trust": 4,
+    "verification": "confirmed",
+    "source": {
+     "title": "S&P Global Mobility, 2025 HMI consumer study",
+     "origin": "S&P Global Mobility",
+     "url": "https://www.mobilityglobal.com/en-us/automotive-insights/blog/what-consumers-value-in-human-machine-interface-technologies",
+     "date": "2026-02-12",
+     "type": "primary"
+    },
+    "contradiction": {
+     "for": "Customers and several car makers go back to physical controls (S&P: 48 % prefer a mix; Volkswagen and others; a Chinese standard from 2027).",
+     "against": "BMW keeps the Neue Klasse cockpit digital and says nobody asked for the rotary controller back."
+    },
+    "kindLabel": "consumer survey",
+    "levelLabel": "three or more independent sources",
+    "verified": true,
+    "verificationLabel": "figures found on the source page",
+    "trustLabel": "high",
+    "basisLabel": "measured or reported",
+    "regionNames": [
+     "Worldwide",
+     "European Union",
+     "United States",
+     "China"
+    ],
+    "subsystemNames": [
+     "Software/HMI",
+     "Interior/console"
+    ],
+    "aboutVehicle": false
+   },
+   {
+    "id": "EXT-T1-01-2",
+    "evidence_ref": "external:EXT-T1-01-2",
+    "kind": "consumer_pull",
+    "statement": "Eighty per cent use speech recognition at least occasionally, and more favour the assistant of their phone (40 %) than the car maker's (35 %).",
+    "regions": [
+     "Global",
+     "EU",
+     "US",
+     "CN"
+    ],
+    "subsystems": [
+     "software_hmi"
+    ],
+    "vehicles": [],
+    "topic": "voice_ai_assistant",
+    "level": "strong",
+    "sources_agreeing": 4,
+    "basis": "evidence",
+    "trust": 4,
+    "verification": "confirmed",
+    "source": {
+     "title": "S&P Global Mobility, 2025 HMI consumer study",
+     "origin": "S&P Global Mobility",
+     "url": "https://www.mobilityglobal.com/en-us/automotive-insights/blog/what-consumers-value-in-human-machine-interface-technologies",
+     "date": "2026-02-12",
+     "type": "primary"
+    },
+    "contradiction": null,
+    "kindLabel": "consumer survey",
+    "levelLabel": "three or more independent sources",
+    "verified": true,
+    "verificationLabel": "figures found on the source page",
+    "trustLabel": "high",
+    "basisLabel": "measured or reported",
+    "regionNames": [
+     "Worldwide",
+     "European Union",
+     "United States",
+     "China"
+    ],
+    "subsystemNames": [
+     "Software/HMI"
+    ],
+    "aboutVehicle": false
+   },
+   {
+    "id": "EXT-T1-02-1",
+    "evidence_ref": "external:EXT-T1-02-1",
+    "kind": "competitor_move",
+    "statement": "Volkswagen's new cockpit, first in the ID. Polo, returns to physical buttons, with separate buttons for the climate functions; Volkswagen says it was developed from customer feedback.",
+    "regions": [
+     "EU",
+     "CN"
+    ],
+    "subsystems": [
+     "software_hmi",
+     "interior_console"
+    ],
+    "vehicles": [],
+    "topic": "physical_controls",
+    "level": "strong",
+    "sources_agreeing": 7,
+    "basis": "evidence",
+    "trust": 4,
+    "verification": "confirmed",
+    "source": {
+     "title": "Car makers return to physical buttons (Volkswagen ID. Polo cockpit, Automotive World)",
+     "origin": "Volkswagen",
+     "url": "https://www.automotiveworld.com/news/volkswagen-reveals-new-cockpit-design-with-id-polo/",
+     "date": "2026-08-26",
+     "type": "primary"
+    },
+    "contradiction": {
+     "for": "Customers and several car makers go back to physical controls (S&P: 48 % prefer a mix; Volkswagen and others; a Chinese standard from 2027).",
+     "against": "BMW keeps the Neue Klasse cockpit digital and says nobody asked for the rotary controller back."
+    },
+    "kindLabel": "competitor move",
+    "levelLabel": "three or more independent sources",
+    "verified": true,
+    "verificationLabel": "figures found on the source page",
+    "trustLabel": "high",
+    "basisLabel": "measured or reported",
+    "regionNames": [
+     "European Union",
+     "China"
+    ],
+    "subsystemNames": [
+     "Software/HMI",
+     "Interior/console"
+    ],
+    "aboutVehicle": false
+   },
+   {
+    "id": "EXT-T2-01-1",
+    "evidence_ref": "external:EXT-T2-01-1",
+    "kind": "consumer_pull",
+    "statement": "Likely to use AI personalisation in the car: China 76 %, United States 46 %, United Kingdom 42 %, Germany 34 %.",
+    "regions": [
+     "EU",
+     "US",
+     "CN"
+    ],
+    "subsystems": [
+     "software_hmi"
+    ],
+    "vehicles": [],
+    "topic": "voice_ai_assistant",
+    "level": "strong",
+    "sources_agreeing": 4,
+    "basis": "evidence",
+    "trust": 4,
+    "verification": "confirmed",
+    "source": {
+     "title": "Deloitte, 2026 Global Automotive Consumer Study",
+     "origin": "Deloitte",
+     "url": "https://www.deloitte.com/content/dam/assets-shared/docs/industries/consumer/2026/global-automotive-consumer-study-2026.pdf",
+     "date": "2026",
+     "type": "primary"
+    },
+    "contradiction": null,
+    "kindLabel": "consumer survey",
+    "levelLabel": "three or more independent sources",
+    "verified": true,
+    "verificationLabel": "figures found on the source page",
+    "trustLabel": "high",
+    "basisLabel": "measured or reported",
+    "regionNames": [
+     "European Union",
+     "United States",
+     "China"
+    ],
+    "subsystemNames": [
+     "Software/HMI"
+    ],
+    "aboutVehicle": false
+   },
+   {
+    "id": "EXT-T2-06-1",
+    "evidence_ref": "external:EXT-T2-06-1",
+    "kind": "bmw_offer",
+    "statement": "BMW showed its AI-powered Intelligent Personal Assistant with Alexa+ technology for the first time at CES 2026, in the iX3; by the list it comes to Germany and the US in the second half of 2026.",
+    "regions": [
+     "EU",
+     "US"
+    ],
+    "subsystems": [
+     "software_hmi"
+    ],
+    "vehicles": [],
+    "topic": "voice_ai_assistant",
+    "level": "strong",
+    "sources_agreeing": 3,
+    "basis": "evidence",
+    "trust": 4,
+    "verification": "confirmed",
+    "source": {
+     "title": "BMW Group press, the iX3 at CES 2026 (the list's compilation of AI assistant moves)",
+     "origin": "BMW Group",
+     "url": "https://press.bmwgroup.com/usa/article/detail/T0454794EN_US/the-bmw-ix3-ushers-in-next-generation-innovations-at-ces-2026",
+     "date": "2025",
+     "type": "primary"
+    },
+    "contradiction": null,
+    "kindLabel": "BMW offer",
+    "levelLabel": "three or more independent sources",
+    "verified": true,
+    "verificationLabel": "figures found on the source page",
+    "trustLabel": "high",
+    "basisLabel": "measured or reported",
+    "regionNames": [
+     "European Union",
+     "United States"
+    ],
+    "subsystemNames": [
+     "Software/HMI"
+    ],
+    "aboutVehicle": false
+   },
+   {
+    "id": "EXT-T3-03-1",
+    "evidence_ref": "external:EXT-T3-03-1",
+    "kind": "competitor_move",
+    "statement": "Apple CarPlay Ultra (launched May 2025) fills all of the driver's screens, the instrument cluster included, and controls standard functions such as radio and climate; by the list, the roll-out planned for the following 12 months is late.",
+    "regions": [
+     "Global"
+    ],
+    "subsystems": [
+     "software_hmi"
+    ],
+    "vehicles": [],
+    "topic": "phone_mirroring",
+    "level": "strong",
+    "sources_agreeing": 4,
+    "basis": "evidence",
+    "trust": 4,
+    "verification": "confirmed",
+    "source": {
+     "title": "Apple Newsroom, launch of CarPlay Ultra",
+     "origin": "Apple",
+     "url": "https://www.apple.com/newsroom/2025/05/carplay-ultra-the-next-generation-of-carplay-begins-rolling-out-today/",
+     "date": "2025-05-15",
+     "type": "primary"
+    },
+    "contradiction": null,
+    "kindLabel": "competitor move",
+    "levelLabel": "three or more independent sources",
+    "verified": true,
+    "verificationLabel": "figures found on the source page",
+    "trustLabel": "high",
+    "basisLabel": "measured or reported",
+    "regionNames": [
+     "Worldwide"
+    ],
+    "subsystemNames": [
+     "Software/HMI"
+    ],
+    "aboutVehicle": false
+   },
+   {
+    "id": "EXT-T3-04-1",
+    "evidence_ref": "external:EXT-T3-04-1",
+    "kind": "competitor_move",
+    "statement": "Android Auto is in more than 250 million cars; Google built-in is on more than 50 models.",
+    "regions": [
+     "Global"
+    ],
+    "subsystems": [
+     "software_hmi"
+    ],
+    "vehicles": [],
+    "topic": "phone_mirroring",
+    "level": "strong",
+    "sources_agreeing": 4,
+    "basis": "evidence",
+    "trust": 4,
+    "verification": "confirmed",
+    "source": {
+     "title": "9to5Google, Android Auto and Google built-in",
+     "origin": "Google",
+     "url": "https://9to5google.com/2025/05/14/android-auto-is-now-on-over-250-million-cars/",
+     "date": "2025-05-14",
+     "type": "secondary"
+    },
+    "contradiction": null,
+    "kindLabel": "competitor move",
+    "levelLabel": "three or more independent sources",
+    "verified": true,
+    "verificationLabel": "figures found on the source page",
+    "trustLabel": "high",
+    "basisLabel": "measured or reported",
+    "regionNames": [
+     "Worldwide"
+    ],
+    "subsystemNames": [
+     "Software/HMI"
+    ],
+    "aboutVehicle": false
+   },
+   {
+    "id": "EXT-T4-01-1",
+    "evidence_ref": "external:EXT-T4-01-1",
+    "kind": "consumer_pull",
+    "statement": "About two thirds of consumers want to use automated functions on the motorway; Level 2 and Level 2+ are preferred to Level 3; consumers are willing to pay extra, above all for fully automatic parking.",
+    "regions": [
+     "Global"
+    ],
+    "subsystems": [
+     "software_hmi"
+    ],
+    "vehicles": [],
+    "topic": "hands_free_driving",
+    "level": "strong",
+    "sources_agreeing": 3,
+    "basis": "evidence",
+    "trust": 4,
+    "verification": "confirmed",
+    "source": {
+     "title": "S&P Global Mobility, 2025 autonomous driving consumer survey",
+     "origin": "S&P Global Mobility",
+     "url": "https://www.mobilityglobal.com/en-us/automotive-insights/blog/autonomous-vehicles-and-rising-consumer-trust",
+     "date": "2025-05",
+     "type": "primary"
+    },
+    "contradiction": null,
+    "kindLabel": "consumer survey",
+    "levelLabel": "three or more independent sources",
+    "verified": true,
+    "verificationLabel": "figures found on the source page",
+    "trustLabel": "high",
+    "basisLabel": "measured or reported",
+    "regionNames": [
+     "Worldwide"
+    ],
+    "subsystemNames": [
+     "Software/HMI"
+    ],
+    "aboutVehicle": false
+   },
+   {
+    "id": "EXT-T5-01-1",
+    "evidence_ref": "external:EXT-T5-01-1",
+    "kind": "market_share",
+    "statement": "BloombergNEF outlook 2026: electric vehicles reach 38 % of global passenger car sales in 2030, 76 % in China and 58 % in Germany; the forecast for the US in 2040 was cut from 71 % to 57 %.",
+    "regions": [
+     "Global",
+     "EU",
+     "US",
+     "CN"
+    ],
+    "subsystems": [
+     "powertrain"
+    ],
+    "vehicles": [],
+    "topic": "ev_outlook",
+    "level": "strong",
+    "sources_agreeing": 3,
+    "basis": "assumption",
+    "trust": 4,
+    "verification": "confirmed",
+    "source": {
+     "title": "BloombergNEF Electric Vehicle Outlook 2026, executive summary",
+     "origin": "BloombergNEF",
+     "url": "https://assets.bbhub.io/professional/sites/44/EVO2026-Executive-Summary.pdf",
+     "date": "2026-06-16",
+     "type": "primary"
+    },
+    "contradiction": null,
+    "kindLabel": "market share",
+    "levelLabel": "three or more independent sources",
+    "verified": true,
+    "verificationLabel": "figures found on the source page",
+    "trustLabel": "high",
+    "basisLabel": "forecast or judgement",
+    "regionNames": [
+     "Worldwide",
+     "European Union",
+     "United States",
+     "China"
+    ],
+    "subsystemNames": [
+     "Powertrain"
+    ],
+    "aboutVehicle": false
+   },
+   {
+    "id": "EXT-T5-02-1",
+    "evidence_ref": "external:EXT-T5-02-1",
+    "kind": "market_share",
+    "statement": "BCG outlook: by 2030 plug-in vehicles reach about 80 % of sales in China and about 60 % in Europe but stay below 30 % in the US, where full hybrids grow from 15 % to 28 %.",
+    "regions": [
+     "EU",
+     "US",
+     "CN"
+    ],
+    "subsystems": [
+     "powertrain"
+    ],
+    "vehicles": [],
+    "topic": "ev_outlook",
+    "level": "strong",
+    "sources_agreeing": 3,
+    "basis": "assumption",
+    "trust": 4,
+    "verification": "confirmed",
+    "source": {
+     "title": "BCG, Changing Lanes, EV strategies in the US, Europe and China",
+     "origin": "BCG",
+     "url": "https://bcg.com/publications/2025/ev-strategies-in-us-europe-china",
+     "date": "2025-09-10",
+     "type": "primary"
+    },
+    "contradiction": {
+     "for": "Hybrids grow: a record 16 % of US sales in the second quarter of 2026, and BCG expects full hybrids at 28 % in 2030.",
+     "against": "Battery electric cars lose share: 6 % overall, and 14 % in the luxury segment after 22 % a year earlier."
+    },
+    "kindLabel": "market share",
+    "levelLabel": "three or more independent sources",
+    "verified": true,
+    "verificationLabel": "figures found on the source page",
+    "trustLabel": "high",
+    "basisLabel": "forecast or judgement",
+    "regionNames": [
+     "European Union",
+     "United States",
+     "China"
+    ],
+    "subsystemNames": [
+     "Powertrain"
+    ],
+    "aboutVehicle": false
+   },
+   {
+    "id": "EXT-T5-03-1",
+    "evidence_ref": "external:EXT-T5-03-1",
+    "kind": "market_share",
+    "statement": "Electric car sales share 2025: China about 55 %, Europe 28 %, United States about 10 %.",
+    "regions": [
+     "Global",
+     "CN",
+     "EU",
+     "US"
+    ],
+    "subsystems": [
+     "powertrain"
+    ],
+    "vehicles": [],
+    "topic": "powertrain_mix",
+    "level": "strong",
+    "sources_agreeing": 5,
+    "basis": "evidence",
+    "trust": 4,
+    "verification": "confirmed",
+    "source": {
+     "title": "IEA Global EV Outlook 2026, trends in electric cars",
+     "origin": "IEA",
+     "url": "https://www.iea.org/reports/global-ev-outlook-2026/trends-in-electric-cars",
+     "date": "2026-05-20",
+     "type": "primary"
+    },
+    "contradiction": null,
+    "kindLabel": "market share",
+    "levelLabel": "three or more independent sources",
+    "verified": true,
+    "verificationLabel": "figures found on the source page",
+    "trustLabel": "high",
+    "basisLabel": "measured or reported",
+    "regionNames": [
+     "Worldwide",
+     "China",
+     "European Union",
+     "United States"
+    ],
+    "subsystemNames": [
+     "Powertrain"
+    ],
+    "aboutVehicle": false
+   },
+   {
+    "id": "EXT-T5-08-1",
+    "evidence_ref": "external:EXT-T5-08-1",
+    "kind": "market_share",
+    "statement": "S&P Global Mobility forecast: battery electric share in Europe 14 % in 2025, 19 % in 2026 and 24 % in 2027; hybrids grow worldwide.",
+    "regions": [
+     "Global",
+     "EU"
+    ],
+    "subsystems": [
+     "powertrain"
+    ],
+    "vehicles": [],
+    "topic": "ev_outlook",
+    "level": "strong",
+    "sources_agreeing": 3,
+    "basis": "assumption",
+    "trust": 4,
+    "verification": "confirmed",
+    "source": {
+     "title": "S&P Global Mobility, light vehicle powertrain outlook 2026",
+     "origin": "S&P Global Mobility",
+     "url": "https://www.mobilityglobal.com/en-us/automotive-insights/blog/light-vehicle-powertrain-outlook-2026",
+     "date": "2026-02-03",
+     "type": "primary"
+    },
+    "contradiction": null,
+    "kindLabel": "market share",
+    "levelLabel": "three or more independent sources",
+    "verified": true,
+    "verificationLabel": "figures found on the source page",
+    "trustLabel": "high",
+    "basisLabel": "forecast or judgement",
+    "regionNames": [
+     "Worldwide",
+     "European Union"
+    ],
+    "subsystemNames": [
+     "Powertrain"
+    ],
+    "aboutVehicle": false
+   },
+   {
+    "id": "EXT-X-01-1",
+    "evidence_ref": "external:EXT-X-01-1",
+    "kind": "consumer_pull",
+    "statement": "79 % of those who use partial or high automation find it useful, against 45 % of those who do not use it.",
+    "regions": [
+     "Global",
+     "EU",
+     "US",
+     "CN"
+    ],
+    "subsystems": [
+     "software_hmi"
+    ],
+    "vehicles": [],
+    "topic": "hands_free_driving",
+    "level": "strong",
+    "sources_agreeing": 5,
+    "basis": "evidence",
+    "trust": 4,
+    "verification": "confirmed",
+    "source": {
+     "title": "BCG with NIQ-GfK, what car buyers want",
+     "origin": "BCG",
+     "url": "https://www.bcg.com/publications/2025/what-car-buyers-want-global-guide-automotive-oems",
+     "date": "2025-11-04",
+     "type": "primary"
+    },
+    "contradiction": null,
+    "kindLabel": "consumer survey",
+    "levelLabel": "three or more independent sources",
+    "verified": true,
+    "verificationLabel": "figures found on the source page",
+    "trustLabel": "high",
+    "basisLabel": "measured or reported",
+    "regionNames": [
+     "Worldwide",
+     "European Union",
+     "United States",
+     "China"
+    ],
+    "subsystemNames": [
+     "Software/HMI"
+    ],
+    "aboutVehicle": false
+   },
+   {
+    "id": "EXT-X-02-1",
+    "evidence_ref": "external:EXT-X-02-1",
+    "kind": "consumer_pull",
+    "statement": "Comfortable with Level 3 automation or higher: worldwide 26 %, China 47 %, United States 23 %, United Kingdom 21 %, Germany 19 %.",
+    "regions": [
+     "Global",
+     "EU",
+     "US",
+     "CN"
+    ],
+    "subsystems": [
+     "software_hmi"
+    ],
+    "vehicles": [],
+    "topic": "hands_free_driving",
+    "level": "strong",
+    "sources_agreeing": 6,
+    "basis": "evidence",
+    "trust": 4,
+    "verification": "not_fetched",
+    "source": {
+     "title": "EY Mobility Consumer Index 2025, full report",
+     "origin": "EY",
+     "url": "https://www.ey.com/content/dam/ey-unified-site/ey-com/en-ca/noindex/ey-global-mobility-consumer-index-2025.pdf",
+     "date": "2026-01",
+     "type": "primary"
+    },
+    "contradiction": null,
+    "kindLabel": "consumer survey",
+    "levelLabel": "three or more independent sources",
+    "verified": false,
+    "verificationLabel": "source page could not be read",
+    "trustLabel": "high",
+    "basisLabel": "measured or reported",
+    "regionNames": [
+     "Worldwide",
+     "European Union",
+     "United States",
+     "China"
+    ],
+    "subsystemNames": [
+     "Software/HMI"
+    ],
+    "aboutVehicle": false
+   },
+   {
+    "id": "EXT-P-08-1",
+    "evidence_ref": "external:EXT-P-08-1",
+    "kind": "market_share",
+    "statement": "Global sales of electric vehicles (battery electric and plug-in hybrid) reached 1.83 million in August 2026; year to date Europe is up 29 %, China down 12 % and North America down 21 %.",
+    "regions": [
+     "Global",
+     "EU",
+     "CN",
+     "US"
+    ],
+    "subsystems": [
+     "powertrain"
+    ],
+    "vehicles": [],
+    "topic": "powertrain_mix",
+    "level": "strong",
+    "sources_agreeing": 5,
+    "basis": "evidence",
+    "trust": 3,
+    "verification": "confirmed",
+    "source": {
+     "title": "Benchmark Mineral Intelligence (Rho Motion data), global EV sales August 2026",
+     "origin": "Rho Motion",
+     "url": "https://source.benchmarkminerals.com/article/global-ev-sales-reach-1-8-million-units-in-august-2026",
+     "date": "2026-09-11",
+     "type": "primary"
+    },
+    "contradiction": null,
+    "kindLabel": "market share",
+    "levelLabel": "three or more independent sources",
+    "verified": true,
+    "verificationLabel": "figures found on the source page",
+    "trustLabel": "medium to high",
+    "basisLabel": "measured or reported",
+    "regionNames": [
+     "Worldwide",
+     "European Union",
+     "China",
+     "United States"
+    ],
+    "subsystemNames": [
+     "Powertrain"
+    ],
+    "aboutVehicle": false
+   },
+   {
+    "id": "EXT-T3-01-1",
+    "evidence_ref": "external:EXT-T3-01-1",
+    "kind": "competitor_move",
+    "statement": "CarPlay Ultra is on the road at Aston Martin only. As of April 2026 Acura, Ford, Genesis, Honda, Hyundai, Infiniti, Jaguar, Kia, Land Rover, Lincoln, Nissan and Porsche plan it; Mercedes-Benz abandoned it, and Audi, Volvo, Polestar and Renault decided against it. BMW is not on the list.",
+    "regions": [
+     "Global",
+     "US"
+    ],
+    "subsystems": [
+     "software_hmi"
+    ],
+    "vehicles": [],
+    "topic": "phone_mirroring",
+    "level": "strong",
+    "sources_agreeing": 4,
+    "basis": "evidence",
+    "trust": 3,
+    "verification": "confirmed",
+    "source": {
+     "title": "9to5Mac, tracker of car makers and CarPlay Ultra",
+     "origin": "9to5Mac",
+     "url": "https://9to5mac.com/2026/05/04/carplay-ultra-automakers/",
+     "date": "2026-05-04",
+     "type": "primary"
+    },
+    "contradiction": null,
+    "kindLabel": "competitor move",
+    "levelLabel": "three or more independent sources",
+    "verified": true,
+    "verificationLabel": "figures found on the source page",
+    "trustLabel": "medium to high",
+    "basisLabel": "measured or reported",
+    "regionNames": [
+     "Worldwide",
+     "United States"
+    ],
+    "subsystemNames": [
+     "Software/HMI"
+    ],
+    "aboutVehicle": false
+   },
+   {
+    "id": "EXT-T3-02-1",
+    "evidence_ref": "external:EXT-T3-02-1",
+    "kind": "consumer_pull",
+    "statement": "Worldwide 30 % of electric car buyers and 35 % of combustion car buyers would not buy a car without Apple CarPlay or Android Auto.",
+    "regions": [
+     "Global",
+     "US"
+    ],
+    "subsystems": [
+     "software_hmi"
+    ],
+    "vehicles": [],
+    "topic": "phone_mirroring",
+    "level": "strong",
+    "sources_agreeing": 4,
+    "basis": "evidence",
+    "trust": 3,
+    "verification": "confirmed",
+    "source": {
+     "title": "McKinsey data on phone mirroring, reported by The Truth About Cars",
+     "origin": "McKinsey",
+     "url": "https://thetruthaboutcars.com/cars/news-blog/report-a-third-of-new-car-buyers-wouldn-t-consider-a-purchase-without-smartphone-44507608",
+     "date": "2024-06",
+     "type": "secondary"
+    },
+    "contradiction": null,
+    "kindLabel": "consumer survey",
+    "levelLabel": "three or more independent sources",
+    "verified": true,
+    "verificationLabel": "figures found on the source page",
+    "trustLabel": "medium to high",
+    "basisLabel": "measured or reported",
+    "regionNames": [
+     "Worldwide",
+     "United States"
+    ],
+    "subsystemNames": [
+     "Software/HMI"
+    ],
+    "aboutVehicle": false
+   },
+   {
+    "id": "EXT-T4-07-1",
+    "evidence_ref": "external:EXT-T4-07-1",
+    "kind": "market_share",
+    "statement": "Forecast: by 2028 more than half of new vehicles will have hands-free driving.",
+    "regions": [
+     "Global",
+     "US"
+    ],
+    "subsystems": [
+     "software_hmi"
+    ],
+    "vehicles": [],
+    "topic": "hands_free_driving",
+    "level": "strong",
+    "sources_agreeing": 5,
+    "basis": "assumption",
+    "trust": 3,
+    "verification": "not_fetched",
+    "source": {
+     "title": "Telemetry, assisted and automated driving forecast, reported by Tech Brew",
+     "origin": "Telemetry",
+     "url": "https://www.techbrew.com/stories/2025/10/06/telemetry-forecast-projects-hands-free-driving-systems",
+     "date": "2025-10-06",
+     "type": "secondary"
+    },
+    "contradiction": null,
+    "kindLabel": "market share",
+    "levelLabel": "three or more independent sources",
+    "verified": false,
+    "verificationLabel": "source page could not be read",
+    "trustLabel": "medium to high",
+    "basisLabel": "forecast or judgement",
+    "regionNames": [
+     "Worldwide",
+     "United States"
+    ],
+    "subsystemNames": [
+     "Software/HMI"
+    ],
+    "aboutVehicle": false
+   },
+   {
+    "id": "EXT-T8-04-1",
+    "evidence_ref": "external:EXT-T8-04-1",
+    "kind": "competitor_move",
+    "statement": "Tesla reports about 1.48 million paying Full Self-Driving users (up 56 %); the function is active on about 55 % of North American deliveries.",
+    "regions": [
+     "Global",
+     "US"
+    ],
+    "subsystems": [
+     "software_hmi"
+    ],
+    "vehicles": [],
+    "topic": "hands_free_driving",
+    "level": "strong",
+    "sources_agreeing": 4,
+    "basis": "evidence",
+    "trust": 3,
+    "verification": "confirmed",
+    "source": {
+     "title": "Tesla Full Self-Driving adoption in the second quarter of 2026, reported by Not a Tesla App",
+     "origin": "Tesla",
+     "url": "https://notateslaapp.com/news/4483/tesla-fsd-reaches-148-million-active-subscriptions",
+     "date": "2026-07-23",
+     "type": "secondary"
+    },
+    "contradiction": null,
+    "kindLabel": "competitor move",
+    "levelLabel": "three or more independent sources",
+    "verified": true,
+    "verificationLabel": "figures found on the source page",
+    "trustLabel": "medium to high",
+    "basisLabel": "measured or reported",
+    "regionNames": [
+     "Worldwide",
+     "United States"
+    ],
+    "subsystemNames": [
+     "Software/HMI"
+    ],
+    "aboutVehicle": false
+   },
+   {
+    "id": "EXT-X-06-1",
+    "evidence_ref": "external:EXT-X-06-1",
+    "kind": "competitor_move",
+    "statement": "Shown at CES 2026: the Mercedes-Benz CLA as the first model with the next generation of MB.DRIVE driver assistance; Ford plans a next-generation Level 2+ BlueCruise for 2027 and Level 3 eyes-off driving for 2028; AI agents in the cockpit were a common theme.",
+    "regions": [
+     "Global",
+     "US"
+    ],
+    "subsystems": [
+     "software_hmi"
+    ],
+    "vehicles": [],
+    "topic": "hands_free_driving",
+    "level": "strong",
+    "sources_agreeing": 4,
+    "basis": "evidence",
+    "trust": 3,
+    "verification": "confirmed",
+    "source": {
+     "title": "S&P Global Mobility AutoTechInsight, CES 2026 webinar slides",
+     "origin": "S&P Global Mobility",
+     "url": "https://autotechinsight.spglobal.com/_assets/ckfinder_library/files/SPG_Mobility_AutoTechInsight_Webinar_Series_CES_2026.pdf",
+     "date": "2026-01",
+     "type": "primary"
+    },
+    "contradiction": null,
+    "kindLabel": "competitor move",
+    "levelLabel": "three or more independent sources",
+    "verified": true,
+    "verificationLabel": "figures found on the source page",
+    "trustLabel": "medium to high",
+    "basisLabel": "measured or reported",
+    "regionNames": [
+     "Worldwide",
+     "United States"
+    ],
+    "subsystemNames": [
+     "Software/HMI"
+    ],
+    "aboutVehicle": false
+   },
+   {
+    "id": "EXT-X-01-2",
+    "evidence_ref": "external:EXT-X-01-2",
+    "kind": "consumer_pull",
+    "statement": "Brand loyalty: in Germany 53 % of premium customers intend to buy their brand again, across Europe and the US roughly 40 %, in China only about 10 %. Just 7 % of US consumers would consider a Chinese-made vehicle.",
+    "regions": [
+     "Global",
+     "EU",
+     "US",
+     "CN"
+    ],
+    "subsystems": [],
+    "vehicles": [],
+    "topic": "brand_pull",
+    "level": "medium",
+    "sources_agreeing": 2,
+    "basis": "evidence",
+    "trust": 4,
+    "verification": "confirmed",
+    "source": {
+     "title": "BCG with NIQ-GfK, what car buyers want",
+     "origin": "BCG",
+     "url": "https://www.bcg.com/publications/2025/what-car-buyers-want-global-guide-automotive-oems",
+     "date": "2025-11-04",
+     "type": "primary"
+    },
+    "contradiction": null,
+    "kindLabel": "consumer survey",
+    "levelLabel": "two independent sources",
+    "verified": true,
+    "verificationLabel": "figures found on the source page",
+    "trustLabel": "high",
+    "basisLabel": "measured or reported",
+    "regionNames": [
+     "Worldwide",
+     "European Union",
+     "United States",
+     "China"
+    ],
+    "subsystemNames": [],
+    "aboutVehicle": false
+   },
+   {
+    "id": "EXT-T4-06-1",
+    "evidence_ref": "external:EXT-T4-06-1",
+    "kind": "bmw_offer",
+    "statement": "BMW customers have driven more than 200 million kilometres hands-free with the Highway Assistant; Ford's BlueCruise has been approved for 15 European countries since 2024.",
+    "regions": [
+     "EU"
+    ],
+    "subsystems": [
+     "software_hmi"
+    ],
+    "vehicles": [],
+    "topic": "hands_free_driving",
+    "level": "medium",
+    "sources_agreeing": 2,
+    "basis": "evidence",
+    "trust": 3,
+    "verification": "confirmed",
+    "source": {
+     "title": "newmobility.news, BMW passes 200 million hands-free kilometres",
+     "origin": "BMW Group",
+     "url": "https://newmobility.news/en/2026/06/15/bmws-200-million-km-milestone-raises-stakes-in-eus-hands-free-driving-race/",
+     "date": "2026-06-15",
+     "type": "secondary"
+    },
+    "contradiction": null,
+    "kindLabel": "BMW offer",
+    "levelLabel": "two independent sources",
+    "verified": true,
+    "verificationLabel": "figures found on the source page",
+    "trustLabel": "medium to high",
+    "basisLabel": "measured or reported",
+    "regionNames": [
+     "European Union"
+    ],
+    "subsystemNames": [
+     "Software/HMI"
+    ],
+    "aboutVehicle": false
+   },
+   {
+    "id": "EXT-T5-05-1",
+    "evidence_ref": "external:EXT-T5-05-1",
+    "kind": "consumer_pull",
+    "statement": "Drivers without an electric car who consider one: Europe 40 % (unchanged), United States 27 % (2025: 31 %).",
+    "regions": [
+     "EU",
+     "US"
+    ],
+    "subsystems": [
+     "powertrain"
+    ],
+    "vehicles": [],
+    "topic": "ev_purchase_intent",
+    "level": "medium",
+    "sources_agreeing": 2,
+    "basis": "evidence",
+    "trust": 3,
+    "verification": "not_fetched",
+    "source": {
+     "title": "Shell Recharge Driver Survey 2026",
+     "origin": "Shell",
+     "url": "https://www.shell.com/what-we-do/mobility/mobility-news/shell-recharge-driver-survey-2026.html",
+     "date": "2026-06-29",
+     "type": "primary"
+    },
+    "contradiction": {
+     "for": "Registrations: the battery electric share in the EU rose from 17.4 % (2025) to 21.7 % (January to August 2026).",
+     "against": "Stated intent: EY measures battery electric purchase intent 10 points lower, and Shell finds consideration in Europe unchanged at 40 %."
+    },
+    "kindLabel": "consumer survey",
+    "levelLabel": "two independent sources",
+    "verified": false,
+    "verificationLabel": "source page could not be read",
+    "trustLabel": "medium to high",
+    "basisLabel": "measured or reported",
+    "regionNames": [
+     "European Union",
+     "United States"
+    ],
+    "subsystemNames": [
+     "Powertrain"
+    ],
+    "aboutVehicle": false
+   },
+   {
+    "id": "EXT-E-34-1",
+    "evidence_ref": "external:EXT-E-34-1",
+    "kind": "consumer_pull",
+    "statement": "Germany: 31 % intend to buy a battery electric car next.",
+    "regions": [
+     "EU"
+    ],
+    "subsystems": [
+     "powertrain"
+    ],
+    "vehicles": [],
+    "topic": "ev_purchase_intent",
+    "level": "weak",
+    "sources_agreeing": 1,
+    "basis": "evidence",
+    "trust": 4,
+    "verification": "not_fetched",
+    "source": {
+     "title": "McKinsey Mobility Consumer Pulse 2026, Germany (press release)",
+     "origin": "McKinsey",
+     "url": "https://www.mckinsey.com/de/news/presse/2026-07-15-mobility-survey",
+     "date": "2026-10-11",
+     "type": "primary"
+    },
+    "contradiction": null,
+    "kindLabel": "consumer survey",
+    "levelLabel": "one source",
+    "verified": false,
+    "verificationLabel": "source page could not be read",
+    "trustLabel": "high",
+    "basisLabel": "measured or reported",
+    "regionNames": [
+     "European Union"
+    ],
+    "subsystemNames": [
+     "Powertrain"
+    ],
+    "aboutVehicle": false
+   },
+   {
+    "id": "EXT-T1-01-3",
+    "evidence_ref": "external:EXT-T1-01-3",
+    "kind": "consumer_pull",
+    "statement": "Stated willingness to pay for wireless phone charging: 261 US dollars.",
+    "regions": [
+     "Global",
+     "EU",
+     "US",
+     "CN"
+    ],
+    "subsystems": [
+     "ee_architecture"
+    ],
+    "vehicles": [],
+    "topic": null,
+    "level": "weak",
+    "sources_agreeing": 1,
+    "basis": "evidence",
+    "trust": 4,
+    "verification": "confirmed",
+    "source": {
+     "title": "S&P Global Mobility, 2025 HMI consumer study",
+     "origin": "S&P Global Mobility",
+     "url": "https://www.mobilityglobal.com/en-us/automotive-insights/blog/what-consumers-value-in-human-machine-interface-technologies",
+     "date": "2026-02-12",
+     "type": "primary"
+    },
+    "contradiction": null,
+    "kindLabel": "consumer survey",
+    "levelLabel": "one source",
+    "verified": true,
+    "verificationLabel": "figures found on the source page",
+    "trustLabel": "high",
+    "basisLabel": "measured or reported",
+    "regionNames": [
+     "Worldwide",
+     "European Union",
+     "United States",
+     "China"
+    ],
+    "subsystemNames": [
+     "E/E architecture"
+    ],
+    "aboutVehicle": false
+   },
+   {
+    "id": "EXT-T1-02-2",
+    "evidence_ref": "external:EXT-T1-02-2",
+    "kind": "competitor_move",
+    "statement": "By the list, not on the fetched page: Mercedes-Benz brings physical controls back on customer feedback, and Geely, BYD, Changan and Chery move the same way.",
+    "regions": [
+     "EU",
+     "CN"
+    ],
+    "subsystems": [
+     "software_hmi",
+     "interior_console"
+    ],
+    "vehicles": [],
+    "topic": null,
+    "level": "weak",
+    "sources_agreeing": 1,
+    "basis": "evidence",
+    "trust": 4,
+    "verification": "not_checkable",
+    "source": {
+     "title": "Car makers return to physical buttons (Volkswagen ID. Polo cockpit, Automotive World)",
+     "origin": "Volkswagen",
+     "url": "https://www.automotiveworld.com/news/volkswagen-reveals-new-cockpit-design-with-id-polo/",
+     "date": "2026-08-26",
+     "type": "primary"
+    },
+    "contradiction": null,
+    "kindLabel": "competitor move",
+    "levelLabel": "one source",
+    "verified": false,
+    "verificationLabel": "nothing on the source page to check against",
+    "trustLabel": "high",
+    "basisLabel": "measured or reported",
+    "regionNames": [
+     "European Union",
+     "China"
+    ],
+    "subsystemNames": [
+     "Software/HMI",
+     "Interior/console"
+    ],
+    "aboutVehicle": false
+   },
+   {
+    "id": "EXT-T1-06-1",
+    "evidence_ref": "external:EXT-T1-06-1",
+    "kind": "market_share",
+    "statement": "Automotive display shipments in the first half of 2025: 120.96 million units (up 5.1 %); head-up display shipments up 25.3 %.",
+    "regions": [
+     "Global"
+    ],
+    "subsystems": [
+     "software_hmi",
+     "interior_console"
+    ],
+    "vehicles": [],
+    "topic": "head_up_display",
+    "level": "weak",
+    "sources_agreeing": 1,
+    "basis": "evidence",
+    "trust": 4,
+    "verification": "not_fetched",
+    "source": {
+     "title": "Omdia, automotive display market in the first half of 2025",
+     "origin": "Omdia",
+     "url": "https://www.businesswire.com/news/home/20251027178061/en/Omdia-Automotive-Display-Market-in-1H-2025-Growth-Slows-but-Technology-Upgrades-Accelerate",
+     "date": "2025-10-27",
+     "type": "primary"
+    },
+    "contradiction": null,
+    "kindLabel": "market share",
+    "levelLabel": "one source",
+    "verified": false,
+    "verificationLabel": "source page could not be read",
+    "trustLabel": "high",
+    "basisLabel": "measured or reported",
+    "regionNames": [
+     "Worldwide"
+    ],
+    "subsystemNames": [
+     "Software/HMI",
+     "Interior/console"
+    ],
+    "aboutVehicle": false
+   },
+   {
+    "id": "EXT-T2-01-2",
+    "evidence_ref": "external:EXT-T2-01-2",
+    "kind": "consumer_pull",
+    "statement": "Would keep the car longer because of over-the-air updates: China 72 %, United States 52 %, Germany 36 %.",
+    "regions": [
+     "EU",
+     "US",
+     "CN"
+    ],
+    "subsystems": [
+     "software_hmi",
+     "ee_architecture"
+    ],
+    "vehicles": [],
+    "topic": "over_the_air_updates",
+    "level": "weak",
+    "sources_agreeing": 1,
+    "basis": "evidence",
+    "trust": 4,
+    "verification": "confirmed",
+    "source": {
+     "title": "Deloitte, 2026 Global Automotive Consumer Study",
+     "origin": "Deloitte",
+     "url": "https://www.deloitte.com/content/dam/assets-shared/docs/industries/consumer/2026/global-automotive-consumer-study-2026.pdf",
+     "date": "2026",
+     "type": "primary"
+    },
+    "contradiction": null,
+    "kindLabel": "consumer survey",
+    "levelLabel": "one source",
+    "verified": true,
+    "verificationLabel": "figures found on the source page",
+    "trustLabel": "high",
+    "basisLabel": "measured or reported",
+    "regionNames": [
+     "European Union",
+     "United States",
+     "China"
+    ],
+    "subsystemNames": [
+     "Software/HMI",
+     "E/E architecture"
+    ],
+    "aboutVehicle": false
+   },
+   {
+    "id": "EXT-T2-01-3",
+    "evidence_ref": "external:EXT-T2-01-3",
+    "kind": "consumer_pull",
+    "statement": "Concerned about the data the car collects: Germany 58 %, United States 62 %, China 44 %.",
+    "regions": [
+     "EU",
+     "US",
+     "CN"
+    ],
+    "subsystems": [
+     "software_hmi"
+    ],
+    "vehicles": [],
+    "topic": "data_privacy",
+    "level": "weak",
+    "sources_agreeing": 1,
+    "basis": "evidence",
+    "trust": 4,
+    "verification": "confirmed",
+    "source": {
+     "title": "Deloitte, 2026 Global Automotive Consumer Study",
+     "origin": "Deloitte",
+     "url": "https://www.deloitte.com/content/dam/assets-shared/docs/industries/consumer/2026/global-automotive-consumer-study-2026.pdf",
+     "date": "2026",
+     "type": "primary"
+    },
+    "contradiction": null,
+    "kindLabel": "consumer survey",
+    "levelLabel": "one source",
+    "verified": true,
+    "verificationLabel": "figures found on the source page",
+    "trustLabel": "high",
+    "basisLabel": "measured or reported",
+    "regionNames": [
+     "European Union",
+     "United States",
+     "China"
+    ],
+    "subsystemNames": [
+     "Software/HMI"
+    ],
+    "aboutVehicle": false
+   },
+   {
+    "id": "EXT-T2-06-2",
+    "evidence_ref": "external:EXT-T2-06-2",
+    "kind": "competitor_move",
+    "statement": "By the list's own compilation, not from this page: Mercedes-Benz uses Google Gemini (CLA), GM and Volvo Gemini, Tesla Grok in Europe, BYD, Geely and Zeekr DeepSeek, BMW Alibaba's Qwen in China; cockpits built on large language models were the main theme of Auto China 2026.",
+    "regions": [
+     "Global",
+     "EU",
+     "US",
+     "CN"
+    ],
+    "subsystems": [
+     "software_hmi"
+    ],
+    "vehicles": [],
+    "topic": null,
+    "level": "weak",
+    "sources_agreeing": 1,
+    "basis": "assumption",
+    "trust": 4,
+    "verification": "not_checkable",
+    "source": {
+     "title": "BMW Group press, the iX3 at CES 2026 (the list's compilation of AI assistant moves)",
+     "origin": "BMW Group",
+     "url": "https://press.bmwgroup.com/usa/article/detail/T0454794EN_US/the-bmw-ix3-ushers-in-next-generation-innovations-at-ces-2026",
+     "date": "2025",
+     "type": "primary"
+    },
+    "contradiction": null,
+    "kindLabel": "competitor move",
+    "levelLabel": "one source",
+    "verified": false,
+    "verificationLabel": "nothing on the source page to check against",
+    "trustLabel": "high",
+    "basisLabel": "forecast or judgement",
+    "regionNames": [
+     "Worldwide",
+     "European Union",
+     "United States",
+     "China"
+    ],
+    "subsystemNames": [
+     "Software/HMI"
+    ],
+    "aboutVehicle": false
+   },
+   {
+    "id": "EXT-T3-05-1",
+    "evidence_ref": "external:EXT-T3-05-1",
+    "kind": "competitor_move",
+    "statement": "The Car Connectivity Consortium certified 115 digital key products in 2025; 16 car makers were new, among them BMW, Mercedes-Benz, Audi, NIO, XPENG and Zeekr.",
+    "regions": [
+     "Global",
+     "CN"
+    ],
+    "subsystems": [
+     "software_hmi",
+     "ee_architecture"
+    ],
+    "vehicles": [],
+    "topic": "digital_key",
+    "level": "weak",
+    "sources_agreeing": 1,
+    "basis": "evidence",
+    "trust": 4,
+    "verification": "not_fetched",
+    "source": {
+     "title": "Car Connectivity Consortium, digital key certifications 2025",
+     "origin": "Car Connectivity Consortium",
+     "url": "https://www.businesswire.com/news/home/20260106270279/en/CCC-Digital-Key-Certifications-Surged-in-2025-Reinforcing-the-Global-Standard-for-Secure-Vehicle-Access",
+     "date": "2026-01-06",
+     "type": "primary"
+    },
+    "contradiction": null,
+    "kindLabel": "competitor move",
+    "levelLabel": "one source",
+    "verified": false,
+    "verificationLabel": "source page could not be read",
+    "trustLabel": "high",
+    "basisLabel": "measured or reported",
+    "regionNames": [
+     "Worldwide",
+     "China"
+    ],
+    "subsystemNames": [
+     "Software/HMI",
+     "E/E architecture"
+    ],
+    "aboutVehicle": false
+   },
+   {
+    "id": "EXT-T6-04-1",
+    "evidence_ref": "external:EXT-T6-04-1",
+    "kind": "consumer_pull",
+    "statement": "Almost every fourth driver of a battery electric car names too much noise while driving as the most annoying part of the driving experience; by the list about one in two respondents values a quiet cabin most.",
+    "regions": [
+     "Global",
+     "EU",
+     "US",
+     "CN"
+    ],
+    "subsystems": [
+     "body_structure",
+     "interior_console"
+    ],
+    "vehicles": [],
+    "topic": "quiet_cabin",
+    "level": "weak",
+    "sources_agreeing": 1,
+    "basis": "evidence",
+    "trust": 4,
+    "verification": "confirmed",
+    "source": {
+     "title": "Asahi Kasei, fifth global automotive consumer survey (cabin)",
+     "origin": "Asahi Kasei",
+     "url": "https://www.asahi-kasei.com/news/2024/e241217.html",
+     "date": "2024-12-17",
+     "type": "primary"
+    },
+    "contradiction": null,
+    "kindLabel": "consumer survey",
+    "levelLabel": "one source",
+    "verified": true,
+    "verificationLabel": "figures found on the source page",
+    "trustLabel": "high",
+    "basisLabel": "measured or reported",
+    "regionNames": [
+     "Worldwide",
+     "European Union",
+     "United States",
+     "China"
+    ],
+    "subsystemNames": [
+     "Body/structure",
+     "Interior/console"
+    ],
+    "aboutVehicle": false
+   },
+   {
+    "id": "EXT-T7-01-1",
+    "evidence_ref": "external:EXT-T7-01-1",
+    "kind": "consumer_pull",
+    "statement": "In the West a sustainable car means recyclable materials and production, in China and Japan the powertrain; 35 % in Germany and the US would switch to a more sustainable brand.",
+    "regions": [
+     "EU",
+     "US",
+     "CN"
+    ],
+    "subsystems": [
+     "interior_console"
+    ],
+    "vehicles": [],
+    "topic": "sustainable_materials",
+    "level": "weak",
+    "sources_agreeing": 1,
+    "basis": "evidence",
+    "trust": 4,
+    "verification": "confirmed",
+    "source": {
+     "title": "Asahi Kasei, fifth global automotive consumer survey (sustainability)",
+     "origin": "Asahi Kasei",
+     "url": "https://www.asahi-kasei.com/news/2024/e241217.html",
+     "date": "2024-12-17",
+     "type": "primary"
+    },
+    "contradiction": {
+     "for": "In the West sustainability is read as recyclable, leather-free materials.",
+     "against": "In China leather seats are becoming standard in the mid-range, and leather production grows."
+    },
+    "kindLabel": "consumer survey",
+    "levelLabel": "one source",
+    "verified": true,
+    "verificationLabel": "figures found on the source page",
+    "trustLabel": "high",
+    "basisLabel": "measured or reported",
+    "regionNames": [
+     "European Union",
+     "United States",
+     "China"
+    ],
+    "subsystemNames": [
+     "Interior/console"
+    ],
+    "aboutVehicle": false
+   },
+   {
+    "id": "EXT-T8-01-1",
+    "evidence_ref": "external:EXT-T8-01-1",
+    "kind": "market_context",
+    "statement": "Europe: after 36 months and 60,000 km battery electric cars hold the lowest residual value in every market (Germany: 37.1 % against 48.3 % for petrol); a further decline is expected until 2028.",
+    "regions": [
+     "EU"
+    ],
+    "subsystems": [
+     "powertrain"
+    ],
+    "vehicles": [],
+    "topic": "residual_values",
+    "level": "weak",
+    "sources_agreeing": 1,
+    "basis": "evidence",
+    "trust": 4,
+    "verification": "not_fetched",
+    "source": {
+     "title": "J.D. Power Valuation Services and Autovista24, European used-car values 2026",
+     "origin": "J.D. Power Valuation Services",
+     "url": "https://www.jdpower.com/business/news/mmu-are-rvs-still-vulnerable-2026",
+     "date": "2026-08-20",
+     "type": "primary"
+    },
+    "contradiction": null,
+    "kindLabel": "market context",
+    "levelLabel": "one source",
+    "verified": false,
+    "verificationLabel": "source page could not be read",
+    "trustLabel": "high",
+    "basisLabel": "measured or reported",
+    "regionNames": [
+     "European Union"
+    ],
+    "subsystemNames": [
+     "Powertrain"
+    ],
+    "aboutVehicle": false
+   },
+   {
+    "id": "EXT-X-02-2",
+    "evidence_ref": "external:EXT-X-02-2",
+    "kind": "consumer_pull",
+    "statement": "47 % see the high price of connected services as a problem.",
+    "regions": [
+     "Global",
+     "EU",
+     "US",
+     "CN"
+    ],
+    "subsystems": [
+     "software_hmi"
+    ],
+    "vehicles": [],
+    "topic": "connected_services_pay",
+    "level": "weak",
+    "sources_agreeing": 1,
+    "basis": "evidence",
+    "trust": 4,
+    "verification": "not_fetched",
+    "source": {
+     "title": "EY Mobility Consumer Index 2025, full report",
+     "origin": "EY",
+     "url": "https://www.ey.com/content/dam/ey-unified-site/ey-com/en-ca/noindex/ey-global-mobility-consumer-index-2025.pdf",
+     "date": "2026-01",
+     "type": "primary"
+    },
+    "contradiction": null,
+    "kindLabel": "consumer survey",
+    "levelLabel": "one source",
+    "verified": false,
+    "verificationLabel": "source page could not be read",
+    "trustLabel": "high",
+    "basisLabel": "measured or reported",
+    "regionNames": [
+     "Worldwide",
+     "European Union",
+     "United States",
+     "China"
+    ],
+    "subsystemNames": [
+     "Software/HMI"
+    ],
+    "aboutVehicle": false
+   },
+   {
+    "id": "EXT-X-03-1",
+    "evidence_ref": "external:EXT-X-03-1",
+    "kind": "consumer_pull",
+    "statement": "95 % in China would buy an electric car next; in Germany the consideration of battery electric cars fell from 55 % to 45 %.",
+    "regions": [
+     "CN",
+     "EU"
+    ],
+    "subsystems": [
+     "powertrain"
+    ],
+    "vehicles": [],
+    "topic": "ev_purchase_intent",
+    "level": "weak",
+    "sources_agreeing": 1,
+    "basis": "evidence",
+    "trust": 4,
+    "verification": "not_found",
+    "source": {
+     "title": "Roland Berger, Automotive Disruption Radar 14",
+     "origin": "Roland Berger",
+     "url": "https://www.rolandberger.com/en/Insights/Publications/Automotive-Disruption-Radar-14-China-leads-the-way-as-the-industry-regroups.html",
+     "date": "2025-09-10",
+     "type": "primary"
+    },
+    "contradiction": null,
+    "kindLabel": "consumer survey",
+    "levelLabel": "one source",
+    "verified": false,
+    "verificationLabel": "figures not found on the source page",
+    "trustLabel": "high",
+    "basisLabel": "measured or reported",
+    "regionNames": [
+     "China",
+     "European Union"
+    ],
+    "subsystemNames": [
+     "Powertrain"
+    ],
+    "aboutVehicle": false
+   },
+   {
+    "id": "EXT-X-03-2",
+    "evidence_ref": "external:EXT-X-03-2",
+    "kind": "consumer_pull",
+    "statement": "Consumer interest in autonomous vehicles falls while investment in them surges; interest in electric vehicles slows but holds.",
+    "regions": [
+     "Global",
+     "EU",
+     "CN"
+    ],
+    "subsystems": [
+     "software_hmi"
+    ],
+    "vehicles": [],
+    "topic": "hands_free_driving",
+    "level": "weak",
+    "sources_agreeing": 1,
+    "basis": "evidence",
+    "trust": 4,
+    "verification": "confirmed",
+    "source": {
+     "title": "Roland Berger, Automotive Disruption Radar 14",
+     "origin": "Roland Berger",
+     "url": "https://www.rolandberger.com/en/Insights/Publications/Automotive-Disruption-Radar-14-China-leads-the-way-as-the-industry-regroups.html",
+     "date": "2025-09-10",
+     "type": "primary"
+    },
+    "contradiction": null,
+    "kindLabel": "consumer survey",
+    "levelLabel": "one source",
+    "verified": true,
+    "verificationLabel": "figures found on the source page",
+    "trustLabel": "high",
+    "basisLabel": "measured or reported",
+    "regionNames": [
+     "Worldwide",
+     "European Union",
+     "China"
+    ],
+    "subsystemNames": [
+     "Software/HMI"
+    ],
+    "aboutVehicle": false
+   },
+   {
+    "id": "EXT-T2-03-1",
+    "evidence_ref": "external:EXT-T2-03-1",
+    "kind": "consumer_pull",
+    "statement": "54 % of Chinese buyers would change brand for a better digital experience (Germany and the US below 40 %); 30 % value a personal assistant.",
+    "regions": [
+     "Global",
+     "CN",
+     "EU",
+     "US"
+    ],
+    "subsystems": [
+     "software_hmi"
+    ],
+    "vehicles": [],
+    "topic": "digital_experience",
+    "level": "weak",
+    "sources_agreeing": 1,
+    "basis": "evidence",
+    "trust": 3,
+    "verification": "not_fetched",
+    "source": {
+     "title": "McKinsey, how consumers perceive in-car connectivity and digital services (2023)",
+     "origin": "McKinsey",
+     "url": "https://www.mckinsey.com/industries/automotive-and-assembly/our-insights/how-do-consumers-perceive-in-car-connectivity-and-digital-services",
+     "date": "2023-09",
+     "type": "primary"
+    },
+    "contradiction": null,
+    "kindLabel": "consumer survey",
+    "levelLabel": "one source",
+    "verified": false,
+    "verificationLabel": "source page could not be read",
+    "trustLabel": "medium to high",
+    "basisLabel": "measured or reported",
+    "regionNames": [
+     "Worldwide",
+     "China",
+     "European Union",
+     "United States"
+    ],
+    "subsystemNames": [
+     "Software/HMI"
+    ],
+    "aboutVehicle": false
+   },
+   {
+    "id": "EXT-T2-04-1",
+    "evidence_ref": "external:EXT-T2-04-1",
+    "kind": "market_share",
+    "statement": "94 % of the new cars sold in 2030 will be connected.",
+    "regions": [
+     "Global"
+    ],
+    "subsystems": [
+     "ee_architecture",
+     "software_hmi"
+    ],
+    "vehicles": [],
+    "topic": null,
+    "level": "weak",
+    "sources_agreeing": 1,
+    "basis": "assumption",
+    "trust": 3,
+    "verification": "confirmed",
+    "source": {
+     "title": "Counterpoint Research, connected car outlook",
+     "origin": "Counterpoint Research",
+     "url": "https://counterpointresearch.com/en/reports/by-2030-94-percent-of-new-cars-sold-will-be-connected-from-premium-feature-to-industry-baseline",
+     "date": "2025-10-07",
+     "type": "primary"
+    },
+    "contradiction": null,
+    "kindLabel": "market share",
+    "levelLabel": "one source",
+    "verified": true,
+    "verificationLabel": "figures found on the source page",
+    "trustLabel": "medium to high",
+    "basisLabel": "forecast or judgement",
+    "regionNames": [
+     "Worldwide"
+    ],
+    "subsystemNames": [
+     "E/E architecture",
+     "Software/HMI"
+    ],
+    "aboutVehicle": false
+   },
+   {
+    "id": "EXT-T2-07-1",
+    "evidence_ref": "external:EXT-T2-07-1",
+    "kind": "competitor_move",
+    "statement": "CES 2026: Honda, Mercedes-Benz and Volkswagen embed large language models for in-car queries; BMW and Mercedes-Benz, among others, showed spatial audio that can be upgraded over the air; monetisation still lags.",
+    "regions": [
+     "Global"
+    ],
+    "subsystems": [
+     "software_hmi"
+    ],
+    "vehicles": [],
+    "topic": "voice_ai_assistant",
+    "level": "weak",
+    "sources_agreeing": 1,
+    "basis": "evidence",
+    "trust": 3,
+    "verification": "confirmed",
+    "source": {
+     "title": "S&P Global Mobility, CES 2026 spotlights automotive technology",
+     "origin": "S&P Global Mobility",
+     "url": "https://www.mobilityglobal.com/en-us/automotive-insights/blog/ces-2026-spotlights-automotive-technology",
+     "date": "2026-01-15",
+     "type": "primary"
+    },
+    "contradiction": null,
+    "kindLabel": "competitor move",
+    "levelLabel": "one source",
+    "verified": true,
+    "verificationLabel": "figures found on the source page",
+    "trustLabel": "medium to high",
+    "basisLabel": "measured or reported",
+    "regionNames": [
+     "Worldwide"
+    ],
+    "subsystemNames": [
+     "Software/HMI"
+    ],
+    "aboutVehicle": false
+   },
+   {
+    "id": "EXT-T5-06-1",
+    "evidence_ref": "external:EXT-T5-06-1",
+    "kind": "consumer_pull",
+    "statement": "Worldwide purchase intent for the next 24 months: combustion 50 % (up 13 points), battery electric 14 % (down 10 points); the main concerns are range (29 %) and charging infrastructure (28 %).",
+    "regions": [
+     "Global"
+    ],
+    "subsystems": [
+     "powertrain",
+     "hv_battery",
+     "charging"
+    ],
+    "vehicles": [],
+    "topic": "ev_purchase_intent",
+    "level": "weak",
+    "sources_agreeing": 1,
+    "basis": "evidence",
+    "trust": 3,
+    "verification": "confirmed",
+    "source": {
+     "title": "EY Mobility Consumer Index 2025, press release",
+     "origin": "EY",
+     "url": "https://www.ey.com/en_gl/newsroom/2025/12/global-consumers-driven-back-to-ice-vehicles-as-ev-enthusiasm-cools-ey-research",
+     "date": "2025-12-09",
+     "type": "primary"
+    },
+    "contradiction": {
+     "for": "Registrations: the battery electric share in the EU rose from 17.4 % (2025) to 21.7 % (January to August 2026).",
+     "against": "Stated intent: EY measures battery electric purchase intent 10 points lower, and Shell finds consideration in Europe unchanged at 40 %."
+    },
+    "kindLabel": "consumer survey",
+    "levelLabel": "one source",
+    "verified": true,
+    "verificationLabel": "figures found on the source page",
+    "trustLabel": "medium to high",
+    "basisLabel": "measured or reported",
+    "regionNames": [
+     "Worldwide"
+    ],
+    "subsystemNames": [
+     "Powertrain",
+     "HV battery",
+     "Charging"
+    ],
+    "aboutVehicle": false
+   },
+   {
+    "id": "EXT-T7-02-1",
+    "evidence_ref": "external:EXT-T7-02-1",
+    "kind": "consumer_pull",
+    "statement": "Buyers of cars above 150,000 US dollars rank flawlessness (quality and durability) first and sustainability sixth; 71 % would not consider a Chinese luxury brand.",
+    "regions": [
+     "Global"
+    ],
+    "subsystems": [
+     "interior_console"
+    ],
+    "vehicles": [],
+    "topic": "luxury_priorities",
+    "level": "weak",
+    "sources_agreeing": 1,
+    "basis": "evidence",
+    "trust": 3,
+    "verification": "not_fetched",
+    "source": {
+     "title": "McKinsey luxury car survey, Shifting gears",
+     "origin": "McKinsey",
+     "url": "https://www.mckinsey.com/industries/automotive-and-assembly/our-insights/shifting-gears-what-buyers-are-saying-about-the-luxury-car-experience",
+     "date": "2025-03-28",
+     "type": "primary"
+    },
+    "contradiction": null,
+    "kindLabel": "consumer survey",
+    "levelLabel": "one source",
+    "verified": false,
+    "verificationLabel": "source page could not be read",
+    "trustLabel": "medium to high",
+    "basisLabel": "measured or reported",
+    "regionNames": [
+     "Worldwide"
+    ],
+    "subsystemNames": [
+     "Interior/console"
+    ],
+    "aboutVehicle": false
+   },
+   {
+    "id": "EXT-T7-03-1",
+    "evidence_ref": "external:EXT-T7-03-1",
+    "kind": "consumer_pull",
+    "statement": "Of the consumers willing to pay more for an environmentally friendly car, 48 % would pay up to 10 % more.",
+    "regions": [
+     "Global"
+    ],
+    "subsystems": [
+     "interior_console"
+    ],
+    "vehicles": [],
+    "topic": "sustainable_materials",
+    "level": "weak",
+    "sources_agreeing": 1,
+    "basis": "evidence",
+    "trust": 3,
+    "verification": "confirmed",
+    "source": {
+     "title": "YouGov, the green premium on cars",
+     "origin": "YouGov",
+     "url": "https://business.yougov.com/content/49364-the-green-premium-on-cars-how-much-more-are-consumers-willing-to-pay-for-eco-friendly-vehicles",
+     "date": "2024-05",
+     "type": "primary"
+    },
+    "contradiction": null,
+    "kindLabel": "consumer survey",
+    "levelLabel": "one source",
+    "verified": true,
+    "verificationLabel": "figures found on the source page",
+    "trustLabel": "medium to high",
+    "basisLabel": "measured or reported",
+    "regionNames": [
+     "Worldwide"
+    ],
+    "subsystemNames": [
+     "Interior/console"
+    ],
+    "aboutVehicle": false
+   },
+   {
+    "id": "EXT-X-06-2",
+    "evidence_ref": "external:EXT-X-06-2",
+    "kind": "bmw_offer",
+    "statement": "By 2027 BMW brings the technologies of the Neue Klasse platform and architecture to 40 new models and model updates.",
+    "regions": [
+     "Global",
+     "US"
+    ],
+    "subsystems": [
+     "ee_architecture",
+     "software_hmi"
+    ],
+    "vehicles": [],
+    "topic": null,
+    "level": "weak",
+    "sources_agreeing": 1,
+    "basis": "evidence",
+    "trust": 3,
+    "verification": "confirmed",
+    "source": {
+     "title": "S&P Global Mobility AutoTechInsight, CES 2026 webinar slides",
+     "origin": "S&P Global Mobility",
+     "url": "https://autotechinsight.spglobal.com/_assets/ckfinder_library/files/SPG_Mobility_AutoTechInsight_Webinar_Series_CES_2026.pdf",
+     "date": "2026-01",
+     "type": "primary"
+    },
+    "contradiction": null,
+    "kindLabel": "BMW offer",
+    "levelLabel": "one source",
+    "verified": true,
+    "verificationLabel": "figures found on the source page",
+    "trustLabel": "medium to high",
+    "basisLabel": "measured or reported",
+    "regionNames": [
+     "Worldwide",
+     "United States"
+    ],
+    "subsystemNames": [
+     "E/E architecture",
+     "Software/HMI"
+    ],
+    "aboutVehicle": false
+   },
+   {
+    "id": "EXT-T6-06-1",
+    "evidence_ref": "external:EXT-T6-06-1",
+    "kind": "consumer_pull",
+    "statement": "German-speaking buyers: seat heating is indispensable for 35 % and wanted by 44 %; a panoramic roof is indispensable for 6 %.",
+    "regions": [
+     "EU"
+    ],
+    "subsystems": [
+     "seats",
+     "body_structure"
+    ],
+    "vehicles": [],
+    "topic": "seat_comfort_features",
+    "level": "weak",
+    "sources_agreeing": 1,
+    "basis": "evidence",
+    "trust": 2,
+    "verification": "confirmed",
+    "source": {
+     "title": "AutoScout24 trend study on equipment features (Integral)",
+     "origin": "AutoScout24",
+     "url": "https://cms-assets.autoscout24.com/uaddx06iwzdz/3GJg4XoDQIyRSrcdiSpfCa/a5799b2b38f795621c40f6d9896bf13c/260117_PA_AS24_Ausstattungsmerkmale___1_.pdf",
+     "date": "2026-01-22",
+     "type": "primary"
+    },
+    "contradiction": null,
+    "kindLabel": "consumer survey",
+    "levelLabel": "one source",
+    "verified": true,
+    "verificationLabel": "figures found on the source page",
+    "trustLabel": "medium",
+    "basisLabel": "measured or reported",
+    "regionNames": [
+     "European Union"
+    ],
+    "subsystemNames": [
+     "Seats",
+     "Body/structure"
+    ],
+    "aboutVehicle": false
+   },
+   {
+    "id": "EXT-T8-03-1",
+    "evidence_ref": "external:EXT-T8-03-1",
+    "kind": "consumer_pull",
+    "statement": "25 % of drivers have paid for a digital in-car service (44 % of those aged 18 to 24); they expect to pay 7.70 US dollars a month where car makers assume 11; 51 % would pay for services such as automated driving.",
+    "regions": [
+     "US",
+     "EU"
+    ],
+    "subsystems": [
+     "software_hmi"
+    ],
+    "vehicles": [],
+    "topic": "connected_services_pay",
+    "level": "weak",
+    "sources_agreeing": 1,
+    "basis": "evidence",
+    "trust": 2,
+    "verification": "not_fetched",
+    "source": {
+     "title": "Cubic3, consumer and OEM attitudes to software-defined vehicles",
+     "origin": "Cubic3",
+     "url": "https://www.businesswire.com/news/home/20250429601913/en",
+     "date": "2025-04-29",
+     "type": "primary"
+    },
+    "contradiction": null,
+    "kindLabel": "consumer survey",
+    "levelLabel": "one source",
+    "verified": false,
+    "verificationLabel": "source page could not be read",
+    "trustLabel": "medium",
+    "basisLabel": "measured or reported",
+    "regionNames": [
+     "United States",
+     "European Union"
+    ],
+    "subsystemNames": [
+     "Software/HMI"
+    ],
+    "aboutVehicle": false
+   },
+   {
+    "id": "EXT-T1-03-1",
+    "evidence_ref": "external:EXT-T1-03-1",
+    "kind": "bmw_offer",
+    "statement": "BMW says that users of the new iDrive in the iX3 do not ask for the rotary controller back; the direction of the air vents is set on the touchscreen.",
+    "regions": [
+     "Global"
+    ],
+    "subsystems": [
+     "software_hmi",
+     "thermal_hvac"
+    ],
+    "vehicles": [],
+    "topic": "physical_controls",
+    "level": "weak",
+    "sources_agreeing": 1,
+    "basis": "evidence",
+    "trust": 1,
+    "verification": "confirmed",
+    "source": {
+     "title": "BMWBLOG, BMW says users of the new iDrive do not miss the rotary controller",
+     "origin": "BMW Group",
+     "url": "https://www.bmwblog.com/2026/01/14/bmw-says-idrive-x-users-do-not-miss-physical-knob/",
+     "date": "2026-01-14",
+     "type": "secondary"
+    },
+    "contradiction": {
+     "for": "Customers and several car makers go back to physical controls (S&P: 48 % prefer a mix; Volkswagen and others; a Chinese standard from 2027).",
+     "against": "BMW keeps the Neue Klasse cockpit digital and says nobody asked for the rotary controller back."
+    },
+    "kindLabel": "BMW offer",
+    "levelLabel": "one source",
+    "verified": true,
+    "verificationLabel": "figures found on the source page",
+    "trustLabel": "low",
+    "basisLabel": "measured or reported",
+    "regionNames": [
+     "Worldwide"
+    ],
+    "subsystemNames": [
+     "Software/HMI",
+     "Thermal/HVAC"
+    ],
+    "aboutVehicle": false
+   }
+  ]
+ },
+ "exports": {
+  "csv": "id,vehicle,market,domain,title,statement,recommend,rationale,horizon,horizon_rationale,markets,acceptance_criteria,findings,evidence_level,priority_score,assumptions,uncertainties,status,version,effort_pct,effort_p5,effort_p95,effort_decision,effort_layer,effort_model_hash,decision,decided_by,decided_at,decision_note\r\nREQ-F70-EU-DA-01,F70,EU,driver_assistance,Assistance systems that help instead of irritating,\"Speed-limit warning and lane assistance shall be switchable off with one press per drive, and the emergency brake shall not intervene without a real obstacle.\",1,Driver assistance draws 24 rows with 17 defects (unexpected braking) and the speed-limit assistant 16 rows (14 usability) because it must be switched off after every start.,H1,Software within the limits of EU safety regulation.,EU,EU: Presses to switch off speed-limit warning and lane assistance 1 (one shortcut for both) (assumption) | EU: Unjustified emergency brake interventions reported 0 in the next feedback wave (assumption),FND-F70-EU-VOC-driver_assistance_automated_driving_overall_tech FND-F70-EU-VOC-speed_limit_assistant,B,,,EU General Safety Regulation requires these systems to be active at every start; only the switch-off effort can change.,proposed,1,0.37,0.17,0.65,adapt,K1,789fcb7624b8,,,,\r\nREQ-F70-EU-DD-01,F70,EU,driving_dynamics,Comfortable ride on poor road surfaces,Non-M variants shall offer a comfort-oriented suspension that absorbs sharp bumps on poor European roads without losing the car's sporty handling.,1,\"Suspension and damping draw 41 complaint rows (2.2 %, 12 wishes for a softer ride) and the study scores ride comfort at 9.20 vs peer 9.73; adaptive suspension is standard only on the M135.\",H1,Damper tuning and an adaptive-suspension option fit the life-cycle impulse.,EU,\"EU: Study ride comfort (1-10) >= 9.6 (today 9.20, peer 9.73) (evidence) | EU: Adaptive suspension Available as option on all variants (assumption)\",FND-F70-EU-VOC-cushioning_damping_vehicle FND-F70-EU-MET-cn_eu_2025-ride_comfort FND-F70-EU-EQ-cushioning_damping_vehicle,B,,,,proposed,1,2.07,0.97,3.51,adapt,K1,789fcb7624b8,,,,\r\nREQ-F70-EU-DD-02,F70,EU,driving_dynamics,Keep the sporty handling and the fuel economy in the next generation,The successor shall keep the agile handling and the fuel economy that customers praise today.,1,Sportiness (9.34 vs peer 7.30) and fuel economy (9.30 vs 7.56) are the strongest study advantages; driving dynamics collects 415 likes. Strengths to protect.,H2,Applies to the successor generation.,EU,EU: Study sportiness and fuel economy (1-10) >= 9.0 each (evidence),FND-F70-EU-MET-STRENGTH-cn_eu_2025-sportiness FND-F70-EU-MET-STRENGTH-cn_eu_2025-fuel_economy FND-F70-EU-VOC-STRENGTH-drive_driving_dynamics_and_chassis_overall_techn,B,,,,proposed,1,,,,,,,,,,\r\nREQ-F70-EU-EX-01,F70,EU,exterior_design,Reliable exterior lights and helpful door mirrors,Exterior lights shall work without fault messages; door mirrors shall tilt down on the kerb side when reversing and fold automatically when locking.,1,Exterior lighting draws 26 rows with 19 defects (failed or falsely reported lamps); door mirrors 28 rows with 11 wishes for kerb tilt and auto-fold that previous 1 Series had.,H1,Production quality and software functions.,EU,EU: Lighting defect rows <= 5 per 6 months (today 19) (assumption) | EU: Kerb-side mirror tilt in reverse Standard on all variants (assumption),FND-F70-EU-VOC-exterior_lighting FND-F70-EU-VOC-exterior_rearview_mirror,B,,,,proposed,1,1.11,0.54,1.97,adapt,K1,789fcb7624b8,,,,\r\nREQ-F70-EU-EX-02,F70,EU,exterior_design,Quiet tyres and wheels that are easy to clean,\"Standard tyres shall keep road noise low on rough surfaces, and wheel designs shall be easy to clean and resist corrosion.\",1,\"Wheels and tyres draw 34 complaint rows (15 defects): tyre noise, early corrosion and intricate wheel designs that are hard to clean.\",H1,Tyre sourcing and wheel design in the life-cycle impulse.,EU,EU: EU tyre label noise class of standard tyres A (<= 70 dB) (assumption) | EU: Wheel corrosion reports in the first year 0 (assumption),FND-F70-EU-VOC-wheels_tires FND-F70-EU-EQ-wheels_tires,B,,,,proposed,1,1.44,0.73,2.52,adapt,K1,789fcb7624b8,,,,\r\nREQ-F70-EU-GE-01,F70,EU,general,No silent de-contenting against the previous 1 Series,\"Items that loyal customers used on the previous generation (12 V socket in the boot, rear USB charging, mirror kerb tilt, dual-zone climate, fog lights, glove-box light) shall stay standard on the comparable trim, or the change shall be shown clearly at configuration.\",1,\"The general equipment theme draws 73 complaint rows with 35 wishes, mostly from repeat buyers listing features that were standard on the F40 and are now missing or optional.\",H1,Standard-content and configurator decision.,EU,EU: Listed items standard on the M Sport trim All (assumption) | EU: Complaint rows about missing standard equipment -50 % within 12 months (assumption),FND-F70-EU-VOC-body_equipment_overall_technology,B,,,Cost impact not quantified; rough effort follows in Phase 5.,proposed,1,0.24,0.11,0.42,adapt,K0,789fcb7624b8,,,,\r\nREQ-F70-EU-IC-01,F70,EU,interior_comfort,\"Supportive, durable seats with lumbar adjustment\",\"The front seats shall support the back on long drives, offer lumbar adjustment on the volume trims and keep their stitching and shape over the warranty period.\",1,\"Seats draw 50 complaint rows with 24 defects (stitching, loss of shape, squeaks) and comfort complaints about M Sport seats; active seats are an option on all six variants.\",H1,\"Seat trim, foam and lumbar option within the life-cycle impulse.\",EU,EU: Seat defect rows <= 8 per 6 months (today 24) (assumption) | EU: Lumbar adjustment Available on every trim with electric seats (assumption),FND-F70-EU-VOC-seats FND-F70-EU-EQ-seats,B,,,,proposed,1,2.13,1.0,3.69,adapt,K1,789fcb7624b8,,,,\r\nREQ-F70-EU-IC-02,F70,EU,interior_comfort,Dual-zone climate as standard and rear ventilation,\"Driver and passenger temperatures shall be adjustable independently on every variant, the display shall not suggest zones that are not fitted, and rear passengers shall get air vents.\",1,\"Climatisation (24 rows), climate control panel (24) and climate settings (17, nine wishes) describe synced temperatures that cannot be split and a display that looks dual-zone; the study scores climate control at 7.31 vs peer 8.13, the largest interior gap.\",H1,Software activation plus standard-content decision; rear vents in the life-cycle impulse.,EU,\"EU: Study climate control (1-10) >= 8.0 (today 7.31, peer 8.13) (evidence) | EU: Independent driver and passenger temperature Standard on all variants (assumption)\",FND-F70-EU-VOC-vehicle_climatization FND-F70-EU-VOC-air_conditioning_control_panel FND-F70-EU-VOC-air_conditioning_setting FND-F70-EU-MET-cn_eu_2025-climate_control,B,,,,proposed,1,2.55,1.24,4.77,adapt,K2,789fcb7624b8,,,,\r\nREQ-F70-EU-IC-03,F70,EU,interior_comfort,Cockpit lighting without reflections in the mirrors and windscreen,\"Ambient and display lighting shall not reflect in the side mirrors, side windows or windscreen at night at any brightness setting.\",1,\"Instrument panel complaints (33 rows, 11 defects) include repeated reports that dash and ambient lights reflect in the door mirrors and windscreen at night, which owners call a safety issue.\",H1,Light guide and default brightness changes.,EU,EU: Visible reflection of interior lighting in the side mirrors at night None at default brightness (assumption),FND-F70-EU-VOC-instrument_panel,B,,,,proposed,1,1.22,0.58,2.33,adapt,K1,789fcb7624b8,,,,\r\nREQ-F70-EU-ID-01,F70,EU,infotainment_digital,Physical controls for climate and a rotary controller option,\"Temperature, fan and seat or steering wheel heating shall have physical controls, and a rotary controller (or an equivalent haptic control) shall operate map zoom, lists and shortcuts so the driver does not have to aim at the touch screen while driving.\",1,\"Touch screen operation is the largest complaint theme of the F70 in Europe (141 rows, 7.4 % of all complaints, 91 usability); 25 owners explicitly ask for the iDrive controller back and the operating concept adds 30 rows. Many describe touch-only climate control as unsafe.\",H1,Physical climate keys and a controller are a life-cycle-impulse change of the centre console.,EU,EU: Share of touch-screen complaint rows <= 3 % of complaint rows (today 7.4 %) (assumption) | EU: Climate temperature and fan operable without the touch screen Yes (evidence) | EU: Glance time for a temperature change while driving <= 1.5 s (assumption),FND-F70-EU-VOC-touch_screen_operation FND-F70-EU-VOC-controller_operation FND-F70-EU-VOC-operating_concept_operating_system FND-F70-EU-VOC-instrument_cluster,B,,,,proposed,1,4.17,2.13,6.41,adapt,K2,789fcb7624b8,,,,\r\nREQ-F70-EU-ID-02,F70,EU,infotainment_digital,Stable infotainment and settings that survive updates,\"The central display and connected functions shall not freeze, go blank or reboot in normal use, and over-the-air updates shall keep all personal settings.\",1,\"Connected drive and infotainment technology draws 107 complaint rows with 51 defects (blank screens, freezes, lost functions); software updates add 13 rows with 9 defects that wiped settings, and the study scores connected services at 7.36 vs peer 7.62.\",H1,Software quality and update process.,EU,\"EU: Infotainment defect rows -60 % within 12 months (today 51) (assumption) | EU: User settings kept after an OTA update 100 % of profile settings (evidence) | EU: Study connected services (1-10) >= 7.6 (today 7.36, peer 7.62) (evidence)\",FND-F70-EU-VOC-connecteddrive_and_infotainment_overall_technolo FND-F70-EU-VOC-remote_software_upgrade_rsu FND-F70-EU-MET-cn_eu_2025-connected_services,B,,,,proposed,1,0.99,0.45,1.72,adapt,K1,789fcb7624b8,,,,\r\nREQ-F70-EU-ID-03,F70,EU,infotainment_digital,Functions bought with the car stay included for the first owner,\"Functions that are fitted and shown at handover (high-beam assistant, traffic information, 3D maps, media apps) shall stay active for the first owner without a subscription, and any time-limited content shall be stated clearly at the point of sale.\",1,\"47 complaint rows about connected upgrades, all usability: functions such as automatic high beam and live traffic switch off after three months; the catalogue lists Digital Premium as time-limited (480 EUR option). Owners feel misled and say they will change brand.\",H1,Offer and licensing decision; no hardware change.,EU,EU: Hardware-enabled safety and lighting functions behind a subscription None (assumption) | EU: Complaint rows about expiring functions <= 10 per 6 months (today 47) (assumption),FND-F70-EU-VOC-bmw_connecteddrive_upgrades_mini_connected_upgra FND-F70-EU-EQ-connecteddrive_and_infotainment_overall_technolo,B,,,Touches the digital revenue model; needs a commercial decision beyond the product scope.,proposed,1,,,,,,,,,,\r\nREQ-F70-EU-ID-04,F70,EU,infotainment_digital,Printed quick-start handbook and better in-car help,\"Every car shall be delivered with a printed, model-specific quick-start handbook, and the in-car manual shall be searchable and show only the functions fitted to the car.\",1,\"The owner's manual is the third-largest digital complaint (86 rows, 37 wishes for a printed handbook); older owners report being unable to use functions without it.\",H1,Content and print; no vehicle change.,EU,EU: Printed quick-start handbook at delivery Every car (evidence) | EU: Manual complaint rows <= 20 per 6 months (today 86) (assumption),FND-F70-EU-VOC-owner_s_manual,B,,,,proposed,1,0.23,0.1,0.41,adapt,K0,789fcb7624b8,,,,\r\nREQ-F70-EU-ID-05,F70,EU,infotainment_digital,Music from USB sticks,\"The USB-C ports shall play audio files from a USB stick, without requiring a smartphone.\",1,\"30 complaint rows, 17 wishes: owners copied their CDs to USB sticks and lost playback with the new generation; several say USB only charges.\",H1,\"Software (media player and USB data path), possibly a hub change in the life-cycle impulse.\",EU,EU: Playback of MP3 and AAC from a FAT32 or exFAT USB stick Yes (evidence),FND-F70-EU-VOC-usb_port,B,,,,proposed,1,0.37,0.17,0.65,adapt,K1,789fcb7624b8,,,,\r\nREQ-F70-EU-ID-06,F70,EU,infotainment_digital,Navigation route choice and clear guidance,\"Navigation shall offer fastest, shortest and road-type preferences, avoid single-track lanes on main routes and keep map zoom operable without the touch screen.\",1,Navigation draws 29 complaint rows (11 defects) about routes through narrow lanes and missing route options; the study scores navigation at 8.30 vs peer 8.71.,H1,Software.,EU,\"EU: Study navigation (1-10) >= 8.7 (today 8.30, peer 8.71) (evidence) | EU: Route preference options Fastest, shortest, avoid narrow roads (assumption)\",FND-F70-EU-VOC-navigation FND-F70-EU-MET-cn_eu_2025-navigation,B,,,,proposed,1,0.49,0.22,0.86,adapt,K1,789fcb7624b8,,,,\r\nREQ-F70-EU-PR-01,F70,EU,powertrain_range_charging,Smooth dual-clutch gearbox and immediate response when pulling away,\"The car shall pull away without a perceptible delay or jerk, including when the throttle is pressed while still rolling, and the gearbox shall shift smoothly at low speed and when cold.\",1,\"Drivetrain complaints (123 rows, 6.5 %, 73 usability) and transmission complaints (48 rows, 12 defects) describe a dead spot when pulling away at junctions and jerky DCT behaviour; the study scores acceleration at 8.21 vs 8.90.\",H1,\"Engine, hybrid and gearbox calibration.\",EU,\"EU: Delay from throttle input to traction when rolling below 10 km/h <= 0.3 s (assumption) | EU: Study acceleration (1-10) >= 8.8 (today 8.21, peer 8.90) (evidence) | EU: Pull-away and gearbox complaint rows -50 % within 12 months (assumption)\",FND-F70-EU-VOC-drivetrain FND-F70-EU-VOC-transmission FND-F70-EU-MET-cn_eu_2025-acceleration,B,,,,proposed,1,3.27,1.63,6.31,adapt,K1,789fcb7624b8,,,,\r\nREQ-F70-EU-QN-01,F70,EU,quality_nvh,\"Quiet, solid-feeling cabin without rattles\",\"Doors and interior trim shall be free of rattles and buzzing, and the cabin noise at motorway speed shall match the premium compact segment.\",1,\"Front door complaints (16 rows, 13 defects: buzzing, rattles) support the study gaps in quietness (7.62 vs peer 8.79, the largest gap of the car) and build quality (7.95 vs 8.23).\",H1,Acoustic package and assembly fixes.,EU,\"EU: Study quietness (1-10) >= 8.5 (today 7.62, peer 8.79) (evidence) | EU: Interior noise at 130 km/h Segment benchmark (value to be set by engineering) (assumption)\",FND-F70-EU-MET-cn_eu_2025-quietness FND-F70-EU-VOC-door_front FND-F70-EU-MET-cn_eu_2025-build_quality,B,,,,proposed,1,3.42,1.75,6.0,adapt,K1,789fcb7624b8,,,,\r\nREQ-F70-EU-SP-01,F70,EU,space_practicality,Practical boot with power tailgate and luggage fixtures,\"The boot shall offer tie-down points, a 12 V socket and a parcel shelf that stays in place; the tailgate shall close from a button on the lid where a power tailgate is fitted.\",1,\"Luggage compartment (23 rows), trunk lid (15 defects) and tailgate operation (19 rows, 12 wishes) complaints match the study gaps in cargo capacity (7.07 vs 7.47) and loading ease (7.50 vs 7.95); the power tailgate is an option on all variants.\",H1,Boot fixtures and offer changes in the life-cycle impulse.,EU,\"EU: Study loading ease (1-10) >= 7.9 (today 7.50, peer 7.95) (evidence) | EU: Tie-down points and 12 V socket in the boot Every variant (evidence)\",FND-F70-EU-VOC-luggage_compartment FND-F70-EU-VOC-trunk_lid_open_close FND-F70-EU-VOC-trunk_lid FND-F70-EU-MET-cn_eu_2025-loading_ease FND-F70-EU-EQ-luggage_compartment,B,,,,proposed,1,1.74,0.85,3.23,adapt,K1,789fcb7624b8,,,,\r\n",
+  "md": "# Requirement list, F70 EU\n\n18 requirements. Priority scores follow in Phase 5.\n\n## REQ-F70-EU-DA-01 – Assistance systems that help instead of irritating\n\n*driver_assistance · H1 · markets EU · evidence B · recommended · status proposed (v1)*\n\nSpeed-limit warning and lane assistance shall be switchable off with one press per drive, and the emergency brake shall not intervene without a real obstacle.\n\n**Why:** Driver assistance draws 24 rows with 17 defects (unexpected braking) and the speed-limit assistant 16 rows (14 usability) because it must be switched off after every start.\n**Horizon:** Software within the limits of EU safety regulation.\n\n| Market | Metric | Target | Method | Basis |\n|---|---|---|---|---|\n| EU | Presses to switch off speed-limit warning and lane assistance | 1 (one shortcut for both) | Function test | assumption |\n| EU | Unjustified emergency brake interventions reported | 0 in the next feedback wave | Customer feedback | assumption |\n\n**Findings:** `FND-F70-EU-VOC-driver_assistance_automated_driving_overall_tech` (primary); `FND-F70-EU-VOC-speed_limit_assistant` (supporting)\n**Uncertainties:** EU General Safety Regulation requires these systems to be active at every start; only the switch-off effort can change.\n**Effort:** 0.37 % of a new vehicle generation (adapt, P5 to P95 0.17 to 0.65, layer K1), effort model 789fcb7624b8, assumptions not calibrated\n\n## REQ-F70-EU-DD-01 – Comfortable ride on poor road surfaces\n\n*driving_dynamics · H1 · markets EU · evidence B · recommended · status proposed (v1)*\n\nNon-M variants shall offer a comfort-oriented suspension that absorbs sharp bumps on poor European roads without losing the car's sporty handling.\n\n**Why:** Suspension and damping draw 41 complaint rows (2.2 %, 12 wishes for a softer ride) and the study scores ride comfort at 9.20 vs peer 9.73; adaptive suspension is standard only on the M135.\n**Horizon:** Damper tuning and an adaptive-suspension option fit the life-cycle impulse.\n\n| Market | Metric | Target | Method | Basis |\n|---|---|---|---|---|\n| EU | Study ride comfort (1-10) | >= 9.6 (today 9.20, peer 9.73) | Next EU customer study wave | evidence |\n| EU | Adaptive suspension | Available as option on all variants | Offer check | assumption |\n\n**Findings:** `FND-F70-EU-VOC-cushioning_damping_vehicle` (primary); `FND-F70-EU-MET-cn_eu_2025-ride_comfort` (supporting); `FND-F70-EU-EQ-cushioning_damping_vehicle` (context)\n**Effort:** 2.07 % of a new vehicle generation (adapt, P5 to P95 0.97 to 3.51, layer K1), effort model 789fcb7624b8, assumptions not calibrated\n\n## REQ-F70-EU-DD-02 – Keep the sporty handling and the fuel economy in the next generation\n\n*driving_dynamics · H2 · markets EU · evidence B · recommended · status proposed (v1)*\n\nThe successor shall keep the agile handling and the fuel economy that customers praise today.\n\n**Why:** Sportiness (9.34 vs peer 7.30) and fuel economy (9.30 vs 7.56) are the strongest study advantages; driving dynamics collects 415 likes. Strengths to protect.\n**Horizon:** Applies to the successor generation.\n\n| Market | Metric | Target | Method | Basis |\n|---|---|---|---|---|\n| EU | Study sportiness and fuel economy (1-10) | >= 9.0 each | Customer study of the successor | evidence |\n\n**Findings:** `FND-F70-EU-MET-STRENGTH-cn_eu_2025-sportiness` (primary); `FND-F70-EU-MET-STRENGTH-cn_eu_2025-fuel_economy` (primary); `FND-F70-EU-VOC-STRENGTH-drive_driving_dynamics_and_chassis_overall_techn` (supporting)\n\n## REQ-F70-EU-EX-01 – Reliable exterior lights and helpful door mirrors\n\n*exterior_design · H1 · markets EU · evidence B · recommended · status proposed (v1)*\n\nExterior lights shall work without fault messages; door mirrors shall tilt down on the kerb side when reversing and fold automatically when locking.\n\n**Why:** Exterior lighting draws 26 rows with 19 defects (failed or falsely reported lamps); door mirrors 28 rows with 11 wishes for kerb tilt and auto-fold that previous 1 Series had.\n**Horizon:** Production quality and software functions.\n\n| Market | Metric | Target | Method | Basis |\n|---|---|---|---|---|\n| EU | Lighting defect rows | <= 5 per 6 months (today 19) | Customer feedback | assumption |\n| EU | Kerb-side mirror tilt in reverse | Standard on all variants | Offer check | assumption |\n\n**Findings:** `FND-F70-EU-VOC-exterior_lighting` (primary); `FND-F70-EU-VOC-exterior_rearview_mirror` (primary)\n**Effort:** 1.11 % of a new vehicle generation (adapt, P5 to P95 0.54 to 1.97, layer K1), effort model 789fcb7624b8, assumptions not calibrated\n\n## REQ-F70-EU-EX-02 – Quiet tyres and wheels that are easy to clean\n\n*exterior_design · H1 · markets EU · evidence B · recommended · status proposed (v1)*\n\nStandard tyres shall keep road noise low on rough surfaces, and wheel designs shall be easy to clean and resist corrosion.\n\n**Why:** Wheels and tyres draw 34 complaint rows (15 defects): tyre noise, early corrosion and intricate wheel designs that are hard to clean.\n**Horizon:** Tyre sourcing and wheel design in the life-cycle impulse.\n\n| Market | Metric | Target | Method | Basis |\n|---|---|---|---|---|\n| EU | EU tyre label noise class of standard tyres | A (<= 70 dB) | Tyre label | assumption |\n| EU | Wheel corrosion reports in the first year | 0 | Warranty data | assumption |\n\n**Findings:** `FND-F70-EU-VOC-wheels_tires` (primary); `FND-F70-EU-EQ-wheels_tires` (context)\n**Effort:** 1.44 % of a new vehicle generation (adapt, P5 to P95 0.73 to 2.52, layer K1), effort model 789fcb7624b8, assumptions not calibrated\n\n## REQ-F70-EU-GE-01 – No silent de-contenting against the previous 1 Series\n\n*general · H1 · markets EU · evidence B · recommended · status proposed (v1)*\n\nItems that loyal customers used on the previous generation (12 V socket in the boot, rear USB charging, mirror kerb tilt, dual-zone climate, fog lights, glove-box light) shall stay standard on the comparable trim, or the change shall be shown clearly at configuration.\n\n**Why:** The general equipment theme draws 73 complaint rows with 35 wishes, mostly from repeat buyers listing features that were standard on the F40 and are now missing or optional.\n**Horizon:** Standard-content and configurator decision.\n\n| Market | Metric | Target | Method | Basis |\n|---|---|---|---|---|\n| EU | Listed items standard on the M Sport trim | All | Offer check | assumption |\n| EU | Complaint rows about missing standard equipment | -50 % within 12 months | Customer feedback | assumption |\n\n**Findings:** `FND-F70-EU-VOC-body_equipment_overall_technology` (primary)\n**Uncertainties:** Cost impact not quantified; rough effort follows in Phase 5.\n**Effort:** 0.24 % of a new vehicle generation (adapt, P5 to P95 0.11 to 0.42, layer K0), effort model 789fcb7624b8, assumptions not calibrated\n\n## REQ-F70-EU-IC-01 – Supportive, durable seats with lumbar adjustment\n\n*interior_comfort · H1 · markets EU · evidence B · recommended · status proposed (v1)*\n\nThe front seats shall support the back on long drives, offer lumbar adjustment on the volume trims and keep their stitching and shape over the warranty period.\n\n**Why:** Seats draw 50 complaint rows with 24 defects (stitching, loss of shape, squeaks) and comfort complaints about M Sport seats; active seats are an option on all six variants.\n**Horizon:** Seat trim, foam and lumbar option within the life-cycle impulse.\n\n| Market | Metric | Target | Method | Basis |\n|---|---|---|---|---|\n| EU | Seat defect rows | <= 8 per 6 months (today 24) | Customer feedback | assumption |\n| EU | Lumbar adjustment | Available on every trim with electric seats | Offer check | assumption |\n\n**Findings:** `FND-F70-EU-VOC-seats` (primary); `FND-F70-EU-EQ-seats` (context)\n**Effort:** 2.13 % of a new vehicle generation (adapt, P5 to P95 1.0 to 3.69, layer K1), effort model 789fcb7624b8, assumptions not calibrated\n\n## REQ-F70-EU-IC-02 – Dual-zone climate as standard and rear ventilation\n\n*interior_comfort · H1 · markets EU · evidence B · recommended · status proposed (v1)*\n\nDriver and passenger temperatures shall be adjustable independently on every variant, the display shall not suggest zones that are not fitted, and rear passengers shall get air vents.\n\n**Why:** Climatisation (24 rows), climate control panel (24) and climate settings (17, nine wishes) describe synced temperatures that cannot be split and a display that looks dual-zone; the study scores climate control at 7.31 vs peer 8.13, the largest interior gap.\n**Horizon:** Software activation plus standard-content decision; rear vents in the life-cycle impulse.\n\n| Market | Metric | Target | Method | Basis |\n|---|---|---|---|---|\n| EU | Study climate control (1-10) | >= 8.0 (today 7.31, peer 8.13) | Next EU customer study wave | evidence |\n| EU | Independent driver and passenger temperature | Standard on all variants | Offer check | assumption |\n\n**Findings:** `FND-F70-EU-VOC-vehicle_climatization` (primary); `FND-F70-EU-VOC-air_conditioning_control_panel` (supporting); `FND-F70-EU-VOC-air_conditioning_setting` (supporting); `FND-F70-EU-MET-cn_eu_2025-climate_control` (supporting)\n**Effort:** 2.55 % of a new vehicle generation (adapt, P5 to P95 1.24 to 4.77, layer K2), effort model 789fcb7624b8, assumptions not calibrated\n\n## REQ-F70-EU-IC-03 – Cockpit lighting without reflections in the mirrors and windscreen\n\n*interior_comfort · H1 · markets EU · evidence B · recommended · status proposed (v1)*\n\nAmbient and display lighting shall not reflect in the side mirrors, side windows or windscreen at night at any brightness setting.\n\n**Why:** Instrument panel complaints (33 rows, 11 defects) include repeated reports that dash and ambient lights reflect in the door mirrors and windscreen at night, which owners call a safety issue.\n**Horizon:** Light guide and default brightness changes.\n\n| Market | Metric | Target | Method | Basis |\n|---|---|---|---|---|\n| EU | Visible reflection of interior lighting in the side mirrors at night | None at default brightness | Night visibility test | assumption |\n\n**Findings:** `FND-F70-EU-VOC-instrument_panel` (primary)\n**Effort:** 1.22 % of a new vehicle generation (adapt, P5 to P95 0.58 to 2.33, layer K1), effort model 789fcb7624b8, assumptions not calibrated\n\n## REQ-F70-EU-ID-01 – Physical controls for climate and a rotary controller option\n\n*infotainment_digital · H1 · markets EU · evidence B · recommended · status proposed (v1)*\n\nTemperature, fan and seat or steering wheel heating shall have physical controls, and a rotary controller (or an equivalent haptic control) shall operate map zoom, lists and shortcuts so the driver does not have to aim at the touch screen while driving.\n\n**Why:** Touch screen operation is the largest complaint theme of the F70 in Europe (141 rows, 7.4 % of all complaints, 91 usability); 25 owners explicitly ask for the iDrive controller back and the operating concept adds 30 rows. Many describe touch-only climate control as unsafe.\n**Horizon:** Physical climate keys and a controller are a life-cycle-impulse change of the centre console.\n\n| Market | Metric | Target | Method | Basis |\n|---|---|---|---|---|\n| EU | Share of touch-screen complaint rows | <= 3 % of complaint rows (today 7.4 %) | Customer feedback, rolling 6 months | assumption |\n| EU | Climate temperature and fan operable without the touch screen | Yes | Function test | evidence |\n| EU | Glance time for a temperature change while driving | <= 1.5 s | HMI eye-tracking test | assumption |\n\n**Findings:** `FND-F70-EU-VOC-touch_screen_operation` (primary); `FND-F70-EU-VOC-controller_operation` (primary); `FND-F70-EU-VOC-operating_concept_operating_system` (supporting); `FND-F70-EU-VOC-instrument_cluster` (supporting)\n**Effort:** 4.17 % of a new vehicle generation (adapt, P5 to P95 2.13 to 6.41, layer K2), effort model 789fcb7624b8, assumptions not calibrated\n\n## REQ-F70-EU-ID-02 – Stable infotainment and settings that survive updates\n\n*infotainment_digital · H1 · markets EU · evidence B · recommended · status proposed (v1)*\n\nThe central display and connected functions shall not freeze, go blank or reboot in normal use, and over-the-air updates shall keep all personal settings.\n\n**Why:** Connected drive and infotainment technology draws 107 complaint rows with 51 defects (blank screens, freezes, lost functions); software updates add 13 rows with 9 defects that wiped settings, and the study scores connected services at 7.36 vs peer 7.62.\n**Horizon:** Software quality and update process.\n\n| Market | Metric | Target | Method | Basis |\n|---|---|---|---|---|\n| EU | Infotainment defect rows | -60 % within 12 months (today 51) | Customer feedback | assumption |\n| EU | User settings kept after an OTA update | 100 % of profile settings | Update regression test | evidence |\n| EU | Study connected services (1-10) | >= 7.6 (today 7.36, peer 7.62) | Next EU customer study wave | evidence |\n\n**Findings:** `FND-F70-EU-VOC-connecteddrive_and_infotainment_overall_technolo` (primary); `FND-F70-EU-VOC-remote_software_upgrade_rsu` (supporting); `FND-F70-EU-MET-cn_eu_2025-connected_services` (supporting)\n**Effort:** 0.99 % of a new vehicle generation (adapt, P5 to P95 0.45 to 1.72, layer K1), effort model 789fcb7624b8, assumptions not calibrated\n\n## REQ-F70-EU-ID-03 – Functions bought with the car stay included for the first owner\n\n*infotainment_digital · H1 · markets EU · evidence B · recommended · status proposed (v1)*\n\nFunctions that are fitted and shown at handover (high-beam assistant, traffic information, 3D maps, media apps) shall stay active for the first owner without a subscription, and any time-limited content shall be stated clearly at the point of sale.\n\n**Why:** 47 complaint rows about connected upgrades, all usability: functions such as automatic high beam and live traffic switch off after three months; the catalogue lists Digital Premium as time-limited (480 EUR option). Owners feel misled and say they will change brand.\n**Horizon:** Offer and licensing decision; no hardware change.\n\n| Market | Metric | Target | Method | Basis |\n|---|---|---|---|---|\n| EU | Hardware-enabled safety and lighting functions behind a subscription | None | Offer check | assumption |\n| EU | Complaint rows about expiring functions | <= 10 per 6 months (today 47) | Customer feedback | assumption |\n\n**Findings:** `FND-F70-EU-VOC-bmw_connecteddrive_upgrades_mini_connected_upgra` (primary); `FND-F70-EU-EQ-connecteddrive_and_infotainment_overall_technolo` (context)\n**Uncertainties:** Touches the digital revenue model; needs a commercial decision beyond the product scope.\n\n## REQ-F70-EU-ID-04 – Printed quick-start handbook and better in-car help\n\n*infotainment_digital · H1 · markets EU · evidence B · recommended · status proposed (v1)*\n\nEvery car shall be delivered with a printed, model-specific quick-start handbook, and the in-car manual shall be searchable and show only the functions fitted to the car.\n\n**Why:** The owner's manual is the third-largest digital complaint (86 rows, 37 wishes for a printed handbook); older owners report being unable to use functions without it.\n**Horizon:** Content and print; no vehicle change.\n\n| Market | Metric | Target | Method | Basis |\n|---|---|---|---|---|\n| EU | Printed quick-start handbook at delivery | Every car | Delivery audit | evidence |\n| EU | Manual complaint rows | <= 20 per 6 months (today 86) | Customer feedback | assumption |\n\n**Findings:** `FND-F70-EU-VOC-owner_s_manual` (primary)\n**Effort:** 0.23 % of a new vehicle generation (adapt, P5 to P95 0.1 to 0.41, layer K0), effort model 789fcb7624b8, assumptions not calibrated\n\n## REQ-F70-EU-ID-05 – Music from USB sticks\n\n*infotainment_digital · H1 · markets EU · evidence B · recommended · status proposed (v1)*\n\nThe USB-C ports shall play audio files from a USB stick, without requiring a smartphone.\n\n**Why:** 30 complaint rows, 17 wishes: owners copied their CDs to USB sticks and lost playback with the new generation; several say USB only charges.\n**Horizon:** Software (media player and USB data path), possibly a hub change in the life-cycle impulse.\n\n| Market | Metric | Target | Method | Basis |\n|---|---|---|---|---|\n| EU | Playback of MP3 and AAC from a FAT32 or exFAT USB stick | Yes | Function test | evidence |\n\n**Findings:** `FND-F70-EU-VOC-usb_port` (primary)\n**Effort:** 0.37 % of a new vehicle generation (adapt, P5 to P95 0.17 to 0.65, layer K1), effort model 789fcb7624b8, assumptions not calibrated\n\n## REQ-F70-EU-ID-06 – Navigation route choice and clear guidance\n\n*infotainment_digital · H1 · markets EU · evidence B · recommended · status proposed (v1)*\n\nNavigation shall offer fastest, shortest and road-type preferences, avoid single-track lanes on main routes and keep map zoom operable without the touch screen.\n\n**Why:** Navigation draws 29 complaint rows (11 defects) about routes through narrow lanes and missing route options; the study scores navigation at 8.30 vs peer 8.71.\n**Horizon:** Software.\n\n| Market | Metric | Target | Method | Basis |\n|---|---|---|---|---|\n| EU | Study navigation (1-10) | >= 8.7 (today 8.30, peer 8.71) | Next EU customer study wave | evidence |\n| EU | Route preference options | Fastest, shortest, avoid narrow roads | Function test | assumption |\n\n**Findings:** `FND-F70-EU-VOC-navigation` (primary); `FND-F70-EU-MET-cn_eu_2025-navigation` (supporting)\n**Effort:** 0.49 % of a new vehicle generation (adapt, P5 to P95 0.22 to 0.86, layer K1), effort model 789fcb7624b8, assumptions not calibrated\n\n## REQ-F70-EU-PR-01 – Smooth dual-clutch gearbox and immediate response when pulling away\n\n*powertrain_range_charging · H1 · markets EU · evidence B · recommended · status proposed (v1)*\n\nThe car shall pull away without a perceptible delay or jerk, including when the throttle is pressed while still rolling, and the gearbox shall shift smoothly at low speed and when cold.\n\n**Why:** Drivetrain complaints (123 rows, 6.5 %, 73 usability) and transmission complaints (48 rows, 12 defects) describe a dead spot when pulling away at junctions and jerky DCT behaviour; the study scores acceleration at 8.21 vs 8.90.\n**Horizon:** Engine, hybrid and gearbox calibration.\n\n| Market | Metric | Target | Method | Basis |\n|---|---|---|---|---|\n| EU | Delay from throttle input to traction when rolling below 10 km/h | <= 0.3 s | Vehicle measurement | assumption |\n| EU | Study acceleration (1-10) | >= 8.8 (today 8.21, peer 8.90) | Next EU customer study wave | evidence |\n| EU | Pull-away and gearbox complaint rows | -50 % within 12 months | Customer feedback | assumption |\n\n**Findings:** `FND-F70-EU-VOC-drivetrain` (primary); `FND-F70-EU-VOC-transmission` (primary); `FND-F70-EU-MET-cn_eu_2025-acceleration` (supporting)\n**Effort:** 3.27 % of a new vehicle generation (adapt, P5 to P95 1.63 to 6.31, layer K1), effort model 789fcb7624b8, assumptions not calibrated\n\n## REQ-F70-EU-QN-01 – Quiet, solid-feeling cabin without rattles\n\n*quality_nvh · H1 · markets EU · evidence B · recommended · status proposed (v1)*\n\nDoors and interior trim shall be free of rattles and buzzing, and the cabin noise at motorway speed shall match the premium compact segment.\n\n**Why:** Front door complaints (16 rows, 13 defects: buzzing, rattles) support the study gaps in quietness (7.62 vs peer 8.79, the largest gap of the car) and build quality (7.95 vs 8.23).\n**Horizon:** Acoustic package and assembly fixes.\n\n| Market | Metric | Target | Method | Basis |\n|---|---|---|---|---|\n| EU | Study quietness (1-10) | >= 8.5 (today 7.62, peer 8.79) | Next EU customer study wave | evidence |\n| EU | Interior noise at 130 km/h | Segment benchmark (value to be set by engineering) | Acoustic measurement | assumption |\n\n**Findings:** `FND-F70-EU-MET-cn_eu_2025-quietness` (primary); `FND-F70-EU-VOC-door_front` (supporting); `FND-F70-EU-MET-cn_eu_2025-build_quality` (supporting)\n**Effort:** 3.42 % of a new vehicle generation (adapt, P5 to P95 1.75 to 6.0, layer K1), effort model 789fcb7624b8, assumptions not calibrated\n\n## REQ-F70-EU-SP-01 – Practical boot with power tailgate and luggage fixtures\n\n*space_practicality · H1 · markets EU · evidence B · recommended · status proposed (v1)*\n\nThe boot shall offer tie-down points, a 12 V socket and a parcel shelf that stays in place; the tailgate shall close from a button on the lid where a power tailgate is fitted.\n\n**Why:** Luggage compartment (23 rows), trunk lid (15 defects) and tailgate operation (19 rows, 12 wishes) complaints match the study gaps in cargo capacity (7.07 vs 7.47) and loading ease (7.50 vs 7.95); the power tailgate is an option on all variants.\n**Horizon:** Boot fixtures and offer changes in the life-cycle impulse.\n\n| Market | Metric | Target | Method | Basis |\n|---|---|---|---|---|\n| EU | Study loading ease (1-10) | >= 7.9 (today 7.50, peer 7.95) | Next EU customer study wave | evidence |\n| EU | Tie-down points and 12 V socket in the boot | Every variant | Offer check | evidence |\n\n**Findings:** `FND-F70-EU-VOC-luggage_compartment` (primary); `FND-F70-EU-VOC-trunk_lid_open_close` (supporting); `FND-F70-EU-VOC-trunk_lid` (supporting); `FND-F70-EU-MET-cn_eu_2025-loading_ease` (supporting); `FND-F70-EU-EQ-luggage_compartment` (context)\n**Effort:** 1.74 % of a new vehicle generation (adapt, P5 to P95 0.85 to 3.23, layer K1), effort model 789fcb7624b8, assumptions not calibrated\n"
  }
 }

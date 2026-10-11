@@ -4,15 +4,17 @@ import type { StageCounts } from "./candidates";
 
 /*
  * The five stages of the scope workspace (plan 08 section 3.1): one route
- * each under /markets/[market]/[vehicle]. A stage without a page yet is
- * listed without a link; the bar never pretends a screen exists.
+ * each under /markets/[market]/[vehicle]. A stage the backend holds nothing
+ * for in this scope is listed without a link and its route does not exist
+ * (step 19): stages 3 to 5 need a requirement set, stage 2 a requirement set
+ * or an analyst brief. The bar never pretends a screen exists.
  */
 export type StageKey = "situation" | "structure" | "requirements" | "priorities" | "documentation";
 
 export const STAGES: StageKey[] = ["situation", "structure", "requirements", "priorities", "documentation"];
 
-/** The route segment of a stage, or null while its page is not built. */
-export const STAGE_SEGMENT: Record<StageKey, string | null> = {
+/** The route segment of a stage. */
+export const STAGE_SEGMENT: Record<StageKey, string> = {
   situation: "",
   structure: "structure",
   requirements: "requirements",
@@ -20,9 +22,30 @@ export const STAGE_SEGMENT: Record<StageKey, string | null> = {
   documentation: "log",
 };
 
-export function stageHref(market: MarketCode, vehicle: string, stage: StageKey): string | null {
+/** What the backend holds for one vehicle in one market, beyond the situation analysis every scope has. */
+export interface ScopeContent {
+  /** The scope carries a requirement set: the candidates of stage 2 and stages 3 to 5. */
+  requirements: boolean;
+  /** The situation analysis that speaks about the scope, with its number of proposals. */
+  brief: { key: string; proposals: number; country: string | null } | null;
+  /** The series analysis that covers the scope, with its number of topics. */
+  series: { key: string; topics: number; series: string } | null;
+}
+
+export function stageAvailable(stage: StageKey, scope: ScopeContent): boolean {
+  switch (stage) {
+    case "situation":
+      return true;
+    case "structure":
+      return scope.requirements || scope.brief !== null;
+    default:
+      return scope.requirements;
+  }
+}
+
+export function stageHref(market: MarketCode, vehicle: string, stage: StageKey, scope?: ScopeContent): string | null {
+  if (scope && !stageAvailable(stage, scope)) return null;
   const segment = STAGE_SEGMENT[stage];
-  if (segment === null) return null;
   const base = vehicleHref(market, vehicle);
   return segment ? `${base}/${segment}` : base;
 }
@@ -36,4 +59,6 @@ export interface StageFigures {
   counts: StageCounts | null;
   /** The H1 package of the scope: effort and class, null without a requirement set. */
   h1Package: { effortPct: number; decision: string } | null;
+  /** Which stages hold anything in this scope. */
+  scope: ScopeContent;
 }

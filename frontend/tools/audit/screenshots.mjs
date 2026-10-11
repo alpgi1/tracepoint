@@ -160,7 +160,9 @@ await shoot("29-vehicle-us-g60-bridges-1440", desktop, async () => {}, { path: "
 // Step 16: stage 4, the matrix and the packages, the package builder with an estimate, the method sheet.
 await shoot("30-priorities-us-g60-1440", desktop, async () => {}, { path: "/markets/us/g60/priorities" });
 await shoot("31-priorities-us-g60-builder-1440", desktop, async (page) => {
-  await page.locator("#builder").scrollIntoViewIfNeeded();
+  // The builder asks the engine in the live mode only (step 19); otherwise its heading says so.
+  const builder = (await page.locator("#builder").count()) > 0 ? page.locator("#builder") : page.getByRole("heading", { name: "Package builder" });
+  await builder.scrollIntoViewIfNeeded();
   await page.waitForTimeout(200);
 }, { path: "/markets/us/g60/priorities?pkg=REQ-G60-US-IC-01&pkg=REQ-G60-US-ID-01&pkg=REQ-G60-US-PR-03" });
 await shoot("32-method-us-g60-1440", desktop, async (page) => {
@@ -180,7 +182,7 @@ await shoot("35-requirement-us-g60-pr-03-decision-1440", desktop, async (page) =
 await shoot("36-requirement-us-g60-pr-03-decided-1440", desktop, async (page) => {
   const note = page.locator("textarea[name=note]");
   if ((await note.count()) === 0) return;
-  await note.fill("Test decision from the frontend audit of step 17, to be reverted.");
+  await note.fill("Test decision from the frontend audit of step 19, to be reverted.");
   await page.getByRole("button", { name: "Defer" }).click();
   await page.waitForURL(/decision=defer/, { timeout: 15000 });
   await page.locator("#decision").scrollIntoViewIfNeeded();
@@ -191,5 +193,44 @@ await shoot("37-log-us-g60-after-1440", desktop, async (page) => {
   await page.waitForTimeout(200);
 }, { path: "/markets/us/g60/log" });
 await shoot("38-log-eu-f70-1920", wide, async () => {}, { path: "/markets/eu/f70/log" });
+
+// Step 19: the backend's briefs, the series across its regions, the market evidence.
+const phone = { width: 375, height: 812 };
+async function openFirst(page, selector) {
+  await page.locator(selector).first().click();
+  await page.waitForTimeout(250);
+}
+await shoot("39-brief-us-g60-1440", desktop, async (page) => {
+  await page.locator("#brief-heading").scrollIntoViewIfNeeded();
+  await page.waitForTimeout(200);
+}, { path: "/markets/us/g60/structure" });
+await shoot("40-brief-us-g60-proposal-1440", desktop, async (page) => {
+  await openFirst(page, ".brief-table .candidate-summary");
+  await openFirst(page, ".brief-table .refs-summary");
+  await page.locator(".brief-table .candidate-details[open]").first().scrollIntoViewIfNeeded();
+}, { path: "/markets/us/g60/structure" });
+await shoot("41-brief-us-g60-customers-1440", desktop, async (page) => {
+  await page.getByRole("heading", { name: "What customers say" }).scrollIntoViewIfNeeded();
+  await page.waitForTimeout(200);
+}, { path: "/markets/us/g60/structure" });
+await shoot("42-regions-us-g60-1440", desktop, async () => {}, { path: "/markets/us/g60/regions" });
+await shoot("43-regions-us-g60-decisions-1440", desktop, async (page) => {
+  await openFirst(page, ".brief-table .candidate-summary");
+  await page.getByRole("heading", { name: "Decisions" }).scrollIntoViewIfNeeded();
+  await page.waitForTimeout(200);
+}, { path: "/markets/us/g60/regions" });
+await shoot("44-regions-cn-g68-375", phone, async () => {}, { path: "/markets/cn/g68/regions" });
+await shoot("45-market-cn-g68-1440", desktop, async () => {}, { path: "/markets/cn/g68/market" });
+await shoot("46-dialog-cn-g68-software-1440", desktop, async (page) => openSubsystem(page, "Software/HMI"), { path: "/markets/cn/g68" });
+await shoot("47-dialog-us-g60-seats-market-1440", desktop, async (page) => {
+  await openSubsystem(page, "Seats");
+  await page.locator("#cpm-market").scrollIntoViewIfNeeded();
+  await page.waitForTimeout(200);
+}, { path: "/markets/us/g60" });
+await shoot("48-vehicle-eu-g70-1440", desktop, async () => {}, { path: "/markets/eu/g70" });
+await shoot("49-method-us-g60-rules-1440", desktop, async (page) => {
+  await page.getByRole("heading", { name: "Rules of the engine" }).scrollIntoViewIfNeeded();
+  await page.waitForTimeout(200);
+}, { path: "/markets/us/g60/priorities/method" });
 
 await browser.close();

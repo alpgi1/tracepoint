@@ -7,8 +7,8 @@ import { STAGES, type StageFigures, type StageKey, stageHref } from "@/lib/works
 /*
  * The stage bar: the five stages of the BMW process slide as one row under
  * the workspace header, each with the figure it holds in this scope. The
- * current stage carries aria-current and the one blue rule; a stage whose
- * page is not built is plain text. Method after the horizontal steppers
+ * current stage carries aria-current and the one blue rule; a stage the
+ * backend holds nothing for in this scope is plain text (step 19). Method after the horizontal steppers
  * with inline titles of the 21st.dev survey (Origin UI stepper, Cnippet
  * checkout breadcrumb, frontend/docs/01-research-notes.md 6.3): a number,
  * a name and a hairline between the steps, written here with the tokens;
@@ -28,7 +28,7 @@ export function StageBar({ market, vehicle, current, figures }: StageBarProps) {
     <nav className="stage-bar" aria-label={copy.label}>
       <ol className="stage-list">
         {STAGES.map((stage, index) => {
-          const href = stageHref(market, vehicle, stage);
+          const href = stageHref(market, vehicle, stage, figures.scope);
           const figure = stageFigure(stage, figures);
           const body = (
             <>
@@ -65,7 +65,8 @@ function stageFigure(stage: StageKey, f: StageFigures): string | null {
     case "situation":
       return `${full(f.subsystems)} ${copy.subsystems} · ${f.verbatims > 0 ? `${full(f.verbatims)} ${site.readout.verbatims}` : site.readout.noVerbatims}`;
     case "structure":
-      return counts ? `${full(counts.candidates)} ${copy.candidates} · ${full(counts.excluded)} ${copy.leftOut}` : copy.noRequirements;
+      if (counts) return `${full(counts.candidates)} ${copy.candidates} · ${full(counts.excluded)} ${copy.leftOut}`;
+      return f.scope.brief ? `${copy.brief} · ${full(f.scope.brief.proposals)} ${copy.proposals}` : copy.noRequirements;
     case "requirements":
       return counts ? `${full(counts.criteria)} ${copy.criteria} · ${full(counts.criteriaOnEvidence)} ${copy.onEvidence}` : null;
     case "priorities":

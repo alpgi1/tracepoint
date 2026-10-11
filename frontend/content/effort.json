@@ -1,8 +1,8 @@
 {
  "snapshot": {
-  "takenAt": "2026-10-11T03:55:19.547Z",
+  "takenAt": "2026-10-11T06:48:45.690Z",
   "api": "http://127.0.0.1:8000",
-  "codeVersion": "e06b37f",
+  "codeVersion": "c7f72e1",
   "endpoints": {
    "model": "/effort/model",
    "backtest": "/effort/backtest"
@@ -347,6 +347,35 @@
     "platform": "CLAR",
     "absent": [],
     "note": null
+   }
+  },
+  "parameters": {
+   "carryoverFactor": 0.3,
+   "propagationReferenceImpact": 0.3,
+   "platformRule": {
+    "subsystems": [
+     "body_structure",
+     "hv_battery",
+     "powertrain",
+     "ee_architecture"
+    ],
+    "minOwnImpact": 0.8
+   },
+   "certification": {
+    "triggerSubsystems": [
+     "body_structure",
+     "hv_battery",
+     "powertrain"
+    ],
+    "minOwnImpact": 0.3
+   },
+   "k0MaxOwnImpact": 0.1,
+   "maxPathLength": 3,
+   "sizes": {
+    "XS": 1,
+    "S": 5,
+    "M": 15,
+    "L": 50
    }
   },
   "modelHash": "789fcb7624b8"

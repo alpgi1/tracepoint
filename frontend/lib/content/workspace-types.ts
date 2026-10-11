@@ -1,9 +1,10 @@
+import type { ExternalView } from "./brief-types";
 import type { CpmSubsystemKey } from "./cpm-types";
 import type { DomainKey, MarketCode } from "./types";
 
 /**
  * Shape of content/workspace/<VEHICLE>_<MARKET>.json, written by
- * scripts/snapshot-workspace.mjs from the backend API's own responses, field
+ * scripts/snapshot.mjs from the backend API's own responses, field
  * for field (plan 08 section 6). The same types describe the live reads of
  * the workspace: GET /requirements, GET /effort/requirements,
  * GET /effort/scenarios and GET /events. The backend's field names are kept
@@ -424,7 +425,13 @@ export interface SnapshotMeta {
   codeVersion: string | null;
   /** The effort model the estimates were computed with (config/effort/model.yaml). */
   modelHash: string | null;
-  endpoints: Record<"requirements" | "efforts" | "scenarios" | "excluded" | "events" | "details" | "verbatims" | "metrics" | "equipment", string>;
+  endpoints: Record<"requirements" | "efforts" | "scenarios" | "excluded" | "events" | "details" | "verbatims" | "metrics" | "equipment" | "external" | "exportCsv" | "exportMd", string>;
+}
+
+/** The requirement list as the backend's D2 exporter writes it (GET /requirements/export). */
+export interface RequirementExports {
+  csv: string;
+  md: string;
 }
 
 export interface WorkspaceSnapshot {
@@ -442,4 +449,8 @@ export interface WorkspaceSnapshot {
   verbatims: Record<string, Verbatim>;
   metrics: Record<string, StudyMetric>;
   equipment: Record<string, EquipmentItem>;
+  /** GET /external for the market and the vehicle (step 19). */
+  external: ExternalView;
+  /** Null where the scope has no requirement set. */
+  exports: RequirementExports | null;
 }

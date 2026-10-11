@@ -5,19 +5,20 @@ import { Suspense } from "react";
 import { StagePending } from "@/components/workspace/source-line";
 import { WorkspaceHeader } from "@/components/workspace/workspace-header";
 import { dateTime, full } from "@/lib/content/format";
-import { allVehicleParams, marketByCode, vehicleHref, vehicleIn } from "@/lib/content/markets";
+import { marketByCode, vehicleHref, vehicleIn } from "@/lib/content/markets";
 import type { MarketContent, VehicleContent } from "@/lib/content/types";
 import { effortContent } from "@/lib/data/effort";
 import { readWorkspace } from "@/lib/data/workspace";
 import { site } from "@/lib/site";
-import { stageFigures } from "@/lib/workspace/figures";
+import { hasStage, stageFigures, stageParams } from "@/lib/workspace/figures";
 
 /*
  * The CPM method sheet (plan 08 section 4.5): the model as the engine runs
  * it, from content/effort.json (GET /effort/model and GET /effort/backtest).
  * The weights with their basis, the links as a 12 by 12 matrix with the
- * interface named on hover and listed beneath, the parameters the API
- * serves, what this vehicle leaves off, and the back-test. Method after
+ * interface named on hover and listed beneath, the rules of the engine
+ * (carryover, propagation, platform rule, sizes; all served by the API
+ * since step 19), what this vehicle leaves off, and the back-test. Method after
  * the comparison table with upright column heads and the table with
  * vertical lines of the 21st.dev survey (research notes 6.5), as a plain
  * table with the tokens; the fill of a cell follows the likelihood in the
@@ -25,7 +26,7 @@ import { stageFigures } from "@/lib/workspace/figures";
  * stage bar's figures come from the workspace read at request time.
  */
 export function generateStaticParams() {
-  return allVehicleParams();
+  return stageParams("priorities");
 }
 
 type Props = PageProps<"/markets/[market]/[vehicle]/priorities/method">;
@@ -42,7 +43,7 @@ export default async function MethodPage({ params }: Props) {
   const { market, vehicle } = await params;
   const m = marketByCode(market);
   const v = m ? vehicleIn(m, vehicle) : undefined;
-  if (!m || !v) notFound();
+  if (!m || !v || !hasStage("priorities", v.code, m.code)) notFound();
   return (
     <Suspense fallback={<StagePending />}>
       <MethodBody market={m} vehicle={v} />
@@ -60,6 +61,9 @@ async function MethodBody({ market: m, vehicle: v }: { market: MarketContent; ve
   const links = model.subsystems.flatMap((s) => s.links.map((l) => ({ from: s.key, fromName: s.name, ...l })));
   const cell = (from: string, to: string) => links.find((l) => l.from === from && l.to === to);
   const triggers = model.subsystems.filter((s) => s.certificationTrigger).map((s) => s.name);
+  const params = model.parameters;
+  const bounds = Object.entries(params.sizes).sort((a, b) => a[1] - b[1]);
+  const sizeText = [...bounds.map(([size, upper]) => `${size} ${copy.sizesBelow} ${String(upper)} %`), `XL ${copy.sizesFrom} ${String(bounds.at(-1)?.[1] ?? 0)} %`].join(", ");
   return (
     <div className="workspace">
       <WorkspaceHeader market={m} vehicle={v} current="priorities" figures={stageFigures(v, m.code, read?.snapshot)} />
@@ -122,7 +126,46 @@ async function MethodBody({ market: m, vehicle: v }: { market: MarketContent; ve
             </dd>
           </div>
         </dl>
-        <p className="workspace-hint">{copy.notServed}</p>
+        <h3 className="stage-h3">{copy.parametersHeading}</h3>
+        <dl className="facts">
+          <div>
+            <dt>{copy.carryover}</dt>
+            <dd>
+              {copy.carryoverText} {String(Math.round(params.carryoverFactor * 100))} % {copy.carryoverEnd}
+            </dd>
+          </div>
+          <div>
+            <dt>{copy.propagation}</dt>
+            <dd>
+              {copy.propagationText} {String(params.propagationReferenceImpact)} {copy.propagationEnd}
+            </dd>
+          </div>
+          <div>
+            <dt>{copy.platformRule}</dt>
+            <dd>
+              {copy.platformText} {params.platformRule.subsystems.map((k) => names.get(k) ?? k).join(", ")} {copy.platformMiddle} {String(Math.round(params.platformRule.minOwnImpact * 100))} %{" "}
+              {copy.platformEnd}
+            </dd>
+          </div>
+          <div>
+            <dt>{copy.configuration}</dt>
+            <dd>
+              {copy.configurationText} {String(params.k0MaxOwnImpact)} {copy.configurationEnd}
+            </dd>
+          </div>
+          <div>
+            <dt>{copy.paths}</dt>
+            <dd>
+              {copy.pathsText} {String(params.maxPathLength)} {copy.pathsEnd}
+            </dd>
+          </div>
+          <div>
+            <dt>{copy.sizes}</dt>
+            <dd>
+              {sizeText}
+            </dd>
+          </div>
+        </dl>
 
         <h3 className="stage-h3">{copy.weightsHeading}</h3>
         <p className="workspace-hint stage-hint">{copy.weightsHint}</p>

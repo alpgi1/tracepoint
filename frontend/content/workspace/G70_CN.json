@@ -2,20 +2,23 @@
  "vehicle": "G70",
  "market": "CN",
  "snapshot": {
-  "takenAt": "2026-10-11T03:55:19.987Z",
+  "takenAt": "2026-10-11T06:48:45.690Z",
   "api": "http://127.0.0.1:8000",
-  "codeVersion": "e06b37f",
+  "codeVersion": "c7f72e1",
   "modelHash": null,
   "endpoints": {
    "requirements": "/requirements?vehicle=G70&market=CN",
    "efforts": "/effort/requirements?vehicle=G70&market=CN",
    "scenarios": "/effort/scenarios?vehicle=G70&market=CN",
    "excluded": "/events?entity_type=scope&entity_id=G70:CN",
-   "events": "/events?entity_type=requirement&limit=5000",
+   "events": "/events?entity_type=requirement&entity_prefix=REQ-G70-CN-&limit=5000",
    "details": "/requirements/{id}",
    "verbatims": "/verbatims/{id}",
    "metrics": "/studies",
-   "equipment": "/equipment?vehicle={vehicle}"
+   "equipment": "/equipment?vehicle={vehicle}",
+   "external": "/external?market=CN&vehicle=G70",
+   "exportCsv": "/requirements/export?vehicle=G70&market=CN&format=csv",
+   "exportMd": "/requirements/export?vehicle=G70&market=CN&format=md"
   }
  },
  "requirements": [],
@@ -84,5 +87,3253 @@
  "details": {},
  "verbatims": {},
  "metrics": {},
- "equipment": {}
+ "equipment": {},
+ "external": {
+  "market": "CN",
+  "marketName": "China",
+  "vehicle": "G70",
+  "total": 74,
+  "verified": 52,
+  "aboutVehicle": 1,
+  "bySubsystem": {
+   "software_hmi": 43,
+   "interior_console": 16,
+   "powertrain": 10,
+   "charging": 8,
+   "ee_architecture": 5,
+   "hv_battery": 5,
+   "seats": 3,
+   "body_structure": 1,
+   "exterior_design": 1,
+   "thermal_hvac": 1
+  },
+  "topics": [
+   "ambient_lighting",
+   "brand_pull",
+   "charging_experience",
+   "charging_infrastructure",
+   "connected_services_pay",
+   "data_privacy",
+   "digital_experience",
+   "digital_key",
+   "driver_assistance_china",
+   "ev_outlook",
+   "ev_purchase_intent",
+   "fast_charging_tech",
+   "hands_free_driving",
+   "head_up_display",
+   "in_car_fridge",
+   "infotainment_quality",
+   "leather_china",
+   "luxury_priorities",
+   "over_the_air_updates",
+   "phone_mirroring",
+   "physical_controls",
+   "powertrain_mix",
+   "quiet_cabin",
+   "range_expectation",
+   "range_offered",
+   "rear_seat_entertainment",
+   "seat_comfort_features",
+   "smart_cockpit_china",
+   "sustainable_materials",
+   "voice_ai_assistant"
+  ],
+  "items": [
+   {
+    "id": "EXT-T1-03-2",
+    "evidence_ref": "external:EXT-T1-03-2",
+    "kind": "bmw_offer",
+    "statement": "BMWBLOG expects the 7 Series facelift, due in 2026, to be the first BMW with a display on the passenger side of the dashboard.",
+    "regions": [
+     "Global"
+    ],
+    "subsystems": [
+     "software_hmi",
+     "interior_console"
+    ],
+    "vehicles": [
+     "G70"
+    ],
+    "topic": null,
+    "level": "weak",
+    "sources_agreeing": 1,
+    "basis": "assumption",
+    "trust": 1,
+    "verification": "confirmed",
+    "source": {
+     "title": "BMWBLOG, BMW says users of the new iDrive do not miss the rotary controller",
+     "origin": "BMW Group",
+     "url": "https://www.bmwblog.com/2026/01/14/bmw-says-idrive-x-users-do-not-miss-physical-knob/",
+     "date": "2026-01-14",
+     "type": "secondary"
+    },
+    "contradiction": null,
+    "kindLabel": "BMW offer",
+    "levelLabel": "one source",
+    "verified": true,
+    "verificationLabel": "figures found on the source page",
+    "trustLabel": "low",
+    "basisLabel": "forecast or judgement",
+    "regionNames": [
+     "Worldwide"
+    ],
+    "subsystemNames": [
+     "Software/HMI",
+     "Interior/console"
+    ],
+    "aboutVehicle": true
+   },
+   {
+    "id": "EXT-E-21-1",
+    "evidence_ref": "external:EXT-E-21-1",
+    "kind": "market_share",
+    "statement": "China August 2026: new energy vehicles 65.2 % of passenger car retail sales; 38.9 % at luxury brands.",
+    "regions": [
+     "CN"
+    ],
+    "subsystems": [
+     "powertrain"
+    ],
+    "vehicles": [],
+    "topic": "powertrain_mix",
+    "level": "strong",
+    "sources_agreeing": 3,
+    "basis": "evidence",
+    "trust": 4,
+    "verification": "confirmed",
+    "source": {
+     "title": "CAAM and CPCA, China sales August 2026 (Xinhua)",
+     "origin": "CPCA",
+     "url": "https://www.news.cn/20260909/3fdd3bbc56aa40fdaf70e789fa93b607/c.html",
+     "date": "2026-10-11",
+     "type": "secondary"
+    },
+    "contradiction": {
+     "for": "The new energy share in China is at a record 65.2 % (August 2026).",
+     "against": "Plug-in hybrid and range-extender volumes fall at the same time (29.6 % and 22.2 % lower year on year)."
+    },
+    "kindLabel": "market share",
+    "levelLabel": "three or more independent sources",
+    "verified": true,
+    "verificationLabel": "figures found on the source page",
+    "trustLabel": "high",
+    "basisLabel": "measured or reported",
+    "regionNames": [
+     "China"
+    ],
+    "subsystemNames": [
+     "Powertrain"
+    ],
+    "aboutVehicle": false
+   },
+   {
+    "id": "EXT-E-53-1",
+    "evidence_ref": "external:EXT-E-53-1",
+    "kind": "consumer_pull",
+    "statement": "China: 25.3 % of owners count the lack of dedicated buttons for common functions as a flaw; they rate physical buttons (4.11 of 5) almost as important as touch (4.17).",
+    "regions": [
+     "CN"
+    ],
+    "subsystems": [
+     "software_hmi",
+     "interior_console"
+    ],
+    "vehicles": [],
+    "topic": "physical_controls",
+    "level": "strong",
+    "sources_agreeing": 4,
+    "basis": "evidence",
+    "trust": 4,
+    "verification": "confirmed",
+    "source": {
+     "title": "J.D. Power China smart cockpit study 2025 with Tongji University, reported by NetEase",
+     "origin": "J.D. Power",
+     "url": "https://www.163.com/dy/article/KFDJ8AES0530VBCU.html",
+     "date": "2026-10-11",
+     "type": "secondary"
+    },
+    "contradiction": null,
+    "kindLabel": "consumer survey",
+    "levelLabel": "three or more independent sources",
+    "verified": true,
+    "verificationLabel": "figures found on the source page",
+    "trustLabel": "high",
+    "basisLabel": "measured or reported",
+    "regionNames": [
+     "China"
+    ],
+    "subsystemNames": [
+     "Software/HMI",
+     "Interior/console"
+    ],
+    "aboutVehicle": false
+   },
+   {
+    "id": "EXT-E-54-2",
+    "evidence_ref": "external:EXT-E-54-2",
+    "kind": "consumer_pull",
+    "statement": "China 2026: 84 % expect a proactive AI assistant.",
+    "regions": [
+     "CN"
+    ],
+    "subsystems": [
+     "software_hmi"
+    ],
+    "vehicles": [],
+    "topic": "voice_ai_assistant",
+    "level": "strong",
+    "sources_agreeing": 3,
+    "basis": "evidence",
+    "trust": 4,
+    "verification": "confirmed",
+    "source": {
+     "title": "McKinsey China auto consumer survey 2026, reported by China Daily",
+     "origin": "McKinsey",
+     "url": "https://govt.chinadaily.com.cn/s/202605/20/WS6a0d6634498e23165e06f85f/countrys-buyers-value-technology-over-prices.html",
+     "date": "2026-10-11",
+     "type": "secondary"
+    },
+    "contradiction": {
+     "for": "84 % of Chinese buyers expect a proactive AI assistant (McKinsey).",
+     "against": "56.5 % use AI-based vehicle control less because they do not trust its reliability (J.D. Power and Tongji)."
+    },
+    "kindLabel": "consumer survey",
+    "levelLabel": "three or more independent sources",
+    "verified": true,
+    "verificationLabel": "figures found on the source page",
+    "trustLabel": "high",
+    "basisLabel": "measured or reported",
+    "regionNames": [
+     "China"
+    ],
+    "subsystemNames": [
+     "Software/HMI"
+    ],
+    "aboutVehicle": false
+   },
+   {
+    "id": "EXT-T1-01-1",
+    "evidence_ref": "external:EXT-T1-01-1",
+    "kind": "consumer_pull",
+    "statement": "48 % of consumers prefer a mix of touchscreen and physical buttons.",
+    "regions": [
+     "Global",
+     "EU",
+     "US",
+     "CN"
+    ],
+    "subsystems": [
+     "software_hmi",
+     "interior_console"
+    ],
+    "vehicles": [],
+    "topic": "physical_controls",
+    "level": "strong",
+    "sources_agreeing": 7,
+    "basis": "evidence",
+    "trust": 4,
+    "verification": "confirmed",
+    "source": {
+     "title": "S&P Global Mobility, 2025 HMI consumer study",
+     "origin": "S&P Global Mobility",
+     "url": "https://www.mobilityglobal.com/en-us/automotive-insights/blog/what-consumers-value-in-human-machine-interface-technologies",
+     "date": "2026-02-12",
+     "type": "primary"
+    },
+    "contradiction": {
+     "for": "Customers and several car makers go back to physical controls (S&P: 48 % prefer a mix; Volkswagen and others; a Chinese standard from 2027).",
+     "against": "BMW keeps the Neue Klasse cockpit digital and says nobody asked for the rotary controller back."
+    },
+    "kindLabel": "consumer survey",
+    "levelLabel": "three or more independent sources",
+    "verified": true,
+    "verificationLabel": "figures found on the source page",
+    "trustLabel": "high",
+    "basisLabel": "measured or reported",
+    "regionNames": [
+     "Worldwide",
+     "European Union",
+     "United States",
+     "China"
+    ],
+    "subsystemNames": [
+     "Software/HMI",
+     "Interior/console"
+    ],
+    "aboutVehicle": false
+   },
+   {
+    "id": "EXT-T1-01-2",
+    "evidence_ref": "external:EXT-T1-01-2",
+    "kind": "consumer_pull",
+    "statement": "Eighty per cent use speech recognition at least occasionally, and more favour the assistant of their phone (40 %) than the car maker's (35 %).",
+    "regions": [
+     "Global",
+     "EU",
+     "US",
+     "CN"
+    ],
+    "subsystems": [
+     "software_hmi"
+    ],
+    "vehicles": [],
+    "topic": "voice_ai_assistant",
+    "level": "strong",
+    "sources_agreeing": 4,
+    "basis": "evidence",
+    "trust": 4,
+    "verification": "confirmed",
+    "source": {
+     "title": "S&P Global Mobility, 2025 HMI consumer study",
+     "origin": "S&P Global Mobility",
+     "url": "https://www.mobilityglobal.com/en-us/automotive-insights/blog/what-consumers-value-in-human-machine-interface-technologies",
+     "date": "2026-02-12",
+     "type": "primary"
+    },
+    "contradiction": null,
+    "kindLabel": "consumer survey",
+    "levelLabel": "three or more independent sources",
+    "verified": true,
+    "verificationLabel": "figures found on the source page",
+    "trustLabel": "high",
+    "basisLabel": "measured or reported",
+    "regionNames": [
+     "Worldwide",
+     "European Union",
+     "United States",
+     "China"
+    ],
+    "subsystemNames": [
+     "Software/HMI"
+    ],
+    "aboutVehicle": false
+   },
+   {
+    "id": "EXT-T1-02-1",
+    "evidence_ref": "external:EXT-T1-02-1",
+    "kind": "competitor_move",
+    "statement": "Volkswagen's new cockpit, first in the ID. Polo, returns to physical buttons, with separate buttons for the climate functions; Volkswagen says it was developed from customer feedback.",
+    "regions": [
+     "EU",
+     "CN"
+    ],
+    "subsystems": [
+     "software_hmi",
+     "interior_console"
+    ],
+    "vehicles": [],
+    "topic": "physical_controls",
+    "level": "strong",
+    "sources_agreeing": 7,
+    "basis": "evidence",
+    "trust": 4,
+    "verification": "confirmed",
+    "source": {
+     "title": "Car makers return to physical buttons (Volkswagen ID. Polo cockpit, Automotive World)",
+     "origin": "Volkswagen",
+     "url": "https://www.automotiveworld.com/news/volkswagen-reveals-new-cockpit-design-with-id-polo/",
+     "date": "2026-08-26",
+     "type": "primary"
+    },
+    "contradiction": {
+     "for": "Customers and several car makers go back to physical controls (S&P: 48 % prefer a mix; Volkswagen and others; a Chinese standard from 2027).",
+     "against": "BMW keeps the Neue Klasse cockpit digital and says nobody asked for the rotary controller back."
+    },
+    "kindLabel": "competitor move",
+    "levelLabel": "three or more independent sources",
+    "verified": true,
+    "verificationLabel": "figures found on the source page",
+    "trustLabel": "high",
+    "basisLabel": "measured or reported",
+    "regionNames": [
+     "European Union",
+     "China"
+    ],
+    "subsystemNames": [
+     "Software/HMI",
+     "Interior/console"
+    ],
+    "aboutVehicle": false
+   },
+   {
+    "id": "EXT-T1-04-1",
+    "evidence_ref": "external:EXT-T1-04-1",
+    "kind": "regulation_context",
+    "statement": "China's industry ministry finalised a draft rule that requires physical controls for turn signals, hazard lights, horn, gear selector, driver assistance, wipers, defroster and power windows, in effect from 1 July 2027; new models have 13 months to comply and approved models 19. Regulation is context here, not a requirement.",
+    "regions": [
+     "CN"
+    ],
+    "subsystems": [
+     "software_hmi",
+     "interior_console"
+    ],
+    "vehicles": [],
+    "topic": "physical_controls",
+    "level": "strong",
+    "sources_agreeing": 4,
+    "basis": "evidence",
+    "trust": 4,
+    "verification": "confirmed",
+    "source": {
+     "title": "China MIIT standard on physical controls, reported by Paul Tan",
+     "origin": "MIIT China",
+     "url": "https://paultan.org/2026/07/10/china-cracks-down-on-touchscreen-reliance-physical-controls-mandatory/",
+     "date": "2026-07-10",
+     "type": "secondary"
+    },
+    "contradiction": {
+     "for": "Customers and several car makers go back to physical controls (S&P: 48 % prefer a mix; Volkswagen and others; a Chinese standard from 2027).",
+     "against": "BMW keeps the Neue Klasse cockpit digital and says nobody asked for the rotary controller back."
+    },
+    "kindLabel": "regulation",
+    "levelLabel": "three or more independent sources",
+    "verified": true,
+    "verificationLabel": "figures found on the source page",
+    "trustLabel": "high",
+    "basisLabel": "measured or reported",
+    "regionNames": [
+     "China"
+    ],
+    "subsystemNames": [
+     "Software/HMI",
+     "Interior/console"
+    ],
+    "aboutVehicle": false
+   },
+   {
+    "id": "EXT-T2-01-1",
+    "evidence_ref": "external:EXT-T2-01-1",
+    "kind": "consumer_pull",
+    "statement": "Likely to use AI personalisation in the car: China 76 %, United States 46 %, United Kingdom 42 %, Germany 34 %.",
+    "regions": [
+     "EU",
+     "US",
+     "CN"
+    ],
+    "subsystems": [
+     "software_hmi"
+    ],
+    "vehicles": [],
+    "topic": "voice_ai_assistant",
+    "level": "strong",
+    "sources_agreeing": 4,
+    "basis": "evidence",
+    "trust": 4,
+    "verification": "confirmed",
+    "source": {
+     "title": "Deloitte, 2026 Global Automotive Consumer Study",
+     "origin": "Deloitte",
+     "url": "https://www.deloitte.com/content/dam/assets-shared/docs/industries/consumer/2026/global-automotive-consumer-study-2026.pdf",
+     "date": "2026",
+     "type": "primary"
+    },
+    "contradiction": null,
+    "kindLabel": "consumer survey",
+    "levelLabel": "three or more independent sources",
+    "verified": true,
+    "verificationLabel": "figures found on the source page",
+    "trustLabel": "high",
+    "basisLabel": "measured or reported",
+    "regionNames": [
+     "European Union",
+     "United States",
+     "China"
+    ],
+    "subsystemNames": [
+     "Software/HMI"
+    ],
+    "aboutVehicle": false
+   },
+   {
+    "id": "EXT-T2-02-1",
+    "evidence_ref": "external:EXT-T2-02-1",
+    "kind": "consumer_pull",
+    "statement": "China: technology upgrades raise purchase intent; by the list, 84 % expect a proactive AI assistant in the 2026 edition.",
+    "regions": [
+     "CN"
+    ],
+    "subsystems": [
+     "software_hmi"
+    ],
+    "vehicles": [],
+    "topic": "voice_ai_assistant",
+    "level": "strong",
+    "sources_agreeing": 3,
+    "basis": "evidence",
+    "trust": 4,
+    "verification": "not_fetched",
+    "source": {
+     "title": "McKinsey, China auto consumer insights 2025",
+     "origin": "McKinsey",
+     "url": "https://www.mckinsey.com/industries/automotive-and-assembly/our-insights/china-auto-consumer-insights-2025-gaining-momentum",
+     "date": "2025-09-30",
+     "type": "primary"
+    },
+    "contradiction": {
+     "for": "84 % of Chinese buyers expect a proactive AI assistant (McKinsey).",
+     "against": "56.5 % use AI-based vehicle control less because they do not trust its reliability (J.D. Power and Tongji)."
+    },
+    "kindLabel": "consumer survey",
+    "levelLabel": "three or more independent sources",
+    "verified": false,
+    "verificationLabel": "source page could not be read",
+    "trustLabel": "high",
+    "basisLabel": "measured or reported",
+    "regionNames": [
+     "China"
+    ],
+    "subsystemNames": [
+     "Software/HMI"
+    ],
+    "aboutVehicle": false
+   },
+   {
+    "id": "EXT-T3-03-1",
+    "evidence_ref": "external:EXT-T3-03-1",
+    "kind": "competitor_move",
+    "statement": "Apple CarPlay Ultra (launched May 2025) fills all of the driver's screens, the instrument cluster included, and controls standard functions such as radio and climate; by the list, the roll-out planned for the following 12 months is late.",
+    "regions": [
+     "Global"
+    ],
+    "subsystems": [
+     "software_hmi"
+    ],
+    "vehicles": [],
+    "topic": "phone_mirroring",
+    "level": "strong",
+    "sources_agreeing": 4,
+    "basis": "evidence",
+    "trust": 4,
+    "verification": "confirmed",
+    "source": {
+     "title": "Apple Newsroom, launch of CarPlay Ultra",
+     "origin": "Apple",
+     "url": "https://www.apple.com/newsroom/2025/05/carplay-ultra-the-next-generation-of-carplay-begins-rolling-out-today/",
+     "date": "2025-05-15",
+     "type": "primary"
+    },
+    "contradiction": null,
+    "kindLabel": "competitor move",
+    "levelLabel": "three or more independent sources",
+    "verified": true,
+    "verificationLabel": "figures found on the source page",
+    "trustLabel": "high",
+    "basisLabel": "measured or reported",
+    "regionNames": [
+     "Worldwide"
+    ],
+    "subsystemNames": [
+     "Software/HMI"
+    ],
+    "aboutVehicle": false
+   },
+   {
+    "id": "EXT-T3-04-1",
+    "evidence_ref": "external:EXT-T3-04-1",
+    "kind": "competitor_move",
+    "statement": "Android Auto is in more than 250 million cars; Google built-in is on more than 50 models.",
+    "regions": [
+     "Global"
+    ],
+    "subsystems": [
+     "software_hmi"
+    ],
+    "vehicles": [],
+    "topic": "phone_mirroring",
+    "level": "strong",
+    "sources_agreeing": 4,
+    "basis": "evidence",
+    "trust": 4,
+    "verification": "confirmed",
+    "source": {
+     "title": "9to5Google, Android Auto and Google built-in",
+     "origin": "Google",
+     "url": "https://9to5google.com/2025/05/14/android-auto-is-now-on-over-250-million-cars/",
+     "date": "2025-05-14",
+     "type": "secondary"
+    },
+    "contradiction": null,
+    "kindLabel": "competitor move",
+    "levelLabel": "three or more independent sources",
+    "verified": true,
+    "verificationLabel": "figures found on the source page",
+    "trustLabel": "high",
+    "basisLabel": "measured or reported",
+    "regionNames": [
+     "Worldwide"
+    ],
+    "subsystemNames": [
+     "Software/HMI"
+    ],
+    "aboutVehicle": false
+   },
+   {
+    "id": "EXT-T4-01-1",
+    "evidence_ref": "external:EXT-T4-01-1",
+    "kind": "consumer_pull",
+    "statement": "About two thirds of consumers want to use automated functions on the motorway; Level 2 and Level 2+ are preferred to Level 3; consumers are willing to pay extra, above all for fully automatic parking.",
+    "regions": [
+     "Global"
+    ],
+    "subsystems": [
+     "software_hmi"
+    ],
+    "vehicles": [],
+    "topic": "hands_free_driving",
+    "level": "strong",
+    "sources_agreeing": 3,
+    "basis": "evidence",
+    "trust": 4,
+    "verification": "confirmed",
+    "source": {
+     "title": "S&P Global Mobility, 2025 autonomous driving consumer survey",
+     "origin": "S&P Global Mobility",
+     "url": "https://www.mobilityglobal.com/en-us/automotive-insights/blog/autonomous-vehicles-and-rising-consumer-trust",
+     "date": "2025-05",
+     "type": "primary"
+    },
+    "contradiction": null,
+    "kindLabel": "consumer survey",
+    "levelLabel": "three or more independent sources",
+    "verified": true,
+    "verificationLabel": "figures found on the source page",
+    "trustLabel": "high",
+    "basisLabel": "measured or reported",
+    "regionNames": [
+     "Worldwide"
+    ],
+    "subsystemNames": [
+     "Software/HMI"
+    ],
+    "aboutVehicle": false
+   },
+   {
+    "id": "EXT-T5-01-1",
+    "evidence_ref": "external:EXT-T5-01-1",
+    "kind": "market_share",
+    "statement": "BloombergNEF outlook 2026: electric vehicles reach 38 % of global passenger car sales in 2030, 76 % in China and 58 % in Germany; the forecast for the US in 2040 was cut from 71 % to 57 %.",
+    "regions": [
+     "Global",
+     "EU",
+     "US",
+     "CN"
+    ],
+    "subsystems": [
+     "powertrain"
+    ],
+    "vehicles": [],
+    "topic": "ev_outlook",
+    "level": "strong",
+    "sources_agreeing": 3,
+    "basis": "assumption",
+    "trust": 4,
+    "verification": "confirmed",
+    "source": {
+     "title": "BloombergNEF Electric Vehicle Outlook 2026, executive summary",
+     "origin": "BloombergNEF",
+     "url": "https://assets.bbhub.io/professional/sites/44/EVO2026-Executive-Summary.pdf",
+     "date": "2026-06-16",
+     "type": "primary"
+    },
+    "contradiction": null,
+    "kindLabel": "market share",
+    "levelLabel": "three or more independent sources",
+    "verified": true,
+    "verificationLabel": "figures found on the source page",
+    "trustLabel": "high",
+    "basisLabel": "forecast or judgement",
+    "regionNames": [
+     "Worldwide",
+     "European Union",
+     "United States",
+     "China"
+    ],
+    "subsystemNames": [
+     "Powertrain"
+    ],
+    "aboutVehicle": false
+   },
+   {
+    "id": "EXT-T5-02-1",
+    "evidence_ref": "external:EXT-T5-02-1",
+    "kind": "market_share",
+    "statement": "BCG outlook: by 2030 plug-in vehicles reach about 80 % of sales in China and about 60 % in Europe but stay below 30 % in the US, where full hybrids grow from 15 % to 28 %.",
+    "regions": [
+     "EU",
+     "US",
+     "CN"
+    ],
+    "subsystems": [
+     "powertrain"
+    ],
+    "vehicles": [],
+    "topic": "ev_outlook",
+    "level": "strong",
+    "sources_agreeing": 3,
+    "basis": "assumption",
+    "trust": 4,
+    "verification": "confirmed",
+    "source": {
+     "title": "BCG, Changing Lanes, EV strategies in the US, Europe and China",
+     "origin": "BCG",
+     "url": "https://bcg.com/publications/2025/ev-strategies-in-us-europe-china",
+     "date": "2025-09-10",
+     "type": "primary"
+    },
+    "contradiction": {
+     "for": "Hybrids grow: a record 16 % of US sales in the second quarter of 2026, and BCG expects full hybrids at 28 % in 2030.",
+     "against": "Battery electric cars lose share: 6 % overall, and 14 % in the luxury segment after 22 % a year earlier."
+    },
+    "kindLabel": "market share",
+    "levelLabel": "three or more independent sources",
+    "verified": true,
+    "verificationLabel": "figures found on the source page",
+    "trustLabel": "high",
+    "basisLabel": "forecast or judgement",
+    "regionNames": [
+     "European Union",
+     "United States",
+     "China"
+    ],
+    "subsystemNames": [
+     "Powertrain"
+    ],
+    "aboutVehicle": false
+   },
+   {
+    "id": "EXT-T5-03-1",
+    "evidence_ref": "external:EXT-T5-03-1",
+    "kind": "market_share",
+    "statement": "Electric car sales share 2025: China about 55 %, Europe 28 %, United States about 10 %.",
+    "regions": [
+     "Global",
+     "CN",
+     "EU",
+     "US"
+    ],
+    "subsystems": [
+     "powertrain"
+    ],
+    "vehicles": [],
+    "topic": "powertrain_mix",
+    "level": "strong",
+    "sources_agreeing": 5,
+    "basis": "evidence",
+    "trust": 4,
+    "verification": "confirmed",
+    "source": {
+     "title": "IEA Global EV Outlook 2026, trends in electric cars",
+     "origin": "IEA",
+     "url": "https://www.iea.org/reports/global-ev-outlook-2026/trends-in-electric-cars",
+     "date": "2026-05-20",
+     "type": "primary"
+    },
+    "contradiction": null,
+    "kindLabel": "market share",
+    "levelLabel": "three or more independent sources",
+    "verified": true,
+    "verificationLabel": "figures found on the source page",
+    "trustLabel": "high",
+    "basisLabel": "measured or reported",
+    "regionNames": [
+     "Worldwide",
+     "China",
+     "European Union",
+     "United States"
+    ],
+    "subsystemNames": [
+     "Powertrain"
+    ],
+    "aboutVehicle": false
+   },
+   {
+    "id": "EXT-T5-08-1",
+    "evidence_ref": "external:EXT-T5-08-1",
+    "kind": "market_share",
+    "statement": "S&P Global Mobility forecast: battery electric share in Europe 14 % in 2025, 19 % in 2026 and 24 % in 2027; hybrids grow worldwide.",
+    "regions": [
+     "Global",
+     "EU"
+    ],
+    "subsystems": [
+     "powertrain"
+    ],
+    "vehicles": [],
+    "topic": "ev_outlook",
+    "level": "strong",
+    "sources_agreeing": 3,
+    "basis": "assumption",
+    "trust": 4,
+    "verification": "confirmed",
+    "source": {
+     "title": "S&P Global Mobility, light vehicle powertrain outlook 2026",
+     "origin": "S&P Global Mobility",
+     "url": "https://www.mobilityglobal.com/en-us/automotive-insights/blog/light-vehicle-powertrain-outlook-2026",
+     "date": "2026-02-03",
+     "type": "primary"
+    },
+    "contradiction": null,
+    "kindLabel": "market share",
+    "levelLabel": "three or more independent sources",
+    "verified": true,
+    "verificationLabel": "figures found on the source page",
+    "trustLabel": "high",
+    "basisLabel": "forecast or judgement",
+    "regionNames": [
+     "Worldwide",
+     "European Union"
+    ],
+    "subsystemNames": [
+     "Powertrain"
+    ],
+    "aboutVehicle": false
+   },
+   {
+    "id": "EXT-X-01-1",
+    "evidence_ref": "external:EXT-X-01-1",
+    "kind": "consumer_pull",
+    "statement": "79 % of those who use partial or high automation find it useful, against 45 % of those who do not use it.",
+    "regions": [
+     "Global",
+     "EU",
+     "US",
+     "CN"
+    ],
+    "subsystems": [
+     "software_hmi"
+    ],
+    "vehicles": [],
+    "topic": "hands_free_driving",
+    "level": "strong",
+    "sources_agreeing": 5,
+    "basis": "evidence",
+    "trust": 4,
+    "verification": "confirmed",
+    "source": {
+     "title": "BCG with NIQ-GfK, what car buyers want",
+     "origin": "BCG",
+     "url": "https://www.bcg.com/publications/2025/what-car-buyers-want-global-guide-automotive-oems",
+     "date": "2025-11-04",
+     "type": "primary"
+    },
+    "contradiction": null,
+    "kindLabel": "consumer survey",
+    "levelLabel": "three or more independent sources",
+    "verified": true,
+    "verificationLabel": "figures found on the source page",
+    "trustLabel": "high",
+    "basisLabel": "measured or reported",
+    "regionNames": [
+     "Worldwide",
+     "European Union",
+     "United States",
+     "China"
+    ],
+    "subsystemNames": [
+     "Software/HMI"
+    ],
+    "aboutVehicle": false
+   },
+   {
+    "id": "EXT-X-02-1",
+    "evidence_ref": "external:EXT-X-02-1",
+    "kind": "consumer_pull",
+    "statement": "Comfortable with Level 3 automation or higher: worldwide 26 %, China 47 %, United States 23 %, United Kingdom 21 %, Germany 19 %.",
+    "regions": [
+     "Global",
+     "EU",
+     "US",
+     "CN"
+    ],
+    "subsystems": [
+     "software_hmi"
+    ],
+    "vehicles": [],
+    "topic": "hands_free_driving",
+    "level": "strong",
+    "sources_agreeing": 6,
+    "basis": "evidence",
+    "trust": 4,
+    "verification": "not_fetched",
+    "source": {
+     "title": "EY Mobility Consumer Index 2025, full report",
+     "origin": "EY",
+     "url": "https://www.ey.com/content/dam/ey-unified-site/ey-com/en-ca/noindex/ey-global-mobility-consumer-index-2025.pdf",
+     "date": "2026-01",
+     "type": "primary"
+    },
+    "contradiction": null,
+    "kindLabel": "consumer survey",
+    "levelLabel": "three or more independent sources",
+    "verified": false,
+    "verificationLabel": "source page could not be read",
+    "trustLabel": "high",
+    "basisLabel": "measured or reported",
+    "regionNames": [
+     "Worldwide",
+     "European Union",
+     "United States",
+     "China"
+    ],
+    "subsystemNames": [
+     "Software/HMI"
+    ],
+    "aboutVehicle": false
+   },
+   {
+    "id": "EXT-P-03-1",
+    "evidence_ref": "external:EXT-P-03-1",
+    "kind": "market_share",
+    "statement": "China 2025: retail sales of new energy vehicles reached 12.81 million (up 17.6 %); their share of passenger car retail was 59.1 % in December 2025, and 39.1 % at luxury brands.",
+    "regions": [
+     "CN"
+    ],
+    "subsystems": [
+     "powertrain"
+    ],
+    "vehicles": [],
+    "topic": "powertrain_mix",
+    "level": "strong",
+    "sources_agreeing": 3,
+    "basis": "evidence",
+    "trust": 3,
+    "verification": "confirmed",
+    "source": {
+     "title": "CPCA, passenger car retail sales in China, full year 2025, reported by CnEVPost",
+     "origin": "CPCA",
+     "url": "https://cnevpost.com/2026/01/09/china-dec-2025-nev-retail-record-high/",
+     "date": "2026-01-09",
+     "type": "secondary"
+    },
+    "contradiction": null,
+    "kindLabel": "market share",
+    "levelLabel": "three or more independent sources",
+    "verified": true,
+    "verificationLabel": "figures found on the source page",
+    "trustLabel": "medium to high",
+    "basisLabel": "measured or reported",
+    "regionNames": [
+     "China"
+    ],
+    "subsystemNames": [
+     "Powertrain"
+    ],
+    "aboutVehicle": false
+   },
+   {
+    "id": "EXT-P-04-1",
+    "evidence_ref": "external:EXT-P-04-1",
+    "kind": "market_share",
+    "statement": "China August 2026: new energy vehicles reached a record 65.2 % of passenger car retail sales, while plug-in hybrid sales fell 29.6 % and range-extender sales 22.2 % year on year.",
+    "regions": [
+     "CN"
+    ],
+    "subsystems": [
+     "powertrain"
+    ],
+    "vehicles": [],
+    "topic": "powertrain_mix",
+    "level": "strong",
+    "sources_agreeing": 3,
+    "basis": "evidence",
+    "trust": 3,
+    "verification": "confirmed",
+    "source": {
+     "title": "CPCA, passenger car retail sales in China, August 2026, reported by CnEVPost",
+     "origin": "CPCA",
+     "url": "https://cnevpost.com/2026/09/08/china-aug-2026-nev-retail/",
+     "date": "2026-09-08",
+     "type": "secondary"
+    },
+    "contradiction": {
+     "for": "The new energy share in China is at a record 65.2 % (August 2026).",
+     "against": "Plug-in hybrid and range-extender volumes fall at the same time (29.6 % and 22.2 % lower year on year)."
+    },
+    "kindLabel": "market share",
+    "levelLabel": "three or more independent sources",
+    "verified": true,
+    "verificationLabel": "figures found on the source page",
+    "trustLabel": "medium to high",
+    "basisLabel": "measured or reported",
+    "regionNames": [
+     "China"
+    ],
+    "subsystemNames": [
+     "Powertrain"
+    ],
+    "aboutVehicle": false
+   },
+   {
+    "id": "EXT-P-08-1",
+    "evidence_ref": "external:EXT-P-08-1",
+    "kind": "market_share",
+    "statement": "Global sales of electric vehicles (battery electric and plug-in hybrid) reached 1.83 million in August 2026; year to date Europe is up 29 %, China down 12 % and North America down 21 %.",
+    "regions": [
+     "Global",
+     "EU",
+     "CN",
+     "US"
+    ],
+    "subsystems": [
+     "powertrain"
+    ],
+    "vehicles": [],
+    "topic": "powertrain_mix",
+    "level": "strong",
+    "sources_agreeing": 5,
+    "basis": "evidence",
+    "trust": 3,
+    "verification": "confirmed",
+    "source": {
+     "title": "Benchmark Mineral Intelligence (Rho Motion data), global EV sales August 2026",
+     "origin": "Rho Motion",
+     "url": "https://source.benchmarkminerals.com/article/global-ev-sales-reach-1-8-million-units-in-august-2026",
+     "date": "2026-09-11",
+     "type": "primary"
+    },
+    "contradiction": null,
+    "kindLabel": "market share",
+    "levelLabel": "three or more independent sources",
+    "verified": true,
+    "verificationLabel": "figures found on the source page",
+    "trustLabel": "medium to high",
+    "basisLabel": "measured or reported",
+    "regionNames": [
+     "Worldwide",
+     "European Union",
+     "China",
+     "United States"
+    ],
+    "subsystemNames": [
+     "Powertrain"
+    ],
+    "aboutVehicle": false
+   },
+   {
+    "id": "EXT-T1-07-1",
+    "evidence_ref": "external:EXT-T1-07-1",
+    "kind": "consumer_pull",
+    "statement": "China: 25.3 % of owners criticise the lack of physical buttons.",
+    "regions": [
+     "CN"
+    ],
+    "subsystems": [
+     "software_hmi",
+     "interior_console"
+    ],
+    "vehicles": [],
+    "topic": "physical_controls",
+    "level": "strong",
+    "sources_agreeing": 4,
+    "basis": "evidence",
+    "trust": 3,
+    "verification": "confirmed",
+    "source": {
+     "title": "J.D. Power and Tongji University, intelligent cabin innovation index, reported by China Daily",
+     "origin": "J.D. Power",
+     "url": "https://www.chinaservicesinfo.com/s/202512/02/WS692ecccb498e36855033857e/reliability-responsiveness-valued-in-smart-car-cabins.html",
+     "date": "2025-12-02",
+     "type": "secondary"
+    },
+    "contradiction": {
+     "for": "Customers and several car makers go back to physical controls (S&P: 48 % prefer a mix; Volkswagen and others; a Chinese standard from 2027).",
+     "against": "BMW keeps the Neue Klasse cockpit digital and says nobody asked for the rotary controller back."
+    },
+    "kindLabel": "consumer survey",
+    "levelLabel": "three or more independent sources",
+    "verified": true,
+    "verificationLabel": "figures found on the source page",
+    "trustLabel": "medium to high",
+    "basisLabel": "measured or reported",
+    "regionNames": [
+     "China"
+    ],
+    "subsystemNames": [
+     "Software/HMI",
+     "Interior/console"
+    ],
+    "aboutVehicle": false
+   },
+   {
+    "id": "EXT-T3-01-1",
+    "evidence_ref": "external:EXT-T3-01-1",
+    "kind": "competitor_move",
+    "statement": "CarPlay Ultra is on the road at Aston Martin only. As of April 2026 Acura, Ford, Genesis, Honda, Hyundai, Infiniti, Jaguar, Kia, Land Rover, Lincoln, Nissan and Porsche plan it; Mercedes-Benz abandoned it, and Audi, Volvo, Polestar and Renault decided against it. BMW is not on the list.",
+    "regions": [
+     "Global",
+     "US"
+    ],
+    "subsystems": [
+     "software_hmi"
+    ],
+    "vehicles": [],
+    "topic": "phone_mirroring",
+    "level": "strong",
+    "sources_agreeing": 4,
+    "basis": "evidence",
+    "trust": 3,
+    "verification": "confirmed",
+    "source": {
+     "title": "9to5Mac, tracker of car makers and CarPlay Ultra",
+     "origin": "9to5Mac",
+     "url": "https://9to5mac.com/2026/05/04/carplay-ultra-automakers/",
+     "date": "2026-05-04",
+     "type": "primary"
+    },
+    "contradiction": null,
+    "kindLabel": "competitor move",
+    "levelLabel": "three or more independent sources",
+    "verified": true,
+    "verificationLabel": "figures found on the source page",
+    "trustLabel": "medium to high",
+    "basisLabel": "measured or reported",
+    "regionNames": [
+     "Worldwide",
+     "United States"
+    ],
+    "subsystemNames": [
+     "Software/HMI"
+    ],
+    "aboutVehicle": false
+   },
+   {
+    "id": "EXT-T3-02-1",
+    "evidence_ref": "external:EXT-T3-02-1",
+    "kind": "consumer_pull",
+    "statement": "Worldwide 30 % of electric car buyers and 35 % of combustion car buyers would not buy a car without Apple CarPlay or Android Auto.",
+    "regions": [
+     "Global",
+     "US"
+    ],
+    "subsystems": [
+     "software_hmi"
+    ],
+    "vehicles": [],
+    "topic": "phone_mirroring",
+    "level": "strong",
+    "sources_agreeing": 4,
+    "basis": "evidence",
+    "trust": 3,
+    "verification": "confirmed",
+    "source": {
+     "title": "McKinsey data on phone mirroring, reported by The Truth About Cars",
+     "origin": "McKinsey",
+     "url": "https://thetruthaboutcars.com/cars/news-blog/report-a-third-of-new-car-buyers-wouldn-t-consider-a-purchase-without-smartphone-44507608",
+     "date": "2024-06",
+     "type": "secondary"
+    },
+    "contradiction": null,
+    "kindLabel": "consumer survey",
+    "levelLabel": "three or more independent sources",
+    "verified": true,
+    "verificationLabel": "figures found on the source page",
+    "trustLabel": "medium to high",
+    "basisLabel": "measured or reported",
+    "regionNames": [
+     "Worldwide",
+     "United States"
+    ],
+    "subsystemNames": [
+     "Software/HMI"
+    ],
+    "aboutVehicle": false
+   },
+   {
+    "id": "EXT-T4-05-1",
+    "evidence_ref": "external:EXT-T4-05-1",
+    "kind": "market_share",
+    "statement": "China: Level 2+ hardware was standard on 28 % of cars in 2025 and on more than 41 % in April 2026; about 70 % of activations are on the motorway, and 60 to 70 % of motorway users keep using it.",
+    "regions": [
+     "CN"
+    ],
+    "subsystems": [
+     "software_hmi"
+    ],
+    "vehicles": [],
+    "topic": "driver_assistance_china",
+    "level": "strong",
+    "sources_agreeing": 3,
+    "basis": "evidence",
+    "trust": 3,
+    "verification": "not_fetched",
+    "source": {
+     "title": "Gasgoo, smart driving is far from democratised",
+     "origin": "Gasgoo",
+     "url": "https://autonews.gasgoo.com/articles/market-industry/smart-driving-is-far-from-democratized-2069793062271033345",
+     "date": "2026-06-24",
+     "type": "primary"
+    },
+    "contradiction": null,
+    "kindLabel": "market share",
+    "levelLabel": "three or more independent sources",
+    "verified": false,
+    "verificationLabel": "source page could not be read",
+    "trustLabel": "medium to high",
+    "basisLabel": "measured or reported",
+    "regionNames": [
+     "China"
+    ],
+    "subsystemNames": [
+     "Software/HMI"
+    ],
+    "aboutVehicle": false
+   },
+   {
+    "id": "EXT-T4-07-1",
+    "evidence_ref": "external:EXT-T4-07-1",
+    "kind": "market_share",
+    "statement": "Forecast: by 2028 more than half of new vehicles will have hands-free driving.",
+    "regions": [
+     "Global",
+     "US"
+    ],
+    "subsystems": [
+     "software_hmi"
+    ],
+    "vehicles": [],
+    "topic": "hands_free_driving",
+    "level": "strong",
+    "sources_agreeing": 5,
+    "basis": "assumption",
+    "trust": 3,
+    "verification": "not_fetched",
+    "source": {
+     "title": "Telemetry, assisted and automated driving forecast, reported by Tech Brew",
+     "origin": "Telemetry",
+     "url": "https://www.techbrew.com/stories/2025/10/06/telemetry-forecast-projects-hands-free-driving-systems",
+     "date": "2025-10-06",
+     "type": "secondary"
+    },
+    "contradiction": null,
+    "kindLabel": "market share",
+    "levelLabel": "three or more independent sources",
+    "verified": false,
+    "verificationLabel": "source page could not be read",
+    "trustLabel": "medium to high",
+    "basisLabel": "forecast or judgement",
+    "regionNames": [
+     "Worldwide",
+     "United States"
+    ],
+    "subsystemNames": [
+     "Software/HMI"
+    ],
+    "aboutVehicle": false
+   },
+   {
+    "id": "EXT-T8-04-1",
+    "evidence_ref": "external:EXT-T8-04-1",
+    "kind": "competitor_move",
+    "statement": "Tesla reports about 1.48 million paying Full Self-Driving users (up 56 %); the function is active on about 55 % of North American deliveries.",
+    "regions": [
+     "Global",
+     "US"
+    ],
+    "subsystems": [
+     "software_hmi"
+    ],
+    "vehicles": [],
+    "topic": "hands_free_driving",
+    "level": "strong",
+    "sources_agreeing": 4,
+    "basis": "evidence",
+    "trust": 3,
+    "verification": "confirmed",
+    "source": {
+     "title": "Tesla Full Self-Driving adoption in the second quarter of 2026, reported by Not a Tesla App",
+     "origin": "Tesla",
+     "url": "https://notateslaapp.com/news/4483/tesla-fsd-reaches-148-million-active-subscriptions",
+     "date": "2026-07-23",
+     "type": "secondary"
+    },
+    "contradiction": null,
+    "kindLabel": "competitor move",
+    "levelLabel": "three or more independent sources",
+    "verified": true,
+    "verificationLabel": "figures found on the source page",
+    "trustLabel": "medium to high",
+    "basisLabel": "measured or reported",
+    "regionNames": [
+     "Worldwide",
+     "United States"
+    ],
+    "subsystemNames": [
+     "Software/HMI"
+    ],
+    "aboutVehicle": false
+   },
+   {
+    "id": "EXT-X-06-1",
+    "evidence_ref": "external:EXT-X-06-1",
+    "kind": "competitor_move",
+    "statement": "Shown at CES 2026: the Mercedes-Benz CLA as the first model with the next generation of MB.DRIVE driver assistance; Ford plans a next-generation Level 2+ BlueCruise for 2027 and Level 3 eyes-off driving for 2028; AI agents in the cockpit were a common theme.",
+    "regions": [
+     "Global",
+     "US"
+    ],
+    "subsystems": [
+     "software_hmi"
+    ],
+    "vehicles": [],
+    "topic": "hands_free_driving",
+    "level": "strong",
+    "sources_agreeing": 4,
+    "basis": "evidence",
+    "trust": 3,
+    "verification": "confirmed",
+    "source": {
+     "title": "S&P Global Mobility AutoTechInsight, CES 2026 webinar slides",
+     "origin": "S&P Global Mobility",
+     "url": "https://autotechinsight.spglobal.com/_assets/ckfinder_library/files/SPG_Mobility_AutoTechInsight_Webinar_Series_CES_2026.pdf",
+     "date": "2026-01",
+     "type": "primary"
+    },
+    "contradiction": null,
+    "kindLabel": "competitor move",
+    "levelLabel": "three or more independent sources",
+    "verified": true,
+    "verificationLabel": "figures found on the source page",
+    "trustLabel": "medium to high",
+    "basisLabel": "measured or reported",
+    "regionNames": [
+     "Worldwide",
+     "United States"
+    ],
+    "subsystemNames": [
+     "Software/HMI"
+    ],
+    "aboutVehicle": false
+   },
+   {
+    "id": "EXT-E-54-1",
+    "evidence_ref": "external:EXT-E-54-1",
+    "kind": "consumer_pull",
+    "statement": "China 2026: 69 % call urban navigate-on-autopilot a must-have.",
+    "regions": [
+     "CN"
+    ],
+    "subsystems": [
+     "software_hmi"
+    ],
+    "vehicles": [],
+    "topic": "driver_assistance_china",
+    "level": "medium",
+    "sources_agreeing": 2,
+    "basis": "evidence",
+    "trust": 4,
+    "verification": "confirmed",
+    "source": {
+     "title": "McKinsey China auto consumer survey 2026, reported by China Daily",
+     "origin": "McKinsey",
+     "url": "https://govt.chinadaily.com.cn/s/202605/20/WS6a0d6634498e23165e06f85f/countrys-buyers-value-technology-over-prices.html",
+     "date": "2026-10-11",
+     "type": "secondary"
+    },
+    "contradiction": null,
+    "kindLabel": "consumer survey",
+    "levelLabel": "two independent sources",
+    "verified": true,
+    "verificationLabel": "figures found on the source page",
+    "trustLabel": "high",
+    "basisLabel": "measured or reported",
+    "regionNames": [
+     "China"
+    ],
+    "subsystemNames": [
+     "Software/HMI"
+    ],
+    "aboutVehicle": false
+   },
+   {
+    "id": "EXT-T5-04-1",
+    "evidence_ref": "external:EXT-T5-04-1",
+    "kind": "infrastructure",
+    "statement": "1.8 million public charging points were added worldwide in 2025, a rise of 33 %. Electric cars per public charging point at the end of 2025: China ten, EU 11, United States 33.",
+    "regions": [
+     "Global",
+     "EU",
+     "US",
+     "CN"
+    ],
+    "subsystems": [
+     "charging"
+    ],
+    "vehicles": [],
+    "topic": "charging_infrastructure",
+    "level": "medium",
+    "sources_agreeing": 2,
+    "basis": "evidence",
+    "trust": 4,
+    "verification": "confirmed",
+    "source": {
+     "title": "IEA charging infrastructure data, reported by EV Infrastructure News",
+     "origin": "IEA",
+     "url": "https://www.evinfrastructurenews.com/ev-networks/iea-1-8-million-public-ev-chargepoints-added-globally-in-2025-china-accounts-for-65-",
+     "date": "2026-05-21",
+     "type": "secondary"
+    },
+    "contradiction": null,
+    "kindLabel": "infrastructure",
+    "levelLabel": "two independent sources",
+    "verified": true,
+    "verificationLabel": "figures found on the source page",
+    "trustLabel": "high",
+    "basisLabel": "measured or reported",
+    "regionNames": [
+     "Worldwide",
+     "European Union",
+     "United States",
+     "China"
+    ],
+    "subsystemNames": [
+     "Charging"
+    ],
+    "aboutVehicle": false
+   },
+   {
+    "id": "EXT-T5-10-1",
+    "evidence_ref": "external:EXT-T5-10-1",
+    "kind": "infrastructure",
+    "statement": "China had 21.48 million charging connectors at the end of March 2026 (up 46.9 % year on year): 4.86 million public and 16.62 million private.",
+    "regions": [
+     "CN"
+    ],
+    "subsystems": [
+     "charging"
+    ],
+    "vehicles": [],
+    "topic": "charging_infrastructure",
+    "level": "medium",
+    "sources_agreeing": 2,
+    "basis": "evidence",
+    "trust": 4,
+    "verification": "not_fetched",
+    "source": {
+     "title": "China National Energy Administration charging data, reported by Gasgoo",
+     "origin": "China National Energy Administration",
+     "url": "https://autonews.gasgoo.com/articles/ev/chinas-charging-facility-total-exceeds-2148-million-up-nearly-50-year-on-year-2048732668508844032",
+     "date": "2026-04-27",
+     "type": "secondary"
+    },
+    "contradiction": null,
+    "kindLabel": "infrastructure",
+    "levelLabel": "two independent sources",
+    "verified": false,
+    "verificationLabel": "source page could not be read",
+    "trustLabel": "high",
+    "basisLabel": "measured or reported",
+    "regionNames": [
+     "China"
+    ],
+    "subsystemNames": [
+     "Charging"
+    ],
+    "aboutVehicle": false
+   },
+   {
+    "id": "EXT-X-01-2",
+    "evidence_ref": "external:EXT-X-01-2",
+    "kind": "consumer_pull",
+    "statement": "Brand loyalty: in Germany 53 % of premium customers intend to buy their brand again, across Europe and the US roughly 40 %, in China only about 10 %. Just 7 % of US consumers would consider a Chinese-made vehicle.",
+    "regions": [
+     "Global",
+     "EU",
+     "US",
+     "CN"
+    ],
+    "subsystems": [],
+    "vehicles": [],
+    "topic": "brand_pull",
+    "level": "medium",
+    "sources_agreeing": 2,
+    "basis": "evidence",
+    "trust": 4,
+    "verification": "confirmed",
+    "source": {
+     "title": "BCG with NIQ-GfK, what car buyers want",
+     "origin": "BCG",
+     "url": "https://www.bcg.com/publications/2025/what-car-buyers-want-global-guide-automotive-oems",
+     "date": "2025-11-04",
+     "type": "primary"
+    },
+    "contradiction": null,
+    "kindLabel": "consumer survey",
+    "levelLabel": "two independent sources",
+    "verified": true,
+    "verificationLabel": "figures found on the source page",
+    "trustLabel": "high",
+    "basisLabel": "measured or reported",
+    "regionNames": [
+     "Worldwide",
+     "European Union",
+     "United States",
+     "China"
+    ],
+    "subsystemNames": [],
+    "aboutVehicle": false
+   },
+   {
+    "id": "EXT-T2-05-1",
+    "evidence_ref": "external:EXT-T2-05-1",
+    "kind": "market_share",
+    "statement": "China: smart cockpits are in more than 80 % of passenger cars; the market is put at 330 billion yuan in 2030.",
+    "regions": [
+     "CN"
+    ],
+    "subsystems": [
+     "software_hmi"
+    ],
+    "vehicles": [],
+    "topic": "smart_cockpit_china",
+    "level": "medium",
+    "sources_agreeing": 2,
+    "basis": "evidence",
+    "trust": 3,
+    "verification": "not_fetched",
+    "source": {
+     "title": "Gasgoo Institute, Chinese smart cockpits report",
+     "origin": "Gasgoo",
+     "url": "https://autonews.gasgoo.com/articles/news/chinese-smart-cockpits-go-global-the-real-battle-has-just-begun-2088519023041200129",
+     "date": "2026",
+     "type": "primary"
+    },
+    "contradiction": null,
+    "kindLabel": "market share",
+    "levelLabel": "two independent sources",
+    "verified": false,
+    "verificationLabel": "source page could not be read",
+    "trustLabel": "medium to high",
+    "basisLabel": "measured or reported",
+    "regionNames": [
+     "China"
+    ],
+    "subsystemNames": [
+     "Software/HMI"
+    ],
+    "aboutVehicle": false
+   },
+   {
+    "id": "EXT-T4-04-1",
+    "evidence_ref": "external:EXT-T4-04-1",
+    "kind": "market_share",
+    "statement": "China: urban navigate-on-autopilot was on 15.1 % of insured passenger cars from January to November 2025 (up 5.6 points).",
+    "regions": [
+     "CN"
+    ],
+    "subsystems": [
+     "software_hmi"
+    ],
+    "vehicles": [],
+    "topic": "driver_assistance_china",
+    "level": "medium",
+    "sources_agreeing": 2,
+    "basis": "evidence",
+    "trust": 3,
+    "verification": "confirmed",
+    "source": {
+     "title": "CAAM, urban NOA assisted driving research report 2025, reported by 36Kr",
+     "origin": "CAAM",
+     "url": "https://eu.36kr.com/en/p/3646532844359559",
+     "date": "2026-01-14",
+     "type": "secondary"
+    },
+    "contradiction": null,
+    "kindLabel": "market share",
+    "levelLabel": "two independent sources",
+    "verified": true,
+    "verificationLabel": "figures found on the source page",
+    "trustLabel": "medium to high",
+    "basisLabel": "measured or reported",
+    "regionNames": [
+     "China"
+    ],
+    "subsystemNames": [
+     "Software/HMI"
+    ],
+    "aboutVehicle": false
+   },
+   {
+    "id": "EXT-T5-05-2",
+    "evidence_ref": "external:EXT-T5-05-2",
+    "kind": "consumer_pull",
+    "statement": "More than 70 % of electric car drivers in the US and in China say public charging has become more reliable; drivers in the EU and the US lean towards plug-in hybrids.",
+    "regions": [
+     "EU",
+     "US",
+     "CN"
+    ],
+    "subsystems": [
+     "charging"
+    ],
+    "vehicles": [],
+    "topic": "charging_experience",
+    "level": "medium",
+    "sources_agreeing": 2,
+    "basis": "evidence",
+    "trust": 3,
+    "verification": "not_fetched",
+    "source": {
+     "title": "Shell Recharge Driver Survey 2026",
+     "origin": "Shell",
+     "url": "https://www.shell.com/what-we-do/mobility/mobility-news/shell-recharge-driver-survey-2026.html",
+     "date": "2026-06-29",
+     "type": "primary"
+    },
+    "contradiction": null,
+    "kindLabel": "consumer survey",
+    "levelLabel": "two independent sources",
+    "verified": false,
+    "verificationLabel": "source page could not be read",
+    "trustLabel": "medium to high",
+    "basisLabel": "measured or reported",
+    "regionNames": [
+     "European Union",
+     "United States",
+     "China"
+    ],
+    "subsystemNames": [
+     "Charging"
+    ],
+    "aboutVehicle": false
+   },
+   {
+    "id": "EXT-T5-09-1",
+    "evidence_ref": "external:EXT-T5-09-1",
+    "kind": "infrastructure",
+    "statement": "Europe: more than half of all fast charge points are ultra-fast (150 kW or more), up from around 25 % five years ago. Roland Berger counts about 1.1 million new public charge points worldwide in 2025.",
+    "regions": [
+     "Global",
+     "EU"
+    ],
+    "subsystems": [
+     "charging"
+    ],
+    "vehicles": [],
+    "topic": "charging_infrastructure",
+    "level": "medium",
+    "sources_agreeing": 2,
+    "basis": "evidence",
+    "trust": 3,
+    "verification": "confirmed",
+    "source": {
+     "title": "Roland Berger EV Charging Index 2026",
+     "origin": "Roland Berger",
+     "url": "https://www.rolandberger.com/en/Insights/Publications/EV-Charging-Index-2026-Currents-of-change.html",
+     "date": "2026-07-29",
+     "type": "primary"
+    },
+    "contradiction": null,
+    "kindLabel": "infrastructure",
+    "levelLabel": "two independent sources",
+    "verified": true,
+    "verificationLabel": "figures found on the source page",
+    "trustLabel": "medium to high",
+    "basisLabel": "measured or reported",
+    "regionNames": [
+     "Worldwide",
+     "European Union"
+    ],
+    "subsystemNames": [
+     "Charging"
+    ],
+    "aboutVehicle": false
+   },
+   {
+    "id": "EXT-X-07-1",
+    "evidence_ref": "external:EXT-X-07-1",
+    "kind": "consumer_pull",
+    "statement": "China 2026: wealthy consumers plan to spend 10.2 % less than in 2025 on goods such as cars, jewellery and clothing, and 12.4 % more on services and experiences.",
+    "regions": [
+     "CN"
+    ],
+    "subsystems": [],
+    "vehicles": [],
+    "topic": "brand_pull",
+    "level": "medium",
+    "sources_agreeing": 2,
+    "basis": "evidence",
+    "trust": 3,
+    "verification": "confirmed",
+    "source": {
+     "title": "Hurun Chinese luxury consumer survey 2026, reported by Dragon Trail",
+     "origin": "Hurun",
+     "url": "https://dragontrail.com/resources/blog/6-top-takeaways-from-huruns-2026-luxury-consumer-survey",
+     "date": "2026-01",
+     "type": "secondary"
+    },
+    "contradiction": null,
+    "kindLabel": "consumer survey",
+    "levelLabel": "two independent sources",
+    "verified": true,
+    "verificationLabel": "figures found on the source page",
+    "trustLabel": "medium to high",
+    "basisLabel": "measured or reported",
+    "regionNames": [
+     "China"
+    ],
+    "subsystemNames": [],
+    "aboutVehicle": false
+   },
+   {
+    "id": "EXT-E-20-1",
+    "evidence_ref": "external:EXT-E-20-1",
+    "kind": "quality_index",
+    "statement": "J.D. Power China initial quality study: infotainment is the area that worsened most.",
+    "regions": [
+     "CN"
+    ],
+    "subsystems": [
+     "software_hmi"
+    ],
+    "vehicles": [],
+    "topic": "infotainment_quality",
+    "level": "weak",
+    "sources_agreeing": 1,
+    "basis": "evidence",
+    "trust": 4,
+    "verification": "not_fetched",
+    "source": {
+     "title": "J.D. Power China (APEAL, IQS, TXI)",
+     "origin": "J.D. Power",
+     "url": "https://china.jdpower.com/",
+     "date": null,
+     "type": "primary"
+    },
+    "contradiction": null,
+    "kindLabel": "quality index",
+    "levelLabel": "one source",
+    "verified": false,
+    "verificationLabel": "source page could not be read",
+    "trustLabel": "high",
+    "basisLabel": "measured or reported",
+    "regionNames": [
+     "China"
+    ],
+    "subsystemNames": [
+     "Software/HMI"
+    ],
+    "aboutVehicle": false
+   },
+   {
+    "id": "EXT-T1-01-3",
+    "evidence_ref": "external:EXT-T1-01-3",
+    "kind": "consumer_pull",
+    "statement": "Stated willingness to pay for wireless phone charging: 261 US dollars.",
+    "regions": [
+     "Global",
+     "EU",
+     "US",
+     "CN"
+    ],
+    "subsystems": [
+     "ee_architecture"
+    ],
+    "vehicles": [],
+    "topic": null,
+    "level": "weak",
+    "sources_agreeing": 1,
+    "basis": "evidence",
+    "trust": 4,
+    "verification": "confirmed",
+    "source": {
+     "title": "S&P Global Mobility, 2025 HMI consumer study",
+     "origin": "S&P Global Mobility",
+     "url": "https://www.mobilityglobal.com/en-us/automotive-insights/blog/what-consumers-value-in-human-machine-interface-technologies",
+     "date": "2026-02-12",
+     "type": "primary"
+    },
+    "contradiction": null,
+    "kindLabel": "consumer survey",
+    "levelLabel": "one source",
+    "verified": true,
+    "verificationLabel": "figures found on the source page",
+    "trustLabel": "high",
+    "basisLabel": "measured or reported",
+    "regionNames": [
+     "Worldwide",
+     "European Union",
+     "United States",
+     "China"
+    ],
+    "subsystemNames": [
+     "E/E architecture"
+    ],
+    "aboutVehicle": false
+   },
+   {
+    "id": "EXT-T1-02-2",
+    "evidence_ref": "external:EXT-T1-02-2",
+    "kind": "competitor_move",
+    "statement": "By the list, not on the fetched page: Mercedes-Benz brings physical controls back on customer feedback, and Geely, BYD, Changan and Chery move the same way.",
+    "regions": [
+     "EU",
+     "CN"
+    ],
+    "subsystems": [
+     "software_hmi",
+     "interior_console"
+    ],
+    "vehicles": [],
+    "topic": null,
+    "level": "weak",
+    "sources_agreeing": 1,
+    "basis": "evidence",
+    "trust": 4,
+    "verification": "not_checkable",
+    "source": {
+     "title": "Car makers return to physical buttons (Volkswagen ID. Polo cockpit, Automotive World)",
+     "origin": "Volkswagen",
+     "url": "https://www.automotiveworld.com/news/volkswagen-reveals-new-cockpit-design-with-id-polo/",
+     "date": "2026-08-26",
+     "type": "primary"
+    },
+    "contradiction": null,
+    "kindLabel": "competitor move",
+    "levelLabel": "one source",
+    "verified": false,
+    "verificationLabel": "nothing on the source page to check against",
+    "trustLabel": "high",
+    "basisLabel": "measured or reported",
+    "regionNames": [
+     "European Union",
+     "China"
+    ],
+    "subsystemNames": [
+     "Software/HMI",
+     "Interior/console"
+    ],
+    "aboutVehicle": false
+   },
+   {
+    "id": "EXT-T1-06-1",
+    "evidence_ref": "external:EXT-T1-06-1",
+    "kind": "market_share",
+    "statement": "Automotive display shipments in the first half of 2025: 120.96 million units (up 5.1 %); head-up display shipments up 25.3 %.",
+    "regions": [
+     "Global"
+    ],
+    "subsystems": [
+     "software_hmi",
+     "interior_console"
+    ],
+    "vehicles": [],
+    "topic": "head_up_display",
+    "level": "weak",
+    "sources_agreeing": 1,
+    "basis": "evidence",
+    "trust": 4,
+    "verification": "not_fetched",
+    "source": {
+     "title": "Omdia, automotive display market in the first half of 2025",
+     "origin": "Omdia",
+     "url": "https://www.businesswire.com/news/home/20251027178061/en/Omdia-Automotive-Display-Market-in-1H-2025-Growth-Slows-but-Technology-Upgrades-Accelerate",
+     "date": "2025-10-27",
+     "type": "primary"
+    },
+    "contradiction": null,
+    "kindLabel": "market share",
+    "levelLabel": "one source",
+    "verified": false,
+    "verificationLabel": "source page could not be read",
+    "trustLabel": "high",
+    "basisLabel": "measured or reported",
+    "regionNames": [
+     "Worldwide"
+    ],
+    "subsystemNames": [
+     "Software/HMI",
+     "Interior/console"
+    ],
+    "aboutVehicle": false
+   },
+   {
+    "id": "EXT-T2-01-2",
+    "evidence_ref": "external:EXT-T2-01-2",
+    "kind": "consumer_pull",
+    "statement": "Would keep the car longer because of over-the-air updates: China 72 %, United States 52 %, Germany 36 %.",
+    "regions": [
+     "EU",
+     "US",
+     "CN"
+    ],
+    "subsystems": [
+     "software_hmi",
+     "ee_architecture"
+    ],
+    "vehicles": [],
+    "topic": "over_the_air_updates",
+    "level": "weak",
+    "sources_agreeing": 1,
+    "basis": "evidence",
+    "trust": 4,
+    "verification": "confirmed",
+    "source": {
+     "title": "Deloitte, 2026 Global Automotive Consumer Study",
+     "origin": "Deloitte",
+     "url": "https://www.deloitte.com/content/dam/assets-shared/docs/industries/consumer/2026/global-automotive-consumer-study-2026.pdf",
+     "date": "2026",
+     "type": "primary"
+    },
+    "contradiction": null,
+    "kindLabel": "consumer survey",
+    "levelLabel": "one source",
+    "verified": true,
+    "verificationLabel": "figures found on the source page",
+    "trustLabel": "high",
+    "basisLabel": "measured or reported",
+    "regionNames": [
+     "European Union",
+     "United States",
+     "China"
+    ],
+    "subsystemNames": [
+     "Software/HMI",
+     "E/E architecture"
+    ],
+    "aboutVehicle": false
+   },
+   {
+    "id": "EXT-T2-01-3",
+    "evidence_ref": "external:EXT-T2-01-3",
+    "kind": "consumer_pull",
+    "statement": "Concerned about the data the car collects: Germany 58 %, United States 62 %, China 44 %.",
+    "regions": [
+     "EU",
+     "US",
+     "CN"
+    ],
+    "subsystems": [
+     "software_hmi"
+    ],
+    "vehicles": [],
+    "topic": "data_privacy",
+    "level": "weak",
+    "sources_agreeing": 1,
+    "basis": "evidence",
+    "trust": 4,
+    "verification": "confirmed",
+    "source": {
+     "title": "Deloitte, 2026 Global Automotive Consumer Study",
+     "origin": "Deloitte",
+     "url": "https://www.deloitte.com/content/dam/assets-shared/docs/industries/consumer/2026/global-automotive-consumer-study-2026.pdf",
+     "date": "2026",
+     "type": "primary"
+    },
+    "contradiction": null,
+    "kindLabel": "consumer survey",
+    "levelLabel": "one source",
+    "verified": true,
+    "verificationLabel": "figures found on the source page",
+    "trustLabel": "high",
+    "basisLabel": "measured or reported",
+    "regionNames": [
+     "European Union",
+     "United States",
+     "China"
+    ],
+    "subsystemNames": [
+     "Software/HMI"
+    ],
+    "aboutVehicle": false
+   },
+   {
+    "id": "EXT-T2-06-2",
+    "evidence_ref": "external:EXT-T2-06-2",
+    "kind": "competitor_move",
+    "statement": "By the list's own compilation, not from this page: Mercedes-Benz uses Google Gemini (CLA), GM and Volvo Gemini, Tesla Grok in Europe, BYD, Geely and Zeekr DeepSeek, BMW Alibaba's Qwen in China; cockpits built on large language models were the main theme of Auto China 2026.",
+    "regions": [
+     "Global",
+     "EU",
+     "US",
+     "CN"
+    ],
+    "subsystems": [
+     "software_hmi"
+    ],
+    "vehicles": [],
+    "topic": null,
+    "level": "weak",
+    "sources_agreeing": 1,
+    "basis": "assumption",
+    "trust": 4,
+    "verification": "not_checkable",
+    "source": {
+     "title": "BMW Group press, the iX3 at CES 2026 (the list's compilation of AI assistant moves)",
+     "origin": "BMW Group",
+     "url": "https://press.bmwgroup.com/usa/article/detail/T0454794EN_US/the-bmw-ix3-ushers-in-next-generation-innovations-at-ces-2026",
+     "date": "2025",
+     "type": "primary"
+    },
+    "contradiction": null,
+    "kindLabel": "competitor move",
+    "levelLabel": "one source",
+    "verified": false,
+    "verificationLabel": "nothing on the source page to check against",
+    "trustLabel": "high",
+    "basisLabel": "forecast or judgement",
+    "regionNames": [
+     "Worldwide",
+     "European Union",
+     "United States",
+     "China"
+    ],
+    "subsystemNames": [
+     "Software/HMI"
+    ],
+    "aboutVehicle": false
+   },
+   {
+    "id": "EXT-T3-05-1",
+    "evidence_ref": "external:EXT-T3-05-1",
+    "kind": "competitor_move",
+    "statement": "The Car Connectivity Consortium certified 115 digital key products in 2025; 16 car makers were new, among them BMW, Mercedes-Benz, Audi, NIO, XPENG and Zeekr.",
+    "regions": [
+     "Global",
+     "CN"
+    ],
+    "subsystems": [
+     "software_hmi",
+     "ee_architecture"
+    ],
+    "vehicles": [],
+    "topic": "digital_key",
+    "level": "weak",
+    "sources_agreeing": 1,
+    "basis": "evidence",
+    "trust": 4,
+    "verification": "not_fetched",
+    "source": {
+     "title": "Car Connectivity Consortium, digital key certifications 2025",
+     "origin": "Car Connectivity Consortium",
+     "url": "https://www.businesswire.com/news/home/20260106270279/en/CCC-Digital-Key-Certifications-Surged-in-2025-Reinforcing-the-Global-Standard-for-Secure-Vehicle-Access",
+     "date": "2026-01-06",
+     "type": "primary"
+    },
+    "contradiction": null,
+    "kindLabel": "competitor move",
+    "levelLabel": "one source",
+    "verified": false,
+    "verificationLabel": "source page could not be read",
+    "trustLabel": "high",
+    "basisLabel": "measured or reported",
+    "regionNames": [
+     "Worldwide",
+     "China"
+    ],
+    "subsystemNames": [
+     "Software/HMI",
+     "E/E architecture"
+    ],
+    "aboutVehicle": false
+   },
+   {
+    "id": "EXT-T5-03-2",
+    "evidence_ref": "external:EXT-T5-03-2",
+    "kind": "market_context",
+    "statement": "The average range of battery electric cars is almost 380 km and has plateaued in recent years.",
+    "regions": [
+     "Global"
+    ],
+    "subsystems": [
+     "hv_battery"
+    ],
+    "vehicles": [],
+    "topic": "range_offered",
+    "level": "weak",
+    "sources_agreeing": 1,
+    "basis": "evidence",
+    "trust": 4,
+    "verification": "confirmed",
+    "source": {
+     "title": "IEA Global EV Outlook 2026, trends in electric cars",
+     "origin": "IEA",
+     "url": "https://www.iea.org/reports/global-ev-outlook-2026/trends-in-electric-cars",
+     "date": "2026-05-20",
+     "type": "primary"
+    },
+    "contradiction": {
+     "for": "Customers accept about 480 km (S&P) and new flagship models offer more than 800 km (BMW iX3: 805 km WLTP).",
+     "against": "The sales-weighted average range of the electric cars actually sold is about 380 km and no longer rising (IEA)."
+    },
+    "kindLabel": "market context",
+    "levelLabel": "one source",
+    "verified": true,
+    "verificationLabel": "figures found on the source page",
+    "trustLabel": "high",
+    "basisLabel": "measured or reported",
+    "regionNames": [
+     "Worldwide"
+    ],
+    "subsystemNames": [
+     "HV battery"
+    ],
+    "aboutVehicle": false
+   },
+   {
+    "id": "EXT-T5-07-1",
+    "evidence_ref": "external:EXT-T5-07-1",
+    "kind": "consumer_pull",
+    "statement": "Consumers are willing to wait 30 minutes to an hour for a charging session and accept an average minimum range of 300 miles (480 km); more than half are interested in battery swapping.",
+    "regions": [
+     "Global"
+    ],
+    "subsystems": [
+     "hv_battery",
+     "charging"
+    ],
+    "vehicles": [],
+    "topic": "range_expectation",
+    "level": "weak",
+    "sources_agreeing": 1,
+    "basis": "evidence",
+    "trust": 4,
+    "verification": "confirmed",
+    "source": {
+     "title": "S&P Global Mobility, 2025 electrification consumer survey",
+     "origin": "S&P Global Mobility",
+     "url": "https://autotechinsight.spglobal.com/shop/product/5003676/2025-electrification-consumer-analysis-overcoming-range-anxiety-consumers-weigh-in-on-acceptable-ev-charging-time-and-range",
+     "date": "2025-12-09",
+     "type": "primary"
+    },
+    "contradiction": {
+     "for": "Customers accept about 480 km (S&P) and new flagship models offer more than 800 km (BMW iX3: 805 km WLTP).",
+     "against": "The sales-weighted average range of the electric cars actually sold is about 380 km and no longer rising (IEA)."
+    },
+    "kindLabel": "consumer survey",
+    "levelLabel": "one source",
+    "verified": true,
+    "verificationLabel": "figures found on the source page",
+    "trustLabel": "high",
+    "basisLabel": "measured or reported",
+    "regionNames": [
+     "Worldwide"
+    ],
+    "subsystemNames": [
+     "HV battery",
+     "Charging"
+    ],
+    "aboutVehicle": false
+   },
+   {
+    "id": "EXT-T5-11-1",
+    "evidence_ref": "external:EXT-T5-11-1",
+    "kind": "bmw_offer",
+    "statement": "BMW's Neue Klasse iX3: up to 805 km WLTP range, charging at up to 400 kW, up to 372 km of range added in 10 minutes. It is the technology the successors of our vehicles can draw on.",
+    "regions": [
+     "Global"
+    ],
+    "subsystems": [
+     "hv_battery",
+     "charging"
+    ],
+    "vehicles": [],
+    "topic": "fast_charging_tech",
+    "level": "weak",
+    "sources_agreeing": 1,
+    "basis": "evidence",
+    "trust": 4,
+    "verification": "confirmed",
+    "source": {
+     "title": "BMW Group, announcement of the Neue Klasse iX3",
+     "origin": "BMW Group",
+     "url": "https://www.bmwgroup.com/en/news/general/2025/the-new-BMW-iX3.html",
+     "date": "2025-09-05",
+     "type": "primary"
+    },
+    "contradiction": {
+     "for": "Customers accept about 480 km (S&P) and new flagship models offer more than 800 km (BMW iX3: 805 km WLTP).",
+     "against": "The sales-weighted average range of the electric cars actually sold is about 380 km and no longer rising (IEA)."
+    },
+    "kindLabel": "BMW offer",
+    "levelLabel": "one source",
+    "verified": true,
+    "verificationLabel": "figures found on the source page",
+    "trustLabel": "high",
+    "basisLabel": "measured or reported",
+    "regionNames": [
+     "Worldwide"
+    ],
+    "subsystemNames": [
+     "HV battery",
+     "Charging"
+    ],
+    "aboutVehicle": false
+   },
+   {
+    "id": "EXT-T5-12-1",
+    "evidence_ref": "external:EXT-T5-12-1",
+    "kind": "competitor_move",
+    "statement": "BYD's Super e-Platform charges at 1,000 kW, about 400 km of range in 5 minutes; BYD plans more than 4,000 flash-charging stations in China.",
+    "regions": [
+     "CN"
+    ],
+    "subsystems": [
+     "charging",
+     "hv_battery"
+    ],
+    "vehicles": [],
+    "topic": "fast_charging_tech",
+    "level": "weak",
+    "sources_agreeing": 1,
+    "basis": "evidence",
+    "trust": 4,
+    "verification": "confirmed",
+    "source": {
+     "title": "BYD, Super e-Platform with megawatt flash charging",
+     "origin": "BYD",
+     "url": "https://www.byd.com/mea/news-list/byd-unveils-super-e-platform-with-megawatt-flash-charging.html",
+     "date": "2025-03-17",
+     "type": "primary"
+    },
+    "contradiction": null,
+    "kindLabel": "competitor move",
+    "levelLabel": "one source",
+    "verified": true,
+    "verificationLabel": "figures found on the source page",
+    "trustLabel": "high",
+    "basisLabel": "measured or reported",
+    "regionNames": [
+     "China"
+    ],
+    "subsystemNames": [
+     "Charging",
+     "HV battery"
+    ],
+    "aboutVehicle": false
+   },
+   {
+    "id": "EXT-T6-04-1",
+    "evidence_ref": "external:EXT-T6-04-1",
+    "kind": "consumer_pull",
+    "statement": "Almost every fourth driver of a battery electric car names too much noise while driving as the most annoying part of the driving experience; by the list about one in two respondents values a quiet cabin most.",
+    "regions": [
+     "Global",
+     "EU",
+     "US",
+     "CN"
+    ],
+    "subsystems": [
+     "body_structure",
+     "interior_console"
+    ],
+    "vehicles": [],
+    "topic": "quiet_cabin",
+    "level": "weak",
+    "sources_agreeing": 1,
+    "basis": "evidence",
+    "trust": 4,
+    "verification": "confirmed",
+    "source": {
+     "title": "Asahi Kasei, fifth global automotive consumer survey (cabin)",
+     "origin": "Asahi Kasei",
+     "url": "https://www.asahi-kasei.com/news/2024/e241217.html",
+     "date": "2024-12-17",
+     "type": "primary"
+    },
+    "contradiction": null,
+    "kindLabel": "consumer survey",
+    "levelLabel": "one source",
+    "verified": true,
+    "verificationLabel": "figures found on the source page",
+    "trustLabel": "high",
+    "basisLabel": "measured or reported",
+    "regionNames": [
+     "Worldwide",
+     "European Union",
+     "United States",
+     "China"
+    ],
+    "subsystemNames": [
+     "Body/structure",
+     "Interior/console"
+    ],
+    "aboutVehicle": false
+   },
+   {
+    "id": "EXT-T7-01-1",
+    "evidence_ref": "external:EXT-T7-01-1",
+    "kind": "consumer_pull",
+    "statement": "In the West a sustainable car means recyclable materials and production, in China and Japan the powertrain; 35 % in Germany and the US would switch to a more sustainable brand.",
+    "regions": [
+     "EU",
+     "US",
+     "CN"
+    ],
+    "subsystems": [
+     "interior_console"
+    ],
+    "vehicles": [],
+    "topic": "sustainable_materials",
+    "level": "weak",
+    "sources_agreeing": 1,
+    "basis": "evidence",
+    "trust": 4,
+    "verification": "confirmed",
+    "source": {
+     "title": "Asahi Kasei, fifth global automotive consumer survey (sustainability)",
+     "origin": "Asahi Kasei",
+     "url": "https://www.asahi-kasei.com/news/2024/e241217.html",
+     "date": "2024-12-17",
+     "type": "primary"
+    },
+    "contradiction": {
+     "for": "In the West sustainability is read as recyclable, leather-free materials.",
+     "against": "In China leather seats are becoming standard in the mid-range, and leather production grows."
+    },
+    "kindLabel": "consumer survey",
+    "levelLabel": "one source",
+    "verified": true,
+    "verificationLabel": "figures found on the source page",
+    "trustLabel": "high",
+    "basisLabel": "measured or reported",
+    "regionNames": [
+     "European Union",
+     "United States",
+     "China"
+    ],
+    "subsystemNames": [
+     "Interior/console"
+    ],
+    "aboutVehicle": false
+   },
+   {
+    "id": "EXT-X-02-2",
+    "evidence_ref": "external:EXT-X-02-2",
+    "kind": "consumer_pull",
+    "statement": "47 % see the high price of connected services as a problem.",
+    "regions": [
+     "Global",
+     "EU",
+     "US",
+     "CN"
+    ],
+    "subsystems": [
+     "software_hmi"
+    ],
+    "vehicles": [],
+    "topic": "connected_services_pay",
+    "level": "weak",
+    "sources_agreeing": 1,
+    "basis": "evidence",
+    "trust": 4,
+    "verification": "not_fetched",
+    "source": {
+     "title": "EY Mobility Consumer Index 2025, full report",
+     "origin": "EY",
+     "url": "https://www.ey.com/content/dam/ey-unified-site/ey-com/en-ca/noindex/ey-global-mobility-consumer-index-2025.pdf",
+     "date": "2026-01",
+     "type": "primary"
+    },
+    "contradiction": null,
+    "kindLabel": "consumer survey",
+    "levelLabel": "one source",
+    "verified": false,
+    "verificationLabel": "source page could not be read",
+    "trustLabel": "high",
+    "basisLabel": "measured or reported",
+    "regionNames": [
+     "Worldwide",
+     "European Union",
+     "United States",
+     "China"
+    ],
+    "subsystemNames": [
+     "Software/HMI"
+    ],
+    "aboutVehicle": false
+   },
+   {
+    "id": "EXT-X-03-1",
+    "evidence_ref": "external:EXT-X-03-1",
+    "kind": "consumer_pull",
+    "statement": "95 % in China would buy an electric car next; in Germany the consideration of battery electric cars fell from 55 % to 45 %.",
+    "regions": [
+     "CN",
+     "EU"
+    ],
+    "subsystems": [
+     "powertrain"
+    ],
+    "vehicles": [],
+    "topic": "ev_purchase_intent",
+    "level": "weak",
+    "sources_agreeing": 1,
+    "basis": "evidence",
+    "trust": 4,
+    "verification": "not_found",
+    "source": {
+     "title": "Roland Berger, Automotive Disruption Radar 14",
+     "origin": "Roland Berger",
+     "url": "https://www.rolandberger.com/en/Insights/Publications/Automotive-Disruption-Radar-14-China-leads-the-way-as-the-industry-regroups.html",
+     "date": "2025-09-10",
+     "type": "primary"
+    },
+    "contradiction": null,
+    "kindLabel": "consumer survey",
+    "levelLabel": "one source",
+    "verified": false,
+    "verificationLabel": "figures not found on the source page",
+    "trustLabel": "high",
+    "basisLabel": "measured or reported",
+    "regionNames": [
+     "China",
+     "European Union"
+    ],
+    "subsystemNames": [
+     "Powertrain"
+    ],
+    "aboutVehicle": false
+   },
+   {
+    "id": "EXT-X-03-2",
+    "evidence_ref": "external:EXT-X-03-2",
+    "kind": "consumer_pull",
+    "statement": "Consumer interest in autonomous vehicles falls while investment in them surges; interest in electric vehicles slows but holds.",
+    "regions": [
+     "Global",
+     "EU",
+     "CN"
+    ],
+    "subsystems": [
+     "software_hmi"
+    ],
+    "vehicles": [],
+    "topic": "hands_free_driving",
+    "level": "weak",
+    "sources_agreeing": 1,
+    "basis": "evidence",
+    "trust": 4,
+    "verification": "confirmed",
+    "source": {
+     "title": "Roland Berger, Automotive Disruption Radar 14",
+     "origin": "Roland Berger",
+     "url": "https://www.rolandberger.com/en/Insights/Publications/Automotive-Disruption-Radar-14-China-leads-the-way-as-the-industry-regroups.html",
+     "date": "2025-09-10",
+     "type": "primary"
+    },
+    "contradiction": null,
+    "kindLabel": "consumer survey",
+    "levelLabel": "one source",
+    "verified": true,
+    "verificationLabel": "figures found on the source page",
+    "trustLabel": "high",
+    "basisLabel": "measured or reported",
+    "regionNames": [
+     "Worldwide",
+     "European Union",
+     "China"
+    ],
+    "subsystemNames": [
+     "Software/HMI"
+    ],
+    "aboutVehicle": false
+   },
+   {
+    "id": "EXT-T1-05-1",
+    "evidence_ref": "external:EXT-T1-05-1",
+    "kind": "market_share",
+    "statement": "China: head-up displays were fitted to 15.5 % of new cars in 2024; augmented-reality head-up displays passed 900,000 units (up 300 %).",
+    "regions": [
+     "CN"
+    ],
+    "subsystems": [
+     "software_hmi"
+    ],
+    "vehicles": [],
+    "topic": "head_up_display",
+    "level": "weak",
+    "sources_agreeing": 1,
+    "basis": "evidence",
+    "trust": 3,
+    "verification": "not_fetched",
+    "source": {
+     "title": "ResearchInChina, China head-up display report",
+     "origin": "ResearchInChina",
+     "url": "https://www.businesswire.com/news/home/20250915951501/en",
+     "date": "2025-09-15",
+     "type": "primary"
+    },
+    "contradiction": null,
+    "kindLabel": "market share",
+    "levelLabel": "one source",
+    "verified": false,
+    "verificationLabel": "source page could not be read",
+    "trustLabel": "medium to high",
+    "basisLabel": "measured or reported",
+    "regionNames": [
+     "China"
+    ],
+    "subsystemNames": [
+     "Software/HMI"
+    ],
+    "aboutVehicle": false
+   },
+   {
+    "id": "EXT-T1-07-2",
+    "evidence_ref": "external:EXT-T1-07-2",
+    "kind": "consumer_pull",
+    "statement": "China: 56.5 % use AI-based vehicle control less, naming reliability.",
+    "regions": [
+     "CN"
+    ],
+    "subsystems": [
+     "software_hmi"
+    ],
+    "vehicles": [],
+    "topic": "voice_ai_assistant",
+    "level": "weak",
+    "sources_agreeing": 1,
+    "basis": "evidence",
+    "trust": 3,
+    "verification": "confirmed",
+    "source": {
+     "title": "J.D. Power and Tongji University, intelligent cabin innovation index, reported by China Daily",
+     "origin": "J.D. Power",
+     "url": "https://www.chinaservicesinfo.com/s/202512/02/WS692ecccb498e36855033857e/reliability-responsiveness-valued-in-smart-car-cabins.html",
+     "date": "2025-12-02",
+     "type": "secondary"
+    },
+    "contradiction": {
+     "for": "84 % of Chinese buyers expect a proactive AI assistant (McKinsey).",
+     "against": "56.5 % use AI-based vehicle control less because they do not trust its reliability (J.D. Power and Tongji)."
+    },
+    "kindLabel": "consumer survey",
+    "levelLabel": "one source",
+    "verified": true,
+    "verificationLabel": "figures found on the source page",
+    "trustLabel": "medium to high",
+    "basisLabel": "measured or reported",
+    "regionNames": [
+     "China"
+    ],
+    "subsystemNames": [
+     "Software/HMI"
+    ],
+    "aboutVehicle": false
+   },
+   {
+    "id": "EXT-T2-03-1",
+    "evidence_ref": "external:EXT-T2-03-1",
+    "kind": "consumer_pull",
+    "statement": "54 % of Chinese buyers would change brand for a better digital experience (Germany and the US below 40 %); 30 % value a personal assistant.",
+    "regions": [
+     "Global",
+     "CN",
+     "EU",
+     "US"
+    ],
+    "subsystems": [
+     "software_hmi"
+    ],
+    "vehicles": [],
+    "topic": "digital_experience",
+    "level": "weak",
+    "sources_agreeing": 1,
+    "basis": "evidence",
+    "trust": 3,
+    "verification": "not_fetched",
+    "source": {
+     "title": "McKinsey, how consumers perceive in-car connectivity and digital services (2023)",
+     "origin": "McKinsey",
+     "url": "https://www.mckinsey.com/industries/automotive-and-assembly/our-insights/how-do-consumers-perceive-in-car-connectivity-and-digital-services",
+     "date": "2023-09",
+     "type": "primary"
+    },
+    "contradiction": null,
+    "kindLabel": "consumer survey",
+    "levelLabel": "one source",
+    "verified": false,
+    "verificationLabel": "source page could not be read",
+    "trustLabel": "medium to high",
+    "basisLabel": "measured or reported",
+    "regionNames": [
+     "Worldwide",
+     "China",
+     "European Union",
+     "United States"
+    ],
+    "subsystemNames": [
+     "Software/HMI"
+    ],
+    "aboutVehicle": false
+   },
+   {
+    "id": "EXT-T2-04-1",
+    "evidence_ref": "external:EXT-T2-04-1",
+    "kind": "market_share",
+    "statement": "94 % of the new cars sold in 2030 will be connected.",
+    "regions": [
+     "Global"
+    ],
+    "subsystems": [
+     "ee_architecture",
+     "software_hmi"
+    ],
+    "vehicles": [],
+    "topic": null,
+    "level": "weak",
+    "sources_agreeing": 1,
+    "basis": "assumption",
+    "trust": 3,
+    "verification": "confirmed",
+    "source": {
+     "title": "Counterpoint Research, connected car outlook",
+     "origin": "Counterpoint Research",
+     "url": "https://counterpointresearch.com/en/reports/by-2030-94-percent-of-new-cars-sold-will-be-connected-from-premium-feature-to-industry-baseline",
+     "date": "2025-10-07",
+     "type": "primary"
+    },
+    "contradiction": null,
+    "kindLabel": "market share",
+    "levelLabel": "one source",
+    "verified": true,
+    "verificationLabel": "figures found on the source page",
+    "trustLabel": "medium to high",
+    "basisLabel": "forecast or judgement",
+    "regionNames": [
+     "Worldwide"
+    ],
+    "subsystemNames": [
+     "E/E architecture",
+     "Software/HMI"
+    ],
+    "aboutVehicle": false
+   },
+   {
+    "id": "EXT-T2-07-1",
+    "evidence_ref": "external:EXT-T2-07-1",
+    "kind": "competitor_move",
+    "statement": "CES 2026: Honda, Mercedes-Benz and Volkswagen embed large language models for in-car queries; BMW and Mercedes-Benz, among others, showed spatial audio that can be upgraded over the air; monetisation still lags.",
+    "regions": [
+     "Global"
+    ],
+    "subsystems": [
+     "software_hmi"
+    ],
+    "vehicles": [],
+    "topic": "voice_ai_assistant",
+    "level": "weak",
+    "sources_agreeing": 1,
+    "basis": "evidence",
+    "trust": 3,
+    "verification": "confirmed",
+    "source": {
+     "title": "S&P Global Mobility, CES 2026 spotlights automotive technology",
+     "origin": "S&P Global Mobility",
+     "url": "https://www.mobilityglobal.com/en-us/automotive-insights/blog/ces-2026-spotlights-automotive-technology",
+     "date": "2026-01-15",
+     "type": "primary"
+    },
+    "contradiction": null,
+    "kindLabel": "competitor move",
+    "levelLabel": "one source",
+    "verified": true,
+    "verificationLabel": "figures found on the source page",
+    "trustLabel": "medium to high",
+    "basisLabel": "measured or reported",
+    "regionNames": [
+     "Worldwide"
+    ],
+    "subsystemNames": [
+     "Software/HMI"
+    ],
+    "aboutVehicle": false
+   },
+   {
+    "id": "EXT-T3-06-1",
+    "evidence_ref": "external:EXT-T3-06-1",
+    "kind": "competitor_move",
+    "statement": "Huawei's HIMA alliance delivered 589,100 cars in 2025 (up 32 %); by the end of the year more than 1.4 million passenger cars carried Huawei's driver assistance system ADS.",
+    "regions": [
+     "CN"
+    ],
+    "subsystems": [
+     "software_hmi"
+    ],
+    "vehicles": [],
+    "topic": "smart_cockpit_china",
+    "level": "weak",
+    "sources_agreeing": 1,
+    "basis": "evidence",
+    "trust": 3,
+    "verification": "confirmed",
+    "source": {
+     "title": "Huawei HIMA and the HarmonyOS cockpit, reported by TechNode",
+     "origin": "Huawei",
+     "url": "https://technode.com/2026/04/01/huawei-highlights-ai-harmonyos-and-auto-momentum-in-2015-annual-report/",
+     "date": "2026-04-01",
+     "type": "secondary"
+    },
+    "contradiction": null,
+    "kindLabel": "competitor move",
+    "levelLabel": "one source",
+    "verified": true,
+    "verificationLabel": "figures found on the source page",
+    "trustLabel": "medium to high",
+    "basisLabel": "measured or reported",
+    "regionNames": [
+     "China"
+    ],
+    "subsystemNames": [
+     "Software/HMI"
+    ],
+    "aboutVehicle": false
+   },
+   {
+    "id": "EXT-T5-06-1",
+    "evidence_ref": "external:EXT-T5-06-1",
+    "kind": "consumer_pull",
+    "statement": "Worldwide purchase intent for the next 24 months: combustion 50 % (up 13 points), battery electric 14 % (down 10 points); the main concerns are range (29 %) and charging infrastructure (28 %).",
+    "regions": [
+     "Global"
+    ],
+    "subsystems": [
+     "powertrain",
+     "hv_battery",
+     "charging"
+    ],
+    "vehicles": [],
+    "topic": "ev_purchase_intent",
+    "level": "weak",
+    "sources_agreeing": 1,
+    "basis": "evidence",
+    "trust": 3,
+    "verification": "confirmed",
+    "source": {
+     "title": "EY Mobility Consumer Index 2025, press release",
+     "origin": "EY",
+     "url": "https://www.ey.com/en_gl/newsroom/2025/12/global-consumers-driven-back-to-ice-vehicles-as-ev-enthusiasm-cools-ey-research",
+     "date": "2025-12-09",
+     "type": "primary"
+    },
+    "contradiction": {
+     "for": "Registrations: the battery electric share in the EU rose from 17.4 % (2025) to 21.7 % (January to August 2026).",
+     "against": "Stated intent: EY measures battery electric purchase intent 10 points lower, and Shell finds consideration in Europe unchanged at 40 %."
+    },
+    "kindLabel": "consumer survey",
+    "levelLabel": "one source",
+    "verified": true,
+    "verificationLabel": "figures found on the source page",
+    "trustLabel": "medium to high",
+    "basisLabel": "measured or reported",
+    "regionNames": [
+     "Worldwide"
+    ],
+    "subsystemNames": [
+     "Powertrain",
+     "HV battery",
+     "Charging"
+    ],
+    "aboutVehicle": false
+   },
+   {
+    "id": "EXT-T6-01-1",
+    "evidence_ref": "external:EXT-T6-01-1",
+    "kind": "competitor_move",
+    "statement": "China: front seats with ventilation, heating and massage as standard rose from 3.7 % (2024) to 5.5 % (first half of 2025) in the 200,000 to 300,000 yuan band; above 300,000 yuan the zero-gravity seat is basic equipment.",
+    "regions": [
+     "CN"
+    ],
+    "subsystems": [
+     "seats"
+    ],
+    "vehicles": [],
+    "topic": "seat_comfort_features",
+    "level": "weak",
+    "sources_agreeing": 1,
+    "basis": "evidence",
+    "trust": 3,
+    "verification": "not_fetched",
+    "source": {
+     "title": "ResearchInChina, automotive seat innovation report 2025",
+     "origin": "ResearchInChina",
+     "url": "https://www.businesswire.com/news/home/20251013573719/en",
+     "date": "2025-10-13",
+     "type": "primary"
+    },
+    "contradiction": {
+     "for": "The zero-gravity seat spreads fast in China (32 models in 2022, 117 in 2024).",
+     "against": "A safety backlash against the reclined seating position has begun."
+    },
+    "kindLabel": "competitor move",
+    "levelLabel": "one source",
+    "verified": false,
+    "verificationLabel": "source page could not be read",
+    "trustLabel": "medium to high",
+    "basisLabel": "measured or reported",
+    "regionNames": [
+     "China"
+    ],
+    "subsystemNames": [
+     "Seats"
+    ],
+    "aboutVehicle": false
+   },
+   {
+    "id": "EXT-T6-02-1",
+    "evidence_ref": "external:EXT-T6-02-1",
+    "kind": "competitor_move",
+    "statement": "China: models with a zero-gravity seat rose from 32 (2022) to 117 (2024), a penetration above 5 %; a safety backlash has begun.",
+    "regions": [
+     "CN"
+    ],
+    "subsystems": [
+     "seats"
+    ],
+    "vehicles": [],
+    "topic": "seat_comfort_features",
+    "level": "weak",
+    "sources_agreeing": 1,
+    "basis": "evidence",
+    "trust": 3,
+    "verification": "not_fetched",
+    "source": {
+     "title": "Gasgoo, who set the comfort trap of zero-gravity seats",
+     "origin": "Gasgoo",
+     "url": "https://autonews.gasgoo.com/articles/market-industry/who-set-the-comfort-trap-of-zero-gravity-seats-2054544130686996481",
+     "date": "2026-05-13",
+     "type": "primary"
+    },
+    "contradiction": {
+     "for": "The zero-gravity seat spreads fast in China (32 models in 2022, 117 in 2024).",
+     "against": "A safety backlash against the reclined seating position has begun."
+    },
+    "kindLabel": "competitor move",
+    "levelLabel": "one source",
+    "verified": false,
+    "verificationLabel": "source page could not be read",
+    "trustLabel": "medium to high",
+    "basisLabel": "measured or reported",
+    "regionNames": [
+     "China"
+    ],
+    "subsystemNames": [
+     "Seats"
+    ],
+    "aboutVehicle": false
+   },
+   {
+    "id": "EXT-T6-03-1",
+    "evidence_ref": "external:EXT-T6-03-1",
+    "kind": "competitor_move",
+    "statement": "Auto China 2026: over 60 of the 181 premiere models are D- or E-segment SUVs and MPVs, which brings more and larger displays, above all for rear passengers; rear-seat entertainment with screens and even projectors is becoming common there (Aito M9: 32-inch rear projector).",
+    "regions": [
+     "CN"
+    ],
+    "subsystems": [
+     "software_hmi"
+    ],
+    "vehicles": [],
+    "topic": "rear_seat_entertainment",
+    "level": "weak",
+    "sources_agreeing": 1,
+    "basis": "evidence",
+    "trust": 3,
+    "verification": "confirmed",
+    "source": {
+     "title": "S&P Global Mobility AutoTechInsight, Auto China 2026 report",
+     "origin": "S&P Global Mobility",
+     "url": "https://autotechinsight.spglobal.com/_assets/ckfinder_library/files/SPG_Mobility_AutoTechInsight_AutoChinaBeijing_May2026.pdf",
+     "date": "2026-05",
+     "type": "primary"
+    },
+    "contradiction": null,
+    "kindLabel": "competitor move",
+    "levelLabel": "one source",
+    "verified": true,
+    "verificationLabel": "figures found on the source page",
+    "trustLabel": "medium to high",
+    "basisLabel": "measured or reported",
+    "regionNames": [
+     "China"
+    ],
+    "subsystemNames": [
+     "Software/HMI"
+    ],
+    "aboutVehicle": false
+   },
+   {
+    "id": "EXT-T7-02-1",
+    "evidence_ref": "external:EXT-T7-02-1",
+    "kind": "consumer_pull",
+    "statement": "Buyers of cars above 150,000 US dollars rank flawlessness (quality and durability) first and sustainability sixth; 71 % would not consider a Chinese luxury brand.",
+    "regions": [
+     "Global"
+    ],
+    "subsystems": [
+     "interior_console"
+    ],
+    "vehicles": [],
+    "topic": "luxury_priorities",
+    "level": "weak",
+    "sources_agreeing": 1,
+    "basis": "evidence",
+    "trust": 3,
+    "verification": "not_fetched",
+    "source": {
+     "title": "McKinsey luxury car survey, Shifting gears",
+     "origin": "McKinsey",
+     "url": "https://www.mckinsey.com/industries/automotive-and-assembly/our-insights/shifting-gears-what-buyers-are-saying-about-the-luxury-car-experience",
+     "date": "2025-03-28",
+     "type": "primary"
+    },
+    "contradiction": null,
+    "kindLabel": "consumer survey",
+    "levelLabel": "one source",
+    "verified": false,
+    "verificationLabel": "source page could not be read",
+    "trustLabel": "medium to high",
+    "basisLabel": "measured or reported",
+    "regionNames": [
+     "Worldwide"
+    ],
+    "subsystemNames": [
+     "Interior/console"
+    ],
+    "aboutVehicle": false
+   },
+   {
+    "id": "EXT-T7-03-1",
+    "evidence_ref": "external:EXT-T7-03-1",
+    "kind": "consumer_pull",
+    "statement": "Of the consumers willing to pay more for an environmentally friendly car, 48 % would pay up to 10 % more.",
+    "regions": [
+     "Global"
+    ],
+    "subsystems": [
+     "interior_console"
+    ],
+    "vehicles": [],
+    "topic": "sustainable_materials",
+    "level": "weak",
+    "sources_agreeing": 1,
+    "basis": "evidence",
+    "trust": 3,
+    "verification": "confirmed",
+    "source": {
+     "title": "YouGov, the green premium on cars",
+     "origin": "YouGov",
+     "url": "https://business.yougov.com/content/49364-the-green-premium-on-cars-how-much-more-are-consumers-willing-to-pay-for-eco-friendly-vehicles",
+     "date": "2024-05",
+     "type": "primary"
+    },
+    "contradiction": null,
+    "kindLabel": "consumer survey",
+    "levelLabel": "one source",
+    "verified": true,
+    "verificationLabel": "figures found on the source page",
+    "trustLabel": "medium to high",
+    "basisLabel": "measured or reported",
+    "regionNames": [
+     "Worldwide"
+    ],
+    "subsystemNames": [
+     "Interior/console"
+    ],
+    "aboutVehicle": false
+   },
+   {
+    "id": "EXT-T7-05-1",
+    "evidence_ref": "external:EXT-T7-05-1",
+    "kind": "competitor_move",
+    "statement": "China: ambient lighting spreads to the roof and the door handles; LED low beams are on 89.1 % of cars.",
+    "regions": [
+     "CN"
+    ],
+    "subsystems": [
+     "interior_console",
+     "exterior_design"
+    ],
+    "vehicles": [],
+    "topic": "ambient_lighting",
+    "level": "weak",
+    "sources_agreeing": 1,
+    "basis": "evidence",
+    "trust": 3,
+    "verification": "not_fetched",
+    "source": {
+     "title": "ResearchInChina, automotive lighting and ambient light report 2025",
+     "origin": "ResearchInChina",
+     "url": "https://www.businesswire.com/news/home/20251203916369/en",
+     "date": "2025-12-03",
+     "type": "primary"
+    },
+    "contradiction": null,
+    "kindLabel": "competitor move",
+    "levelLabel": "one source",
+    "verified": false,
+    "verificationLabel": "source page could not be read",
+    "trustLabel": "medium to high",
+    "basisLabel": "measured or reported",
+    "regionNames": [
+     "China"
+    ],
+    "subsystemNames": [
+     "Interior/console",
+     "Exterior design"
+    ],
+    "aboutVehicle": false
+   },
+   {
+    "id": "EXT-X-06-2",
+    "evidence_ref": "external:EXT-X-06-2",
+    "kind": "bmw_offer",
+    "statement": "By 2027 BMW brings the technologies of the Neue Klasse platform and architecture to 40 new models and model updates.",
+    "regions": [
+     "Global",
+     "US"
+    ],
+    "subsystems": [
+     "ee_architecture",
+     "software_hmi"
+    ],
+    "vehicles": [],
+    "topic": null,
+    "level": "weak",
+    "sources_agreeing": 1,
+    "basis": "evidence",
+    "trust": 3,
+    "verification": "confirmed",
+    "source": {
+     "title": "S&P Global Mobility AutoTechInsight, CES 2026 webinar slides",
+     "origin": "S&P Global Mobility",
+     "url": "https://autotechinsight.spglobal.com/_assets/ckfinder_library/files/SPG_Mobility_AutoTechInsight_Webinar_Series_CES_2026.pdf",
+     "date": "2026-01",
+     "type": "primary"
+    },
+    "contradiction": null,
+    "kindLabel": "BMW offer",
+    "levelLabel": "one source",
+    "verified": true,
+    "verificationLabel": "figures found on the source page",
+    "trustLabel": "medium to high",
+    "basisLabel": "measured or reported",
+    "regionNames": [
+     "Worldwide",
+     "United States"
+    ],
+    "subsystemNames": [
+     "E/E architecture",
+     "Software/HMI"
+    ],
+    "aboutVehicle": false
+   },
+   {
+    "id": "EXT-X-07-2",
+    "evidence_ref": "external:EXT-X-07-2",
+    "kind": "consumer_pull",
+    "statement": "By the list, not on the fetched page: interest in BMW, Mercedes-Benz and Audi falls in China while brands linked to Huawei are preferred.",
+    "regions": [
+     "CN"
+    ],
+    "subsystems": [],
+    "vehicles": [],
+    "topic": null,
+    "level": "weak",
+    "sources_agreeing": 1,
+    "basis": "evidence",
+    "trust": 3,
+    "verification": "not_checkable",
+    "source": {
+     "title": "Hurun Chinese luxury consumer survey 2026, reported by Dragon Trail",
+     "origin": "Hurun",
+     "url": "https://dragontrail.com/resources/blog/6-top-takeaways-from-huruns-2026-luxury-consumer-survey",
+     "date": "2026-01",
+     "type": "secondary"
+    },
+    "contradiction": null,
+    "kindLabel": "consumer survey",
+    "levelLabel": "one source",
+    "verified": false,
+    "verificationLabel": "nothing on the source page to check against",
+    "trustLabel": "medium to high",
+    "basisLabel": "measured or reported",
+    "regionNames": [
+     "China"
+    ],
+    "subsystemNames": [],
+    "aboutVehicle": false
+   },
+   {
+    "id": "EXT-T6-07-1",
+    "evidence_ref": "external:EXT-T6-07-1",
+    "kind": "competitor_move",
+    "statement": "China: a built-in fridge was in about 7.26 % of new energy cars in 2024 and in 0.22 % of combustion cars; Dongchedi lists it on 45 of 385 new energy models (11.7 %).",
+    "regions": [
+     "CN"
+    ],
+    "subsystems": [
+     "interior_console"
+    ],
+    "vehicles": [],
+    "topic": "in_car_fridge",
+    "level": "weak",
+    "sources_agreeing": 1,
+    "basis": "evidence",
+    "trust": 2,
+    "verification": "confirmed",
+    "source": {
+     "title": "Zhiyan Consulting, in-car fridges in China",
+     "origin": "Zhiyan Consulting",
+     "url": "https://www.chyxx.com/industry/1215715.html",
+     "date": "2025-03-13",
+     "type": "primary"
+    },
+    "contradiction": {
+     "for": "The built-in fridge spreads: about 7 % of new energy cars in China in 2024.",
+     "against": "How much it is used is disputed: the 5 % usage figure comes from one executive, without source or definition."
+    },
+    "kindLabel": "competitor move",
+    "levelLabel": "one source",
+    "verified": true,
+    "verificationLabel": "figures found on the source page",
+    "trustLabel": "medium",
+    "basisLabel": "measured or reported",
+    "regionNames": [
+     "China"
+    ],
+    "subsystemNames": [
+     "Interior/console"
+    ],
+    "aboutVehicle": false
+   },
+   {
+    "id": "EXT-T7-04-1",
+    "evidence_ref": "external:EXT-T7-04-1",
+    "kind": "competitor_move",
+    "statement": "China's automotive leather production exceeds 500 million square feet and grows 6 to 8 % in 2025; leather seats are becoming standard in mid-range SUVs.",
+    "regions": [
+     "CN"
+    ],
+    "subsystems": [
+     "seats",
+     "interior_console"
+    ],
+    "vehicles": [],
+    "topic": "leather_china",
+    "level": "weak",
+    "sources_agreeing": 1,
+    "basis": "evidence",
+    "trust": 2,
+    "verification": "not_found",
+    "source": {
+     "title": "APLF, automotive leather production and consumption in China 2024 to 2025",
+     "origin": "APLF",
+     "url": "https://www.aplf.com/2025/08/25/aplf-report-automotive-leather-production-and-consumption-in-china-2024-2025/",
+     "date": "2025-08-25",
+     "type": "primary"
+    },
+    "contradiction": {
+     "for": "In the West sustainability is read as recyclable, leather-free materials.",
+     "against": "In China leather seats are becoming standard in the mid-range, and leather production grows."
+    },
+    "kindLabel": "competitor move",
+    "levelLabel": "one source",
+    "verified": false,
+    "verificationLabel": "figures not found on the source page",
+    "trustLabel": "medium",
+    "basisLabel": "measured or reported",
+    "regionNames": [
+     "China"
+    ],
+    "subsystemNames": [
+     "Seats",
+     "Interior/console"
+    ],
+    "aboutVehicle": false
+   },
+   {
+    "id": "EXT-T1-03-1",
+    "evidence_ref": "external:EXT-T1-03-1",
+    "kind": "bmw_offer",
+    "statement": "BMW says that users of the new iDrive in the iX3 do not ask for the rotary controller back; the direction of the air vents is set on the touchscreen.",
+    "regions": [
+     "Global"
+    ],
+    "subsystems": [
+     "software_hmi",
+     "thermal_hvac"
+    ],
+    "vehicles": [],
+    "topic": "physical_controls",
+    "level": "weak",
+    "sources_agreeing": 1,
+    "basis": "evidence",
+    "trust": 1,
+    "verification": "confirmed",
+    "source": {
+     "title": "BMWBLOG, BMW says users of the new iDrive do not miss the rotary controller",
+     "origin": "BMW Group",
+     "url": "https://www.bmwblog.com/2026/01/14/bmw-says-idrive-x-users-do-not-miss-physical-knob/",
+     "date": "2026-01-14",
+     "type": "secondary"
+    },
+    "contradiction": {
+     "for": "Customers and several car makers go back to physical controls (S&P: 48 % prefer a mix; Volkswagen and others; a Chinese standard from 2027).",
+     "against": "BMW keeps the Neue Klasse cockpit digital and says nobody asked for the rotary controller back."
+    },
+    "kindLabel": "BMW offer",
+    "levelLabel": "one source",
+    "verified": true,
+    "verificationLabel": "figures found on the source page",
+    "trustLabel": "low",
+    "basisLabel": "measured or reported",
+    "regionNames": [
+     "Worldwide"
+    ],
+    "subsystemNames": [
+     "Software/HMI",
+     "Thermal/HVAC"
+    ],
+    "aboutVehicle": false
+   },
+   {
+    "id": "EXT-T6-08-1",
+    "evidence_ref": "external:EXT-T6-08-1",
+    "kind": "consumer_pull",
+    "statement": "Deepal's chairman said at the 2026 World New Energy Vehicle Congress that only 5 % of owners use the in-car fridge, and that rear entertainment screens and in-car karaoke are used fewer than ten times a year; he gave no source and no definition, and the claim was disputed at once.",
+    "regions": [
+     "CN"
+    ],
+    "subsystems": [
+     "interior_console",
+     "software_hmi"
+    ],
+    "vehicles": [],
+    "topic": "in_car_fridge",
+    "level": "weak",
+    "sources_agreeing": 1,
+    "basis": "evidence",
+    "trust": 1,
+    "verification": "confirmed",
+    "source": {
+     "title": "ifeng, the source of the claim that 5 % use the in-car fridge",
+     "origin": "Deepal",
+     "url": "https://tech.ifeng.com/c/8wmbTabIvzV",
+     "date": "2026-09-28",
+     "type": "secondary"
+    },
+    "contradiction": {
+     "for": "The built-in fridge spreads: about 7 % of new energy cars in China in 2024.",
+     "against": "How much it is used is disputed: the 5 % usage figure comes from one executive, without source or definition."
+    },
+    "kindLabel": "consumer survey",
+    "levelLabel": "one source",
+    "verified": true,
+    "verificationLabel": "figures found on the source page",
+    "trustLabel": "low",
+    "basisLabel": "measured or reported",
+    "regionNames": [
+     "China"
+    ],
+    "subsystemNames": [
+     "Interior/console",
+     "Software/HMI"
+    ],
+    "aboutVehicle": false
+   }
+  ]
+ },
+ "exports": null
 }

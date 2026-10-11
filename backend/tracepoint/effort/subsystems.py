@@ -8,9 +8,9 @@ weights and the subsystems a vehicle does not have come from the effort model th
 with (``config/effort/model.yaml``), so the screens and the estimates rest on one file.
 
 The output has the shape of ``frontend/lib/content/cpm-types.ts``, the contract of
-``GET /cpm/{vehicle}``; ``frontend/scripts/build-cpm.py`` builds the same content from the
-workbooks, and the tests hold the two equal. It also feeds the context pack and the tools of the
-agents. The mapping, the weights and the links are assumptions, not calibrated (effort rule 50).
+``GET /cpm/{vehicle}``; the frontend's snapshot writes it unchanged into
+``frontend/content/cpm.json`` (D-101), and the tests hold the two equal. It also feeds the context
+pack and the tools of the agents. The mapping, the weights and the links are assumptions, not calibrated (effort rule 50).
 """
 
 from __future__ import annotations
@@ -288,6 +288,22 @@ def model_catalogue() -> dict[str, Any]:
         "vehicles": {
             code: {"platform": v.platform, "absent": list(v.absent), "note": v.note}
             for code, v in cfg.vehicles.items()
+        },
+        # The rest of the model the engine computes with, so a screen can show all of it.
+        "parameters": {
+            "carryoverFactor": cfg.carryover_factor,
+            "propagationReferenceImpact": cfg.propagation_reference_impact,
+            "platformRule": {
+                "subsystems": list(cfg.platform_rule.subsystems),
+                "minOwnImpact": cfg.platform_rule.min_own_impact,
+            },
+            "certification": {
+                "triggerSubsystems": list(cfg.certification.trigger_subsystems),
+                "minOwnImpact": cfg.certification.min_own_impact,
+            },
+            "k0MaxOwnImpact": cfg.k0_max_own_impact,
+            "maxPathLength": cfg.max_path_length,
+            "sizes": dict(cfg.sizes),
         },
         "modelHash": model_hash(cfg),
     }
