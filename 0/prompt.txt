@@ -1,0 +1,3 @@
+<task-notification>
+<summary>Commit security review found: resource-bound-placement / silent truncation of model-controlled input in backend/tracepoint/agent/analysis.py</summary>
+</task-notification>
