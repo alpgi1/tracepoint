@@ -9,26 +9,29 @@
 
 ## 1. Delivered
 
-Decisions D-089 to D-092.
+Decisions D-089 to D-094.
 
 ### 1.1 The series analysis (`agent/series.py`, `tracepoint agent series --vehicle G60`)
 
 **Regions.** One per market in which a vehicle of the series holds evidence, largest sales
-first. The remainder market RoW is not a region; its countries with at least 50 verbatims are.
-For the 5 Series:
+first. For the 5 Series:
 
 | Region | Vehicle | Customer text | Study | Sales 2025 |
 |---|---|---|---|---|
 | EU | G60 | 111 verbatims (GB 36, SE 28, DK 20, others 27) | CN_EU_2025 | 115,000 |
 | US | G60 | 3,628 verbatims | US_2025 | 78,000 |
 | CN | G68 | none | CN_EU_2025 | 75,000 |
-| JP | G60 | 53 verbatims | none | 28,000 for the whole remainder |
-| KR | G60 | 205 verbatims | none | (same figure) |
+
+The remainder market RoW is left out (D-093). Its verbatims exist (G60: South Korea 205, Japan
+53, from Source A of the workbook), and the first runs showed the two countries as regions. But
+there is no study, no external evidence and no sales figure per country, so nothing could be
+held against those verbatims; the two regions produced "watch" lines only. They stay available
+to the single-market analysis (`agent analyze --vehicle G60 --country KR`).
 
 **The comparison pack** (`series-pack-v1`, no model). The regions side by side:
 
 * complaint and like rows per CPM subsystem and per theme, as a rate per 100 verbatims with the
-  row count beside it. Software / HMI: EU 41.4 (46 rows), US 19.9 (723), KR 14.1 (29), JP 5.7 (3);
+  row count beside it. Software / HMI: EU 41.4 (46 rows), US 19.9 (723);
 * each theme with the finding to cite in each market;
 * study scores with their rank inside the region. EU and CN share one study and one scale and
   compare by score; the US study compares by rank only. Rear roominess: EU 7.46 (rank 5 of 37),
@@ -95,10 +98,12 @@ The three sample analyses under `reports/analysis/` are re-rendered from their J
 22 to 15 and 23 to 13 thousand characters. Their text is that of the earlier prompt;
 `situation-analysis-v8` asks for short fields.
 
-**After the security review (D-092).** The reports are read rendered, and their text comes from
-the model. Whatever this program did not write now goes through one escaping function: one line,
-no HTML, no link or image, no table cell of its own, no clickable address. A title holding a
-line break and `## ` used to make a section of its own.
+**After two security reviews (D-092, D-094).** The reports are read rendered, and their text
+comes from the model. Whatever this program did not write now goes through one escaping
+function and is shown character for character: one line, no HTML or entity, no emphasis, link,
+image or code span, no table cell, no heading, list or rule (also not inside a bullet or a
+quote), no address a renderer would make clickable. A title holding a line break and `## ` used
+to make a section of its own.
 
 ### 1.3 The agent fetches nothing (D-091)
 
@@ -112,36 +117,37 @@ person; the only request an analysis sends out is the one to the model provider.
 |---|---|
 | `uv run pytest -q` | 90 passed (84 before; 6 new in `tests/test_series.py`, the brief in `tests/test_agent.py`) |
 | `uv run ruff check`, `ruff format --check` | clean |
-| regions of a series | EU, US, CN, JP, KR for G60 and for G68; the 1 Series starts with EU |
+| regions of a series | EU, US, CN for G60 and for G68; EU alone for the 1 Series |
 | regional decision without evidence of the region | sent back and reported (tested with a fake model) |
 | live run | section 3 |
 
 ## 3. The 5 Series across its regions (live run)
 
 `tracepoint agent series --vehicle G60 --no-cache`, run
-`RUN-20261011-044019-agent.series.G60-f66e`, `gpt-5.4-2026-03-05`, prompt `series-analysis-v1`.
-Filed as `reports/analysis/G60_regions.md` (the brief, 225 lines) and `.json`.
+`RUN-20261011-045801-agent.series.G60-a1a6`, `gpt-5.4-2026-03-05`, prompt `series-analysis-v1`,
+regions EU, US, CN. Filed as `reports/analysis/G60_regions.md` (the brief) and `.json`.
 
 | Measure | Value |
 |---|---|
-| Model turns / tool calls / cost | 4 / 17 / USD 0.40 |
-| Tool calls | external evidence 6, findings 5, catalogue 4, requirements 1, effort 1; none outside the store |
-| References cited | 76; 1 not verified (a finding id the model derived by pattern; named in the footer) |
-| Open faults after the one correction | 0 |
-| Now (H1) as one package | 6 changes, 9.28 % of a new vehicle generation, adaptation (kept in 94.5 % of the sensitivity runs) |
+| Model turns / tool calls / cost | 4 / 17 / USD 0.38 |
+| Tool calls | external evidence 7, catalogue 4, findings 3, requirements 1, sales 1, documents 1; none outside the store |
+| References cited | 74, none unverified |
+| Open faults after the one correction | 1: two EU study weaknesses (rear roominess, luggage capacity) are passed over; printed in the brief |
+| Now (H1) as one package | 7 changes, 10.69 % of a new vehicle generation, adaptation; kept in 87 % of the sensitivity runs, flagged as borderline |
 | Next generation (H2) | 1 change, 48.98 % |
 
 | # | Topic | Decision | For | Effort |
 |---|---|---|---|---|
-| 1 | Frequently used functions without menu hunting | change now | all markets | 3.05 % |
-| 2 | Climate setting that is direct and remembers | change now | all markets | 2.58 % |
-| 3 | More real electric range | next generation | all | 48.98 % |
-| 4 | Connected services that feel reliable and local | change now | EU, CN | 0.42 % |
-| 5 | China cockpit with more direct controls and a stronger assistant | change now | CN | 2.06 % |
-| 6 | Luggage and rear space in the EU; braking and front roominess in China | no action, watch | – | – |
-| 7 | Storage for everyday items | change now | US | 2.08 % |
-| 8 | Hands-free tailgate that works first time | change now | US | 0.61 % |
-| 9 | Ride, handling and drivetrain character | keep | – | – |
+| 1 | Frequently used controls without menu hunting | change now | all markets | 3.05 % |
+| 2 | Climate setting that is direct and remembers | change now | US | 2.58 % |
+| 3 | Real-world electric range and efficiency | next generation | all | 48.98 % |
+| 4 | Connected services that just work | change now | all markets | 0.85 % |
+| 5 | Phone integration that just works | change now | US | 1.45 % |
+| 6 | Auto start-stop that stays off if the driver wants | change now | US | 1.88 % |
+| 7 | Hands-free tailgate that opens on the first kick | change now | US | 0.61 % |
+| 8 | Practical storage for everyday items | change now | US | 2.08 % |
+| 9 | EU body equipment and overall technology quality | no action, watch | – | – |
+| 10 | China braking feel and confidence | no action, watch | – | – |
 
 How the answer uses the correlations:
 
@@ -149,49 +155,48 @@ How the answer uses the correlations:
   19.9 in the US; China has no verbatims, but its study puts connected services 2nd weakest of
   37 and its market rows point the same way (25.3 % of owners count missing buttons as a flaw, a
   rule on physical controls from 2027). Three regions, one fix, 3.05 %.
-* **One region, now.** The hands-free tailgate has 44 complaint rows in the US and none
-  anywhere else: a US fix, 0.61 %. China gets a cockpit package of its own because the market
-  rows there are stronger than anywhere else (84 % expect a proactive assistant, 69 % call urban
-  assisted driving a must-have) and the study agrees (connected services, level of equipment,
-  smartphone integration in the weakest ten of 37).
+* **One region, now.** Five topics are for the US alone, each with a requirement that exists.
+  The clearest: the hands-free tailgate has 44 complaint rows in the US and none anywhere else,
+  auto start-stop 45.
 * **Next generation.** Electric range is the largest complaint theme in the EU (13.5 per 100
   against 1.8 in the US). The engine puts a real range step at 48.98 % of a new generation, so
   it is a successor topic; the current car gets range prediction and guidance.
 * **Watch, do not change.** In China braking is the 3rd weakest of 37 attributes against the
-  20th in the EU, and front roominess the 8th against the 31st. Without verbatims nobody can
-  say whether braking means pedal feel, low-speed smoothness or confidence, so the answer is to
-  read the next customer text first, not to open hardware work.
-* **Rivals.** The store names Volkswagen's return to physical climate buttons, BYD's 1,000 kW
-  charging and the Chinese market rows. For seven of nine topics the brief says that nothing is
-  stored on rivals.
+  20th in the EU. Without verbatims nobody can say whether that is pedal feel, calibration or
+  expectation, so the answer is to read the next customer text first.
+* **Rivals.** The store names Volkswagen's return to physical climate buttons and BYD's
+  1,000 kW charging. For most topics the brief says that nothing is stored on rivals.
 
-Three runs were made while this step was built (USD 1.12 together), and each changed the code:
-the first found no topic for China and asked the catalogue with a wrong filter (the section on
-what sets a region apart and the tool fix came from it); the second read "rank 7/37 from the
-bottom" as a strength (positions are now written as "7th weakest of 37"); the third is filed.
-The three agree on the core: easier operation for all markets, range with the next generation,
-US fixes for tailgate and storage, a China cockpit package, and the driving character kept.
-They differ in which secondary topics make the list (phone integration and start-stop were US
-topics in the second run and are inside the HMI topic or absent in the third).
+**The runs do not agree on China.** Four live runs were made while this step was built
+(USD 1.50 together). The first three changed the code: the first found no topic for China and
+asked the catalogue with a wrong filter; the second read "rank 7/37 from the bottom" as a
+strength; the third, still with Japan and South Korea, proposed a China cockpit package of its
+own (direct controls and a stronger assistant, 2.06 %). The fourth, filed here, puts the same
+Chinese needs into the two all-market topics and gives China nothing of its own, which the brief
+now says in so many words. All four agree on easier operation for all markets, range with the
+next generation and the US fixes for tailgate and storage. Whether China gets a package of its
+own is the decision the product manager should not read off a single run.
 
 ## 4. Known limitations
 
 * China has no verbatims: every Chinese decision rests on 37 study scores and the external rows.
-  EU has 111 verbatims, Japan 53; a rate from those moves with a handful of rows.
+  EU has 111 verbatims; a rate from those moves with a handful of rows.
 * Rivals are present only where an external row names them. A like-for-like comparison of
   equipment with the Chinese rivals needs the competitor matrix, which is not curated.
-* The catalogue is the German price list. What is standard in China, the US or Korea is not
+* The catalogue is the German price list. What is standard in China or the US is not
   stored.
 * The topics are the model's grouping of themes. The checks hold the regions, the evidence per
   region, what sets a region apart and the effort; they do not check that the grouping is the
-  best one, and two runs do not pick the same secondary topics.
+  best one, and two runs do not pick the same secondary topics (section 3: a China package in
+  one run, none in the next). Running the analysis several times and keeping what recurs is
+  not built.
 * The effort of a topic without a requirement comes from the analyst's own change profile
-  (topics 4 and 5 here). It is inside the range of the reference changes, which is all the
-  check proves; 2.06 % for a China cockpit package is the figure to question first.
+  (topic 4 here). It is inside the range of the reference changes, which is all the check
+  proves.
 * The filed run names the small step on range prediction inside the next-generation topic
-  instead of as a topic of its own, so that step is not in the H1 package figure.
+  instead of as a topic of its own, so that step is not in the H1 package figure, and it has
+  no topic for the driving character it says to keep.
 * Effort is computed on the G60 also for a change that only the G68 would get.
-* A country of the remainder has no sales figure of its own.
 * The series analysis is a command only; there is no API route for it yet.
 
 ## 5. Next step

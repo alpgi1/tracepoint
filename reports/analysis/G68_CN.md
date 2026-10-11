@@ -2,7 +2,7 @@
 
 **G68 China shows clear metric weaknesses in equipment perception, connected services, luggage loading, climate/NVH and braking, while brand prestige, reliability and core BMW driving character remain strengths; confidence is limited because there are no China verbatims or existing requirements in scope.**
 
-For G68 in China, the evidence is entirely quantitative plus two market-context rows: there are no customer verbatims, no subsystem-classified rows, no sales rows and no stored requirements. The CN_EU_2025 study points to the first priorities: equipment level is a major relative weakness at 7.49 and 2.33 below the peer mean, connected services is the second-weakest attribute at 7.35, ease of loading luggage is the weakest attribute at 7.25, braking is third-weakest at 7.38 and 0.44 below peer mean, climate control is seventh-weakest at 7.58 and 1.24 below peer mean, and quietness is sixth-weakest at 7.52 and 1.87 below peer mean. At the same time, roadholding 8.92, sportiness 8.86, prestige 8.90 and reliability 8.84 should be protected. In China market context, there is weak evidence that new-energy vehicles have overtaken combustion retail sales, and medium competitor evidence that in-car fridges are widely offered above 200,000 yuan, though actual usage is disputed. With no direct customer voice, recommendations should stay conservative and focus first on validating the equipment/content gap and digital-service gap, then on targeted H1 improvements where the current model can adapt.
+For G68 in China, the evidence is entirely quantitative plus two market-context rows: there are no customer verbatims, no subsystem-classified rows, no sales rows and no stored requirements. The CN\_EU\_2025 study points to the first priorities: equipment level is a major relative weakness at 7.49 and 2.33 below the peer mean, connected services is the second-weakest attribute at 7.35, ease of loading luggage is the weakest attribute at 7.25, braking is third-weakest at 7.38 and 0.44 below peer mean, climate control is seventh-weakest at 7.58 and 1.24 below peer mean, and quietness is sixth-weakest at 7.52 and 1.87 below peer mean. At the same time, roadholding 8.92, sportiness 8.86, prestige 8.90 and reliability 8.84 should be protected. In China market context, there is weak evidence that new-energy vehicles have overtaken combustion retail sales, and medium competitor evidence that in-car fridges are widely offered above 200,000 yuan, though actual usage is disputed. With no direct customer voice, recommendations should stay conservative and focus first on validating the equipment/content gap and digital-service gap, then on targeted H1 improvements where the current model can adapt.
 
 ## Proposals
 
@@ -24,7 +24,7 @@ Review China-specific standard content and package logic for G68, aiming to lift
 
 - Why: Equipment level is the fourth-weakest study attribute at 7.49 and sits 2.33 below the peer mean, the largest peer gap in the evidence. Because there are no verbatims, the first move should be a content/package review rather than a large hardware redesign. The medium competitor row on in-car fridges suggests one possible visible gap in China, but the contradiction means it should be treated as one candidate, not as a mandatory answer.
 - Effort: 0.21 % of a new vehicle generation (adapt, P5–P95 0.09–0.38), from the analyst's change profile.
-- Check: interior_console: catalogue shows G70 standard; the change could carry over (carryover: true) instead of a new development
+- Check: interior\_console: catalogue shows G70 standard; the change could carry over (carryover: true) instead of a new development
 - Evidence: 3 references
 
 ### 2. Prioritise a China connected-services improvement package
@@ -33,7 +33,7 @@ Assess which connected services for G68 in China are missing, weakly localised o
 
 - Why: Connected services are the second-weakest attribute at 7.35, while infotainment ease of use, features and navigation all score above 8.3. That pattern points to service content, localisation or backend performance rather than a broad cockpit usability problem. With no verbatims, the recommendation should stay at package level and be validated against China service logs and feature availability.
 - Effort: 0.32 % of a new vehicle generation (adapt, P5–P95 0.14–0.56), from the analyst's change profile.
-- Check: software_hmi: catalogue shows G60 standard, G70 standard; the change could carry over (carryover: true) instead of a new development
+- Check: software\_hmi: catalogue shows G60 standard, G70 standard; the change could carry over (carryover: true) instead of a new development
 - Evidence: 5 references
 
 ### 3. Investigate a low-effort luggage-access improvement for the current model
@@ -42,7 +42,7 @@ Check whether trunk opening height, lid actuation, loading lip aids or convenien
 
 - Why: Loading ease is the weakest measured attribute at 7.25, yet luggage capacity is 8.73 and rear roominess 8.71. That points to access convenience rather than lack of space. With no verbatims or subsystem evidence, start with current-model convenience measures and only escalate to body changes if validation shows the root cause is opening geometry.
 - Effort: 0.45 % of a new vehicle generation (adapt, P5–P95 0.21–0.88), from the analyst's change profile.
-- Check: exterior_design: catalogue shows F70 optional, G70 standard; the change could carry over (carryover: true) instead of a new development
+- Check: exterior\_design: catalogue shows F70 optional, G70 standard; the change could carry over (carryover: true) instead of a new development
 - Evidence: 4 references
 
 ### 4. Tune climate comfort and cabin quietness as premium-quality fixes
@@ -51,7 +51,7 @@ Run a China-focused comfort package review covering HVAC tuning and acoustic cou
 
 - Why: Climate control at 7.58 and quietness at 7.52 are both weak, with quietness especially far below peer mean. Since build quality and reliability remain strong, targeted comfort execution improvements are more likely than a broad quality problem. The lack of verbatims means the exact root cause is not yet evidenced, so the proposal should begin with validation and targeted adaptation.
 - Effort: 3.17 % of a new vehicle generation (adapt, P5–P95 1.59–5.56), from the analyst's change profile.
-- Check: thermal_hvac: catalogue shows F70 standard, G60 standard, G70 standard; the change could carry over (carryover: true) instead of a new development
+- Check: thermal\_hvac: catalogue shows F70 standard, G60 standard, G70 standard; the change could carry over (carryover: true) instead of a new development
 - Evidence: 8 references
 
 ### 5. Address braking feel/performance without disturbing the car's dynamic strengths
@@ -74,11 +74,11 @@ Keep roadholding, sportiness, prestige cues and reliability intact when changing
 
 **Equipment/content perception is the clearest relative weakness** (confidence medium)
 
-In CN_EU_2025, 'Level of equipment' scores 7.49, rank 4 of 37 weakest attributes for G68 in China and 2.33 below the peer mean of other BMW models in the same market. This is the largest peer gap among the listed product attributes and points to a content or package issue before a pure engineering issue.
+In CN\_EU\_2025, 'Level of equipment' scores 7.49, rank 4 of 37 weakest attributes for G68 in China and 2.33 below the peer mean of other BMW models in the same market. This is the largest peer gap among the listed product attributes and points to a content or package issue before a pure engineering issue.
 
 **Connected services are a top customer-perceived weakness** (confidence medium)
 
-Connected services score 7.35, rank 2 of 37 weakest attributes in CN_EU_2025 for G68 China. By contrast, adjacent infotainment attributes are materially better: ease of use 8.35, features 8.37 and navigation 8.52. The issue therefore looks more like service ecosystem performance or relevance than a broad HMI usability problem.
+Connected services score 7.35, rank 2 of 37 weakest attributes in CN\_EU\_2025 for G68 China. By contrast, adjacent infotainment attributes are materially better: ease of use 8.35, features 8.37 and navigation 8.52. The issue therefore looks more like service ecosystem performance or relevance than a broad HMI usability problem.
 
 **Practical loading is the weakest measured attribute despite decent luggage-capacity perception** (confidence medium)
 
@@ -94,7 +94,7 @@ Braking scores 7.38, rank 3 of 37 weakest and 0.44 below the peer mean, while ro
 
 **Brand and core BMW attributes are worth protecting** (confidence medium)
 
-Prestige/manufacturer reputation scores 8.90, reliability 8.84, roadholding 8.92 and sportiness 8.86, all among the strongest attributes in CN_EU_2025. Overall satisfaction is still 8.77, but it trails the peer mean by 0.87, so the task is to close specific weaknesses without diluting these strengths.
+Prestige/manufacturer reputation scores 8.90, reliability 8.84, roadholding 8.92 and sportiness 8.86, all among the strongest attributes in CN\_EU\_2025. Overall satisfaction is still 8.77, but it trails the peer mean by 0.87, so the task is to close specific weaknesses without diluting these strengths.
 
 **China market context raises the importance of electrified relevance and visible comfort features, but only as context** (confidence low)
 
@@ -104,7 +104,7 @@ There is weak market evidence that new-energy vehicle retail sales in China reac
 - There are no G68 China verbatims in the dataset, so no direct customer quotes can be provided and no complaint-theme drill-down was possible.
 - China has study scores but no verbatims in this scope; all customer insights therefore come from metrics and authored findings, not from raw customer language.
 - No stored requirements exist for G68 CN, so no recommendation could be linked to an existing REQ id.
-- No stored effort estimates exist for G68 CN; the effort_changes above are analyst proposals based on the CPM reference points and must be treated as rough, assumption-based prioritisation only.
+- No stored effort estimates exist for G68 CN; the effort\_changes above are analyst proposals based on the CPM reference points and must be treated as rough, assumption-based prioritisation only.
 - The subsystem view contains zero classified rows, so it cannot be used here to concentrate complaints in engineering terms.
 - Equipment searches for tested terms returned no matching catalogue items; the catalogue is the German July 2026 price list and may not reflect China standard/optional logic even when items exist on the model line.
 - Sales data for G68 CN is empty, so no volume weighting can be added.

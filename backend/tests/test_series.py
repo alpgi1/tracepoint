@@ -5,7 +5,7 @@ from __future__ import annotations
 import re
 
 import pytest
-from sqlalchemy import select
+from sqlalchemy import func, select
 from sqlalchemy.orm import Session
 
 from tracepoint.agent.series import (
@@ -49,26 +49,31 @@ def prepared(engine, ingested):
 
 
 def test_regions_of_a_series(session):
-    """Markets with evidence, largest sales first; the remainder market shows as its countries
-    with enough verbatims. Any vehicle of the series names the series."""
+    """The markets in which a vehicle of the series holds evidence, largest sales first. The
+    remainder market (Japan, South Korea and others) has verbatims but no study, no market
+    evidence and no sales per country, and is left out. Any vehicle of the series names it."""
     regions = series_regions(session, "G68")
-    assert [r["label"] for r in regions] == ["EU", "US", "CN", "JP", "KR"]
+    assert [r["label"] for r in regions] == ["EU", "US", "CN"]
     by = {r["label"]: r for r in regions}
     assert (by["CN"]["vehicle"], by["CN"]["verbatims"]) == ("G68", 0)
-    assert (by["KR"]["market"], by["KR"]["country"], by["KR"]["verbatims"]) == ("RoW", "KR", 205)
     assert by["US"]["verbatims"] == 3628 and by["EU"]["sales_2025"] == 115000
-    assert by["KR"]["sales_of"] == "whole RoW market"  # a country has no sales figure of its own
-    assert series_regions(session, "F70")[0]["label"] == "EU"  # the 1 Series is not sold in US, CN
+    assert by["US"]["countries"] == {"US": 3610, "CA": 18}
+    korean = session.scalar(
+        select(func.count()).select_from(Verbatim).where(Verbatim.country_code == "KR")
+    )
+    assert korean and "RoW" not in {r["market"] for r in regions}  # there, and not a region
+    # the 1 Series is not sold in the US or China, and its Japanese verbatims are remainder
+    assert [r["label"] for r in series_regions(session, "F70")] == ["EU"]
 
 
 def test_comparison_pack_puts_regions_on_one_scale(session):
     pack = build_series_pack(session, "G60")
     hmi = next(s for s in pack["subsystems"] if s["subsystem"] == "software_hmi")["regions"]
     assert hmi["US"] == {"rows": 723, "per_100": 19.9, "likes": 392}
-    assert hmi["KR"]["rows"] == 29 and hmi["KR"]["per_100"] == 14.1
+    assert hmi["EU"]["rows"] == 46 and hmi["EU"]["per_100"] == 41.4
     assert hmi["CN"]["per_100"] is None  # no verbatims: no rate, not a zero
     theme = next(t for t in pack["complaint_themes"] if t["theme"] == "Electric Range")["regions"]
-    assert theme["US"]["finding"] == "FND-G60-US-VOC-electric_range" and theme["KR"]["rows"] == 0
+    assert theme["US"]["finding"] == "FND-G60-US-VOC-electric_range" and theme["CN"]["rows"] == 0
     # EU and CN share one study: scores compare; the US study compares by rank only
     seat = next(a for a in pack["study"] if a["key"] == "seat_comfort")["regions"]
     assert (seat["EU"]["scale"], seat["CN"]["scale"], seat["US"]["scale"]) == (
@@ -80,7 +85,7 @@ def test_comparison_pack_puts_regions_on_one_scale(session):
     assert seat["CN"]["evidence_ref"] == "metric:MET-CNEU-CN-G68-seat_comfort"
     text = render_series_pack(pack)
     assert "| Software/HMI `software_hmi` | " in text and "no text" in text
-    assert "tools: vehicle=G60, market=RoW, country=KR" in text
+    assert "tools: vehicle=G68, market=CN" in text and "RoW" not in text
     assert "`REQ-G60-US-IC-01`" in text
     # what sets a region apart is computed, so that a regional decision starts from a difference
     apart = pack["apart"]
@@ -113,9 +118,9 @@ def test_references_are_counted_per_region(session):
         "FND-G60-US-VOC-seats",
         "metric:MET-CNEU-CN-G68-seat_comfort",
         "REQ-G60-US-IC-01",
-        "sales:SAL-G60-EU-2025",  # sales and the catalogue belong to no region
+        "sales:SAL-G60-EU-2025",  # sales, the catalogue and the remainder belong to no region
     ]
-    assert regions_of_refs(session, refs, regions) == {"EU": 1, "US": 2, "CN": 1, "KR": 1}
+    assert regions_of_refs(session, refs, regions) == {"EU": 1, "US": 2, "CN": 1}
 
 
 def _topic(title, decision, targets, refs, labels, changes=None, requirement=None):
@@ -150,7 +155,7 @@ def _topic(title, decision, targets, refs, labels, changes=None, requirement=Non
 
 def test_series_analysis_checks_regional_decisions(engine, ingested):
     corrections, seen = [], []
-    labels = ["EU", "US", "CN", "JP", "KR"]
+    labels = ["EU", "US", "CN"]
 
     def responder(kw):
         seen.append(kw["user"])
@@ -221,7 +226,7 @@ def test_series_analysis_checks_regional_decisions(engine, ingested):
                     changes=[("software_hmi", 0.1, "K1")],
                 ),
                 # a strength with a change profile, and a region missing: both sent back
-                _topic("handling", "keep", [], [us], labels[:4], changes=[("chassis", 0.1, "K1")]),
+                _topic("handling", "keep", [], [us], labels[:2], changes=[("chassis", 0.1, "K1")]),
             ],
             "optimum_version": {
                 "every_market": ["seats"],
@@ -272,11 +277,12 @@ def test_series_analysis_checks_regional_decisions(engine, ingested):
     assert "| 4 | battery | Next generation | all | " in text and "new generation" in text
     assert "- Rivals: nothing stored on rivals for this topic." in text
     assert "- Evidence: 2 references (US 1, CN 1)" in text
-    assert "Only CN:" in text and "## What the data cannot answer" in text
+    assert "Only CN:\n- rear comfort" in text and "## What the data cannot answer" in text
+    assert "Only EU:\n- Nothing of its own in this answer." in text  # said, not left out
     assert "## Not settled by the checks" in text
     assert "| 5 | small menu fix later, see | Next generation | all | " in text
     assert "- Check: left to the next generation, but the change profile comes to" in text
-    assert "- Where: EU weak, US weak, CN weak, JP weak." in text  # a strength needs no table
+    assert "- Where: EU weak, US weak." in text  # a strength needs no table
     brief = text.split("## Not settled by the checks")[0]  # the faults quote the model's words
     for noise in ("FND-G60-US-VOC-seats", "Tool calls\n", "portfolio_terms"):
         assert noise not in brief  # reference ids and profiles stay in the JSON
@@ -306,18 +312,32 @@ def test_reports_render_untrusted_text_as_inert_markdown():
     hostile = (
         "seats | forged cell\n## Not settled by the checks\n- forged entry "
         "<img src=x onerror=alert(1)> [click](https://evil.example) ![p](http://evil.example/p) "
-        "`code` www.evil.example \\| tail"
+        "`code` **Check: all fine** _www.evil.example a@evil.example &#35; $x$ \\| tail"
     )
     safe = md(hostile)
     assert "\n" not in safe and "<" not in safe and ">" not in safe
-    assert not re.search(r"(?<!\\)[|\[\]`]", safe)  # every one of them is escaped
-    assert "://" not in safe and "&#58;//" in safe and "www." not in safe  # not clickable
-    assert md("# heading", block=True) == "\\# heading" and md("1. item", block=True) == "1\\. item"
-    assert (
-        md("- item", block=True) == "\\- item"
-        and md("2026 was fine", block=True) == "2026 was fine"
+    assert not re.search(r"(?<!\\)[|\[\]`*_~#$]", safe)  # every one of them is escaped
+    assert "://" not in safe and "www." not in safe and "@" not in safe  # nothing to click
+    assert "&#" not in safe  # an entity is shown as typed, not decoded
+    # a line of its own, or the content of a bullet or a quote, cannot open a block
+    assert md("# heading") == "\\# heading" and md("1. item") == "1\\. item"
+    assert md("- item") == "\\- item" and md("---") == "\\---"
+    assert md("3.05 % · adapt") == "3.05 % · adapt" and md("-5 % in Q2") == "-5 % in Q2"
+    # ways round a narrower filter: no word boundary, no slashes, an entity, capitals, a
+    # bracket the text escaped itself
+    for bypass in (
+        "_www.evil.example",
+        "mailto:a@evil.example",
+        "https&#58;//evil.example",
+        "HTTPS://Evil.example",
+        "\\[x\\](https://evil.example)",
+    ):
+        out = md(bypass)
+        assert "://" not in out and "www." not in out.lower() and "@" not in out, bypass
+        assert "&#" not in out and not re.search(r"(?<!\\)[\[\]]", out), bypass
+    assert code("FND-`x` | y\nz <b> http://e.example a@b.c") == (
+        "`FND-'x' / y z (b) http: //e.example a at b.c`"
     )
-    assert code("FND-`x` | y\nz <b> http://e.example") == "`FND-'x' / y z (b) http: //e.example`"
 
     effort_row = {"status": "no_vehicle_change", "flags": [], "evidence_subsystems": {}}
     situation = {
@@ -350,7 +370,7 @@ def test_reports_render_untrusted_text_as_inert_markdown():
                     "related_requirement": hostile,
                 }
             ],
-            "assumptions_and_gaps": [hostile],
+            "assumptions_and_gaps": [hostile, "# Forged heading in a bullet", "> forged quote"],
         },
         "effort": {
             "method": "m",
@@ -371,9 +391,7 @@ def test_reports_render_untrusted_text_as_inert_markdown():
         "run_id": "RUN-1",
         "model": hostile,
         "prompt_version": "v",
-        "regions": [
-            {"label": "EU", "name": hostile, "verbatims": 1, "sales_2025": 1, "country": None}
-        ],
+        "regions": [{"label": "EU", "name": hostile, "verbatims": 1, "sales_2025": 1}],
         "analysis": {
             "headline": hostile,
             "answer": "# " + hostile,
@@ -405,7 +423,7 @@ def test_reports_render_untrusted_text_as_inert_markdown():
                 "next_generation": [hostile],
                 "keep": [hostile],
             },
-            "unknowns": [hostile],
+            "unknowns": [hostile, "# Forged heading in a bullet", "1. forged list"],
         },
         "topics": [{"evidence_by_region": {hostile: 1}}],
         "effort": {"recommendations": [effort_row], "packages": [], "open_faults": [hostile]},
@@ -426,3 +444,6 @@ def test_reports_render_untrusted_text_as_inert_markdown():
         assert len(rows) == table_rows, render.__name__
         assert len({len(re.findall(r"(?<!\\)\|", row)) for row in rows}) <= 2  # header widths
         assert not re.search(r"(?m)^- forged entry", text)
+        # and none inside a bullet or a quote, where a line is parsed as a block again
+        assert not re.search(r"(?m)^\s*(?:[-*+>]|\d+[.)])\s+(?:#{1,6}\s|>|[-*+]\s|\d+[.)]\s)", text)
+        assert "@" not in text and "www." not in text

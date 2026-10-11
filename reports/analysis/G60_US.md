@@ -25,7 +25,7 @@ The strongest positives remain classic 5 Series strengths: handling, ride comfor
 
 Consider prioritising a simpler interaction layer for the functions customers use while driving: climate, seat and steering-wheel heating, drive mode, start-stop, assistance on/off, volume, map and phone. Where feasible in the life-cycle impulse, add or restore direct physical access for the highest-frequency controls.
 
-- Why: This is the biggest concentration of complaints in the vehicle: 723 complaints in Software/HMI, with level-A evidence on Operating concept and supporting weak study scores on infotainment menu structure and climate controls. The subsystem concentration matters: many separate complaints likely roll up into one HMI workstream. An existing requirement already covers this. Its CPM estimate is assumption-based, not calibrated, but useful for scale: 3.05% of a new generation, adapt, driven mainly by software_hmi 0.1 K2 plus interior_console 0.1 K2.
+- Why: This is the biggest concentration of complaints in the vehicle: 723 complaints in Software/HMI, with level-A evidence on Operating concept and supporting weak study scores on infotainment menu structure and climate controls. The subsystem concentration matters: many separate complaints likely roll up into one HMI workstream. An existing requirement already covers this. Its CPM estimate is assumption-based, not calibrated, but useful for scale: 3.05% of a new generation, adapt, driven mainly by software\_hmi 0.1 K2 plus interior\_console 0.1 K2.
 - Effort: 3.05 % of a new vehicle generation (adapt, P5–P95 1.47–5.48), from the change profile of REQ-G60-US-ID-01.
 - Evidence: 9 references
 
@@ -33,7 +33,7 @@ Consider prioritising a simpler interaction layer for the functions customers us
 
 Consider making seat comfort the first interior hardware priority: improve cushion foam, contour and lumbar travel on the existing seat structure for front and rear seats, then review whether leather, massage and ventilation content should be adjusted once the base comfort issue is solved.
 
-- Why: Seats are the clearest comfort problem with level-A evidence and weak study support. The customer pain is basic comfort and adjustability, not only missing premium features. An existing requirement covers the core comfort fix. Its effort estimate is assumption-based and rough, but it is still an H1 adaptation rather than a new architecture: 4.58% of a new generation, adapt, starting in seats at own_impact 0.25 K1.
+- Why: Seats are the clearest comfort problem with level-A evidence and weak study support. The customer pain is basic comfort and adjustability, not only missing premium features. An existing requirement covers the core comfort fix. Its effort estimate is assumption-based and rough, but it is still an H1 adaptation rather than a new architecture: 4.58% of a new generation, adapt, starting in seats at own\_impact 0.25 K1.
 - Effort: 4.58 % of a new vehicle generation (adapt, P5–P95 2.02–7.15), from the change profile of REQ-G60-US-IC-01.
 - Evidence: 7 references
 
@@ -41,7 +41,7 @@ Consider making seat comfort the first interior hardware priority: improve cushi
 
 Consider an H1 package that keeps climate controls always visible or directly accessible, preserves key settings per profile, and improves hot-soak cool-down performance for US conditions.
 
-- Why: Climate complaints are frequent enough to stand on their own and also reinforce the broader HMI issue. The existing requirement already bundles the right levers across thermal_hvac, interior_console and software_hmi. Its effort estimate is assumption-based and rough: 2.58% of a new generation, adapt.
+- Why: Climate complaints are frequent enough to stand on their own and also reinforce the broader HMI issue. The existing requirement already bundles the right levers across thermal\_hvac, interior\_console and software\_hmi. Its effort estimate is assumption-based and rough: 2.58% of a new generation, adapt.
 - Effort: 2.58 % of a new vehicle generation (adapt, P5–P95 1.25–4.75), from the change profile of REQ-G60-US-IC-02.
 - Evidence: 6 references
 
@@ -49,7 +49,7 @@ Consider an H1 package that keeps climate controls always visible or directly ac
 
 Consider prioritising a focused digital-quality fix for CarPlay profile binding, source switching and loudness matching, together with wireless charging thermal management so the tray maintains charge during normal use.
 
-- Why: This is a narrower and more actionable digital issue than the full HMI concept, with clear defect content and customer irritation. The existing requirement covers it. Its effort estimate is assumption-based and rough: 1.45% of a new generation, adapt, starting in software_hmi and interior_console.
+- Why: This is a narrower and more actionable digital issue than the full HMI concept, with clear defect content and customer irritation. The existing requirement covers it. Its effort estimate is assumption-based and rough: 1.45% of a new generation, adapt, starting in software\_hmi and interior\_console.
 - Effort: 1.45 % of a new vehicle generation (adapt, P5–P95 0.69–2.67), from the change profile of REQ-G60-US-ID-02.
 - Evidence: 5 references
 
@@ -57,7 +57,7 @@ Consider prioritising a focused digital-quality fix for CarPlay profile binding,
 
 Consider an H1 software-focused response to electric-range dissatisfaction: improve range prediction, winter guidance and route-planning transparency so customers better understand expected range by conditions and usage.
 
-- Why: A large share of range complaints is about confidence, prediction and cold-weather transparency rather than only absolute battery size. The existing H1 requirement covers this and stays small enough for the current generation. Its effort estimate is assumption-based and rough: 0.42% of a new generation, adapt, starting in software_hmi.
+- Why: A large share of range complaints is about confidence, prediction and cold-weather transparency rather than only absolute battery size. The existing H1 requirement covers this and stays small enough for the current generation. Its effort estimate is assumption-based and rough: 0.42% of a new generation, adapt, starting in software\_hmi.
 - Effort: 0.42 % of a new vehicle generation (adapt, P5–P95 0.18–0.75), from the change profile of REQ-G60-US-PR-02.
 - Evidence: 5 references
 
@@ -65,7 +65,7 @@ Consider an H1 software-focused response to electric-range dissatisfaction: impr
 
 Consider treating a meaningful real-world electric-range increase as an H2 successor topic, using the next battery generation rather than trying to force a current-cycle fix.
 
-- Why: Some customers clearly want more absolute range, but the stored requirement already shows this is a new-generation battery change, not an H1 adaptation. The estimate is assumption-based and rough, but directionally clear: 48.98% of a new generation, classed as new generation, starting in hv_battery at K3.
+- Why: Some customers clearly want more absolute range, but the stored requirement already shows this is a new-generation battery change, not an H1 adaptation. The estimate is assumption-based and rough, but directionally clear: 48.98% of a new generation, classed as new generation, starting in hv\_battery at K3.
 - Effort: 48.98 % of a new vehicle generation (new generation, P5–P95 36.73–56.87), from the change profile of REQ-G60-US-PR-03.
 - Evidence: 5 references
 
@@ -75,7 +75,7 @@ Consider improving in-car charging guidance first: route planning that prefers w
 
 - Why: Customers clearly feel the charging pain, but much of it is infrastructure outside BMW's control. The best vehicle-side response is planning and guidance. Existing evidence also shows some contradiction: public charging satisfaction in the US is improving in external studies, and some G60 owners report seamless Tesla charging, so the product opportunity is to reduce uncertainty and failed planning rather than assume the whole network experience can be fixed by the car alone.
 - Effort: 0.32 % of a new vehicle generation (adapt, P5–P95 0.14–0.56), from the analyst's change profile.
-- Check: the change starts in software_hmi; the cited evidence sits in charging by the theme mapping. Check the reason given for it
+- Check: the change starts in software\_hmi; the cited evidence sits in charging by the theme mapping. Check the reason given for it
 - Evidence: 7 references
 
 ### 8. Protect the current ride, handling and drivetrain character
@@ -89,7 +89,7 @@ Consider treating the current dynamic balance as a protected attribute in future
 
 **HMI complexity is the broadest product issue, concentrated in one subsystem** (confidence high)
 
-Infotainment & Digital Services is the largest complaint domain with 752 complaints. In engineering terms, Software/HMI alone carries 723 complaints across 67 themes, far above any other subsystem. The leading theme is Operating concept, operating system with 53 complaints, 39 of them usability issues, and the study also rates Menu structure of infotainment system at 4.879 and Operation of heater/ AC controls at 4.804, both among the weakest attributes. Customers repeatedly describe too many menu layers, profile confusion and a loss of physical controls, even though the same subsystem also has many likes, which shows the issue is not rejection of technology itself but ease of use.
+Infotainment &amp; Digital Services is the largest complaint domain with 752 complaints. In engineering terms, Software/HMI alone carries 723 complaints across 67 themes, far above any other subsystem. The leading theme is Operating concept, operating system with 53 complaints, 39 of them usability issues, and the study also rates Menu structure of infotainment system at 4.879 and Operation of heater/ AC controls at 4.804, both among the weakest attributes. Customers repeatedly describe too many menu layers, profile confusion and a loss of physical controls, even though the same subsystem also has many likes, which shows the issue is not rejection of technology itself but ease of use.
 
 > "the screen layout is not very intuitive for accessing some functions"
 
@@ -145,7 +145,7 @@ The strongest positives remain classic BMW sedan attributes. Handling / Riding h
 - No additional BMW strategy or delivery document passages were needed because the customer priorities were already clear from verbatims, findings, metrics and requirements.
 
 ## Not settled by the checks
-- "Use charging access and planning as the main H1 lever on public charging pain": the change starts in software_hmi; the cited evidence sits in charging by the theme mapping. Cite evidence for software_hmi, move the start of the change to where the evidence sits, or state in the change's why what puts the work there.
+- "Use charging access and planning as the main H1 lever on public charging pain": the change starts in software\_hmi; the cited evidence sits in charging by the theme mapping. Cite evidence for software\_hmi, move the start of the change to where the evidence sits, or state in the change's why what puts the work there.
 
 ---
 Run `RUN-20261011-035557-agent.analyze.G60.US-2e8f` · gpt-5.4-2026-03-05 · situation-analysis-v7 · 55 references cited, 0 not verified · 0 quotes not found in their verbatims and left out · 22 tool calls. References, change profiles and tool calls are in the JSON file of the same name.

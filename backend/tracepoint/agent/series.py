@@ -43,7 +43,6 @@ from tracepoint.agent.analysis import (
 from tracepoint.agent.loop import collect_refs, run_agent
 from tracepoint.core.audit import record_event
 from tracepoint.db.models import (
-    Country,
     ExternalEvidence,
     Finding,
     Market,
@@ -70,8 +69,10 @@ PACK_VERSION = "series-pack-v1"
 PROMPT_VERSION = "series-analysis-v1"
 ACTOR = "agent:series-analyst"
 
-REMAINDER = "RoW"  # not a market but what is left over: its countries stand on their own
-MIN_COUNTRY_VERBATIMS = 50  # from here a country of the remainder is a region
+# What is left over after the markets (Japan, South Korea, Australia, South Africa) is not a
+# region: it has no study, no market evidence and no sales figure per country, so nothing can
+# be held against its verbatims and no decision can be taken for it (team decision).
+REMAINDER = "RoW"
 TOP_THEMES = 10  # per region, into the comparison
 MIN_THEME_ROWS = 3
 MAX_EXTERNAL = 14  # market rows per region in the pack; the tool returns the rest
@@ -93,8 +94,8 @@ MUST_COVER = 3  # per region and kind, the largest differences an answer has to 
 
 
 def series_regions(session: Session, vehicle_code: str) -> list[dict[str, Any]]:
-    """The regions in which a series holds evidence, largest sales first: one per market, and
-    for the remainder market one per country with enough verbatims."""
+    """The regions of a series: one per market in which one of its vehicles holds evidence,
+    largest sales first. The remainder market is left out."""
     lead = session.get(Vehicle, vehicle_code)
     if lead is None:
         raise ValueError(f"unknown vehicle {vehicle_code}")
@@ -120,32 +121,26 @@ def series_regions(session: Session, vehicle_code: str) -> list[dict[str, Any]]:
         for r in session.scalars(select(SalesVolume).where(SalesVolume.vehicle_code.in_(members)))
     }
     names = {m.code: m.name for m in session.scalars(select(Market))}
-    names |= {c.code: c.name for c in session.scalars(select(Country))}
     regions = []
     for vehicle, market in sorted({(v, m) for v, m, _ in verbatims} | studied):
-        by_country = {c: n for (v, m, c), n in verbatims.items() if (v, m) == (vehicle, market)}
         if market == REMAINDER:
-            picks = [(c, c) for c, n in by_country.items() if n >= MIN_COUNTRY_VERBATIMS]
-        else:
-            picks = [(market, None)]
-        for label, country in picks:
-            actual, plan = sales.get((market, 2025)), sales.get((market, 2030))
-            regions.append(
-                {
-                    "label": label,
-                    "name": names.get(label, label),
-                    "vehicle": vehicle,
-                    "market": market,
-                    "country": country,
-                    "verbatims": by_country[country] if country else sum(by_country.values()),
-                    "countries": {country: by_country[country]} if country else by_country,
-                    "sales_2025": actual.units if actual else None,
-                    "sales_2030": plan.units if plan else None,
-                    "sales_ref": f"sales:{actual.id}" if actual else None,
-                    "sales_of": f"whole {market} market" if country else None,
-                }
-            )
-    regions.sort(key=lambda r: (r["country"] is not None, -(r["sales_2025"] or 0), r["label"]))
+            continue
+        by_country = {c: n for (v, m, c), n in verbatims.items() if (v, m) == (vehicle, market)}
+        actual, plan = sales.get((market, 2025)), sales.get((market, 2030))
+        regions.append(
+            {
+                "label": market,
+                "name": names.get(market, market),
+                "vehicle": vehicle,
+                "market": market,
+                "verbatims": sum(by_country.values()),
+                "countries": by_country,
+                "sales_2025": actual.units if actual else None,
+                "sales_2030": plan.units if plan else None,
+                "sales_ref": f"sales:{actual.id}" if actual else None,
+            }
+        )
+    regions.sort(key=lambda r: (-(r["sales_2025"] or 0), r["label"]))
     return regions
 
 
@@ -159,8 +154,6 @@ def _customer_rows(session: Session, region: dict[str, Any]) -> tuple[Counter, C
         .where(Verbatim.vehicle_code == region["vehicle"], Verbatim.market_code == region["market"])
         .group_by(TaxonomyLevel2.name, VerbatimClassification.feedback_type)
     )
-    if region["country"]:
-        stmt = stmt.where(Verbatim.country_code == region["country"])
     complaints: Counter = Counter()
     likes: Counter = Counter()
     for theme, kind, n in session.execute(stmt):
@@ -182,8 +175,6 @@ def _external_for(
     the confirmed rows that hold for this region and for no other region of the series (what
     makes it different), then the confirmed rows more than one institution supports. Worldwide
     rows, unconfirmed rows and the EPA tables stay with the tool."""
-    if region["country"]:
-        return []  # the lists hold nothing for single countries of the remainder
     rows = [
         r
         for r in external_rows(session, region["market"], region["vehicle"])
@@ -374,8 +365,6 @@ def build_series_pack(session: Session, vehicle_code: str) -> dict[str, Any]:
     # study scores: the rank inside a region compares across studies, the score only inside one
     metrics: dict[str, dict[str, dict[str, Any]]] = {}
     for r in regions:
-        if r["country"]:
-            continue
         own = [
             m
             for m in session.scalars(
@@ -471,13 +460,9 @@ def render_series_pack(pack: dict[str, Any]) -> str:
         "## Regions",
     ]
     for r in regions:
-        scope = f"vehicle={r['vehicle']}, market={r['market']}" + (
-            f", country={r['country']}" if r["country"] else ""
-        )
+        scope = f"vehicle={r['vehicle']}, market={r['market']}"
         sales = (
-            f"sales 2025 {r['sales_2025']:,}, plan 2030 {r['sales_2030']:,}"
-            + (f" ({r['sales_of']})" if r["sales_of"] else "")
-            + f" [{r['sales_ref']}]"
+            f"sales 2025 {r['sales_2025']:,}, plan 2030 {r['sales_2030']:,} [{r['sales_ref']}]"
             if r["sales_2025"] is not None
             else "no sales figure"
         )
@@ -564,9 +549,6 @@ def render_series_pack(pack: dict[str, Any]) -> str:
                 lines.append(f"  - {title}: " + "; ".join(items) + ".")
     lines += ["", "## External evidence per region (more with get_external_evidence)"]
     for r in regions:
-        if r["country"]:
-            lines.append(f"- **{r['label']}**: nothing stored for this country alone.")
-            continue
         lines.append(f"- **{r['label']}**:" + ("" if r["external"] else " none stored."))
         for e in r["external"]:
             lines.append(
@@ -723,7 +705,7 @@ Regions
 - Every topic lists every region of the pack once, also where nothing shows. Write "no signal" or "no customer text for this region" there and set weight none.
 - A regional decision cites evidence from each of its target regions; without it the answer is sent back. Evidence of a region is a verbatim, finding, study score, requirement or external row of that region.
 - A region without verbatims is judged from its study scores and its market rows. Say so, and keep confidence at medium or below unless both agree.
-- Tools take vehicle, market and country as each region line of the pack names them. Where a theme has no finding in a region, read the verbatims (get_verbatims_by_theme) and cite those. For the market side of a regional topic, read the rows of that region (get_external_evidence with its market and the topic or subsystem).
+- Tools take vehicle and market as each region line of the pack names them. Where a theme has no finding in a region, read the verbatims (get_verbatims_by_theme) and cite those. For the market side of a regional topic, read the rows of that region (get_external_evidence with its market and the topic or subsystem).
 - Sales decide a tie between regions. They never make a need.
 
 Evidence rules
@@ -759,47 +741,32 @@ Write plainly and briefly, in English: a product manager reads the whole answer 
 def regions_of_refs(
     session: Session, refs: list[str], regions: list[dict[str, Any]]
 ) -> dict[str, int]:
-    """How many of the cited references belong to each region: verbatims by their country and
-    market, findings, study scores and requirements by their market, external rows by the
-    regions they hold for. Worldwide rows and the catalogue belong to no region."""
-    of_market: dict[tuple[str, str], list[str]] = {}
-    of_country = {r["country"]: r["label"] for r in regions if r["country"]}
-    for r in regions:
-        of_market.setdefault((r["vehicle"], r["market"]), []).append(r["label"])
-    by_market: dict[str, list[str]] = {}
-    for (_, market), labels in of_market.items():
-        by_market.setdefault(market, []).extend(labels)
+    """How many of the cited references belong to each region: verbatims, findings, study
+    scores and requirements by their vehicle and market, external rows by the regions they
+    hold for. Worldwide rows, the catalogue and the remainder market belong to no region."""
+    of_market = {(r["vehicle"], r["market"]): r["label"] for r in regions}
+    by_market = {r["market"]: r["label"] for r in regions}
     hits: Counter = Counter()
 
     def ids(prefix: str) -> list[str]:
         return [r.split(":", 1)[1] for r in refs if r.startswith(prefix)]
 
-    if found := ids("verbatim:"):
-        for vehicle, market, country in session.execute(
-            select(Verbatim.vehicle_code, Verbatim.market_code, Verbatim.country_code).where(
-                Verbatim.id.in_(found)
-            )
-        ):
-            if country in of_country:
-                hits[of_country[country]] += 1
-            elif market != REMAINDER:
-                hits.update(of_market.get((vehicle, market), []))
     for model, found in (
+        (Verbatim, ids("verbatim:")),
         (Finding, [r for r in refs if r.startswith("FND-")]),
         (Requirement, [r for r in refs if r.startswith("REQ-")]),
         (StudyMetric, ids("metric:")),
     ):
         if found:
-            for vehicle, market in session.execute(
+            for scope in session.execute(
                 select(model.vehicle_code, model.market_code).where(model.id.in_(found))
             ):
-                hits.update(of_market.get((vehicle, market), []))
+                hits.update([of_market[tuple(scope)]] if tuple(scope) in of_market else [])
     if found := ids("external:"):
         for held in session.scalars(
             select(ExternalEvidence.regions).where(ExternalEvidence.id.in_(found))
         ):
-            for market in held:
-                hits.update(by_market.get(market, []))
+            hits.update(by_market[m] for m in held if m in by_market)
     return {r["label"]: hits[r["label"]] for r in regions if hits[r["label"]]}
 
 
@@ -1059,10 +1026,10 @@ def render_series(out: dict[str, Any]) -> str:
     a, effort = out["analysis"], out["effort"]
     labels = [r["label"] for r in out["regions"]]
 
-    def clean(text: str | None, *, block: bool = False) -> str:
+    def clean(text: str | None) -> str:
         """What the model wrote, without the reference ids it sometimes leaves in a sentence,
         and inert: it cannot add a heading, a table cell, a link or HTML to the brief."""
-        return md(_ref_span.sub("", text or ""), block=block)
+        return md(_ref_span.sub("", text or ""))
 
     basis = " · ".join(
         f"{md(r['label'])} "
@@ -1072,14 +1039,14 @@ def render_series(out: dict[str, Any]) -> str:
     sold = " · ".join(
         f"{md(r['label'])} {r['sales_2025']:,}"
         for r in out["regions"]
-        if r["sales_2025"] is not None and not r["country"]
+        if r["sales_2025"] is not None
     )
     lines = [
         f"# BMW {md(out['series'])}: what to change, for whom, and when",
         "",
         f"**{clean(a['headline'])}**",
         "",
-        clean(a["answer"], block=True),
+        clean(a["answer"]),
         "",
         f"Customer text: {basis}. Sales 2025: {sold}.",
         "",
@@ -1157,6 +1124,10 @@ def render_series(out: dict[str, Any]) -> str:
     lines += [f"- {clean(b)}" for b in o["every_market"]] or ["- Nothing."]
     for pack in o["regional"]:
         lines += ["", f"Only {md(pack['region'])}:"] + [f"- {clean(b)}" for b in pack["items"]]
+    # a region that gets nothing of its own is said so, not left out: it is the question asked
+    for label in labels:
+        if label not in {pack["region"] for pack in o["regional"]}:
+            lines += ["", f"Only {md(label)}:", "- Nothing of its own in this answer."]
     lines += ["", "Next generation:"]
     lines += [f"- {clean(b)}" for b in o["next_generation"]] or ["- Nothing."]
     lines += ["", "Keep:"] + ([f"- {clean(b)}" for b in o["keep"]] or ["- Nothing."])

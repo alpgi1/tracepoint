@@ -703,38 +703,41 @@ def run_analysis(
     return out
 
 
-_url_scheme = re.compile(r"\b([A-Za-z][A-Za-z0-9+.-]{1,15}):(?=//)|\b(www)\.", re.I)
-_block_marker = re.compile(r"^([#\-+*=~])|^(\d+)([.)])")
+# What makes a reader's program turn plain text into a link: a scheme before "//", "www."
+# wherever it stands, and "@" (e-mail and mailto: addresses). They are rewritten in the visible
+# text itself, because an entity or an escape only hides them from some renderers.
+_scheme = re.compile(r":(?=//)")
+_www = re.compile(r"(www)\.", re.I)
+_md_punctuation = re.compile(r"([`*_{}\[\]|~#$])")
+_ordered_item = re.compile(r"^(\d{1,9})([.)])(?=\s|$)")
+_bullet_or_rule = re.compile(r"^([-+=])(?=[\s\-+=]|$)")
 
 
-def md(text: Any, *, block: bool = False) -> str:
+def md(text: Any) -> str:
     """Text that this program did not write (the model's, a customer's, a web page's) as inert
-    Markdown. The reports are read rendered, so such text must not be able to add structure: it
-    becomes one line, with no HTML, no link or image, no code span, no table cell of its own
-    and no clickable address. ``block`` is for text that starts a line of its own, where a
-    leading ``#`` or ``-`` would make a heading or a list."""
+    Markdown. The reports are read rendered, so such text must not be able to add anything of
+    its own: it becomes one line and is shown character for character, with no HTML and no
+    entity, no emphasis, link, image or code span, no table cell, no heading, list or rule
+    (also not inside a bullet or a quote, where a line is parsed as a block again), and no
+    address a renderer would make clickable."""
     text = " ".join(str(text or "").split())
-    text = text.replace("\\", "\\\\")  # first, or an escape below could be undone
+    # the two characters that could undo what follows go first
+    text = text.replace("&", "&amp;").replace("\\", "\\\\")
+    text = _www.sub(r"\1[.]", _scheme.sub("[:]", text)).replace("@", "[at]")
     text = text.replace("<", "&lt;").replace(">", "&gt;")
-    for char in "|[]`":
-        text = text.replace(char, "\\" + char)
-    text = _url_scheme.sub(lambda m: f"{m.group(1)}&#58;" if m.group(1) else "www&#46;", text)
-    if block:
-        text = _block_marker.sub(
-            lambda m: f"\\{m.group(1)}" if m.group(1) else f"{m.group(2)}\\{m.group(3)}", text
-        )
-    return text
+    text = _md_punctuation.sub(r"\\\1", text)
+    return _bullet_or_rule.sub(r"\\\1", _ordered_item.sub(r"\1\\\2", text))
 
 
 def code(text: Any) -> str:
     """An identifier or argument this program did not write, as a code span it cannot break
-    out of. A code span shows its content as it is, so nothing in it is escaped: what could end
-    the span or read as markup or an address is replaced."""
+    out of. A code span shows its content as it is, so nothing in it can be escaped: what could
+    end the span, or read as markup or an address outside one, is replaced."""
     text = " ".join(str(text or "").split())
     for char, plain in (("`", "'"), ("|", "/"), ("<", "("), (">", ")"), ("[", "("), ("]", ")")):
         text = text.replace(char, plain)
-    text = _url_scheme.sub(lambda m: f"{m.group(1)}: " if m.group(1) else "www ", text)
-    return f"`{text}`"
+    text = _www.sub(r"\1 ", _scheme.sub(": ", text)).replace("@", " at ")
+    return f"`{text or '-'}`"
 
 
 def effort_text(e: dict[str, Any]) -> str:
@@ -781,7 +784,7 @@ def render_brief(out: dict[str, Any]) -> str:
         "",
         f"**{md(a['headline'])}**",
         "",
-        md(a["summary"], block=True),
+        md(a["summary"]),
         "",
         "## Proposals",
         "",
@@ -799,7 +802,7 @@ def render_brief(out: dict[str, Any]) -> str:
             "",
             f"### {n}. {md(r['title'])}",
             "",
-            md(r["proposal"], block=True),
+            md(r["proposal"]),
             "",
             f"- Why: {md(r['rationale'])}",
         ]
@@ -818,7 +821,7 @@ def render_brief(out: dict[str, Any]) -> str:
             "",
             f"**{md(i['title'])}** (confidence {md(i['confidence'])})",
             "",
-            md(i["statement"], block=True),
+            md(i["statement"]),
         ]
         if i["customer_quote"] and i["customer_quote"] not in loose:
             lines += ["", f"> {md(i['customer_quote'])}"]
@@ -924,10 +927,10 @@ def render_analysis(out: dict[str, Any]) -> str:
         "",
         f"**{md(a['headline'])}**",
         "",
-        md(a["summary"], block=True),
+        md(a["summary"]),
         "",
         "## Data coverage",
-        md(a["data_coverage"], block=True),
+        md(a["data_coverage"]),
         "",
         "## Insights",
     ]
@@ -937,7 +940,7 @@ def render_analysis(out: dict[str, Any]) -> str:
             f"### {md(i['title'])}",
             f"{md(i['kind'])} · {md(i['domain'])} · confidence {md(i['confidence'])}",
             "",
-            md(i["statement"], block=True),
+            md(i["statement"]),
         ]
         if i["customer_quote"]:
             flag = " (not found word for word in the cited verbatims)"
@@ -953,9 +956,9 @@ def render_analysis(out: dict[str, Any]) -> str:
         lines += [
             "",
             f"### {md(r['title'])} ({md(r['horizon'])})",
-            md(r["proposal"], block=True),
+            md(r["proposal"]),
             "",
-            md(r["rationale"], block=True),
+            md(r["rationale"]),
         ]
         if r["related_requirement"]:
             lines += ["", f"Existing requirement: {refs([r['related_requirement']])}"]
