@@ -60,6 +60,9 @@ def test_api_endpoints(engine, ingested):
     assert ev["total"] >= 3
     rep = client.get("/reports/baseline/G60", params={"market": "US"}).json()
     assert rep["coverage"]["verbatims"] > 3000 and rep["domains"]
+    # a scope that does not resolve is refused before any model call
+    bad = client.post("/agent/analyze", json={"vehicle": "F70", "market": "US", "country": "GB"})
+    assert bad.status_code == 422 and "belongs to market EU" in bad.json()["detail"]
 
 
 def test_baseline_report(engine, ingested):

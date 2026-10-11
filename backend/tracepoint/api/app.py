@@ -612,6 +612,44 @@ def agent_tools() -> list[dict[str, Any]]:
     return tool_schemas()
 
 
+class AnalysisBody(BaseModel):
+    vehicle: Literal["F70", "G60", "G68", "G70"]
+    market: Literal["EU", "US", "CN", "RoW"] | None = None
+    country: str | None = Field(None, pattern=r"^[A-Za-z]{2}$")
+    max_steps: int = Field(12, ge=1, le=30)
+
+
+@app.post("/agent/analyze")
+def agent_analyze(body: AnalysisBody, session: Session = Depends(get_session)) -> dict[str, Any]:
+    """Situation analysis by the analyst agent (LLM with tool calls). Takes a minute or two and
+    spends tokens; every model turn and tool call is logged under the returned run."""
+    from tracepoint.agent.analysis import resolve_scope, run_analysis
+    from tracepoint.core.runs import start_run
+    from tracepoint.llm.gateway import LlmError, LlmGateway, make_provider
+
+    try:
+        market, country = resolve_scope(session, body.market, body.country)
+        provider = make_provider()
+    except (ValueError, LlmError) as exc:
+        raise HTTPException(422, str(exc)) from exc
+    kind = f"agent.analyze.{body.vehicle}.{country or market}"
+    try:
+        with start_run(session, kind, body.model_dump()) as run:
+            return run_analysis(
+                session,
+                run,
+                LlmGateway(session, provider, run.id),
+                body.vehicle,
+                market,
+                country,
+                max_steps=body.max_steps,
+            )
+    except ValueError as exc:
+        raise HTTPException(422, str(exc)) from exc
+    except LlmError as exc:
+        raise HTTPException(502, str(exc)) from exc
+
+
 @app.post("/agent/tools/{name}")
 def agent_call(
     name: str,

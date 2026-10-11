@@ -108,7 +108,7 @@ ok "internal files ingested"
 
 # ---------------------------------------------------------------------------------------------
 log "6/8 Findings and reports"
-for scope in "G60 US" "F70 EU" "G70 US" "G60 EU"; do
+for scope in "G60 US" "F70 EU" "G70 US" "G60 EU" "F70 RoW" "G60 RoW" "G70 RoW" "G70 EU" "G68 CN" "G70 CN"; do
   set -- $scope
   tp findings extract --vehicle "$1" --market "$2" | sed 's/, "findings".*//'
 done

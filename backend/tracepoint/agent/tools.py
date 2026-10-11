@@ -9,7 +9,7 @@ the JSON schemas an LLM needs and ``call_tool`` is the single entry point an age
 from __future__ import annotations
 
 from collections.abc import Callable
-from typing import Any, Literal
+from typing import Annotated, Any, Literal
 
 from pydantic import BaseModel, Field
 from sqlalchemy import func, select, text
@@ -19,7 +19,9 @@ from tracepoint.agent.context_pack import build_context_pack
 from tracepoint.api import app as api
 from tracepoint.core.audit import record_event
 from tracepoint.db.models import (
+    DocumentPage,
     Finding,
+    Source,
     TaxonomyLevel2,
     TaxonomyLevel3,
     Verbatim,
@@ -28,6 +30,9 @@ from tracepoint.db.models import (
 
 Vehicle = Literal["F70", "G60", "G68", "G70"]
 MarketCode = Literal["EU", "US", "CN", "RoW"]
+CountryCode = Annotated[
+    str, Field(pattern=r"^[A-Z]{2}$", description="ISO country code of the feedback, e.g. GB, JP")
+]
 FeedbackType = Literal["Likes", "Difficult to Use", "Defect", "Wants"]
 
 
@@ -67,6 +72,7 @@ class SearchEvidenceArgs(BaseModel):
     query: str = Field(description="Free text, e.g. 'charging port flap stuck in cold weather'")
     vehicle: Vehicle | None = None
     market: MarketCode | None = None
+    country: CountryCode | None = None
     powertrain: str | None = Field(None, description="e.g. BEV, PHEV, ICE")
     feedback_type: FeedbackType | None = None
     domain: str | None = Field(None, description="Vehicle domain key, e.g. interior_comfort")
@@ -84,6 +90,7 @@ def search_evidence(session: Session, a: SearchEvidenceArgs) -> dict[str, Any]:
     for col, val in (
         (Verbatim.vehicle_code, a.vehicle),
         (Verbatim.market_code, a.market),
+        (Verbatim.country_code, a.country),
         (Verbatim.powertrain, a.powertrain),
     ):
         if val:
@@ -105,10 +112,56 @@ def search_evidence(session: Session, a: SearchEvidenceArgs) -> dict[str, Any]:
     return {"total": total, "items": _compact_verbatims(session, list(rows))}
 
 
+class SearchDocumentsArgs(BaseModel):
+    query: str = Field(description="Free text, e.g. 'share of all-electric cars in deliveries'")
+    limit: int = Field(5, ge=1, le=20)
+
+
+def search_documents(session: Session, a: SearchDocumentsArgs) -> dict[str, Any]:
+    """Ranked full-text search over the BMW Group Report 2025 (strategy, deliveries by region,
+    outlook); returns the matching passages of each page with its page number."""
+    vec = func.to_tsvector(text("'english'"), DocumentPage.text)
+    # a page is long, so every word has to be on it; any-word matching is only the fallback
+    for words in (a.query, " or ".join(a.query.split())):
+        tsq = func.websearch_to_tsquery("english", words)
+        total = session.scalar(
+            select(func.count()).select_from(DocumentPage).where(vec.op("@@")(tsq))
+        )
+        if total:
+            break
+    passages = func.ts_headline(
+        text("'english'"),
+        DocumentPage.text,
+        tsq,
+        "MaxFragments=3, MinWords=20, MaxWords=70, StartSel='', StopSel=''",
+    )
+    rows = session.execute(
+        select(DocumentPage.id, DocumentPage.page, DocumentPage.section, Source.name, passages)
+        .join(Source, Source.id == DocumentPage.source_id)
+        .where(vec.op("@@")(tsq))
+        .order_by(func.ts_rank_cd(vec, tsq, 1).desc(), DocumentPage.page)
+        .limit(a.limit)
+    ).all()
+    return {
+        "total": total,
+        "items": [
+            {
+                "evidence_ref": f"document:{r[0]}",
+                "source": r[3],
+                "page": r[1],
+                "section": r[2],
+                "passages": r[4],
+            }
+            for r in rows
+        ],
+    }
+
+
 class VerbatimsByThemeArgs(BaseModel):
     vehicle: Vehicle
     theme: str = Field(description="Exact level-2 theme name, e.g. 'Electric Range'")
     market: MarketCode | None = None
+    country: CountryCode | None = None
     feedback_type: FeedbackType | None = None
     limit: int = Field(20, ge=1, le=100)
 
@@ -128,6 +181,8 @@ def get_verbatims_by_theme(session: Session, a: VerbatimsByThemeArgs) -> dict[st
     stmt = select(Verbatim).where(Verbatim.vehicle_code == a.vehicle, Verbatim.id.in_(sub))
     if a.market:
         stmt = stmt.where(Verbatim.market_code == a.market)
+    if a.country:
+        stmt = stmt.where(Verbatim.country_code == a.country)
     total = session.scalar(select(func.count()).select_from(stmt.subquery()))
     rows = session.scalars(stmt.order_by(Verbatim.id).limit(a.limit)).all()
     return {
@@ -234,12 +289,14 @@ def get_findings(session: Session, a: FindingsArgs) -> dict[str, Any]:
     ):
         if val:
             stmt = stmt.where(col == val)
+    total = session.scalar(select(func.count()).select_from(stmt.subquery()))
     rows = session.scalars(
         stmt.order_by(Finding.evidence_level, Finding.severity_score.desc().nulls_last()).limit(
             a.limit
         )
     ).all()
     return {
+        "total": total,
         "items": [
             {
                 "id": f.id,
@@ -253,7 +310,7 @@ def get_findings(session: Session, a: FindingsArgs) -> dict[str, Any]:
                 "quantification": f.quantification,
             }
             for f in rows
-        ]
+        ],
     }
 
 
@@ -279,16 +336,19 @@ def get_requirements(session: Session, a: RequirementsArgs) -> dict[str, Any]:
 class ContextPackArgs(BaseModel):
     vehicle: Vehicle
     market: MarketCode | None = None
+    country: CountryCode | None = None
 
 
 def get_context_pack(session: Session, a: ContextPackArgs) -> dict[str, Any]:
-    """Compact overview of one vehicle × market; the starting point before drilling down."""
-    return build_context_pack(session, a.vehicle, a.market)
+    """Compact overview of one vehicle × market; the starting point before drilling down. With
+    a country, the customer voice is that country's and everything else the market's."""
+    return build_context_pack(session, a.vehicle, a.market, country_code=a.country)
 
 
 TOOLS: dict[str, tuple[type[BaseModel], Callable[[Session, Any], dict[str, Any]]]] = {
     "get_context_pack": (ContextPackArgs, get_context_pack),
     "search_evidence": (SearchEvidenceArgs, search_evidence),
+    "search_documents": (SearchDocumentsArgs, search_documents),
     "get_verbatims_by_theme": (VerbatimsByThemeArgs, get_verbatims_by_theme),
     "get_metric": (MetricArgs, get_metric),
     "get_equipment": (EquipmentArgs, get_equipment),

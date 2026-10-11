@@ -16,7 +16,10 @@ from tracepoint.llm.gateway import (
     LlmGateway,
     LlmRequest,
     LlmSchemaError,
+    ProviderResponse,
+    make_provider,
 )
+from tracepoint.llm.pricing import estimate_cost_usd
 from tracepoint.llm.schema import to_strict_schema
 
 
@@ -108,3 +111,42 @@ def test_fake_provider_payload_is_json():
         timeout=1.0,
     )
     assert json.loads(resp.text) == {"a": 1}
+
+
+def test_empty_base_url_falls_back_to_default_endpoint():
+    provider = make_provider(Settings(openai_api_key="sk-test", openai_base_url=""))
+    assert str(provider._client.base_url).startswith("https://")
+
+
+def test_dated_snapshot_is_priced_as_its_alias():
+    mini = estimate_cost_usd("gpt-5.4-mini", 1_000_000, 0, 1_000_000)
+    assert mini is not None
+    assert estimate_cost_usd("gpt-5.4-mini-2026-03-17", 1_000_000, 0, 1_000_000) == mini
+    assert estimate_cost_usd("gpt-5.4-2026-03-05", 1_000_000, 0, 1_000_000) != mini
+    assert estimate_cost_usd("some-other-model", 1, 0, 1) is None
+
+
+def test_gateway_returns_and_caches_tool_calls(engine, ingested):
+    call = {"id": "c1", "name": "get_sales", "arguments": {"vehicle": "G60"}}
+    provider = FakeProvider(
+        lambda kw: ProviderResponse(text="", model="fake-model", tool_calls=[call])
+    )
+    tools = ({"name": "get_sales", "description": "d", "input_schema": {"type": "object"}},)
+    req = LlmRequest(purpose="test", system="s", user="tools", prompt_version="t-v1", tools=tools)
+    later = LlmRequest(
+        purpose="test",
+        system="s",
+        user="tools",
+        prompt_version="t-v1",
+        tools=tools,
+        history=({"role": "tool", "tool_call_id": "c1", "content": "{}"},),
+    )
+    with Session(engine) as session, start_run(session, "test.llm.tools") as run:
+        gw = LlmGateway(session, provider, run.id)
+        first = gw.complete(req, Answer)  # a tool-call turn is not parsed against the schema
+        again = gw.complete(req, Answer)
+        gw.complete(later, Answer)  # the history is part of the cache key
+        assert first.tool_calls == [call] and first.parsed is None
+        assert again.cached and again.tool_calls == [call]
+        assert len(provider.calls) == 2 and provider.calls[1]["history"] == later.history
+        assert session.get(LlmCall, first.llm_call_id).request["tools"] == ["get_sales"]
