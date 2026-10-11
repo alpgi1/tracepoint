@@ -3,6 +3,8 @@ import { dateTime } from "@/lib/content/format";
 import type { Requirement } from "@/lib/content/workspace-types";
 import { liveSetting, type WorkspaceRead } from "@/lib/data/workspace";
 import { site } from "@/lib/site";
+import { STATIC_EXPORT } from "@/lib/static";
+import { ShowcaseDecisionForm, ShowcaseStatus } from "./showcase-gate";
 
 /*
  * Gate G2 on the requirement page (D-085). In the live mode: a form with
@@ -21,35 +23,69 @@ export interface DecisionFormProps {
   notice: { decision?: string; reason?: string };
 }
 
-export function DecisionForm({ requirement: r, read, pathname, notice }: DecisionFormProps) {
+export function DecisionForm({
+  requirement: r,
+  read,
+  pathname,
+  notice,
+}: DecisionFormProps) {
   const copy = site.requirements.decision;
   const message = noticeText(notice);
   return (
     <div id="decision" className="decision">
       <p className="decision-status">
-        {copy.current}: <b>{r.status}</b>, {site.requirements.facts.version} {String(r.version)}.
+        {copy.current}:{" "}
+        {STATIC_EXPORT ? (
+          <ShowcaseStatus id={r.id} status={r.status} />
+        ) : (
+          <b>{r.status}</b>
+        )}
+        , {site.requirements.facts.version} {String(r.version)}.
       </p>
       {message ? (
         <p className="decision-notice" role="status">
           {message}
         </p>
       ) : null}
-      {read.live ? (
+      {STATIC_EXPORT ? (
+        <ShowcaseDecisionForm id={r.id} version={r.version} />
+      ) : read.live ? (
         <form action={decideRequirement} className="decision-form">
           <input type="hidden" name="id" value={r.id} />
           <input type="hidden" name="back" value={pathname} />
           <label className="decision-note">
             {copy.rationale}
-            <textarea name="note" required minLength={3} rows={3} placeholder={copy.rationaleHint} />
+            <textarea
+              name="note"
+              required
+              minLength={3}
+              rows={3}
+              placeholder={copy.rationaleHint}
+            />
           </label>
           <div className="button-row">
-            <button type="submit" name="decision" value="approve" className="filter-apply">
+            <button
+              type="submit"
+              name="decision"
+              value="approve"
+              className="filter-apply"
+            >
               {copy.approve}
             </button>
-            <button type="submit" name="decision" value="reject" className="filter-apply">
+            <button
+              type="submit"
+              name="decision"
+              value="reject"
+              className="filter-apply"
+            >
               {copy.reject}
             </button>
-            <button type="submit" name="decision" value="defer" className="filter-apply">
+            <button
+              type="submit"
+              name="decision"
+              value="defer"
+              className="filter-apply"
+            >
               {copy.defer}
             </button>
           </div>
@@ -69,7 +105,8 @@ export function DecisionForm({ requirement: r, read, pathname, notice }: Decisio
             </button>
           </div>
           <p className="workspace-hint">
-            {liveSetting() === "off" ? copy.note : copy.notAnswering} {dateTime(read.snapshot.snapshot.takenAt)}.
+            {liveSetting() === "off" ? copy.note : copy.notAnswering}{" "}
+            {dateTime(read.snapshot.snapshot.takenAt)}.
           </p>
         </>
       )}
@@ -77,7 +114,10 @@ export function DecisionForm({ requirement: r, read, pathname, notice }: Decisio
   );
 }
 
-function noticeText(notice: { decision?: string; reason?: string }): string | null {
+function noticeText(notice: {
+  decision?: string;
+  reason?: string;
+}): string | null {
   const copy = site.requirements.decision;
   switch (notice.decision) {
     case "approve":

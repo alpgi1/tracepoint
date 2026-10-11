@@ -2,7 +2,15 @@ import { Suspense } from "react";
 import { full } from "@/lib/content/format";
 import type { MarketCode } from "@/lib/content/types";
 import { site } from "@/lib/site";
-import { STAGES, type ScopeContent, type StageFigures, type StageKey, stageHref } from "@/lib/workspace/stages";
+import { STATIC_EXPORT } from "@/lib/static";
+import {
+  STAGES,
+  type ScopeContent,
+  type StageFigures,
+  type StageKey,
+  stageHref,
+} from "@/lib/workspace/stages";
+import { ShowcaseDecidedFigure } from "./showcase-gate";
 import { StageItem } from "./stage-item";
 
 /*
@@ -33,7 +41,13 @@ export interface StageBarProps {
   live: Promise<StageFigures>;
 }
 
-export function StageBar({ market, vehicle, scope, stored, live }: StageBarProps) {
+export function StageBar({
+  market,
+  vehicle,
+  scope,
+  stored,
+  live,
+}: StageBarProps) {
   const copy = site.stages;
   return (
     <nav className="stage-bar" aria-label={copy.label}>
@@ -47,15 +61,31 @@ export function StageBar({ market, vehicle, scope, stored, live }: StageBarProps
               </span>
               <span className="stage-text">
                 <span className="stage-name">{copy.names[stage]}</span>
-                <Suspense fallback={<FigureText text={stageFigure(stage, stored)} />}>
-                  <LiveFigure stage={stage} live={live} />
-                </Suspense>
+                {STATIC_EXPORT && stage === "documentation" && stored.counts ? (
+                  <ShowcaseDecidedFigure
+                    decidedIds={stored.counts.decidedIds}
+                    ids={stored.counts.ids}
+                    candidates={stored.counts.candidates}
+                    events={stored.counts.events}
+                  />
+                ) : (
+                  <Suspense
+                    fallback={<FigureText text={stageFigure(stage, stored)} />}
+                  >
+                    <LiveFigure stage={stage} live={live} />
+                  </Suspense>
+                )}
               </span>
             </>
           );
           return href ? (
             // The vehicle screen is prefetched with its sketch, so the car can grow back into it (exemption E7).
-            <StageItem key={stage} stage={stage} href={href} prefetch={stage === "situation"}>
+            <StageItem
+              key={stage}
+              stage={stage}
+              href={href}
+              prefetch={stage === "situation"}
+            >
               {body}
             </StageItem>
           ) : (
@@ -73,7 +103,13 @@ function FigureText({ text }: { text: string | null }) {
   return text ? <span className="stage-figure">{text}</span> : null;
 }
 
-async function LiveFigure({ stage, live }: { stage: StageKey; live: Promise<StageFigures> }) {
+async function LiveFigure({
+  stage,
+  live,
+}: {
+  stage: StageKey;
+  live: Promise<StageFigures>;
+}) {
   return <FigureText text={stageFigure(stage, await live)} />;
 }
 
@@ -84,13 +120,22 @@ function stageFigure(stage: StageKey, f: StageFigures): string | null {
     case "situation":
       return `${full(f.subsystems)} ${copy.subsystems} · ${f.verbatims > 0 ? `${full(f.verbatims)} ${site.readout.verbatims}` : site.readout.noVerbatims}`;
     case "structure":
-      if (counts) return `${full(counts.candidates)} ${copy.candidates} · ${full(counts.excluded)} ${copy.leftOut}`;
-      return f.scope.brief ? `${copy.brief} · ${full(f.scope.brief.proposals)} ${copy.proposals}` : copy.noRequirements;
+      if (counts)
+        return `${full(counts.candidates)} ${copy.candidates} · ${full(counts.excluded)} ${copy.leftOut}`;
+      return f.scope.brief
+        ? `${copy.brief} · ${full(f.scope.brief.proposals)} ${copy.proposals}`
+        : copy.noRequirements;
     case "requirements":
-      return counts ? `${full(counts.criteria)} ${copy.criteria} · ${full(counts.criteriaOnEvidence)} ${copy.onEvidence}` : null;
+      return counts
+        ? `${full(counts.criteria)} ${copy.criteria} · ${full(counts.criteriaOnEvidence)} ${copy.onEvidence}`
+        : null;
     case "priorities":
-      return f.h1Package ? `${copy.package} ${f.h1Package.effortPct.toFixed(1)} %, ${f.h1Package.decision}` : null;
+      return f.h1Package
+        ? `${copy.package} ${f.h1Package.effortPct.toFixed(1)} %, ${f.h1Package.decision}`
+        : null;
     case "documentation":
-      return counts ? `${full(counts.decided)} ${copy.decided} ${full(counts.candidates)} · ${full(counts.events)} ${copy.events}` : null;
+      return counts
+        ? `${full(counts.decided)} ${copy.decided} ${full(counts.candidates)} · ${full(counts.events)} ${copy.events}`
+        : null;
   }
 }

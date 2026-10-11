@@ -9,7 +9,12 @@ import { dateTime, full } from "@/lib/content/format";
 import { marketByCode, vehicleHref, vehicleIn } from "@/lib/content/markets";
 import { readScope } from "@/lib/data/workspace";
 import { site } from "@/lib/site";
-import { asset } from "@/lib/static";
+import { STATIC_EXPORT, asset } from "@/lib/static";
+import {
+  ShowcaseEventCount,
+  ShowcaseEvents,
+  ShowcaseRecord,
+} from "@/components/workspace/showcase-gate";
 import { hasStage, stageParams } from "@/lib/workspace/figures";
 import { decisionRecord, timelineOf } from "@/lib/workspace/log";
 import { requirementHref } from "@/lib/workspace/requirements";
@@ -62,55 +67,89 @@ async function LogBody({ params }: { params: Props["params"] }) {
   const { snapshot } = read;
   const copy = site.log;
   const rows = decisionRecord(snapshot);
-  const decided = rows.filter((row) => row.requirement.status !== "proposed").length;
+  const decided = rows.filter(
+    (row) => row.requirement.status !== "proposed",
+  ).length;
   const events = timelineOf(snapshot);
   const csvHref = asset(`${vehicleHref(m.code, v.code)}/log/requirements.csv`);
   const mdHref = asset(`${vehicleHref(m.code, v.code)}/log/requirements.md`);
   return (
     <Reveal as="div" className="stage-content">
       <h3 className="stage-h3">{copy.recordHeading}</h3>
-      <p className="effort-lead">
-        <b>
-          {full(decided)} {copy.decidedBefore} {full(rows.length)}
-        </b>{" "}
-        {copy.recordLead}
-      </p>
-      <div className="table-scroll">
-        <table className="candidate-table record-table">
-          <thead>
-            <tr>
-              <th scope="col">{copy.columns.id}</th>
-              <th scope="col">{copy.columns.title}</th>
-              <th scope="col">{copy.columns.status}</th>
-              <th scope="col" className="num">
-                {copy.columns.version}
-              </th>
-              <th scope="col">{copy.columns.decision}</th>
-              <th scope="col">{copy.columns.by}</th>
-              <th scope="col">{copy.columns.when}</th>
-              <th scope="col">{copy.columns.note}</th>
-            </tr>
-          </thead>
-          <tbody>
-            {rows.map(({ requirement: r, decision: d }) => (
-              <tr key={r.id} className="candidate">
-                <td className="req-area">{requirementArea(r.id)}</td>
-                <td>
-                  <Link href={requirementHref(m.code, v.code, r.id)} className="title-link">
-                    {r.title}
-                  </Link>
-                </td>
-                <td>{r.status}</td>
-                <td className="num">{String(r.version)}</td>
-                <td>{d && typeof d.after?.status === "string" ? d.after.status : <span className="cpm-muted">{copy.noDecision}</span>}</td>
-                <td>{d ? d.actor_id : ""}</td>
-                <td className="record-when">{d ? dateTime(d.ts) : ""}</td>
-                <td className="record-note">{d?.rationale ?? ""}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+      {STATIC_EXPORT ? (
+        <ShowcaseRecord
+          rows={rows.map(({ requirement: r, decision: d }) => ({
+            id: r.id,
+            title: r.title,
+            href: requirementHref(m.code, v.code, r.id),
+            status: r.status,
+            version: r.version,
+            decision: d
+              ? {
+                  status:
+                    typeof d.after?.status === "string" ? d.after.status : "",
+                  by: d.actor_id,
+                  when: dateTime(d.ts),
+                  note: d.rationale ?? "",
+                }
+              : null,
+          }))}
+        />
+      ) : (
+        <>
+          <p className="effort-lead">
+            <b>
+              {full(decided)} {copy.decidedBefore} {full(rows.length)}
+            </b>{" "}
+            {copy.recordLead}
+          </p>
+          <div className="table-scroll">
+            <table className="candidate-table record-table">
+              <thead>
+                <tr>
+                  <th scope="col">{copy.columns.id}</th>
+                  <th scope="col">{copy.columns.title}</th>
+                  <th scope="col">{copy.columns.status}</th>
+                  <th scope="col" className="num">
+                    {copy.columns.version}
+                  </th>
+                  <th scope="col">{copy.columns.decision}</th>
+                  <th scope="col">{copy.columns.by}</th>
+                  <th scope="col">{copy.columns.when}</th>
+                  <th scope="col">{copy.columns.note}</th>
+                </tr>
+              </thead>
+              <tbody>
+                {rows.map(({ requirement: r, decision: d }) => (
+                  <tr key={r.id} className="candidate">
+                    <td className="req-area">{requirementArea(r.id)}</td>
+                    <td>
+                      <Link
+                        href={requirementHref(m.code, v.code, r.id)}
+                        className="title-link"
+                      >
+                        {r.title}
+                      </Link>
+                    </td>
+                    <td>{r.status}</td>
+                    <td className="num">{String(r.version)}</td>
+                    <td>
+                      {d && typeof d.after?.status === "string" ? (
+                        d.after.status
+                      ) : (
+                        <span className="cpm-muted">{copy.noDecision}</span>
+                      )}
+                    </td>
+                    <td>{d ? d.actor_id : ""}</td>
+                    <td className="record-when">{d ? dateTime(d.ts) : ""}</td>
+                    <td className="record-note">{d?.rationale ?? ""}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </>
+      )}
 
       <h3 className="stage-h3">{copy.exportHeading}</h3>
       <p className="workspace-hint stage-hint">{copy.exportHint}</p>
@@ -126,11 +165,34 @@ async function LogBody({ params }: { params: Props["params"] }) {
       <h3 className="stage-h3">{copy.timelineHeading}</h3>
       <p className="workspace-hint stage-hint">{copy.timelineHint}</p>
       <p className="effort-lead">
-        <b>
-          {full(events.length)} {copy.events}
-        </b>
+        {STATIC_EXPORT ? (
+          <ShowcaseEventCount
+            stored={events.length}
+            ids={rows.map((row) => row.requirement.id)}
+          />
+        ) : (
+          <b>
+            {full(events.length)} {copy.events}
+          </b>
+        )}
       </p>
-      <Timeline events={events} linkTo={(id) => requirementHref(m.code, v.code, id)} nameOf={(id) => snapshot.requirements.find((r) => r.id === id)?.title} />
+      {STATIC_EXPORT ? (
+        <ShowcaseEvents
+          requirements={rows.map(({ requirement: r }) => ({
+            id: r.id,
+            status: r.status,
+            title: r.title,
+            href: requirementHref(m.code, v.code, r.id),
+          }))}
+          order="newest"
+          linked
+        />
+      ) : null}
+      <Timeline
+        events={events}
+        linkTo={(id) => requirementHref(m.code, v.code, id)}
+        nameOf={(id) => snapshot.requirements.find((r) => r.id === id)?.title}
+      />
       <SourceLine read={read} />
     </Reveal>
   );

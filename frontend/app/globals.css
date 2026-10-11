@@ -2828,3 +2828,16 @@ body:has(.cpmx[open]) {
   font-size: 0.8125rem;
   white-space: nowrap;
 }
+
+/* A text control inside a hint line (the showcase's clear decisions). */
+.link-button {
+  min-height: 44px;
+  padding: 0;
+  font: inherit;
+  color: var(--color-primary);
+  background: transparent;
+  border: 0;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}

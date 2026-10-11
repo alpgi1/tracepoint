@@ -13,6 +13,8 @@ import { EvidenceList } from "./evidence-list";
 import { Reveal } from "./reveal";
 import { SourceLine } from "./source-line";
 import { Timeline } from "./timeline";
+import { ShowcaseEvents, ShowcaseStatus } from "./showcase-gate";
+import { STATIC_EXPORT } from "@/lib/static";
 import { requirementArea } from "@/lib/workspace/requirement-name";
 
 /*
@@ -38,23 +40,35 @@ export interface RequirementPageProps {
   notice: DecisionFormProps["notice"];
 }
 
-export function RequirementPage({ market, vehicle, read, record, catalogue, pathname, notice }: RequirementPageProps) {
+export function RequirementPage({
+  market,
+  vehicle,
+  read,
+  record,
+  catalogue,
+  pathname,
+  notice,
+}: RequirementPageProps) {
   const copy = site.requirements;
   const { snapshot } = read;
   const { requirement: r, detail, effort } = record;
   const events = snapshot.events.filter((e) => e.entity_id === r.id);
   return (
-    <Reveal className="stage-body requirement" aria-labelledby="requirement-heading">
+    <Reveal
+      className="stage-body requirement"
+      aria-labelledby="requirement-heading"
+    >
       <nav className="crumbs" aria-label="Breadcrumb">
         <ol>
           <li>
-            <Link href={requirementsHref(market.code, vehicle.code)} className="crumb-link">
+            <Link
+              href={requirementsHref(market.code, vehicle.code)}
+              className="crumb-link"
+            >
               {copy.all}
             </Link>
           </li>
-          <li aria-current="page">
-            {requirementArea(r.id)}
-          </li>
+          <li aria-current="page">{requirementArea(r.id)}</li>
         </ol>
       </nav>
       <h2 id="requirement-heading" className="requirement-title">
@@ -64,7 +78,10 @@ export function RequirementPage({ market, vehicle, read, record, catalogue, path
         <div>
           <dt>{copy.facts.proposal}</dt>
           <dd>
-            <b>{r.recommend ? copy.facts.recommendYes : copy.facts.recommendNo}</b>. {nameRequirements(r.recommend_rationale)}
+            <b>
+              {r.recommend ? copy.facts.recommendYes : copy.facts.recommendNo}
+            </b>
+            . {nameRequirements(r.recommend_rationale)}
           </dd>
         </div>
         <div>
@@ -84,19 +101,26 @@ export function RequirementPage({ market, vehicle, read, record, catalogue, path
         <div>
           <dt>{copy.facts.evidence}</dt>
           <dd>
-            <b>{r.evidence_level}</b> <span className="cpm-muted">({copy.facts.evidenceNote})</span>
+            <b>{r.evidence_level}</b>{" "}
+            <span className="cpm-muted">({copy.facts.evidenceNote})</span>
           </dd>
         </div>
         <div>
           <dt>{copy.facts.status}</dt>
           <dd>
-            {r.status}, {copy.facts.version} {String(r.version)}
+            {STATIC_EXPORT ? (
+              <ShowcaseStatus id={r.id} status={r.status} />
+            ) : (
+              r.status
+            )}
+            , {copy.facts.version} {String(r.version)}
           </dd>
         </div>
         <div>
           <dt>{copy.facts.reference}</dt>
           <dd>
-            <span className="candidate-id">{r.id}</span> <span className="cpm-muted">({copy.facts.referenceNote})</span>
+            <span className="candidate-id">{r.id}</span>{" "}
+            <span className="cpm-muted">({copy.facts.referenceNote})</span>
           </dd>
         </div>
       </dl>
@@ -145,11 +169,25 @@ export function RequirementPage({ market, vehicle, read, record, catalogue, path
       <EffortBlock requirement={r} effort={effort} catalogue={catalogue} />
 
       <h3 className="stage-h3">{copy.decision.heading}</h3>
-      <DecisionForm requirement={r} read={read} pathname={pathname} notice={notice} />
+      <DecisionForm
+        requirement={r}
+        read={read}
+        pathname={pathname}
+        notice={notice}
+      />
 
       <h3 className="stage-h3">{copy.history.heading}</h3>
       <p className="workspace-hint">{copy.history.hint}</p>
       <Timeline events={events} />
+      {STATIC_EXPORT ? (
+        <ShowcaseEvents
+          requirements={[
+            { id: r.id, status: r.status, title: r.title, href: pathname },
+          ]}
+          order="oldest"
+          linked={false}
+        />
+      ) : null}
 
       <SourceLine read={read} />
     </Reveal>
@@ -157,7 +195,8 @@ export function RequirementPage({ market, vehicle, read, record, catalogue, path
 }
 
 function TextList({ items }: { items: string[] }) {
-  if (items.length === 0) return <p className="stage-empty-line">{site.requirements.none}</p>;
+  if (items.length === 0)
+    return <p className="stage-empty-line">{site.requirements.none}</p>;
   return (
     <ul className="text-list">
       {items.map((item) => (

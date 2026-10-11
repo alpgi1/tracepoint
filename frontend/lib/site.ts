@@ -242,6 +242,8 @@ export const site = {
       note: "A decision holds for one version of the requirement and needs a rationale; it is kept in the audit trail and survives every update of the requirement list. Decisions are recorded when Tracepoint runs live; this page shows the data as stored on",
       notAnswering: "A decision holds for one version of the requirement and needs a rationale; it is kept in the audit trail and survives every update of the requirement list. The Tracepoint service that records decisions does not answer right now; once it runs, reload this page to decide. Until then this page shows the data as stored on",
       liveNote: "The decision is recorded in your role as product manager, with your rationale, in the audit trail, and holds for this version of the requirement.",
+      showcaseNote: "This showcase keeps your decisions in this browser only. They show on this page and in Documentation, not in the stored data or the exports.",
+      showcaseClear: "Clear the decisions of this browser",
       recorded: "Decision recorded:",
       outcomes: { approve: "approved", reject: "rejected", defer: "deferred" } as Record<string, string>,
       failed: "The decision was not recorded:",

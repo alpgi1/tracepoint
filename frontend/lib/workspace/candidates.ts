@@ -126,6 +126,9 @@ export interface StageCounts {
   criteriaOnEvidence: number;
   decided: number;
   events: number;
+  /** The requirement ids of the scope and those decided, for the showcase's decisions in the browser. */
+  ids: string[];
+  decidedIds: string[];
 }
 
 export function stageCounts(snapshot: WorkspaceSnapshot, candidates: Candidate[]): StageCounts {
@@ -141,5 +144,7 @@ export function stageCounts(snapshot: WorkspaceSnapshot, candidates: Candidate[]
     criteriaOnEvidence: requirements.reduce((n, r) => n + r.criteria.filter((c) => c.basis === "evidence").length, 0),
     decided: requirements.filter((r) => r.status !== "proposed").length,
     events: snapshot.events.length,
+    ids: requirements.map((r) => r.id),
+    decidedIds: requirements.filter((r) => r.status !== "proposed").map((r) => r.id),
   };
 }
