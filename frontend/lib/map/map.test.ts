@@ -56,7 +56,10 @@ describe("projection fit", () => {
     expect(x1).toBeLessThanOrEqual(1424.1);
     expect(y0).toBeGreaterThanOrEqual(15.9);
     expect(y1).toBeLessThanOrEqual(884.1);
-    // The world is wider than any viewport, so the fit stays width-limited: the gain over the old sphere fit is a few percent.
+    // The window, not the whole sphere, sets the scale: its ring must enclose the window, not the rest of the globe.
+    expect(geoContains(fitWindow(), [10, 50])).toBe(true);
+    expect(geoContains(fitWindow(), [-170, 0])).toBe(false);
+    expect(geoContains(fitWindow(), [0, -80])).toBe(false);
     const sphere = geoNaturalEarth1().fitExtent(
       [
         [48, 48],
@@ -64,7 +67,7 @@ describe("projection fit", () => {
       ],
       { type: "Sphere" },
     );
-    expect(projection.scale()).toBeGreaterThan(sphere.scale() * 1.04);
+    expect(projection.scale()).toBeGreaterThan(sphere.scale() * 1.1);
     for (const region of REGIONS) {
       for (const point of [region.view.center, region.callout.subject, region.callout.card]) {
         const at = projection(point);
