@@ -9,7 +9,11 @@
  * (GET /events, kept where the entity id belongs to the scope), and since step 15 the detail of
  * every requirement (GET /requirements/{id}: its findings with their evidence references) with
  * the evidence those references name: the verbatims (GET /verbatims/{id}), the study metrics
- * (GET /studies) and the catalogue items (GET /equipment). The file carries when it was
+ * (GET /studies) and the catalogue items (GET /equipment). Since step 16 the script also
+ * writes content/effort.json, one file for all scopes: the effort model as the API serves it
+ * (GET /effort/model: the twelve subsystems with weights, links, parameters and per-vehicle
+ * applicability) and the back-test against the documented BMW decisions (GET /effort/backtest),
+ * read by the CPM method sheet. The file carries when it was
  * taken, which endpoints were called, the backend's code version of its latest run and the
  * effort model hash, so every figure on screen can name its source and its vintage.
  *
@@ -67,6 +71,13 @@ const allEvents = await get(eventsPath);
 if (allEvents.total > EVENT_LIMIT) throw new Error(`more than ${String(EVENT_LIMIT)} requirement events; raise EVENT_LIMIT`);
 
 mkdirSync(outDir, { recursive: true });
+if (!onlyVehicle) {
+  const model = await get("/effort/model");
+  const backtest = await get("/effort/backtest");
+  const file = join(root, "content", "effort.json");
+  writeFileSync(file, JSON.stringify({ snapshot: { takenAt: new Date().toISOString(), api: API, codeVersion, endpoints: { model: "/effort/model", backtest: "/effort/backtest" } }, model, backtest }, null, 1) + "\n");
+  console.log(`effort model ${String(model.modelHash)}, back-test ${String(backtest.hits)} of ${String(backtest.anchors)} -> ${file}`);
+}
 for (const { vehicle, market } of selected) {
   const q = `vehicle=${vehicle}&market=${market}`;
   const endpoints = {

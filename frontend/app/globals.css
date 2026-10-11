@@ -1235,6 +1235,7 @@ a.stage-link:hover .stage-name {
 .crumb-link {
   display: inline-flex;
   align-items: center;
+  min-width: 44px;
   min-height: 44px;
   color: var(--color-blue);
   text-decoration: none;
@@ -1303,6 +1304,7 @@ a.stage-link:hover .stage-name {
 }
 .facts dd {
   margin: 0;
+  overflow-wrap: anywhere;
 }
 .facts b,
 .effort-lead b,
@@ -1620,4 +1622,200 @@ blockquote.verbatim p {
 }
 .cpm-citing-link:hover {
   text-decoration: underline;
+}
+
+/* ---------- step 16: stage 4, the matrix, the packages, the builder, the method sheet ---------- */
+
+/* The matrix: inline SVG, text in the ink tokens, marks in the one blue with a paper ring. */
+.matrix {
+  max-width: 820px;
+  margin: 12px 0 0;
+}
+.matrix-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.matrix-grid {
+  stroke: var(--color-line);
+  stroke-width: 1;
+}
+.matrix-axis {
+  stroke: var(--color-ink-2);
+  stroke-width: 1;
+}
+.matrix-tick {
+  fill: var(--color-ink-2);
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+}
+.matrix-title {
+  fill: var(--color-ink-2);
+  font-size: 12px;
+}
+.matrix-range {
+  stroke: var(--color-blue);
+  stroke-width: 2;
+  stroke-linecap: round;
+  opacity: 0.35;
+}
+.matrix-dot {
+  fill: var(--color-blue);
+  stroke: var(--color-paper);
+  stroke-width: 2;
+}
+.matrix-level {
+  fill: var(--color-ink-2);
+  font-size: 10px;
+}
+.matrix-label {
+  fill: var(--color-ink);
+  font-size: 10px;
+  font-family: var(--font-mono);
+}
+.matrix-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 24px;
+  margin-top: 6px;
+  color: var(--color-ink-2);
+  font-size: 0.75rem;
+}
+.matrix-legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.num-left {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Packages: the table, then the subsystems carrying most of each package. */
+.package-table td b,
+.package-note b {
+  font-weight: 500;
+}
+.package-footprints {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(360px, 100%), 1fr));
+  gap: 0 48px;
+  margin-top: 8px;
+}
+.package-footprint-h {
+  margin-top: 20px;
+  font-size: 0.8125rem;
+  color: var(--color-ink-2);
+}
+.package-footprint-h b {
+  color: var(--color-ink);
+  font-weight: 500;
+}
+.package-note {
+  max-width: 80ch;
+  margin-top: 16px;
+  font-size: 0.9375rem;
+  line-height: 1.55;
+  font-variant-numeric: tabular-nums;
+}
+
+/* The package builder: a GET form of checkbox rows, presets as links, the estimate beneath. */
+.builder {
+  margin-top: 8px;
+}
+.builder-presets {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 20px;
+}
+.builder-groups {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(420px, 100%), 1fr));
+  gap: 0 48px;
+  margin-top: 4px;
+}
+.builder-group {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  min-width: 0;
+}
+.builder-group legend {
+  padding: 10px 0 2px;
+  font-size: 0.8125rem;
+  font-weight: 500;
+}
+.pick {
+  display: grid;
+  grid-template-columns: 20px auto minmax(0, 1fr) auto;
+  align-items: center;
+  column-gap: 10px;
+  min-height: 44px;
+  padding: 4px 0;
+  border-top: 1px solid var(--color-line);
+  font-size: 0.8125rem;
+  cursor: pointer;
+}
+.pick input {
+  width: 16px;
+  height: 16px;
+  margin: 0;
+  accent-color: var(--color-blue);
+}
+.pick-title {
+  line-height: 1.35;
+}
+.pick-figure {
+  font-size: 0.75rem;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.builder .filter-apply {
+  margin-top: 16px;
+}
+.estimate {
+  margin-top: 8px;
+}
+
+/* The method sheet: the links as a matrix with upright column heads; a cell's fill follows the likelihood. */
+.dsm {
+  border-collapse: collapse;
+  font-size: 0.75rem;
+  font-variant-numeric: tabular-nums;
+}
+.dsm th,
+.dsm td {
+  border: 1px solid var(--color-line);
+  padding: 6px 8px;
+  text-align: left;
+  vertical-align: bottom;
+}
+.dsm-head {
+  height: 120px;
+  vertical-align: bottom;
+}
+.dsm-head span {
+  display: inline-block;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  font-weight: 400;
+  color: var(--color-ink-2);
+  white-space: nowrap;
+}
+.dsm-corner {
+  font-weight: 400;
+}
+.dsm-row {
+  font-weight: 400;
+  white-space: nowrap;
+}
+.dsm-cell {
+  min-width: 64px;
+  text-align: center;
+  background: color-mix(in oklab, var(--color-blue) calc(var(--l, 0) * 40%), transparent);
+}
+.dsm-cell[data-self="true"] {
+  background: rgb(20 23 28 / 0.04);
+}
+.candidate[data-absent="true"] td {
+  color: var(--color-ink-2);
 }

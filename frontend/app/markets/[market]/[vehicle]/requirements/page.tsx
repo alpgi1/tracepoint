@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { NoRequirements } from "@/components/workspace/no-requirements";
 import { WorkspaceHeader } from "@/components/workspace/workspace-header";
 import { dateTime, full } from "@/lib/content/format";
 import { allVehicleParams, content, domainName, marketByCode, vehicleIn } from "@/lib/content/markets";
-import type { DomainKey, MarketContent, VehicleContent } from "@/lib/content/types";
-import { scopesWithRequirements, workspaceSnapshot } from "@/lib/data/workspace";
+import type { DomainKey } from "@/lib/content/types";
+import { workspaceSnapshot } from "@/lib/data/workspace";
 import { site } from "@/lib/site";
 import { groupByDomain } from "@/lib/workspace/candidates";
 import { stageFigures } from "@/lib/workspace/figures";
@@ -106,22 +107,5 @@ export default async function RequirementsIndex({ params }: Props) {
         </p>
       </section>
     </div>
-  );
-}
-
-function NoRequirements({ market, vehicle }: { market: MarketContent; vehicle: VehicleContent }) {
-  const copy = site.structure;
-  const others = scopesWithRequirements()
-    .map((s) => {
-      const om = marketByCode(s.market);
-      const ov = om ? vehicleIn(om, s.vehicle) : undefined;
-      return om && ov ? `${ov.name} ${ov.code}, ${om.name}` : `${s.vehicle}, ${s.market}`;
-    })
-    .join("; ");
-  return (
-    <p className="stage-empty">
-      {copy.noRequirementsBefore} {vehicle.name} {vehicle.code} in {market.name} {copy.noRequirementsMiddle} {others}
-      {copy.noRequirementsAfter}
-    </p>
   );
 }

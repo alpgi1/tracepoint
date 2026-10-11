@@ -1,5 +1,8 @@
+import Link from "next/link";
 import { full, percent, weight } from "@/lib/content/format";
 import type { CpmCatalogue, CpmView } from "@/lib/content/cpm-types";
+import { vehicleHref } from "@/lib/content/markets";
+import type { MarketCode } from "@/lib/content/types";
 import type { Requirement, RequirementEffort } from "@/lib/content/workspace-types";
 import { site } from "@/lib/site";
 import { footprintOf } from "@/lib/workspace/requirements";
@@ -139,7 +142,11 @@ export function EffortBlock({ requirement, effort, catalogue, view }: EffortBloc
       ) : null}
 
       <p className="stage-source">
-        {copy.model} {effort.model_hash}, {copy.modelNote}.
+        {copy.model}{" "}
+        <Link href={`${vehicleHref(requirement.market as MarketCode, requirement.vehicle)}/priorities/method`} className="cpm-citing-link">
+          {effort.model_hash}
+        </Link>
+        , {copy.modelNote}.
       </p>
     </div>
   );

@@ -337,6 +337,85 @@ export interface EquipmentItem {
   dependencies: unknown[];
 }
 
+/** One row of GET /effort/backtest: a documented BMW decision re-estimated by the engine (D-062). */
+export interface BacktestRow {
+  id: string;
+  name: string;
+  /** False for the proposals the anchor file carries beside the eight anchors. */
+  anchor: boolean;
+  independent: boolean;
+  effort_pct: number;
+  layer: EffortLayer;
+  decision: EffortDecision;
+  size: EffortSize;
+  certification_add_on: boolean;
+  platform_change: boolean;
+  subsystems: EffortSubsystem[];
+  p5: number;
+  p95: number;
+  decision_stable_pct: number;
+  score_stable_pct: number;
+  /** BMW's own decision; null for a proposal. */
+  actual: EffortDecision | null;
+  ok: boolean | null;
+  k3_rule: boolean;
+}
+
+export interface Backtest {
+  rows: BacktestRow[];
+  hits: number;
+  anchors: number;
+  independent_hits: number;
+  independent_anchors: number;
+  runs: number;
+  spread: number;
+  scope: string;
+  seed: number;
+  model_hash: string;
+}
+
+/** POST /effort/estimate: each requirement or change on its own and all of them combined (rule 45). */
+export interface EstimateItem {
+  requirement: string | null;
+  title: string | null;
+  horizon: Horizon | null;
+  effort_pct: number;
+  p5: number;
+  p95: number;
+  decision: EffortDecision;
+  decision_stable_pct: number;
+  layer: EffortLayer;
+  size: EffortSize;
+  certification_add_on: boolean;
+  subsystems: EffortSubsystem[];
+  changes: EffortChange[];
+}
+
+export interface EstimateCombined {
+  effort_pct: number;
+  layer: EffortLayer;
+  decision: EffortDecision;
+  size: EffortSize;
+  certification_add_on: boolean;
+  platform_change: boolean;
+  subsystems: EffortSubsystem[];
+  p5: number;
+  p95: number;
+  decision_stable_pct: number;
+  score_stable_pct: number;
+  kind: EffortKind;
+}
+
+export interface EstimateResponse {
+  vehicle: string;
+  market: string | null;
+  items: EstimateItem[];
+  sum_of_single_pct: number;
+  combined: EstimateCombined;
+  model_hash: string;
+  basis: string;
+}
+
 export interface SnapshotMeta {
   /** When the API was read. */
   takenAt: string;

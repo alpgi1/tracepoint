@@ -155,4 +155,16 @@ await shoot("28-dialog-us-g60-seats-requirements-1440", desktop, async (page) =>
 }, { path: "/markets/us/g60" });
 await shoot("29-vehicle-us-g60-bridges-1440", desktop, async () => {}, { path: "/markets/us/g60" });
 
+// Step 16: stage 4, the matrix and the packages, the package builder with an estimate, the method sheet.
+await shoot("30-priorities-us-g60-1440", desktop, async () => {}, { path: "/markets/us/g60/priorities" });
+await shoot("31-priorities-us-g60-builder-1440", desktop, async (page) => {
+  await page.locator("#builder").scrollIntoViewIfNeeded();
+  await page.waitForTimeout(200);
+}, { path: "/markets/us/g60/priorities?pkg=REQ-G60-US-IC-01&pkg=REQ-G60-US-ID-01&pkg=REQ-G60-US-PR-03" });
+await shoot("32-method-us-g60-1440", desktop, async (page) => {
+  await page.locator(".dsm").scrollIntoViewIfNeeded();
+  await page.waitForTimeout(200);
+}, { path: "/markets/us/g60/priorities/method" });
+await shoot("33-priorities-eu-f70-1920", wide, async () => {}, { path: "/markets/eu/f70/priorities" });
+
 await browser.close();

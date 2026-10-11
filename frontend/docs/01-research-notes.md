@@ -325,6 +325,28 @@ and what was taken:
 Nothing was installed; the methods were written with the tokens in `requirement-page.tsx`,
 `evidence-list.tsx`, `effort-block.tsx` and `globals.css`.
 
+### 6.5 Survey for the matrix, the packages and the method sheet (step 16, 2026-10-11)
+
+The step adds stage 4: the effort-against-evidence matrix, the packages, the package builder,
+and the CPM method sheet with the 12 by 12 link matrix and the back-test. Search through the
+21st.dev API (12 queries: prioritization and value-effort matrix, quadrant chart, scatter and
+bubble chart, heatmap and dependency matrix, scenario comparison cards, checkbox list with a
+total, stat tile, range bar chart, comparison table, sticky summary bar), 125 unique demos, 11
+contact sheets reviewed. The registry holds few charts and no scatter: what was found and taken:
+
+| Component | What it is | Verdict |
+|---|---|---|
+| Table with vertical lines 88, Comparison table 95 (Origin UI) | A grid with vertical and horizontal hairlines; column heads standing upright | **Method taken** for the link matrix of the method sheet: a hairline grid, upright column heads, figures as text in every cell; the fill of a cell follows the likelihood in the one blue |
+| Vertical table 93 (Origin UI) | Label and value columns | **Method taken** for the model's facts (reference, engine, hash, thresholds, add-on, this vehicle) |
+| Checkbox "with a label and a description" 666 (Origin UI), coss checkbox with description 11449 | A checkbox with a title and a muted line | **Method taken** for the package builder's rows: a 44 px label row with the id, the title and the estimate beside the box; no card, no description paragraph |
+| Bar charts 4597 to 4624, line chart 4632, pie and radial 4638, 4640 (LegionWebDev), donut 9377, area 4453 | Charts in dark cards with glow, hatching, duotone | Rejected: a scatter was needed, and the cards' glow and gradients are on the forbidden list. The matrix is inline SVG written to the dataviz rules (10 px marks with a 2 px paper ring, hairline axes, selective labels, a legend for the two series, a table twin) |
+| Pricing tables and cards 1541, 5115, 6247, 69; cards stack 1832; compare slider 1080 | Plan comparisons and marketing blocks | Rejected for the packages: three rows of one hairline table with the subsystems beneath carry more than three cards |
+| Sidebars 1075, 1627, 1603, 2170; floating header 8137 | Navigation and sticky bars | Not needed: the stage bar is the navigation |
+| Infinite grid 9609, 9708; cybernetic bento 6014; moving dot card 2222 | Decorative grids and tiles | Rejected on sight |
+
+Nothing was installed; the methods were written with the tokens in `priority-matrix.tsx`,
+`package-table.tsx`, the two stage-4 pages and `globals.css`.
+
 ## 7. Ideas beyond the brief
 
 Proposals, not decisions. Everything marked "needs data" waits for the evidence store API.

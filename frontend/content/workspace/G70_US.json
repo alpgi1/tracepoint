@@ -2,7 +2,7 @@
  "vehicle": "G70",
  "market": "US",
  "snapshot": {
-  "takenAt": "2026-10-11T03:21:40.024Z",
+  "takenAt": "2026-10-11T03:55:30.547Z",
   "api": "http://127.0.0.1:8000",
   "codeVersion": "e06b37f",
   "modelHash": "789fcb7624b8",

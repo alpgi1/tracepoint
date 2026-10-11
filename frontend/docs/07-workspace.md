@@ -3,9 +3,9 @@
 | Field | Value |
 |---|---|
 | Date | 2026-10-11, step 14 |
-| Status | Built and verified: step 14 (D-078 to D-080) the data layer, the stage bar and stage 2; step 15 (D-083) stage 3 and the bridges. Stages 4 and 5 follow in steps 16 and 17 |
-| Files | `scripts/snapshot-workspace.mjs` (snapshot), `content/workspace/*.json` (the API's responses, committed), `lib/content/workspace-types.ts` (the contract), `lib/data/workspace.ts` (reads), `lib/workspace/candidates.ts` (the candidate rules), `lib/workspace/requirements.ts` (routes, evidence resolution, footprint, bridges), `lib/workspace/stages.ts` and `figures.ts` (the stage bar's data), `components/workspace/workspace-header.tsx`, `stage-bar.tsx`, `candidate-filters.tsx`, `candidate-table.tsx`, `requirement-page.tsx`, `evidence-list.tsx`, `effort-block.tsx`, `app/markets/[market]/[vehicle]/structure/page.tsx`, `requirements/page.tsx`, `requirements/[id]/page.tsx`, `lib/site.ts` (copy), `app/globals.css` (step 14 and 15 blocks), `lib/content/workspace.test.ts`, `lib/workspace/requirements.test.ts`, `tools/audit/screenshots.mjs` |
-| Plan | `plan/08-engineering-workbench-plan.md` sections 3, 4.1, 4.2 and 6 |
+| Status | Built and verified: step 14 (D-078 to D-080) the data layer, the stage bar and stage 2; step 15 (D-083) stage 3 and the bridges; step 16 (D-084) stage 4, the package builder and the method sheet. Stage 5 and the live mode follow in step 17 |
+| Files | `scripts/snapshot-workspace.mjs` (snapshot), `content/workspace/*.json` (the API's responses, committed), `lib/content/workspace-types.ts` (the contract), `lib/data/workspace.ts` (reads), `lib/workspace/candidates.ts` (the candidate rules), `lib/workspace/requirements.ts` (routes, evidence resolution, footprint, bridges), `lib/workspace/stages.ts` and `figures.ts` (the stage bar's data), `components/workspace/workspace-header.tsx`, `stage-bar.tsx`, `candidate-filters.tsx`, `candidate-table.tsx`, `requirement-page.tsx`, `evidence-list.tsx`, `effort-block.tsx`, `app/markets/[market]/[vehicle]/structure/page.tsx`, `requirements/page.tsx`, `requirements/[id]/page.tsx`, `priorities/page.tsx`, `priorities/method/page.tsx`, `priority-matrix.tsx`, `package-table.tsx`, `no-requirements.tsx`, `lib/workspace/priorities.ts`, `lib/data/effort.ts` (the effort model file and the one live read, `POST /effort/estimate`), `content/effort.json`, `lib/site.ts` (copy), `app/globals.css` (step 14 and 15 blocks), `lib/content/workspace.test.ts`, `lib/workspace/requirements.test.ts`, `tools/audit/screenshots.mjs` |
+| Plan | `plan/08-engineering-workbench-plan.md` sections 3, 4.1 to 4.3, 4.5 and 6 |
 
 ## 1. What it is
 
@@ -32,7 +32,9 @@ but counts and the share of a bar.
 | `lib/workspace/candidates.ts` | Joins a requirement with its estimate (`Candidate`: `starts`, the subsystems of the change profile; `reaches`, the subsystems the change propagates to), the inbox rules (section 4), the filters, the domain grouping and the stage counts |
 | `lib/content/workspace.test.ts` | Pins the contract: one file per pair, the literal unions, one effort row per requirement on known subsystems with P5 ≤ effort ≤ P95, the three scenarios with the combined effort never above the plain sum and the requirement count equal to the recommended, not rejected requirements of the horizon, events of the scope only, the candidate rules on G60 US |
 
-Since step 15 a snapshot also holds `details` (GET `/requirements/{id}` per requirement: the
+Since step 16 `pnpm snapshot` also writes `content/effort.json`, one file for all scopes: the
+effort model as the API serves it (`GET /effort/model`) and the back-test (`GET /effort/backtest`),
+with the time and the backend code version. Since step 15 a snapshot also holds `details` (GET `/requirements/{id}` per requirement: the
 requirement with its findings, each finding with its statement, figures, links to other findings
 and evidence references), and the evidence those references name, resolved once per scope and
 keyed by id: `verbatims` (GET `/verbatims/{id}`, the text as written with its classification rows
@@ -148,6 +150,56 @@ footprint's fill is the engine's risk and the track the model's weight.
 The bridge data (`bridgesFor` in `lib/workspace/requirements.ts`) is computed on the server
 from the snapshot and the CPM view and handed to the list as six fields per requirement line,
 not the effort rows.
+
+## 4b. Stage 4, Prioritization (`/priorities`, `/priorities/method`; step 16, D-084)
+
+**The matrix** (`priority-matrix.tsx`, inline SVG). One mark per requirement: horizontal the
+effort in % of a new vehicle with the P5 to P95 range as a 2 px line at 35 % through the mark,
+vertical the complaint rows of the primary finding (the backend's `quantification.complaints`;
+a requirement whose primary finding is a study attribute or a strength sits at 0 and is named
+beneath the chart). H1 marks are 10 px circles, H2 marks 10 px squares, both in the one blue with
+a 2 px ring in the paper colour; the evidence level stands beside each mark in muted 10 px text;
+the two largest efforts and the two largest evidence counts carry their id; every mark names its
+requirement, figures and level in a native `title`. Axes and gridlines are solid hairlines with
+ticks at clean steps (`axisMax`). A legend beneath names the two shapes and the range line. The
+table twin follows, most complaint rows first, with id (link), title, horizon, level, rows,
+effort, range and class. There is **no composite score**: the hint says the Phase 5 score is not
+built and the page does not invent one.
+
+**The packages** (`package-table.tsx`). One hairline table with the engine's three variations
+(`scenarios`: H1, H2, ALL): requirements, combined effort, P5 to P95, class with "kept in n % of
+the runs" and "borderline, the PM decides" under 90 %, the plain sum of the single estimates, the
+certification add-on. Beneath, per package, the six subsystems carrying most of it as footprint
+rows (weight as the track, risk as the fill, the path as text). Then the derived sentence about
+the H1 package (`h1Note`): the class every H1 requirement has on its own, the combined figure
+and class, the three largest single estimates as links; G60 US reads "Every H1 requirement is
+adapt on its own; together they are 18.4 % of a new vehicle generation, a major revision
+(borderline, the PM decides)."
+
+**The package builder.** A GET form of checkbox rows per requirement (id, title, estimate),
+grouped by horizon, with presets as links (the H1 set, the H2 set, all recommended, clear) and
+one control, "Estimate the package". The chosen ids travel in the URL (`?pkg=…`); the page's
+Suspense part reads them and asks the backend API for `POST /effort/estimate` at request time,
+server side (`lib/data/effort.ts`, `TRACEPOINT_API_URL`, default `http://127.0.0.1:8000`, 30 s
+timeout, nothing cached); the response is rendered as the combined figure with range, class,
+stability, size, layer and add-on, the sum of the single estimates, the six largest subsystems as
+footprint rows, and each requirement on its own. Without the API the page says so, names the
+address and the reason, and the stored packages above stay. This is the first live read of the
+workspace; the browser still never calls the API.
+
+**The method sheet** (`/priorities/method`, `content/effort.json` from `GET /effort/model` and
+`GET /effort/backtest`). The facts of the model (reference with its link, engine and model file,
+hash with "assumption, not calibrated", thresholds, certification add-on with the subsystems that
+trigger it, this vehicle's platform and the subsystems the model keeps off it); the subsystems
+with weight, basis and certification trigger; the **link matrix**, rows where a change starts
+and columns what it reaches, each cell "likelihood / impact" with a fill that follows the
+likelihood (`color-mix` of the one blue) and the interface in a native `title`; the 28 links as
+a list with the interface sentence; the **back-test**: "8 of 8 anchors reproduced (7 of 7
+independent)", runs, spread and scope, and one row per decision with the engine's class, BMW's
+decision, the match and the independence, the two proposals of the pitch beneath without a
+decision. The carryover factor, the propagation reference impact and the platform rule's floor
+are in the model file but not in `GET /effort/model`; the sheet says so. Every effort figure of
+the workspace links here through its model hash.
 
 ## 5. The inbox rules (`lib/workspace/candidates.ts`)
 
