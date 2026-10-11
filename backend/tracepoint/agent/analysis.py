@@ -12,6 +12,7 @@ horizon goes back to the model once.
 
 from __future__ import annotations
 
+import json
 import re
 from typing import Any, Literal
 
@@ -702,6 +703,40 @@ def run_analysis(
     return out
 
 
+_url_scheme = re.compile(r"\b([A-Za-z][A-Za-z0-9+.-]{1,15}):(?=//)|\b(www)\.", re.I)
+_block_marker = re.compile(r"^([#\-+*=~])|^(\d+)([.)])")
+
+
+def md(text: Any, *, block: bool = False) -> str:
+    """Text that this program did not write (the model's, a customer's, a web page's) as inert
+    Markdown. The reports are read rendered, so such text must not be able to add structure: it
+    becomes one line, with no HTML, no link or image, no code span, no table cell of its own
+    and no clickable address. ``block`` is for text that starts a line of its own, where a
+    leading ``#`` or ``-`` would make a heading or a list."""
+    text = " ".join(str(text or "").split())
+    text = text.replace("\\", "\\\\")  # first, or an escape below could be undone
+    text = text.replace("<", "&lt;").replace(">", "&gt;")
+    for char in "|[]`":
+        text = text.replace(char, "\\" + char)
+    text = _url_scheme.sub(lambda m: f"{m.group(1)}&#58;" if m.group(1) else "www&#46;", text)
+    if block:
+        text = _block_marker.sub(
+            lambda m: f"\\{m.group(1)}" if m.group(1) else f"{m.group(2)}\\{m.group(3)}", text
+        )
+    return text
+
+
+def code(text: Any) -> str:
+    """An identifier or argument this program did not write, as a code span it cannot break
+    out of. A code span shows its content as it is, so nothing in it is escaped: what could end
+    the span or read as markup or an address is replaced."""
+    text = " ".join(str(text or "").split())
+    for char, plain in (("`", "'"), ("|", "/"), ("<", "("), (">", ")"), ("[", "("), ("]", ")")):
+        text = text.replace(char, plain)
+    text = _url_scheme.sub(lambda m: f"{m.group(1)}: " if m.group(1) else "www ", text)
+    return f"`{text}`"
+
+
 def effort_text(e: dict[str, Any]) -> str:
     """One estimate in a few words, for a table cell."""
     if e["status"] == "estimated":
@@ -720,10 +755,12 @@ def package_lines(effort: dict[str, Any]) -> list[str]:
         when = "Now (H1)" if p["horizon"] == "H1" else "Next generation (H2)"
         lines.append(
             f"- {when}: {p['proposals']} change(s) together **{p['effort_pct']} %** of a new "
-            f"vehicle generation ({p['decision']}); work that proposals share counts once."
-            + "".join(f" Not counted, no usable change profile: {t}." for t in p["not_counted"])
+            f"vehicle generation ({md(p['decision'])}); work that proposals share counts once."
+            + "".join(f" Not counted, no usable change profile: {md(t)}." for t in p["not_counted"])
         )
-        lines += [f"  - {f['text']}" for f in p["flags"] if f["level"] in ("warning", "conflict")]
+        lines += [
+            f"  - {md(f['text'])}" for f in p["flags"] if f["level"] in ("warning", "conflict")
+        ]
     lines.append(
         "- Effort is a CPM estimate: a share of the development effort of a new vehicle "
         "generation, never money, on uncalibrated assumptions."
@@ -734,16 +771,17 @@ def package_lines(effort: dict[str, Any]) -> list[str]:
 def render_brief(out: dict[str, Any]) -> str:
     """The analysis as a product manager reads it: the answer, the proposals with their effort,
     what customers say, what is open. Every reference, change profile, catalogue scan and tool
-    call is in the JSON beside it (and in ``render_analysis``, the full print)."""
+    call is in the JSON beside it (and in ``render_analysis``, the full print). Whatever the
+    model or a customer wrote goes through ``md``."""
     a, effort = out["analysis"], out["effort"]
     unknown, loose = out["citations"]["unknown"], set(out["citations"]["unverified_quotes"])
     rows = list(zip(a["recommendations"], effort["recommendations"], strict=True))
     lines = [
-        f"# {out['scope']}: situation and proposals",
+        f"# {md(out['scope'])}: situation and proposals",
         "",
-        f"**{a['headline']}**",
+        f"**{md(a['headline'])}**",
         "",
-        a["summary"],
+        md(a["summary"], block=True),
         "",
         "## Proposals",
         "",
@@ -751,36 +789,49 @@ def render_brief(out: dict[str, Any]) -> str:
         "|---|---|---|---|---|",
     ]
     lines += [
-        f"| {n} | {r['title']} | {r['horizon']} | {effort_text(e)} | "
-        f"{r['related_requirement'] or 'new'} |"
+        f"| {n} | {md(r['title'])} | {md(r['horizon'])} | {md(effort_text(e))} | "
+        f"{md(r['related_requirement'] or 'new')} |"
         for n, (r, e) in enumerate(rows, 1)
     ]
     lines += ["", *package_lines(effort)]
     for n, (r, e) in enumerate(rows, 1):
-        lines += ["", f"### {n}. {r['title']}", "", r["proposal"], "", f"- Why: {r['rationale']}"]
+        lines += [
+            "",
+            f"### {n}. {md(r['title'])}",
+            "",
+            md(r["proposal"], block=True),
+            "",
+            f"- Why: {md(r['rationale'])}",
+        ]
         if e["status"] == "estimated":
             lines.append(
-                f"- Effort: {e['effort_pct']} % of a new vehicle generation ({e['decision']}, "
-                f"P5–P95 {e['p5']}–{e['p95']}), from the {e['source']}."
+                f"- Effort: {e['effort_pct']} % of a new vehicle generation ({md(e['decision'])}, "
+                f"P5–P95 {e['p5']}–{e['p95']}), from the {md(e['source'])}."
             )
         elif e["status"] != "no_vehicle_change":
             lines.append("- Effort: **not estimated** (no usable change profile).")
-        lines += [f"- Check: {w}" for w in warnings_of(e)]
+        lines += [f"- Check: {md(w)}" for w in warnings_of(e)]
         lines.append(f"- Evidence: {len(r['evidence_refs'])} references")
     lines += ["", "## What customers say"]
     for i in a["insights"]:
-        lines += ["", f"**{i['title']}** (confidence {i['confidence']})", "", i["statement"]]
+        lines += [
+            "",
+            f"**{md(i['title'])}** (confidence {md(i['confidence'])})",
+            "",
+            md(i["statement"], block=True),
+        ]
         if i["customer_quote"] and i["customer_quote"] not in loose:
-            lines += ["", f"> {i['customer_quote']}"]
-    lines += ["", "## Assumptions and gaps"] + [f"- {x}" for x in a["assumptions_and_gaps"]]
+            lines += ["", f"> {md(i['customer_quote'])}"]
+    lines += ["", "## Assumptions and gaps"] + [f"- {md(x)}" for x in a["assumptions_and_gaps"]]
     if effort["open_faults"]:
-        lines += ["", "## Not settled by the checks"] + [f"- {f}" for f in effort["open_faults"]]
+        lines += ["", "## Not settled by the checks"]
+        lines += [f"- {md(f)}" for f in effort["open_faults"]]
     lines += [
         "",
         "---",
-        f"Run `{out['run_id']}` · {out['model']} · {out['prompt_version']} · "
+        f"Run {code(out['run_id'])} · {md(out['model'])} · {md(out['prompt_version'])} · "
         f"{out['citations']['cited']} references cited, {len(unknown)} not verified"
-        + (f" ({', '.join(unknown)})" if unknown else "")
+        + (f" ({', '.join(code(u) for u in unknown)})" if unknown else "")
         + f" · {len(loose)} quotes not found in their verbatims and left out · "
         f"{len(out['trace']['tool_calls'])} tool calls. References, change profiles and tool "
         "calls are in the JSON file of the same name.",
@@ -789,13 +840,14 @@ def render_brief(out: dict[str, Any]) -> str:
 
 
 def render_analysis(out: dict[str, Any]) -> str:
-    """The full print for checking: every reference, change profile, flag and tool call."""
+    """The full print for checking: every reference, change profile, flag and tool call. Like
+    the brief, it passes whatever the model or a customer wrote through ``md`` or ``code``."""
     a, trace, effort = out["analysis"], out["trace"], out["effort"]
     unknown = set(out["citations"]["unknown"])
     loose_quotes = set(out["citations"]["unverified_quotes"])
 
     def refs(items: list[str]) -> str:
-        return ", ".join(f"`{r}`" + (" (not verified)" if r in unknown else "") for r in items)
+        return ", ".join(code(r) + (" (not verified)" if r in unknown else "") for r in items)
 
     names = subsystem_names()
 
@@ -809,33 +861,33 @@ def render_analysis(out: dict[str, Any]) -> str:
         ]
 
     def effort_lines(e: dict[str, Any]) -> list[str]:
-        flags = [f"- {f['level']} ({f['rule']}): {f['text']}" for f in e["flags"]]
+        flags = [f"- {md(f['level'])} ({md(f['rule'])}): {md(f['text'])}" for f in e["flags"]]
         if e["status"] == "no_vehicle_change":
             return ["", "Effort: none, the proposal is declared not to change the vehicle.", *flags]
         if e["status"] == "missing":
             return ["", "Effort: **not estimated**, no change profile was given.", *flags]
         if e["status"] == "invalid":
-            text = f"Effort: **not estimated**, the profile breaks the model: {e['error']}"
+            text = f"Effort: **not estimated**, the profile breaks the model: {md(e['error'])}"
             return ["", text, *flags]
         return [
             "",
             f"Effort (CPM estimate): **{e['effort_pct']} %** of a new vehicle generation "
-            f"(P5–P95 {e['p5']}–{e['p95']}) · {e['decision']}, kept in "
-            f"{e['decision_stable_pct']:.0f} % of the sensitivity runs · size {e['size']} · "
-            f"layer {e['layer']}"
+            f"(P5–P95 {e['p5']}–{e['p95']}) · {md(e['decision'])}, kept in "
+            f"{e['decision_stable_pct']:.0f} % of the sensitivity runs · size {md(e['size'])} · "
+            f"layer {md(e['layer'])}"
             + (" · certification add-on" if e["certification"] else "")
-            + f" · from the {e['source']}",
+            + f" · from the {md(e['source'])}",
             *[
-                f"- {c['subsystem']} {c['own_impact']} {c['layer']}"
+                f"- {md(c['subsystem'])} {c['own_impact']} {md(c['layer'])}"
                 + (" carryover" if c["carryover"] else "")
-                + (f": {c['why']}" if c["why"] else "")
+                + (f": {md(c['why'])}" if c["why"] else "")
                 for c in e["changes"]
             ],
             *[
-                f"- size of {r['subsystem']} {r['own_impact']} among {r['references']} "
+                f"- size of {md(r['subsystem'])} {r['own_impact']} among {r['references']} "
                 "reference change(s): "
                 + "; ".join(
-                    f"{side} {_reference_text(r[key])}"
+                    f"{side} {md(_reference_text(r[key]))}"
                     for side, key in (
                         ("at or below", "nearest_below"),
                         ("at or above", "nearest_above"),
@@ -847,9 +899,13 @@ def render_analysis(out: dict[str, Any]) -> str:
             ],
             # what the catalogue terms matched, so a flag of rule 43 can be judged
             *[
-                f"- catalogue scan for {p['subsystem']} with {', '.join(p['terms'])}: "
+                f"- catalogue scan for {md(p['subsystem'])} with "
+                f"{md(', '.join(p['terms']))}: "
                 + (
-                    "; ".join(f"{v} {x['status']} ({x['item']})" for v, x in p["vehicles"].items())
+                    "; ".join(
+                        f"{md(v)} {md(x['status'])} ({md(x['item'])})"
+                        for v, x in p["vehicles"].items()
+                    )
                     or "no item"
                 )
                 for p in e["portfolio"]
@@ -858,42 +914,49 @@ def render_analysis(out: dict[str, Any]) -> str:
         ]
 
     lines = [
-        f"# Situation analysis – {out['scope']}",
+        f"# Situation analysis – {md(out['scope'])}",
         "",
-        f"Run `{out['run_id']}` · {out['model']} · {out['prompt_version']} · "
+        f"Run {code(out['run_id'])} · {md(out['model'])} · {md(out['prompt_version'])} · "
         f"{trace['steps']} steps, {len(trace['tool_calls'])} tool calls · "
         f"{out['citations']['cited']} references cited, {len(unknown)} not verified · "
         f"{len(loose_quotes)} quotes not found in their verbatims · "
-        f"effort model `{effort['model_hash']}`",
+        f"effort model {code(effort['model_hash'])}",
         "",
-        f"**{a['headline']}**",
+        f"**{md(a['headline'])}**",
         "",
-        a["summary"],
+        md(a["summary"], block=True),
         "",
         "## Data coverage",
-        a["data_coverage"],
+        md(a["data_coverage"], block=True),
         "",
         "## Insights",
     ]
     for i, hits in zip(a["insights"], out["subsystems"]["insights"], strict=True):
         lines += [
             "",
-            f"### {i['title']}",
-            f"{i['kind']} · {i['domain']} · confidence {i['confidence']}",
+            f"### {md(i['title'])}",
+            f"{md(i['kind'])} · {md(i['domain'])} · confidence {md(i['confidence'])}",
             "",
-            i["statement"],
+            md(i["statement"], block=True),
         ]
         if i["customer_quote"]:
             flag = " (not found word for word in the cited verbatims)"
             lines += [
                 "",
-                f"> {i['customer_quote']}" + (flag if i["customer_quote"] in loose_quotes else ""),
+                f"> {md(i['customer_quote'])}"
+                + (flag if i["customer_quote"] in loose_quotes else ""),
             ]
         lines += subsystem_line(hits)
         lines += ["", f"Evidence: {refs(i['evidence_refs'])}"]
     lines += ["", "## Recommendations (proposals for the product manager)"]
     for r, e in zip(a["recommendations"], effort["recommendations"], strict=True):
-        lines += ["", f"### {r['title']} ({r['horizon']})", r["proposal"], "", r["rationale"]]
+        lines += [
+            "",
+            f"### {md(r['title'])} ({md(r['horizon'])})",
+            md(r["proposal"], block=True),
+            "",
+            md(r["rationale"], block=True),
+        ]
         if r["related_requirement"]:
             lines += ["", f"Existing requirement: {refs([r['related_requirement']])}"]
         lines += effort_lines(e)
@@ -908,27 +971,30 @@ def render_analysis(out: dict[str, Any]) -> str:
     ]
     for p in effort["packages"]:
         lines.append(
-            f"- **{p['horizon']}**: {p['proposals']} proposal(s) with a change, together "
-            f"**{p['effort_pct']} %** (P5–P95 {p['p5']}–{p['p95']}) · {p['decision']}, kept in "
-            f"{p['decision_stable_pct']:.0f} % of the runs · sum of the single estimates "
+            f"- **{md(p['horizon'])}**: {p['proposals']} proposal(s) with a change, together "
+            f"**{p['effort_pct']} %** (P5–P95 {p['p5']}–{p['p95']}) · {md(p['decision'])}, kept "
+            f"in {p['decision_stable_pct']:.0f} % of the runs · sum of the single estimates "
             f"{p['sum_of_single_pct']} %"
         )
         if p["subsystems"]:
             lines.append(
                 "  - footprint: "
-                + ", ".join(f"{s['name']} {s['effort_pct']} %" for s in p["subsystems"])
+                + ", ".join(f"{md(s['name'])} {s['effort_pct']} %" for s in p["subsystems"])
             )
-        lines += [f"  - {f['level']} (rule {f['rule']}): {f['text']}" for f in p["flags"]]
-        lines += [f"  - not counted, no usable change profile: {t}" for t in p["not_counted"]]
+        lines += [
+            f"  - {md(f['level'])} (rule {md(f['rule'])}): {md(f['text'])}" for f in p["flags"]
+        ]
+        lines += [f"  - not counted, no usable change profile: {md(t)}" for t in p["not_counted"]]
     if not effort["packages"]:
         lines.append("- No proposal carries a change profile.")
     if effort["open_faults"]:
         lines += ["", "Not settled by the correction request:"]
-        lines += [f"- {f}" for f in effort["open_faults"]]
-    lines += ["", "## Assumptions and gaps"] + [f"- {x}" for x in a["assumptions_and_gaps"]]
+        lines += [f"- {md(f)}" for f in effort["open_faults"]]
+    lines += ["", "## Assumptions and gaps"] + [f"- {md(x)}" for x in a["assumptions_and_gaps"]]
     lines += ["", "## Tool calls"]
     lines += [
-        f"- `{c['tool']}` {c['args']} → " + (c["error"] if "error" in c else f"{c.get('total')}")
+        f"- {code(c['tool'])} {code(json.dumps(c['args'], ensure_ascii=False, default=str))} → "
+        + (md(c["error"]) if "error" in c else md(c.get("total")))
         for c in trace["tool_calls"]
     ]
     return "\n".join(lines) + "\n"

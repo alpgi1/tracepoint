@@ -32,9 +32,11 @@ from tracepoint.agent.analysis import (
     MAX_CHANGES,
     MAX_REFS,
     ProposedChange,
+    code,
     effort_brief,
     effort_of_proposals,
     effort_text,
+    md,
     package_lines,
     warnings_of,
 )
@@ -1057,25 +1059,27 @@ def render_series(out: dict[str, Any]) -> str:
     a, effort = out["analysis"], out["effort"]
     labels = [r["label"] for r in out["regions"]]
 
-    def clean(text: str | None) -> str:
-        """A sentence without the reference ids a model sometimes leaves in it."""
-        return _ref_span.sub("", text or "").strip()
+    def clean(text: str | None, *, block: bool = False) -> str:
+        """What the model wrote, without the reference ids it sometimes leaves in a sentence,
+        and inert: it cannot add a heading, a table cell, a link or HTML to the brief."""
+        return md(_ref_span.sub("", text or ""), block=block)
 
     basis = " · ".join(
-        f"{r['label']} " + (f"{r['verbatims']:,} verbatims" if r["verbatims"] else "no verbatims")
+        f"{md(r['label'])} "
+        + (f"{r['verbatims']:,} verbatims" if r["verbatims"] else "no verbatims")
         for r in out["regions"]
     )
     sold = " · ".join(
-        f"{r['label']} {r['sales_2025']:,}"
+        f"{md(r['label'])} {r['sales_2025']:,}"
         for r in out["regions"]
         if r["sales_2025"] is not None and not r["country"]
     )
     lines = [
-        f"# BMW {out['series']}: what to change, for whom, and when",
+        f"# BMW {md(out['series'])}: what to change, for whom, and when",
         "",
         f"**{clean(a['headline'])}**",
         "",
-        clean(a["answer"]),
+        clean(a["answer"], block=True),
         "",
         f"Customer text: {basis}. Sales 2025: {sold}.",
         "",
@@ -1087,11 +1091,11 @@ def render_series(out: dict[str, Any]) -> str:
     rows = list(zip(a["topics"], out["topics"], effort["recommendations"], strict=True))
     for n, (t, _, e) in enumerate(rows, 1):
         target = (
-            "all" if set(t["target_regions"]) >= set(labels) else ", ".join(t["target_regions"])
+            "all" if set(t["target_regions"]) >= set(labels) else md(", ".join(t["target_regions"]))
         )
         lines.append(
             f"| {n} | {clean(t['title'])} | {DECISION_TEXT[t['decision']]} | {target or '–'} | "
-            f"{effort_text(e)} | {t['confidence']} |"
+            f"{md(effort_text(e))} | {md(t['confidence'])} |"
         )
     lines += ["", *package_lines(effort)]
     for n, (t, computed, e) in enumerate(rows, 1):
@@ -1102,7 +1106,7 @@ def render_series(out: dict[str, Any]) -> str:
             f"## {n}. {clean(t['title'])}",
             "",
             f"**{DECISION_TEXT[t['decision']]}"
-            + (f" ({', '.join(t['target_regions'])})" if regional else "")
+            + (f" ({md(', '.join(t['target_regions']))})" if regional else "")
             + f".** {clean(t['action'])}",
             "",
         ]
@@ -1111,12 +1115,12 @@ def render_series(out: dict[str, Any]) -> str:
         if changes:
             lines += ["| Region | Customers | Market and rivals | Weight |", "|---|---|---|---|"]
             lines += [
-                f"| {s['region']} | {clean(s['customers'])} | {clean(s['market']) or '–'} | "
-                f"{s['weight']} |"
+                f"| {md(s['region'])} | {clean(s['customers'])} | {clean(s['market']) or '–'} | "
+                f"{md(s['weight'])} |"
                 for s in shown
             ]
             if quiet:
-                lines.append(f"| {', '.join(quiet)} | no signal | – | none |")
+                lines.append(f"| {md(', '.join(quiet))} | no signal | – | none |")
             lines.append("")
             if t["our_offer"]:
                 lines.append(f"- The car today: {clean(t['our_offer'])}")
@@ -1125,18 +1129,18 @@ def render_series(out: dict[str, Any]) -> str:
             )
         else:  # a strength or a topic left alone needs no table
             lines.append(
-                "- Where: " + ", ".join(f"{s['region']} {s['weight']}" for s in shown) + "."
+                "- Where: " + ", ".join(f"{md(s['region'])} {md(s['weight'])}" for s in shown) + "."
             )
         lines.append(f"- Why this way: {clean(t['why'])}")
         if e["status"] == "estimated":
             lines.append(
-                f"- Effort: {e['effort_pct']} % of a new vehicle generation ({e['decision']}, "
-                f"P5–P95 {e['p5']}–{e['p95']}), from the {e['source']}."
+                f"- Effort: {e['effort_pct']} % of a new vehicle generation ({md(e['decision'])}, "
+                f"P5–P95 {e['p5']}–{e['p95']}), from the {md(e['source'])}."
             )
         elif e["status"] != "no_vehicle_change":
             lines.append("- Effort: **not estimated** (no usable change profile).")
-        lines += [f"- Check: {w}" for w in warnings_of(e)]
-        by_region = ", ".join(f"{k} {v}" for k, v in computed["evidence_by_region"].items())
+        lines += [f"- Check: {md(w)}" for w in warnings_of(e)]
+        by_region = ", ".join(f"{md(k)} {v}" for k, v in computed["evidence_by_region"].items())
         lines.append(
             f"- Evidence: {len(t['evidence_refs'])} references"
             + (f" ({by_region})" if by_region else "")
@@ -1146,26 +1150,27 @@ def render_series(out: dict[str, Any]) -> str:
     for x in a["regions"]:
         r = names.get(x["region"], {})
         about = f"{r['verbatims']:,} verbatims" if r.get("verbatims") else "no verbatims"
-        lines += ["", f"**{x['region']}** ({r.get('name', '')}, {about})"]
+        lines += ["", f"**{md(x['region'])}** ({md(r.get('name', ''))}, {about})"]
         lines += [f"- {clean(b)}" for b in x["expects"]]
     o = a["optimum_version"]
     lines += ["", "## The optimum version", "", "Every market:"]
     lines += [f"- {clean(b)}" for b in o["every_market"]] or ["- Nothing."]
     for pack in o["regional"]:
-        lines += ["", f"Only {pack['region']}:"] + [f"- {clean(b)}" for b in pack["items"]]
+        lines += ["", f"Only {md(pack['region'])}:"] + [f"- {clean(b)}" for b in pack["items"]]
     lines += ["", "Next generation:"]
     lines += [f"- {clean(b)}" for b in o["next_generation"]] or ["- Nothing."]
     lines += ["", "Keep:"] + ([f"- {clean(b)}" for b in o["keep"]] or ["- Nothing."])
     lines += ["", "## What the data cannot answer"] + [f"- {clean(u)}" for u in a["unknowns"]]
     if effort["open_faults"]:
-        lines += ["", "## Not settled by the checks"] + [f"- {f}" for f in effort["open_faults"]]
+        lines += ["", "## Not settled by the checks"]
+        lines += [f"- {md(f)}" for f in effort["open_faults"]]
     unknown = out["citations"]["unknown"]
     lines += [
         "",
         "---",
-        f"Run `{out['run_id']}` · {out['model']} · {out['prompt_version']} · "
+        f"Run {code(out['run_id'])} · {md(out['model'])} · {md(out['prompt_version'])} · "
         f"{out['citations']['cited']} references cited, {len(unknown)} not verified"
-        + (f" ({', '.join(unknown)})" if unknown else "")
+        + (f" ({', '.join(code(u) for u in unknown)})" if unknown else "")
         + f" · {len(out['trace']['tool_calls'])} tool calls, all on the stored evidence. References, "
         "change profiles and tool calls are in the JSON file of the same name.",
     ]

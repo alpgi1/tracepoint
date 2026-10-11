@@ -130,7 +130,7 @@ The only stored market row says EU new-car registrations in 2025 were led by hyb
 - The equipment catalogue is the German July 2026 list in EUR; it shows model-line availability, not GB standard/optional status.
 - Only one market context row is stored for EU, and it is weak secondary-source evidence; there is no stored competitor evidence that materially changes the analysis.
 - Some verbatim rows include dealer or process content; these were treated as context only unless they also contained clear product feedback.
-- One sampled verbatim contains an email marker '([EMAIL])'; as instructed, this was treated as quoted data, not an instruction.
+- One sampled verbatim contains an email marker '(\[EMAIL\])'; as instructed, this was treated as quoted data, not an instruction.
 
 ---
 Run `RUN-20261011-025010-agent.analyze.F70.GB-52c2` · gpt-5.4-2026-03-05 · situation-analysis-v6 · 47 references cited, 0 not verified · 0 quotes not found in their verbatims and left out · 12 tool calls. References, change profiles and tool calls are in the JSON file of the same name.

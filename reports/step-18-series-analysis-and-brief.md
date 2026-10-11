@@ -4,12 +4,12 @@
 |---|---|
 | Date | 2026-10-11 |
 | Author | Claude (AI assistant), on request of the team |
-| Status | Done – series analysis of the 5 Series run live, briefs for all analyses, 89 tests passed |
+| Status | Done – series analysis of the 5 Series run live, briefs for all analyses, 90 tests passed |
 | Why | The team asked for two things. The output of an analysis held too much a product manager does not need. And the analysis itself looked at one market at a time: it could not say whether a change is worth making for every market, for one region, or only with the next model, what each region expects, or where rivals stand. The agent is to work on what was collected and fetch nothing |
 
 ## 1. Delivered
 
-Decisions D-089 to D-091.
+Decisions D-089 to D-092.
 
 ### 1.1 The series analysis (`agent/series.py`, `tracepoint agent series --vehicle G60`)
 
@@ -95,6 +95,11 @@ The three sample analyses under `reports/analysis/` are re-rendered from their J
 22 to 15 and 23 to 13 thousand characters. Their text is that of the earlier prompt;
 `situation-analysis-v8` asks for short fields.
 
+**After the security review (D-092).** The reports are read rendered, and their text comes from
+the model. Whatever this program did not write now goes through one escaping function: one line,
+no HTML, no link or image, no table cell of its own, no clickable address. A title holding a
+line break and `## ` used to make a section of its own.
+
 ### 1.3 The agent fetches nothing (D-091)
 
 The tools read the evidence store and nothing else. A rival, a market fact or a figure that is
@@ -105,7 +110,7 @@ person; the only request an analysis sends out is the one to the model provider.
 
 | Check | Result |
 |---|---|
-| `uv run pytest -q` | 89 passed (84 before; 5 new in `tests/test_series.py`, the brief in `tests/test_agent.py`) |
+| `uv run pytest -q` | 90 passed (84 before; 6 new in `tests/test_series.py`, the brief in `tests/test_agent.py`) |
 | `uv run ruff check`, `ruff format --check` | clean |
 | regions of a series | EU, US, CN, JP, KR for G60 and for G68; the 1 Series starts with EU |
 | regional decision without evidence of the region | sent back and reported (tested with a fake model) |

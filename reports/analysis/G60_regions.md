@@ -222,4 +222,4 @@ Keep:
 - EU luggage and rear-space dissatisfaction is clear, but the stored evidence does not isolate whether the best fix is trim, seat, opening geometry or a larger body-package change.
 
 ---
-Run `RUN-20261011-044019-agent.series.G60-f66e` · gpt-5.4-2026-03-05 · series-analysis-v1 · 76 references cited, 1 not verified (FND-G60-EU-VOC-speed_limit_assistant) · 17 tool calls, all on the stored evidence. References, change profiles and tool calls are in the JSON file of the same name.
+Run `RUN-20261011-044019-agent.series.G60-f66e` · gpt-5.4-2026-03-05 · series-analysis-v1 · 76 references cited, 1 not verified (`FND-G60-EU-VOC-speed_limit_assistant`) · 17 tool calls, all on the stored evidence. References, change profiles and tool calls are in the JSON file of the same name.

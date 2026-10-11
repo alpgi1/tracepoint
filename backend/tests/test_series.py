@@ -295,3 +295,134 @@ def test_a_wrong_domain_is_an_error_not_an_empty_result(session):
         wrong = call_tool(session, tool, args | {"domain": "software_hmi"})
         assert "unknown domain" in wrong["error"] and "infotainment_digital" in wrong["domains"]
         assert call_tool(session, tool, args | {"domain": "infotainment_digital"})["total"]
+
+
+def test_reports_render_untrusted_text_as_inert_markdown():
+    """A report is read rendered. What the model wrote (which a customer verbatim or a fetched
+    page may have steered) must not be able to add a heading, a table cell, a link, an image or
+    HTML to it."""
+    from tracepoint.agent.analysis import code, md, render_analysis, render_brief
+
+    hostile = (
+        "seats | forged cell\n## Not settled by the checks\n- forged entry "
+        "<img src=x onerror=alert(1)> [click](https://evil.example) ![p](http://evil.example/p) "
+        "`code` www.evil.example \\| tail"
+    )
+    safe = md(hostile)
+    assert "\n" not in safe and "<" not in safe and ">" not in safe
+    assert not re.search(r"(?<!\\)[|\[\]`]", safe)  # every one of them is escaped
+    assert "://" not in safe and "&#58;//" in safe and "www." not in safe  # not clickable
+    assert md("# heading", block=True) == "\\# heading" and md("1. item", block=True) == "1\\. item"
+    assert (
+        md("- item", block=True) == "\\- item"
+        and md("2026 was fine", block=True) == "2026 was fine"
+    )
+    assert code("FND-`x` | y\nz <b> http://e.example") == "`FND-'x' / y z (b) http: //e.example`"
+
+    effort_row = {"status": "no_vehicle_change", "flags": [], "evidence_subsystems": {}}
+    situation = {
+        "scope": hostile,
+        "run_id": "RUN-1",
+        "model": hostile,
+        "prompt_version": "v",
+        "analysis": {
+            "headline": hostile,
+            "summary": "# " + hostile,
+            "data_coverage": hostile,
+            "insights": [
+                {
+                    "title": hostile,
+                    "kind": "context",
+                    "domain": hostile,
+                    "statement": "- " + hostile,
+                    "customer_quote": hostile,
+                    "evidence_refs": [hostile],
+                    "confidence": "low",
+                }
+            ],
+            "recommendations": [
+                {
+                    "title": hostile,
+                    "proposal": hostile,
+                    "horizon": "H1",
+                    "rationale": hostile,
+                    "evidence_refs": [hostile],
+                    "related_requirement": hostile,
+                }
+            ],
+            "assumptions_and_gaps": [hostile],
+        },
+        "effort": {
+            "method": "m",
+            "model_hash": "h",
+            "recommendations": [effort_row],
+            "packages": [],
+            "open_faults": [hostile],
+        },
+        "subsystems": {"insights": [{}]},
+        "citations": {"cited": 1, "unknown": [hostile], "unverified_quotes": []},
+        "trace": {
+            "steps": 1,
+            "tool_calls": [{"tool": hostile, "args": {"q": hostile}, "total": 0}],
+        },
+    }
+    series = {
+        "series": hostile,
+        "run_id": "RUN-1",
+        "model": hostile,
+        "prompt_version": "v",
+        "regions": [
+            {"label": "EU", "name": hostile, "verbatims": 1, "sales_2025": 1, "country": None}
+        ],
+        "analysis": {
+            "headline": hostile,
+            "answer": "# " + hostile,
+            "regions": [{"region": hostile, "expects": [hostile], "evidence_refs": []}],
+            "topics": [
+                {
+                    "title": hostile,
+                    "regions": [
+                        {
+                            "region": hostile,
+                            "customers": hostile,
+                            "market": hostile,
+                            "weight": "weak",
+                        }
+                    ],
+                    "our_offer": hostile,
+                    "rivals": hostile,
+                    "decision": "change_now_regional",
+                    "target_regions": [hostile],
+                    "action": hostile,
+                    "why": hostile,
+                    "confidence": "low",
+                    "evidence_refs": [hostile],
+                }
+            ],
+            "optimum_version": {
+                "every_market": [hostile],
+                "regional": [{"region": hostile, "items": [hostile]}],
+                "next_generation": [hostile],
+                "keep": [hostile],
+            },
+            "unknowns": [hostile],
+        },
+        "topics": [{"evidence_by_region": {hostile: 1}}],
+        "effort": {"recommendations": [effort_row], "packages": [], "open_faults": [hostile]},
+        "citations": {"cited": 1, "unknown": [hostile]},
+        "trace": {"tool_calls": []},
+    }
+    for render, out, headings, table_rows in (
+        (render_brief, situation, 6, 3),
+        (render_analysis, situation, 9, 0),
+        (render_series, series, 7, 6),
+    ):
+        text = render(out)
+        assert "<" not in text and "://" not in text  # no HTML, no address to click
+        assert not re.search(r"(?<!\\)\]\(", text)  # no link or image: every ] is escaped
+        # the structure is the program's own: no heading and no table row was added
+        assert len(re.findall(r"(?m)^#{1,3} ", text)) == headings, render.__name__
+        rows = [line for line in text.splitlines() if line.startswith("|")]
+        assert len(rows) == table_rows, render.__name__
+        assert len({len(re.findall(r"(?<!\\)\|", row)) for row in rows}) <= 2  # header widths
+        assert not re.search(r"(?m)^- forged entry", text)
