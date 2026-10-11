@@ -11,7 +11,8 @@
  * set, 1920 px), stage 3 and the bridges, stage 4 (the evidence and effort
  * chart scrolled into view) and the method sheet,
  * and stage 5 with gate G2 (one decision is made when the app runs in the
- * live mode). Run against a built app started in another shell
+ * live mode), and since step 20 the CPM explainer of the brand mark (one
+ * state per class, a projector-sized viewport, the drawing mid-way). Run against a built app started in another shell
  * (`pnpm build && pnpm start`).
  *
  *   node tools/audit/screenshots.mjs http://localhost:3400 [outDir]
@@ -236,5 +237,21 @@ await shoot("49-method-us-g60-rules-1440", desktop, async (page) => {
   await page.getByRole("heading", { name: "Rules of the engine" }).scrollIntoViewIfNeeded();
   await page.waitForTimeout(200);
 }, { path: "/markets/us/g60/priorities/method" });
+
+// Step 20: the brand mark at the foot of the map and the CPM explainer it opens, one state per class.
+async function openExplainer(page, index = 0) {
+  await page.locator(".brand-mark").click();
+  await page.waitForSelector("dialog.cpmx[open]", { timeout: 5000 });
+  if (index > 0) await page.locator(".cpmx-class").nth(index).click();
+  await page.waitForTimeout(1600);
+}
+await shoot("50-explainer-adapt-1440", desktop, async (page) => openExplainer(page));
+await shoot("51-explainer-major-1440", desktop, async (page) => openExplainer(page, 1));
+await shoot("52-explainer-new-1440", desktop, async (page) => openExplainer(page, 2));
+await shoot("53-explainer-adapt-1280x720", { width: 1280, height: 720 }, async (page) => openExplainer(page));
+await shoot("54-explainer-spreading-1440", desktop, async (page) => {
+  await page.locator(".brand-mark").click();
+  await page.waitForTimeout(450);
+});
 
 await browser.close();

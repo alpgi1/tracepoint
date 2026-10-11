@@ -4,9 +4,10 @@
  * measured (control or its label, whichever is larger), horizontal overflow
  * at 375 px, console errors, a scan of the rendered text for the
  * forbidden-list items that can be measured (quoted verbatims excepted), and
- * on the vehicle pages the subsystem dialog: name, headings, tap targets,
- * a keyboard tour that must never reach the inert page behind it, Escape and
- * the return of focus. Ported from the sister
+ * the dialog of the page: on the vehicle pages the subsystem dialog, on the
+ * landing page the CPM explainer of the brand mark (step 20): name, headings,
+ * tap targets, a keyboard tour that must never reach the inert page behind
+ * it, Escape and the return of focus. Ported from the sister
  * projects, whose logs name the false alarms this version avoids: measure
  * the larger of control and label, give every tab stop a unique mark, and
  * expect the focus ring only after a real Tab key press.
@@ -86,17 +87,30 @@ async function smallTapTargets(page, root, min) {
   );
 }
 
+/** The controls that open a dialog: a subsystem row (step 13), the brand mark on the map (step 20). */
+const OPENERS = [
+  { selector: ".cpm-row", name: "the subsystem row" },
+  { selector: ".brand-mark", name: "the brand mark" },
+];
+
 /**
- * The subsystem dialog of the vehicle screen (step 13): open the first
- * subsystem, check the dialog's name, headings, tap targets, focus rings on a
- * keyboard tour that must stay inside the dialog, the forbidden text, then
- * Escape must close it and return focus to the row.
+ * The dialog of the page: open it with the first opener found (the first
+ * subsystem on the vehicle screen, the brand mark on the map), check its
+ * name, headings, tap targets, focus rings on a keyboard tour that must stay
+ * inside the dialog, the forbidden text, then Escape must close it and
+ * return focus to the opener.
  */
 async function auditDialog(page) {
   const out = [];
-  const row = page.locator(".cpm-row").first();
-  if ((await row.count()) === 0) return { findings: out, stops: 0 };
-  await row.click();
+  let opener = null;
+  for (const candidate of OPENERS) {
+    if ((await page.locator(candidate.selector).count()) > 0) {
+      opener = candidate;
+      break;
+    }
+  }
+  if (!opener) return { findings: out, stops: 0 };
+  await page.locator(opener.selector).first().click();
   try {
     await page.waitForSelector("dialog[open]", { timeout: 3000 });
   } catch {
@@ -154,12 +168,12 @@ async function auditDialog(page) {
   }
   await page.keyboard.press("Escape");
   await page.waitForTimeout(400);
-  const after = await page.evaluate(() => ({
+  const after = await page.evaluate((selector) => ({
     open: Boolean(document.querySelector("dialog[open]")),
-    onRow: document.activeElement?.classList.contains("cpm-row") ?? false,
-  }));
+    onOpener: document.activeElement?.matches(selector) ?? false,
+  }), opener.selector);
   if (after.open) out.push("dialog: Escape did not close it");
-  if (!after.onRow) out.push("dialog: focus did not return to the subsystem row after closing");
+  if (!after.onOpener) out.push(`dialog: focus did not return to ${opener.name} after closing`);
   return { findings: out, stops };
 }
 

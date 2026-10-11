@@ -3,7 +3,10 @@
 Next.js 16 (App Router), TypeScript, Tailwind CSS v4, shadcn project structure, pnpm. Node 22.
 
 The first surface is the landing page: a dotted world map with three selectable markets (China,
-United States, European Union), each carrying its figures; a selected market shows the vehicles
+United States, European Union), each carrying its figures, and at its foot the brand mark (the
+BMW roundel beside "Tracepoint") that opens the CPM explainer: the Change Prediction Method in
+three steps, shown on one documented BMW decision per effort class from the engine's back-test
+(step 20, made for the demo day); a selected market shows the vehicles
 sold there as photos of the configured cars, and a vehicle opens its screen (`/markets/<market>/<vehicle>`),
 where the car is a technical sketch beside the twelve CPM subsystems; a subsystem opens a dialog
 with what customers like and criticise there and the market evidence. The vehicle screen is
@@ -35,10 +38,10 @@ Documentation lives in `docs/` (start with `docs/README.md`).
 | `pnpm install` | Install dependencies |
 | `pnpm dev` | Development server (copies the world topology into `public/map/` first) |
 | `pnpm build` and `pnpm start` | Production build and server on port 3400 |
-| `pnpm lint`, `pnpm typecheck`, `pnpm test` | ESLint, route typegen plus `tsc --noEmit`, vitest (market outlines, classification, projection fit, vehicle drawings and zones, the CPM content, the workspace snapshots, the candidate rules, the requirement helpers, the evidence and effort chart (its rows and its two scales) and the packages, the effort model file) |
+| `pnpm lint`, `pnpm typecheck`, `pnpm test` | ESLint, route typegen plus `tsc --noEmit`, vitest (market outlines, classification, projection fit, vehicle drawings and zones, the CPM content, the workspace snapshots, the candidate rules, the requirement helpers, the evidence and effort chart (its rows and its two scales) and the packages, the effort model file, the CPM explainer's examples and columns) |
 | `pnpm check` | All of the above plus the build; must pass before a step is committed |
-| `pnpm audit:pages` | Page audit in Chromium against a running server, on 30 pages: the landing page, the seven vehicle pages, six states of stage 2 (with the analyst's brief), stage 3, stage 4 with the method sheet, stage 5, the requirement page with a decision notice, three series pages and three market evidence pages: landmarks, headings, accessible names, tap targets, keyboard tour, 375 px overflow, forbidden text (quoted verbatims excepted), console errors, and the open subsystem dialog (name, headings, tap targets, keyboard tour that never reaches the inert page, Escape and the return of focus); exit code 1 on findings |
-| `pnpm shots` | Screenshots of 49 states (the map, the vehicle screens, the subsystem dialog, the five stages, gate G2, and since step 19 the analyst's brief, the series across its regions at 1440 and 375 px, the market evidence, the dialog with external sources and the rules of the effort engine) into `tools/audit/out/` |
+| `pnpm audit:pages` | Page audit in Chromium against a running server, on 30 pages: the landing page (with the CPM explainer of the brand mark), the seven vehicle pages, six states of stage 2 (with the analyst's brief), stage 3, stage 4 with the method sheet, stage 5, the requirement page with a decision notice, three series pages and three market evidence pages: landmarks, headings, accessible names, tap targets, keyboard tour, 375 px overflow, forbidden text (quoted verbatims excepted), console errors, and the open subsystem dialog (name, headings, tap targets, keyboard tour that never reaches the inert page, Escape and the return of focus); exit code 1 on findings |
+| `pnpm shots` | Screenshots of 54 states (the map, the CPM explainer for its three classes, at 1280 by 720 and mid-way through its drawing, the vehicle screens, the subsystem dialog, the five stages, gate G2, and since step 19 the analyst's brief, the series across its regions at 1440 and 375 px, the market evidence, the dialog with external sources and the rules of the effort engine) into `tools/audit/out/` |
 | `pnpm snapshot` | The one data feed (`scripts/snapshot.mjs`): reads the running backend API (`TRACEPOINT_API_URL`, default `http://127.0.0.1:8000`) and writes its answers unchanged: `content/markets.json` (`GET /overview`), `content/cpm.json` (`GET /effort/model` and `GET /cpm/{vehicle}` per pair), `content/effort.json` (the model and the back-test), `content/analyses/` (`GET /analyses` and every `GET /analyses/{key}/brief`) and per vehicle and market pair `content/workspace/<VEHICLE>_<MARKET>.json` (requirements, effort, packages, excluded candidates, the scope's events, the detail of every requirement with the evidence it cites, the external evidence of `GET /external`, and the requirement list of `GET /requirements/export` as CSV and Markdown). `node scripts/snapshot.mjs G60 US` refreshes one workspace file |
 | `pnpm vehicles` | Regenerates the vehicle drawings (body, lines and contour masks under `public/vehicles/`, `content/vehicles/*.json`) from `assets/vehicles/sources` |
 | `pnpm photos` | Regenerates the photo cut-outs of the configured cars (`public/vehicles/*-photo-side.webp`, `content/vehicles/*-photo.json`) from `assets/vehicles/photos` |
@@ -73,13 +76,13 @@ app/            layout (with the hand-over layer), page, tokens (globals.css), f
 assets/vehicles/sources/        brochure pages and the press sheet the drawings come from, with README
 assets/vehicles/photos/         side-profile renders of the configured cars from the BMW configurator, with README
 components/
-  landing/      map stage with callouts and connectors, market panel, vehicle cards (photo, hand-over)
+  landing/      map stage with callouts and connectors, market panel, vehicle cards (photo, hand-over), brand-mark (the BMW roundel and the name, bmw-roundel) and cpm-intro-dialog (the CPM explainer it opens)
   vehicles/     vehicle-drawing (layered sketch: wash, lines, contour), handoff-layer (the photo across the route change)
   workspace/    workspace-header and stage-bar (shared by the stages), vehicle-workspace (sketch, hand-over target), cpm-list (the twelve subsystems with the requirements that change them), cpm-dialog (four bands: liked, disliked, market analysis, requirements), candidate-filters and candidate-table (stage 2), analyst-brief, series-view and brief-parts (the backend's briefs), external-rows (the external statements), requirement-page, evidence-list and effort-block (stage 3), priority-chart and package-table (stage 4), decision-form, timeline and source-line
   ui/           dotted-world-map (canvas map), shadcn components
 content/        the backend API's answers, written by pnpm snapshot and committed: markets.json (GET /overview), cpm.json (the CPM views), effort.json (the effort model and the back-test), analyses/ (the briefs), workspace/*.json (per vehicle and market: requirements, effort, packages, excluded candidates, events, evidence, external evidence, exports); vehicles/*.json (drawing and photo sizes and boxes, from pnpm vehicles)
 lib/
-  content/      types, loaders, number formats; cpm-types.ts and workspace-types.ts are the contracts of the backend's endpoints
+  content/      types, loaders, number formats; cpm-types.ts and workspace-types.ts are the contracts of the backend's endpoints; cpm-intro.ts, the explainer's examples and columns from the effort snapshot
   data/         workspace.ts, the reads of the stage pages (the snapshot, the API in the live mode); analyses.ts, the briefs; exports.ts, the D2 exports; effort.ts, the effort model file and the package estimate (POST /effort/estimate in the live mode)
   workspace/    candidates (the inbox rules, filters, grouping, stage counts), requirements (routes, evidence resolution, the footprint, the bridges), priorities (the chart's points, horizon groups and scales, packages, the builder's set), stages and figures (which stages exist per scope, routes and figures of the stage bar), market (the external statements per subsystem), log (the decision record and the timeline)
   map/          regions, data (topology to outlines), renderer (mask, dots, zoom, focus, highlight)
