@@ -2,9 +2,10 @@ import type { CpmCatalogue, CpmView } from "@/lib/content/cpm-types";
 import type { EffortScenario, EffortSubsystem, EvidenceLevel, Horizon, Requirement, RequirementEffort, WorkspaceSnapshot } from "@/lib/content/workspace-types";
 
 /*
- * Stage 4, Prioritization: the points of the matrix, the packages, the
- * derived sentence about the H1 package, and the package builder's chosen
- * set. Every figure is a field of the snapshot; the page adds no score.
+ * Stage 4, Prioritization: the points of the evidence and effort chart,
+ * its two scales, the packages, the derived sentence about the H1 package,
+ * and the package builder's chosen set. Every figure is a field of the
+ * snapshot; the page adds no score.
  */
 export interface MatrixPoint {
   id: string;
@@ -46,6 +47,55 @@ export function byEvidence(points: MatrixPoint[]): MatrixPoint[] {
 /** A clean upper bound for an axis: the next multiple of a step that covers the maximum. */
 export function axisMax(max: number, step: number): number {
   return Math.max(step, Math.ceil(max / step) * step);
+}
+
+/** The chart's rows, one group per horizon (H1 first), each in the table twin's order. */
+export function horizonGroups(points: MatrixPoint[]): { horizon: Horizon; points: MatrixPoint[] }[] {
+  return (["H1", "H2"] as const).map((horizon) => ({ horizon, points: byEvidence(points.filter((p) => p.horizon === horizon)) })).filter((g) => g.points.length > 0);
+}
+
+export interface LinearAxis {
+  max: number;
+  ticks: number[];
+}
+
+/** The complaint rows' scale: from 0 in steps of 25, or of 50 past 100 rows. */
+export function rowsAxis(points: MatrixPoint[]): LinearAxis {
+  const top = Math.max(0, ...points.map((p) => p.complaintRows));
+  const step = top > 100 ? 50 : 25;
+  const max = axisMax(top, step);
+  return { max, ticks: Array.from({ length: max / step + 1 }, (_, i) => i * step) };
+}
+
+export interface LogAxis {
+  min: number;
+  max: number;
+  /** The decades inside the axis. */
+  ticks: number[];
+}
+
+/**
+ * The effort scale is logarithmic: the single estimates of a scope span
+ * three orders of magnitude (0.2 % to 49 % on G60 US), and on a linear
+ * axis the one H2 change pushes every H1 change into the first few pixels.
+ * It starts at a clean bound under the smallest P5 and ends at 100 %, a
+ * whole new vehicle generation, or the decade past the largest P95.
+ */
+export function effortAxis(points: MatrixPoint[]): LogAxis {
+  const changes = points.flatMap((p) => (p.effort && p.effort.kind === "change" ? [p.effort] : []));
+  const low = Math.min(...changes.flatMap((e) => [e.p5, e.effort_pct]).filter((v) => v > 0));
+  const min = [0.05, 0.01, 0.005, 0.001].find((c) => c <= low) ?? 0.001;
+  const high = Math.max(100, ...changes.map((e) => e.p95));
+  const max = 10 ** Math.ceil(Math.log10(high));
+  const ticks: number[] = [];
+  for (let k = Math.ceil(Math.log10(min)); k <= Math.log10(max); k++) ticks.push(Number((10 ** k).toPrecision(1)));
+  return { min, max, ticks };
+}
+
+/** Where a value sits on a logarithmic axis, from 0 to 1; values outside the axis sit on its ends. */
+export function logPosition(axis: LogAxis, value: number): number {
+  const v = Math.min(axis.max, Math.max(axis.min, value));
+  return (Math.log10(v) - Math.log10(axis.min)) / (Math.log10(axis.max) - Math.log10(axis.min));
 }
 
 export interface PackageSubsystemRow {
