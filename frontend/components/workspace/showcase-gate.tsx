@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { type FormEvent, useState } from "react";
+import { type FormEvent, useEffect, useState } from "react";
 import { dateTime, full } from "@/lib/content/format";
 import { site } from "@/lib/site";
 import { requirementArea } from "@/lib/workspace/requirement-name";
@@ -13,6 +13,8 @@ import {
   clearDecisions,
   latestLocal,
   recordDecision,
+  type SeedDecision,
+  seedDecisions,
   useShowcaseDecisions,
 } from "@/lib/workspace/showcase-decisions";
 
@@ -48,10 +50,6 @@ export function ShowcaseDecisionForm({
       .submitter as HTMLButtonElement | null;
     const decision = submitter?.value as Decision | undefined;
     if (!decision || !(decision in STATUS_OF)) return;
-    if (note.trim().length < 3) {
-      setMessage(copy.noteMissing);
-      return;
-    }
     recordDecision(id, decision, version, note.trim());
     setNote("");
     setMessage(`${copy.recorded} ${copy.outcomes[decision]}.`);
@@ -65,11 +63,9 @@ export function ShowcaseDecisionForm({
       ) : null}
       <form onSubmit={submit} className="decision-form">
         <label className="decision-note">
-          {copy.rationale}
+          {copy.rationaleOptional}
           <textarea
             name="note"
-            required
-            minLength={3}
             rows={3}
             placeholder={copy.rationaleHint}
             value={note}
@@ -143,7 +139,7 @@ export function ShowcaseRecord({ rows }: { rows: RecordRow[] }) {
           status: d.status,
           decision: {
             status: d.status,
-            by: SHOWCASE_ACTOR,
+            by: d.by ?? SHOWCASE_ACTOR,
             when: dateTime(d.ts),
             note: d.note,
           },
@@ -169,7 +165,6 @@ export function ShowcaseRecord({ rows }: { rows: RecordRow[] }) {
               <th scope="col" className="num">
                 {copy.columns.version}
               </th>
-              <th scope="col">{copy.columns.decision}</th>
               <th scope="col">{copy.columns.by}</th>
               <th scope="col">{copy.columns.when}</th>
               <th scope="col">{copy.columns.note}</th>
@@ -186,13 +181,6 @@ export function ShowcaseRecord({ rows }: { rows: RecordRow[] }) {
                 </td>
                 <td>{row.status}</td>
                 <td className="num">{String(row.version)}</td>
-                <td>
-                  {row.decision ? (
-                    row.decision.status
-                  ) : (
-                    <span className="cpm-muted">{copy.noDecision}</span>
-                  )}
-                </td>
                 <td>{row.decision?.by ?? ""}</td>
                 <td className="record-when">{row.decision?.when ?? ""}</td>
                 <td className="record-note">{row.decision?.note ?? ""}</td>
@@ -269,7 +257,7 @@ export function ShowcaseEvents({
                     ·{" "}
                   </>
                 ) : null}
-                <b>{ACTION}</b> · {copy.actors.human} {SHOWCASE_ACTOR}
+                <b>{ACTION}</b> · {copy.actors.human} {d.by ?? SHOWCASE_ACTOR}
                 {from && from !== d.status
                   ? ` · ${copy.statusChange} ${from} ${copy.to} ${d.status}`
                   : ""}
@@ -312,4 +300,18 @@ export function ShowcaseDecidedFigure({
       {copy.events}
     </span>
   );
+}
+
+/** Adds the example approvals of a scope once (lib/workspace/showcase-decisions.ts). */
+export function ShowcaseSeed({
+  scope,
+  seeds,
+}: {
+  scope: string;
+  seeds: SeedDecision[];
+}) {
+  useEffect(() => {
+    seedDecisions(scope, seeds);
+  }, [scope, seeds]);
+  return null;
 }

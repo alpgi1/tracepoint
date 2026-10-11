@@ -21,6 +21,8 @@ export interface LocalDecision {
   ts: string;
   /** Order of the decisions in this browser, newest highest. */
   seq: number;
+  /** Who decided; the visitor when absent, a named example for the seeded ones. */
+  by?: string;
 }
 
 export const STATUS_OF: Record<Decision, string> = {
@@ -29,8 +31,10 @@ export const STATUS_OF: Record<Decision, string> = {
   defer: "deferred",
 };
 export const SHOWCASE_ACTOR = "you (this browser)";
+export const EXAMPLE_ACTOR = "product manager (example)";
 
 const KEY = "tracepoint.showcase.decisions.v1";
+const SEEDED = "tracepoint.showcase.seeded.v1";
 const EMPTY: LocalDecision[] = [];
 const listeners = new Set<() => void>();
 let cache: { raw: string | null; value: LocalDecision[] } = {
@@ -99,6 +103,47 @@ export function recordDecision(
       seq,
     },
   ]);
+}
+
+export interface SeedDecision {
+  id: string;
+  version: number;
+  note: string;
+  ts: string;
+}
+
+/**
+ * Example approvals so Documentation does not open empty: added once per
+ * scope and browser, labelled as examples, and cleared like any other.
+ */
+export function seedDecisions(scope: string, seeds: SeedDecision[]) {
+  let seeded: string[] = [];
+  try {
+    const parsed: unknown = JSON.parse(
+      window.localStorage.getItem(SEEDED) ?? "[]",
+    );
+    if (Array.isArray(parsed)) seeded = parsed as string[];
+    if (seeded.includes(scope)) return;
+    window.localStorage.setItem(SEEDED, JSON.stringify([...seeded, scope]));
+  } catch {
+    return;
+  }
+  const all = read();
+  const have = new Set(all.map((d) => d.id));
+  let seq = all.reduce((max, d) => Math.max(max, d.seq), 0);
+  const added = seeds
+    .filter((s) => !have.has(s.id))
+    .map((s) => ({
+      id: s.id,
+      decision: "approve" as const,
+      status: STATUS_OF.approve,
+      version: s.version,
+      note: s.note,
+      ts: s.ts,
+      seq: ++seq,
+      by: EXAMPLE_ACTOR,
+    }));
+  if (added.length > 0) write([...all, ...added]);
 }
 
 export function clearDecisions() {

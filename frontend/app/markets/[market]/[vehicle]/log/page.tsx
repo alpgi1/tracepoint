@@ -113,7 +113,6 @@ async function LogBody({ params }: { params: Props["params"] }) {
                   <th scope="col" className="num">
                     {copy.columns.version}
                   </th>
-                  <th scope="col">{copy.columns.decision}</th>
                   <th scope="col">{copy.columns.by}</th>
                   <th scope="col">{copy.columns.when}</th>
                   <th scope="col">{copy.columns.note}</th>
@@ -133,13 +132,6 @@ async function LogBody({ params }: { params: Props["params"] }) {
                     </td>
                     <td>{r.status}</td>
                     <td className="num">{String(r.version)}</td>
-                    <td>
-                      {d && typeof d.after?.status === "string" ? (
-                        d.after.status
-                      ) : (
-                        <span className="cpm-muted">{copy.noDecision}</span>
-                      )}
-                    </td>
                     <td>{d ? d.actor_id : ""}</td>
                     <td className="record-when">{d ? dateTime(d.ts) : ""}</td>
                     <td className="record-note">{d?.rationale ?? ""}</td>

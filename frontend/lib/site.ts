@@ -239,6 +239,7 @@ export const site = {
       defer: "Defer",
       rationale: "Rationale, mandatory",
       rationaleHint: "Why this decision, for the audit trail",
+      rationaleOptional: "Rationale, optional",
       note: "A decision holds for one version of the requirement and needs a rationale; it is kept in the audit trail and survives every update of the requirement list. Decisions are recorded when Tracepoint runs live; this page shows the data as stored on",
       notAnswering: "A decision holds for one version of the requirement and needs a rationale; it is kept in the audit trail and survives every update of the requirement list. The Tracepoint service that records decisions does not answer right now; once it runs, reload this page to decide. Until then this page shows the data as stored on",
       liveNote: "The decision is recorded in your role as product manager, with your rationale, in the audit trail, and holds for this version of the requirement.",
