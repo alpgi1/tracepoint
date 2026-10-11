@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useSelectedLayoutSegment } from "next/navigation";
 import { ViewTransition } from "react";
 import { VehicleDrawing } from "@/components/vehicles/vehicle-drawing";
+import { FULL_PREFETCH } from "@/lib/static";
 import { VEHICLE_DOCK, vehicleTransitionName } from "@/lib/vehicles/dock";
 import { type DrawingCode, drawingFor } from "@/lib/vehicles/drawings";
 
@@ -28,7 +29,7 @@ export function VehicleDock({ code, href, label }: VehicleDockProps) {
   if (segment === null) return null;
   return (
     <ViewTransition name={vehicleTransitionName(code)} share={VEHICLE_DOCK} default="none">
-      <Link href={href} prefetch className="workspace-dock" aria-label={label}>
+      <Link href={href} prefetch={FULL_PREFETCH} className="workspace-dock" aria-label={label}>
         <VehicleDrawing drawing={drawingFor(code, "side")} size="card" />
       </Link>
     </ViewTransition>

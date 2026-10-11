@@ -1,4 +1,5 @@
 import type { VehicleDrawing as Drawing } from "@/lib/vehicles/drawings";
+import { asset } from "@/lib/static";
 import { cn } from "@/lib/utils";
 
 /*
@@ -17,7 +18,8 @@ export interface VehicleDrawingProps {
   className?: string;
 }
 
-function mask(url: string): React.CSSProperties {
+function mask(path: string): React.CSSProperties {
+  const url = asset(path);
   return { maskImage: `url(${url})`, WebkitMaskImage: `url(${url})` };
 }
 

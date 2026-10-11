@@ -1,5 +1,6 @@
 import { connection } from "next/server";
 import { cache } from "react";
+import { STATIC_EXPORT } from "@/lib/static";
 import F70_EU from "@/content/workspace/F70_EU.json";
 import G60_EU from "@/content/workspace/G60_EU.json";
 import G60_US from "@/content/workspace/G60_US.json";
@@ -69,6 +70,7 @@ const PROBE_TTL_MS = 5000;
 export type LiveSetting = "on" | "off" | "auto";
 
 export function liveSetting(): LiveSetting {
+  if (STATIC_EXPORT) return "off";
   const value = process.env.TRACEPOINT_LIVE;
   return value === "1" ? "on" : value === "0" ? "off" : "auto";
 }
@@ -139,7 +141,7 @@ async function get<T>(path: string): Promise<T> {
  * decision shows on the next request; undefined where no snapshot exists.
  */
 export async function readWorkspace(vehicle: string, market: string, options: { detailOf?: string } = {}): Promise<WorkspaceRead | undefined> {
-  await connection();
+  if (!STATIC_EXPORT) await connection();
   const base = workspaceSnapshot(vehicle, market);
   if (!base) return undefined;
   if (!(await liveEnabled())) return { snapshot: base, live: false, api: API_URL, readAt: null, reason: null };

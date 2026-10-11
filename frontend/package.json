@@ -16,7 +16,8 @@
     "shots": "node tools/audit/screenshots.mjs http://localhost:3400",
     "vehicles": "node scripts/vehicles/build.mjs",
     "snapshot": "node scripts/snapshot.mjs",
-    "photos": "node scripts/vehicles/photos.mjs"
+    "photos": "node scripts/vehicles/photos.mjs",
+    "export:static": "node scripts/sync-map-data.mjs && node scripts/export-static.mjs"
   },
   "dependencies": {
     "@base-ui/react": "^1.9.0",

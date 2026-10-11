@@ -12,6 +12,7 @@ import type { MarketContent, VehicleContent } from "@/lib/content/types";
 import type { WorkspaceSnapshot } from "@/lib/content/workspace-types";
 import { readBriefs } from "@/lib/data/analyses";
 import { readScope } from "@/lib/data/workspace";
+import { pageQuery } from "@/lib/static";
 import { site } from "@/lib/site";
 import {
   type Candidate,
@@ -69,7 +70,7 @@ async function StructureBody({ params, searchParams }: { params: Props["params"]
   const m = marketByCode(market);
   const v = m ? vehicleIn(m, vehicle) : undefined;
   if (!m || !v || !hasStage("structure", v.code, m.code)) notFound();
-  const [read, briefs, query] = await Promise.all([readScope(v.code, m.code), readBriefs(v.code, m.code), searchParams]);
+  const [read, briefs, query] = await Promise.all([readScope(v.code, m.code), readBriefs(v.code, m.code), pageQuery(searchParams)]);
   if (!read) notFound();
   const { snapshot } = read;
   const copy = site.structure;

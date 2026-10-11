@@ -9,6 +9,7 @@ import { dateTime, full } from "@/lib/content/format";
 import { marketByCode, vehicleHref, vehicleIn } from "@/lib/content/markets";
 import { readScope } from "@/lib/data/workspace";
 import { site } from "@/lib/site";
+import { asset } from "@/lib/static";
 import { hasStage, stageParams } from "@/lib/workspace/figures";
 import { decisionRecord, timelineOf } from "@/lib/workspace/log";
 import { requirementHref } from "@/lib/workspace/requirements";
@@ -62,8 +63,8 @@ async function LogBody({ params }: { params: Props["params"] }) {
   const rows = decisionRecord(snapshot);
   const decided = rows.filter((row) => row.requirement.status !== "proposed").length;
   const events = timelineOf(snapshot);
-  const csvHref = `${vehicleHref(m.code, v.code)}/log/requirements.csv`;
-  const mdHref = `${vehicleHref(m.code, v.code)}/log/requirements.md`;
+  const csvHref = asset(`${vehicleHref(m.code, v.code)}/log/requirements.csv`);
+  const mdHref = asset(`${vehicleHref(m.code, v.code)}/log/requirements.md`);
   return (
     <Reveal as="div" className="stage-content">
       <h3 className="stage-h3">{copy.recordHeading}</h3>

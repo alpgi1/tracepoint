@@ -1,6 +1,7 @@
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { connection } from "next/server";
+import { STATIC_EXPORT } from "@/lib/static";
 import indexRaw from "@/content/analyses/index.json";
 import type { AnalysesIndex, AnalysisSummary, Brief } from "@/lib/content/brief-types";
 import { API_URL, liveEnabled } from "./workspace";
@@ -63,7 +64,7 @@ async function get<T>(path: string): Promise<T> {
 
 /** The briefs of a scope at request time: the situation brief and the series brief, each read live in the live mode. */
 export async function readBriefs(vehicle: string, market: string): Promise<{ situation: BriefRead | null; series: BriefRead | null }> {
-  await connection();
+  if (!STATIC_EXPORT) await connection();
   if (!(await liveEnabled())) {
     const found = analysesFor(vehicle, market);
     const fromStore = (item: AnalysisSummary | null): BriefRead | null => {
