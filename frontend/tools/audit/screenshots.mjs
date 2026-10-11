@@ -8,7 +8,8 @@
  * rows, with a market row, without verbatims, at 1920 px), and the stage
  * bar with stage 2 (the inbox, all candidates with a row opened, the
  * filtered table, the left-out findings, a scope without a requirement
- * set, 1920 px), stage 3 and the bridges, stage 4 and the method sheet,
+ * set, 1920 px), stage 3 and the bridges, stage 4 (the evidence and effort
+ * chart scrolled into view) and the method sheet,
  * and stage 5 with gate G2 (one decision is made when the app runs in the
  * live mode and TRACEPOINT_SHOTS_DECIDE=1 is set here, since the app goes
  * live whenever the backend answers, D-106). Run against a built app
@@ -158,8 +159,11 @@ await shoot("28-dialog-us-g60-seats-requirements-1440", desktop, async (page) =>
 }, { path: "/markets/us/g60" });
 await shoot("29-vehicle-us-g60-bridges-1440", desktop, async () => {}, { path: "/markets/us/g60" });
 
-// Step 16: stage 4, the matrix and the packages, the package builder with an estimate, the method sheet.
-await shoot("30-priorities-us-g60-1440", desktop, async () => {}, { path: "/markets/us/g60/priorities" });
+// Step 16: stage 4, customer evidence and effort per requirement and the packages, the package builder with an estimate, the method sheet.
+await shoot("30-priorities-us-g60-1440", desktop, async (page) => {
+  await page.getByRole("heading", { name: "Customer evidence and effort per requirement" }).evaluate((el) => window.scrollTo(0, el.getBoundingClientRect().top + window.scrollY - 24));
+  await page.waitForTimeout(200);
+}, { path: "/markets/us/g60/priorities" });
 await shoot("31-priorities-us-g60-builder-1440", desktop, async (page) => {
   // The builder asks the engine in the live mode only (step 19); otherwise its heading says so.
   const builder = (await page.locator("#builder").count()) > 0 ? page.locator("#builder") : page.getByRole("heading", { name: "Package builder" });

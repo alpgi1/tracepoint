@@ -2,11 +2,11 @@ import { describe, expect, it } from "vitest";
 import { cpmCatalogue, cpmView } from "@/lib/content/cpm";
 import { effortContent } from "@/lib/data/effort";
 import { workspaceScopes, workspaceSnapshot } from "@/lib/data/workspace";
-import { axisMax, byEvidence, chosenIds, h1Note, matrixPoints, packageRows, presetIds } from "./priorities";
+import { axisMax, byEvidence, chosenIds, effortAxis, h1Note, horizonGroups, logPosition, matrixPoints, packageRows, presetIds, rowsAxis } from "./priorities";
 
 /*
- * Stage 4 on the G60 US snapshot: the matrix points, their order, the
- * axes, the H1 sentence, the package rows and the builder's chosen set;
+ * Stage 4 on the G60 US snapshot: the chart's points, their order and
+ * groups, the two scales, the H1 sentence, the package rows and the builder's chosen set;
  * and the effort model file against the CPM catalogue and the snapshots.
  */
 const snapshot = workspaceSnapshot("G60", "US");
@@ -34,6 +34,42 @@ describe("matrix points", () => {
     expect(axisMax(56.9, 10)).toBe(60);
     expect(axisMax(98, 25)).toBe(100);
     expect(axisMax(0, 25)).toBe(25);
+  });
+
+  it("group the rows by horizon, H1 first, each in the table twin's order", () => {
+    if (!snapshot) throw new Error("no snapshot");
+    const groups = horizonGroups(matrixPoints(snapshot));
+    expect(groups.map((g) => [g.horizon, g.points.length])).toEqual([
+      ["H1", 18],
+      ["H2", 2],
+    ]);
+    expect(groups[0].points[0].id).toBe("REQ-G60-US-GE-01");
+    expect(groups[1].points.map((p) => p.id)).toEqual(["REQ-G60-US-PR-03", "REQ-G60-US-DD-03"]);
+  });
+
+  it("scale the complaint rows from 0 in clean steps", () => {
+    if (!snapshot) throw new Error("no snapshot");
+    expect(rowsAxis(matrixPoints(snapshot))).toEqual({ max: 100, ticks: [0, 25, 50, 75, 100] });
+    const f70 = workspaceSnapshot("F70", "EU");
+    if (!f70) throw new Error("no snapshot");
+    expect(rowsAxis(matrixPoints(f70))).toEqual({ max: 200, ticks: [0, 50, 100, 150, 200] });
+  });
+
+  it("scale the effort logarithmically from under the smallest P5 to a whole new vehicle generation", () => {
+    if (!snapshot) throw new Error("no snapshot");
+    const axis = effortAxis(matrixPoints(snapshot));
+    expect(axis).toEqual({ min: 0.05, max: 100, ticks: [0.1, 1, 10, 100] });
+    expect(logPosition(axis, 0.05)).toBe(0);
+    expect(logPosition(axis, 100)).toBe(1);
+    expect(logPosition(axis, 0.01)).toBe(0);
+    expect(logPosition(axis, 1)).toBeCloseTo(0.394, 3);
+    // Equal ratios take equal widths: 0.2 % to 2 % is as wide as 4.9 % to 49 %.
+    expect(logPosition(axis, 2) - logPosition(axis, 0.2)).toBeCloseTo(logPosition(axis, 49) - logPosition(axis, 4.9), 9);
+    for (const p of matrixPoints(snapshot)) {
+      if (p.effort?.kind !== "change") continue;
+      expect(logPosition(axis, p.effort.p5)).toBeGreaterThan(0);
+      expect(logPosition(axis, p.effort.p95)).toBeLessThan(1);
+    }
   });
 });
 
