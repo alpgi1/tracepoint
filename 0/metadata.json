@@ -1,0 +1,64 @@
+{
+  "cli_version": "0.11.4",
+  "checkpoint_id": "01M4MN26ZZMM54487REKXXEWK6",
+  "session_id": "32f52436-73ed-4441-80ff-9151f5128bf1",
+  "strategy": "manual-commit",
+  "created_at": "2026-10-11T04:55:46.488248046Z",
+  "branch": "claude/backend-classification-agent-requirements",
+  "checkpoints_count": 1,
+  "files_touched": [
+    "backend/tests/test_series.py",
+    "backend/tracepoint/agent/analysis.py",
+    "backend/tracepoint/agent/series.py",
+    "plan/decisions.md",
+    "reports/analysis/F70_GB.md",
+    "reports/analysis/G60_regions.md",
+    "reports/step-18-series-analysis-and-brief.md"
+  ],
+  "agent": "Claude Code",
+  "model": "claude-opus-5-5",
+  "turn_id": "2ba5f7e78999",
+  "checkpoint_transcript_start": 2632,
+  "transcript_lines_at_start": 2632,
+  "compact_transcript_start": 398,
+  "token_usage": {
+    "input_tokens": 18,
+    "cache_creation_tokens": 28638,
+    "cache_read_tokens": 6854350,
+    "output_tokens": 21775,
+    "api_call_count": 9
+  },
+  "session_metrics": {
+    "turn_count": 26
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-10-11T04:55:46.238400536Z",
+    "agent_lines": 0,
+    "agent_removed": 5,
+    "human_added": 0,
+    "human_modified": 0,
+    "human_removed": 76,
+    "total_committed": 11,
+    "total_lines_changed": 81,
+    "agent_percentage": 6.172839506172839,
+    "metric_version": 2
+  },
+  "prompt_attributions": [
+    {
+      "checkpoint_number": 1,
+      "user_lines_added": 278,
+      "user_lines_removed": 76,
+      "agent_lines_added": 0,
+      "agent_lines_removed": 0,
+      "user_added_per_file": {
+        "backend/tests/test_series.py": 131,
+        "backend/tracepoint/agent/analysis.py": 119,
+        "backend/tracepoint/agent/series.py": 28
+      },
+      "user_removed_per_file": {
+        "backend/tracepoint/agent/analysis.py": 53,
+        "backend/tracepoint/agent/series.py": 23
+      }
+    }
+  ]
+}

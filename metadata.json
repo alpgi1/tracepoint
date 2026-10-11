@@ -1,0 +1,32 @@
+{
+  "cli_version": "0.11.4",
+  "checkpoint_id": "01M4MN26ZZMM54487REKXXEWK6",
+  "strategy": "manual-commit",
+  "branch": "claude/backend-classification-agent-requirements",
+  "checkpoints_count": 1,
+  "files_touched": [
+    "backend/tests/test_series.py",
+    "backend/tracepoint/agent/analysis.py",
+    "backend/tracepoint/agent/series.py",
+    "plan/decisions.md",
+    "reports/analysis/F70_GB.md",
+    "reports/analysis/G60_regions.md",
+    "reports/step-18-series-analysis-and-brief.md"
+  ],
+  "sessions": [
+    {
+      "metadata": "/0/metadata.json",
+      "transcript": "/0/full.jsonl",
+      "compact_transcript": "/0/transcript.jsonl",
+      "content_hash": "/0/content_hash.txt",
+      "prompt": "/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 18,
+    "cache_creation_tokens": 28638,
+    "cache_read_tokens": 6854350,
+    "output_tokens": 21775,
+    "api_call_count": 9
+  }
+}

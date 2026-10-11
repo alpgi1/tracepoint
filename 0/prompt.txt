@@ -1,0 +1,7 @@
+<task-notification>
+<summary>Commit security review found 3 issues: llm-output-injection / markdown injection in backend/tracepoint/agent/series.py; output injection (markdown/HTML) in rendered report in backend/tracepoint/agent/analysis.py; +1 more</summary>
+</task-notification>
+
+---
+
+hocam KR var ama sanki bizim kendi internal verilerimizde KR hiç yok ya, var mı? ben mi kaçırdım? KR ve JP'yi çıkartalım
