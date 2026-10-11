@@ -225,6 +225,40 @@ markets' buttons. Nothing was installed from 21st.dev; every candidate was eithe
 object (globe, popup, grid) or a method we wrote with the tokens, which is the rule the sister
 projects set (section 2, rule 10).
 
+### 6.2 Survey for the subsystem dialog (step 13, 2026-10-11)
+
+The team asked for the vehicle screen's list to follow the CPM engine and for a click to open a
+popup covering most of the screen with three blocks (what customers like, what they criticise,
+the market and competition analysis), with 21st.dev components where they fit. Search through
+the 21st.dev API (29 queries: full screen and modal dialog, sheet, drawer, overlay and detail
+panel, pros and cons, comparison and feature and competitor tables, ranked, data, bar, progress
+and weighted lists, review, quote and feedback lists, breakdown, stacked bar, split view, three
+columns, tabs, segmented control, dependency graph, propagation, impact analysis, effort
+estimate), 214 unique demos, 24 previews reviewed on two contact sheets. What was found and what
+was taken:
+
+| Component | What it is | Verdict |
+|---|---|---|
+| Dialog 55 (shadcn, scrollable with native scrollbar), Dialog 364 (Origin UI, scrollable with sticky header) | A dimmed backdrop, a title row that stays while the body scrolls | **Method taken**: sticky header with the title and the close control, native scrolling body. Written on the native `dialog` element with the tokens; the library dialog adds a focus trap and a portal the browser already provides |
+| Dialog 376 (card details), Origin UI feedback, checkout and sign-up dialogs | Form dialogs | Not applicable |
+| Drawer 4484, 11441 (coss) and shadcn Drawer | Side and bottom sheets | Rejected: the brief asks for a popup over most of the screen, not a sheet |
+| Pros and Cons Block 18096 (contentbit) | Two tinted boxes, green with check marks and red with crosses | **Anatomy taken, surfaces rejected**: likes and criticisms side by side with one hairline between; the green and red fills and the per-row icons carry information by colour (forbidden list section 3) |
+| Comparison Section 26826, Comparison Table 26827 (mohammadshehadeh) | Two bordered columns with a hairline and a figure strip; a matrix with a highlighted column and a mono eyebrow | Method: two columns, hairline separation. The highlighted column, the serif heading and the eyebrow were not taken |
+| Table 95 (Origin UI, comparison), Table 89 (dense) | Hairline tables: features by products with check and cross cells; a dense data table | **Method taken** for the market block: hairline rows, a small muted header row, text cells (no check or cross icons, our cells are statements and sources) |
+| Key Value List 25162 (corr) | A hairline definition list | **Method taken** for the facts block (weight, scope, rows, propagation) |
+| Partition Bar 26545 (8starlabs) | A two-segment bar with the figures as labels | **Method taken** for the customer rows: complaints against likes as a two-segment bar next to the figures |
+| Cost Meter 36488 (syeddhasnainn) | A budget readout with a segmented bar and a legend of name, figure and share | Candidate for step 15 (the effort verdict per change); not used now |
+| Category List 5151, List 1400 (haydenbleasel) | Title plus description rows with hairlines; grouped lists | Method: the theme rows (name, domain, figures line) |
+| Feature with advantages 1017 (tommyjepsen) | A feature grid with check icons | Rejected: the marketing feature grid |
+| Compare 1080 (manuarora) | An image slider comparison | Rejected: decorative |
+| Animated List 869 (Magic UI) | Notifications sliding in on a loop | Rejected: infinite loop |
+| Advanced Stats 19070, Bar Chart Stacked 10118, visx Bar Stack 2341 | Dashboard tiles, stacked charts (one in purple gradients) | Rejected or not needed: no chart in the dialog, the figures are text |
+| Tabs 422 (Origin UI), Floating Panel 1186 (cult-ui), Reasoning Effort 36560 | Underline tabs, a floating note, a select | Not needed: the three blocks are visible together, as the brief says |
+
+Nothing was installed (`package.json` is unchanged); every method was written with the tokens
+in `cpm-dialog.tsx` and `globals.css`. The native `dialog` element gives the top layer, Escape,
+the inert page and the return of focus, which is what the library dialogs add on top of a div.
+
 ---
 
 ## 7. Ideas beyond the brief

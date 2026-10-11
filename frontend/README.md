@@ -5,8 +5,9 @@ Next.js 16 (App Router), TypeScript, Tailwind CSS v4, shadcn project structure, 
 The first surface is the landing page: a dotted world map with three selectable markets (China,
 United States, European Union), each carrying its figures; a selected market shows the vehicles
 sold there as photos of the configured cars, and a vehicle opens its screen (`/markets/<market>/<vehicle>`),
-where the car is a technical sketch beside the domain figures. Desktop only. The PM workspace follows in Phase 6 of the
-master plan. Documentation lives in `docs/` (start with `docs/README.md`).
+where the car is a technical sketch beside the twelve CPM subsystems; a subsystem opens a dialog
+with what customers like and criticise there and the market evidence. Desktop only. The next
+screens follow `plan/07-frontend-plan.md`. Documentation lives in `docs/` (start with `docs/README.md`).
 
 ## Commands
 
@@ -17,9 +18,9 @@ master plan. Documentation lives in `docs/` (start with `docs/README.md`).
 | `pnpm build` and `pnpm start` | Production build and server on port 3400 |
 | `pnpm lint`, `pnpm typecheck`, `pnpm test` | ESLint, route typegen plus `tsc --noEmit`, vitest (market outlines, classification, projection fit, vehicle drawings and zones) |
 | `pnpm check` | All of the above plus the build; must pass before a step is committed |
-| `pnpm audit:pages` | Page audit in Chromium against a running server, on the landing page and the seven vehicle pages: landmarks, headings, accessible names, tap targets, keyboard tour, 375 px overflow, forbidden text, console errors (exit code 1 on findings) |
-| `pnpm shots` | Screenshots of the states (resting with callouts, hover, the three magnified markets with their panels, card hover, the photo on its way and fading on the vehicle screen, vehicle screens, keyboard focus, 1920 px, reduced motion) into `tools/audit/out/` |
-| `pnpm content` | Regenerates `content/markets.json` from `reports/baseline`, `docs/*.xlsx` and `config/` (Python 3 with openpyxl and PyYAML) |
+| `pnpm audit:pages` | Page audit in Chromium against a running server, on the landing page and the seven vehicle pages: landmarks, headings, accessible names, tap targets, keyboard tour, 375 px overflow, forbidden text (quoted verbatims excepted), console errors, and the open subsystem dialog (name, headings, tap targets, keyboard tour that never reaches the inert page, Escape and the return of focus); exit code 1 on findings |
+| `pnpm shots` | Screenshots of the states (resting with callouts, hover, the three magnified markets with their panels, card hover, the photo on its way and fading on the vehicle screen, vehicle screens, keyboard focus, 1920 px, reduced motion, the subsystem dialog in four states) into `tools/audit/out/` |
+| `pnpm content` | Regenerates `content/markets.json` and `content/cpm.json` from `reports/baseline`, `docs/*.xlsx` and `config/` (Python 3 with openpyxl and PyYAML); the CPM build stops if its counts differ from the baseline reports |
 | `pnpm vehicles` | Regenerates the vehicle drawings (body, lines and contour masks under `public/vehicles/`, `content/vehicles/*.json`) from `assets/vehicles/sources` |
 | `pnpm photos` | Regenerates the photo cut-outs of the configured cars (`public/vehicles/*-photo-side.webp`, `content/vehicles/*-photo.json`) from `assets/vehicles/photos` |
 
@@ -37,17 +38,17 @@ assets/vehicles/photos/         side-profile renders of the configured cars from
 components/
   landing/      map stage with callouts and connectors, market panel, vehicle cards (photo, hand-over)
   vehicles/     vehicle-drawing (layered sketch: wash, lines, contour), handoff-layer (the photo across the route change)
-  workspace/    vehicle-workspace (sketch, hand-over target, domain list, themes)
+  workspace/    vehicle-workspace (sketch, hand-over target), cpm-list (the twelve subsystems), cpm-dialog (likes, criticisms, market evidence)
   ui/           dotted-world-map (canvas map), shadcn components
-content/        markets.json (figures with sources), vehicles/*.json (drawing and photo sizes and boxes), generated and committed
+content/        markets.json (figures with sources), cpm.json (subsystems, per vehicle and market the themes, verbatims and market rows), vehicles/*.json (drawing and photo sizes and boxes), generated and committed
 lib/
-  content/      types, loaders, number formats
+  content/      types, loaders, number formats; cpm-types.ts is the contract of the backend's CPM endpoints
   map/          regions, data (topology to outlines), renderer (mask, dots, zoom, focus, highlight)
   vehicles/     drawings and photos, shared stage geometry and hand-over targets, the hand-over store, zones (unused)
   motion/       reduced-motion hook
   site.ts       metadata and copy, one place
 public/vehicles/  the drawings' masks and the photo cut-outs, generated and committed
-scripts/        sync-map-data.mjs, build-content.py, vehicles/build.mjs, vehicles/photos.mjs
+scripts/        sync-map-data.mjs, build-content.py, build-cpm.py, vehicles/build.mjs, vehicles/photos.mjs
 tools/audit/    page-audit.mjs, screenshots.mjs
 docs/           research notes, forbidden list, specifications, screenshots, raw research
 ```

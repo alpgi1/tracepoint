@@ -15,7 +15,7 @@
     "audit:pages": "node tools/audit/page-audit.mjs http://localhost:3400 / /markets/eu/f70 /markets/eu/g60 /markets/eu/g70 /markets/us/g60 /markets/us/g70 /markets/cn/g68 /markets/cn/g70",
     "shots": "node tools/audit/screenshots.mjs http://localhost:3400",
     "vehicles": "node scripts/vehicles/build.mjs",
-    "content": "python3 scripts/build-content.py",
+    "content": "python3 scripts/build-content.py && python3 scripts/build-cpm.py",
     "photos": "node scripts/vehicles/photos.mjs"
   },
   "dependencies": {
