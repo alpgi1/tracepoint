@@ -1,5 +1,7 @@
 # generated data, caches, secrets
 data/
+# the frontend's data layer is source, not generated data
+!frontend/lib/data/
 *.db
 .env
 backend/.env
