@@ -4,7 +4,6 @@ import { Suspense } from "react";
 import { RequirementPage } from "@/components/workspace/requirement-page";
 import { StagePending } from "@/components/workspace/source-line";
 import { cpmCatalogue, cpmView } from "@/lib/content/cpm";
-import type { CpmView } from "@/lib/content/cpm-types";
 import { marketByCode, vehicleIn } from "@/lib/content/markets";
 import type { MarketContent, VehicleContent } from "@/lib/content/types";
 import { readWorkspace, workspaceScopes, workspaceSnapshot } from "@/lib/data/workspace";
@@ -44,7 +43,7 @@ export default async function RequirementRoute({ params, searchParams }: Props) 
   if (!m || !v || !snapshot || !view || !record) notFound();
   return (
     <Suspense fallback={<StagePending />}>
-      <RequirementBody market={m} vehicle={v} view={view} id={record.requirement.id} searchParams={searchParams} />
+      <RequirementBody market={m} vehicle={v} id={record.requirement.id} searchParams={searchParams} />
     </Suspense>
   );
 }
@@ -52,12 +51,11 @@ export default async function RequirementRoute({ params, searchParams }: Props) 
 interface BodyProps {
   market: MarketContent;
   vehicle: VehicleContent;
-  view: CpmView;
   id: string;
   searchParams: Props["searchParams"];
 }
 
-async function RequirementBody({ market: m, vehicle: v, view, id, searchParams }: BodyProps) {
+async function RequirementBody({ market: m, vehicle: v, id, searchParams }: BodyProps) {
   const [read, query] = await Promise.all([readWorkspace(v.code, m.code, { detailOf: id }), searchParams]);
   const record = read ? requirementBySlug(read.snapshot, id) : undefined;
   if (!read || !record) notFound();
@@ -69,7 +67,6 @@ async function RequirementBody({ market: m, vehicle: v, view, id, searchParams }
       read={read}
       record={record}
       catalogue={cpmCatalogue()}
-      view={view}
       figures={stageFigures(v, m.code, read.snapshot)}
       pathname={requirementHref(m.code, v.code, id)}
       notice={{ decision: one("decision"), reason: one("reason") }}

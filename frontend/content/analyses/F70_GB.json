@@ -19,7 +19,7 @@
  },
  "headline": "F70 GB: the car wins on how it drives, but the touch-first cockpit is the main product problem.",
  "summary": "In GB feedback, the F70’s strongest asset is still the core BMW experience: customers repeatedly praise driving dynamics, performance, comfort on long trips, fuel economy and exterior design. But the biggest product issue is concentrated in the digital cockpit: touch-only operation, complex infotainment behaviour, unstable software and poor guidance together dominate complaints. This is not one isolated theme; it clusters heavily in Software/HMI, which carries 587 complaints versus 187 likes in the subsystem view. The next priority is to protect the strong driving package while reducing friction in the cockpit and fixing perceived de-contenting and seat issues. Existing EU requirements already cover the main actions, mostly in H1.",
- "coverage": "This analysis uses the GB verbatim scope for customer voice (1,293 verbatims in the pack; sampled drill-down on the largest complaint and strength themes), plus EU-market findings, study metrics, equipment, sales, requirements, effort estimates and subsystem mapping. Evidence is strong for the main digital themes because they have high row counts in GB and matching EU findings; weaker for market context because only one weak EU powertrain row is stored. Country scope narrows verbatims only; metrics, findings, sales and requirements are EU-market level.",
+ "coverage": "This analysis uses the GB customer comments for customer voice (1,293 customer comments in the pack; sampled drill-down on the largest complaint and strength themes), plus EU-market findings, study metrics, equipment, sales, requirements, effort estimates and subsystem mapping. Evidence is strong for the main digital themes because they have high row counts in GB and matching EU findings; weaker for market context because only one weak EU powertrain row is stored. Country scope narrows customer comments only; metrics, findings, sales and requirements are EU-market level.",
  "proposalGroups": [
   {
    "group": "now",
@@ -47,7 +47,7 @@
    "group": "now",
    "title": "Reduce touch dependence with physical climate controls and a rotary/haptic controller path.",
    "proposal": "Consider prioritising the existing EU requirement to restore non-touch control for frequent driving tasks: physical controls for temperature, fan and heating functions, plus a rotary or equivalent haptic controller for map zoom, lists and shortcuts.",
-   "why": "This is the single clearest customer pain point, with strong GB verbatims and the largest EU complaint finding. It also addresses several adjacent themes at once: touch-screen distraction, controller-operation requests, climate-on-screen frustration and some navigation usability complaints. The stored effort estimate is an H1 adaptation, but still one of the larger H1 items; effort is assumption-based and should be used only to package timing, not to question the need.",
+   "why": "This is the single clearest customer pain point, with strong GB customer comments and the largest EU complaint finding. It also addresses several adjacent themes at once: touch-screen distraction, controller-operation requests, climate-on-screen frustration and some navigation usability complaints. The stored effort estimate is an H1 adaptation, but still one of the larger H1 items; effort is assumption-based and should be used only to package timing, not to question the need.",
    "horizon": "H1",
    "horizonLabel": "Now (H1)",
    "requirement": "REQ-F70-EU-ID-01",
@@ -116,7 +116,7 @@
      {
       "kind": "verbatim",
       "count": 5,
-      "label": "customer verbatims"
+      "label": "customer comments"
      },
      {
       "kind": "requirement",
@@ -155,7 +155,7 @@
      {
       "ref": "verbatim:F70-0012",
       "kind": "verbatim",
-      "label": "Customer verbatim F70-0012",
+      "label": "Customer comment F70-0012",
       "text": "the car drives nicely, is comfy, engine feels strong and the steering is quite light, but getting used to all the touchscreen tech is a nightmare. the previous idrive setup was almost perfect and should have been left alone. for example, getting the preset radio stations back onto the display is almost impossible, and being forced to use a touchscreen while driving is a dangerous distraction. there is no proper written owners manual, just loads of videos, which is disappointing as even a simple booklet would have helped. not being able to choose run flat tyres is a step backwards, and with no spare tyre that could be dangerous.",
       "meta": "GB, ICE, Source A",
       "url": null,
@@ -164,7 +164,7 @@
      {
       "ref": "verbatim:F70-0112",
       "kind": "verbatim",
-      "label": "Customer verbatim F70-0112",
+      "label": "Customer comment F70-0112",
       "text": "i really like this car and would easily recommend it, it is a pleasure to drive. only thing is i want proper heating a/c buttons instead of all on the screen, and a dial for the screen too.",
       "meta": "GB, ICE, Source A",
       "url": null,
@@ -173,7 +173,7 @@
      {
       "ref": "verbatim:F70-0134",
       "kind": "verbatim",
-      "label": "Customer verbatim F70-0134",
+      "label": "Customer comment F70-0134",
       "text": "i find the 7 speed dct gets slightly jerky at low speeds and when the car is cold. the climate controls on the display are annoying, my daughters older 1 series with real buttons was better. the passenger belt taps on the hard plastic when it is not being worn.",
       "meta": "GB, ICE, Source A",
       "url": null,
@@ -182,7 +182,7 @@
      {
       "ref": "verbatim:F70-0141",
       "kind": "verbatim",
-      "label": "Customer verbatim F70-0141",
+      "label": "Customer comment F70-0141",
       "text": "it's a good car, but the way the map magnification is controlled on-screen is extremely dangerous and very distracting, and could easily cause accidents just like using mobile phones. the old setup with a central control knob meant the driver could alter map zoom without taking attention off the road, whereas this new finger-on-screen method does exactly the opposite. i do have a simple workaround that would only need software changes, not a full redesign of the car: the knurled volume wheel could be used for both volume and map zoom, switching between them with a double click on the wheel. i cannot emphasise enough how strongly i feel about this; with this stupid system it is only a matter of time before someone gets killed.",
       "meta": "GB, ICE, Source A",
       "url": null,
@@ -191,7 +191,7 @@
      {
       "ref": "verbatim:F70-0162",
       "kind": "verbatim",
-      "label": "Customer verbatim F70-0162",
+      "label": "Customer comment F70-0162",
       "text": "idrive 9 is awful. feels bloated, with loads of stuff nobody needs. trying to use it while actually driving feels unsafe. i really don't want to have a conversation with the car just to adjust the fan. the home screen can't be changed to anything useful. if this system stays like this, i won't buy another bmw. the car itself is very good, but id9 completely kills the fun of driving it.",
       "meta": "GB, ICE, Source A",
       "url": null,
@@ -266,7 +266,7 @@
      {
       "kind": "verbatim",
       "count": 3,
-      "label": "customer verbatims"
+      "label": "customer comments"
      },
      {
       "kind": "metric",
@@ -292,7 +292,7 @@
      {
       "ref": "verbatim:F70-0027",
       "kind": "verbatim",
-      "label": "Customer verbatim F70-0027",
+      "label": "Customer comment F70-0027",
       "text": "the car drives very well and has some lovely features, however i've had problems with both display modules going totally blank several times, always when the outside temperature is under zero degrees. the vehicle is currently with the local dealer for checks and repair.",
       "meta": "GB, ICE, Source A",
       "url": null,
@@ -301,7 +301,7 @@
      {
       "ref": "verbatim:F70-0047",
       "kind": "verbatim",
-      "label": "Customer verbatim F70-0047",
+      "label": "Customer comment F70-0047",
       "text": "the driving feel is good, but the software is terrible, the car acts like it has its own mind and starts doing things for no clear reason. very inconsistent behavior. i absolutely hate it!!",
       "meta": "GB, ICE, Source A",
       "url": null,
@@ -310,7 +310,7 @@
      {
       "ref": "verbatim:F70-0161",
       "kind": "verbatim",
-      "label": "Customer verbatim F70-0161",
+      "label": "Customer comment F70-0161",
       "text": "the car is enjoyable to drive and uses less petrol than i expected. on the downside it is overcomplicated, with far too much reliance on the display screen where proper physical buttons would be safer and more practical. there are two temperature sliders that stay permanently synced, which makes one of them pointless and irritating. there is also a software issue where the recommended tyre pressures keep changing, apparently because the tyre information is not stored correctly. the car was delivered without an owner's handbook; after getting one later, i find it very poor, with no clear way to see which parts apply to my specific car. it wastes space on general 'principle' sections instead of clearly explaining how features operate and how to control them. finally, the door mirrors stick out too far and add unnecessary width, they could definitely be smaller.",
       "meta": "GB, ICE, Source A",
       "url": null,
@@ -384,7 +384,7 @@
      {
       "kind": "verbatim",
       "count": 2,
-      "label": "customer verbatims"
+      "label": "customer comments"
      },
      {
       "kind": "requirement",
@@ -405,7 +405,7 @@
      {
       "ref": "verbatim:F70-0012",
       "kind": "verbatim",
-      "label": "Customer verbatim F70-0012",
+      "label": "Customer comment F70-0012",
       "text": "the car drives nicely, is comfy, engine feels strong and the steering is quite light, but getting used to all the touchscreen tech is a nightmare. the previous idrive setup was almost perfect and should have been left alone. for example, getting the preset radio stations back onto the display is almost impossible, and being forced to use a touchscreen while driving is a dangerous distraction. there is no proper written owners manual, just loads of videos, which is disappointing as even a simple booklet would have helped. not being able to choose run flat tyres is a step backwards, and with no spare tyre that could be dangerous.",
       "meta": "GB, ICE, Source A",
       "url": null,
@@ -414,7 +414,7 @@
      {
       "ref": "verbatim:F70-0103",
       "kind": "verbatim",
-      "label": "Customer verbatim F70-0103",
+      "label": "Customer comment F70-0103",
       "text": "i like my new car, but i would much rather have a paper manual. having it in an app on my phone or ipad or on the car screen is ok, yet its just easier to check an index and a page number in a book.",
       "meta": "GB, ICE, Source A",
       "url": null,
@@ -510,7 +510,7 @@
      {
       "kind": "verbatim",
       "count": 3,
-      "label": "customer verbatims"
+      "label": "customer comments"
      },
      {
       "kind": "metric",
@@ -545,7 +545,7 @@
      {
       "ref": "verbatim:F70-0010",
       "kind": "verbatim",
-      "label": "Customer verbatim F70-0010",
+      "label": "Customer comment F70-0010",
       "text": "its a really good car, definitely feels like an upgrade over my old f40 118i m sport. engine is strong and the mild hybrid gives a nice extra shove and helps with efficiency. it corners and rides very well and im getting better fuel economy than with the f40. some of the cabin materials feel a bit flimsier than before, not a big deal but i did notice. the new cabin layout looks great and all the digital stuff behaves properly. a few oddities though: the keyless entry/exit reacts way too easily, and sometimes the car systems seem to randomly reset, so auto hold ends up switched off in the menu even though i had it on. the speed warning feature is just irritating, even if i can switch it off each trip here in the uk.",
       "meta": "GB, ICE, Source A",
       "url": null,
@@ -554,7 +554,7 @@
      {
       "ref": "verbatim:F70-0134",
       "kind": "verbatim",
-      "label": "Customer verbatim F70-0134",
+      "label": "Customer comment F70-0134",
       "text": "i find the 7 speed dct gets slightly jerky at low speeds and when the car is cold. the climate controls on the display are annoying, my daughters older 1 series with real buttons was better. the passenger belt taps on the hard plastic when it is not being worn.",
       "meta": "GB, ICE, Source A",
       "url": null,
@@ -563,7 +563,7 @@
      {
       "ref": "verbatim:F70-0159",
       "kind": "verbatim",
-      "label": "Customer verbatim F70-0159",
+      "label": "Customer comment F70-0159",
       "text": "steering and handling are excellent. interior feels upmarket and the seats are very comfortable. economy is very strong yet performance is still good. there is, however, a notable delay on the throttle. the satnav is not as clear or informative as the one in the x2. the speedometer and rev counter are almost useless, hard to read because of the colours and graduated markings, even though the digital speed readout itself is easy to see. far too many settings overall and the menus are awkward to find your way through.",
       "meta": "GB, ICE, Source A",
       "url": null,
@@ -668,7 +668,7 @@
      {
       "kind": "verbatim",
       "count": 3,
-      "label": "customer verbatims"
+      "label": "customer comments"
      },
      {
       "kind": "metric",
@@ -694,7 +694,7 @@
      {
       "ref": "verbatim:F70-0030",
       "kind": "verbatim",
-      "label": "Customer verbatim F70-0030",
+      "label": "Customer comment F70-0030",
       "text": "really nice to drive, feels secure with loads of grip on the road. seats are comfy and supportive, shame there isnt any lumbar support. infotainment is decent but ive hit a few issues. tivo keeps saying no connection and asking to retry, started happening after my annual subscription kicked in.",
       "meta": "GB, ICE, Source A",
       "url": null,
@@ -703,7 +703,7 @@
      {
       "ref": "verbatim:F70-0055",
       "kind": "verbatim",
-      "label": "Customer verbatim F70-0055",
+      "label": "Customer comment F70-0055",
       "text": "service has been fine and the car itself is good. the only issue is the creasing on the front alcantara seats, both driver and passenger, they really dont look up to the level of the seats in my earlier bmw cars. i am already in touch with the dealer about this problem and hoping that, if it turns out to be a design fault, it will get sorted out.",
       "meta": "GB, ICE, Source A",
       "url": null,
@@ -712,7 +712,7 @@
      {
       "ref": "verbatim:F70-0152",
       "kind": "verbatim",
-      "label": "Customer verbatim F70-0152",
+      "label": "Customer comment F70-0152",
       "text": "if this is the new 120m then the purchase has been an unmitigated disaster. far too complicated, seats uncomfortable, no solid feel. luckily our previous car had not yet been resold so we were able to buy it back. the local dealer did the best deal they could but we still took a considerable loss. this new range is the worst we have experienced. not bmw's finest hour. ([EMAIL])",
       "meta": "GB, ICE, Source A",
       "url": null,
@@ -786,7 +786,7 @@
      {
       "kind": "verbatim",
       "count": 2,
-      "label": "customer verbatims"
+      "label": "customer comments"
      },
      {
       "kind": "metric",
@@ -812,7 +812,7 @@
      {
       "ref": "verbatim:F70-0072",
       "kind": "verbatim",
-      "label": "Customer verbatim F70-0072",
+      "label": "Customer comment F70-0072",
       "text": "I had a 118i m sport before and the 120 m sport has had all the useful bits stripped out and is not a sport model at all! this is our 6th bmw and easily the worst car we've ever had. 1. no 12v socket in the boot, a ridiculous penny pinching move. 2. no phone charging points in the back. 3. no climate controls in the rear. 4. no fog lights. 5. no leather seats. 6. no visible exhaust, sport model?? 7. basic 18\" alloys (19\" were standard on the 118i), sport model?? 8. thin, cheap carpets with poor grip and no m sport trim. every one of these came standard on the 118i m sport and the 120 m sport is marketed as its direct replacement! the 120 m sport is about £7/8k more, plus paying again for all the things removed, making it a pricey car and the worst thing ever to come out of a bmw showroom. total rubbish!",
       "meta": "GB, ICE, Source A",
       "url": null,
@@ -821,7 +821,7 @@
      {
       "ref": "verbatim:F70-0052",
       "kind": "verbatim",
-      "label": "Customer verbatim F70-0052",
+      "label": "Customer comment F70-0052",
       "text": "this is my fourth brand new bmw. this version is quite a departure from my old 118i m sport and has lost a number of refinements that used to come as standard, which is a let-down. even so, i'd still score it 10 because of the solid bmw enginering.",
       "meta": "GB, ICE, Source A",
       "url": null,
@@ -879,7 +879,7 @@
      {
       "kind": "verbatim",
       "count": 2,
-      "label": "customer verbatims"
+      "label": "customer comments"
      },
      {
       "kind": "metric",
@@ -896,7 +896,7 @@
      {
       "ref": "verbatim:F70-0028",
       "kind": "verbatim",
-      "label": "Customer verbatim F70-0028",
+      "label": "Customer comment F70-0028",
       "text": "this is my 4th bmw 1 series and easily the best to drive. the mild hybrid setup is excellent, same with the automatic gearbox. i have already done around a 1000 mile round trip to france in great comfort and with superb fuel economy.",
       "meta": "GB, ICE, Source A",
       "url": null,
@@ -905,7 +905,7 @@
      {
       "ref": "verbatim:F70-0025",
       "kind": "verbatim",
-      "label": "Customer verbatim F70-0025",
+      "label": "Customer comment F70-0025",
       "text": "the car is fantastic to drive. it's my first automatic and it's incredibly easy to use. i'm very happy with it.",
       "meta": "GB, ICE, Source A",
       "url": null,
@@ -1069,7 +1069,7 @@
        {
         "kind": "verbatim",
         "count": 4,
-        "label": "customer verbatims"
+        "label": "customer comments"
        }
       ],
       "items": [
@@ -1103,7 +1103,7 @@
        {
         "ref": "verbatim:F70-0012",
         "kind": "verbatim",
-        "label": "Customer verbatim F70-0012",
+        "label": "Customer comment F70-0012",
         "text": "the car drives nicely, is comfy, engine feels strong and the steering is quite light, but getting used to all the touchscreen tech is a nightmare. the previous idrive setup was almost perfect and should have been left alone. for example, getting the preset radio stations back onto the display is almost impossible, and being forced to use a touchscreen while driving is a dangerous distraction. there is no proper written owners manual, just loads of videos, which is disappointing as even a simple booklet would have helped. not being able to choose run flat tyres is a step backwards, and with no spare tyre that could be dangerous.",
         "meta": "GB, ICE, Source A",
         "url": null,
@@ -1112,7 +1112,7 @@
        {
         "ref": "verbatim:F70-0112",
         "kind": "verbatim",
-        "label": "Customer verbatim F70-0112",
+        "label": "Customer comment F70-0112",
         "text": "i really like this car and would easily recommend it, it is a pleasure to drive. only thing is i want proper heating a/c buttons instead of all on the screen, and a dial for the screen too.",
         "meta": "GB, ICE, Source A",
         "url": null,
@@ -1121,7 +1121,7 @@
        {
         "ref": "verbatim:F70-0134",
         "kind": "verbatim",
-        "label": "Customer verbatim F70-0134",
+        "label": "Customer comment F70-0134",
         "text": "i find the 7 speed dct gets slightly jerky at low speeds and when the car is cold. the climate controls on the display are annoying, my daughters older 1 series with real buttons was better. the passenger belt taps on the hard plastic when it is not being worn.",
         "meta": "GB, ICE, Source A",
         "url": null,
@@ -1130,7 +1130,7 @@
        {
         "ref": "verbatim:F70-0162",
         "kind": "verbatim",
-        "label": "Customer verbatim F70-0162",
+        "label": "Customer comment F70-0162",
         "text": "idrive 9 is awful. feels bloated, with loads of stuff nobody needs. trying to use it while actually driving feels unsafe. i really don't want to have a conversation with the car just to adjust the fan. the home screen can't be changed to anything useful. if this system stays like this, i won't buy another bmw. the car itself is very good, but id9 completely kills the fun of driving it.",
         "meta": "GB, ICE, Source A",
         "url": null,
@@ -1185,7 +1185,7 @@
        {
         "kind": "verbatim",
         "count": 4,
-        "label": "customer verbatims"
+        "label": "customer comments"
        },
        {
         "kind": "metric",
@@ -1206,7 +1206,7 @@
        {
         "ref": "verbatim:F70-0027",
         "kind": "verbatim",
-        "label": "Customer verbatim F70-0027",
+        "label": "Customer comment F70-0027",
         "text": "the car drives very well and has some lovely features, however i've had problems with both display modules going totally blank several times, always when the outside temperature is under zero degrees. the vehicle is currently with the local dealer for checks and repair.",
         "meta": "GB, ICE, Source A",
         "url": null,
@@ -1215,7 +1215,7 @@
        {
         "ref": "verbatim:F70-0047",
         "kind": "verbatim",
-        "label": "Customer verbatim F70-0047",
+        "label": "Customer comment F70-0047",
         "text": "the driving feel is good, but the software is terrible, the car acts like it has its own mind and starts doing things for no clear reason. very inconsistent behavior. i absolutely hate it!!",
         "meta": "GB, ICE, Source A",
         "url": null,
@@ -1224,7 +1224,7 @@
        {
         "ref": "verbatim:F70-0069",
         "kind": "verbatim",
-        "label": "Customer verbatim F70-0069",
+        "label": "Customer comment F70-0069",
         "text": "car itself is really excellent, just let down by the new tech system being way too complicated.",
         "meta": "GB, ICE, Source A",
         "url": null,
@@ -1233,7 +1233,7 @@
        {
         "ref": "verbatim:F70-0161",
         "kind": "verbatim",
-        "label": "Customer verbatim F70-0161",
+        "label": "Customer comment F70-0161",
         "text": "the car is enjoyable to drive and uses less petrol than i expected. on the downside it is overcomplicated, with far too much reliance on the display screen where proper physical buttons would be safer and more practical. there are two temperature sliders that stay permanently synced, which makes one of them pointless and irritating. there is also a software issue where the recommended tyre pressures keep changing, apparently because the tyre information is not stored correctly. the car was delivered without an owner's handbook; after getting one later, i find it very poor, with no clear way to see which parts apply to my specific car. it wastes space on general 'principle' sections instead of clearly explaining how features operate and how to control them. finally, the door mirrors stick out too far and add unnecessary width, they could definitely be smaller.",
         "meta": "GB, ICE, Source A",
         "url": null,
@@ -1307,7 +1307,7 @@
        {
         "kind": "verbatim",
         "count": 4,
-        "label": "customer verbatims"
+        "label": "customer comments"
        },
        {
         "kind": "metric",
@@ -1337,7 +1337,7 @@
        {
         "ref": "verbatim:F70-0010",
         "kind": "verbatim",
-        "label": "Customer verbatim F70-0010",
+        "label": "Customer comment F70-0010",
         "text": "its a really good car, definitely feels like an upgrade over my old f40 118i m sport. engine is strong and the mild hybrid gives a nice extra shove and helps with efficiency. it corners and rides very well and im getting better fuel economy than with the f40. some of the cabin materials feel a bit flimsier than before, not a big deal but i did notice. the new cabin layout looks great and all the digital stuff behaves properly. a few oddities though: the keyless entry/exit reacts way too easily, and sometimes the car systems seem to randomly reset, so auto hold ends up switched off in the menu even though i had it on. the speed warning feature is just irritating, even if i can switch it off each trip here in the uk.",
         "meta": "GB, ICE, Source A",
         "url": null,
@@ -1346,7 +1346,7 @@
        {
         "ref": "verbatim:F70-0028",
         "kind": "verbatim",
-        "label": "Customer verbatim F70-0028",
+        "label": "Customer comment F70-0028",
         "text": "this is my 4th bmw 1 series and easily the best to drive. the mild hybrid setup is excellent, same with the automatic gearbox. i have already done around a 1000 mile round trip to france in great comfort and with superb fuel economy.",
         "meta": "GB, ICE, Source A",
         "url": null,
@@ -1355,7 +1355,7 @@
        {
         "ref": "verbatim:F70-0134",
         "kind": "verbatim",
-        "label": "Customer verbatim F70-0134",
+        "label": "Customer comment F70-0134",
         "text": "i find the 7 speed dct gets slightly jerky at low speeds and when the car is cold. the climate controls on the display are annoying, my daughters older 1 series with real buttons was better. the passenger belt taps on the hard plastic when it is not being worn.",
         "meta": "GB, ICE, Source A",
         "url": null,
@@ -1364,7 +1364,7 @@
        {
         "ref": "verbatim:F70-0159",
         "kind": "verbatim",
-        "label": "Customer verbatim F70-0159",
+        "label": "Customer comment F70-0159",
         "text": "steering and handling are excellent. interior feels upmarket and the seats are very comfortable. economy is very strong yet performance is still good. there is, however, a notable delay on the throttle. the satnav is not as clear or informative as the one in the x2. the speedometer and rev counter are almost useless, hard to read because of the colours and graduated markings, even though the digital speed readout itself is easy to see. far too many settings overall and the menus are awkward to find your way through.",
         "meta": "GB, ICE, Source A",
         "url": null,
@@ -1437,7 +1437,7 @@
        {
         "kind": "verbatim",
         "count": 3,
-        "label": "customer verbatims"
+        "label": "customer comments"
        },
        {
         "kind": "metric",
@@ -1458,7 +1458,7 @@
        {
         "ref": "verbatim:F70-0030",
         "kind": "verbatim",
-        "label": "Customer verbatim F70-0030",
+        "label": "Customer comment F70-0030",
         "text": "really nice to drive, feels secure with loads of grip on the road. seats are comfy and supportive, shame there isnt any lumbar support. infotainment is decent but ive hit a few issues. tivo keeps saying no connection and asking to retry, started happening after my annual subscription kicked in.",
         "meta": "GB, ICE, Source A",
         "url": null,
@@ -1467,7 +1467,7 @@
        {
         "ref": "verbatim:F70-0055",
         "kind": "verbatim",
-        "label": "Customer verbatim F70-0055",
+        "label": "Customer comment F70-0055",
         "text": "service has been fine and the car itself is good. the only issue is the creasing on the front alcantara seats, both driver and passenger, they really dont look up to the level of the seats in my earlier bmw cars. i am already in touch with the dealer about this problem and hoping that, if it turns out to be a design fault, it will get sorted out.",
         "meta": "GB, ICE, Source A",
         "url": null,
@@ -1476,7 +1476,7 @@
        {
         "ref": "verbatim:F70-0152",
         "kind": "verbatim",
-        "label": "Customer verbatim F70-0152",
+        "label": "Customer comment F70-0152",
         "text": "if this is the new 120m then the purchase has been an unmitigated disaster. far too complicated, seats uncomfortable, no solid feel. luckily our previous car had not yet been resold so we were able to buy it back. the local dealer did the best deal they could but we still took a considerable loss. this new range is the worst we have experienced. not bmw's finest hour. ([EMAIL])",
         "meta": "GB, ICE, Source A",
         "url": null,
@@ -1531,7 +1531,7 @@
        {
         "kind": "verbatim",
         "count": 2,
-        "label": "customer verbatims"
+        "label": "customer comments"
        }
       ],
       "items": [
@@ -1547,7 +1547,7 @@
        {
         "ref": "verbatim:F70-0012",
         "kind": "verbatim",
-        "label": "Customer verbatim F70-0012",
+        "label": "Customer comment F70-0012",
         "text": "the car drives nicely, is comfy, engine feels strong and the steering is quite light, but getting used to all the touchscreen tech is a nightmare. the previous idrive setup was almost perfect and should have been left alone. for example, getting the preset radio stations back onto the display is almost impossible, and being forced to use a touchscreen while driving is a dangerous distraction. there is no proper written owners manual, just loads of videos, which is disappointing as even a simple booklet would have helped. not being able to choose run flat tyres is a step backwards, and with no spare tyre that could be dangerous.",
         "meta": "GB, ICE, Source A",
         "url": null,
@@ -1556,7 +1556,7 @@
        {
         "ref": "verbatim:F70-0103",
         "kind": "verbatim",
-        "label": "Customer verbatim F70-0103",
+        "label": "Customer comment F70-0103",
         "text": "i like my new car, but i would much rather have a paper manual. having it in an app on my phone or ipad or on the car screen is ok, yet its just easier to check an index and a page number in a book.",
         "meta": "GB, ICE, Source A",
         "url": null,
@@ -1632,7 +1632,7 @@
        {
         "kind": "verbatim",
         "count": 3,
-        "label": "customer verbatims"
+        "label": "customer comments"
        },
        {
         "kind": "metric",
@@ -1653,7 +1653,7 @@
        {
         "ref": "verbatim:F70-0072",
         "kind": "verbatim",
-        "label": "Customer verbatim F70-0072",
+        "label": "Customer comment F70-0072",
         "text": "I had a 118i m sport before and the 120 m sport has had all the useful bits stripped out and is not a sport model at all! this is our 6th bmw and easily the worst car we've ever had. 1. no 12v socket in the boot, a ridiculous penny pinching move. 2. no phone charging points in the back. 3. no climate controls in the rear. 4. no fog lights. 5. no leather seats. 6. no visible exhaust, sport model?? 7. basic 18\" alloys (19\" were standard on the 118i), sport model?? 8. thin, cheap carpets with poor grip and no m sport trim. every one of these came standard on the 118i m sport and the 120 m sport is marketed as its direct replacement! the 120 m sport is about £7/8k more, plus paying again for all the things removed, making it a pricey car and the worst thing ever to come out of a bmw showroom. total rubbish!",
         "meta": "GB, ICE, Source A",
         "url": null,
@@ -1662,7 +1662,7 @@
        {
         "ref": "verbatim:F70-0052",
         "kind": "verbatim",
-        "label": "Customer verbatim F70-0052",
+        "label": "Customer comment F70-0052",
         "text": "this is my fourth brand new bmw. this version is quite a departure from my old 118i m sport and has lost a number of refinements that used to come as standard, which is a let-down. even so, i'd still score it 10 because of the solid bmw enginering.",
         "meta": "GB, ICE, Source A",
         "url": null,
@@ -1671,7 +1671,7 @@
        {
         "ref": "verbatim:F70-1911",
         "kind": "verbatim",
-        "label": "Customer verbatim F70-1911",
+        "label": "Customer comment F70-1911",
         "text": "the car feels very basic. i do not think it is right to have to pay a subscription for the inboard services.",
         "meta": "GB, ICE, Source A",
         "url": null,
@@ -1778,7 +1778,7 @@
        {
         "kind": "verbatim",
         "count": 3,
-        "label": "customer verbatims"
+        "label": "customer comments"
        },
        {
         "kind": "metric",
@@ -1800,7 +1800,7 @@
        {
         "ref": "verbatim:F70-0028",
         "kind": "verbatim",
-        "label": "Customer verbatim F70-0028",
+        "label": "Customer comment F70-0028",
         "text": "this is my 4th bmw 1 series and easily the best to drive. the mild hybrid setup is excellent, same with the automatic gearbox. i have already done around a 1000 mile round trip to france in great comfort and with superb fuel economy.",
         "meta": "GB, ICE, Source A",
         "url": null,
@@ -1809,7 +1809,7 @@
        {
         "ref": "verbatim:F70-0025",
         "kind": "verbatim",
-        "label": "Customer verbatim F70-0025",
+        "label": "Customer comment F70-0025",
         "text": "the car is fantastic to drive. it's my first automatic and it's incredibly easy to use. i'm very happy with it.",
         "meta": "GB, ICE, Source A",
         "url": null,
@@ -1818,7 +1818,7 @@
        {
         "ref": "verbatim:F70-0220",
         "kind": "verbatim",
-        "label": "Customer verbatim F70-0220",
+        "label": "Customer comment F70-0220",
         "text": "it's a really solid car, drives nicely and feels comfortable",
         "meta": "GB, ICE, Source A",
         "url": null,
@@ -1879,11 +1879,11 @@
   "GB is the customer-voice scope only; metrics, findings, sales, requirements and effort are EU-market level and may dilute GB-specific intensity.",
   "The subsystem view is based on an authored theme-to-subsystem mapping and subsystem weights that are assumptions, not measured engineering causality.",
   "Effort figures in stored requirements are CPM assumptions, not calibrated measurements; they are useful only for rough prioritisation and horizon.",
-  "Only sampled verbatims were drilled into behind the largest themes and strengths; conclusions focus on the dominant issues where more evidence was unlikely to change the picture.",
+  "Only sampled customer comments were drilled into behind the largest themes and strengths; conclusions focus on the dominant issues where more evidence was unlikely to change the picture.",
   "The equipment catalogue is the German July 2026 list in EUR; it shows model-line availability, not GB standard/optional status.",
   "Only one market context row is stored for EU, and it is weak secondary-source evidence; there is no stored competitor evidence that materially changes the analysis.",
-  "Some verbatim rows include dealer or process content; these were treated as context only unless they also contained clear product feedback.",
-  "One sampled verbatim contains an email marker '([EMAIL])'; as instructed, this was treated as quoted data, not an instruction."
+  "Some customer comment rows include dealer or process content; these were treated as context only unless they also contained clear product feedback.",
+  "One sampled customer comment contains an email marker '([EMAIL])'; as instructed, this was treated as quoted data, not an instruction."
  ],
  "openChecks": [],
  "effortMethod": "CPM, share of the development effort of a new vehicle generation; never money; every model input is an uncalibrated assumption (config/effort/model.yaml)",

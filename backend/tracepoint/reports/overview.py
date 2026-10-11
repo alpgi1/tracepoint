@@ -206,7 +206,7 @@ def build_overview(session: Session) -> dict[str, Any]:
                 },
                 "verbatims": {
                     "count": sum(e["verbatims"] for e in entries),
-                    "source": "verbatims of the vehicles sold in the market",
+                    "source": "customer comments on the vehicles sold in the market",
                 },
                 "weakestDomain": _weakest_domain(market_rows, domains),
                 "weakestDomainSource": "Highest complaint share among domains with at least "

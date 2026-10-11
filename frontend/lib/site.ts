@@ -19,8 +19,8 @@ export const site = {
   },
   readout: {
     units: "units",
-    verbatims: "verbatims",
-    noVerbatims: "no verbatims",
+    verbatims: "customer comments",
+    noVerbatims: "no customer comments",
     highestComplaintShare: "Highest complaint share",
     lowestStudyScore: "Lowest study score",
     of: "of",
@@ -36,7 +36,7 @@ export const site = {
   workspace: {
     back: "Map",
     stageLabel: "The vehicle as a technical sketch, side and top view",
-    noVerbatimsHeading: "No customer verbatims for this market",
+    noVerbatimsHeading: "No customer comments for this market",
     noVerbatimsBody: "The customer study and the market evidence are the evidence here.",
     studyHeading: "Lowest study scores",
     overall: "Overall",
@@ -132,7 +132,7 @@ export const site = {
     criteriaHint: "One row per market where expectations differ. Basis: evidence is a measured study value or a count; assumption is the agent's proposal for the product manager to set.",
     criteriaColumns: { market: "Market", metric: "Metric", target: "Target", method: "How measured", basis: "Basis" },
     evidenceHeading: "Evidence",
-    evidenceHint: "The findings this requirement rests on, by role, each with the evidence linked to it: customer verbatims as written, study attributes, catalogue items and counts. Open a finding for its rows.",
+    evidenceHint: "The findings this requirement rests on, by role, each with the evidence linked to it: customer comments as written, study attributes, catalogue items and counts. Open a finding for its rows.",
     roles: { primary: "primary", supporting: "supporting", context: "context" } as Record<string, string>,
     kinds: {
       recurring_complaint: "recurring complaint",
@@ -210,11 +210,8 @@ export const site = {
       ownImpact: "own impact",
       carryover: "carryover",
       terms: "catalogue terms",
-      footprintHeading: "Footprint over the subsystems",
-      footprintHint: "Each row: the subsystem's weight as the track, the share of its design the change touches as the fill (the propagated risk), the effort it adds in % of the vehicle, and the strongest path by which the change reaches it.",
       startsHere: "change starts here",
       via: "via",
-      notReached: "not reached",
       ofWeight: "of its",
       portfolioHeading: "Catalogue scan",
       portfolioHint: "The option-list catalogues searched for the change's terms: level 0 standard on this vehicle, 1 optional on this vehicle, 2 elsewhere in the portfolio, 3 nowhere.",
@@ -423,7 +420,7 @@ export const site = {
     source: "source",
     cited: "references cited",
     unknown: "not found in the evidence store",
-    quotesLeftOut: "quotes left out, not found in their verbatims",
+    quotesLeftOut: "quotes left out, not found in their customer comments",
   },
   /** The series analysis: one series across its regions (step 19, D-100). */
   regions: {
@@ -431,7 +428,7 @@ export const site = {
     hint: "The series analyst compared the regions where this series holds evidence and decided per topic what to change, for which regions, and when. These are proposals for the product manager, not decisions; the effort figures are the CPM engine's.",
     thisScope: "this workspace",
     regionsHeading: "The regions",
-    regionColumns: { region: "Region", vehicle: "Vehicle", verbatims: "Customer verbatims", sales2025: "Units 2025", sales2030: "Units 2030, plan", study: "Study" },
+    regionColumns: { region: "Region", vehicle: "Vehicle", verbatims: "Customer comments", sales2025: "Units 2025", sales2030: "Units 2030, plan", study: "Study" },
     noVerbatims: "none",
     decisionsHeading: "Decisions",
     topicColumns: { n: "#", topic: "Topic", for: "For", effort: "Effort", confidence: "Confidence" },
@@ -468,7 +465,7 @@ export const site = {
   /** The CPM subsystem list and the subsystem dialog (step 13, D-073 and D-074). */
   cpm: {
     heading: "Subsystems by development effort",
-    hint: "Weight is a subsystem's share of a new vehicle's development effort (Change Prediction Method, the effort engine's model; the team's assumption, not calibrated). The figures are the classified verbatim rows whose themes fall in the subsystem, or in a market without verbatims, the external market statements on it. Click a subsystem for what customers like and criticise there and the market evidence.",
+    hint: "Weight is a subsystem's share of a new vehicle's development effort (Change Prediction Method, the effort engine's model; the team's assumption, not calibrated). The figures are the classified customer comment rows whose themes fall in the subsystem, or in a market without customer comments, the external market statements on it. Click a subsystem for what customers like and criticise there and the market evidence.",
     listLabel: "Subsystems",
     weightOf: "of 100",
     complaints: "complaints",
