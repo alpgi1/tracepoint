@@ -49,8 +49,11 @@ the requirement files or the profiles change; the page's source line names its d
 model hash, and `pnpm snapshot` refreshes it against a running API (`cd backend && uv run uvicorn
 tracepoint.api.app:app --port 8000`).
 
-**The live mode (step 17, D-085).** With `TRACEPOINT_LIVE=1` on the Next.js server and the
-backend API answering at `TRACEPOINT_API_URL` (default `http://127.0.0.1:8000`), `readWorkspace`
+**The live mode (step 17, D-085; automatic since D-106).** `TRACEPOINT_LIVE` on the Next.js
+server is `1` (always live), `0` (the stored data only) or unset, the default: live whenever the
+backend API answers `GET /health` at `TRACEPOINT_API_URL` (default `http://127.0.0.1:8000`),
+asked by `liveEnabled()` at most once every 5 s with a 1.5 s timeout, so gate G2 works as soon as
+the backend runs and a page without it stays as fast as the stored data. In the live mode `readWorkspace`
 asks the API in parallel for the five lists that change (`GET /requirements`,
 `GET /effort/requirements`, `GET /effort/scenarios`, the scope events for the excluded candidates,
 `GET /events?entity_type=requirement&limit=5000` kept to the scope's id prefix and sorted by id),
@@ -249,8 +252,11 @@ new status, the version and the `requirement.decided` event live, and shows the 
 line with the rule in the one blue ("Decision recorded: deferred."). The backend sets the actor
 from its own configuration (D-014), writes the audit event with the rationale and appends the
 decision to `config/decisions/requirements.jsonl` (D-061); the frontend stores nothing. Outside
-the live mode the three controls are disabled and the sentence names the snapshot's date; a
-submission that reaches the action without the live mode comes back as `offline`.
+the live mode the three controls are disabled and the sentence names the snapshot's date: with
+`TRACEPOINT_LIVE=0` that this Tracepoint records no decisions, otherwise that the service that
+records them does not answer and the page should be reloaded once it runs (D-106). A submission
+that reaches the action with `TRACEPOINT_LIVE=0` comes back as `offline`; otherwise the action
+asks the API, and a backend that does not answer comes back as `failed` with its reason.
 
 **Stage 5, Documentation** (`app/markets/[market]/[vehicle]/log/page.tsx`,
 `lib/workspace/log.ts`). Three parts, nothing computed beyond joins:

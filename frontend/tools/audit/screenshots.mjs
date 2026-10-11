@@ -11,8 +11,9 @@
  * set, 1920 px), stage 3 and the bridges, stage 4 (the evidence and effort
  * chart scrolled into view) and the method sheet,
  * and stage 5 with gate G2 (one decision is made when the app runs in the
- * live mode). Run against a built app started in another shell
- * (`pnpm build && pnpm start`).
+ * live mode and TRACEPOINT_SHOTS_DECIDE=1 is set here, since the app goes
+ * live whenever the backend answers, D-106). Run against a built app
+ * started in another shell (`pnpm build && pnpm start`).
  *
  *   node tools/audit/screenshots.mjs http://localhost:3400 [outDir]
  *
@@ -176,8 +177,9 @@ await shoot("32-method-us-g60-1440", desktop, async (page) => {
 await shoot("33-priorities-eu-f70-1920", wide, async () => {}, { path: "/markets/eu/f70/priorities" });
 
 // Step 17: stage 5, the decision record and the audit trail; gate G2 on the requirement page.
-// In the live mode (TRACEPOINT_LIVE=1 on the app, the backend API up) the form is live and one
-// decision is made on REQ-G60-US-PR-03 for the record; otherwise the controls are disabled.
+// In the live mode (the backend API up, unless TRACEPOINT_LIVE=0 on the app) the form is live; one
+// decision is made on REQ-G60-US-PR-03 for the record only when TRACEPOINT_SHOTS_DECIDE=1 asks for
+// it, because the backend keeps every decision. Otherwise the controls are disabled.
 await shoot("34-log-us-g60-1440", desktop, async () => {}, { path: "/markets/us/g60/log" });
 await shoot("35-requirement-us-g60-pr-03-decision-1440", desktop, async (page) => {
   await page.locator("#decision").scrollIntoViewIfNeeded();
@@ -185,7 +187,7 @@ await shoot("35-requirement-us-g60-pr-03-decision-1440", desktop, async (page) =
 }, { path: "/markets/us/g60/requirements/req-g60-us-pr-03" });
 await shoot("36-requirement-us-g60-pr-03-decided-1440", desktop, async (page) => {
   const note = page.locator("textarea[name=note]");
-  if ((await note.count()) === 0) return;
+  if (process.env.TRACEPOINT_SHOTS_DECIDE !== "1" || (await note.count()) === 0) return;
   await note.fill("Test decision from the frontend audit of step 19, to be reverted.");
   await page.getByRole("button", { name: "Defer" }).click();
   await page.waitForURL(/decision=defer/, { timeout: 15000 });
