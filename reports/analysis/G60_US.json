@@ -1,301 +1,409 @@
 {
- "run_id": "RUN-20261011-013734-agent.analyze.G60.US-a50b",
+ "run_id": "RUN-20261011-014540-agent.analyze.G60.US-d43b",
  "vehicle": "G60",
  "market": "US",
  "country": null,
  "scope": "BMW 5 Series Sedan (G60), market US",
- "prompt_version": "situation-analysis-v3",
+ "prompt_version": "situation-analysis-v4",
  "context_pack": "context-pack-v2",
  "model": "gpt-5.4-2026-03-05",
  "analysis": {
-  "headline": "US G60 customers still buy into the 5 Series for its driving character, but the product experience is being dragged down by HMI complexity, seat comfort, everyday practicality gaps, and EV-use friction.",
-  "summary": "The strongest part of the US G60 is still the core BMW brief: handling, ride comfort, acceleration and overall driving performance are all strong in both verbatims and study scores. Customers repeatedly describe the car as smooth, sporty and luxurious. The main risk is that this strength is being diluted by too many daily-use irritants. The biggest product issues are not one single defect cluster but a set of high-frequency usability gaps: the operating concept is too menu-heavy, climate and common functions are harder to access than customers expect, seats are too firm or hard to adjust for many body types, storage and trunk convenience have regressed versus prior cars, and digital basics such as CarPlay, profiles and wireless charging do not feel robust enough. For BEV and PHEV users, electric range and charging confidence are also material pain points. First look should go to H1 actions that reduce friction in the current generation: simplify access to frequent functions, stabilize phone/profile behavior, improve seat comfort and adjustment, restore practical storage and convenience features, and improve EV guidance and charging experience. Protect the current ride/handling balance as a non-negotiable strength.",
-  "data_coverage": "Analysis rests on the US market context pack plus 3,628 verbatims for US market scope (3,610 US, 18 CA in the pack), market findings, US_2025 study metrics, equipment catalogue entries, sales volumes, existing requirements and CPM effort outputs. Evidence is strongest for operating concept, seats, storage, climate, trunk access, drivetrain and electric-range topics because these have level A or B findings with 20-98 complaint rows and supporting study metrics in several cases. Strength evidence is also strong for driving dynamics, with 210 likes for Handling / Riding, 349 likes for Drivetrain, and study means of 6.058 for Handling/Maneuverability, 6.039 for Overall driving performance, 6.03 for Riding comfort and 6.026 for Acceleration from stop.",
+  "headline": "US G60 customers still buy into the 5 Series for ride, handling, acceleration and design, but the biggest product friction is now usability: too much screen-led interaction, weak everyday practicality, seat comfort issues, and EV experience gaps around range confidence and charging.",
+  "summary": "The US G60 has a strong core product: handling/manoeuvrability scores 6.058, ride comfort 6.03 and acceleration from stop 6.026, all among the study strengths, and customers repeatedly praise the smooth, composed drive and exterior design. But the largest complaint load sits in infotainment and digital services, with 752 complaints versus 329 likes, and the weakest study attributes include heater/AC controls (4.804) and infotainment menu structure (4.879). The evidence points less to one broken feature than to a broader usability tax: customers struggle with buried functions, profile confusion, touchscreen dependence and missing direct controls. In parallel, practical regressions matter in the US market: seats are the strongest level-A complaint theme, storage and center-console usability are recurring pain points, rear-door comfort access has been missed versus prior 5 Series, and the hands-free trunk function is often unreliable. For electrified variants, customers like drivetrain performance overall, but BEV/PHEV owners still complain about electric range, inaccurate range confidence and public charging compatibility. First look should therefore be H1 actions that reduce daily friction without disturbing the car's praised driving character: direct-access HMI, climate-control usability, phone integration/profile stability, seat comfort tuning, and restoration of practical convenience features already expected by repeat 5 Series owners.",
+  "data_coverage": "Analysis rests on the US context pack plus drilled-down evidence from study metrics, sales, findings, requirements, effort scenarios, verbatims by theme, targeted evidence search and one BMW Group document passage. Customer voice coverage is strong: 3,628 verbatims in market scope (3,610 US, 18 CA), with 2,625 complaint rows behind the findings. The strongest complaint themes used here have substantial row counts: body equipment/overall technology 98 complaints, electric range 67, drivetrain 64, seats 62, public charging 55, operating concept 53, MSA 45, non-contact trunk opening 44. Strength evidence is also broad: drivetrain 349 likes, handling/riding 210 likes, exterior design 193 likes. Study support is available for key gaps and strengths, but study metrics are market-level comparisons against other BMW models only, not competitors.",
   "insights": [
    {
-    "title": "Driving dynamics remain the core strength to protect",
-    "kind": "strength",
-    "domain": "driving_dynamics",
-    "statement": "Driving experience is the clearest strength in the US. Handling / Riding has 210 likes, Drivetrain has 349 likes, and the study is strong on Handling/Maneuverability at 6.058, Overall driving performance at 6.039, Riding comfort at 6.03 and Acceleration from stop at 6.026. Complaint share in Driving Experience & Dynamics is relatively low at 30%, so the positive signal is broad, not marginal.",
-    "customer_quote": "excellent driving feel, really nice blend of sporty and luxury.",
-    "evidence_refs": [
-     "verbatim:G60-2465",
-     "verbatim:G60-3520",
-     "verbatim:G60-1787",
-     "FND-G60-US-VOC-drivetrain",
-     "metric:MET-US-US-G60-driving_performance",
-     "metric:MET-US-US-G60-acceleration_from_stop",
-     "sales:SAL-G60-US-2025",
-     "REQ-G60-US-DD-03"
-    ],
-    "confidence": "high"
-   },
-   {
-    "title": "The operating concept is a major usability drag, not just a learning curve issue",
+    "title": "Screen-led operating concept is the clearest day-to-day pain point",
     "kind": "recurring_complaint",
     "domain": "infotainment_digital",
-    "statement": "The operating concept is a level-A complaint with 53 complaint rows, 39 of them Difficult to Use, equal to 2.0% of all US complaint rows and 63% of all rows on that theme. This is reinforced by weak study scores for Menu structure of infotainment system at 4.879 and Operation of heater/ AC controls at 4.804. Customers repeatedly say common functions are buried in menus and that replacing physical controls with touch interaction takes attention off the road.",
-    "customer_quote": "the screen layout is not very intuitive for accessing some functions",
+    "statement": "Infotainment & Digital Services is the largest complaint domain with 752 complaints and a 70% complaint share of classified rows. Within it, 'Operating concept, operating system' has 53 complaints, 39 of them usability issues, equal to 2.0% of all US complaint rows. The study backs this up: infotainment menu structure scores 4.879 and heater/AC controls 4.804, both among the weakest US_2025 attributes. Verbatims show customers are not just unfamiliar at handover; they describe repeated friction from menu depth, touchscreen dependence and profile confusion while driving.",
+    "customer_quote": "\"the user interface should be more straightforward.\"",
     "evidence_refs": [
-     "verbatim:G60-0248",
-     "verbatim:G60-0397",
-     "verbatim:G60-0337",
      "FND-G60-US-VOC-operating_concept_operating_system",
      "metric:MET-US-US-G60-infotainment_menu_structure",
      "metric:MET-US-US-G60-climate_controls_usability",
-     "REQ-G60-US-ID-01"
+     "verbatim:G60-0337",
+     "verbatim:G60-0248",
+     "verbatim:G60-0397",
+     "verbatim:G60-0635"
     ],
     "confidence": "high"
    },
    {
-    "title": "Seats are one of the biggest product weaknesses and affect both comfort and ergonomics",
+    "title": "Climate control usability is weak, and customers want direct access plus persistent settings",
+    "kind": "metric_gap",
+    "domain": "infotainment_digital",
+    "statement": "Climate-control interaction is a specific usability gap, not just part of the general HMI complaint. 'Air conditioning, setting' contributes 24 complaints and is a level-A finding, while the study score for operation of heater/AC controls is only 4.804, with just 28.9% in the top two boxes and 15.0% in the bottom three. Existing requirement evidence also links this to blower, control-panel and climatization complaints, indicating customers want direct controls, stronger cooling behaviour and settings that stay as set.",
+    "customer_quote": "\"Customer stated that replacing physical buttons with more touch screens is a terrible trend, because it makes drivers take their eyes off the road.\"",
+    "evidence_refs": [
+     "FND-G60-US-VOC-air_conditioning_setting",
+     "metric:MET-US-US-G60-climate_controls_usability",
+     "REQ-G60-US-IC-02",
+     "verbatim:G60-0397"
+    ],
+    "confidence": "high"
+   },
+   {
+    "title": "Seat comfort is a major interior weakness, especially ergonomics and lower-back comfort",
     "kind": "recurring_complaint",
     "domain": "interior_comfort",
-    "statement": "Seats are the largest interior complaint theme with 62 complaint rows, 13 defects and 33 usability problems, representing 2.4% of all US complaint rows. The issue is not only trim preference: customers report lower-back pain, firmness, insufficient adjustment range and awkward controls. Study support is clear, with Driver seat adjustability at 5.603, overall seat comfort cited in the existing requirement evidence, and rear seat comfort also flagged there as weak.",
-    "customer_quote": "the driver seat is extremely uncomfortable, especially in the lower back area",
+    "statement": "Seats are the strongest level-A complaint finding in the US: 62 complaints from 115 rows, with 13 defects, 33 usability problems and 16 wishes. Customers describe firmness, lower-back pain, difficult adjustment and insufficient height/tilt range. This is not a niche issue: the stored requirement cites weak study support for front seat comfort at 5.74 and rear seat comfort at 5.27, and the complaint theme alone accounts for 2.4% of all US complaint rows.",
+    "customer_quote": "\"the driver seat is extremely uncomfortable, especially in the lower back area\"",
     "evidence_refs": [
+     "FND-G60-US-VOC-seats",
+     "REQ-G60-US-IC-01",
      "verbatim:G60-0051",
      "verbatim:G60-0320",
      "verbatim:G60-0291",
-     "verbatim:G60-0468",
-     "FND-G60-US-VOC-seats",
-     "metric:MET-US-US-G60-driver_seat_adjustability",
-     "REQ-G60-US-IC-01"
+     "verbatim:G60-0468"
     ],
     "confidence": "high"
    },
    {
-    "title": "Climate usability is weak and tied to the broader HMI problem",
-    "kind": "metric_gap",
-    "domain": "interior_comfort",
-    "statement": "Climate is a practical daily-use issue rather than a niche complaint. Air conditioning, setting has 24 complaint rows at level A, and the study shows weak scores for Operation of heater/ AC controls at 4.804, Overall performance of climate control system at 5.144 and Air conditioner performance at 5.188. Customers also connect this to hidden controls and settings that are not direct enough.",
-    "customer_quote": "Customer stated that replacing physical buttons with more touch screens is a terrible trend",
-    "evidence_refs": [
-     "verbatim:G60-0397",
-     "FND-G60-US-VOC-air_conditioning_setting",
-     "metric:MET-US-US-G60-climate_controls_usability",
-     "metric:MET-US-US-G60-climate_control",
-     "metric:MET-US-US-G60-air_conditioning_performance",
-     "REQ-G60-US-IC-02"
-    ],
-    "confidence": "high"
-   },
-   {
-    "title": "Everyday practicality has regressed in storage and trunk convenience",
+    "title": "Everyday practicality has regressed for repeat 5 Series owners",
     "kind": "unmet_need",
     "domain": "space_practicality",
-    "statement": "Space & Practicality has the highest complaint share of any major domain at 78%. Within it, Storage compartments is a level-A unmet need with 28 complaint rows and Center console, front adds 30 complaint rows. Customers miss seat-back pockets, a sunglasses holder and larger glovebox/console storage. The hands-free trunk is another recurring pain point with 44 complaint rows, 39 of them usability problems, and customers compare it unfavorably with prior BMWs.",
-    "customer_quote": "There just isnt enough storage, and there is no dedicated overhead spot to keep sunglasses",
+    "statement": "Space & Practicality has the highest complaint share of classified rows at 78%. The strongest practical unmet need is storage: 'Storage compartments' has 28 complaints and 97% complaint share within its theme, while 'Center console, front' adds 30 complaints. Customers repeatedly miss seat-back pockets, a sunglasses holder, larger glove-box space and more usable phone storage. Rear-door comfort access is another regression theme captured in the existing requirement set, with customers explicitly comparing the G60 unfavourably with earlier 5 Series generations.",
+    "customer_quote": "\"there just isnt enough storage, and there is no dedicated overhead spot to keep sunglasses\"",
     "evidence_refs": [
+     "FND-G60-US-VOC-storage_compartments",
+     "FND-G60-US-VOC-center_console_front",
+     "REQ-G60-US-SP-02",
+     "REQ-G60-US-SP-03",
      "verbatim:G60-0935",
      "verbatim:G60-2324",
      "verbatim:G60-3416",
-     "verbatim:G60-0835",
-     "verbatim:G60-1403",
-     "FND-G60-US-VOC-storage_compartments",
-     "FND-G60-US-VOC-center_console_front",
+     "verbatim:G60-1294",
+     "verbatim:G60-2608",
+     "verbatim:G60-3911"
+    ],
+    "confidence": "high"
+   },
+   {
+    "title": "Hands-free trunk opening is a frequent convenience failure",
+    "kind": "recurring_complaint",
+    "domain": "space_practicality",
+    "statement": "'non-contact trunk lid opening' has 44 complaints, 39 of them usability issues, and 96% complaint share within the theme. The verbatims are consistent: customers struggle to find the right motion or position, report low success rates, and some describe unintended opening. This is a concentrated issue rather than scattered noise.",
+    "customer_quote": "\"It rarely works on the first try and sometimes will not work at all even after several attempts.\"",
+    "evidence_refs": [
      "FND-G60-US-VOC-non_contact_trunk_lid_opening",
-     "REQ-G60-US-SP-02"
+     "verbatim:G60-0835",
+     "verbatim:G60-1384",
+     "verbatim:G60-1403",
+     "verbatim:G60-1560",
+     "verbatim:G60-0180"
     ],
     "confidence": "high"
    },
    {
-    "title": "Phone integration and charging feel below premium expectations",
-    "kind": "recurring_complaint",
-    "domain": "infotainment_digital",
-    "statement": "Digital basics are not robust enough. Wireless charging has 26 complaint rows, including 11 defects, and Apple CarPlay has 37 complaint rows. Customers report wrong-phone connection by profile, slow or inconsistent charging, awkward tray geometry and audio/connectivity issues. This is supported by the existing requirement and a weak study signal for phone charging cited there.",
-    "customer_quote": "At times the car links to the wrong phone for the user profile",
-    "evidence_refs": [
-     "verbatim:G60-3368",
-     "verbatim:G60-0117",
-     "verbatim:G60-1433",
-     "FND-G60-US-VOC-mobile_device_wireless_charging",
-     "FND-G60-US-VOC-apple_carplay",
-     "REQ-G60-US-ID-02"
-    ],
-    "confidence": "high"
-   },
-   {
-    "title": "EV customers want more range and more trustworthy range guidance",
+    "title": "Electrified powertrain performance is liked, but range confidence remains a real customer gap",
     "kind": "recurring_complaint",
     "domain": "powertrain_range_charging",
-    "statement": "Electric Range is a level-B recurring complaint with 67 complaint rows, 50 of them usability problems, and 64% of all rows on that theme are complaints. The issue is both absolute range and confidence in the estimate, especially in cold weather. Public charging / external providers adds 55 complaint rows, mostly BEV-related, showing that the ownership experience is constrained by charging compatibility and infrastructure as customers experience it.",
-    "customer_quote": "range estimates are off, the efficiency stats shown are basically made up",
+    "statement": "Powertrain, Range & Charging is mixed rather than weak overall: it has 454 likes and 395 complaints, and acceleration from stop is a study strength at 6.026. But BEV/PHEV customers still raise 67 complaints on electric range, with 50 usability issues and 17 wishes; 64% of all rows on that theme are complaints. Verbatims show two linked problems: some customers want more real-world range, and many do not trust the displayed estimate, especially in cold weather. This means the issue is partly hardware capability and partly guidance/prediction.",
+    "customer_quote": "\"range estimates are off, the efficiency stats shown are basically made up\"",
     "evidence_refs": [
-     "verbatim:G60-0051",
-     "verbatim:G60-0195",
-     "verbatim:G60-0398",
-     "verbatim:G60-1551",
      "FND-G60-US-VOC-electric_range",
-     "FND-G60-US-VOC-public_charging_external_providers",
+     "FND-G60-US-VOC-drivetrain",
+     "metric:MET-US-US-G60-acceleration_from_stop",
      "REQ-G60-US-PR-02",
-     "REQ-G60-US-PR-03"
+     "REQ-G60-US-PR-03",
+     "verbatim:G60-0051",
+     "verbatim:G60-0398",
+     "verbatim:G60-0650",
+     "verbatim:G60-0195"
     ],
     "confidence": "high"
    },
    {
-    "title": "Auto start-stop is a concentrated ICE irritation with a clear customer ask",
+    "title": "Public charging pain is mostly ecosystem friction, but it still shapes the product experience",
+    "kind": "context",
+    "domain": "powertrain_range_charging",
+    "statement": "'Public charging / external providers' contributes 55 complaints, 83% of theme rows, almost entirely from BEV owners. Customers mention charger availability, compatibility and adapter/access issues. Much of this sits outside the vehicle itself, but navigation guidance, compatibility information and charging UX inside the car can still reduce the pain customers attribute to the product.",
+    "customer_quote": "\"it is hard for her to locate a charging station that is compatible.\"",
+    "evidence_refs": [
+     "FND-G60-US-VOC-public_charging_external_providers",
+     "verbatim:G60-0500",
+     "verbatim:G60-0159"
+    ],
+    "confidence": "medium"
+   },
+   {
+    "title": "Auto start-stop is a persistent irritation for ICE owners and overlaps with comfort complaints",
     "kind": "recurring_complaint",
     "domain": "powertrain_range_charging",
-    "statement": "Automatic engine start-stop function (MSA) has 45 complaint rows, 32 of them usability problems and 11 wishes, and 96% of all rows on that theme are complaints. This is a focused issue rather than a diffuse one: customers explicitly ask for a persistent off option and some link the function to comfort loss when the air-conditioning cuts back.",
-    "customer_quote": "there is also no option to turn off the auto start/stop.",
+    "statement": "Automatic engine start-stop (MSA) has 45 complaints, 32 of them usability issues and 11 wishes, with 96% complaint share within the theme. Customers mainly want a persistent off setting and complain about comfort side effects such as HVAC interruption and restart smoothness. This is a focused ICE-only issue with a clear ask.",
+    "customer_quote": "\"I have to disable it every time I start the car.\"",
     "evidence_refs": [
-     "verbatim:G60-0081",
      "FND-G60-US-VOC-automatic_engine_start_stop_function_msa",
-     "REQ-G60-US-PR-01"
+     "REQ-G60-US-PR-01",
+     "verbatim:G60-0776",
+     "verbatim:G60-2663",
+     "verbatim:G60-1626",
+     "verbatim:G60-0059"
     ],
     "confidence": "high"
    },
    {
-    "title": "Technology richness is valued, but complexity is high enough to need onboarding support",
-    "kind": "context",
-    "domain": "quality_nvh",
-    "statement": "The broad 'overall technology' theme is mixed rather than simply negative: 98 complaints but also 201 likes. That means customers do value the feature set, yet many feel overwhelmed by it. Several verbatims describe the car as feature-rich but hard to master, suggesting that some pain can be reduced by better guided onboarding as well as by simplifying the HMI itself.",
-    "customer_quote": "the tech in this car feels like too much to learn.",
+    "title": "Keep the dynamic core: ride, handling and acceleration are the product's strongest assets",
+    "kind": "strength",
+    "domain": "driving_dynamics",
+    "statement": "The G60's strongest customer asset in the US is still how it drives. 'Handling / Riding' has 210 likes, and the study scores are excellent: handling/manoeuvrability 6.058, ride comfort 6.03 and acceleration from stop 6.026. Top-two-box shares are very high at 69.9%, 68.4% and 67.9% respectively. Customers describe the car as smooth, composed and confidence-inspiring. This strength should be protected while fixing usability and practicality issues.",
+    "customer_quote": "\"really hugs the road.\"",
     "evidence_refs": [
-     "verbatim:G60-0578",
-     "verbatim:G60-3863",
-     "verbatim:G60-1191",
-     "FND-G60-US-VOC-body_equipment_overall_technology",
-     "REQ-G60-US-GE-01"
+     "metric:MET-US-US-G60-handling_manoeuvrability",
+     "metric:MET-US-US-G60-ride_comfort",
+     "metric:MET-US-US-G60-acceleration_from_stop",
+     "REQ-G60-US-DD-03",
+     "verbatim:G60-0085",
+     "verbatim:G60-0030",
+     "verbatim:G60-0072"
+    ],
+    "confidence": "high"
+   },
+   {
+    "title": "Exterior design is a clear keep, reinforcing the sedan's appeal",
+    "kind": "strength",
+    "domain": "exterior_design",
+    "statement": "Exterior design is a broad strength with 193 likes. Customers repeatedly call the car beautiful, sporty and modern, and some explicitly say it keeps a classic 5 Series feel while updating it. This is not the top priority area for change; it is a value to preserve while addressing functional pain points.",
+    "customer_quote": "\"classic 5-series feel but updated and modern.\"",
+    "evidence_refs": [
+     "verbatim:G60-0065",
+     "verbatim:G60-0061",
+     "verbatim:G60-0045",
+     "verbatim:G60-0122"
     ],
     "confidence": "medium"
    }
   ],
   "recommendations": [
    {
-    "title": "Simplify access to frequent functions in the current generation",
-    "proposal": "Consider prioritising a current-generation HMI simplification package so the most-used functions are reachable in one touch or via direct controls where the panel allows it, with climate, seat heating, steering-wheel heating, drive mode, assistance on/off, map and phone first.",
+    "title": "Reduce HMI friction for the most-used driving functions",
+    "proposal": "Prioritise a one-touch shortcut layer and always-available access for the functions customers use while driving most often, especially climate, seat/steering-wheel heating, drive mode, assistance on/off, volume, map and phone. Where feasible in the current generation, add or repurpose direct controls rather than relying on deeper touchscreen paths.",
     "horizon": "H1",
-    "rationale": "This addresses one of the strongest and best-supported pain points: 53 operating-concept complaints, weak infotainment menu-structure and climate-control usability scores, and repeated customer requests for fewer menu layers and more direct access. Existing requirement coverage is already in place.",
+    "rationale": "This is the clearest cross-cutting pain point in the US evidence: 53 operating-concept complaints, weak study scores for infotainment menu structure and climate controls, and repeated verbatims about menu depth and eyes-off-road interaction. An existing requirement already covers this and is estimated by CPM as an H1 adapt change; that estimate is assumption-based and only a rough prioritisation factor.",
     "evidence_refs": [
      "FND-G60-US-VOC-operating_concept_operating_system",
-     "FND-G60-US-VOC-touch_screen_operation",
-     "FND-G60-US-VOC-instrument_cluster",
      "metric:MET-US-US-G60-infotainment_menu_structure",
      "metric:MET-US-US-G60-climate_controls_usability",
-     "REQ-G60-US-ID-01"
+     "REQ-G60-US-ID-01",
+     "verbatim:G60-0248",
+     "verbatim:G60-0397",
+     "verbatim:G60-0635"
     ],
     "related_requirement": "REQ-G60-US-ID-01",
+    "changes_vehicle": true,
     "effort_changes": null
    },
    {
-    "title": "Improve seat comfort and adjustment range for US use cases",
-    "proposal": "Consider an H1 seat package focused on softer long-distance comfort, flatter lumbar calibration, and adjustment ranges that better cover shorter drivers and visibility/HUD alignment needs.",
+    "title": "Fix climate-control usability and persistence as part of the same H1 usability push",
+    "proposal": "Consider an H1 package that keeps temperature and fan controls always visible, preserves recirculation/sync/seat-ventilation defaults per driver profile, and improves cooling behaviour from heat-soaked conditions for US use.",
     "horizon": "H1",
-    "rationale": "Seats are the largest interior complaint theme and the issue is functional, not cosmetic: pain, firmness and adjustment range recur across sources. The stored CPM estimate for the existing requirement is an adaptation-level effort only, but that estimate is model-based and uncalibrated, so it should be used only as a rough prioritisation factor.",
-    "evidence_refs": [
-     "FND-G60-US-VOC-seats",
-     "verbatim:G60-0051",
-     "verbatim:G60-0291",
-     "verbatim:G60-0468",
-     "REQ-G60-US-IC-01"
-    ],
-    "related_requirement": "REQ-G60-US-IC-01",
-    "effort_changes": null
-   },
-   {
-    "title": "Make climate control more direct and persistent",
-    "proposal": "Consider combining HMI and HVAC updates so climate temperature and fan are always visible or directly accessible, key settings persist by profile, and cabin cool-down performance is tuned for US heat-soak conditions.",
-    "horizon": "H1",
-    "rationale": "Climate complaints are frequent enough to matter daily and are backed by weak study scores. This is also one of the clearer places where HMI friction and functional performance meet. Existing requirement coverage is already defined.",
+    "rationale": "Climate is one of the weakest measured attributes and a distinct complaint cluster, not just a symptom of general HMI complexity. The stored requirement already defines the customer-facing need. Its CPM estimate is assumption-based and should be read only as rough effort guidance, not as measured fact.",
     "evidence_refs": [
      "FND-G60-US-VOC-air_conditioning_setting",
      "metric:MET-US-US-G60-climate_controls_usability",
-     "metric:MET-US-US-G60-climate_control",
-     "metric:MET-US-US-G60-air_conditioning_performance",
      "REQ-G60-US-IC-02"
     ],
     "related_requirement": "REQ-G60-US-IC-02",
+    "changes_vehicle": true,
     "effort_changes": null
    },
    {
-    "title": "Restore everyday storage and convenience features customers miss",
-    "proposal": "Consider an H1 practicality update that restores or adds the small-item storage features customers explicitly miss, especially seat-back pockets, a sunglasses holder and more usable covered console/glovebox storage.",
+    "title": "Tune seat comfort and adjustment range for US long-drive expectations",
+    "proposal": "Advance seat comfort improvements in H1, focusing on lower-back comfort, flatter lumbar adjustment, easier adjustment logic and better height/tilt accommodation across body sizes.",
     "horizon": "H1",
-    "rationale": "Space & Practicality has the highest complaint share, and the storage complaints are highly specific and repeated. This is a tangible way to improve daily satisfaction without changing the vehicle concept. Existing requirement coverage is already present.",
+    "rationale": "Seats are the strongest level-A complaint in the US and affect both comfort perception and daily usability. Customers describe pain, firmness and difficulty finding a workable position. The existing requirement already covers this. Its stored CPM estimate is assumption-based and should only help with horizon planning.",
+    "evidence_refs": [
+     "FND-G60-US-VOC-seats",
+     "REQ-G60-US-IC-01",
+     "verbatim:G60-0051",
+     "verbatim:G60-0320",
+     "verbatim:G60-0468"
+    ],
+    "related_requirement": "REQ-G60-US-IC-01",
+    "changes_vehicle": true,
+    "effort_changes": null
+   },
+   {
+    "title": "Restore practical convenience features that repeat owners expect",
+    "proposal": "Review an H1 practicality package for the US that restores or adds seat-back pockets, a sunglasses holder, more usable console/glove-box storage, and rear-door comfort access on all four doors where comfort access is fitted.",
+    "horizon": "H1",
+    "rationale": "The evidence shows a pattern of perceived feature regression versus prior 5 Series, especially in storage and rear-door access convenience. These are not isolated wishes; they recur across storage, center-console, lock/unlock and door findings. Existing requirements cover storage and four-door comfort access separately, so the product manager could bundle them as a practical-convenience package. Effort remains assumption-based and rough.",
     "evidence_refs": [
      "FND-G60-US-VOC-storage_compartments",
      "FND-G60-US-VOC-center_console_front",
+     "FND-G60-US-VOC-door_open_close",
+     "FND-G60-US-VOC-vehicle_lock_unlock",
+     "REQ-G60-US-SP-02",
+     "REQ-G60-US-SP-03",
      "verbatim:G60-0935",
-     "verbatim:G60-2324",
      "verbatim:G60-3416",
-     "REQ-G60-US-SP-02"
+     "verbatim:G60-1294",
+     "verbatim:G60-2608",
+     "verbatim:G60-3911"
     ],
-    "related_requirement": "REQ-G60-US-SP-02",
-    "effort_changes": null
+    "related_requirement": null,
+    "changes_vehicle": true,
+    "effort_changes": [
+     {
+      "subsystem": "interior_console",
+      "own_impact": 0.08,
+      "layer": "K1",
+      "carryover": false,
+      "why": "Add or restore small-item storage features and revise console/glove-box usability within existing interior architecture.",
+      "portfolio_terms": [
+       "storage compartment",
+       "glove box",
+       "center console"
+      ]
+     },
+     {
+      "subsystem": "body_structure",
+      "own_impact": 0.03,
+      "layer": "K1",
+      "carryover": false,
+      "why": "Add rear-door comfort-access sensing and related door-handle functionality on all four doors.",
+      "portfolio_terms": [
+       "Comfort Access",
+       "door handle",
+       "keyless entry"
+      ]
+     }
+    ]
    },
    {
-    "title": "Stabilise phone integration and wireless charging behavior",
-    "proposal": "Consider a digital-quality H1 package that binds CarPlay/phone connection more reliably to the active profile, aligns source loudness, and improves wireless charging tray usability and thermal robustness.",
+    "title": "Stabilise phone integration and driver-profile behaviour",
+    "proposal": "Prioritise H1 fixes for wrong-phone connection, profile switching confusion, CarPlay consistency and wireless charging usability/thermal performance so the active driver's phone and settings work predictably every time.",
     "horizon": "H1",
-    "rationale": "These are premium-basics failures: wrong phone pairing, slow or inconsistent charging and awkward tray use. Complaint counts are smaller than the HMI theme overall, but defect share is meaningful, especially for wireless charging. Existing requirement coverage is already defined.",
+    "rationale": "Customers experience the digital ecosystem as one joined-up problem: profile confusion, wrong phone pairing, inconsistent CarPlay behaviour and awkward or weak wireless charging. Existing requirements already cover phone integration and profile persistence. These are good candidates for a software-led H1 quality push.",
     "evidence_refs": [
-     "FND-G60-US-VOC-apple_carplay",
      "FND-G60-US-VOC-mobile_device_wireless_charging",
+     "FND-G60-US-VOC-connecteddrive_and_infotainment_overall_technolo",
+     "REQ-G60-US-ID-02",
+     "REQ-G60-US-ID-03",
+     "verbatim:G60-0081",
      "verbatim:G60-3368",
-     "verbatim:G60-0117",
      "verbatim:G60-1433",
-     "REQ-G60-US-ID-02"
+     "verbatim:G60-0359"
     ],
-    "related_requirement": "REQ-G60-US-ID-02",
-    "effort_changes": null
+    "related_requirement": null,
+    "changes_vehicle": true,
+    "effort_changes": [
+     {
+      "subsystem": "software_hmi",
+      "own_impact": 0.05,
+      "layer": "K1",
+      "carryover": false,
+      "why": "Improve profile binding, active-driver recognition and phone-selection logic across starts and shared use.",
+      "portfolio_terms": [
+       "Apple CarPlay",
+       "driver profile",
+       "Bluetooth"
+      ]
+     },
+     {
+      "subsystem": "interior_console",
+      "own_impact": 0.04,
+      "layer": "K1",
+      "carryover": false,
+      "why": "Improve wireless charging tray usability and phone fit within the existing console package.",
+      "portfolio_terms": [
+       "wireless charging",
+       "smartphone tray",
+       "center console"
+      ]
+     }
+    ]
    },
    {
-    "title": "Improve EV confidence now, and plan a larger range step for the successor",
-    "proposal": "Consider a two-step response for EV customers: in H1, improve range prediction, winter guidance and charging-route confidence; in H2, evaluate a materially larger real-world range step for the successor generation.",
+    "title": "Improve EV range confidence now, and plan real range gain for the successor",
+    "proposal": "In H1, improve range prediction, cold-weather guidance and charging compatibility information in the vehicle. In H2, consider a successor-generation battery/range step that materially improves real-world electric range.",
     "horizon": "H2",
-    "rationale": "Customers complain both about actual range and about trusting the estimate. The H1 software response is already captured in an existing requirement, while the larger range step is also already captured as an H2 requirement. The stored H2 effort estimate is very large and model-based, not measured, so it should guide horizon choice rather than invalidate the customer need.",
+    "rationale": "The evidence splits into two needs: customers need better information and confidence now, and some also want more actual range than the current vehicle delivers. Existing requirements already separate these horizons. The stored H2 effort estimate for more range is very large and assumption-based, so it should guide horizon choice rather than argue against the customer need.",
     "evidence_refs": [
      "FND-G60-US-VOC-electric_range",
      "FND-G60-US-VOC-public_charging_external_providers",
-     "verbatim:G60-0195",
-     "verbatim:G60-0398",
      "REQ-G60-US-PR-02",
-     "REQ-G60-US-PR-03"
+     "REQ-G60-US-PR-03",
+     "verbatim:G60-0398",
+     "verbatim:G60-0650",
+     "verbatim:G60-0195",
+     "verbatim:G60-0500"
     ],
-    "related_requirement": "REQ-G60-US-PR-03",
-    "effort_changes": null
+    "related_requirement": null,
+    "changes_vehicle": true,
+    "effort_changes": [
+     {
+      "subsystem": "software_hmi",
+      "own_impact": 0.04,
+      "layer": "K1",
+      "carryover": false,
+      "why": "Improve range estimation transparency, winter guidance and charger compatibility guidance in navigation.",
+      "portfolio_terms": [
+       "range prediction",
+       "navigation",
+       "charging station"
+      ]
+     },
+     {
+      "subsystem": "hv_battery",
+      "own_impact": 1.0,
+      "layer": "K3",
+      "carryover": false,
+      "why": "A material real-world range increase points to a successor-generation battery step rather than a current-generation adaptation.",
+      "portfolio_terms": [
+       "high-voltage battery",
+       "electric range",
+       "battery pack"
+      ]
+     }
+    ]
    },
    {
-    "title": "Offer a persistent driver-controlled off setting for auto start-stop",
-    "proposal": "Consider enabling a persistent off preference for MSA in driver profiles for ICE variants, with any necessary calibration checks handled in development.",
+    "title": "Offer a persistent MSA off preference for ICE customers if feasible within current constraints",
+    "proposal": "Assess an H1 driver-profile setting that allows auto start-stop to remain off between drives, while checking any open dependencies in the current vehicle programme.",
     "horizon": "H1",
-    "rationale": "This is a concentrated, explicit customer ask with little ambiguity. It is not the biggest volume issue overall, but it is highly actionable and likely visible in satisfaction quickly. Existing requirement coverage is already present.",
+    "rationale": "The customer ask is unusually clear and repetitive, and it overlaps with comfort complaints about HVAC interruption and restart smoothness. An existing requirement already covers it. Its effort estimate is assumption-based and includes open dependencies, so feasibility needs programme confirmation.",
     "evidence_refs": [
      "FND-G60-US-VOC-automatic_engine_start_stop_function_msa",
-     "verbatim:G60-0081",
-     "REQ-G60-US-PR-01"
+     "REQ-G60-US-PR-01",
+     "verbatim:G60-0059",
+     "verbatim:G60-0776",
+     "verbatim:G60-2663"
     ],
     "related_requirement": "REQ-G60-US-PR-01",
+    "changes_vehicle": true,
     "effort_changes": null
    },
    {
-    "title": "Protect the current ride and handling balance through future changes",
-    "proposal": "Consider treating the current ride/handling character as a protected attribute in all updates and especially in the successor brief.",
+    "title": "Protect the current ride and handling character while making fixes",
+    "proposal": "Keep the current chassis balance, ride composure and acceleration feel as non-negotiable reference attributes when packaging H1 changes and when defining the successor.",
     "horizon": "H2",
-    "rationale": "This is the strongest positive equity in the US evidence. Customers forgive some complexity because the car still feels like a BMW to drive; losing that would remove the main offset to the usability issues.",
+    "rationale": "The G60's dynamic character is the strongest part of the US product story and should not be diluted by usability or packaging changes. An existing preserve-type requirement already captures this.",
     "evidence_refs": [
-     "verbatim:G60-2465",
-     "verbatim:G60-3520",
-     "verbatim:G60-0874",
-     "metric:MET-US-US-G60-driving_performance",
+     "metric:MET-US-US-G60-handling_manoeuvrability",
+     "metric:MET-US-US-G60-ride_comfort",
      "metric:MET-US-US-G60-acceleration_from_stop",
-     "REQ-G60-US-DD-03"
+     "REQ-G60-US-DD-03",
+     "verbatim:G60-0085",
+     "verbatim:G60-0030"
     ],
     "related_requirement": "REQ-G60-US-DD-03",
+    "changes_vehicle": false,
     "effort_changes": null
    }
   ],
   "assumptions_and_gaps": [
-   "Country scope is market US, not US-only customer voice; the pack includes 18 Canadian verbatims among 3,628 total, though the effect is small at this scale.",
-   "Study metrics, sales and findings are market-level; they are not narrowed beyond US market scope.",
-   "The equipment catalogue is the German July 2026 price list, so it shows model-line availability rather than US standard/optional content. I therefore did not rely on it for US packaging conclusions except as portfolio context.",
-   "Sales notes say G60 volumes are reported on a combined G60/G68 sheet; for US this is still the provided evidence, but the note should be kept with any volume interpretation. The cited figures are 75,600 in 2024, 78,000 in 2025 and 80,000 plan in 2030.",
-   "Some verbatims, especially Source B call-centre notes, mix product feedback with process or coaching content. I used them only for the product signal, not as instructions.",
-   "The broad 'Body equipment, overall technology' theme is mixed, with many likes as well as complaints; this means not all complexity pain should be solved by removing features. Better onboarding may reduce part of the issue.",
-   "CPM effort outputs are assumptions from an uncalibrated model, not measured engineering effort. Where effort matters, it should be used only to choose horizon and packaging, not to judge whether the customer need is real.",
-   "I did not call search_documents because the user asked for a product situation analysis and the available market evidence already determined the priorities; BMW Group strategy passages would not materially change the product conclusions here."
+   "Country scope is market US, so verbatims are mostly US-specific, but study metrics, sales and findings are market-level by design.",
+   "Source B verbatims are call-centre notes written by agents and can mix product feedback with process content; they are useful for themes but less precise than direct customer wording.",
+   "The four verbatim sources are not weighted against each other.",
+   "The German July 2026 catalogue shows model-line availability, not US standard/optional content; any equipment inference for the US must be treated cautiously.",
+   "Sales evidence shows US volume of 75,600 in 2024, 78,000 in 2025 and 80,000 planned for 2030, but sales have no powertrain split, so complaint impact by BEV/ICE/PHEV cannot be normalised by fleet mix.",
+   "Effort figures from CPM are uncalibrated assumptions, not measured engineering effort or cost; they are suitable only as rough horizon/prioritisation guidance.",
+   "One retrieved BMW Group document passage was not materially useful for this product analysis beyond general context; no strategy claim was used in the conclusions.",
+   "Some top-strength and top-complaint examples in the context pack reuse quotes that are not representative of the theme polarity, so the analysis relied on drilled-down verbatims instead.",
+   "The hands-free charging/public-charging theme includes ecosystem issues outside the vehicle; recommendations therefore focus only on in-vehicle guidance and UX, not infrastructure provision.",
+   "A few verbatims contain text that addresses BMW or implies actions; these were treated strictly as customer evidence, not instructions."
   ]
  },
  "effort": {
@@ -304,7 +412,8 @@
   "recommendations": [
    {
     "source": "change profile of REQ-G60-US-ID-01",
-    "kind": "change",
+    "flags": [],
+    "status": "estimated",
     "effort_pct": 3.05,
     "p5": 1.47,
     "p95": 5.48,
@@ -315,128 +424,64 @@
     "certification": false,
     "subsystems": [
      {
-      "name": "Software/HMI",
-      "path": null,
-      "risk": 0.1812,
       "subsystem": "software_hmi",
-      "effort_pct": 1.81
+      "name": "Software/HMI",
+      "risk": 0.1812,
+      "effort_pct": 1.81,
+      "path": null
      },
      {
-      "name": "Interior/console",
-      "path": null,
-      "risk": 0.1,
       "subsystem": "interior_console",
-      "effort_pct": 0.7
+      "name": "Interior/console",
+      "risk": 0.1,
+      "effort_pct": 0.7,
+      "path": null
      },
      {
+      "subsystem": "ee_architecture",
       "name": "E/E architecture",
+      "risk": 0.0389,
+      "effort_pct": 0.35,
       "path": [
        "Interior/console",
        "E/E architecture"
-      ],
-      "risk": 0.0389,
-      "subsystem": "ee_architecture",
-      "effort_pct": 0.35
+      ]
      },
      {
+      "subsystem": "seats",
       "name": "Seats",
+      "risk": 0.02,
+      "effort_pct": 0.1,
       "path": [
        "Interior/console",
        "Seats"
-      ],
-      "risk": 0.02,
-      "subsystem": "seats",
-      "effort_pct": 0.1
+      ]
      }
     ],
     "portfolio": [],
     "changes": [
      {
-      "why": "Shortcut layer and widget placement for ten functions",
-      "layer": "K2",
-      "carryover": false,
       "subsystem": "software_hmi",
       "own_impact": 0.1,
+      "layer": "K2",
+      "carryover": false,
+      "why": "Shortcut layer and widget placement for ten functions",
       "portfolio_terms": []
      },
      {
-      "why": "Physical controls where the panel allows them",
-      "layer": "K2",
-      "carryover": false,
       "subsystem": "interior_console",
       "own_impact": 0.1,
-      "portfolio_terms": []
-     }
-    ],
-    "flags": []
-   },
-   {
-    "source": "change profile of REQ-G60-US-IC-01",
-    "kind": "change",
-    "effort_pct": 4.58,
-    "p5": 2.02,
-    "p95": 7.15,
-    "decision": "adapt",
-    "decision_stable_pct": 100.0,
-    "layer": "K1",
-    "size": "S",
-    "certification": false,
-    "subsystems": [
-     {
-      "name": "Software/HMI",
-      "path": [
-       "Seats",
-       "E/E architecture",
-       "Software/HMI"
-      ],
-      "risk": 0.2206,
-      "subsystem": "software_hmi",
-      "effort_pct": 2.21
-     },
-     {
-      "name": "Seats",
-      "path": null,
-      "risk": 0.25,
-      "subsystem": "seats",
-      "effort_pct": 1.25
-     },
-     {
-      "name": "E/E architecture",
-      "path": [
-       "Seats",
-       "E/E architecture"
-      ],
-      "risk": 0.0829,
-      "subsystem": "ee_architecture",
-      "effort_pct": 0.75
-     },
-     {
-      "name": "Thermal/HVAC",
-      "path": [
-       "Seats",
-       "Thermal/HVAC"
-      ],
-      "risk": 0.0625,
-      "subsystem": "thermal_hvac",
-      "effort_pct": 0.38
-     }
-    ],
-    "portfolio": [],
-    "changes": [
-     {
-      "why": "Front and rear cushion foam, contour and lumbar travel on the existing seat structure",
-      "layer": "K1",
+      "layer": "K2",
       "carryover": false,
-      "subsystem": "seats",
-      "own_impact": 0.25,
+      "why": "Physical controls where the panel allows them",
       "portfolio_terms": []
      }
-    ],
-    "flags": []
+    ]
    },
    {
     "source": "change profile of REQ-G60-US-IC-02",
-    "kind": "change",
+    "flags": [],
+    "status": "estimated",
     "effort_pct": 2.58,
     "p5": 1.25,
     "p95": 4.75,
@@ -447,438 +492,391 @@
     "certification": false,
     "subsystems": [
      {
+      "subsystem": "software_hmi",
       "name": "Software/HMI",
+      "risk": 0.114,
+      "effort_pct": 1.14,
       "path": [
        "Interior/console",
        "E/E architecture",
        "Software/HMI"
-      ],
-      "risk": 0.114,
-      "subsystem": "software_hmi",
-      "effort_pct": 1.14
+      ]
      },
      {
-      "name": "Thermal/HVAC",
-      "path": null,
-      "risk": 0.1064,
       "subsystem": "thermal_hvac",
-      "effort_pct": 0.64
+      "name": "Thermal/HVAC",
+      "risk": 0.1064,
+      "effort_pct": 0.64,
+      "path": null
      },
      {
+      "subsystem": "ee_architecture",
       "name": "E/E architecture",
+      "risk": 0.0445,
+      "effort_pct": 0.4,
       "path": [
        "Thermal/HVAC",
        "E/E architecture"
-      ],
-      "risk": 0.0445,
-      "subsystem": "ee_architecture",
-      "effort_pct": 0.4
+      ]
      },
      {
-      "name": "Interior/console",
-      "path": null,
-      "risk": 0.05,
       "subsystem": "interior_console",
-      "effort_pct": 0.35
+      "name": "Interior/console",
+      "risk": 0.05,
+      "effort_pct": 0.35,
+      "path": null
      }
     ],
     "portfolio": [],
     "changes": [
      {
-      "why": "Vent and blower tuning for heat-soak cool-down",
+      "subsystem": "thermal_hvac",
+      "own_impact": 0.1,
       "layer": "K2",
       "carryover": false,
-      "subsystem": "thermal_hvac",
-      "own_impact": 0.1,
+      "why": "Vent and blower tuning for heat-soak cool-down",
       "portfolio_terms": []
      },
      {
+      "subsystem": "interior_console",
+      "own_impact": 0.05,
+      "layer": "K1",
+      "carryover": false,
       "why": "Always-visible temperature and fan control",
-      "layer": "K1",
-      "carryover": false,
-      "subsystem": "interior_console",
-      "own_impact": 0.05,
       "portfolio_terms": []
      },
      {
+      "subsystem": "software_hmi",
+      "own_impact": 0.03,
+      "layer": "K1",
+      "carryover": false,
       "why": "Persist recirculation, sync and seat-ventilation defaults per profile",
-      "layer": "K1",
-      "carryover": false,
-      "subsystem": "software_hmi",
-      "own_impact": 0.03,
       "portfolio_terms": []
-     }
-    ],
-    "flags": []
-   },
-   {
-    "source": "change profile of REQ-G60-US-SP-02",
-    "kind": "change",
-    "effort_pct": 2.08,
-    "p5": 0.94,
-    "p95": 4.07,
-    "decision": "adapt",
-    "decision_stable_pct": 100.0,
-    "layer": "K1",
-    "size": "S",
-    "certification": false,
-    "subsystems": [
-     {
-      "name": "Software/HMI",
-      "path": [
-       "Interior/console",
-       "E/E architecture",
-       "Software/HMI"
-      ],
-      "risk": 0.0902,
-      "subsystem": "software_hmi",
-      "effort_pct": 0.9
-     },
-     {
-      "name": "Interior/console",
-      "path": null,
-      "risk": 0.1,
-      "subsystem": "interior_console",
-      "effort_pct": 0.7
-     },
-     {
-      "name": "E/E architecture",
-      "path": [
-       "Interior/console",
-       "E/E architecture"
-      ],
-      "risk": 0.0325,
-      "subsystem": "ee_architecture",
-      "effort_pct": 0.29
-     },
-     {
-      "name": "Seats",
-      "path": [
-       "Interior/console",
-       "Seats"
-      ],
-      "risk": 0.02,
-      "subsystem": "seats",
-      "effort_pct": 0.1
-     }
-    ],
-    "portfolio": [],
-    "changes": [
-     {
-      "why": "Seat-back pockets, sunglasses holder, covered tray, larger door pockets",
-      "layer": "K1",
-      "carryover": false,
-      "subsystem": "interior_console",
-      "own_impact": 0.1,
-      "portfolio_terms": []
-     }
-    ],
-    "flags": []
-   },
-   {
-    "source": "change profile of REQ-G60-US-ID-02",
-    "kind": "change",
-    "effort_pct": 1.45,
-    "p5": 0.69,
-    "p95": 2.67,
-    "decision": "adapt",
-    "decision_stable_pct": 100.0,
-    "layer": "K1",
-    "size": "S",
-    "certification": false,
-    "subsystems": [
-     {
-      "name": "Software/HMI",
-      "path": [
-       "Interior/console",
-       "E/E architecture",
-       "Software/HMI"
-      ],
-      "risk": 0.084,
-      "subsystem": "software_hmi",
-      "effort_pct": 0.84
-     },
-     {
-      "name": "Interior/console",
-      "path": null,
-      "risk": 0.05,
-      "subsystem": "interior_console",
-      "effort_pct": 0.35
-     },
-     {
-      "name": "E/E architecture",
-      "path": [
-       "Interior/console",
-       "E/E architecture"
-      ],
-      "risk": 0.019,
-      "subsystem": "ee_architecture",
-      "effort_pct": 0.17
-     },
-     {
-      "name": "Seats",
-      "path": [
-       "Interior/console",
-       "Seats"
-      ],
-      "risk": 0.01,
-      "subsystem": "seats",
-      "effort_pct": 0.05
-     }
-    ],
-    "portfolio": [],
-    "changes": [
-     {
-      "why": "CarPlay profile binding and loudness matching",
-      "layer": "K1",
-      "carryover": false,
-      "subsystem": "software_hmi",
-      "own_impact": 0.04,
-      "portfolio_terms": []
-     },
-     {
-      "why": "Wireless charger tray cooling",
-      "layer": "K1",
-      "carryover": false,
-      "subsystem": "interior_console",
-      "own_impact": 0.05,
-      "portfolio_terms": []
-     }
-    ],
-    "flags": []
-   },
-   {
-    "source": "change profile of REQ-G60-US-PR-03",
-    "kind": "change",
-    "effort_pct": 48.98,
-    "p5": 36.73,
-    "p95": 56.87,
-    "decision": "new generation",
-    "decision_stable_pct": 100.0,
-    "layer": "K3",
-    "size": "L",
-    "certification": true,
-    "subsystems": [
-     {
-      "name": "HV battery",
-      "path": null,
-      "risk": 1.0,
-      "subsystem": "hv_battery",
-      "effort_pct": 10.0
-     },
-     {
-      "name": "Body/structure",
-      "path": [
-       "HV battery",
-       "Body/structure"
-      ],
-      "risk": 0.4216,
-      "subsystem": "body_structure",
-      "effort_pct": 7.59
-     },
-     {
-      "name": "Software/HMI",
-      "path": [
-       "HV battery",
-       "E/E architecture",
-       "Software/HMI"
-      ],
-      "risk": 0.4475,
-      "subsystem": "software_hmi",
-      "effort_pct": 4.47
-     },
-     {
-      "name": "E/E architecture",
-      "path": [
-       "HV battery",
-       "E/E architecture"
-      ],
-      "risk": 0.4667,
-      "subsystem": "ee_architecture",
-      "effort_pct": 4.2
-     }
-    ],
-    "portfolio": [],
-    "changes": [
-     {
-      "why": "New cell and pack generation for more range (same case as the Gen6 anchor)",
-      "layer": "K3",
-      "carryover": false,
-      "subsystem": "hv_battery",
-      "own_impact": 1.0,
-      "portfolio_terms": []
-     }
-    ],
-    "flags": []
-   },
-   {
-    "source": "change profile of REQ-G60-US-PR-01",
-    "kind": "change",
-    "effort_pct": 1.88,
-    "p5": 0.91,
-    "p95": 3.55,
-    "decision": "adapt",
-    "decision_stable_pct": 100.0,
-    "layer": "K1",
-    "size": "S",
-    "certification": false,
-    "subsystems": [
-     {
-      "name": "Software/HMI",
-      "path": [
-       "Powertrain",
-       "E/E architecture",
-       "Software/HMI"
-      ],
-      "risk": 0.0607,
-      "subsystem": "software_hmi",
-      "effort_pct": 0.61
-     },
-     {
-      "name": "Powertrain",
-      "path": null,
-      "risk": 0.03,
-      "subsystem": "powertrain",
-      "effort_pct": 0.42
-     },
-     {
-      "name": "Body/structure",
-      "path": [
-       "Powertrain",
-       "Body/structure"
-      ],
-      "risk": 0.0144,
-      "subsystem": "body_structure",
-      "effort_pct": 0.26
-     },
-     {
-      "name": "E/E architecture",
-      "path": [
-       "Powertrain",
-       "E/E architecture"
-      ],
-      "risk": 0.0255,
-      "subsystem": "ee_architecture",
-      "effort_pct": 0.23
-     }
-    ],
-    "portfolio": [],
-    "changes": [
-     {
-      "why": "Persistent off setting in the driver profile (OTA)",
-      "layer": "K0",
-      "carryover": false,
-      "subsystem": "software_hmi",
-      "own_impact": 0.02,
-      "portfolio_terms": []
-     },
-     {
-      "why": "Restart calibration; certification credit check stays open (requirement uncertainty)",
-      "layer": "K1",
-      "carryover": false,
-      "subsystem": "powertrain",
-      "own_impact": 0.03,
-      "portfolio_terms": []
-     }
-    ],
-    "flags": []
-   },
-   {
-    "source": "change profile of REQ-G60-US-DD-03",
-    "kind": "preserve",
-    "effort_pct": 0.0,
-    "p5": 0.0,
-    "p95": 0.0,
-    "decision": "no change",
-    "decision_stable_pct": 100.0,
-    "layer": "K0",
-    "size": "-",
-    "certification": false,
-    "subsystems": [],
-    "portfolio": [],
-    "changes": [],
-    "flags": []
-   }
-  ],
-  "packages": [
-   {
-    "horizon": "H1",
-    "proposals": 6,
-    "sum_of_single_pct": 15.62,
-    "effort_pct": 13.07,
-    "p5": 6.84,
-    "p95": 19.99,
-    "decision": "adapt",
-    "decision_stable_pct": 68.7,
-    "layer": "K2",
-    "size": "M",
-    "certification": false,
-    "subsystems": [
-     {
-      "subsystem": "software_hmi",
-      "name": "Software/HMI",
-      "risk": 0.5573,
-      "effort_pct": 5.57,
-      "path": [
-       "Seats",
-       "E/E architecture",
-       "Software/HMI"
-      ]
-     },
-     {
-      "subsystem": "ee_architecture",
-      "name": "E/E architecture",
-      "risk": 0.2209,
-      "effort_pct": 1.99,
-      "path": [
-       "Seats",
-       "E/E architecture"
-      ]
-     },
-     {
-      "subsystem": "interior_console",
-      "name": "Interior/console",
-      "risk": 0.2747,
-      "effort_pct": 1.92,
-      "path": null
-     },
-     {
-      "subsystem": "seats",
-      "name": "Seats",
-      "risk": 0.2949,
-      "effort_pct": 1.47,
-      "path": null
-     },
-     {
-      "subsystem": "thermal_hvac",
-      "name": "Thermal/HVAC",
-      "risk": 0.2063,
-      "effort_pct": 1.24,
-      "path": null
-     },
-     {
-      "subsystem": "powertrain",
-      "name": "Powertrain",
-      "risk": 0.03,
-      "effort_pct": 0.42,
-      "path": null
-     }
-    ],
-    "flags": [
-     {
-      "level": "warning",
-      "rule": "51",
-      "text": "borderline: only 69 % of the sensitivity runs keep the decision; show the PM both options"
      }
     ]
    },
    {
-    "horizon": "H2",
-    "proposals": 1,
-    "sum_of_single_pct": 48.98,
-    "effort_pct": 48.98,
-    "p5": 36.73,
-    "p95": 56.87,
+    "source": "change profile of REQ-G60-US-IC-01",
+    "flags": [],
+    "status": "estimated",
+    "effort_pct": 4.58,
+    "p5": 2.02,
+    "p95": 7.15,
+    "decision": "adapt",
+    "decision_stable_pct": 100.0,
+    "layer": "K1",
+    "size": "S",
+    "certification": false,
+    "subsystems": [
+     {
+      "subsystem": "software_hmi",
+      "name": "Software/HMI",
+      "risk": 0.2206,
+      "effort_pct": 2.21,
+      "path": [
+       "Seats",
+       "E/E architecture",
+       "Software/HMI"
+      ]
+     },
+     {
+      "subsystem": "seats",
+      "name": "Seats",
+      "risk": 0.25,
+      "effort_pct": 1.25,
+      "path": null
+     },
+     {
+      "subsystem": "ee_architecture",
+      "name": "E/E architecture",
+      "risk": 0.0829,
+      "effort_pct": 0.75,
+      "path": [
+       "Seats",
+       "E/E architecture"
+      ]
+     },
+     {
+      "subsystem": "thermal_hvac",
+      "name": "Thermal/HVAC",
+      "risk": 0.0625,
+      "effort_pct": 0.38,
+      "path": [
+       "Seats",
+       "Thermal/HVAC"
+      ]
+     }
+    ],
+    "portfolio": [],
+    "changes": [
+     {
+      "subsystem": "seats",
+      "own_impact": 0.25,
+      "layer": "K1",
+      "carryover": false,
+      "why": "Front and rear cushion foam, contour and lumbar travel on the existing seat structure",
+      "portfolio_terms": []
+     }
+    ]
+   },
+   {
+    "source": "analyst's change profile",
+    "flags": [
+     {
+      "level": "warning",
+      "rule": "43",
+      "text": "interior_console: catalogue shows F70 standard; the change could carry over (carryover: true) instead of a new development"
+     },
+     {
+      "level": "warning",
+      "rule": "43",
+      "text": "body_structure: catalogue shows G70 standard; the change could carry over (carryover: true) instead of a new development"
+     }
+    ],
+    "status": "estimated",
+    "effort_pct": 2.8,
+    "p5": 1.39,
+    "p95": 5.09,
+    "decision": "adapt",
+    "decision_stable_pct": 100.0,
+    "layer": "K1",
+    "size": "S",
+    "certification": false,
+    "subsystems": [
+     {
+      "subsystem": "software_hmi",
+      "name": "Software/HMI",
+      "risk": 0.0869,
+      "effort_pct": 0.87,
+      "path": [
+       "Interior/console",
+       "E/E architecture",
+       "Software/HMI"
+      ]
+     },
+     {
+      "subsystem": "interior_console",
+      "name": "Interior/console",
+      "risk": 0.0938,
+      "effort_pct": 0.66,
+      "path": null
+     },
+     {
+      "subsystem": "body_structure",
+      "name": "Body/structure",
+      "risk": 0.03,
+      "effort_pct": 0.54,
+      "path": null
+     },
+     {
+      "subsystem": "ee_architecture",
+      "name": "E/E architecture",
+      "risk": 0.0316,
+      "effort_pct": 0.28,
+      "path": [
+       "Interior/console",
+       "E/E architecture"
+      ]
+     }
+    ],
+    "portfolio": [
+     {
+      "subsystem": "interior_console",
+      "terms": [
+       "storage compartment",
+       "glove box",
+       "center console"
+      ],
+      "level": 2,
+      "vehicles": {
+       "F70": {
+        "status": "standard",
+        "item": "Front armrest with storage compartment"
+       }
+      },
+      "own_variants": {
+       "standard": 0,
+       "optional": 0,
+       "total": 10
+      }
+     },
+     {
+      "subsystem": "body_structure",
+      "terms": [
+       "Comfort Access",
+       "door handle",
+       "keyless entry"
+      ],
+      "level": 2,
+      "vehicles": {
+       "G70": {
+        "status": "standard",
+        "item": "Flush-integrated door handles"
+       }
+      },
+      "own_variants": {
+       "standard": 0,
+       "optional": 0,
+       "total": 10
+      }
+     }
+    ],
+    "changes": [
+     {
+      "subsystem": "interior_console",
+      "own_impact": 0.08,
+      "layer": "K1",
+      "carryover": false,
+      "why": "Add or restore small-item storage features and revise console/glove-box usability within existing interior architecture.",
+      "portfolio_terms": [
+       "storage compartment",
+       "glove box",
+       "center console"
+      ]
+     },
+     {
+      "subsystem": "body_structure",
+      "own_impact": 0.03,
+      "layer": "K1",
+      "carryover": false,
+      "why": "Add rear-door comfort-access sensing and related door-handle functionality on all four doors.",
+      "portfolio_terms": [
+       "Comfort Access",
+       "door handle",
+       "keyless entry"
+      ]
+     }
+    ]
+   },
+   {
+    "source": "analyst's change profile",
+    "flags": [
+     {
+      "level": "info",
+      "rule": "43",
+      "text": "interior_console: already standard on G60 (standard on 10, optional on 0 of 10 G60 variants); check whether only configuration (K0) is needed"
+     }
+    ],
+    "status": "estimated",
+    "effort_pct": 1.35,
+    "p5": 0.65,
+    "p95": 2.45,
+    "decision": "adapt",
+    "decision_stable_pct": 100.0,
+    "layer": "K1",
+    "size": "S",
+    "certification": false,
+    "subsystems": [
+     {
+      "subsystem": "software_hmi",
+      "name": "Software/HMI",
+      "risk": 0.085,
+      "effort_pct": 0.85,
+      "path": null
+     },
+     {
+      "subsystem": "interior_console",
+      "name": "Interior/console",
+      "risk": 0.04,
+      "effort_pct": 0.28,
+      "path": null
+     },
+     {
+      "subsystem": "ee_architecture",
+      "name": "E/E architecture",
+      "risk": 0.0164,
+      "effort_pct": 0.15,
+      "path": [
+       "Interior/console",
+       "E/E architecture"
+      ]
+     },
+     {
+      "subsystem": "seats",
+      "name": "Seats",
+      "risk": 0.008,
+      "effort_pct": 0.04,
+      "path": [
+       "Interior/console",
+       "Seats"
+      ]
+     }
+    ],
+    "portfolio": [
+     {
+      "subsystem": "software_hmi",
+      "terms": [
+       "Apple CarPlay",
+       "driver profile",
+       "Bluetooth"
+      ],
+      "level": 3,
+      "vehicles": {},
+      "own_variants": {
+       "standard": 0,
+       "optional": 0,
+       "total": 10
+      }
+     },
+     {
+      "subsystem": "interior_console",
+      "terms": [
+       "wireless charging",
+       "smartphone tray",
+       "center console"
+      ],
+      "level": 0,
+      "vehicles": {
+       "G60": {
+        "status": "standard",
+        "item": "Wireless charging tray"
+       },
+       "G70": {
+        "status": "standard",
+        "item": "Wireless charging tray"
+       }
+      },
+      "own_variants": {
+       "standard": 10,
+       "optional": 0,
+       "total": 10
+      }
+     }
+    ],
+    "changes": [
+     {
+      "subsystem": "software_hmi",
+      "own_impact": 0.05,
+      "layer": "K1",
+      "carryover": false,
+      "why": "Improve profile binding, active-driver recognition and phone-selection logic across starts and shared use.",
+      "portfolio_terms": [
+       "Apple CarPlay",
+       "driver profile",
+       "Bluetooth"
+      ]
+     },
+     {
+      "subsystem": "interior_console",
+      "own_impact": 0.04,
+      "layer": "K1",
+      "carryover": false,
+      "why": "Improve wireless charging tray usability and phone fit within the existing console package.",
+      "portfolio_terms": [
+       "wireless charging",
+       "smartphone tray",
+       "center console"
+      ]
+     }
+    ]
+   },
+   {
+    "source": "analyst's change profile",
+    "flags": [],
+    "status": "estimated",
+    "effort_pct": 49.21,
+    "p5": 37.01,
+    "p95": 57.09,
     "decision": "new generation",
     "decision_stable_pct": 100.0,
     "layer": "K3",
@@ -905,8 +903,8 @@
      {
       "subsystem": "software_hmi",
       "name": "Software/HMI",
-      "risk": 0.4475,
-      "effort_pct": 4.47,
+      "risk": 0.4696,
+      "effort_pct": 4.7,
       "path": [
        "HV battery",
        "E/E architecture",
@@ -916,8 +914,270 @@
      {
       "subsystem": "ee_architecture",
       "name": "E/E architecture",
-      "risk": 0.4667,
-      "effort_pct": 4.2,
+      "risk": 0.4681,
+      "effort_pct": 4.21,
+      "path": [
+       "HV battery",
+       "E/E architecture"
+      ]
+     }
+    ],
+    "portfolio": [
+     {
+      "subsystem": "software_hmi",
+      "terms": [
+       "range prediction",
+       "navigation",
+       "charging station"
+      ],
+      "level": 3,
+      "vehicles": {},
+      "own_variants": {
+       "standard": 0,
+       "optional": 0,
+       "total": 10
+      }
+     },
+     {
+      "subsystem": "hv_battery",
+      "terms": [
+       "high-voltage battery",
+       "electric range",
+       "battery pack"
+      ],
+      "level": 3,
+      "vehicles": {},
+      "own_variants": {
+       "standard": 0,
+       "optional": 0,
+       "total": 10
+      }
+     }
+    ],
+    "changes": [
+     {
+      "subsystem": "software_hmi",
+      "own_impact": 0.04,
+      "layer": "K1",
+      "carryover": false,
+      "why": "Improve range estimation transparency, winter guidance and charger compatibility guidance in navigation.",
+      "portfolio_terms": [
+       "range prediction",
+       "navigation",
+       "charging station"
+      ]
+     },
+     {
+      "subsystem": "hv_battery",
+      "own_impact": 1.0,
+      "layer": "K3",
+      "carryover": false,
+      "why": "A material real-world range increase points to a successor-generation battery step rather than a current-generation adaptation.",
+      "portfolio_terms": [
+       "high-voltage battery",
+       "electric range",
+       "battery pack"
+      ]
+     }
+    ]
+   },
+   {
+    "source": "change profile of REQ-G60-US-PR-01",
+    "flags": [],
+    "status": "estimated",
+    "effort_pct": 1.88,
+    "p5": 0.91,
+    "p95": 3.55,
+    "decision": "adapt",
+    "decision_stable_pct": 100.0,
+    "layer": "K1",
+    "size": "S",
+    "certification": false,
+    "subsystems": [
+     {
+      "subsystem": "software_hmi",
+      "name": "Software/HMI",
+      "risk": 0.0607,
+      "effort_pct": 0.61,
+      "path": [
+       "Powertrain",
+       "E/E architecture",
+       "Software/HMI"
+      ]
+     },
+     {
+      "subsystem": "powertrain",
+      "name": "Powertrain",
+      "risk": 0.03,
+      "effort_pct": 0.42,
+      "path": null
+     },
+     {
+      "subsystem": "body_structure",
+      "name": "Body/structure",
+      "risk": 0.0144,
+      "effort_pct": 0.26,
+      "path": [
+       "Powertrain",
+       "Body/structure"
+      ]
+     },
+     {
+      "subsystem": "ee_architecture",
+      "name": "E/E architecture",
+      "risk": 0.0255,
+      "effort_pct": 0.23,
+      "path": [
+       "Powertrain",
+       "E/E architecture"
+      ]
+     }
+    ],
+    "portfolio": [],
+    "changes": [
+     {
+      "subsystem": "software_hmi",
+      "own_impact": 0.02,
+      "layer": "K0",
+      "carryover": false,
+      "why": "Persistent off setting in the driver profile (OTA)",
+      "portfolio_terms": []
+     },
+     {
+      "subsystem": "powertrain",
+      "own_impact": 0.03,
+      "layer": "K1",
+      "carryover": false,
+      "why": "Restart calibration; certification credit check stays open (requirement uncertainty)",
+      "portfolio_terms": []
+     }
+    ]
+   },
+   {
+    "source": "change profile of REQ-G60-US-DD-03",
+    "flags": [],
+    "status": "no_vehicle_change"
+   }
+  ],
+  "packages": [
+   {
+    "horizon": "H1",
+    "proposals": 6,
+    "sum_of_single_pct": 16.24,
+    "effort_pct": 13.73,
+    "p5": 7.3,
+    "p95": 20.8,
+    "decision": "adapt",
+    "decision_stable_pct": 62.4,
+    "layer": "K2",
+    "size": "M",
+    "certification": false,
+    "subsystems": [
+     {
+      "subsystem": "software_hmi",
+      "name": "Software/HMI",
+      "risk": 0.5562,
+      "effort_pct": 5.56,
+      "path": [
+       "Seats",
+       "E/E architecture",
+       "Software/HMI"
+      ]
+     },
+     {
+      "subsystem": "ee_architecture",
+      "name": "E/E architecture",
+      "risk": 0.2182,
+      "effort_pct": 1.96,
+      "path": [
+       "Seats",
+       "E/E architecture"
+      ]
+     },
+     {
+      "subsystem": "interior_console",
+      "name": "Interior/console",
+      "risk": 0.262,
+      "effort_pct": 1.83,
+      "path": null
+     },
+     {
+      "subsystem": "seats",
+      "name": "Seats",
+      "risk": 0.2927,
+      "effort_pct": 1.46,
+      "path": null
+     },
+     {
+      "subsystem": "thermal_hvac",
+      "name": "Thermal/HVAC",
+      "risk": 0.2046,
+      "effort_pct": 1.23,
+      "path": null
+     },
+     {
+      "subsystem": "body_structure",
+      "name": "Body/structure",
+      "risk": 0.0439,
+      "effort_pct": 0.79,
+      "path": null
+     }
+    ],
+    "not_counted": [],
+    "flags": [
+     {
+      "level": "warning",
+      "rule": "51",
+      "text": "borderline: only 62 % of the sensitivity runs keep the decision; show the PM both options"
+     }
+    ]
+   },
+   {
+    "horizon": "H2",
+    "proposals": 1,
+    "sum_of_single_pct": 49.21,
+    "effort_pct": 49.21,
+    "p5": 37.01,
+    "p95": 57.09,
+    "decision": "new generation",
+    "decision_stable_pct": 100.0,
+    "layer": "K3",
+    "size": "L",
+    "certification": true,
+    "subsystems": [
+     {
+      "subsystem": "hv_battery",
+      "name": "HV battery",
+      "risk": 1.0,
+      "effort_pct": 10.0,
+      "path": null
+     },
+     {
+      "subsystem": "body_structure",
+      "name": "Body/structure",
+      "risk": 0.4216,
+      "effort_pct": 7.59,
+      "path": [
+       "HV battery",
+       "Body/structure"
+      ]
+     },
+     {
+      "subsystem": "software_hmi",
+      "name": "Software/HMI",
+      "risk": 0.4696,
+      "effort_pct": 4.7,
+      "path": [
+       "HV battery",
+       "E/E architecture",
+       "Software/HMI"
+      ]
+     },
+     {
+      "subsystem": "ee_architecture",
+      "name": "E/E architecture",
+      "risk": 0.4681,
+      "effort_pct": 4.21,
       "path": [
        "HV battery",
        "E/E architecture"
@@ -944,163 +1204,221 @@
       ]
      }
     ],
+    "not_counted": [],
     "flags": []
    }
   ],
   "open_faults": []
  },
  "citations": {
-  "cited": 59,
+  "cited": 69,
   "unknown": [],
   "unverified_quotes": []
  },
  "trace": {
   "steps": 3,
-  "cached_steps": 3,
+  "cached_steps": 0,
   "hit_step_limit": false,
-  "cost_usd": 0.0,
+  "cost_usd": 0.2018,
   "tool_calls": [
+   {
+    "tool": "get_metric",
+    "args": {
+     "vehicle": "G60",
+     "market": "US",
+     "attribute": "infotainment"
+    },
+    "total": 1
+   },
+   {
+    "tool": "get_metric",
+    "args": {
+     "vehicle": "G60",
+     "market": "US",
+     "attribute": "heater"
+    },
+    "total": 2
+   },
+   {
+    "tool": "get_metric",
+    "args": {
+     "vehicle": "G60",
+     "market": "US",
+     "attribute": "handling"
+    },
+    "total": 1
+   },
+   {
+    "tool": "get_metric",
+    "args": {
+     "vehicle": "G60",
+     "market": "US",
+     "attribute": "acceleration"
+    },
+    "total": 1
+   },
+   {
+    "tool": "get_metric",
+    "args": {
+     "vehicle": "G60",
+     "market": "US",
+     "attribute": "riding comfort"
+    },
+    "total": 1
+   },
+   {
+    "tool": "get_sales",
+    "args": {
+     "vehicle": "G60",
+     "market": "US"
+    },
+    "total": 3
+   },
    {
     "tool": "get_findings",
     "args": {
-     "limit": 20,
+     "vehicle": "G60",
      "market": "US",
-     "vehicle": "G60"
+     "limit": 20
     },
     "total": 226
    },
    {
     "tool": "get_requirements",
     "args": {
-     "market": "US",
-     "vehicle": "G60"
+     "vehicle": "G60",
+     "market": "US"
     },
     "total": 20
    },
    {
     "tool": "get_effort",
     "args": {
-     "market": "US",
      "vehicle": "G60",
+     "market": "US",
      "scenarios": true
     },
     "total": 20
    },
    {
-    "tool": "get_metric",
+    "tool": "search_documents",
     "args": {
-     "market": "US",
-     "vehicle": "G60"
-    },
-    "total": 103
-   },
-   {
-    "tool": "get_sales",
-    "args": {
-     "market": "US",
-     "vehicle": "G60"
-    },
-    "total": 3
-   },
-   {
-    "tool": "get_equipment",
-    "args": {
-     "limit": 50,
-     "domain": "space_practicality",
-     "vehicle": "G60"
+     "query": "US deliveries BMW Group 2025 outlook electrification",
+     "limit": 5
     },
     "total": 1
    },
    {
     "tool": "get_verbatims_by_theme",
     "args": {
-     "limit": 8,
-     "theme": "Operating concept, operating system",
-     "market": "US",
      "vehicle": "G60",
-     "feedback_type": "Difficult to Use"
+     "market": "US",
+     "theme": "Operating concept, operating system",
+     "feedback_type": "Difficult to Use",
+     "limit": 10
     },
     "total": 39
    },
    {
     "tool": "get_verbatims_by_theme",
     "args": {
-     "limit": 8,
-     "theme": "Seats",
-     "market": "US",
      "vehicle": "G60",
-     "feedback_type": "Difficult to Use"
+     "market": "US",
+     "theme": "Seats",
+     "feedback_type": "Difficult to Use",
+     "limit": 10
     },
     "total": 31
    },
    {
     "tool": "get_verbatims_by_theme",
     "args": {
-     "limit": 8,
-     "theme": "Electric Range",
-     "market": "US",
      "vehicle": "G60",
-     "feedback_type": "Difficult to Use"
+     "market": "US",
+     "theme": "Electric Range",
+     "feedback_type": "Difficult to Use",
+     "limit": 10
     },
     "total": 50
    },
    {
     "tool": "get_verbatims_by_theme",
     "args": {
-     "limit": 8,
-     "theme": "non-contact trunk lid opening",
-     "market": "US",
      "vehicle": "G60",
-     "feedback_type": "Difficult to Use"
+     "market": "US",
+     "theme": "non-contact trunk lid opening",
+     "feedback_type": "Difficult to Use",
+     "limit": 10
     },
     "total": 39
    },
    {
-    "tool": "search_evidence",
+    "tool": "get_verbatims_by_theme",
     "args": {
-     "limit": 8,
-     "query": "wireless charging overheating phone not charging carplay wrong phone low volume",
+     "vehicle": "G60",
      "market": "US",
-     "vehicle": "G60"
+     "theme": "Handling / Riding",
+     "feedback_type": "Likes",
+     "limit": 10
     },
-    "total": 425
+    "total": 210
    },
    {
-    "tool": "search_evidence",
+    "tool": "get_verbatims_by_theme",
     "args": {
-     "limit": 8,
-     "query": "storage compartments seat-back pockets sunglasses holder glove box cupholder center console",
+     "vehicle": "G60",
      "market": "US",
-     "vehicle": "G60"
+     "theme": "Exterior design",
+     "feedback_type": "Likes",
+     "limit": 10
     },
     "total": 193
    },
    {
     "tool": "search_evidence",
     "args": {
-     "limit": 8,
-     "query": "handling smooth ride driving feel sporty luxury acceleration love",
-     "market": "US",
      "vehicle": "G60",
-     "feedback_type": "Likes"
+     "market": "US",
+     "query": "storage compartments seat-back pockets sunglasses holder glove box cupholder",
+     "limit": 10
     },
-    "total": 929
+    "total": 121
    },
    {
     "tool": "search_evidence",
     "args": {
-     "limit": 8,
-     "query": "overall technology complicated too much to figure out onboarding learn features",
+     "vehicle": "G60",
      "market": "US",
-     "vehicle": "G60"
+     "query": "wireless charging overheating CarPlay wrong phone volume",
+     "limit": 10
     },
-    "total": 799
+    "total": 391
+   },
+   {
+    "tool": "search_evidence",
+    "args": {
+     "vehicle": "G60",
+     "market": "US",
+     "query": "start-stop permanently disable air conditioning shuts off",
+     "limit": 10
+    },
+    "total": 176
+   },
+   {
+    "tool": "search_evidence",
+    "args": {
+     "vehicle": "G60",
+     "market": "US",
+     "query": "door rear handle comfort access sensor slam dark",
+     "limit": 10
+    },
+    "total": 684
    }
   ],
   "llm_call_ids": [
-   28,
-   29,
-   30
+   38,
+   39,
+   40
   ]
  }
 }

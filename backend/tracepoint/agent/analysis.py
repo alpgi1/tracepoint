@@ -22,8 +22,15 @@ from sqlalchemy.orm import Session
 from tracepoint.agent.context_pack import build_context_pack, render_markdown
 from tracepoint.agent.loop import collect_refs, run_agent
 from tracepoint.core.audit import record_event
-from tracepoint.db.models import Country, RequirementEffort, Run, Verbatim
-from tracepoint.effort.cpm import Change, Engine, load_anchors, load_model, model_hash
+from tracepoint.db.models import Country, Requirement, RequirementEffort, Run, Verbatim
+from tracepoint.effort.cpm import (
+    Change,
+    Engine,
+    estimate,
+    load_anchors,
+    load_model,
+    model_hash,
+)
 from tracepoint.effort.store import (
     engine_and_samples,
     evaluate,
@@ -32,8 +39,9 @@ from tracepoint.effort.store import (
 )
 from tracepoint.llm.gateway import LlmGateway
 
-# v2: the loop's untrusted-data rule joins the prompt; v3: CPM effort and change profiles
-PROMPT_VERSION = "situation-analysis-v3"
+# v2: the loop's untrusted-data rule joins the prompt; v3: CPM effort and change profiles;
+# v4: changes_vehicle, scope of related_requirement, carryover of own profiles not applied
+PROMPT_VERSION = "situation-analysis-v4"
 ACTOR = "agent:analyst"
 
 
@@ -58,9 +66,13 @@ class Recommendation(BaseModel):
     related_requirement: str | None = Field(
         description="Id of an existing requirement (REQ-…) that already covers this, or null"
     )
+    changes_vehicle: bool = Field(
+        description="True when the proposal changes hardware, software or content of the "
+        "vehicle; false only when it keeps something as it is or acts outside the vehicle"
+    )
     effort_changes: list[Change] | None = Field(
         description="Change profile for the effort engine: null when related_requirement is set "
-        "(its stored profile is used) or when nothing on the vehicle changes"
+        "and its stored profile covers the proposal, or when changes_vehicle is false"
     )
 
 
@@ -96,9 +108,11 @@ Effort
 - Effort is estimated with the Change Prediction Method as a share of the development effort of a new vehicle generation. It is never money, and every input of the model is an uncalibrated assumption: say so wherever effort enters your reasoning.
 - Effort is a rough prioritisation factor only. What customers need comes first; effort decides the horizon and the packaging, not whether a need is real.
 - You do not write an effort percentage for your own proposals. The engine computes it from a change profile and the report shows it. Figures returned by get_effort may be quoted.
-- A recommendation that an existing requirement covers names it in related_requirement and leaves effort_changes null: the requirement's stored profile is used.
-- Any other recommendation that changes the vehicle gives effort_changes, one entry per subsystem where the change starts: the subsystem key from the effort model in the user message, own_impact (share of that subsystem's design redone, judged against the reference points given there), the layer, carryover (true only when the catalogue or the evidence shows BMW already offers it or the platform is prepared for it), why in one sentence, and portfolio_terms (two or three German or English catalogue words for the feature; the catalogue is searched with them). List only where the change starts; the engine adds the propagation to other subsystems.
-- A recommendation that changes nothing on the vehicle (keep a strength, explain a function) has neither.
+- A recommendation that an existing requirement covers names it in related_requirement and leaves effort_changes null: the requirement's stored profile is used. Name only requirements of the vehicle and market you analyse; any other is refused. If your proposal goes beyond the requirement, add the extra in effort_changes: both are counted.
+- A requirement the product manager rejected at gate G2 is not proposed again, unless your rationale says what new evidence justifies it.
+- Any other recommendation that changes the vehicle sets changes_vehicle to true and gives effort_changes, at most eight entries, one per subsystem where the change starts: the subsystem key from the effort model in the user message, own_impact (share of that subsystem's design redone, judged against the reference points given there), the layer, carryover, why in one sentence, and portfolio_terms (two or three German or English catalogue words for the feature; the catalogue is searched with them). List only where the change starts; the engine adds the propagation to other subsystems.
+- carryover in your own profile is a claim for the product manager to check. It is reported and not applied: your profile is computed as a new development.
+- Only a recommendation that changes nothing on the vehicle (keep a strength, explain a function) sets changes_vehicle to false and has no profile. A proposal that changes the vehicle and has no profile is sent back.
 - Horizon follows effort: H1 holds what stays an adaptation of the current model. A major revision or a new generation belongs to H2, or is split into an H1 step and an H2 step. Several H1 proposals add up: get_effort shows what the existing H1 requirements already come to as one package.
 
 What the data is (name the points that bear on your conclusions under data_coverage or assumptions_and_gaps)
@@ -196,70 +210,150 @@ def effort_brief(engine: Engine) -> str:
 
 
 _EFFORT_KEYS = ("effort_pct", "p5", "p95", "decision", "decision_stable_pct", "layer", "size")
+MAX_CHANGES = 8  # per proposal
+MAX_TERMS = 5  # catalogue terms per change
+
+
+def _flag(level: str, rule: str, text: str) -> dict[str, str]:
+    return {"level": level, "rule": rule, "text": text}
+
+
+def _requirement_in_scope(
+    session: Session, requirement_id: str, vehicle: str, market: str
+) -> tuple[Requirement | None, str | None]:
+    """The requirement a proposal names, or why its profile may not be used. The id comes from
+    the model, so it is only accepted for the vehicle and market under analysis."""
+    req = session.get(Requirement, requirement_id)
+    if req is None or req.status == "withdrawn":
+        return None, "which does not exist"
+    if (req.vehicle_code, req.market_code) != (vehicle, market):
+        return (
+            None,
+            f"which belongs to {req.vehicle_code} {req.market_code}, not {vehicle} {market}",
+        )
+    return req, None
+
+
+def _analyst_change(c: Change) -> Change:
+    """A change written by the model, as the engine may use it: computed as a new development
+    (the carryover discount is a claim nobody has checked) and with bounded catalogue terms."""
+    terms = [t.strip() for t in c.portfolio_terms if len(t.strip()) >= 4 and not set("%_") & set(t)]
+    return c.model_copy(update={"carryover": False, "portfolio_terms": terms[:MAX_TERMS]})
 
 
 def effort_of_proposals(
-    session: Session, vehicle: str, analysis: SituationAnalysis
+    session: Session, vehicle: str, market: str, analysis: SituationAnalysis
 ) -> tuple[dict[str, Any], list[str]]:
     """Effort of every recommendation and of the H1 and H2 recommendations as packages, computed
-    by the CPM engine. Returns the result and the faults to send back to the model: a change
-    profile that breaks a rule of the model, and an effort class that does not fit the horizon."""
+    by the CPM engine from the current model. Returns the result and the faults to send back to
+    the model.
+
+    Everything the model controls is checked or bounded here, and a proposal that changes the
+    vehicle never passes without an estimate silently: it is estimated, or it is a fault and is
+    listed as not counted in its package."""
     engine, samples = engine_and_samples(vehicle)
-    rows: list[dict[str, Any] | None] = []
+    rows: list[dict[str, Any]] = []
     faults: list[str] = []
-    packaged: dict[str, dict[str, list[Change]]] = {"H1": {}, "H2": {}}
-    for n, rec in enumerate(analysis.recommendations):
-        stored = (
-            session.get(RequirementEffort, rec.related_requirement)
-            if rec.related_requirement
-            else None
-        )
-        if stored is not None:
-            changes = [Change.model_validate(c) for c in stored.changes]
-            row = {
-                "source": f"change profile of {rec.related_requirement}",
-                "kind": stored.kind,
-                **{k: getattr(stored, k) for k in _EFFORT_KEYS},
-                "certification": stored.certification,
-                "subsystems": stored.subsystems[:4],
-                "portfolio": stored.portfolio,
-                "changes": stored.changes,
-                # the stored flags judge the requirement's horizon; this is the proposal's
-                "flags": [f for f in stored.flags if f["rule"] == "43"]
-                + horizon_flags(
-                    rec.horizon, stored.kind, stored.decision, stored.decision_stable_pct
-                ),
-            }
-            key = rec.related_requirement  # two proposals on one requirement count once
-        elif rec.effort_changes:
-            changes = rec.effort_changes
-            errors = [e for c in changes for e in engine.check_change(c)]
-            if errors:
-                rows.append({"source": "analyst's change profile", "error": "; ".join(errors)})
+    from_requirements: dict[str, dict[str, list[Change]]] = {"H1": {}, "H2": {}}
+    from_analyst: dict[str, list[Change]] = {"H1": [], "H2": []}
+    not_counted: dict[str, list[str]] = {"H1": [], "H2": []}
+    for rec in analysis.recommendations:
+        flags: list[dict[str, str]] = []
+        sources: list[str] = []
+        req, stored = None, None
+        if rec.related_requirement:
+            req, problem = _requirement_in_scope(session, rec.related_requirement, vehicle, market)
+            if problem:
+                text = f"names {rec.related_requirement}, {problem}; its profile is not used"
+                flags.append(_flag("conflict", "scope", text))
                 faults.append(
-                    f'The change profile of "{rec.title}" breaks the effort model: '
-                    f"{'; '.join(errors)}. Correct effort_changes."
+                    f'"{rec.title}" {text}. Name a requirement of {vehicle} {market} or set '
+                    "related_requirement to null and give effort_changes."
                 )
-                continue
-            res = evaluate_changes(session, engine, samples, vehicle, changes, rec.horizon)
-            row = {
-                "source": "analyst's change profile",
-                "kind": "change",
-                **{k: res[k] for k in _EFFORT_KEYS},
-                "certification": res["certification_add_on"],
-                "subsystems": res["subsystems"][:4],
-                "portfolio": res["portfolio"],
-                "changes": [c.model_dump() for c in changes],
-                "flags": res["flags"],
-            }
-            key = f"#{n}"
-        else:
-            rows.append(None)
-            continue
+        if req is not None:
+            stored = session.get(RequirementEffort, req.id)
+            if req.status == "rejected":
+                text = f"{req.id} was rejected by the product manager at gate G2"
+                flags.append(_flag("conflict", "G2", text))
+                faults.append(
+                    f'"{rec.title}": {text}. Drop the proposal, or say in the rationale what '
+                    "new evidence justifies raising it again."
+                )
+            elif req.status == "deferred":
+                flags.append(_flag("info", "G2", f"{req.id} was deferred by the product manager"))
+            if stored is not None and stored.requirement_version != req.version:
+                flags.append(
+                    _flag(
+                        "warning",
+                        "63",
+                        f"the profile of {req.id} was written for version "
+                        f"{stored.requirement_version}; the requirement is at {req.version}",
+                    )
+                )
+        stored_changes = [Change.model_validate(c) for c in stored.changes] if stored else []
+        if stored is not None:
+            sources.append(f"change profile of {req.id}")
+        own = list(rec.effort_changes or [])
+        if len(own) > MAX_CHANGES:
+            faults.append(
+                f'"{rec.title}" lists {len(own)} changes; give at most {MAX_CHANGES}, one per '
+                "subsystem where the change starts."
+            )
+            own = own[:MAX_CHANGES]
+        claimed = [c.subsystem for c in own if c.carryover]
+        as_written, own = own, [_analyst_change(c) for c in own]
+        if own:
+            sources.append("analyst's change profile")
+        changes = stored_changes + own
+        row: dict[str, Any] = {"source": " plus ".join(sources) or None, "flags": flags}
         rows.append(row)
-        if changes:
-            packaged[rec.horizon][key] = changes
-        for flag in row["flags"]:
+        if not changes:
+            # only a declared "nothing changes" passes without an estimate
+            if rec.changes_vehicle:
+                row["status"] = "missing"
+                not_counted[rec.horizon].append(rec.title)
+                faults.append(
+                    f'"{rec.title}" changes the vehicle but has no change profile'
+                    + (f" ({req.id} has none for a vehicle change)" if stored is not None else "")
+                    + ". Give effort_changes."
+                )
+            else:
+                row["status"] = "no_vehicle_change"
+            continue
+        errors = [e for c in changes for e in engine.check_change(c)]
+        if errors:
+            row.update(status="invalid", error="; ".join(errors))
+            not_counted[rec.horizon].append(rec.title)
+            faults.append(
+                f'The change profile of "{rec.title}" breaks the effort model: '
+                f"{row['error']}. Correct effort_changes."
+            )
+            continue
+        res = evaluate_changes(session, engine, samples, vehicle, changes, rec.horizon)
+        if claimed:
+            with_claim = estimate(engine, stored_changes + as_written).effort
+            flags.append(
+                _flag(
+                    "info",
+                    "43",
+                    f"carryover claimed by the analyst for {', '.join(claimed)} is not applied: "
+                    f"an analyst's profile is computed as a new development (with the claim "
+                    f"{with_claim:.2f} %)",
+                )
+            )
+        row.update(
+            status="estimated",
+            **{k: res[k] for k in _EFFORT_KEYS},
+            certification=res["certification_add_on"],
+            subsystems=res["subsystems"][:4],
+            portfolio=res["portfolio"],
+            changes=[c.model_dump() for c in changes],
+            flags=flags + res["flags"],
+        )
+        if stored_changes:
+            from_requirements[rec.horizon][req.id] = stored_changes  # named twice: counted once
+        from_analyst[rec.horizon] += own
+        for flag in res["flags"]:
             if flag["rule"] == "47":
                 faults.append(
                     f'"{rec.title}" is {rec.horizon}, but its change profile comes to '
@@ -268,30 +362,34 @@ def effort_of_proposals(
                     "change profile if it overstates the change."
                 )
     packages = []
-    for horizon, by_key in packaged.items():
-        if not by_key:
+    for horizon in ("H1", "H2"):
+        changes = [c for cs in from_requirements[horizon].values() for c in cs]
+        changes += from_analyst[horizon]
+        in_horizon = [
+            r
+            for r, rec in zip(rows, analysis.recommendations, strict=True)
+            if rec.horizon == horizon and r["status"] == "estimated"
+        ]
+        if not in_horizon and not not_counted[horizon]:
             continue
-        res = evaluate(engine, samples, [c for changes in by_key.values() for c in changes])
+        res = evaluate(engine, samples, changes)
         packages.append(
             {
                 "horizon": horizon,
-                "proposals": len(by_key),
-                "sum_of_single_pct": round(
-                    sum(
-                        r["effort_pct"]
-                        for r, rec in zip(rows, analysis.recommendations, strict=True)
-                        if r and "error" not in r and rec.horizon == horizon
-                    ),
-                    2,
-                ),
+                "proposals": len(in_horizon),
+                "sum_of_single_pct": round(sum(r["effort_pct"] for r in in_horizon), 2),
                 **{k: res[k] for k in _EFFORT_KEYS},
                 "certification": res["certification_add_on"],
                 "subsystems": res["subsystems"][:6],
+                # a package figure that leaves a proposal out says so
+                "not_counted": not_counted[horizon],
                 # for the product manager to weigh (split the package or accept the class);
                 # not sent back to the model, which judges single proposals
                 "flags": horizon_flags(
                     horizon, "change", res["decision"], res["decision_stable_pct"]
-                ),
+                )
+                if changes
+                else [],
             }
         )
     out = {
@@ -340,7 +438,7 @@ def run_analysis(
             "verbatim it comes from, or remove the quote."
             for q in unverified_quotes(session, answer)
         ]
-        return quotes + effort_of_proposals(session, vehicle, answer)[1]
+        return quotes + effort_of_proposals(session, vehicle, market, answer)[1]
 
     result = run_agent(
         session,
@@ -360,7 +458,7 @@ def run_analysis(
     )
     run.model_ids = {"reasoning": result.model}
     quotes = unverified_quotes(session, result.parsed)
-    effort, effort_faults = effort_of_proposals(session, vehicle, result.parsed)
+    effort, effort_faults = effort_of_proposals(session, vehicle, market, result.parsed)
     effort["open_faults"] = effort_faults  # what the one correction did not settle
     out = {
         "run_id": run.id,
@@ -428,14 +526,16 @@ def render_analysis(out: dict[str, Any]) -> str:
     def refs(items: list[str]) -> str:
         return ", ".join(f"`{r}`" + (" (not verified)" if r in unknown else "") for r in items)
 
-    def effort_lines(e: dict[str, Any] | None) -> list[str]:
-        if e is None:
-            return ["", "Effort: no change profile (nothing on the vehicle changes)."]
-        if "error" in e:
-            return ["", f"Effort: not computed, the {e['source']} breaks the model: {e['error']}"]
-        if e["kind"] != "change":
-            return ["", f"Effort: none ({e['kind'].replace('_', ' ')}), from the {e['source']}."]
-        out = [
+    def effort_lines(e: dict[str, Any]) -> list[str]:
+        flags = [f"- {f['level']} ({f['rule']}): {f['text']}" for f in e["flags"]]
+        if e["status"] == "no_vehicle_change":
+            return ["", "Effort: none, the proposal is declared not to change the vehicle.", *flags]
+        if e["status"] == "missing":
+            return ["", "Effort: **not estimated**, no change profile was given.", *flags]
+        if e["status"] == "invalid":
+            text = f"Effort: **not estimated**, the profile breaks the model: {e['error']}"
+            return ["", text, *flags]
+        return [
             "",
             f"Effort (CPM estimate): **{e['effort_pct']} %** of a new vehicle generation "
             f"(P5–P95 {e['p5']}–{e['p95']}) · {e['decision']}, kept in "
@@ -443,15 +543,14 @@ def render_analysis(out: dict[str, Any]) -> str:
             f"layer {e['layer']}"
             + (" · certification add-on" if e["certification"] else "")
             + f" · from the {e['source']}",
+            *[
+                f"- {c['subsystem']} {c['own_impact']} {c['layer']}"
+                + (" carryover" if c["carryover"] else "")
+                + (f": {c['why']}" if c["why"] else "")
+                for c in e["changes"]
+            ],
+            *flags,
         ]
-        out += [
-            f"- {c['subsystem']} {c['own_impact']} {c['layer']}"
-            + (" carryover" if c["carryover"] else "")
-            + (f": {c['why']}" if c["why"] else "")
-            for c in e["changes"]
-        ]
-        out += [f"- {f['level']} (rule {f['rule']}): {f['text']}" for f in e["flags"]]
-        return out
 
     lines = [
         f"# Situation analysis – {out['scope']}",
@@ -508,6 +607,7 @@ def render_analysis(out: dict[str, Any]) -> str:
             f"{p['sum_of_single_pct']} %"
         )
         lines += [f"  - {f['level']} (rule {f['rule']}): {f['text']}" for f in p["flags"]]
+        lines += [f"  - not counted, no usable change profile: {t}" for t in p["not_counted"]]
     if not effort["packages"]:
         lines.append("- No proposal carries a change profile.")
     if effort["open_faults"]:

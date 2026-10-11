@@ -176,7 +176,7 @@ def test_agent_loop_must_answer_at_the_step_limit(engine, ingested):
     assert res.steps == 3 and res.hit_step_limit and res.unknown_refs == []
 
 
-def _rec(ref, title, requirement, changes):
+def _rec(ref, title, requirement, changes, *, changes_vehicle=True, carryover=False):
     return {
         "title": title,
         "proposal": "p",
@@ -184,15 +184,16 @@ def _rec(ref, title, requirement, changes):
         "rationale": "why",
         "evidence_refs": [ref],
         "related_requirement": requirement,
+        "changes_vehicle": changes_vehicle,
         "effort_changes": changes
         and [
             {
                 "subsystem": s,
                 "own_impact": own,
                 "layer": layer,
-                "carryover": False,
+                "carryover": carryover,
                 "why": "w",
-                "portfolio_terms": [],
+                "portfolio_terms": ["%", "ab"],  # a wildcard and a too short term: both dropped
             }
             for s, own, layer in changes
         ],
@@ -228,7 +229,9 @@ def test_situation_analysis_for_a_country(engine, ingested):
                 _rec(ref, "seat foam", "REQ-INVENTED", [("seats", 0.25, "K1")]),
                 _rec(ref, "new body", None, [("body_structure", 0.9, "K3")]),
                 _rec(ref, "bigger battery", None, [("hv_battery", 0.5, "K2")]),
-                _rec(ref, "keep the handling", None, None),
+                _rec(ref, "keep the handling", None, None, changes_vehicle=False),
+                _rec(ref, "silent change", None, None),
+                _rec(ref, "seat foam as carryover", None, [("seats", 0.25, "K1")], carryover=True),
             ],
             "assumptions_and_gaps": ["a"],
         }
@@ -251,15 +254,29 @@ def test_situation_analysis_for_a_country(engine, ingested):
     # effort comes from the CPM engine, from the change profile the analyst gave
     assert "## Effort model (CPM)" in seen_user[0]
     assert "Not on this vehicle, so no change can start there: hv_battery, charging" in seen_user[0]
-    seats, body, battery, keep = out["effort"]["recommendations"]
+    seats, body, battery, keep, silent, carried = out["effort"]["recommendations"]
     assert seats["decision"] == "adapt" and 0 < seats["p5"] < seats["effort_pct"] < seats["p95"]
+    # a requirement id the model made up gives no profile; its own profile is used and flagged
+    assert seats["source"] == "analyst's change profile" and seats["flags"][0]["rule"] == "scope"
+    assert seats["changes"][0]["portfolio_terms"] == []
     assert body["decision"] == "new generation" and body["flags"][0]["level"] == "conflict"
-    assert "not present on F70" in battery["error"] and keep is None
-    # an H1 proposal that needs a new generation, and a profile the model refuses, go back
-    assert '"new body" is H1' in correction and "breaks the effort model" in correction
-    assert len(out["effort"]["open_faults"]) == 2  # the fake provider did not correct them
+    assert battery["status"] == "invalid" and "not present on F70" in battery["error"]
+    # only a declared "no change" passes without an estimate
+    assert keep["status"] == "no_vehicle_change" and silent["status"] == "missing"
+    # the model cannot lower its own estimate by claiming carryover
+    assert carried["effort_pct"] == seats["effort_pct"] and not carried["changes"][0]["carryover"]
+    assert "is not applied" in carried["flags"][0]["text"]
+    for sent_back in (
+        "REQ-INVENTED, which does not exist",
+        '"new body" is H1',
+        "breaks the effort model",
+        '"silent change" changes the vehicle but has no change profile',
+    ):
+        assert sent_back in correction
+    assert len(out["effort"]["open_faults"]) == 4  # the fake provider did not correct them
     (package,) = out["effort"]["packages"]
-    assert (package["horizon"], package["proposals"]) == ("H1", 2)
+    assert (package["horizon"], package["proposals"]) == ("H1", 3)
+    assert package["not_counted"] == ["bigger battery", "silent change"]
     assert package["decision"] == "new generation" and out["effort"]["model_hash"]
     assert package["flags"][0]["level"] == "conflict"  # shown to the PM with the package
     # the invented requirement id survived the one correction and is reported, not hidden
@@ -268,7 +285,9 @@ def test_situation_analysis_for_a_country(engine, ingested):
     text = render_analysis(out)
     assert "## Insights" in text and "`REQ-INVENTED` (not verified)" in text
     assert "Effort (CPM estimate): **" in text and "## Effort of the proposals as packages" in text
-    assert "Effort: not computed" in text and "Effort: no change profile" in text
+    assert "not estimated**, the profile breaks the model" in text
+    assert "not estimated**, no change profile was given" in text
+    assert "not counted, no usable change profile: silent change" in text
 
 
 def test_quote_check_does_not_pass_quotes_it_cannot_compare(engine, ingested):

@@ -51,7 +51,7 @@ Decision D-071.
 ## 3. Verification
 
 Live runs with `gpt-5.4`, effort model `789fcb7624b8`; samples of the first and the third under
-`reports/analysis/` (both now written with prompt v3).
+`reports/analysis/` were refreshed with prompt v4 after the review (section 4).
 
 | Scope | Proposals | Profile from a requirement | Profile by the analyst | No vehicle change | H1 package | H2 package | Cost (USD) |
 |---|---|---|---|---|---|---|---|
@@ -70,11 +70,50 @@ Live runs with `gpt-5.4`, effort model `789fcb7624b8`; samples of the first and 
 
 Model calls of this branch so far, development included: 35 calls, USD 2.01.
 
-## 4. Known limitations
+## 4. Addendum after the security review (D-072)
 
-* The analyst's change profiles are assumptions stacked on an uncalibrated model. For Korea it
-  set carryover on two software changes; nothing checks that claim unless catalogue terms match.
-  The report shows the profile and its reason so that it can be corrected.
+The requirement id, the change profile and its carryover flag are model output. Two reviews of
+the pushed commit found that they were trusted too far; all of the following is now enforced in
+`effort_of_proposals` and tested.
+
+* A named requirement lends its profile only if it exists, is not withdrawn and belongs to the
+  vehicle and market under analysis. Before, any id was looked up, so a proposal could borrow
+  the small profile of an unrelated requirement.
+* A requirement the product manager rejected at gate G2 goes back to the model; a deferred one
+  and a profile written for an older requirement version are flagged.
+* Every recommendation declares `changes_vehicle`. A proposal that changes the vehicle and has
+  no usable profile (none given, or one that breaks the model) is a fault and is listed as not
+  counted in its package. Before, it was shown as "nothing on the vehicle changes" and skipped
+  the horizon check.
+* When a recommendation names a requirement and adds changes of its own, both are counted.
+  Before, the additions were dropped.
+* Carryover in an analyst's profile is reported and not applied: the profile is computed as a
+  new development, and the report shows the figure with the claim beside it. Catalogue terms
+  are bounded (five per change, at least four characters, no wildcards), changes to eight per
+  proposal.
+* Every estimate is computed from the current effort model, also one from a requirement's
+  profile, instead of being copied from the table.
+
+Live runs with prompt `situation-analysis-v4` (these are the samples under `reports/analysis/`):
+
+| Scope | Proposals | Estimated | Declared no vehicle change | Open faults | H1 package | H2 package | Cost (USD) |
+|---|---|---|---|---|---|---|---|
+| G60, market US | 8 | 7 (5 from a requirement's profile, 3 with the analyst's own changes) | 1 | 0 | 6 proposals, 13.7 % (7.3–20.8), adapt, kept in 62 % of the runs | 1 proposal, 49.2 %, new generation | 0.20 |
+| G60, country KR | 5 | 4 (all by the analyst) | 1 | 0 | 3 proposals, 9.2 % (4.8–13.8), adapt | 1 proposal, 13.4 %, adapt, kept in 68 % | 0.13 |
+| F70, country GB | 7 | 5 (all from a requirement's profile) | 2 | 0 | 5 proposals, 8.4 % (4.6–13.0), adapt | – | 0.20 |
+
+In the Korea run the analyst claimed carryover in three proposals; without the claim they come
+to 4.9, 4.2 and 2.8 % instead of 4.4, 3.4 and 2.4 %. The figures of section 3 are those of
+prompt v3 and are kept as the record of that run.
+
+62 tests passed. Model calls of this branch so far, development included: 44 calls, USD 2.54.
+
+## 5. Known limitations
+
+* The analyst's change profiles are assumptions stacked on an uncalibrated model: subsystem,
+  own impact and layer are the model's judgement. The report shows the profile and its reason so
+  that it can be corrected. Whether a proposal changes the vehicle is also the model's
+  declaration; it is visible in the report, not verified.
 * Analyst profiles live in the analysis file only. Turning a proposal into a requirement with a
   reviewed profile is still the authored path of D-060 and D-063.
 * A package beyond its horizon is flagged, not resolved: splitting it over model years is the
@@ -83,7 +122,7 @@ Model calls of this branch so far, development included: 35 calls, USD 2.01.
   in the rest.
 * Each analysis runs the sensitivity (2,000 runs) once per check, which adds a few seconds.
 
-## 5. Next step
+## 6. Next step
 
 Phase 5 scoring can take the same engine output as its negative factor. For the analyst, the
 next gain is a requirement agent that writes the proposals of a scope without a requirement file
