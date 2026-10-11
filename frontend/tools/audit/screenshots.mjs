@@ -8,7 +8,9 @@
  * rows, with a market row, without verbatims, at 1920 px), and the stage
  * bar with stage 2 (the inbox, all candidates with a row opened, the
  * filtered table, the left-out findings, a scope without a requirement
- * set, 1920 px). Run against a built app started in another shell
+ * set, 1920 px), stage 3 and the bridges, stage 4 and the method sheet,
+ * and stage 5 with gate G2 (one decision is made when the app runs in the
+ * live mode). Run against a built app started in another shell
  * (`pnpm build && pnpm start`).
  *
  *   node tools/audit/screenshots.mjs http://localhost:3400 [outDir]
@@ -166,5 +168,28 @@ await shoot("32-method-us-g60-1440", desktop, async (page) => {
   await page.waitForTimeout(200);
 }, { path: "/markets/us/g60/priorities/method" });
 await shoot("33-priorities-eu-f70-1920", wide, async () => {}, { path: "/markets/eu/f70/priorities" });
+
+// Step 17: stage 5, the decision record and the audit trail; gate G2 on the requirement page.
+// In the live mode (TRACEPOINT_LIVE=1 on the app, the backend API up) the form is live and one
+// decision is made on REQ-G60-US-PR-03 for the record; otherwise the controls are disabled.
+await shoot("34-log-us-g60-1440", desktop, async () => {}, { path: "/markets/us/g60/log" });
+await shoot("35-requirement-us-g60-pr-03-decision-1440", desktop, async (page) => {
+  await page.locator("#decision").scrollIntoViewIfNeeded();
+  await page.waitForTimeout(200);
+}, { path: "/markets/us/g60/requirements/req-g60-us-pr-03" });
+await shoot("36-requirement-us-g60-pr-03-decided-1440", desktop, async (page) => {
+  const note = page.locator("textarea[name=note]");
+  if ((await note.count()) === 0) return;
+  await note.fill("Test decision from the frontend audit of step 17, to be reverted.");
+  await page.getByRole("button", { name: "Defer" }).click();
+  await page.waitForURL(/decision=defer/, { timeout: 15000 });
+  await page.locator("#decision").scrollIntoViewIfNeeded();
+  await page.waitForTimeout(300);
+}, { path: "/markets/us/g60/requirements/req-g60-us-pr-03" });
+await shoot("37-log-us-g60-after-1440", desktop, async (page) => {
+  await page.locator(".timeline").scrollIntoViewIfNeeded();
+  await page.waitForTimeout(200);
+}, { path: "/markets/us/g60/log" });
+await shoot("38-log-eu-f70-1920", wide, async () => {}, { path: "/markets/eu/f70/log" });
 
 await browser.close();

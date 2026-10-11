@@ -1,11 +1,14 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { Suspense } from "react";
+import { StagePending } from "@/components/workspace/source-line";
 import { WorkspaceHeader } from "@/components/workspace/workspace-header";
 import { dateTime, full } from "@/lib/content/format";
 import { allVehicleParams, marketByCode, vehicleHref, vehicleIn } from "@/lib/content/markets";
+import type { MarketContent, VehicleContent } from "@/lib/content/types";
 import { effortContent } from "@/lib/data/effort";
-import { workspaceSnapshot } from "@/lib/data/workspace";
+import { readWorkspace } from "@/lib/data/workspace";
 import { site } from "@/lib/site";
 import { stageFigures } from "@/lib/workspace/figures";
 
@@ -18,7 +21,8 @@ import { stageFigures } from "@/lib/workspace/figures";
  * the comparison table with upright column heads and the table with
  * vertical lines of the 21st.dev survey (research notes 6.5), as a plain
  * table with the tokens; the fill of a cell follows the likelihood in the
- * one blue, with the figures as text.
+ * one blue, with the figures as text. The sheet is build content; only the
+ * stage bar's figures come from the workspace read at request time.
  */
 export function generateStaticParams() {
   return allVehicleParams();
@@ -39,6 +43,15 @@ export default async function MethodPage({ params }: Props) {
   const m = marketByCode(market);
   const v = m ? vehicleIn(m, vehicle) : undefined;
   if (!m || !v) notFound();
+  return (
+    <Suspense fallback={<StagePending />}>
+      <MethodBody market={m} vehicle={v} />
+    </Suspense>
+  );
+}
+
+async function MethodBody({ market: m, vehicle: v }: { market: MarketContent; vehicle: VehicleContent }) {
+  const read = await readWorkspace(v.code, m.code);
   const copy = site.method;
   const { model, backtest, snapshot } = effortContent();
   const names = new Map<string, string>(model.subsystems.map((s) => [s.key, s.name]));
@@ -49,7 +62,7 @@ export default async function MethodPage({ params }: Props) {
   const triggers = model.subsystems.filter((s) => s.certificationTrigger).map((s) => s.name);
   return (
     <div className="workspace">
-      <WorkspaceHeader market={m} vehicle={v} current="priorities" figures={stageFigures(v, m.code, workspaceSnapshot(v.code, m.code))} />
+      <WorkspaceHeader market={m} vehicle={v} current="priorities" figures={stageFigures(v, m.code, read?.snapshot)} />
       <section className="stage-body" aria-labelledby="method-heading">
         <nav className="crumbs" aria-label="Breadcrumb">
           <ol>

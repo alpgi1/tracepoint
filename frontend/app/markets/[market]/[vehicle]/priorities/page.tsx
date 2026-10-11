@@ -5,15 +5,16 @@ import { Suspense } from "react";
 import { NoRequirements } from "@/components/workspace/no-requirements";
 import { EstimateView, H1Sentence, PackagesTable } from "@/components/workspace/package-table";
 import { PriorityMatrix } from "@/components/workspace/priority-matrix";
+import { SourceLine, StagePending } from "@/components/workspace/source-line";
 import { WorkspaceHeader } from "@/components/workspace/workspace-header";
 import { cpmCatalogue, cpmView } from "@/lib/content/cpm";
-import { dateTime, full } from "@/lib/content/format";
+import { full } from "@/lib/content/format";
 import { allVehicleParams, marketByCode, vehicleHref, vehicleIn } from "@/lib/content/markets";
 import type { CpmCatalogue, CpmView } from "@/lib/content/cpm-types";
 import type { MarketContent, VehicleContent } from "@/lib/content/types";
 import type { WorkspaceSnapshot } from "@/lib/content/workspace-types";
 import { effortContent, estimatePackage } from "@/lib/data/effort";
-import { workspaceSnapshot } from "@/lib/data/workspace";
+import { readWorkspace, workspaceSnapshot } from "@/lib/data/workspace";
 import { site } from "@/lib/site";
 import { stageFigures } from "@/lib/workspace/figures";
 import { type MatrixPoint, byEvidence, chosenIds, h1Note, matrixPoints, presetIds } from "@/lib/workspace/priorities";
@@ -22,9 +23,10 @@ import { requirementHref } from "@/lib/workspace/requirements";
 /*
  * Stage 4, Prioritization (plan 08 section 4.3): the matrix of effort
  * against customer evidence with its table twin, the engine's packages,
- * and the package builder. The shell is prerendered; the builder reads the
- * chosen set from the URL and asks the backend API for the estimate at
- * request time (the one live read so far), behind a Suspense boundary.
+ * and the package builder. The body reads the workspace at request time
+ * (the snapshot, or the API in the live mode, D-085); inside it the builder
+ * reads the chosen set from the URL and asks the backend API for the
+ * estimate, behind its own Suspense boundary.
  */
 export function generateStaticParams() {
   return allVehicleParams();
@@ -44,9 +46,19 @@ export default async function PrioritiesPage({ params, searchParams }: Props) {
   const { market, vehicle } = await params;
   const m = marketByCode(market);
   const v = m ? vehicleIn(m, vehicle) : undefined;
-  const snapshot = m && v ? workspaceSnapshot(v.code, m.code) : undefined;
   const view = m && v ? cpmView(v.code, m.code) : undefined;
-  if (!m || !v || !snapshot || !view) notFound();
+  if (!m || !v || !view || !workspaceSnapshot(v.code, m.code)) notFound();
+  return (
+    <Suspense fallback={<StagePending />}>
+      <PrioritiesBody market={m} vehicle={v} view={view} searchParams={searchParams} />
+    </Suspense>
+  );
+}
+
+async function PrioritiesBody({ market: m, vehicle: v, view, searchParams }: { market: MarketContent; vehicle: VehicleContent; view: CpmView; searchParams: Props["searchParams"] }) {
+  const read = await readWorkspace(v.code, m.code);
+  if (!read) notFound();
+  const { snapshot } = read;
   const copy = site.priorities;
   const catalogue = cpmCatalogue();
   const methodHref = `${vehicleHref(m.code, v.code)}/priorities/method`;
@@ -104,11 +116,7 @@ export default async function PrioritiesPage({ params, searchParams }: Props) {
             </Suspense>
           </>
         )}
-        <p className="stage-source">
-          {site.structure.sourceBefore} {dateTime(snapshot.snapshot.takenAt)}
-          {snapshot.snapshot.modelHash ? `; ${site.structure.sourceModel} ${snapshot.snapshot.modelHash}, ${site.structure.sourceModelNote}` : ""}
-          {snapshot.snapshot.codeVersion ? `; ${site.structure.sourceCode} ${snapshot.snapshot.codeVersion}` : ""}.
-        </p>
+        <SourceLine read={read} />
       </section>
     </div>
   );

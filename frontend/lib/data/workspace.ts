@@ -1,3 +1,4 @@
+import { connection } from "next/server";
 import F70_EU from "@/content/workspace/F70_EU.json";
 import G60_EU from "@/content/workspace/G60_EU.json";
 import G60_US from "@/content/workspace/G60_US.json";
@@ -5,14 +6,28 @@ import G68_CN from "@/content/workspace/G68_CN.json";
 import G70_CN from "@/content/workspace/G70_CN.json";
 import G70_EU from "@/content/workspace/G70_EU.json";
 import G70_US from "@/content/workspace/G70_US.json";
-import type { WorkspaceSnapshot } from "@/lib/content/workspace-types";
+import type {
+  AuditEvent,
+  EffortScenario,
+  ExcludedCandidate,
+  Requirement,
+  RequirementDetail,
+  RequirementEffort,
+  WorkspaceSnapshot,
+} from "@/lib/content/workspace-types";
 
 /*
- * Reads of the PM workspace (plan 08 section 6, D-079). The committed
- * snapshots under content/workspace/ are the backend API's own responses,
- * written by scripts/snapshot-workspace.mjs; the pages read them here,
- * server side only. The browser never receives a whole snapshot and never
- * calls the API.
+ * Reads of the PM workspace (plan 08 section 6, D-079 and D-085). The
+ * committed snapshots under content/workspace/ (the backend API's own
+ * responses written by scripts/snapshot-workspace.mjs) are the base of
+ * every read. In the live mode (TRACEPOINT_LIVE=1 and the API answering at
+ * TRACEPOINT_API_URL) a read replaces what changes with the API's current
+ * answer: the requirement list with its gate statuses, the estimates, the
+ * packages, the excluded candidates, the events, and on a requirement page
+ * its detail. The evidence (verbatims, metrics, catalogue items) stays
+ * from the snapshot; it does not change between decisions. Server side
+ * only, imported by server components and route handlers: the browser
+ * never receives a whole snapshot and never calls the API.
  */
 // The JSON's string fields are wider than the literal unions of the contract (status, horizon, basis); the test checks them.
 const snapshots: Record<string, WorkspaceSnapshot> = Object.fromEntries(
@@ -35,4 +50,82 @@ export function scopesWithRequirements(): { vehicle: string; market: string }[] 
   return workspaceScopes()
     .filter((s) => s.requirements.length > 0)
     .map((s) => ({ vehicle: s.vehicle, market: s.market }));
+}
+
+export const API_URL = (process.env.TRACEPOINT_API_URL ?? "http://127.0.0.1:8000").replace(/\/$/, "");
+const EVENT_LIMIT = 5000;
+const TIMEOUT_MS = 4000;
+
+export function liveEnabled(): boolean {
+  return process.env.TRACEPOINT_LIVE === "1";
+}
+
+/** What a read of the workspace returns: the data, and whether the API or the snapshot answered. */
+export interface WorkspaceRead {
+  snapshot: WorkspaceSnapshot;
+  live: boolean;
+  api: string;
+  /** When the API was read, null for a snapshot read. */
+  readAt: string | null;
+  /** Why the live read fell back to the snapshot, null otherwise. */
+  reason: string | null;
+}
+
+export interface LiveParts {
+  requirements: Requirement[];
+  efforts: RequirementEffort[];
+  scenarios: EffortScenario[];
+  scopeEvents: AuditEvent[];
+  requirementEvents: AuditEvent[];
+  detail?: RequirementDetail;
+}
+
+/** The snapshot with the API's current answers in place of what changes; pure, for the test. */
+export function mergeLive(base: WorkspaceSnapshot, live: LiveParts): WorkspaceSnapshot {
+  const prefix = `REQ-${base.vehicle}-${base.market}-`;
+  const excluded: ExcludedCandidate[] = live.scopeEvents
+    .filter((e) => e.action === "requirements.candidates_excluded")
+    .flatMap((e) => (Array.isArray(e.after?.excluded) ? (e.after.excluded as ExcludedCandidate[]) : []));
+  const events = live.requirementEvents.filter((e) => e.entity_id.startsWith(prefix)).sort((a, b) => a.id - b.id);
+  const details = live.detail ? { ...base.details, [live.detail.id]: live.detail } : base.details;
+  return { ...base, requirements: live.requirements, efforts: live.efforts, scenarios: live.scenarios, excluded, events, details };
+}
+
+async function get<T>(path: string): Promise<T> {
+  const response = await fetch(`${API_URL}${path}`, { headers: { accept: "application/json" }, cache: "no-store", signal: AbortSignal.timeout(TIMEOUT_MS) });
+  if (!response.ok) throw new Error(`${path}: HTTP ${String(response.status)}`);
+  return (await response.json()) as T;
+}
+
+/**
+ * The workspace of a scope: the snapshot, or in the live mode the snapshot
+ * with the API's current answers. Always request-time (connection), so a
+ * decision shows on the next request; undefined where no snapshot exists.
+ */
+export async function readWorkspace(vehicle: string, market: string, options: { detailOf?: string } = {}): Promise<WorkspaceRead | undefined> {
+  await connection();
+  const base = workspaceSnapshot(vehicle, market);
+  if (!base) return undefined;
+  if (!liveEnabled()) return { snapshot: base, live: false, api: API_URL, readAt: null, reason: null };
+  const q = `vehicle=${base.vehicle}&market=${base.market}`;
+  try {
+    const [requirements, efforts, scenarios, scope, events] = await Promise.all([
+      get<Requirement[]>(`/requirements?${q}`),
+      get<RequirementEffort[]>(`/effort/requirements?${q}`),
+      get<EffortScenario[]>(`/effort/scenarios?${q}`),
+      get<{ items: AuditEvent[] }>(`/events?entity_type=scope&entity_id=${base.vehicle}:${base.market}`),
+      get<{ items: AuditEvent[] }>(`/events?entity_type=requirement&limit=${String(EVENT_LIMIT)}`),
+    ]);
+    const wanted = options.detailOf ? requirements.find((r) => r.id.toLowerCase() === options.detailOf?.toLowerCase()) : undefined;
+    const detail = wanted ? await get<RequirementDetail>(`/requirements/${wanted.id}`) : undefined;
+    return {
+      snapshot: mergeLive(base, { requirements, efforts, scenarios, scopeEvents: scope.items, requirementEvents: events.items, detail }),
+      live: true,
+      api: API_URL,
+      readAt: new Date().toISOString(),
+      reason: null,
+    };
+  } catch (error) {
+    return { snapshot: base, live: false, api: API_URL, readAt: null, reason: error instanceof Error ? error.message : String(error) };
+  }
 }

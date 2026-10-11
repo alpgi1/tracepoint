@@ -1511,8 +1511,69 @@ blockquote.verbatim p {
 }
 .button-row {
   display: flex;
+  flex-wrap: wrap;
   gap: 8px;
   margin-top: 12px;
+}
+
+/* Gate G2 in the live mode: the rationale and the three decisions as submit controls; the outcome as one line with the rule. */
+.decision-notice {
+  max-width: 72ch;
+  margin-top: 12px;
+  padding: 6px 12px;
+  border-left: 2px solid var(--color-blue);
+  font-size: 0.875rem;
+  line-height: 1.45;
+}
+
+.decision-form {
+  display: grid;
+  gap: 4px;
+  max-width: 72ch;
+  margin-top: 12px;
+}
+
+.decision-note {
+  display: grid;
+  gap: 4px;
+  color: var(--color-ink-2);
+  font-size: 0.75rem;
+}
+
+.decision-note textarea {
+  width: 100%;
+  min-height: 88px;
+  padding: 10px 12px;
+  font: inherit;
+  font-size: 0.875rem;
+  line-height: 1.45;
+  color: var(--color-ink);
+  background: var(--color-paper);
+  border: 1px solid var(--color-line);
+  border-radius: calc(var(--radius) * 1.5);
+  resize: vertical;
+}
+
+/* Stage 5: the decision record and the export link. */
+.record-table td.record-when {
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+.record-table td.record-note {
+  min-width: 24ch;
+  max-width: 48ch;
+}
+
+.export-row {
+  margin-top: 12px;
+}
+
+.export-link {
+  display: inline-flex;
+  align-items: center;
+  color: var(--color-ink);
+  text-decoration: none;
 }
 .filter-apply:disabled {
   color: var(--color-ink-2);
@@ -1564,6 +1625,15 @@ blockquote.verbatim p {
 .timeline-body {
   display: grid;
   gap: 2px;
+  overflow-wrap: anywhere;
+}
+
+/* Under 600 px the time column would leave the text less than 100 px; the time goes above the text. */
+@media (max-width: 599px) {
+  .timeline-item {
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: 2px;
+  }
 }
 
 /* Bridges on the vehicle screen: the requirement line on a CPM row, the fourth band of the dialog. */
