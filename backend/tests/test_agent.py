@@ -13,6 +13,7 @@ from tracepoint.agent.analysis import (
     Insight,
     SituationAnalysis,
     render_analysis,
+    render_brief,
     resolve_scope,
     run_analysis,
     unverified_quotes,
@@ -74,6 +75,7 @@ def test_every_tool_runs_and_is_logged(engine, ingested):
         "get_requirements": {"vehicle": "G60", "status": "proposed"},
         "get_subsystems": {"vehicle": "G60", "market": "US"},
         "get_effort": {"vehicle": "G60", "market": "US"},
+        "get_external_evidence": {"market": "US", "vehicle": "G60"},
     }
     assert set(calls) == set(TOOLS) and len(tool_schemas()) == len(TOOLS)
     with Session(engine) as session:
@@ -251,8 +253,12 @@ def test_situation_analysis_for_a_country(engine, ingested):
         with start_run(session, "test.agent.analysis") as run:
             gateway = LlmGateway(session, FakeProvider(responder), run.id)
             out = run_analysis(session, run, gateway, "F70", country="gb")
-        event = session.scalar(select(AuditEvent).where(AuditEvent.action == "analysis.created"))
-        assert event.actor_id == "agent:analyst" and event.run_id == out["run_id"]
+        event = session.scalar(
+            select(AuditEvent).where(
+                AuditEvent.action == "analysis.created", AuditEvent.run_id == out["run_id"]
+            )
+        )
+        assert event.actor_id == "agent:analyst"
         assert event.prompt_version == PROMPT_VERSION
         with pytest.raises(ValueError, match="belongs to market EU"):
             resolve_scope(session, "US", "GB")
@@ -323,6 +329,17 @@ def test_situation_analysis_for_a_country(engine, ingested):
     assert "not estimated**, the profile breaks the model" in text
     assert "not estimated**, no change profile was given" in text
     assert "not counted, no usable change profile: silent change" in text
+    # the brief a product manager reads: the proposals first, warnings kept, the rest in the JSON
+    brief = render_brief(out)
+    assert brief.index("## Proposals") < brief.index("## What customers say")
+    assert "| 2 | new body | H1 | " in brief and "new generation | new |" in brief
+    assert "| 5 | silent change | H1 | not estimated | new |" in brief
+    assert "- Check: " in brief and "Not counted, no usable change profile: silent change" in brief
+    assert "REQ-INVENTED" in brief  # an unverified reference is named, not hidden
+    assert "a sentence no customer wrote" not in brief  # a quote nobody wrote is left out
+    for noise in ("Tool calls", "Subsystems of the cited evidence", "catalogue scan", "- size of"):
+        assert noise not in brief
+    assert len(brief) < 0.75 * len(text)
 
 
 def test_quote_check_does_not_pass_quotes_it_cannot_compare(engine, ingested):

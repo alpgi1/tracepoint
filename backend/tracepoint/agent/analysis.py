@@ -12,6 +12,7 @@ horizon goes back to the model once.
 
 from __future__ import annotations
 
+import json
 import re
 from typing import Any, Literal
 
@@ -45,7 +46,8 @@ from tracepoint.llm.gateway import LlmGateway
 # v4: changes_vehicle, scope of related_requirement, carryover of own profiles not applied;
 # v5: the CPM subsystem view and the market evidence;
 # v6: reference changes per subsystem, start subsystem and size are checked and sent back
-PROMPT_VERSION = "situation-analysis-v6"
+# v7: external evidence rows
+PROMPT_VERSION = "situation-analysis-v8"  # v8: short fields, for the brief
 ACTOR = "agent:analyst"
 
 
@@ -111,12 +113,12 @@ SYSTEM_PROMPT = """You are the situation analyst of Tracepoint, a customer-requi
 
 How to work
 1. The user message holds the context pack of the scope. Read it first.
-2. Drill down with the tools before you conclude. Read the verbatims behind the largest complaint themes and behind the strengths (get_verbatims_by_theme, search_evidence). Check the study metrics (get_metric), the catalogue (get_equipment), the sales weight (get_sales), the extracted findings (get_findings) and the requirements already derived (get_requirements). Ask for the requirements without a status filter: most are still proposed and wait for the product manager's decision. Where requirements exist, read their effort estimates and the package variations (get_effort with scenarios=true). The pack also shows the customer rows per CPM subsystem; get_subsystems with a subsystem key returns its liked and criticised themes with quotes. Use search_documents for the BMW Group's strategy and delivery figures.
+2. Drill down with the tools before you conclude. Read the verbatims behind the largest complaint themes and behind the strengths (get_verbatims_by_theme, search_evidence). Check the study metrics (get_metric), the catalogue (get_equipment), the sales weight (get_sales), the extracted findings (get_findings), the requirements already derived (get_requirements) and the external market and competition evidence (get_external_evidence). Ask for the requirements without a status filter: most are still proposed and wait for the product manager's decision. Where requirements exist, read their effort estimates and the package variations (get_effort with scenarios=true). The pack also shows the customer rows per CPM subsystem; get_subsystems with a subsystem key returns its liked and criticised themes with quotes. Use search_documents for the BMW Group's strategy and delivery figures.
 3. Search is lexical: when a query returns little, try the customers' other words for the same thing.
 4. Stop calling tools once another call would not change the analysis. Then answer in the JSON schema.
 
 Evidence rules
-- Every insight and every recommendation lists the references it rests on in evidence_refs, copied exactly as you received them: evidence_ref values (verbatim:…, metric:…, equipment:…, sales:…, document:…, market:…) and the ids of findings and requirements (FND-…, REQ-…). A reference you were not given is rejected.
+- Every insight and every recommendation lists the references it rests on in evidence_refs, copied exactly as you received them: evidence_ref values (verbatim:…, metric:…, equipment:…, sales:…, document:…, market:…, external:…) and the ids of findings and requirements (FND-…, REQ-…). A reference you were not given is rejected.
 - Every number comes from the context pack or from a tool result. Use no figure from memory and no knowledge about competitors or markets that is not in the evidence.
 - A customer quote is copied word for word from a verbatim you cite, and kept short.
 - Say how strong the evidence is: a theme with five rows is not a theme with two hundred.
@@ -138,6 +140,15 @@ Market and competition evidence
 - A market figure ranks powertrains or describes the region. It is not customer feedback: it does not make a customer need more or less frequent.
 - If no row is stored for the market or the subsystem, say that there is none. Do not fill the gap from memory.
 
+External evidence (the team's source lists)
+- get_external_evidence returns the rows of the market and the worldwide ones: market shares, consumer surveys, charging infrastructure, competitor moves, quality indices, expert tests, owner complaints filed with NHTSA, official EPA figures. The pack says how many rows the scope has and for which subsystems and topics. Look at the rows of the subsystems your main insights sit in before you conclude, and cite a row by its evidence_ref (external:…).
+- The rules for market rows hold for them: state the level, a weak row never carries an insight or a recommendation alone, an assumption (a forecast) cannot raise confidence to high, both sides of a contradiction are reported.
+- verification says whether the figures of a row were found on the fetched page: confirmed (they stand together in one passage, or a reader pinned the passage) or computed (from an official API) is verified. Call any other row (on_page, partial, not_found, not_fetched, not_checkable) unverified where you use it; it never carries a recommendation alone, whatever its level.
+- A row for the regions Global only describes no single market. Say so.
+- Rows about this vehicle (expert tests, NHTSA complaints, EPA figures) are third-party statements. They are not BMW customer feedback: they do not change a complaint count, and an NHTSA complaint is a safety or defect report, not a satisfaction measure.
+- Competitor and market knowledge comes from these rows only. A rival or a market fact that no row names is not in the evidence.
+- search_documents also finds passages of the stored pages of external sources about this vehicle (reviews, owner complaints); cite them as document:….
+
 Effort
 - Effort is estimated with the Change Prediction Method as a share of the development effort of a new vehicle generation. It is never money, and every input of the model is an uncalibrated assumption: say so wherever effort enters your reasoning.
 - Effort is a rough prioritisation factor only. What customers need comes first; effort decides the horizon and the packaging, not whether a need is real.
@@ -145,7 +156,7 @@ Effort
 - A recommendation that an existing requirement covers names it in related_requirement and leaves effort_changes null: the requirement's stored profile is used. Name only requirements of the vehicle and market you analyse; any other is refused. If your proposal goes beyond the requirement, add the extra in effort_changes: both are counted.
 - A requirement the product manager rejected at gate G2 is not proposed again, unless your rationale says what new evidence justifies it.
 - Any other recommendation that changes the vehicle sets changes_vehicle to true and gives effort_changes, at most eight entries, one per subsystem where the change starts: the subsystem key from the effort model in the user message, own_impact (share of that subsystem's design redone, judged against the reference points given there), the layer, carryover, why in one sentence, and portfolio_terms (two or three German or English catalogue words for the feature; the catalogue is searched with them). List only where the change starts; the engine adds the propagation to other subsystems.
-- Where a change starts is checked against your evidence. A change that starts in a subsystem none of the findings, requirements or market rows you cite sits in, and that fewer than two of your verbatims touch, is sent back: cite evidence for that subsystem, move the start, or state in why what puts the work there (a complaint about setting the climate through the screen sits in thermal_hvac or software_hmi; physical keys for it start in interior_console, and why says so).
+- Where a change starts is checked against your evidence. A change that starts in a subsystem none of the findings, requirements or market rows you cite sits in, and that fewer than two of your verbatims or external rows touch, is sent back: cite evidence for that subsystem, move the start, or state in why what puts the work there (a complaint about setting the climate through the screen sits in thermal_hvac or software_hmi; physical keys for it start in interior_console, and why says so).
 - own_impact is set by comparison, not by feel. The effort model in the user message lists reference changes for every subsystem: documented BMW decisions and the reviewed profiles of existing requirements. Find the nearest ones, decide whether your change is smaller or larger, and name that comparison in why ("smaller than the OS 7 release at 0.4: one menu layer, not a new system"). A value outside the range of its subsystem's references is sent back.
 - carryover in your own profile is a claim for the product manager to check. It is reported and not applied: your profile is computed as a new development.
 - Only a recommendation that changes nothing on the vehicle (keep a strength, explain a function) sets changes_vehicle to false and has no profile. A proposal that changes the vehicle and has no profile is sent back.
@@ -159,11 +170,11 @@ What the data is (name the points that bear on your conclusions under data_cover
 - The equipment catalogue is the German price list of July 2026 in EUR. Outside Germany it shows what the model line offers, not what is standard or optional in that market.
 - Sales have no powertrain split. The G60 volumes include the Chinese long-wheelbase G68. The 2030 figure is a plan value.
 - China has study scores and no verbatims.
-- Study scores are compared with other BMW models only. There is no competitor data.
+- Study scores are compared with other BMW models only. Competitor statements exist as market rows and external evidence rows, nowhere else.
 - Finding evidence levels: A means several source types, at least 20 complaint rows and a supporting study metric; B at least 10 rows or a study metric; C at least 5 rows or the catalogue alone.
 - Horizons: H1 is achievable within the current generation (model-year update, software, equipment, packages, colours). H2 belongs to the successor generation, about 2030.
 
-Write in English, plainly, for a product manager who will check your references."""
+Write in English, plainly and briefly, for a product manager who reads the brief in five minutes and checks references only where a point surprises: a statement in at most three sentences with the numbers that carry it, a proposal and a rationale in at most two sentences each, a summary in at most four."""
 
 _generated_line = re.compile(r", generated [^.]*\.")
 _not_alnum = re.compile(r"[\W_]+")  # Unicode-aware: letters of any script are kept
@@ -304,19 +315,23 @@ def _flag(level: str, rule: str, text: str) -> dict[str, str]:
 
 
 def _requirement_in_scope(
-    session: Session, requirement_id: str, vehicle: str, market: str
+    session: Session, requirement_id: str, scopes: set[tuple[str, str]]
 ) -> tuple[Requirement | None, str | None]:
     """The requirement a proposal names, or why its profile may not be used. The id comes from
-    the model, so it is only accepted for the vehicle and market under analysis."""
+    the model, so it is only accepted for the vehicles and markets under analysis."""
     req = session.get(Requirement, requirement_id)
     if req is None or req.status == "withdrawn":
         return None, "which does not exist"
-    if (req.vehicle_code, req.market_code) != (vehicle, market):
+    if (req.vehicle_code, req.market_code) not in scopes:
         return (
             None,
-            f"which belongs to {req.vehicle_code} {req.market_code}, not {vehicle} {market}",
+            f"which belongs to {req.vehicle_code} {req.market_code}, not {_scope_text(scopes)}",
         )
     return req, None
+
+
+def _scope_text(scopes: set[tuple[str, str]]) -> str:
+    return " or ".join(f"{v} {m}" for v, m in sorted(scopes))
 
 
 def _searchable(term: str) -> bool:
@@ -333,16 +348,27 @@ def _analyst_change(c: Change) -> Change:
 
 
 def effort_of_proposals(
-    session: Session, vehicle: str, market: str, analysis: SituationAnalysis
+    session: Session,
+    vehicle: str,
+    market: str,
+    analysis: Any,
+    *,
+    scopes: set[tuple[str, str]] | None = None,
 ) -> tuple[dict[str, Any], list[str]]:
     """Effort of every recommendation and of the H1 and H2 recommendations as packages, computed
     by the CPM engine from the current model. Returns the result and the faults to send back to
     the model.
 
+    ``analysis`` is anything with ``recommendations`` whose items carry title, horizon,
+    evidence_refs, related_requirement, changes_vehicle and effort_changes (the series analysis
+    passes its topics). ``scopes`` are the vehicle and market pairs whose requirements may be
+    named; by default the one under analysis.
+
     Everything the model controls is checked or bounded here, and a proposal that changes the
     vehicle never passes without an estimate silently: it is estimated, or it is a fault and is
     listed as not counted in its package."""
     engine, samples = engine_and_samples(vehicle)
+    scopes = scopes or {(vehicle, market)}
     rows: list[dict[str, Any]] = []
     faults: list[str] = []
     from_requirements: dict[str, dict[str, list[Change]]] = {"H1": {}, "H2": {}}
@@ -353,12 +379,12 @@ def effort_of_proposals(
         sources: list[str] = []
         req, stored = None, None
         if rec.related_requirement:
-            req, problem = _requirement_in_scope(session, rec.related_requirement, vehicle, market)
+            req, problem = _requirement_in_scope(session, rec.related_requirement, scopes)
             if problem:
                 text = f"names {rec.related_requirement}, {problem}; its profile is not used"
                 flags.append(_flag("conflict", "scope", text))
                 faults.append(
-                    f'"{rec.title}" {text}. Name a requirement of {vehicle} {market} or set '
+                    f'"{rec.title}" {text}. Name a requirement of {_scope_text(scopes)} or set '
                     "related_requirement to null and give effort_changes."
                 )
         if req is not None:
@@ -388,9 +414,11 @@ def effort_of_proposals(
         claimed = [c.subsystem for c in own if c.carryover]
         cited_in = subsystems_of_refs(session, rec.evidence_refs)
         # Where the evidence sits for certain: findings, requirements and market rows carry one
-        # theme each; a verbatim carries several labels, so one verbatim alone is not enough.
+        # theme each; a verbatim carries several labels and an external row can bear on several
+        # subsystems, so one of those alone is not enough.
         precise = subsystems_of_refs(
-            session, [r for r in rec.evidence_refs if not r.startswith("verbatim:")]
+            session,
+            [r for r in rec.evidence_refs if not r.startswith(("verbatim:", "external:"))],
         )
         core = set(precise) | {k for k, n in cited_in.items() if n >= 2}
         elsewhere = sorted({c.subsystem for c in own} - core)
@@ -675,13 +703,167 @@ def run_analysis(
     return out
 
 
+# Renderers do not agree on what a link is. One follows CommonMark, the next links a bare
+# "evil.example/x", a "//host", a "javascript:" or an address behind an entity, and one that
+# does not honour a backslash reads "\[x\](y)" as a link. So nothing here relies on an escape
+# or an entity to stop a link: brackets are replaced, and whatever could be read as an address
+# is rewritten in the visible text.
+_address = (
+    (re.compile(r"([A-Za-z][A-Za-z0-9+.-]*):(?=\S)"), r"\1(:)"),  # any scheme
+    (re.compile(r"//(?=\S)"), "/(/)"),  # "//host", with or without a scheme before it
+    (re.compile(r"(www)\.", re.I), r"\1(.)"),
+    (re.compile(r"(?<=[A-Za-z0-9])\.(?=[A-Za-z]{2,})"), "(.)"),  # a domain: "evil.example"
+    (re.compile(r"@"), "(at)"),  # e-mail, mailto:, user and repository mentions
+)
+_md_punctuation = re.compile(r"([`*_{}|~#$])")
+_ordered_item = re.compile(r"^(\d{1,9})([.)])(?=\s|$)")
+_bullet_or_rule = re.compile(r"^([-+=])(?=[\s\-+=]|$)")
+
+
+def _no_address(text: str) -> str:
+    for pattern, shown in _address:
+        text = pattern.sub(shown, text)
+    return text
+
+
+def md(text: Any) -> str:
+    """Text that this program did not write (the model's, a customer's, a web page's) as inert
+    Markdown. The reports are read rendered, so such text must not be able to add anything of
+    its own: it becomes one line and is shown as text, with no HTML and no entity, no emphasis
+    or code span, no table cell, no heading, list or rule (also not inside a bullet or a quote,
+    where a line is parsed as a block again), and no link in any flavour of Markdown: square
+    brackets become round ones and an address is broken up where it stands."""
+    text = " ".join(str(text or "").split())
+    # the two characters that could undo what follows go first
+    text = text.replace("&", "&amp;").replace("\\", "\\\\")
+    text = _no_address(text.replace("[", "(").replace("]", ")"))
+    text = text.replace("<", "&lt;").replace(">", "&gt;")
+    text = _md_punctuation.sub(r"\\\1", text)
+    return _bullet_or_rule.sub(r"\\\1", _ordered_item.sub(r"\1\\\2", text))
+
+
+def code(text: Any) -> str:
+    """An identifier or argument this program did not write, as a code span it cannot break
+    out of. A code span is shown as it stands and nothing in it is linked, so a reference keeps
+    its exact spelling for looking it up; only what could end the span or a table cell, or
+    read as markup if the span were lost, is replaced."""
+    text = " ".join(str(text or "").split())
+    for char, plain in (("`", "'"), ("|", "/"), ("<", "("), (">", ")"), ("[", "("), ("]", ")")):
+        text = text.replace(char, plain)
+    return f"`{text or '-'}`"
+
+
+def effort_text(e: dict[str, Any]) -> str:
+    """One estimate in a few words, for a table cell."""
+    if e["status"] == "estimated":
+        return f"{e['effort_pct']} % · {e['decision']}"
+    return "none" if e["status"] == "no_vehicle_change" else "not estimated"
+
+
+def warnings_of(e: dict[str, Any]) -> list[str]:
+    """What the product manager has to look at; informational notes stay in the JSON."""
+    return [f["text"] for f in e["flags"] if f["level"] in ("warning", "conflict")]
+
+
+def package_lines(effort: dict[str, Any]) -> list[str]:
+    lines = []
+    for p in effort["packages"]:
+        when = "Now (H1)" if p["horizon"] == "H1" else "Next generation (H2)"
+        lines.append(
+            f"- {when}: {p['proposals']} change(s) together **{p['effort_pct']} %** of a new "
+            f"vehicle generation ({md(p['decision'])}); work that proposals share counts once."
+            + "".join(f" Not counted, no usable change profile: {md(t)}." for t in p["not_counted"])
+        )
+        lines += [
+            f"  - {md(f['text'])}" for f in p["flags"] if f["level"] in ("warning", "conflict")
+        ]
+    lines.append(
+        "- Effort is a CPM estimate: a share of the development effort of a new vehicle "
+        "generation, never money, on uncalibrated assumptions."
+    )
+    return lines
+
+
+def render_brief(out: dict[str, Any]) -> str:
+    """The analysis as a product manager reads it: the answer, the proposals with their effort,
+    what customers say, what is open. Every reference, change profile, catalogue scan and tool
+    call is in the JSON beside it (and in ``render_analysis``, the full print). Whatever the
+    model or a customer wrote goes through ``md``."""
+    a, effort = out["analysis"], out["effort"]
+    unknown, loose = out["citations"]["unknown"], set(out["citations"]["unverified_quotes"])
+    rows = list(zip(a["recommendations"], effort["recommendations"], strict=True))
+    lines = [
+        f"# {md(out['scope'])}: situation and proposals",
+        "",
+        f"**{md(a['headline'])}**",
+        "",
+        md(a["summary"]),
+        "",
+        "## Proposals",
+        "",
+        "| # | Proposal | When | Effort | Requirement |",
+        "|---|---|---|---|---|",
+    ]
+    lines += [
+        f"| {n} | {md(r['title'])} | {md(r['horizon'])} | {md(effort_text(e))} | "
+        f"{md(r['related_requirement'] or 'new')} |"
+        for n, (r, e) in enumerate(rows, 1)
+    ]
+    lines += ["", *package_lines(effort)]
+    for n, (r, e) in enumerate(rows, 1):
+        lines += [
+            "",
+            f"### {n}. {md(r['title'])}",
+            "",
+            md(r["proposal"]),
+            "",
+            f"- Why: {md(r['rationale'])}",
+        ]
+        if e["status"] == "estimated":
+            lines.append(
+                f"- Effort: {e['effort_pct']} % of a new vehicle generation ({md(e['decision'])}, "
+                f"P5–P95 {e['p5']}–{e['p95']}), from the {md(e['source'])}."
+            )
+        elif e["status"] != "no_vehicle_change":
+            lines.append("- Effort: **not estimated** (no usable change profile).")
+        lines += [f"- Check: {md(w)}" for w in warnings_of(e)]
+        lines.append(f"- Evidence: {len(r['evidence_refs'])} references")
+    lines += ["", "## What customers say"]
+    for i in a["insights"]:
+        lines += [
+            "",
+            f"**{md(i['title'])}** (confidence {md(i['confidence'])})",
+            "",
+            md(i["statement"]),
+        ]
+        if i["customer_quote"] and i["customer_quote"] not in loose:
+            lines += ["", f"> {md(i['customer_quote'])}"]
+    lines += ["", "## Assumptions and gaps"] + [f"- {md(x)}" for x in a["assumptions_and_gaps"]]
+    if effort["open_faults"]:
+        lines += ["", "## Not settled by the checks"]
+        lines += [f"- {md(f)}" for f in effort["open_faults"]]
+    lines += [
+        "",
+        "---",
+        f"Run {code(out['run_id'])} · {md(out['model'])} · {md(out['prompt_version'])} · "
+        f"{out['citations']['cited']} references cited, {len(unknown)} not verified"
+        + (f" ({', '.join(code(u) for u in unknown)})" if unknown else "")
+        + f" · {len(loose)} quotes not found in their verbatims and left out · "
+        f"{len(out['trace']['tool_calls'])} tool calls. References, change profiles and tool "
+        "calls are in the JSON file of the same name.",
+    ]
+    return "\n".join(lines) + "\n"
+
+
 def render_analysis(out: dict[str, Any]) -> str:
+    """The full print for checking: every reference, change profile, flag and tool call. Like
+    the brief, it passes whatever the model or a customer wrote through ``md`` or ``code``."""
     a, trace, effort = out["analysis"], out["trace"], out["effort"]
     unknown = set(out["citations"]["unknown"])
     loose_quotes = set(out["citations"]["unverified_quotes"])
 
     def refs(items: list[str]) -> str:
-        return ", ".join(f"`{r}`" + (" (not verified)" if r in unknown else "") for r in items)
+        return ", ".join(code(r) + (" (not verified)" if r in unknown else "") for r in items)
 
     names = subsystem_names()
 
@@ -695,33 +877,33 @@ def render_analysis(out: dict[str, Any]) -> str:
         ]
 
     def effort_lines(e: dict[str, Any]) -> list[str]:
-        flags = [f"- {f['level']} ({f['rule']}): {f['text']}" for f in e["flags"]]
+        flags = [f"- {md(f['level'])} ({md(f['rule'])}): {md(f['text'])}" for f in e["flags"]]
         if e["status"] == "no_vehicle_change":
             return ["", "Effort: none, the proposal is declared not to change the vehicle.", *flags]
         if e["status"] == "missing":
             return ["", "Effort: **not estimated**, no change profile was given.", *flags]
         if e["status"] == "invalid":
-            text = f"Effort: **not estimated**, the profile breaks the model: {e['error']}"
+            text = f"Effort: **not estimated**, the profile breaks the model: {md(e['error'])}"
             return ["", text, *flags]
         return [
             "",
             f"Effort (CPM estimate): **{e['effort_pct']} %** of a new vehicle generation "
-            f"(P5–P95 {e['p5']}–{e['p95']}) · {e['decision']}, kept in "
-            f"{e['decision_stable_pct']:.0f} % of the sensitivity runs · size {e['size']} · "
-            f"layer {e['layer']}"
+            f"(P5–P95 {e['p5']}–{e['p95']}) · {md(e['decision'])}, kept in "
+            f"{e['decision_stable_pct']:.0f} % of the sensitivity runs · size {md(e['size'])} · "
+            f"layer {md(e['layer'])}"
             + (" · certification add-on" if e["certification"] else "")
-            + f" · from the {e['source']}",
+            + f" · from the {md(e['source'])}",
             *[
-                f"- {c['subsystem']} {c['own_impact']} {c['layer']}"
+                f"- {md(c['subsystem'])} {c['own_impact']} {md(c['layer'])}"
                 + (" carryover" if c["carryover"] else "")
-                + (f": {c['why']}" if c["why"] else "")
+                + (f": {md(c['why'])}" if c["why"] else "")
                 for c in e["changes"]
             ],
             *[
-                f"- size of {r['subsystem']} {r['own_impact']} among {r['references']} "
+                f"- size of {md(r['subsystem'])} {r['own_impact']} among {r['references']} "
                 "reference change(s): "
                 + "; ".join(
-                    f"{side} {_reference_text(r[key])}"
+                    f"{side} {md(_reference_text(r[key]))}"
                     for side, key in (
                         ("at or below", "nearest_below"),
                         ("at or above", "nearest_above"),
@@ -733,9 +915,13 @@ def render_analysis(out: dict[str, Any]) -> str:
             ],
             # what the catalogue terms matched, so a flag of rule 43 can be judged
             *[
-                f"- catalogue scan for {p['subsystem']} with {', '.join(p['terms'])}: "
+                f"- catalogue scan for {md(p['subsystem'])} with "
+                f"{md(', '.join(p['terms']))}: "
                 + (
-                    "; ".join(f"{v} {x['status']} ({x['item']})" for v, x in p["vehicles"].items())
+                    "; ".join(
+                        f"{md(v)} {md(x['status'])} ({md(x['item'])})"
+                        for v, x in p["vehicles"].items()
+                    )
                     or "no item"
                 )
                 for p in e["portfolio"]
@@ -744,42 +930,49 @@ def render_analysis(out: dict[str, Any]) -> str:
         ]
 
     lines = [
-        f"# Situation analysis – {out['scope']}",
+        f"# Situation analysis – {md(out['scope'])}",
         "",
-        f"Run `{out['run_id']}` · {out['model']} · {out['prompt_version']} · "
+        f"Run {code(out['run_id'])} · {md(out['model'])} · {md(out['prompt_version'])} · "
         f"{trace['steps']} steps, {len(trace['tool_calls'])} tool calls · "
         f"{out['citations']['cited']} references cited, {len(unknown)} not verified · "
         f"{len(loose_quotes)} quotes not found in their verbatims · "
-        f"effort model `{effort['model_hash']}`",
+        f"effort model {code(effort['model_hash'])}",
         "",
-        f"**{a['headline']}**",
+        f"**{md(a['headline'])}**",
         "",
-        a["summary"],
+        md(a["summary"]),
         "",
         "## Data coverage",
-        a["data_coverage"],
+        md(a["data_coverage"]),
         "",
         "## Insights",
     ]
     for i, hits in zip(a["insights"], out["subsystems"]["insights"], strict=True):
         lines += [
             "",
-            f"### {i['title']}",
-            f"{i['kind']} · {i['domain']} · confidence {i['confidence']}",
+            f"### {md(i['title'])}",
+            f"{md(i['kind'])} · {md(i['domain'])} · confidence {md(i['confidence'])}",
             "",
-            i["statement"],
+            md(i["statement"]),
         ]
         if i["customer_quote"]:
             flag = " (not found word for word in the cited verbatims)"
             lines += [
                 "",
-                f"> {i['customer_quote']}" + (flag if i["customer_quote"] in loose_quotes else ""),
+                f"> {md(i['customer_quote'])}"
+                + (flag if i["customer_quote"] in loose_quotes else ""),
             ]
         lines += subsystem_line(hits)
         lines += ["", f"Evidence: {refs(i['evidence_refs'])}"]
     lines += ["", "## Recommendations (proposals for the product manager)"]
     for r, e in zip(a["recommendations"], effort["recommendations"], strict=True):
-        lines += ["", f"### {r['title']} ({r['horizon']})", r["proposal"], "", r["rationale"]]
+        lines += [
+            "",
+            f"### {md(r['title'])} ({md(r['horizon'])})",
+            md(r["proposal"]),
+            "",
+            md(r["rationale"]),
+        ]
         if r["related_requirement"]:
             lines += ["", f"Existing requirement: {refs([r['related_requirement']])}"]
         lines += effort_lines(e)
@@ -794,27 +987,30 @@ def render_analysis(out: dict[str, Any]) -> str:
     ]
     for p in effort["packages"]:
         lines.append(
-            f"- **{p['horizon']}**: {p['proposals']} proposal(s) with a change, together "
-            f"**{p['effort_pct']} %** (P5–P95 {p['p5']}–{p['p95']}) · {p['decision']}, kept in "
-            f"{p['decision_stable_pct']:.0f} % of the runs · sum of the single estimates "
+            f"- **{md(p['horizon'])}**: {p['proposals']} proposal(s) with a change, together "
+            f"**{p['effort_pct']} %** (P5–P95 {p['p5']}–{p['p95']}) · {md(p['decision'])}, kept "
+            f"in {p['decision_stable_pct']:.0f} % of the runs · sum of the single estimates "
             f"{p['sum_of_single_pct']} %"
         )
         if p["subsystems"]:
             lines.append(
                 "  - footprint: "
-                + ", ".join(f"{s['name']} {s['effort_pct']} %" for s in p["subsystems"])
+                + ", ".join(f"{md(s['name'])} {s['effort_pct']} %" for s in p["subsystems"])
             )
-        lines += [f"  - {f['level']} (rule {f['rule']}): {f['text']}" for f in p["flags"]]
-        lines += [f"  - not counted, no usable change profile: {t}" for t in p["not_counted"]]
+        lines += [
+            f"  - {md(f['level'])} (rule {md(f['rule'])}): {md(f['text'])}" for f in p["flags"]
+        ]
+        lines += [f"  - not counted, no usable change profile: {md(t)}" for t in p["not_counted"]]
     if not effort["packages"]:
         lines.append("- No proposal carries a change profile.")
     if effort["open_faults"]:
         lines += ["", "Not settled by the correction request:"]
-        lines += [f"- {f}" for f in effort["open_faults"]]
-    lines += ["", "## Assumptions and gaps"] + [f"- {x}" for x in a["assumptions_and_gaps"]]
+        lines += [f"- {md(f)}" for f in effort["open_faults"]]
+    lines += ["", "## Assumptions and gaps"] + [f"- {md(x)}" for x in a["assumptions_and_gaps"]]
     lines += ["", "## Tool calls"]
     lines += [
-        f"- `{c['tool']}` {c['args']} → " + (c["error"] if "error" in c else f"{c.get('total')}")
+        f"- {code(c['tool'])} {code(json.dumps(c['args'], ensure_ascii=False, default=str))} → "
+        + (md(c["error"]) if "error" in c else md(c.get("total")))
         for c in trace["tool_calls"]
     ]
     return "\n".join(lines) + "\n"

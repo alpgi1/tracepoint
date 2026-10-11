@@ -315,6 +315,56 @@ class DocumentPage(Base):
     created_run_id: Mapped[str | None] = mapped_column(ForeignKey("run.id"))
 
 
+class ExternalSource(Base):
+    """A source of the team's external lists that is in the scope of the programme (D-007):
+    what the list says about it and what its URL returned. One row per ``source`` row of kind
+    ``web_page`` / ``web_api``."""
+
+    __tablename__ = "external_source"
+
+    source_id: Mapped[str] = mapped_column(ForeignKey("source.id"), primary_key=True)
+    ref: Mapped[str] = mapped_column(String(16), unique=True)  # id in the list: P-01, E-09
+    family: Mapped[str] = mapped_column(String(32))  # P, T1 to T8, X, or the list's category
+    origin: Mapped[str] = mapped_column(String(120))  # institution the data comes from
+    regions: Mapped[list[str]] = mapped_column(JSONB)
+    vehicles: Mapped[list[str]] = mapped_column(JSONB)  # the page is about these vehicles
+    trust: Mapped[int] = mapped_column(Integer)  # 1 low to 4 high, the list's own scale
+    status: Mapped[str] = mapped_column(String(16))  # core / secondary / keep / add / replace
+    published: Mapped[str | None] = mapped_column(String(16))
+    fetch_status: Mapped[str] = mapped_column(String(40))  # fetched / http_403 / not_attempted…
+    meta: Mapped[dict[str, Any]] = mapped_column(JSONB)
+    created_run_id: Mapped[str | None] = mapped_column(ForeignKey("run.id"))
+
+
+class ExternalEvidence(Base):
+    """One statement of an external source, with where it holds (regions), what it bears on
+    (CPM subsystems, vehicles) and whether its figures stand on the fetched page."""
+
+    __tablename__ = "external_evidence"
+
+    id: Mapped[str] = mapped_column(String(48), primary_key=True)  # EXT-<ref>-<n>
+    source_id: Mapped[str] = mapped_column(ForeignKey("source.id"), index=True)
+    kind: Mapped[str] = mapped_column(String(24))
+    topic: Mapped[str | None] = mapped_column(String(48), index=True)
+    side: Mapped[str] = mapped_column(String(8))  # for / against, within a topic
+    regions: Mapped[list[str]] = mapped_column(JSONB)
+    subsystems: Mapped[list[str]] = mapped_column(JSONB)
+    vehicles: Mapped[list[str]] = mapped_column(JSONB)  # empty: not about one vehicle
+    statement: Mapped[str] = mapped_column(Text)
+    basis: Mapped[str] = mapped_column(String(12))  # evidence / assumption (rule 36)
+    level: Mapped[str] = mapped_column(String(8))  # weak / medium / strong (rule 34)
+    sources_agreeing: Mapped[int] = mapped_column(Integer)
+    trust: Mapped[int] = mapped_column(Integer)
+    published: Mapped[str | None] = mapped_column(String(16))
+    feeds: Mapped[list[str]] = mapped_column(JSONB)
+    # confirmed / on_page / partial / not_found / not_checkable / not_fetched / computed (API)
+    verification: Mapped[str] = mapped_column(String(16))
+    excerpt: Mapped[str | None] = mapped_column(Text)
+    contradiction: Mapped[dict[str, Any] | None] = mapped_column(JSONB)
+    locator: Mapped[dict[str, Any]] = mapped_column(JSONB)
+    created_run_id: Mapped[str | None] = mapped_column(ForeignKey("run.id"))
+
+
 class Embedding(Base):
     """Vector store (provider and model to be decided by the team; filled in a later step)."""
 

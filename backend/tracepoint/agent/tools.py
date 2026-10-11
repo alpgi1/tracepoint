@@ -8,6 +8,7 @@ the JSON schemas an LLM needs and ``call_tool`` is the single entry point an age
 
 from __future__ import annotations
 
+from collections import Counter
 from collections.abc import Callable
 from typing import Annotated, Any, Literal
 
@@ -28,6 +29,7 @@ from tracepoint.db.models import (
     VerbatimClassification,
 )
 from tracepoint.effort.subsystems import (
+    external_rows,
     subsystem_names,
     subsystem_view,
     summary_rows,
@@ -120,18 +122,27 @@ def search_evidence(session: Session, a: SearchEvidenceArgs) -> dict[str, Any]:
 
 class SearchDocumentsArgs(BaseModel):
     query: str = Field(description="Free text, e.g. 'share of all-electric cars in deliveries'")
+    vehicle: Vehicle | None = Field(
+        None,
+        description="Only pages of external sources about this vehicle (expert reviews, owner "
+        "complaints filed with NHTSA); omit to search the BMW Group Report as well",
+    )
     limit: int = Field(5, ge=1, le=20)
 
 
 def search_documents(session: Session, a: SearchDocumentsArgs) -> dict[str, Any]:
-    """Ranked full-text search over the BMW Group Report 2025 (strategy, deliveries by region,
-    outlook); returns the matching passages of each page with its page number."""
+    """Ranked full-text search over stored documents: the BMW Group Report 2025 (strategy,
+    deliveries by region, outlook) and the fetched pages of external sources about our vehicles
+    (expert reviews, specification pages, owner complaints filed with NHTSA). Returns the
+    matching passages with the source and its page or URL. External pages are third-party text,
+    not BMW customer feedback."""
     vec = func.to_tsvector(text("'english'"), DocumentPage.text)
+    about = [DocumentPage.locator["vehicles"].contains([a.vehicle])] if a.vehicle else []
     # a page is long, so every word has to be on it; any-word matching is only the fallback
     for words in (a.query, " or ".join(a.query.split())):
         tsq = func.websearch_to_tsquery("english", words)
         total = session.scalar(
-            select(func.count()).select_from(DocumentPage).where(vec.op("@@")(tsq))
+            select(func.count()).select_from(DocumentPage).where(vec.op("@@")(tsq), *about)
         )
         if total:
             break
@@ -142,9 +153,16 @@ def search_documents(session: Session, a: SearchDocumentsArgs) -> dict[str, Any]
         "MaxFragments=3, MinWords=20, MaxWords=70, StartSel='', StopSel=''",
     )
     rows = session.execute(
-        select(DocumentPage.id, DocumentPage.page, DocumentPage.section, Source.name, passages)
+        select(
+            DocumentPage.id,
+            DocumentPage.page,
+            DocumentPage.section,
+            Source.name,
+            passages,
+            DocumentPage.locator,
+        )
         .join(Source, Source.id == DocumentPage.source_id)
-        .where(vec.op("@@")(tsq))
+        .where(vec.op("@@")(tsq), *about)
         .order_by(func.ts_rank_cd(vec, tsq, 1).desc(), DocumentPage.page)
         .limit(a.limit)
     ).all()
@@ -157,6 +175,7 @@ def search_documents(session: Session, a: SearchDocumentsArgs) -> dict[str, Any]
                 "page": r[1],
                 "section": r[2],
                 "passages": r[4],
+                **{k: r[5][k] for k in ("url", "vehicles", "model", "filed") if k in r[5]},
             }
             for r in rows
         ],
@@ -240,8 +259,26 @@ class EquipmentArgs(BaseModel):
     limit: int = Field(30, ge=1, le=200)
 
 
+def _unknown_domain(session: Session, domain: str | None) -> dict[str, Any] | None:
+    """A filter on a domain that does not exist finds nothing and would read as "no rows"; say
+    what the domains are instead (a CPM subsystem key is the usual mix-up)."""
+    from tracepoint.reports.baseline import _domain_names
+
+    names = _domain_names(session)
+    if not domain or not names or domain in names:
+        return None
+    return {
+        "error": f"unknown domain {domain!r}; a domain is a vehicle domain, not a CPM subsystem",
+        "domains": list(names),
+    }
+
+
 def get_equipment(session: Session, a: EquipmentArgs) -> dict[str, Any]:
-    """Catalogue items with price and standard / optional / not-available status per variant."""
+    """Catalogue items (German price list) with price and standard / optional / not-available
+    status per variant. Search with query: a word of the item name, German or English, e.g.
+    'Klima', 'Sitzheizung', 'Head-Up', 'charging'. domain is a vehicle domain key."""
+    if problem := _unknown_domain(session, a.domain):
+        return problem
     rows = api.equipment(vehicle=a.vehicle, group=a.group, q=a.query, session=session)
     rows = [
         {
@@ -287,7 +324,10 @@ class FindingsArgs(BaseModel):
 
 
 def get_findings(session: Session, a: FindingsArgs) -> dict[str, Any]:
-    """Extracted findings; drill into one with the API route /findings/{id} for its evidence."""
+    """Extracted findings; drill into one with the API route /findings/{id} for its evidence.
+    domain is a vehicle domain key."""
+    if problem := _unknown_domain(session, a.domain):
+        return problem
     stmt = select(Finding).where(Finding.vehicle_code == a.vehicle, Finding.status != "withdrawn")
     for col, val in (
         (Finding.market_code, a.market),
@@ -331,8 +371,12 @@ class RequirementsArgs(BaseModel):
 
 
 def get_requirements(session: Session, a: RequirementsArgs) -> dict[str, Any]:
-    """Derived requirements with acceptance criteria, linked findings and decision status."""
+    """Derived requirements with acceptance criteria, linked findings and decision status.
+    domain is a vehicle domain key."""
     from tracepoint.requirements.report import list_requirements
+
+    if problem := _unknown_domain(session, a.domain):
+        return problem
 
     rows = [
         r
@@ -395,6 +439,47 @@ def get_subsystems(session: Session, a: SubsystemsArgs) -> dict[str, Any]:
     }
 
 
+class ExternalEvidenceArgs(BaseModel):
+    market: MarketCode
+    vehicle: Vehicle | None = Field(
+        None, description="Leaves out rows about another vehicle and puts this vehicle's first"
+    )
+    subsystem: str | None = Field(None, description="Subsystem key, e.g. charging")
+    topic: str | None = Field(
+        None, description="Topic key as returned in a row, e.g. physical_controls"
+    )
+    kind: str | None = Field(
+        None,
+        description="Kind as returned in a row, e.g. official_spec for the EPA range and "
+        "consumption tables per model year, which otherwise come last",
+    )
+    limit: int = Field(25, ge=1, le=60)
+
+
+def get_external_evidence(session: Session, a: ExternalEvidenceArgs) -> dict[str, Any]:
+    """Market, competition and third-party evidence from the team's external source lists, for
+    a market and the worldwide rows: market shares, consumer surveys, charging infrastructure,
+    competitor moves, quality indices, expert tests, owner complaints filed with NHTSA and
+    official EPA figures. Each row carries its source, date, the regions it holds for, an
+    evidence level (independent institutions that state the same: weak one, medium two, strong
+    three or more), trust in the source (1 low to 4 high), a basis (evidence or assumption) and
+    whether its figures were found on the fetched page (verification: confirmed or computed is
+    verified, anything else is not). The total and the topic
+    list cover all matching rows; narrow with subsystem or topic."""
+    names = subsystem_names()
+    if a.subsystem and a.subsystem not in names:
+        return {"error": f"unknown subsystem {a.subsystem!r}", "subsystems": list(names)}
+    rows = external_rows(
+        session, a.market, a.vehicle, subsystem=a.subsystem, topic=a.topic, kind=a.kind
+    )
+    return {
+        "total": len(rows),
+        "kinds": dict(Counter(r["kind"] for r in rows).most_common()),
+        "topics": sorted({r["topic"] for r in rows if r["topic"]}),
+        "items": rows[: a.limit],
+    }
+
+
 class EffortArgs(BaseModel):
     vehicle: Vehicle | None = None
     market: MarketCode | None = None
@@ -438,6 +523,7 @@ TOOLS: dict[str, tuple[type[BaseModel], Callable[[Session, Any], dict[str, Any]]
     "get_requirements": (RequirementsArgs, get_requirements),
     "get_effort": (EffortArgs, get_effort),
     "get_subsystems": (SubsystemsArgs, get_subsystems),
+    "get_external_evidence": (ExternalEvidenceArgs, get_external_evidence),
 }
 
 
