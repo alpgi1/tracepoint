@@ -5,7 +5,7 @@
  * vehicle screen, the photo fading there while the sketch is revealed,
  * the vehicle screens for a market with verbatims and one without, keyboard
  * focus, reduced motion, and the subsystem dialog (with verbatims and market
- * rows, scrolled to the market table, without verbatims, at 1920 px). Run against a built app started in another shell
+ * rows, with a market row, without verbatims, at 1920 px). Run against a built app started in another shell
  * (`pnpm build && pnpm start`).
  *
  *   node tools/audit/screenshots.mjs http://localhost:3400 [outDir]
@@ -119,13 +119,9 @@ async function openSubsystem(page, name) {
   await page.waitForTimeout(500);
 }
 
-await shoot("15-dialog-us-g60-software-1440", desktop, async (page) => openSubsystem(page, "Software / HMI"), { path: "/markets/us/g60" });
-await shoot("16-dialog-us-g60-powertrain-scrolled-1440", desktop, async (page) => {
-  await openSubsystem(page, "Powertrain");
-  await page.locator(".cpm-dialog-body").evaluate((el) => { el.scrollTop = el.scrollHeight; });
-  await page.waitForTimeout(200);
-}, { path: "/markets/us/g60" });
-await shoot("17-dialog-cn-g68-interior-1440", desktop, async (page) => openSubsystem(page, "Interior / console"), { path: "/markets/cn/g68" });
+await shoot("15-dialog-us-g60-software-1440", desktop, async (page) => openSubsystem(page, "Software/HMI"), { path: "/markets/us/g60" });
+await shoot("16-dialog-us-g60-powertrain-1440", desktop, async (page) => openSubsystem(page, "Powertrain"), { path: "/markets/us/g60" });
+await shoot("17-dialog-cn-g68-interior-1440", desktop, async (page) => openSubsystem(page, "Interior/console"), { path: "/markets/cn/g68" });
 await shoot("18-dialog-eu-f70-seats-1920", wide, async (page) => openSubsystem(page, "Seats"), { path: "/markets/eu/f70" });
 
 await browser.close();

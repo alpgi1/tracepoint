@@ -1,22 +1,24 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { full } from "@/lib/content/format";
-import { subsystemName } from "@/lib/content/cpm";
-import type { CpmCatalogue, CpmCriticisedTheme, CpmLikedTheme, CpmMarketRow, CpmQuote, CpmSubsystem, CpmSubsystemView, CpmView } from "@/lib/content/cpm-types";
+import { full, weight } from "@/lib/content/format";
+import type { CpmBlock, CpmCatalogue, CpmCriticisedTheme, CpmLikedTheme, CpmMarketRow, CpmSubsystem, CpmSubsystemView, CpmView } from "@/lib/content/cpm-types";
 import type { MarketContent, VehicleContent } from "@/lib/content/types";
 import { site } from "@/lib/site";
 
 /*
  * The subsystem dialog: covers most of the viewport over the vehicle screen
- * and shows, for one CPM subsystem in one market, what customers like there,
- * what they criticise, and the market and competition evidence. Built on the
+ * and shows, for one CPM subsystem in one market, three bands after the
+ * team's sketch (step 13, revision 2): Liked and Disliked, each a
+ * one-sentence suggestion and a short summary beside the likes or complaints
+ * per theme as columns rising from or hanging under one baseline; then the
+ * market analysis with the sourced statements for the market. Built on the
  * native dialog element (showModal): the top layer, Escape, focus containment
  * and the return of focus come from the browser, nothing is installed.
- * Method after the scrolling dialogs with a sticky header, the two-column
- * comparison and the hairline evidence table seen in the 21st.dev survey
- * (frontend/docs/01-research-notes.md 6.2), written here with the tokens.
- * Verbatims are shown as written (blockquote), with their evidence reference.
+ * Method after the scrolling dialogs with a sticky header seen in the
+ * 21st.dev survey (frontend/docs/01-research-notes.md 6.2), written here with
+ * the tokens; the columns follow the chart rules (one series in the one
+ * blue, thin marks, values on the caps, text in ink).
  */
 export interface CpmDialogProps {
   subsystem: CpmSubsystem | null;
@@ -72,10 +74,15 @@ interface DialogContentProps {
   onClose: () => void;
 }
 
-function DialogContent({ subsystem, entry, catalogue, view, market, vehicle, onClose }: DialogContentProps) {
+function DialogContent({ subsystem, entry, view, market, vehicle, onClose }: DialogContentProps) {
   const copy = site.cpm.dialog;
   const hasVerbatims = view.verbatims > 0;
-  const complaintShare = entry.rows > 0 ? (entry.complaints / entry.rows) * 100 : 0;
+  const rowsLine =
+    hasVerbatims && entry.rows > 0
+      ? `${full(entry.rows)} ${site.cpm.rows}: ${full(entry.complaints)} ${site.cpm.complaints}, ${full(entry.likes)} ${site.cpm.likes}`
+      : hasVerbatims
+        ? site.cpm.noThemes
+        : site.cpm.noVerbatims;
   return (
     <div className="cpm-dialog-frame">
       <header className="cpm-dialog-head">
@@ -87,218 +94,174 @@ function DialogContent({ subsystem, entry, catalogue, view, market, vehicle, onC
             {vehicle.name} {vehicle.code} · {market.name} ·{" "}
             {hasVerbatims ? `${full(view.verbatims)} ${site.readout.verbatims}` : site.readout.noVerbatims}
           </p>
+          <p className="cpm-dialog-meta">
+            {copy.weight} {weight(entry.weight)} {site.cpm.weightOf} <span className="cpm-muted">{copy.weightNote}</span> · {rowsLine}
+          </p>
         </div>
         <button type="button" className="tap cpm-dialog-close" onClick={onClose}>
           {copy.close}
         </button>
       </header>
       <div className="cpm-dialog-body">
-        <dl className="cpm-facts">
-          <div>
-            <dt>{copy.weight}</dt>
-            <dd>
-              {String(subsystem.weight)} {site.cpm.weightOf} <span className="cpm-muted">{copy.weightNote}</span>
-            </dd>
-          </div>
-          <div>
-            <dt>{copy.scope}</dt>
-            <dd>{subsystem.scope}</dd>
-          </div>
-          <div>
-            <dt>{copy.customerRows}</dt>
-            <dd>
-              {hasVerbatims && entry.rows > 0 ? (
-                <>
-                  {full(entry.rows)} {site.cpm.rows} · {full(entry.complaints)} {site.cpm.complaints} · {full(entry.likes)} {site.cpm.likes}
-                  <span className="cpm-partition" aria-hidden="true">
-                    <span style={{ width: `${String(complaintShare)}%` }} />
-                  </span>
-                </>
-              ) : (
-                <span className="cpm-muted">{hasVerbatims ? site.cpm.noThemes : site.cpm.noVerbatims}</span>
-              )}
-            </dd>
-          </div>
-          <div>
-            <dt>{copy.propagates}</dt>
-            <dd>
-              {subsystem.links.length > 0 ? (
-                subsystem.links.map((link, i) => (
-                  <span key={link.to}>
-                    {i > 0 ? " · " : ""}
-                    {subsystemName(catalogue, link.to)}{" "}
-                    <span className="cpm-muted">
-                      ({copy.likelihood} {String(link.likelihood)}, {copy.impact} {String(link.impact)})
-                    </span>
-                  </span>
-                ))
-              ) : (
-                <span className="cpm-muted">{copy.propagatesNone}</span>
-              )}
-              {subsystem.certificationTrigger ? <span className="cpm-muted"> {copy.certification}</span> : null}
-            </dd>
-          </div>
-        </dl>
-
-        <div className="cpm-blocks">
-          <section className="cpm-block" aria-labelledby="cpm-liked">
-            <h3 id="cpm-liked" className="cpm-block-h">
-              {copy.likedHeading}
-            </h3>
-            {!hasVerbatims ? (
-              <p className="cpm-empty">{copy.noVerbatims}</p>
-            ) : entry.liked.length === 0 ? (
-              <p className="cpm-empty">{copy.noLikes}</p>
-            ) : (
-              <ol className="cpm-themes">
-                {entry.liked.map((theme) => (
-                  <li key={theme.theme} className="cpm-theme">
-                    <LikedTheme theme={theme} catalogue={catalogue} />
-                  </li>
-                ))}
-              </ol>
-            )}
-          </section>
-          <section className="cpm-block" aria-labelledby="cpm-criticised">
-            <h3 id="cpm-criticised" className="cpm-block-h">
-              {copy.criticisedHeading}
-            </h3>
-            {!hasVerbatims ? (
-              <p className="cpm-empty">{copy.noVerbatims}</p>
-            ) : entry.criticised.length === 0 ? (
-              <p className="cpm-empty">{copy.noComplaints}</p>
-            ) : (
-              <ol className="cpm-themes">
-                {entry.criticised.map((theme) => (
-                  <li key={theme.theme} className="cpm-theme">
-                    <CriticisedTheme theme={theme} catalogue={catalogue} />
-                  </li>
-                ))}
-              </ol>
-            )}
-          </section>
-        </div>
-
-        <section className="cpm-block cpm-block-market" aria-labelledby="cpm-market">
-          <h3 id="cpm-market" className="cpm-block-h">
-            {copy.marketHeading} {market.name}
-          </h3>
-          {entry.market.length === 0 ? (
-            <p className="cpm-empty">
-              {copy.noMarketBefore} {market.name} {copy.noMarketAfter}
-            </p>
-          ) : (
-            <>
-              <table className="cpm-table">
-                <thead>
-                  <tr>
-                    <th scope="col">{copy.columns.statement}</th>
-                    <th scope="col">{copy.columns.source}</th>
-                    <th scope="col">{copy.columns.level}</th>
-                    <th scope="col">{copy.columns.basis}</th>
-                    <th scope="col">{copy.columns.note}</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {entry.market.map((row) => (
-                    <MarketRow key={row.source.url} row={row} />
-                  ))}
-                </tbody>
-              </table>
-              <p className="cpm-note">{copy.levelNote}</p>
-            </>
-          )}
-        </section>
+        <Band
+          id="cpm-liked"
+          heading={copy.likedHeading}
+          block={entry.liked}
+          hasVerbatims={hasVerbatims}
+          empty={copy.noLikes}
+          chart={
+            entry.liked.themes.length > 0 ? (
+              <ThemeBars caption={copy.likesPerTheme} direction="up" items={entry.liked.themes.map((t) => ({ label: t.theme, value: t.likes }))} />
+            ) : null
+          }
+        />
+        <Band
+          id="cpm-criticised"
+          heading={copy.criticisedHeading}
+          block={entry.criticised}
+          hasVerbatims={hasVerbatims}
+          empty={copy.noComplaints}
+          chart={
+            entry.criticised.themes.length > 0 ? (
+              <ThemeBars caption={copy.complaintsPerTheme} direction="down" items={entry.criticised.themes.map((t) => ({ label: t.theme, value: t.complaints }))} />
+            ) : null
+          }
+        />
+        <MarketBand rows={entry.market} market={market} />
       </div>
     </div>
   );
 }
 
-function LikedTheme({ theme, catalogue }: { theme: CpmLikedTheme; catalogue: CpmCatalogue }) {
-  return (
-    <>
-      <ThemeHead name={theme.theme} domain={catalogue.domains[theme.domain]} />
-      <p className="cpm-theme-figures">
-        {full(theme.likes)} {site.cpm.likes} {site.readout.of} {full(theme.rows)} {site.cpm.rows}
-      </p>
-      <Quotes quotes={theme.quotes} />
-    </>
-  );
+interface BandProps {
+  id: string;
+  heading: string;
+  block: CpmBlock<CpmLikedTheme> | CpmBlock<CpmCriticisedTheme>;
+  hasVerbatims: boolean;
+  empty: string;
+  chart: React.ReactNode;
 }
 
-function CriticisedTheme({ theme, catalogue }: { theme: CpmCriticisedTheme; catalogue: CpmCatalogue }) {
+function Band({ id, heading, block, hasVerbatims, empty, chart }: BandProps) {
   const copy = site.cpm.dialog;
   return (
-    <>
-      <ThemeHead name={theme.theme} domain={catalogue.domains[theme.domain]} />
-      <p className="cpm-theme-figures">
-        {full(theme.complaints)} {site.cpm.complaints} {site.readout.of} {full(theme.rows)} {site.cpm.rows} · {full(theme.defects)} {copy.defects} ·{" "}
-        {full(theme.difficultToUse)} {copy.difficultToUse} · {full(theme.wants)} {copy.wants}
-      </p>
-      <Quotes quotes={theme.quotes} />
-    </>
-  );
-}
-
-function ThemeHead({ name, domain }: { name: string; domain: string }) {
-  return (
-    <div className="cpm-theme-head">
-      <span className="cpm-theme-name">{name}</span>
-      <span className="cpm-theme-domain">{domain}</span>
-    </div>
-  );
-}
-
-function Quotes({ quotes }: { quotes: CpmQuote[] }) {
-  if (quotes.length === 0) return null;
-  return (
-    <ul className="cpm-quotes">
-      {quotes.map((quote) => (
-        <li key={quote.id}>
-          <blockquote className="cpm-quote" cite={quote.evidenceRef}>
-            <p>{quote.text}</p>
-            <footer>
-              {quote.id} · {quote.source}
-              {quote.powertrain ? ` · ${quote.powertrain}` : ""}
-            </footer>
-          </blockquote>
-        </li>
-      ))}
-    </ul>
-  );
-}
-
-function MarketRow({ row }: { row: CpmMarketRow }) {
-  const copy = site.cpm.dialog;
-  return (
-    <tr>
-      <td>
-        <span className="cpm-kind">{copy.kinds[row.kind]}</span>
-        {row.statement}
-      </td>
-      <td className="cpm-source">
-        <a className="tap" href={row.source.url} target="_blank" rel="noreferrer">
-          {row.source.title}
-        </a>
-        <span className="cpm-muted">
-          {row.source.date} · {copy.sourceTypes[row.source.type]}
-        </span>
-      </td>
-      <td>{copy.levels[row.level]}</td>
-      <td>{row.basis}</td>
-      <td>
-        {row.note ? <p>{row.note}</p> : null}
-        {row.contradiction ? (
+    <section className="cpm-band" aria-labelledby={id}>
+      <div className="cpm-band-text">
+        <h3 id={id} className="cpm-band-h">
+          {heading}
+        </h3>
+        {!hasVerbatims ? (
+          <p className="cpm-empty">{copy.noVerbatims}</p>
+        ) : block.narration ? (
           <>
-            <p>
-              <span className="cpm-muted">{copy.contradictionFor}</span> {row.contradiction.for}
-            </p>
-            <p>
-              <span className="cpm-muted">{copy.contradictionAgainst}</span> {row.contradiction.against}
-            </p>
+            <p className="cpm-band-lead">{block.narration.suggestion}</p>
+            <p className="cpm-band-summary">{block.narration.summary}</p>
           </>
-        ) : null}
-      </td>
-    </tr>
+        ) : (
+          <p className="cpm-empty">{empty}</p>
+        )}
+      </div>
+      {chart}
+    </section>
+  );
+}
+
+interface ThemeBarsProps {
+  caption: string;
+  direction: "up" | "down";
+  items: { label: string; value: number }[];
+}
+
+/*
+ * One series of columns on one baseline: likes rise from it, complaints hang
+ * under it. Columns are 20 px, rounded at the data end and square at the
+ * baseline; every cap carries its value (six columns, no axis needed); labels
+ * and values are ink, the columns are the one blue.
+ */
+const SLOTS = 6;
+
+function ThemeBars({ caption, direction, items }: ThemeBarsProps) {
+  const max = Math.max(1, ...items.map((item) => item.value));
+  // Six slots always, so the baseline and the column pitch are the same in every chart.
+  const empty = Array.from({ length: Math.max(0, SLOTS - items.length) }, (_, i) => i);
+  return (
+    <figure className="cpm-bars" data-direction={direction}>
+      <figcaption className="cpm-bars-caption">{caption}</figcaption>
+      <ol className="cpm-bars-list">
+        {items.map((item) => (
+          <li key={item.label} className="cpm-bar">
+            <span className="cpm-bar-value">{full(item.value)}</span>
+            <span className="cpm-bar-track" aria-hidden="true">
+              <span style={{ height: `${String((item.value / max) * 100)}%` }} />
+            </span>
+            <span className="cpm-bar-label">{item.label}</span>
+          </li>
+        ))}
+        {empty.map((i) => (
+          <li key={`empty-${String(i)}`} className="cpm-bar" aria-hidden="true">
+            <span className="cpm-bar-value" />
+            <span className="cpm-bar-track" />
+            <span className="cpm-bar-label" />
+          </li>
+        ))}
+      </ol>
+    </figure>
+  );
+}
+
+function MarketBand({ rows, market }: { rows: CpmMarketRow[]; market: MarketContent }) {
+  const copy = site.cpm.dialog;
+  const marketRows = rows.filter((r) => r.kind === "market").length;
+  const competitorRows = rows.length - marketRows;
+  return (
+    <section className="cpm-band cpm-band-market" aria-labelledby="cpm-market">
+      <div className="cpm-band-text">
+        <h3 id="cpm-market" className="cpm-band-h">
+          {copy.marketHeading} {market.name}
+        </h3>
+        {rows.length === 0 ? (
+          <p className="cpm-empty">
+            {copy.noMarketBefore} {market.name} {copy.noMarketAfter}
+          </p>
+        ) : (
+          <>
+            <p className="cpm-band-lead">
+              {full(rows.length)} {copy.marketCountBefore} {rows.length === 1 ? copy.statementOne : copy.statementMany} {copy.marketCountMiddle} {market.name}{" "}
+              {copy.marketCountAfter}: {full(marketRows)} {copy.kinds.market}, {full(competitorRows)} {copy.kinds.competitor}.
+            </p>
+            <p className="cpm-band-summary">{copy.levelNote}</p>
+          </>
+        )}
+      </div>
+      {rows.length > 0 ? (
+        <ul className="cpm-market-list">
+          {rows.map((row) => (
+            <li key={row.source.url} className="cpm-market-row">
+              <p className="cpm-market-statement">
+                <span className="cpm-kind">{copy.kinds[row.kind]}</span>
+                {row.statement}
+              </p>
+              <a className="tap cpm-market-link" href={row.source.url} target="_blank" rel="noreferrer">
+                {row.source.title}
+              </a>
+              <p className="cpm-market-source">
+                {row.source.date} · {copy.sourceTypes[row.source.type]} · {copy.levels[row.level]} · {copy.bases[row.basis]}
+              </p>
+              {row.note ? <p className="cpm-market-note">{row.note}</p> : null}
+              {row.contradiction ? (
+                <>
+                  <p className="cpm-market-note">
+                    <span className="cpm-muted">{copy.contradictionFor}</span> {row.contradiction.for}
+                  </p>
+                  <p className="cpm-market-note">
+                    <span className="cpm-muted">{copy.contradictionAgainst}</span> {row.contradiction.against}
+                  </p>
+                </>
+              ) : null}
+            </li>
+          ))}
+        </ul>
+      ) : null}
+    </section>
   );
 }

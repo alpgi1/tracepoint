@@ -38,7 +38,7 @@ assets/vehicles/photos/         side-profile renders of the configured cars from
 components/
   landing/      map stage with callouts and connectors, market panel, vehicle cards (photo, hand-over)
   vehicles/     vehicle-drawing (layered sketch: wash, lines, contour), handoff-layer (the photo across the route change)
-  workspace/    vehicle-workspace (sketch, hand-over target), cpm-list (the twelve subsystems), cpm-dialog (likes, criticisms, market evidence)
+  workspace/    vehicle-workspace (sketch, hand-over target), cpm-list (the twelve subsystems), cpm-dialog (three bands: liked, disliked, market analysis)
   ui/           dotted-world-map (canvas map), shadcn components
 content/        markets.json (figures with sources), cpm.json (subsystems, per vehicle and market the themes, verbatims and market rows), vehicles/*.json (drawing and photo sizes and boxes), generated and committed
 lib/

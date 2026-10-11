@@ -11,17 +11,27 @@ import type { CpmCatalogue, CpmContent, CpmSubsystem, CpmSubsystemView, CpmView 
 const content = raw as unknown as CpmContent;
 
 export function cpmCatalogue(): CpmCatalogue {
-  const { generatedAt, method, subsystems, mapping, marketContextSource, domains } = content;
-  return { generatedAt, method, subsystems, mapping, marketContextSource, domains };
+  const { generatedAt, method, subsystems, mapping, marketContextSource, narrationSource, domains } = content;
+  return { generatedAt, method, subsystems, mapping, marketContextSource, narrationSource, domains };
 }
 
 export function cpmView(vehicle: string, market: string): CpmView | undefined {
   return content.views[`${vehicle.toUpperCase()}_${market.toUpperCase()}`];
 }
 
-/** The twelve subsystems by weight, heaviest first; ties by name. */
-export function subsystemsByWeight(catalogue: CpmCatalogue): CpmSubsystem[] {
-  return [...catalogue.subsystems].sort((a, b) => b.weight - a.weight || a.name.localeCompare(b.name));
+export interface CpmRow {
+  subsystem: CpmSubsystem;
+  entry: CpmSubsystemView;
+}
+
+/** The subsystems present on the vehicle by their weight on it, heaviest first; ties by name. */
+export function subsystemsByWeight(catalogue: CpmCatalogue, view: CpmView): CpmRow[] {
+  const rows: CpmRow[] = [];
+  for (const entry of view.subsystems) {
+    const subsystem = catalogue.subsystems.find((s) => s.key === entry.key);
+    if (subsystem) rows.push({ subsystem, entry });
+  }
+  return rows.sort((a, b) => b.entry.weight - a.entry.weight || a.subsystem.name.localeCompare(b.subsystem.name));
 }
 
 export function subsystemView(view: CpmView, key: CpmSubsystem["key"]): CpmSubsystemView | undefined {
