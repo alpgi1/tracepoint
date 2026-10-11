@@ -17,7 +17,7 @@
   "packVersion": "series-pack-v1"
  },
  "headline": "Prioritise H1 software and regional usability fixes now, keep major EV and China-market hardware shifts for the next generation, and protect the 5 Series’ dynamic strengths.",
- "answer": "Now, develop easier everyday operation across all markets through software-first shortcuts and better connected-service stability, because EU and US customers already struggle and China’s market evidence points the same way. Add US-only fixes for climate persistence, phone integration, start-stop memory, hands-free tailgate reliability and cabin storage, where the customer signal is clearly stronger and stored requirements already exist. Leave major EV-range improvement and any China-specific hardware or package changes for braking feel, front-space packaging and a more physical-control cockpit to the next generation, because the current evidence points to broader module changes or China has no verbatims. Keep the current ride, handling and brand strengths while making those changes.",
+ "answer": "Now, develop easier everyday operation across all markets through software-first shortcuts and better connected-service stability, because EU and US customers already struggle and China’s market evidence points the same way. Add US-only fixes for climate persistence, phone integration, start-stop memory, hands-free tailgate reliability and cabin storage, where the customer signal is clearly stronger and stored requirements already exist. Leave major EV-range improvement and any China-specific hardware or package changes for braking feel, front-space packaging and a more physical-control cockpit to the next generation, because the current evidence points to broader module changes or China has no customer comments. Keep the current ride, handling and brand strengths while making those changes.",
  "regions": [
   {
    "label": "EU",
@@ -33,7 +33,7 @@
    "requirements": 0,
    "study": "CN_EU_2025",
    "expects": [
-    "Easy everyday operation, especially climate and infotainment, because software/HMI complaints run at 41.4 per 100 verbatims (46 rows) and connected services are the 3rd weakest study attribute.",
+    "Easy everyday operation, especially climate and infotainment, because software/HMI complaints run at 41.4 per 100 customer comments (46 rows) and connected services are the 3rd weakest study attribute.",
     "Better BEV efficiency and real-world range, because Electric Range complaints run at 13.5 per 100 (15 rows) and fuel economy is the 4th weakest study attribute.",
     "Watch body equipment and overall technology quality now, because complaints run at 11.7 per 100 (13 rows), far above the US 2.7, but the stored evidence does not yet isolate one fix large enough to recommend beyond the HMI and trim topics already covered."
    ]
@@ -138,7 +138,7 @@
    "regions": [
     {
      "region": "EU",
-     "customers": "Strong signal: software/HMI complaints are 41.4 per 100 verbatims (46 rows), My Modes complaints 4.5 per 100 (5 rows), touch-screen operation 3.6 (4), and connected services are the 3rd weakest study attribute.",
+     "customers": "Strong signal: software/HMI complaints are 41.4 per 100 customer comments (46 rows), My Modes complaints 4.5 per 100 (5 rows), touch-screen operation 3.6 (4), and connected services are the 3rd weakest study attribute.",
      "market": "Testers repeatedly say climate and other key functions are too digital and distract from driving; 48% of consumers prefer a mix of touchscreen and physical buttons.",
      "weight": "strong",
      "weightLabel": "strong signal"
@@ -686,7 +686,7 @@
    "regions": [
     {
      "region": "EU",
-     "customers": "Strong signal: Electric Range complaints run at 13.5 per 100 verbatims (15 rows), the highest by far, and fuel economy is the 4th weakest study attribute.",
+     "customers": "Strong signal: Electric Range complaints run at 13.5 per 100 customer comments (15 rows), the highest by far, and fuel economy is the 4th weakest study attribute.",
      "market": "Europe is moving further toward plug-in vehicles, with battery electric share at 17.4% in 2025 and 21.7% in Jan-Aug 2026, so weak efficiency matters more here.",
      "weight": "strong",
      "weightLabel": "strong signal"
@@ -1405,7 +1405,7 @@
     },
     {
      "region": "US",
-     "customers": "Strong signal: Automatic engine start-stop complaints run at 1.2 per 100 verbatims (45 rows), with no comparable signal elsewhere.",
+     "customers": "Strong signal: Automatic engine start-stop complaints run at 1.2 per 100 customer comments (45 rows), with no comparable signal elsewhere.",
      "market": "US market rows do not contradict the need; this is a pure customer-use irritation in a large 78,000-unit market.",
      "weight": "strong",
      "weightLabel": "strong signal"
@@ -1562,7 +1562,7 @@
     },
     {
      "region": "US",
-     "customers": "Strong signal: non-contact trunk lid opening complaints run at 1.2 per 100 verbatims (44 rows), with no comparable signal elsewhere.",
+     "customers": "Strong signal: non-contact trunk lid opening complaints run at 1.2 per 100 customer comments (44 rows), with no comparable signal elsewhere.",
      "market": "US study does not show a luggage problem overall, so this is a specific convenience-function fault rather than a packaging issue.",
      "weight": "strong",
      "weightLabel": "strong signal"
@@ -1942,7 +1942,7 @@
    "regions": [
     {
      "region": "EU",
-     "customers": "Strong regional signal: Body equipment, overall technology complaints run at 11.7 per 100 verbatims (13 rows), versus 2.7 in the US, and build quality is the 10th weakest study attribute.",
+     "customers": "Strong regional signal: Body equipment, overall technology complaints run at 11.7 per 100 customer comments (13 rows), versus 2.7 in the US, and build quality is the 10th weakest study attribute.",
      "market": "EU tests also mention material quality not what it was and moderate quality in places.",
      "weight": "strong",
      "weightLabel": "strong signal"
@@ -2370,7 +2370,7 @@
   ]
  },
  "unknowns": [
-  "China has no verbatims, so CN decisions rely on study scores and market rows rather than direct customer voice.",
+  "China has no customer comments, so CN decisions rely on study scores and market rows rather than direct customer voice.",
   "The store does not provide a direct rival-by-rival feature comparison for most topics, so competitive gaps are only partly known.",
   "The catalogue is the German price list, not regional standard content, so market-specific equipment availability can differ.",
   "No stored evidence confirms which connected-service faults are backend, app, telecom-partner or in-car software issues by region.",

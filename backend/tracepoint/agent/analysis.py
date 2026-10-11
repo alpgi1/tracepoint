@@ -47,7 +47,7 @@ from tracepoint.llm.gateway import LlmGateway
 # v5: the CPM subsystem view and the market evidence;
 # v6: reference changes per subsystem, start subsystem and size are checked and sent back
 # v7: external evidence rows
-PROMPT_VERSION = "situation-analysis-v8"  # v8: short fields, for the brief
+PROMPT_VERSION = "situation-analysis-v9"  # v9: "customer comments", not "verbatims"
 ACTOR = "agent:analyst"
 
 
@@ -174,7 +174,7 @@ What the data is (name the points that bear on your conclusions under data_cover
 - Finding evidence levels: A means several source types, at least 20 complaint rows and a supporting study metric; B at least 10 rows or a study metric; C at least 5 rows or the catalogue alone.
 - Horizons: H1 is achievable within the current generation (model-year update, software, equipment, packages, colours). H2 belongs to the successor generation, about 2030.
 
-Write in English, plainly and briefly, for a product manager who reads the brief in five minutes and checks references only where a point surprises: a statement in at most three sentences with the numbers that carry it, a proposal and a rationale in at most two sentences each, a summary in at most four."""
+Write in English, plainly and briefly, for a product manager who reads the brief in five minutes and checks references only where a point surprises: a statement in at most three sentences with the numbers that carry it, a proposal and a rationale in at most two sentences each, a summary in at most four. In the text fields the customer texts are "customer comments"; the word "verbatim" is not used."""
 
 _generated_line = re.compile(r", generated [^.]*\.")
 _not_alnum = re.compile(r"[\W_]+")  # Unicode-aware: letters of any script are kept

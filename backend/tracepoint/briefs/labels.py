@@ -209,7 +209,7 @@ FLAG_RULE = {
 
 REFERENCE_KIND = {
     "finding": ("finding", "findings"),
-    "verbatim": ("customer verbatim", "customer verbatims"),
+    "verbatim": ("customer comment", "customer comments"),
     "metric": ("study score", "study scores"),
     "equipment": ("catalogue item", "catalogue items"),
     "sales": ("sales figure", "sales figures"),

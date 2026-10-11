@@ -88,6 +88,13 @@ def test_plain_words_for_codes():
     assert plain("Owners report seamless Tesla charging; Seamlessly done.") == (
         "Owners report trouble-free Tesla charging; Without trouble done."
     )
+    # the customer texts are customer comments on screen (D-105); a reference to one still leaves
+    assert plain("Verbatims point to firmness; 41.4 per 100 verbatims (verbatim:G60-1) here.") == (
+        "Customer comments point to firmness; 41.4 per 100 customer comments here."
+    )
+    assert plain("Some verbatim rows; no customer verbatims.") == (
+        "Some customer comment rows; no customer comments."
+    )
     assert plain(None) is None
 
 
@@ -153,7 +160,7 @@ def test_situation_brief(session, committed_only):
     assert {i["ref"] for i in items} == refs
     assert all(i["kind"] != "unknown" for i in items)
     verbatim = next(i for i in items if i["kind"] == "verbatim")
-    assert verbatim["text"] and verbatim["label"].startswith("Customer verbatim ")
+    assert verbatim["text"] and verbatim["label"].startswith("Customer comment ")
     # the groups of what customers say cover every insight once
     assert sum(len(g["items"]) for g in b["customers"]) == len(raw["analysis"]["insights"])
     assert b["customers"][-1]["group"] == "strengths"

@@ -1,9 +1,10 @@
+import { ChevronDown } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import { EstimateView, H1Sentence, PackagesTable } from "@/components/workspace/package-table";
-import { PriorityMatrix } from "@/components/workspace/priority-matrix";
+import { PriorityChart } from "@/components/workspace/priority-chart";
 import { Reveal } from "@/components/workspace/reveal";
 import { SourceLine, StageWait } from "@/components/workspace/source-line";
 import { cpmCatalogue, cpmView } from "@/lib/content/cpm";
@@ -13,15 +14,15 @@ import type { CpmCatalogue, CpmView } from "@/lib/content/cpm-types";
 import type { MarketContent, VehicleContent } from "@/lib/content/types";
 import type { WorkspaceSnapshot } from "@/lib/content/workspace-types";
 import { effortContent, estimatePackage } from "@/lib/data/effort";
-import { liveEnabled, readScope } from "@/lib/data/workspace";
+import { readScope } from "@/lib/data/workspace";
 import { site } from "@/lib/site";
 import { hasStage, stageParams } from "@/lib/workspace/figures";
 import { type MatrixPoint, byEvidence, chosenIds, h1Note, matrixPoints, presetIds } from "@/lib/workspace/priorities";
 import { requirementHref } from "@/lib/workspace/requirements";
 
 /*
- * Stage 4, Prioritization (plan 08 section 4.3): the matrix of effort
- * against customer evidence with its table twin, the engine's packages,
+ * Stage 4, Prioritization (plan 08 section 4.3): customer evidence and
+ * effort per requirement with its table twin, the engine's packages,
  * and the package builder. The body reads the workspace at request time
  * (the snapshot, or the API in the live mode, D-085); inside it the builder
  * reads the chosen set from the URL and asks the backend API for the
@@ -71,7 +72,6 @@ async function PrioritiesBody({ params, searchParams }: { params: Props["params"
   const methodHref = `${vehicleHref(m.code, v.code)}/priorities/method`;
   const points = matrixPoints(snapshot);
   const note = h1Note(snapshot);
-  const atZero = points.filter((p) => p.complaintRows === 0);
   return (
     <Reveal as="div" className="stage-content">
       <p className="workspace-hint stage-hint">
@@ -85,24 +85,14 @@ async function PrioritiesBody({ params, searchParams }: { params: Props["params"
         <>
           <h3 className="stage-h3">{copy.matrixHeading}</h3>
           <p className="workspace-hint stage-hint">{copy.matrixHint}</p>
-          <PriorityMatrix points={points} />
-          {atZero.length > 0 ? (
-            <p className="workspace-hint">
-              {copy.zeroNote}:{" "}
-              {atZero.map((p, i) => (
-                <span key={p.id}>
-                  {i > 0 ? "; " : ""}
-                  <Link href={requirementHref(m.code, v.code, p.id)} className="cpm-citing-link">
-                    {p.id}
-                  </Link>{" "}
-                  ({p.primaryKinds.map((k) => site.requirements.kinds[k] ?? k).join(", ")})
-                </span>
-              ))}
-              .
-            </p>
-          ) : null}
-          <p className="workspace-hint">{copy.tableHint}</p>
-          <MatrixTable points={byEvidence(points)} market={m} vehicle={v} />
+          <PriorityChart points={points} thresholds={effortContent().model.method.thresholds} market={m.code} vehicle={v.code} />
+          <details className="pchart-twin">
+            <summary className="candidate-summary">
+              <ChevronDown className="candidate-chevron" aria-hidden="true" size={16} strokeWidth={1.75} />
+              {copy.tableSummary}
+            </summary>
+            <MatrixTable points={byEvidence(points)} market={m} vehicle={v} />
+          </details>
 
           <h3 className="stage-h3">{copy.packagesHeading}</h3>
           <p className="workspace-hint stage-hint">{copy.packagesHint}</p>
@@ -110,7 +100,7 @@ async function PrioritiesBody({ params, searchParams }: { params: Props["params"
           {note ? <H1Sentence note={note} market={m.code} vehicle={v.code} /> : null}
 
           <h3 className="stage-h3">{copy.builderHeading}</h3>
-          {liveEnabled() ? (
+          {read.live ? (
             <>
               <p className="workspace-hint stage-hint">{copy.builderHint}</p>
               <Suspense fallback={<div className="stage-pending" aria-busy="true" />}>

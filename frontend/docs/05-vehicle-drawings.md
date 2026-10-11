@@ -90,7 +90,7 @@ that without any invented geometry.
 ## 4b. Hand-over from the map to the vehicle screen (`handoff-layer.tsx`, `lib/vehicles/handoff.ts`)
 
 The photo travels in a layer mounted in the root layout, so it survives the route change. Since
-step 20 (D-108) nothing waits for the server before the photo moves.
+step 20 (D-111) nothing waits for the server before the photo moves.
 
 1. Click on a card: the card hands the layer the photo, its own box, the target the layout
    computes (`photoTarget` in `lib/vehicles/layout.ts`) and a navigate callback. The photo
@@ -114,7 +114,7 @@ A direct visit shows the sketch at once; with reduced motion the card only navig
 correction; with the stage moved by 8 px the correction ran and the photo landed within 0.1 px.
 The flight is a transform on the compositor, so it keeps its pace while the new screen renders.
 
-## 4c. The car in the header's corner (`components/workspace/vehicle-dock.tsx`, `lib/vehicles/dock.ts`; step 20, D-107)
+## 4c. The car in the header's corner (`components/workspace/vehicle-dock.tsx`, `lib/vehicles/dock.ts`; step 20, D-110)
 
 On every screen of the scope but the vehicle screen, the side view sits small (176 px wide, the
 card masks) at the right of the header row, a link back to the vehicle screen. The stage's side

@@ -59,7 +59,6 @@ async function RequirementBody({ params, searchParams }: { params: Props["params
       read={read}
       record={record}
       catalogue={cpmCatalogue()}
-      view={view}
       pathname={requirementHref(m.code, v.code, id)}
       notice={{ decision: one("decision"), reason: one("reason") }}
     />

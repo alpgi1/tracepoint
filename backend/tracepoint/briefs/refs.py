@@ -129,7 +129,7 @@ def describe(session: Session, refs: Iterable[str]) -> dict[str, dict[str, Any]]
             put(
                 "verbatim",
                 v.id,
-                f"Customer verbatim {v.id}",
+                f"Customer comment {v.id}",
                 text=v.text,
                 meta=", ".join(x for x in facts if x),
             )

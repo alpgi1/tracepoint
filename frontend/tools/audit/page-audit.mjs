@@ -34,6 +34,7 @@ const FORBIDDEN = [
   [/Lorem ipsum|John Doe|TODO|FIXME|Coming soon/i, "placeholder text"],
   [/\bsimply\b|\bseamless\b|\bcutting-edge\b|\beffortless\b|\bsupercharge\b|\bunleash\b|\belevate\b/i, "marketing filler"],
   [/SECTION 0\d/, "SECTION 01 label"],
+  [/\bverbatims?\b/i, "the word verbatim (customer comments)"],
 ];
 
 /** The page's visible text without quoted verbatims. */

@@ -3,8 +3,8 @@
 | Field | Value |
 |---|---|
 | Date | 2026-10-11, step 14 |
-| Status | Built and verified: step 14 (D-078 to D-080) the data layer, the stage bar and stage 2; step 15 (D-083) stage 3 and the bridges; step 16 (D-084) stage 4, the package builder and the method sheet; step 17 (D-099) stage 5 and the live mode; step 19 (D-100 to D-104) the integration with the backend: one data feed, the analyst's brief, the series and the market evidence pages, the stages that exist per scope, the exports of the backend, the copy in the product manager's words (section 4d); step 20 (D-105 to D-108) the scope layout with the header that stays, the arrival of a screen, the car in the header's corner, the hand-over that starts with the click (section 4e) |
-| Files | `app/markets/[market]/[vehicle]/layout.tsx` (the scope layout), `components/workspace/reveal.tsx`, `stage-item.tsx`, `vehicle-dock.tsx`, `lib/vehicles/dock.ts` (step 20), `scripts/snapshot.mjs` (the data feed), `lib/data/analyses.ts`, `lib/data/exports.ts`, `lib/content/brief-types.ts`, `lib/workspace/market.ts`, `components/workspace/analyst-brief.tsx`, `series-view.tsx`, `brief-parts.tsx`, `external-rows.tsx`, `app/markets/[market]/[vehicle]/regions/page.tsx`, `market/page.tsx`, `log/requirements.md/route.ts` (step 19), `content/workspace/*.json` (the API's responses, committed), `lib/content/workspace-types.ts` (the contract), `lib/data/workspace.ts` (reads), `lib/workspace/candidates.ts` (the candidate rules), `lib/workspace/requirements.ts` (routes, evidence resolution, footprint, bridges), `lib/workspace/stages.ts` and `figures.ts` (the stage bar's data), `components/workspace/workspace-header.tsx`, `stage-bar.tsx`, `candidate-filters.tsx`, `candidate-table.tsx`, `requirement-page.tsx`, `evidence-list.tsx`, `effort-block.tsx`, `app/markets/[market]/[vehicle]/structure/page.tsx`, `requirements/page.tsx`, `requirements/[id]/page.tsx`, `priorities/page.tsx`, `priorities/method/page.tsx`, `priority-matrix.tsx`, `package-table.tsx`, `lib/workspace/priorities.ts`, `lib/data/effort.ts` (the effort model file and the one live read, `POST /effort/estimate`), `content/effort.json`, `lib/site.ts` (copy), `app/globals.css` (step 14 and 15 blocks), `lib/content/workspace.test.ts`, `lib/workspace/requirements.test.ts`, `tools/audit/screenshots.mjs` |
+| Status | Built and verified: step 14 (D-078 to D-080) the data layer, the stage bar and stage 2; step 15 (D-083) stage 3 and the bridges; step 16 (D-084) stage 4, the package builder and the method sheet, its scatter replaced by the evidence and effort chart (D-106); step 17 (D-099) stage 5 and the live mode; step 19 (D-100 to D-104) the integration with the backend: one data feed, the analyst's brief, the series and the market evidence pages, the stages that exist per scope, the exports of the backend, the copy in the product manager's words (section 4d); step 20 (D-108 to D-111) the scope layout with the header that stays, the arrival of a screen, the car in the header's corner, the hand-over that starts with the click (section 4e) |
+| Files | `app/markets/[market]/[vehicle]/layout.tsx` (the scope layout), `components/workspace/reveal.tsx`, `stage-item.tsx`, `vehicle-dock.tsx`, `lib/vehicles/dock.ts` (step 20), `scripts/snapshot.mjs` (the data feed), `lib/data/analyses.ts`, `lib/data/exports.ts`, `lib/content/brief-types.ts`, `lib/workspace/market.ts`, `components/workspace/analyst-brief.tsx`, `series-view.tsx`, `brief-parts.tsx`, `external-rows.tsx`, `app/markets/[market]/[vehicle]/regions/page.tsx`, `market/page.tsx`, `log/requirements.md/route.ts` (step 19), `content/workspace/*.json` (the API's responses, committed), `lib/content/workspace-types.ts` (the contract), `lib/data/workspace.ts` (reads), `lib/workspace/candidates.ts` (the candidate rules), `lib/workspace/requirements.ts` (routes, evidence resolution, bridges), `lib/workspace/stages.ts` and `figures.ts` (the stage bar's data), `components/workspace/workspace-header.tsx`, `stage-bar.tsx`, `candidate-filters.tsx`, `candidate-table.tsx`, `requirement-page.tsx`, `evidence-list.tsx`, `effort-block.tsx`, `app/markets/[market]/[vehicle]/structure/page.tsx`, `requirements/page.tsx`, `requirements/[id]/page.tsx`, `priorities/page.tsx`, `priorities/method/page.tsx`, `priority-chart.tsx`, `package-table.tsx`, `lib/workspace/priorities.ts`, `lib/data/effort.ts` (the effort model file and the one live read, `POST /effort/estimate`), `content/effort.json`, `lib/site.ts` (copy), `app/globals.css` (step 14 and 15 blocks), `lib/content/workspace.test.ts`, `lib/workspace/requirements.test.ts`, `tools/audit/screenshots.mjs` |
 | Plan | `plan/08-engineering-workbench-plan.md` sections 3, 4.1 to 4.3, 4.5 and 6 |
 
 ## 1. What it is
@@ -49,8 +49,11 @@ the requirement files or the profiles change; the page's source line names its d
 model hash, and `pnpm snapshot` refreshes it against a running API (`cd backend && uv run uvicorn
 tracepoint.api.app:app --port 8000`).
 
-**The live mode (step 17, D-085).** With `TRACEPOINT_LIVE=1` on the Next.js server and the
-backend API answering at `TRACEPOINT_API_URL` (default `http://127.0.0.1:8000`), `readWorkspace`
+**The live mode (step 17, D-085; automatic since D-106).** `TRACEPOINT_LIVE` on the Next.js
+server is `1` (always live), `0` (the stored data only) or unset, the default: live whenever the
+backend API answers `GET /health` at `TRACEPOINT_API_URL` (default `http://127.0.0.1:8000`),
+asked by `liveEnabled()` at most once every 5 s with a 1.5 s timeout, so gate G2 works as soon as
+the backend runs and a page without it stays as fast as the stored data. In the live mode `readWorkspace`
 asks the API in parallel for the five lists that change (`GET /requirements`,
 `GET /effort/requirements`, `GET /effort/scenarios`, the scope events for the excluded candidates,
 `GET /events?entity_type=requirement&limit=5000` kept to the scope's id prefix and sorted by id),
@@ -67,7 +70,7 @@ action `app/actions/decide.ts` (gate G2, section 4c); the browser never calls th
 ## 3. The header and the stage bar
 
 `workspace-header.tsx` replaces the header the vehicle screen had; `stage-bar.tsx` sits under
-it on a hairline. Since step 20 (D-105) both belong to the scope layout,
+it on a hairline. Since step 20 (D-108) both belong to the scope layout,
 `app/markets/[market]/[vehicle]/layout.tsx`, and stay on screen while the product manager moves
 between the stages and their pages. The current stage follows the route segment on the client
 (`stage-item.tsx`, `stageOfSegment`: the regions and market pages are stage 1, a requirement
@@ -149,13 +152,14 @@ requirement set show the same sentence as stage 2.
 | Acceptance criteria | Market, metric, target, how measured, basis (evidence or assumption, as text) | `criteria` |
 | Evidence | The linked findings, primary first, each a `details` row (the primary open) with the backend's statement, its figures labelled per kind (rows, likes, complaints and their split, share of the market's complaint rows, by powertrain, source, country; a study score with its peers, rank and shares; a catalogue gap's items), its links to other findings with the rationale, and the evidence rows the backend linked: verbatims as written in a `blockquote` with id, source, country, powertrain, classification and workbook row (E5); study attributes with mean and shares; catalogue items with their availability; counts; references to other findings. A reference the snapshot does not hold says so | `details[id].findings`, `verbatims`, `metrics`, `equipment` |
 | Assumptions, uncertainties | Two lists, or "None recorded." | |
-| Effort (CPM) | The lead line (effort in % of a new vehicle, P5 to P95, class, stability, size, layer, certification add-on), a stale note where the estimate predates the requirement version, the change profile (subsystem, own impact, layer, carryover, reason, catalogue terms), the **footprint**: every subsystem present on the vehicle by weight, the weight as the track, the propagated risk as the fill, the effort it adds in % of the vehicle and the share of the subsystem's work as text, the strongest path as "via HV battery, E/E architecture" or "change starts here" or "not reached"; the catalogue scan with its level and the vehicles where the terms match; the flags with their rule numbers; the model hash with "assumption, not calibrated" | `efforts[]`, `content/cpm.json` for the weights |
+| Effort (CPM) | The lead line (effort in % of a new vehicle, P5 to P95, class, stability, size, layer, certification add-on), a stale note where the estimate predates the requirement version, the change profile (subsystem, own impact, layer, carryover, reason, catalogue terms); the catalogue scan with its level and the vehicles where the terms match; the flags with their rule numbers; the model hash with "assumption, not calibrated" | `efforts[]` |
 | Decision at gate G2 | The current status and version; Approve, Reject, Defer as disabled controls with the sentence that a decision needs the running API and that this page reads a snapshot of a named time (the live mode of step 17 enables them) | |
 | History | The requirement's audit events oldest first on a hairline timeline: time, action, actor, a status change as "from to", the rationale, the run id | `events[]` |
 | Source line | The snapshot's time and the backend code version | `snapshot` |
 
-The browser computes nothing: every figure on the page is a field of the API's response; the
-footprint's fill is the engine's risk and the track the model's weight.
+The browser computes nothing: every figure on the page is a field of the API's response. The
+footprint over the subsystems is no longer shown on this page; stage 4 keeps
+the footprint of each package.
 
 **Bridges on the vehicle screen** (plan 08 section 3.1):
 
@@ -175,18 +179,35 @@ not the effort rows.
 
 ## 4b. Stage 4, Prioritization (`/priorities`, `/priorities/method`; step 16, D-084)
 
-**The matrix** (`priority-matrix.tsx`, inline SVG). One mark per requirement: horizontal the
-effort in % of a new vehicle with the P5 to P95 range as a 2 px line at 35 % through the mark,
-vertical the complaint rows of the primary finding (the backend's `quantification.complaints`;
-a requirement whose primary finding is a study attribute or a strength sits at 0 and is named
-beneath the chart). H1 marks are 10 px circles, H2 marks 10 px squares, both in the one blue with
-a 2 px ring in the paper colour; the evidence level stands beside each mark in muted 10 px text;
-the two largest efforts and the two largest evidence counts carry their id; every mark names its
-requirement, figures and level in a native `title`. Axes and gridlines are solid hairlines with
-ticks at clean steps (`axisMax`). A legend beneath names the two shapes and the range line. The
-table twin follows, most complaint rows first, with id (link), title, horizon, level, rows,
-effort, range and class. There is **no composite score**: the hint says the Phase 5 score is not
-built and the page does not invent one.
+**Customer evidence and effort per requirement** (`priority-chart.tsx`, D-106; it replaced the
+scatter of step 16). A hairline table, one row per requirement, grouped by horizon (H1 first,
+the group row names the horizon and counts it) and ordered inside each group by complaint rows,
+then effort, then id (`horizonGroups`, the twin's `byEvidence`). Columns: the id (link to the
+requirement), the title, the evidence level, and two chart cells. Each chart cell holds the figure
+as text in a 52 px column and a track beside it; gridlines and bands are drawn in every row's
+track, so they run through the column as one chart. Left: the complaint rows of the primary
+finding (the backend's `quantification.complaints`) as a 12 px bar from 0 with a 4 px rounded end,
+on a linear scale from 0 in steps of 25, or of 50 past 100 rows (`rowsAxis`); a row with none
+names its primary finding ("primary finding: strength to keep"). Right: the effort as a 10 px
+dot with a 2 px paper ring on its P5 to P95 line at 35 %, on a **logarithmic** scale
+(`effortAxis`, `logPosition`) from a clean bound under the smallest P5 (0.05 % on every current
+scope) to 100 %, a whole new vehicle generation, with ticks at the decades. The engine's classes
+are bands behind it, from the thresholds of the effort model: adapt unshaded, major revision and
+new generation in two steps of grey. A requirement that does not change the vehicle says so in
+the track. The legend beneath names the estimate mark and the three bands with their thresholds.
+Every row names its figures, range, class, level and horizon in a native `title`; the hover tint
+is opaque so a note covers the gridlines in either state. Below 880 px the table scrolls
+sideways like every table of the workspace. The table twin follows in a `<details>`, closed, most
+complaint rows first, with id (link), title, horizon, level, rows, effort, range and class. There
+is **no composite score**: the hint says the Phase 5 score is not built and the page does not
+invent one.
+
+Why the scatter went: on G60 US the one H2 change at 49 % set the linear effort axis to 60 %,
+and the other nineteen requirements (0.2 % to 4.6 %) shared its first 50 px: the marks and their
+level letters overlapped, only the four extremes carried an id, the class thresholds were not on
+the chart, and the requirement at 0 sat on the origin. The question the stage asks is per
+requirement (how much evidence, how much effort, which class), not a correlation, and the
+efforts span three orders of magnitude.
 
 **The packages** (`package-table.tsx`). One hairline table with the engine's three variations
 (`scenarios`: H1, H2, ALL): requirements, combined effort, P5 to P95, class with "kept in n % of
@@ -238,8 +259,11 @@ new status, the version and the `requirement.decided` event live, and shows the 
 line with the rule in the one blue ("Decision recorded: deferred."). The backend sets the actor
 from its own configuration (D-014), writes the audit event with the rationale and appends the
 decision to `config/decisions/requirements.jsonl` (D-061); the frontend stores nothing. Outside
-the live mode the three controls are disabled and the sentence names the snapshot's date; a
-submission that reaches the action without the live mode comes back as `offline`.
+the live mode the three controls are disabled and the sentence names the snapshot's date: with
+`TRACEPOINT_LIVE=0` that this Tracepoint records no decisions, otherwise that the service that
+records them does not answer and the page should be reloaded once it runs (D-106). A submission
+that reaches the action with `TRACEPOINT_LIVE=0` comes back as `offline`; otherwise the action
+asks the API, and a backend that does not answer comes back as `failed` with its reason.
 
 **Stage 5, Documentation** (`app/markets/[market]/[vehicle]/log/page.tsx`,
 `lib/workspace/log.ts`). Three parts, nothing computed beyond joins:
@@ -323,7 +347,7 @@ file paths or commands: the source line says "Data as stored on" or "Live data, 
 failed live read says the live service did not answer, a decision outside the live mode says
 decisions are recorded when Tracepoint runs live. Those details live in the READMEs.
 
-## 4e. Step 20: moving between the screens (D-105 to D-108)
+## 4e. Step 20: moving between the screens (D-108 to D-111)
 
 The team reported that the step from the situation analysis to Structure & context froze for
 half a second, that the hand-over from the map stopped after the click, and asked for the car to
@@ -356,7 +380,7 @@ What changed:
 * The car moves between the stage and the header's corner as a view transition of the car alone
   (E7). A whole-screen exit fade was built and removed: capturing the page cost 150 to 250 ms
   without a frame in the headless renderer.
-* The hand-over starts with the click (E4, D-108).
+* The hand-over starts with the click (E4, D-111).
 
 Verified with the production build: the timelines above, frame strips of each transition from
 the screencast, back and forward navigation (the browser's own history restores the screen at

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import type { CpmCatalogue, CpmView } from "@/lib/content/cpm-types";
+import type { CpmCatalogue } from "@/lib/content/cpm-types";
 import { domainName } from "@/lib/content/markets";
 import type { MarketContent, VehicleContent } from "@/lib/content/types";
 import type { WorkspaceRead } from "@/lib/data/workspace";
@@ -31,13 +31,12 @@ export interface RequirementPageProps {
   read: WorkspaceRead;
   record: RequirementRecord;
   catalogue: CpmCatalogue;
-  view: CpmView;
   /** The page's own route, the return address of the decision form. */
   pathname: string;
   notice: DecisionFormProps["notice"];
 }
 
-export function RequirementPage({ market, vehicle, read, record, catalogue, view, pathname, notice }: RequirementPageProps) {
+export function RequirementPage({ market, vehicle, read, record, catalogue, pathname, notice }: RequirementPageProps) {
   const copy = site.requirements;
   const { snapshot } = read;
   const { requirement: r, detail, effort } = record;
@@ -135,7 +134,7 @@ export function RequirementPage({ market, vehicle, read, record, catalogue, view
 
       <h3 className="stage-h3">{copy.effort.heading}</h3>
       <p className="workspace-hint">{copy.effort.hint}</p>
-      <EffortBlock requirement={r} effort={effort} catalogue={catalogue} view={view} />
+      <EffortBlock requirement={r} effort={effort} catalogue={catalogue} />
 
       <h3 className="stage-h3">{copy.decision.heading}</h3>
       <DecisionForm requirement={r} read={read} pathname={pathname} notice={notice} />

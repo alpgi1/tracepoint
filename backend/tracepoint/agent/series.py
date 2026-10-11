@@ -67,7 +67,7 @@ from tracepoint.llm.gateway import LlmGateway
 from tracepoint.reports.baseline import COMPLAINT_TYPES, LIKE_TYPE
 
 PACK_VERSION = "series-pack-v1"
-PROMPT_VERSION = "series-analysis-v1"
+PROMPT_VERSION = "series-analysis-v2"  # v2: "customer comments", not "verbatims"
 ACTOR = "agent:series-analyst"
 
 # What is left over after the markets (Japan, South Korea, Australia, South Africa) is not a
@@ -731,7 +731,7 @@ Effort
 - Where a change starts is checked against the evidence you cite, and own_impact against the reference changes; a profile outside them is sent back.
 - A change_now topic whose profile comes to a major revision or more is sent back: make it next_generation, or split off the small step.
 
-Write plainly and briefly, in English: a product manager reads the whole answer in five minutes. One or two sentences per field, with the numbers that carry it. The text fields hold no reference ids and say nothing about ids, tools, searches, "the pack" or what was retrieved: the reader sees none of that. Where the store holds nothing, write null (our_offer, rivals, market) or "not stored". References go in evidence_refs only."""
+Write plainly and briefly, in English: a product manager reads the whole answer in five minutes. One or two sentences per field, with the numbers that carry it. The text fields hold no reference ids and say nothing about ids, tools, searches, "the pack" or what was retrieved: the reader sees none of that. Where the store holds nothing, write null (our_offer, rivals, market) or "not stored". The customer texts are "customer comments"; the word "verbatim" is not used. References go in evidence_refs only."""
 
 
 # --------------------------------------------------------------------------------------------

@@ -62,6 +62,7 @@ page.
 | Question headings ("Why Tracepoint?") | Declarative headings |
 | Exclamation marks | Full stops |
 | Lorem ipsum, "coming soon", TODO on a delivered page | Real text or no section |
+| The Latin "verbatim" or "verbatims" for the customer texts | "customer comment", "customer comments" (team request after step 19) |
 | Meaningless section labels ("SECTION 01", "ABOUT") | Labels that carry information ("F70 · G60 · G70", "Natural Earth · 1:110m") |
 | Instruction hints as decoration ("scroll to explore", bouncing arrows) | The design makes the next thing obvious; an interactive object gets a real control (the market buttons) |
 
@@ -144,7 +145,7 @@ line exist for assistive technology and are visually hidden. The magnified state
 panel with the vehicle cards; it is a second state, not the first view.
 
 **E4, the hand-over from the map to the vehicle screen (2026-10-10, step 07, revised in steps 11
-and 12 by D-053 and D-055 and in step 20 by D-108).** A clicked vehicle card hands the car's
+and 12 by D-053 and D-055 and in step 20 by D-111).** A clicked vehicle card hands the car's
 photo to a layer that carries it across the route change. The photo leaves the card with the
 click and moves straight to the place the sketch has on the vehicle screen (720 ms, under way at
 once: `--ease-emphasized`) while a paper veil dissolves the map (220 ms); the route changes under
@@ -162,7 +163,7 @@ evidence drawer; the dialog's second revision shows none), it is customer text, 
 keeps its exclamation marks, dashes and wording, is set as `blockquote` with its verbatim id, and
 the page audit's forbidden-text scan leaves `blockquote` out. Nothing in it is edited or invented.
 
-**E6, the arrival of a workspace screen (2026-10-11, step 20, D-106).** The team asked that moving
+**E6, the arrival of a workspace screen (2026-10-11, step 20, D-109).** The team asked that moving
 between the stages never freeze and that the text arrive with a professional motion. When a
 screen of the scope workspace is reached by a click, its blocks rise into place one after
 another: 10 px and a fade over 380 ms, 40 ms apart, the eighth block and every later one
@@ -175,7 +176,7 @@ with reduced motion. While a screen is read, its place is empty; a plain line, "
 workspace", shows only after 0.9 s, so a quick read never flashes a message (no spinner, no
 skeleton, no loop).
 
-**E7, the car in the header's corner (2026-10-11, step 20, D-107).** The team asked that the car of
+**E7, the car in the header's corner (2026-10-11, step 20, D-110).** The team asked that the car of
 the situation analysis not vanish on the other screens. On every screen of the scope but the
 vehicle screen, the side view sits small (176 px) at the right of the header row and links back
 to the vehicle screen. Leaving the vehicle screen, the browser moves the sketch from the stage

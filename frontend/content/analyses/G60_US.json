@@ -19,7 +19,7 @@
  },
  "headline": "US G60 customers still love the 5 Series for ride, handling and performance, but the main product issues are HMI complexity, seat comfort, and the BEV range/charging experience.",
  "summary": "The strongest positives remain classic 5 Series strengths: handling, ride comfort, acceleration and overall drivetrain response, plus exterior design. The biggest concentration of complaints sits in Software/HMI, where many separate themes point to one broader usability problem. Seats are the clearest comfort gap, supported by both complaint volume and weak study scores. For electrified use, customers split their frustration between what the car offers itself (range confidence and prediction) and what they face outside the car (public charging compatibility, availability and planning). The first H1 priorities are simpler access to frequent functions, seat comfort tuning, climate-control usability, phone/CarPlay reliability, and better range guidance. A larger real-world range step belongs to H2.",
- "coverage": "This analysis rests on the US context pack plus drilled-down evidence from 3,628 verbatims in market US (3,610 US, 18 CA), study metrics from US_2025, subsystem aggregation, extracted findings, existing US requirements and CPM effort estimates, and selected external evidence for software/HMI, HV battery and charging. Evidence strength is uneven: the main customer themes cited here are mostly level A or B findings with dozens of rows, while market and external rows are often weak single-source context and are used only as support, not alone.",
+ "coverage": "This analysis rests on the US context pack plus drilled-down evidence from 3,628 customer comments in market US (3,610 US, 18 CA), study metrics from US_2025, subsystem aggregation, extracted findings, existing US requirements and CPM effort estimates, and selected external evidence for software/HMI, HV battery and charging. Evidence strength is uneven: the main customer themes cited here are mostly level A or B findings with dozens of rows, while market and external rows are often weak single-source context and are used only as support, not alone.",
  "proposalGroups": [
   {
    "group": "now",
@@ -123,7 +123,7 @@
      {
       "kind": "verbatim",
       "count": 2,
-      "label": "customer verbatims"
+      "label": "customer comments"
      },
      {
       "kind": "metric",
@@ -172,7 +172,7 @@
      {
       "ref": "verbatim:G60-0248",
       "kind": "verbatim",
-      "label": "Customer verbatim G60-0248",
+      "label": "Customer comment G60-0248",
       "text": "Customer reported that the screen layout is not very intuitive for accessing some functions, even though this is around their eighth or ninth BMW. Customer noted there are numerous manual actions required and that the system relies a lot on touchscreen interaction. Customer stated a BMW genius explained that voice commands are available, but Customer prefers more click-type controls or simpler access instead of going through several layers of menus on the display. Customer commented there are many technical features in the car and feels the system is less intuitive than prior BMW vehicles they have owned. Writer acknowledged the comments and thanked the Customer for providing their experience.",
       "meta": "US, ICE, Source B",
       "url": null,
@@ -181,7 +181,7 @@
      {
       "ref": "verbatim:G60-0397",
       "kind": "verbatim",
-      "label": "Customer verbatim G60-0397",
+      "label": "Customer comment G60-0397",
       "text": "Customer stated that replacing physical buttons with more touch screens is a terrible trend, because it makes drivers take their eyes off the road.",
       "meta": "US, ICE, Source B",
       "url": null,
@@ -304,7 +304,7 @@
      {
       "kind": "verbatim",
       "count": 3,
-      "label": "customer verbatims"
+      "label": "customer comments"
      },
      {
       "kind": "metric",
@@ -330,7 +330,7 @@
      {
       "ref": "verbatim:G60-0051",
       "kind": "verbatim",
-      "label": "Customer verbatim G60-0051",
+      "label": "Customer comment G60-0051",
       "text": "the interior hard plastics creak a lot and feel low quality. my car also has some fit and finish problems, like the driver side front window rattling.\n\nsound system is weak compared to rivals.\n\nrange estimates are off, the efficiency stats shown are basically made up, and cold weather hits the range very hard.\n\nthe driver seat is extremely uncomfortable, especially in the lower back area, even with the lumbar turned down to minimum.\n\napp remote link to the car is slow and often unreliable, even in the same places over and over - it says commands succeeded but they don't actually work. the app really needs the option to connect straight to the car via wifi or bluetooth when it's in the garage or similar.",
       "meta": "US, BEV, Source A",
       "url": null,
@@ -339,7 +339,7 @@
      {
       "ref": "verbatim:G60-0320",
       "kind": "verbatim",
-      "label": "Customer verbatim G60-0320",
+      "label": "Customer comment G60-0320",
       "text": "this car ticks almost all the boxes for me. the key thing is that it is genuinely fun to drive. on top of that, the purchase price felt competitive and the overall value for a new car seemed good.\n\nthe downside is the complexity of the technology. it is not straightforward to learn, and making it simpler would be a very good objective.\n\nthe big negative so far has been getting the driver seat adjusted so i do not end up with serious pain in my lower right back and right knee. i spent hours trying to find a position that worked. my son had to set the seat for me again this week, the second time, and now i can drive for about 30 minutes without pain. i am hoping that will also hold up for my regular 2 hour trips. over the last roughly 35 years i have had teslas and e class mercedes and never ran into this problem. my last mercedes had multi contour seats. my i5 has the upgraded seat package, but i just cannot get it dialed in, there are simply too many adjustments. the current e class mercedes offers an electronic assistant to help the driver find a seat position, and maybe bmw should add something like that too.",
       "meta": "US, BEV, Source A",
       "url": null,
@@ -348,7 +348,7 @@
      {
       "ref": "verbatim:G60-0468",
       "kind": "verbatim",
-      "label": "Customer verbatim G60-0468",
+      "label": "Customer comment G60-0468",
       "text": "I had a problem with Seats have insufficient range of adjustment: \"Not as comfy as our 2024 X5, and I keep having to reposition myself to be able to see the heads-up display.\". Which Seat Control Insufficient Range?: Height, Tilt, Which Seat Insufficient Range?: Front passenger seat, Driver seat",
       "meta": "US, ICE, Source C",
       "url": null,
@@ -459,7 +459,7 @@
      {
       "kind": "verbatim",
       "count": 1,
-      "label": "customer verbatim"
+      "label": "customer comment"
      },
      {
       "kind": "metric",
@@ -485,7 +485,7 @@
      {
       "ref": "verbatim:G60-0551",
       "kind": "verbatim",
-      "label": "Customer verbatim G60-0551",
+      "label": "Customer comment G60-0551",
       "text": "for a car at this price point, it really should come with leather seats and trim. the interior doors, seats, and center console all feel cheap. the range is not very good, and i do not understand why the ix would have better range. the car takes a long time to cool down, and with no cooled seats that problem is even worse. the brakes could be stronger for a vehicle of this size and weight. some of the center console buttons stick or do not always respond when you press them. the door lock switch is awkward to use and sometimes does not register a press, and since it is a solid piece you cannot easily tell if it actually worked.",
       "meta": "US, BEV, Source A",
       "url": null,
@@ -608,7 +608,7 @@
      {
       "kind": "verbatim",
       "count": 1,
-      "label": "customer verbatim"
+      "label": "customer comment"
      },
      {
       "kind": "metric",
@@ -643,7 +643,7 @@
      {
       "ref": "verbatim:G60-0081",
       "kind": "verbatim",
-      "label": "Customer verbatim G60-0081",
+      "label": "Customer comment G60-0081",
       "text": "the updated electronic features feel overly complex. with 2 user profiles the system seems to get mixed up, constantly flipping profiles, and even when i'm on mine the other person's music can start playing. the glass controls throw off a lot of glare, with the sun reflecting right into my eyes. there is also no option to turn off the auto start/stop.",
       "meta": "US, ICE, Source A",
       "url": null,
@@ -727,7 +727,7 @@
      {
       "kind": "verbatim",
       "count": 3,
-      "label": "customer verbatims"
+      "label": "customer comments"
      },
      {
       "kind": "requirement",
@@ -748,7 +748,7 @@
      {
       "ref": "verbatim:G60-0051",
       "kind": "verbatim",
-      "label": "Customer verbatim G60-0051",
+      "label": "Customer comment G60-0051",
       "text": "the interior hard plastics creak a lot and feel low quality. my car also has some fit and finish problems, like the driver side front window rattling.\n\nsound system is weak compared to rivals.\n\nrange estimates are off, the efficiency stats shown are basically made up, and cold weather hits the range very hard.\n\nthe driver seat is extremely uncomfortable, especially in the lower back area, even with the lumbar turned down to minimum.\n\napp remote link to the car is slow and often unreliable, even in the same places over and over - it says commands succeeded but they don't actually work. the app really needs the option to connect straight to the car via wifi or bluetooth when it's in the garage or similar.",
       "meta": "US, BEV, Source A",
       "url": null,
@@ -757,7 +757,7 @@
      {
       "ref": "verbatim:G60-0398",
       "kind": "verbatim",
-      "label": "Customer verbatim G60-0398",
+      "label": "Customer comment G60-0398",
       "text": "Customer stated he is worried about how the range is estimated. Customer stated he drove a 100 mile round trip into the city and back home. Customer stated the car showed roughly 200 miles of range at departure and less than 60 miles remaining once he got back. Customer stated he used efficient mode only for part of the drive home because he began to doubt if there was enough charge to reach his house. Customer stated the average outside temperature was about 32-35 degrees. Customer stated he did not precondition the vehicle before leaving, but the car was kept in his garage overnight. Customer stated the dealership did not clearly explain how to get the best range, and that this is his first electric vehicle.\n\nWriter advised the figure in the instrument cluster is only an estimate. Writer advised that range is affected by climate control usage, driving style, charging behavior, weather, road terrain, and some other variables. Writer advised that preconditioning the vehicle on a cold day will provide a much more accurate range prediction. Writer advised that heating the vehicle up to optimal temperature consumes a lot of battery power, and that not just the cabin but also the battery itself must be warmed to operate efficiently.",
       "meta": "US, BEV, Source B",
       "url": null,
@@ -766,7 +766,7 @@
      {
       "ref": "verbatim:G60-0443",
       "kind": "verbatim",
-      "label": "Customer verbatim G60-0443",
+      "label": "Customer comment G60-0443",
       "text": "it would help to clearly know the range in different driving conditions. performance versus temperature should be shown as well. there seems to be data on this, so why isn't it shared?",
       "meta": "CA, BEV, Source A",
       "url": null,
@@ -984,7 +984,7 @@
      {
       "kind": "verbatim",
       "count": 3,
-      "label": "customer verbatims"
+      "label": "customer comments"
      },
      {
       "kind": "external",
@@ -1005,7 +1005,7 @@
      {
       "ref": "verbatim:G60-0159",
       "kind": "verbatim",
-      "label": "Customer verbatim G60-0159",
+      "label": "Customer comment G60-0159",
       "text": "Customer reported that at times it is hard for her to locate a charging station that is compatible.",
       "meta": "US, BEV, Source B",
       "url": null,
@@ -1014,7 +1014,7 @@
      {
       "ref": "verbatim:G60-0256",
       "kind": "verbatim",
-      "label": "Customer verbatim G60-0256",
+      "label": "Customer comment G60-0256",
       "text": "long-distance charging is way too hard with this car. i've owned tesla for years and decided to try bmw, but despite sales staff saying charging wouldn't be an issue, it definitely is. the tesla supercharger agreement is taking far too long, and bmw doesn't have its own fast charging network, which makes owning this car a hassle. if that major problem didn't exist, i'd give the car an 8.",
       "meta": "US, BEV, Source A",
       "url": null,
@@ -1023,7 +1023,7 @@
      {
       "ref": "verbatim:G60-0500",
       "kind": "verbatim",
-      "label": "Customer verbatim G60-0500",
+      "label": "Customer comment G60-0500",
       "text": "range is fine, but it took a long time to get the adapter for a tesla charger. charging options are scarce in smaller towns, tesla has more chargers there.\nno spare tire.",
       "meta": "US, BEV, Source A",
       "url": null,
@@ -1081,7 +1081,7 @@
      {
       "kind": "verbatim",
       "count": 3,
-      "label": "customer verbatims"
+      "label": "customer comments"
      },
      {
       "kind": "metric",
@@ -1098,7 +1098,7 @@
      {
       "ref": "verbatim:G60-0085",
       "kind": "verbatim",
-      "label": "Customer verbatim G60-0085",
+      "label": "Customer comment G60-0085",
       "text": "really hugs the road. That is the one thing I love most about the driving feel of my vehicle.",
       "meta": "US, BEV, Source D",
       "url": null,
@@ -1107,7 +1107,7 @@
      {
       "ref": "verbatim:G60-0030",
       "kind": "verbatim",
-      "label": "Customer verbatim G60-0030",
+      "label": "Customer comment G60-0030",
       "text": "Customer stated this is her first BMW after driving Audi for the past seven years, and said the aspect she enjoys most is the drive itself, describing the ride in the car as very smooth.",
       "meta": "US, ICE, Source B",
       "url": null,
@@ -1116,7 +1116,7 @@
      {
       "ref": "verbatim:G60-0008",
       "kind": "verbatim",
-      "label": "Customer verbatim G60-0008",
+      "label": "Customer comment G60-0008",
       "text": "the ride quality is excellent and the road feedback is great. acceleration responds instantly. interior layout and space feel flawless, and overall the car gives a very high-quality impression. on the other hand, the electronics are very complicated and difficult to understand. thankfully there are still some manual push buttons and wheel controls, because without them using the car functions and entertainment would be even more distracting while driving.",
       "meta": "US, BEV, Source A",
       "url": null,
@@ -1329,7 +1329,7 @@
        {
         "kind": "verbatim",
         "count": 3,
-        "label": "customer verbatims"
+        "label": "customer comments"
        },
        {
         "kind": "metric",
@@ -1382,7 +1382,7 @@
        {
         "ref": "verbatim:G60-0248",
         "kind": "verbatim",
-        "label": "Customer verbatim G60-0248",
+        "label": "Customer comment G60-0248",
         "text": "Customer reported that the screen layout is not very intuitive for accessing some functions, even though this is around their eighth or ninth BMW. Customer noted there are numerous manual actions required and that the system relies a lot on touchscreen interaction. Customer stated a BMW genius explained that voice commands are available, but Customer prefers more click-type controls or simpler access instead of going through several layers of menus on the display. Customer commented there are many technical features in the car and feels the system is less intuitive than prior BMW vehicles they have owned. Writer acknowledged the comments and thanked the Customer for providing their experience.",
         "meta": "US, ICE, Source B",
         "url": null,
@@ -1391,7 +1391,7 @@
        {
         "ref": "verbatim:G60-0397",
         "kind": "verbatim",
-        "label": "Customer verbatim G60-0397",
+        "label": "Customer comment G60-0397",
         "text": "Customer stated that replacing physical buttons with more touch screens is a terrible trend, because it makes drivers take their eyes off the road.",
         "meta": "US, ICE, Source B",
         "url": null,
@@ -1400,7 +1400,7 @@
        {
         "ref": "verbatim:G60-0081",
         "kind": "verbatim",
-        "label": "Customer verbatim G60-0081",
+        "label": "Customer comment G60-0081",
         "text": "the updated electronic features feel overly complex. with 2 user profiles the system seems to get mixed up, constantly flipping profiles, and even when i'm on mine the other person's music can start playing. the glass controls throw off a lot of glare, with the sun reflecting right into my eyes. there is also no option to turn off the auto start/stop.",
         "meta": "US, ICE, Source A",
         "url": null,
@@ -1438,7 +1438,7 @@
     },
     {
      "title": "Seat comfort is a real comfort gap, not just a trim preference",
-     "statement": "Seats are the strongest interior complaint theme with 62 complaints, equal to 2.4% of all US complaint rows, and the subsystem has 124 complaints overall. This is supported by weak study scores for Overall comfort of the seats at 5.741 and Comfort of 2nd row seat at 5.269. Verbatims point to firmness, lower-back pain, limited adjustment range and lumbar settings that do not flatten enough. There are also wants around leather, massage and ventilation, but the core issue is basic long-drive comfort and fit across body sizes.",
+     "statement": "Seats are the strongest interior complaint theme with 62 complaints, equal to 2.4% of all US complaint rows, and the subsystem has 124 complaints overall. This is supported by weak study scores for Overall comfort of the seats at 5.741 and Comfort of 2nd row seat at 5.269. Customer comments point to firmness, lower-back pain, limited adjustment range and lumbar settings that do not flatten enough. There are also wants around leather, massage and ventilation, but the core issue is basic long-drive comfort and fit across body sizes.",
      "quote": "\"the driver seat is extremely uncomfortable, especially in the lower back area\"",
      "domain": "interior_comfort",
      "domainLabel": "Interior Comfort & Materials",
@@ -1492,7 +1492,7 @@
        {
         "kind": "verbatim",
         "count": 3,
-        "label": "customer verbatims"
+        "label": "customer comments"
        },
        {
         "kind": "metric",
@@ -1518,7 +1518,7 @@
        {
         "ref": "verbatim:G60-0051",
         "kind": "verbatim",
-        "label": "Customer verbatim G60-0051",
+        "label": "Customer comment G60-0051",
         "text": "the interior hard plastics creak a lot and feel low quality. my car also has some fit and finish problems, like the driver side front window rattling.\n\nsound system is weak compared to rivals.\n\nrange estimates are off, the efficiency stats shown are basically made up, and cold weather hits the range very hard.\n\nthe driver seat is extremely uncomfortable, especially in the lower back area, even with the lumbar turned down to minimum.\n\napp remote link to the car is slow and often unreliable, even in the same places over and over - it says commands succeeded but they don't actually work. the app really needs the option to connect straight to the car via wifi or bluetooth when it's in the garage or similar.",
         "meta": "US, BEV, Source A",
         "url": null,
@@ -1527,7 +1527,7 @@
        {
         "ref": "verbatim:G60-0320",
         "kind": "verbatim",
-        "label": "Customer verbatim G60-0320",
+        "label": "Customer comment G60-0320",
         "text": "this car ticks almost all the boxes for me. the key thing is that it is genuinely fun to drive. on top of that, the purchase price felt competitive and the overall value for a new car seemed good.\n\nthe downside is the complexity of the technology. it is not straightforward to learn, and making it simpler would be a very good objective.\n\nthe big negative so far has been getting the driver seat adjusted so i do not end up with serious pain in my lower right back and right knee. i spent hours trying to find a position that worked. my son had to set the seat for me again this week, the second time, and now i can drive for about 30 minutes without pain. i am hoping that will also hold up for my regular 2 hour trips. over the last roughly 35 years i have had teslas and e class mercedes and never ran into this problem. my last mercedes had multi contour seats. my i5 has the upgraded seat package, but i just cannot get it dialed in, there are simply too many adjustments. the current e class mercedes offers an electronic assistant to help the driver find a seat position, and maybe bmw should add something like that too.",
         "meta": "US, BEV, Source A",
         "url": null,
@@ -1536,7 +1536,7 @@
        {
         "ref": "verbatim:G60-0468",
         "kind": "verbatim",
-        "label": "Customer verbatim G60-0468",
+        "label": "Customer comment G60-0468",
         "text": "I had a problem with Seats have insufficient range of adjustment: \"Not as comfy as our 2024 X5, and I keep having to reposition myself to be able to see the heads-up display.\". Which Seat Control Insufficient Range?: Height, Tilt, Which Seat Insufficient Range?: Front passenger seat, Driver seat",
         "meta": "US, ICE, Source C",
         "url": null,
@@ -1574,7 +1574,7 @@
     },
     {
      "title": "Electric range dissatisfaction is partly about absolute range, partly about confidence and winter transparency",
-     "statement": "Electric Range has 67 complaints, 50 of them usability-related, and dominates the HV battery subsystem, which has 89 complaints versus 45 likes. Customers ask for more range, but many verbatims focus on poor predictability, cold-weather drop-off and unclear guidance by condition. At the same time, the evidence is mixed rather than one-sided: the same theme also has 37 likes, and official EPA figures vary widely by variant and wheel size, from 239 to 310 miles for 2025-2026 i5 versions and 34 miles electric for the 550e. This points to a near-term need for better expectation-setting and range guidance, while a larger range step is a successor-generation topic.",
+     "statement": "Electric Range has 67 complaints, 50 of them usability-related, and dominates the HV battery subsystem, which has 89 complaints versus 45 likes. Customers ask for more range, but many customer comments focus on poor predictability, cold-weather drop-off and unclear guidance by condition. At the same time, the evidence is mixed rather than one-sided: the same theme also has 37 likes, and official EPA figures vary widely by variant and wheel size, from 239 to 310 miles for 2025-2026 i5 versions and 34 miles electric for the 550e. This points to a near-term need for better expectation-setting and range guidance, while a larger range step is a successor-generation topic.",
      "quote": "\"range estimates are off\"",
      "domain": "powertrain_range_charging",
      "domainLabel": "Powertrain, Range & Charging",
@@ -1628,7 +1628,7 @@
        {
         "kind": "verbatim",
         "count": 3,
-        "label": "customer verbatims"
+        "label": "customer comments"
        },
        {
         "kind": "external",
@@ -1654,7 +1654,7 @@
        {
         "ref": "verbatim:G60-0051",
         "kind": "verbatim",
-        "label": "Customer verbatim G60-0051",
+        "label": "Customer comment G60-0051",
         "text": "the interior hard plastics creak a lot and feel low quality. my car also has some fit and finish problems, like the driver side front window rattling.\n\nsound system is weak compared to rivals.\n\nrange estimates are off, the efficiency stats shown are basically made up, and cold weather hits the range very hard.\n\nthe driver seat is extremely uncomfortable, especially in the lower back area, even with the lumbar turned down to minimum.\n\napp remote link to the car is slow and often unreliable, even in the same places over and over - it says commands succeeded but they don't actually work. the app really needs the option to connect straight to the car via wifi or bluetooth when it's in the garage or similar.",
         "meta": "US, BEV, Source A",
         "url": null,
@@ -1663,7 +1663,7 @@
        {
         "ref": "verbatim:G60-0398",
         "kind": "verbatim",
-        "label": "Customer verbatim G60-0398",
+        "label": "Customer comment G60-0398",
         "text": "Customer stated he is worried about how the range is estimated. Customer stated he drove a 100 mile round trip into the city and back home. Customer stated the car showed roughly 200 miles of range at departure and less than 60 miles remaining once he got back. Customer stated he used efficient mode only for part of the drive home because he began to doubt if there was enough charge to reach his house. Customer stated the average outside temperature was about 32-35 degrees. Customer stated he did not precondition the vehicle before leaving, but the car was kept in his garage overnight. Customer stated the dealership did not clearly explain how to get the best range, and that this is his first electric vehicle.\n\nWriter advised the figure in the instrument cluster is only an estimate. Writer advised that range is affected by climate control usage, driving style, charging behavior, weather, road terrain, and some other variables. Writer advised that preconditioning the vehicle on a cold day will provide a much more accurate range prediction. Writer advised that heating the vehicle up to optimal temperature consumes a lot of battery power, and that not just the cabin but also the battery itself must be warmed to operate efficiently.",
         "meta": "US, BEV, Source B",
         "url": null,
@@ -1672,7 +1672,7 @@
        {
         "ref": "verbatim:G60-0443",
         "kind": "verbatim",
-        "label": "Customer verbatim G60-0443",
+        "label": "Customer comment G60-0443",
         "text": "it would help to clearly know the range in different driving conditions. performance versus temperature should be shown as well. there seems to be data on this, so why isn't it shared?",
         "meta": "CA, BEV, Source A",
         "url": null,
@@ -1767,7 +1767,7 @@
        {
         "kind": "verbatim",
         "count": 1,
-        "label": "customer verbatim"
+        "label": "customer comment"
        },
        {
         "kind": "metric",
@@ -1807,7 +1807,7 @@
        {
         "ref": "verbatim:G60-0081",
         "kind": "verbatim",
-        "label": "Customer verbatim G60-0081",
+        "label": "Customer comment G60-0081",
         "text": "the updated electronic features feel overly complex. with 2 user profiles the system seems to get mixed up, constantly flipping profiles, and even when i'm on mine the other person's music can start playing. the glass controls throw off a lot of glare, with the sun reflecting right into my eyes. there is also no option to turn off the auto start/stop.",
         "meta": "US, ICE, Source A",
         "url": null,
@@ -1869,7 +1869,7 @@
        {
         "kind": "verbatim",
         "count": 3,
-        "label": "customer verbatims"
+        "label": "customer comments"
        }
       ],
       "items": [
@@ -1885,7 +1885,7 @@
        {
         "ref": "verbatim:G60-0488",
         "kind": "verbatim",
-        "label": "Customer verbatim G60-0488",
+        "label": "Customer comment G60-0488",
         "text": "I had a minor problem with Trunk/hatch/tailgate - Touch-free sensor doesn't work consistently/DTU: \"Hard to figure out the exact place and movement needed to get it to activate\"",
         "meta": "US, BEV, Source C",
         "url": null,
@@ -1894,7 +1894,7 @@
        {
         "ref": "verbatim:G60-0835",
         "kind": "verbatim",
-        "label": "Customer verbatim G60-0835",
+        "label": "Customer comment G60-0835",
         "text": "I had a very minor problem with Trunk/hatch/tailgate - Touch-free sensor doesn't work consistently/DTU: \"It rarely works on the first try and sometimes will not work at all even after several attempts.\"",
         "meta": "US, BEV, Source C",
         "url": null,
@@ -1903,7 +1903,7 @@
        {
         "ref": "verbatim:G60-1403",
         "kind": "verbatim",
-        "label": "Customer verbatim G60-1403",
+        "label": "Customer comment G60-1403",
         "text": "Customer stated that the smart trunk function seems a bit off. Customer explained that frequently it will fail to open when he is deliberately trying to use it, but then it will randomly open by itself just when he walks past, even though he is not actively attempting to trigger it. Customer added that he is using the digital key. Writer requested that the customer compare how this feature behaves on the current vehicle versus his former BMW 5 Series, asking whether the previous car's smart trunk operated better or similarly. Customer replied that on his previous BMW the smart trunk feature worked flawlessly every single time.",
         "meta": "US, BEV, Source B",
         "url": null,
@@ -1969,7 +1969,7 @@
        {
         "kind": "verbatim",
         "count": 1,
-        "label": "customer verbatim"
+        "label": "customer comment"
        },
        {
         "kind": "metric",
@@ -1995,7 +1995,7 @@
        {
         "ref": "verbatim:G60-0551",
         "kind": "verbatim",
-        "label": "Customer verbatim G60-0551",
+        "label": "Customer comment G60-0551",
         "text": "for a car at this price point, it really should come with leather seats and trim. the interior doors, seats, and center console all feel cheap. the range is not very good, and i do not understand why the ix would have better range. the car takes a long time to cool down, and with no cooled seats that problem is even worse. the brakes could be stronger for a vehicle of this size and weight. some of the center console buttons stick or do not always respond when you press them. the door lock switch is awkward to use and sometimes does not register a press, and since it is a solid piece you cannot easily tell if it actually worked.",
         "meta": "US, BEV, Source A",
         "url": null,
@@ -2072,7 +2072,7 @@
        {
         "kind": "verbatim",
         "count": 3,
-        "label": "customer verbatims"
+        "label": "customer comments"
        },
        {
         "kind": "external",
@@ -2093,7 +2093,7 @@
        {
         "ref": "verbatim:G60-0159",
         "kind": "verbatim",
-        "label": "Customer verbatim G60-0159",
+        "label": "Customer comment G60-0159",
         "text": "Customer reported that at times it is hard for her to locate a charging station that is compatible.",
         "meta": "US, BEV, Source B",
         "url": null,
@@ -2102,7 +2102,7 @@
        {
         "ref": "verbatim:G60-0256",
         "kind": "verbatim",
-        "label": "Customer verbatim G60-0256",
+        "label": "Customer comment G60-0256",
         "text": "long-distance charging is way too hard with this car. i've owned tesla for years and decided to try bmw, but despite sales staff saying charging wouldn't be an issue, it definitely is. the tesla supercharger agreement is taking far too long, and bmw doesn't have its own fast charging network, which makes owning this car a hassle. if that major problem didn't exist, i'd give the car an 8.",
         "meta": "US, BEV, Source A",
         "url": null,
@@ -2111,7 +2111,7 @@
        {
         "ref": "verbatim:G60-0469",
         "kind": "verbatim",
-        "label": "Customer verbatim G60-0469",
+        "label": "Customer comment G60-0469",
         "text": "Customer stated public charging stations are not placed conveniently. Customer stated they are usually out of the way and, when he finds one, it is in a secluded area of the parking lot. Customer stated he does not feel safe using most public chargers.",
         "meta": "US, BEV, Source B",
         "url": null,
@@ -2189,7 +2189,7 @@
        {
         "kind": "verbatim",
         "count": 3,
-        "label": "customer verbatims"
+        "label": "customer comments"
        },
        {
         "kind": "metric",
@@ -2206,7 +2206,7 @@
        {
         "ref": "verbatim:G60-0085",
         "kind": "verbatim",
-        "label": "Customer verbatim G60-0085",
+        "label": "Customer comment G60-0085",
         "text": "really hugs the road. That is the one thing I love most about the driving feel of my vehicle.",
         "meta": "US, BEV, Source D",
         "url": null,
@@ -2215,7 +2215,7 @@
        {
         "ref": "verbatim:G60-0030",
         "kind": "verbatim",
-        "label": "Customer verbatim G60-0030",
+        "label": "Customer comment G60-0030",
         "text": "Customer stated this is her first BMW after driving Audi for the past seven years, and said the aspect she enjoys most is the drive itself, describing the ride in the car as very smooth.",
         "meta": "US, ICE, Source B",
         "url": null,
@@ -2224,7 +2224,7 @@
        {
         "ref": "verbatim:G60-0008",
         "kind": "verbatim",
-        "label": "Customer verbatim G60-0008",
+        "label": "Customer comment G60-0008",
         "text": "the ride quality is excellent and the road feedback is great. acceleration responds instantly. interior layout and space feel flawless, and overall the car gives a very high-quality impression. on the other hand, the electronics are very complicated and difficult to understand. thankfully there are still some manual push buttons and wheel controls, because without them using the car functions and entertainment would be even more distracting while driving.",
         "meta": "US, BEV, Source A",
         "url": null,
@@ -2256,12 +2256,12 @@
  ],
  "assumptions": [
   "The German catalogue is not a US order guide, so equipment conclusions are used cautiously and not as sole evidence for US content gaps.",
-  "Country scope is market US; 18 Canadian verbatims are included in the market evidence and a few cited rows come from CA. Study metrics, sales and findings are market-level only.",
+  "Country scope is market US; 18 Canadian customer comments are included in the market evidence and a few cited rows come from CA. Study metrics, sales and findings are market-level only.",
   "External evidence is supportive context only here. Many rows are weak single-source items, some are Global rather than US-specific, and unverified rows were not used alone for recommendations.",
-  "Source B verbatims are call-centre notes and can mix product feedback with explanation or process content; they still align with other sources on the main themes.",
+  "Source B customer comments are call-centre notes and can mix product feedback with explanation or process content; they still align with other sources on the main themes.",
   "The subsystem mapping and CPM effort model are assumptions. Effort figures are rough prioritisation aids, not measured engineering effort or cost.",
   "There is only one stored US market row in the pack, about EV share, and it is weak context. There is no stronger stored market-row set for the main interior or HMI issues.",
-  "No additional BMW strategy or delivery document passages were needed because the customer priorities were already clear from verbatims, findings, metrics and requirements."
+  "No additional BMW strategy or delivery document passages were needed because the customer priorities were already clear from customer comments, findings, metrics and requirements."
  ],
  "openChecks": [
   "\"Use charging access and planning as the main H1 lever on public charging pain\": the change starts in Software/HMI; the cited evidence sits in charging by the theme mapping. Cite evidence for Software/HMI, move the start of the change to where the evidence sits, or state in the change's why what puts the work there."

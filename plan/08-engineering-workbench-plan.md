@@ -2,7 +2,7 @@
 
 | Field | Value |
 |---|---|
-| Version | 0.6 (2026-10-11): accepted by the team ("proceed with the proposals"); decisions D-078 to D-080, D-083, D-084 and D-099 (D-081 and D-082 are the backend's); UI steps 14 (data layer, stage bar, stage 2), 15 (stage 3, the bridges), 16 (stage 4, the package builder, the method sheet) and 17 (the live mode, gate G2, stage 5) built; the backend's step 16 delivered the CPM endpoints of section 7. Step 19 integrated the two halves (D-100 to D-104, `reports/step-19-backend-frontend-integration.md`): the analyses endpoints of section 7 and the analyst's brief of step 18, the series and market evidence pages, one data feed for every screen, the stages that exist per scope, the copy in the product manager's words. Step 20 (D-105 to D-108, `reports/step-20-motion-between-screens.md`) made the moves between the screens continuous: the header stays in a scope layout, every link has an instant frame, a screen's content arrives with a staggered rise, the car docks in the header's corner |
+| Version | 0.6 (2026-10-11): accepted by the team ("proceed with the proposals"); decisions D-078 to D-080, D-083, D-084 and D-099 (D-081 and D-082 are the backend's); UI steps 14 (data layer, stage bar, stage 2), 15 (stage 3, the bridges), 16 (stage 4, the package builder, the method sheet) and 17 (the live mode, gate G2, stage 5) built; the backend's step 16 delivered the CPM endpoints of section 7. Step 19 integrated the two halves (D-100 to D-104, `reports/step-19-backend-frontend-integration.md`): the analyses endpoints of section 7 and the analyst's brief of step 18, the series and market evidence pages, one data feed for every screen, the stages that exist per scope, the copy in the product manager's words. Step 20 (D-108 to D-111, `reports/step-20-motion-between-screens.md`) made the moves between the screens continuous: the header stays in a scope layout, every link has an instant frame, a screen's content arrives with a staggered rise, the car docks in the header's corner |
 | Track | Frontend. Section 7 lists what the frontend needs from the backend team |
 | Builds on | `07-frontend-plan.md` (screens 0 to 2 and the subsystem dialog, built), `05-effort-market-layer-and-domain-panel.md` (bridge plan), `06-pm-workspace-ux-spec.md` (screens 3 to 6 as an outline), backend steps 11, 12, 14 and 15 |
 | Replaces | Section 8 of `07-frontend-plan.md` (next screens) once the team accepts it |
@@ -259,6 +259,12 @@ prerender that reads at request time in both modes, because the live mode is a s
 (`TRACEPOINT_LIVE=1` on `pnpm start`) and a build must not bake the mode in; the cost in the
 snapshot mode is one read of the in-memory snapshot per request.
 
+Since D-106 the live mode is the default wherever the backend answers: with `TRACEPOINT_LIVE`
+unset the Next.js server asks the API's health check (at most once every 5 s) and goes live when
+it answers, so Approve, Reject and Defer work on a plain `pnpm start` beside a running backend;
+`TRACEPOINT_LIVE=0` keeps the stored data only and `1` forces the live mode. The product manager
+had found the three controls disabled, because nothing in the documented start turned them on.
+
 ---
 
 ## 7. Requests to the backend team
@@ -289,7 +295,7 @@ Everything in P0 and P1 reads data the backend already holds; none needs a model
 | 16 | Stage 4: matrix and packages; the CPM method sheet with the matrix of links and the back-test; the package builder (moved forward from step 18, since `POST /effort/estimate` exists) | `GET /effort/model`, `GET /effort/backtest`, `POST /effort/estimate` (all delivered) | **Built** (`reports/step-16-ui-prioritization-and-method-sheet.md`) |
 | 17 | Live mode: gate G2 decisions through server actions; stage 5 record and timeline; export | Nothing new in the end: the events are one filtered call, the CSV a route handler of the frontend | **Built** (`reports/step-17-ui-live-mode-decisions-and-documentation.md`) |
 | 18 | Analyst brief and run (the package builder is built in step 16) | Analyses endpoints | **Built** in step 19 with the integration: the brief on stage 2, the series page, the market evidence. The run button is left out: a run needs the model provider's key and one to two minutes, and the CLI writes the files the API serves |
-| 20 | Motion between the screens: the header in a scope layout that stays, instant frames for every link, the arrival of a screen's content, the car in the header's corner, the hand-over that starts with the click | Nothing new | **Built** (`reports/step-20-motion-between-screens.md`, D-105 to D-108) |
+| 20 | Motion between the screens: the header in a scope layout that stays, instant frames for every link, the arrival of a screen's content, the car in the header's corner, the hand-over that starts with the click | Nothing new | **Built** (`reports/step-20-motion-between-screens.md`, D-108 to D-111) |
 
 Each step follows the verification of plan v2 section 9: `pnpm check`, `pnpm audit:pages`
 (with the new stage pages added to the list), `pnpm shots`, the forbidden-list checklist and a
