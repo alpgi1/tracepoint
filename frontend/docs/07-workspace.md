@@ -3,9 +3,9 @@
 | Field | Value |
 |---|---|
 | Date | 2026-10-11, step 14 |
-| Status | Built and verified (D-078 to D-080); stages 3 to 5 follow in steps 15 to 17 |
-| Files | `scripts/snapshot-workspace.mjs` (snapshot), `content/workspace/*.json` (the API's responses, committed), `lib/content/workspace-types.ts` (the contract), `lib/data/workspace.ts` (reads), `lib/workspace/candidates.ts` (the candidate rules), `lib/workspace/stages.ts` and `figures.ts` (the stage bar's data), `components/workspace/workspace-header.tsx`, `stage-bar.tsx`, `candidate-filters.tsx`, `candidate-table.tsx`, `app/markets/[market]/[vehicle]/structure/page.tsx`, `lib/site.ts` (copy), `app/globals.css` (step 14 block), `lib/content/workspace.test.ts`, `tools/audit/screenshots.mjs` |
-| Plan | `plan/08-engineering-workbench-plan.md` sections 3, 4.1 and 6 |
+| Status | Built and verified: step 14 (D-078 to D-080) the data layer, the stage bar and stage 2; step 15 (D-083) stage 3 and the bridges. Stages 4 and 5 follow in steps 16 and 17 |
+| Files | `scripts/snapshot-workspace.mjs` (snapshot), `content/workspace/*.json` (the API's responses, committed), `lib/content/workspace-types.ts` (the contract), `lib/data/workspace.ts` (reads), `lib/workspace/candidates.ts` (the candidate rules), `lib/workspace/requirements.ts` (routes, evidence resolution, footprint, bridges), `lib/workspace/stages.ts` and `figures.ts` (the stage bar's data), `components/workspace/workspace-header.tsx`, `stage-bar.tsx`, `candidate-filters.tsx`, `candidate-table.tsx`, `requirement-page.tsx`, `evidence-list.tsx`, `effort-block.tsx`, `app/markets/[market]/[vehicle]/structure/page.tsx`, `requirements/page.tsx`, `requirements/[id]/page.tsx`, `lib/site.ts` (copy), `app/globals.css` (step 14 and 15 blocks), `lib/content/workspace.test.ts`, `lib/workspace/requirements.test.ts`, `tools/audit/screenshots.mjs` |
+| Plan | `plan/08-engineering-workbench-plan.md` sections 3, 4.1, 4.2 and 6 |
 
 ## 1. What it is
 
@@ -32,10 +32,17 @@ but counts and the share of a bar.
 | `lib/workspace/candidates.ts` | Joins a requirement with its estimate (`Candidate`: `starts`, the subsystems of the change profile; `reaches`, the subsystems the change propagates to), the inbox rules (section 4), the filters, the domain grouping and the stage counts |
 | `lib/content/workspace.test.ts` | Pins the contract: one file per pair, the literal unions, one effort row per requirement on known subsystems with P5 ≤ effort ≤ P95, the three scenarios with the combined effort never above the plain sum and the requirement count equal to the recommended, not rejected requirements of the horizon, events of the scope only, the candidate rules on G60 US |
 
-Seven snapshots, taken 2026-10-11 from the API at backend code `e06b37f`, effort model
-`789fcb7624b8`: G60 US (20 requirements, 6 excluded, 40 events, 163 KB), G70 US (19, 7, 38,
-161 KB), F70 EU (18, 4, 36, 141 KB); G60 EU, G70 EU, G68 CN and G70 CN hold the API's empty
-answers (1.9 KB each), which the stages show as "no requirement set". A snapshot goes stale when
+Since step 15 a snapshot also holds `details` (GET `/requirements/{id}` per requirement: the
+requirement with its findings, each finding with its statement, figures, links to other findings
+and evidence references), and the evidence those references name, resolved once per scope and
+keyed by id: `verbatims` (GET `/verbatims/{id}`, the text as written with its classification rows
+and workbook row), `metrics` (the rows of GET `/studies` the findings cite, across vehicles and
+markets for peers) and `equipment` (the rows of GET `/equipment?vehicle=`). Seven snapshots, taken
+2026-10-11 from the API at backend code `e06b37f`, effort model `789fcb7624b8`: G60 US (20
+requirements, 6 excluded, 40 events, 313 verbatims, 18 metrics, 13 catalogue items, 1.1 MB), G70
+US (19, 7, 38, 293, 42, 0, 1.0 MB), F70 EU (18, 4, 36, 201, 30, 17, 0.9 MB); G60 EU, G70 EU, G68
+CN and G70 CN hold the API's empty answers (2.1 KB each), which the stages show as "no requirement
+set". A snapshot is imported by server components only, so its size never reaches the browser. A snapshot goes stale when
 the requirement files or the profiles change; the page's source line names its date and the
 model hash, and `pnpm snapshot` refreshes it against a running API (`cd backend && uv run uvicorn
 tracepoint.api.app:app --port 8000`).
@@ -101,6 +108,46 @@ one HTML response; the views are links and the filters a form. Measured: the HTM
 All view, is 169 KB: 37 KB of markup and 129 KB of React Server Components payload, in which
 the table appears twice (the prerendered shell's payload and the streamed segment). Nothing of
 a snapshot beyond the rendered rows reaches the browser.
+
+## 4a. Stage 3, Requirements definition (`/requirements`, `/requirements/[id]`; step 15, D-083)
+
+**Index.** The scope's requirements grouped by customer domain: id and title as links, the
+criteria count with how many rest on evidence, horizon, evidence level, status. Scopes without a
+requirement set show the same sentence as stage 2.
+
+**Requirement page**, one static route per requirement (57 today), the D2 record on screen:
+
+| Block | Content | Source in the snapshot |
+|---|---|---|
+| Breadcrumb | The index, a slash, the id | |
+| Title, facts | The title as h2; proposal (1 or 0) with the rationale, horizon with the rationale, domain, markets, evidence level ("the best level of the primary and supporting findings"), status and version | `requirements[]` |
+| Statement | The customer-facing statement | |
+| Acceptance criteria | Market, metric, target, how measured, basis (evidence or assumption, as text) | `criteria` |
+| Evidence | The linked findings, primary first, each a `details` row (the primary open) with the backend's statement, its figures labelled per kind (rows, likes, complaints and their split, share of the market's complaint rows, by powertrain, source, country; a study score with its peers, rank and shares; a catalogue gap's items), its links to other findings with the rationale, and the evidence rows the backend linked: verbatims as written in a `blockquote` with id, source, country, powertrain, classification and workbook row (E5); study attributes with mean and shares; catalogue items with their availability; counts; references to other findings. A reference the snapshot does not hold says so | `details[id].findings`, `verbatims`, `metrics`, `equipment` |
+| Assumptions, uncertainties | Two lists, or "None recorded." | |
+| Effort (CPM) | The lead line (effort in % of a new vehicle, P5 to P95, class, stability, size, layer, certification add-on), a stale note where the estimate predates the requirement version, the change profile (subsystem, own impact, layer, carryover, reason, catalogue terms), the **footprint**: every subsystem present on the vehicle by weight, the weight as the track, the propagated risk as the fill, the effort it adds in % of the vehicle and the share of the subsystem's work as text, the strongest path as "via HV battery, E/E architecture" or "change starts here" or "not reached"; the catalogue scan with its level and the vehicles where the terms match; the flags with their rule numbers; the model hash with "assumption, not calibrated" | `efforts[]`, `content/cpm.json` for the weights |
+| Decision at gate G2 | The current status and version; Approve, Reject, Defer as disabled controls with the sentence that a decision needs the running API and that this page reads a snapshot of a named time (the live mode of step 17 enables them) | |
+| History | The requirement's audit events oldest first on a hairline timeline: time, action, actor, a status change as "from to", the rationale, the run id | `events[]` |
+| Source line | The snapshot's time and the backend code version | `snapshot` |
+
+The browser computes nothing: every figure on the page is a field of the API's response; the
+footprint's fill is the engine's risk and the track the model's weight.
+
+**Bridges on the vehicle screen** (plan 08 section 3.1):
+
+1. **CPM list rows** carry a third line from the scope's effort estimates: "2 requirements start
+   here · reached by 5 · up to 4.6 %", "no requirement changes it", or "no requirement set".
+2. **The subsystem dialog** gains a fourth band, "Requirements that change {subsystem}": how many
+   start there and how many propagate into it, the list of both (id, title, horizon, effort and
+   class, where) with each line a link to the requirement page, and a link to stage 2 filtered
+   to the subsystem. Empty states: no requirement changes it; no requirement set for the scope.
+3. **Under the disliked suggestion**, the requirements citing the subsystem's criticised themes,
+   theme by theme, as links; or that none does. The theme's customer-voice finding is identified
+   by the backend's title convention "{theme}: …", carried by every requirement's linked findings.
+
+The bridge data (`bridgesFor` in `lib/workspace/requirements.ts`) is computed on the server
+from the snapshot and the CPM view and handed to the list as six fields per requirement line,
+not the effort rows.
 
 ## 5. The inbox rules (`lib/workspace/candidates.ts`)
 

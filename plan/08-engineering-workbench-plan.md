@@ -2,7 +2,7 @@
 
 | Field | Value |
 |---|---|
-| Version | 0.2 (2026-10-11): accepted by the team ("proceed with the proposals"); decisions D-078 to D-080; UI step 14 built (data layer, stage bar, stage 2). Steps 15 to 18 are the next work |
+| Version | 0.3 (2026-10-11): accepted by the team ("proceed with the proposals"); decisions D-078 to D-080 and D-083 (D-081 and D-082 are the backend's); UI steps 14 (data layer, stage bar, stage 2) and 15 (stage 3, the bridges) built; the backend's step 16 delivered the CPM endpoints of section 7. Steps 16 to 18 are the next work |
 | Track | Frontend. Section 7 lists what the frontend needs from the backend team |
 | Builds on | `07-frontend-plan.md` (screens 0 to 2 and the subsystem dialog, built), `05-effort-market-layer-and-domain-panel.md` (bridge plan), `06-pm-workspace-ux-spec.md` (screens 3 to 6 as an outline), backend steps 11, 12, 14 and 15 |
 | Replaces | Section 8 of `07-frontend-plan.md` (next screens) once the team accepts it |
@@ -258,10 +258,10 @@ and writes. Proposal:
 
 | Priority | Request | Why the frontend needs it |
 |---|---|---|
-| P0 | `POST /effort/estimate` with `{vehicle, market, requirement_ids?, changes?}`, returning each item and the combination (rule 45) with range, class, stability and footprint | Package builder; combined effort is not a sum and must not be computed in the browser |
+| P0 | `POST /effort/estimate` with `{vehicle, market, requirement_ids?, changes?}`, returning each item and the combination (rule 45) with range, class, stability and footprint | Package builder; combined effort is not a sum and must not be computed in the browser. **Delivered** (backend step 16, D-081): `items[]`, `sum_of_single_pct`, `combined`, `model_hash`, `basis` |
 | P0 | `GET /analyses?vehicle=&market=` and `GET /analyses/{run_id}` reading `data/analyses/` | The analyst brief without spending a run on every page view |
 | P0 | Scope filter on `GET /events` (`vehicle`, `market`, or an entity id prefix such as `REQ-G60-US-`) | Stage 5 timeline in one call instead of one per requirement |
-| P1 | `GET /effort/model` (W, L, I, thresholds, notes, model hash) | Method sheet from the API instead of the YAML file; plan v2 listed it as existing |
+| P1 | `GET /effort/model` (W, L, I, thresholds, notes, model hash) | Method sheet from the API instead of the YAML file; plan v2 listed it as existing. **Delivered** (backend step 16), together with `GET /cpm/{vehicle}?market=&country=&labels=` (the `CpmView` the frontend builds into `content/cpm.json`) and `GET /requirements/{id}/effort` |
 | P1 | `GET /requirements/export?vehicle=&market=&format=csv\|md` | Export button in stage 5 (the CLI exporter exists) |
 | P1 | Phase 5 customer-side components (reach, severity, 2030 market weight, evidence confidence) and `priority_score` with its components | The vertical axis and a ranked list with a visible formula |
 | P1 | Requirement sets for G60 EU and G68 CN (the requirement agent named as the next step in step 15) | Stages 2 to 5 are empty outside the three scopes |
@@ -278,7 +278,7 @@ Everything in P0 and P1 reads data the backend already holds; none needs a model
 | Step | Delivers | Needs from the backend | Can start |
 |---|---|---|---|
 | 14 | Data layer (adapter, types, snapshot script, snapshots for the three scopes), the stage bar, stage 2 read-only (candidate table, three views, left out, inbox rules) | Nothing new | **Built** (`reports/step-14-ui-workspace-stages-and-structure.md`) |
-| 15 | Stage 3: requirement page with criteria, evidence panel, CPM effort block and footprint; bridges 1 to 3 on the vehicle screen and in the dialog | Nothing new | After 14 |
+| 15 | Stage 3: requirement page with criteria, evidence panel, CPM effort block and footprint; bridges 1 to 3 on the vehicle screen and in the dialog | Nothing new | **Built** (`reports/step-15-ui-requirement-page-and-bridges.md`) |
 | 16 | Stage 4: matrix and packages; the CPM method sheet with the matrix of links and the back-test | `GET /effort/model` optional (the YAML works meanwhile) | After 15 |
 | 17 | Live mode: gate G2 decisions through server actions; stage 5 record and timeline; export | Events scope filter, export endpoint | After 16, or in parallel with a running API |
 | 18 | Analyst brief and run; package builder | Analyses endpoints, `POST /effort/estimate` | When the backend delivers P0 |

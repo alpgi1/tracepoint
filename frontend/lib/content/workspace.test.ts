@@ -110,6 +110,40 @@ describe("workspace snapshots", () => {
     }
   });
 
+  it("hold the detail of every requirement with its findings, and the evidence the findings reference", () => {
+    for (const s of workspaceScopes()) {
+      expect(Object.keys(s.details).sort()).toEqual(s.requirements.map((r) => r.id).sort());
+      for (const r of s.requirements) {
+        const d = s.details[r.id];
+        expect(d.id).toBe(r.id);
+        expect(d.version).toBe(r.version);
+        expect(d.findings.map((f) => f.id).sort()).toEqual(r.findings.map((f) => f.id).sort());
+        expect(d.effort?.id).toBe(r.id);
+        for (const f of d.findings) {
+          expect(["primary", "supporting", "context"]).toContain(f.role);
+          expect(f.statement.length).toBeGreaterThan(0);
+          for (const e of f.evidence) {
+            expect(["example", "quantifies", "compares", "supports"]).toContain(e.role);
+            const at = e.evidence_ref.indexOf(":");
+            const kind = e.evidence_ref.slice(0, at);
+            const rest = e.evidence_ref.slice(at + 1);
+            if (kind === "vclass" || kind === "verbatim") {
+              const v = s.verbatims[rest.split("#")[0]];
+              expect(v).toBeDefined();
+              expect(v.text.length).toBeGreaterThan(0);
+              expect(v.vehicle_code).toBe(s.vehicle);
+            } else if (kind === "metric") expect(s.metrics[rest]).toBeDefined();
+            else if (kind === "equipment") expect(s.equipment[rest]).toBeDefined();
+            else expect(["aggregate", "finding"]).toContain(kind);
+          }
+        }
+      }
+      for (const v of Object.values(s.verbatims)) expect(v.evidence_ref).toBe(`verbatim:${v.id}`);
+      for (const m of Object.values(s.metrics)) expect(m.evidence_ref).toBe(`metric:${m.id}`);
+      for (const e of Object.values(s.equipment)) expect(e.evidence_ref).toBe(`equipment:${e.id}`);
+    }
+  });
+
   it("name the three scopes with a requirement set", () => {
     expect(scopesWithRequirements().map((s) => `${s.vehicle}_${s.market}`).sort()).toEqual(["F70_EU", "G60_US", "G70_US"]);
   });

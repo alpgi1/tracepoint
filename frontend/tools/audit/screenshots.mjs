@@ -138,4 +138,21 @@ await shoot("22-structure-us-g70-excluded-1440", desktop, async () => {}, { path
 await shoot("23-structure-cn-g68-1440", desktop, async () => {}, { path: "/markets/cn/g68/structure" });
 await shoot("24-structure-us-g60-all-1920", wide, async () => {}, { path: "/markets/us/g60/structure?view=all" });
 
+// Step 15: stage 3, the requirement page and the index; the bridges on the vehicle screen.
+await shoot("25-requirements-us-g60-1440", desktop, async () => {}, { path: "/markets/us/g60/requirements" });
+await shoot("26-requirement-us-g60-ic-01-1440", desktop, async () => {}, { path: "/markets/us/g60/requirements/req-g60-us-ic-01" });
+await shoot("27-requirement-us-g60-pr-03-effort-1440", desktop, async (page) => {
+  await page.locator("#requirement-heading").waitFor();
+  const heading = page.getByRole("heading", { name: "Effort (CPM)" });
+  await heading.scrollIntoViewIfNeeded();
+  await page.waitForTimeout(200);
+}, { path: "/markets/us/g60/requirements/req-g60-us-pr-03" });
+await shoot("28-dialog-us-g60-seats-requirements-1440", desktop, async (page) => {
+  await openSubsystem(page, "Seats");
+  const band = page.locator(".cpm-band-requirements");
+  await band.scrollIntoViewIfNeeded();
+  await page.waitForTimeout(200);
+}, { path: "/markets/us/g60" });
+await shoot("29-vehicle-us-g60-bridges-1440", desktop, async () => {}, { path: "/markets/us/g60" });
+
 await browser.close();

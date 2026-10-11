@@ -131,7 +131,7 @@ async function Candidates({ snapshot, market, vehicle, searchParams }: Candidate
           <p className="stage-empty">{copy.noExcluded}</p>
         )
       ) : shown.length > 0 ? (
-        <CandidateTable groups={groups} view={view} />
+        <CandidateTable groups={groups} view={view} market={market.code} vehicle={vehicle.code} />
       ) : (
         <p className="stage-empty">{filtered.length === 0 ? copy.noMatch : copy.noInbox}</p>
       )}

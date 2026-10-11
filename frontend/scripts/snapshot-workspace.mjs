@@ -5,8 +5,11 @@
  * backend API once and writes its responses unchanged to content/workspace/<VEHICLE>_<MARKET>.json:
  * the requirement list (GET /requirements), the effort estimate per requirement
  * (GET /effort/requirements), the package variations (GET /effort/scenarios), the excluded
- * candidates (the scope event requirements.candidates_excluded) and the requirement events
- * (GET /events, kept where the entity id belongs to the scope). The file carries when it was
+ * candidates (the scope event requirements.candidates_excluded), the requirement events
+ * (GET /events, kept where the entity id belongs to the scope), and since step 15 the detail of
+ * every requirement (GET /requirements/{id}: its findings with their evidence references) with
+ * the evidence those references name: the verbatims (GET /verbatims/{id}), the study metrics
+ * (GET /studies) and the catalogue items (GET /equipment). The file carries when it was
  * taken, which endpoints were called, the backend's code version of its latest run and the
  * effort model hash, so every figure on screen can name its source and its vintage.
  *
@@ -43,7 +46,20 @@ if (selected.length === 0) {
   process.exit(2);
 }
 
+/** "vclass:G60-0876#1" -> ["vclass", "G60-0876#1"]; the rest may hold colons of its own. */
+function splitRef(ref) {
+  const at = ref.indexOf(":");
+  return [ref.slice(0, at), ref.slice(at + 1)];
+}
+
 const runs = await get("/runs?limit=1");
+// Study metrics are referenced across vehicles and markets (peers, other markets): one list.
+const allMetrics = await get("/studies");
+const equipmentByVehicle = new Map();
+async function equipmentOf(vehicle) {
+  if (!equipmentByVehicle.has(vehicle)) equipmentByVehicle.set(vehicle, await get(`/equipment?vehicle=${vehicle}`));
+  return equipmentByVehicle.get(vehicle);
+}
 const codeVersion = runs[0]?.code_version ?? null;
 // One call for every requirement event; the scope's share is picked by the entity id prefix.
 const eventsPath = `/events?entity_type=requirement&limit=${String(EVENT_LIMIT)}`;
@@ -59,6 +75,10 @@ for (const { vehicle, market } of selected) {
     scenarios: `/effort/scenarios?${q}`,
     excluded: `/events?entity_type=scope&entity_id=${vehicle}:${market}`,
     events: eventsPath,
+    details: "/requirements/{id}",
+    verbatims: "/verbatims/{id}",
+    metrics: "/studies",
+    equipment: "/equipment?vehicle={vehicle}",
   };
   const [requirements, efforts, scenarios, scopeEvents] = await Promise.all([
     get(endpoints.requirements),
@@ -72,6 +92,34 @@ for (const { vehicle, market } of selected) {
     .filter((e) => e.action === "requirements.candidates_excluded")
     .flatMap((e) => e.after?.excluded ?? []);
   const modelHash = efforts.find((e) => e.model_hash)?.model_hash ?? null;
+  // The detail of every requirement, and the evidence its findings reference, keyed by id.
+  const details = {};
+  const verbatimIds = new Set();
+  const metricIds = new Set();
+  const equipmentIds = new Set();
+  for (const r of requirements) {
+    const detail = await get(`/requirements/${r.id}`);
+    details[r.id] = detail;
+    for (const finding of detail.findings) {
+      for (const row of finding.evidence) {
+        const [kind, rest] = splitRef(row.evidence_ref);
+        if (kind === "vclass" || kind === "verbatim") verbatimIds.add(rest.split("#")[0]);
+        else if (kind === "metric") metricIds.add(rest);
+        else if (kind === "equipment") equipmentIds.add(rest);
+      }
+    }
+  }
+  const verbatims = {};
+  for (const id of [...verbatimIds].sort()) verbatims[id] = await get(`/verbatims/${id}`);
+  const metrics = Object.fromEntries(allMetrics.filter((m) => metricIds.has(m.id)).map((m) => [m.id, m]));
+  const missingMetrics = [...metricIds].filter((id) => !(id in metrics));
+  if (missingMetrics.length > 0) throw new Error(`${vehicle} ${market}: metrics not served by GET /studies: ${missingMetrics.join(", ")}`);
+  const equipment = {};
+  for (const id of [...equipmentIds].sort()) {
+    const item = (await equipmentOf(id.split("-")[1])).find((x) => x.id === id);
+    if (!item) throw new Error(`${vehicle} ${market}: equipment ${id} not served by GET /equipment`);
+    equipment[id] = item;
+  }
   const payload = {
     vehicle,
     market,
@@ -81,8 +129,14 @@ for (const { vehicle, market } of selected) {
     scenarios,
     excluded,
     events,
+    details,
+    verbatims,
+    metrics,
+    equipment,
   };
   const file = join(outDir, `${vehicle}_${market}.json`);
   writeFileSync(file, JSON.stringify(payload, null, 1) + "\n");
-  console.log(`${vehicle} ${market}: ${String(requirements.length)} requirements, ${String(efforts.length)} efforts, ${String(excluded.length)} excluded, ${String(events.length)} events -> ${file}`);
+  console.log(
+    `${vehicle} ${market}: ${String(requirements.length)} requirements, ${String(efforts.length)} efforts, ${String(excluded.length)} excluded, ${String(events.length)} events, ${String(Object.keys(verbatims).length)} verbatims, ${String(Object.keys(metrics).length)} metrics, ${String(Object.keys(equipment).length)} equipment items -> ${file}`,
+  );
 }
