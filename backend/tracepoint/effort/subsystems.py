@@ -27,6 +27,7 @@ from sqlalchemy import func, select
 from sqlalchemy.orm import Session
 
 from tracepoint.db.models import (
+    ExternalEvidence,
     Finding,
     RequirementFinding,
     TaxonomyLevel2,
@@ -147,6 +148,91 @@ def load_market_rows(market: str | None = None) -> list[dict[str, Any]]:
             }
         )
     return out
+
+
+_LEVEL_RANK = {"strong": 0, "medium": 1, "weak": 2}
+
+
+def external_rows(
+    session: Session,
+    market: str,
+    vehicle: str | None = None,
+    *,
+    subsystem: str | None = None,
+    topic: str | None = None,
+    kind: str | None = None,
+) -> list[dict[str, Any]]:
+    """External evidence for a market (the team's source lists, loaded by ``ingest external``):
+    the rows of the market and the worldwide ones, without rows about another vehicle and
+    without rows that bear only on subsystems the vehicle does not have. Rows about the vehicle
+    come first, then by evidence level and trust; the official specification tables (one row
+    per model year and drive) come last, so that they do not crowd out the rest."""
+    profile = load_model().vehicles.get(vehicle) if vehicle else None
+    absent = set(profile.absent) if profile else set()
+    out = []
+    for e in session.scalars(select(ExternalEvidence)):
+        if not {market, "Global"} & set(e.regions):
+            continue
+        if vehicle and e.vehicles and vehicle not in e.vehicles:
+            continue
+        if e.subsystems and not set(e.subsystems) - absent:
+            continue
+        if (subsystem and subsystem not in e.subsystems) or (topic and topic != e.topic):
+            continue
+        if kind and kind != e.kind:
+            continue
+        out.append(
+            {
+                "id": e.id,
+                "evidence_ref": f"external:{e.id}",
+                "kind": e.kind,
+                "statement": e.statement,
+                "regions": e.regions,
+                "subsystems": e.subsystems,
+                "vehicles": e.vehicles,
+                "topic": e.topic,
+                "level": e.level,
+                "sources_agreeing": e.sources_agreeing,
+                "basis": e.basis,
+                "trust": e.trust,
+                "verification": e.verification,
+                "source": {
+                    "title": e.locator["title"],
+                    "origin": e.locator["origin"],
+                    "url": e.locator["url"],
+                    "date": e.published,
+                    "type": e.locator["source_type"],
+                },
+                "contradiction": {k: e.contradiction[k] for k in ("for", "against")}
+                if e.contradiction
+                else None,
+            }
+        )
+    out.sort(
+        key=lambda r: (
+            r["kind"] == "official_spec",
+            vehicle not in r["vehicles"],
+            _LEVEL_RANK[r["level"]],
+            -r["trust"],
+            r["id"],
+        )
+    )
+    return out
+
+
+def external_summary(rows: list[dict[str, Any]], vehicle: str) -> dict[str, Any]:
+    """What the external evidence of a scope holds, for the context pack."""
+    per: Counter = Counter(k for r in rows for k in r["subsystems"])
+    return {
+        "rows": len(rows),
+        "about_this_vehicle": sum(vehicle in r["vehicles"] for r in rows),
+        "worldwide_only": sum(r["regions"] == ["Global"] for r in rows),
+        "not_confirmed_on_the_page": sum(
+            r["verification"] not in ("confirmed", "computed") for r in rows
+        ),
+        "by_subsystem": dict(per.most_common()),
+        "topics": sorted({r["topic"] for r in rows if r["topic"]}),
+    }
 
 
 def model_catalogue() -> dict[str, Any]:
@@ -492,13 +578,20 @@ def summary_rows(view: dict[str, Any]) -> list[dict[str, Any]]:
 def subsystems_of_refs(session: Session, refs: list[str]) -> dict[str, int]:
     """Subsystems the cited evidence sits in, with the number of references per subsystem:
     verbatims through their labels, findings and requirements through their themes, market rows
-    by their own subsystem. Study metrics, catalogue items and sales carry no theme."""
+    and external evidence by their own subsystems. Study metrics, catalogue items and sales carry
+    no theme."""
     themes, _ = load_theme_map()
     market = {r["evidence_ref"]: r["subsystem"] for r in load_market_rows()}
     verbatims = [r.split(":", 1)[1] for r in refs if r.startswith("verbatim:")]
     findings = [r for r in refs if r.startswith("FND-")]
     requirements = [r for r in refs if r.startswith("REQ-")]
     hits: Counter = Counter(market[r] for r in refs if r in market)
+    external = [r.split(":", 1)[1] for r in refs if r.startswith("external:")]
+    if external:
+        for subsystems in session.scalars(
+            select(ExternalEvidence.subsystems).where(ExternalEvidence.id.in_(external))
+        ):
+            hits.update(subsystems)
     if verbatims:
         labelled = session.execute(
             select(VerbatimClassification.verbatim_id, TaxonomyLevel2.name)

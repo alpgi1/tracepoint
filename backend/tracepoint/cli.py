@@ -124,15 +124,39 @@ def ingest_documents_cmd() -> None:
         _echo("group report", ingest_document(session, run))
 
 
+@ingest_app.command("external")
+def ingest_external_cmd(
+    fetch: bool = typer.Option(
+        False,
+        "--fetch",
+        help="Fetch the pages that are not in data/external/ yet, check every claim against "
+        "its page and rewrite config/external/fetched.json. Without it nothing leaves the "
+        "machine.",
+    ),
+    only: list[str] = typer.Option(
+        None, "--only", help="With --fetch: source ids of the lists, e.g. P-01 (repeatable)."
+    ),
+) -> None:
+    """Load the team's external source lists (docs/trend_sources.md,
+    docs/external_sources_v2.json) as far as they are in scope: sources, claims with their
+    verification, and the page text of the sources about our vehicles."""
+    from tracepoint.ingest.external import ingest_external
+
+    with Session(make_engine()) as session, start_run(session, "ingest.external") as run:
+        _echo("external", ingest_external(session, run, fetch=fetch, only=only))
+
+
 @ingest_app.command("all")
 def ingest_all() -> None:
-    """Run the complete internal ingestion in order."""
+    """Run the complete ingestion in order. External evidence is loaded from the committed
+    files and the local page cache; nothing is fetched."""
     ingest_reference()
     ingest_verbatims_cmd(VEHICLES_WITH_FEEDBACK)
     ingest_studies_cmd()
     ingest_sales_cmd()
     ingest_optionlists_cmd(VEHICLES_WITH_CATALOGUE)
     ingest_documents_cmd()
+    ingest_external_cmd(False, None)
     classify_import(VEHICLES_WITH_FEEDBACK)
 
 
@@ -501,13 +525,21 @@ def agent_analyze(
     ),
     max_steps: int = typer.Option(12, "--max-steps", help="Agent turns before it has to answer"),
     no_cache: bool = typer.Option(False, "--no-cache", help="Do not reuse stored LLM answers"),
+    detail: bool = typer.Option(
+        False, "--detail", help="Also write <name>.detail.md, the full print for checking"
+    ),
     out_dir: Path = typer.Option(
         None, "--out-dir", help="Default: data/analyses under the repository root"
     ),
 ) -> None:
     """Situation analysis of one vehicle in a market or country by the analyst agent (LLM with
-    tool calls); writes Markdown and JSON."""
-    from tracepoint.agent.analysis import PROMPT_VERSION, render_analysis, run_analysis
+    tool calls on the stored evidence); writes a brief in Markdown and everything in JSON."""
+    from tracepoint.agent.analysis import (
+        PROMPT_VERSION,
+        render_analysis,
+        render_brief,
+        run_analysis,
+    )
 
     out = out_dir or get_settings().data_dir / "analyses"
     out.mkdir(parents=True, exist_ok=True)
@@ -537,7 +569,9 @@ def agent_analyze(
     stem.with_suffix(".json").write_text(
         json.dumps(result, ensure_ascii=False, indent=1, default=str), encoding="utf-8"
     )
-    stem.with_suffix(".md").write_text(render_analysis(result), encoding="utf-8")
+    stem.with_suffix(".md").write_text(render_brief(result), encoding="utf-8")
+    if detail:
+        stem.with_suffix(".detail.md").write_text(render_analysis(result), encoding="utf-8")
     trace = result["trace"]
     typer.echo(
         f"wrote {stem}.md and .json: {trace['steps']} steps ({trace['cached_steps']} cached), "
@@ -545,6 +579,50 @@ def agent_analyze(
         f"{result['citations']['cited']} references, "
         f"{len(result['citations']['unknown'])} not verified, "
         f"{len(result['citations']['unverified_quotes'])} quotes not found"
+    )
+
+
+@agent_app.command("series")
+def agent_series(
+    vehicle: str = typer.Option(..., "--vehicle", "-v", help="Any vehicle of the series"),
+    max_steps: int = typer.Option(14, "--max-steps", help="Agent turns before it has to answer"),
+    no_cache: bool = typer.Option(False, "--no-cache", help="Do not reuse stored LLM answers"),
+    out_dir: Path = typer.Option(
+        None, "--out-dir", help="Default: data/analyses under the repository root"
+    ),
+) -> None:
+    """One series across its regions: what to change, for which regions, now or with the next
+    generation. The agent compares the regions on the stored evidence (it fetches nothing);
+    writes a brief in Markdown and everything in JSON."""
+    from tracepoint.agent.series import PROMPT_VERSION, render_series, run_series_analysis
+
+    out = out_dir or get_settings().data_dir / "analyses"
+    out.mkdir(parents=True, exist_ok=True)
+    config = {"vehicle": vehicle, "max_steps": max_steps, "prompt_version": PROMPT_VERSION}
+    with (
+        Session(make_engine()) as session,
+        start_run(session, f"agent.series.{vehicle}", config) as run,
+    ):
+        result = run_series_analysis(
+            session,
+            run,
+            _gateway(session, run.id, False),
+            vehicle,
+            max_steps=max_steps,
+            use_cache=not no_cache,
+        )
+    stem = out / f"{result['lead_vehicle']}_regions"
+    stem.with_suffix(".json").write_text(
+        json.dumps(result, ensure_ascii=False, indent=1, default=str), encoding="utf-8"
+    )
+    stem.with_suffix(".md").write_text(render_series(result), encoding="utf-8")
+    trace = result["trace"]
+    typer.echo(
+        f"wrote {stem}.md and .json: {trace['steps']} steps ({trace['cached_steps']} cached), "
+        f"{len(trace['tool_calls'])} tool calls, USD {trace['cost_usd']}, "
+        f"{result['citations']['cited']} references, "
+        f"{len(result['citations']['unknown'])} not verified, "
+        f"{len(result['effort']['open_faults'])} open faults"
     )
 
 

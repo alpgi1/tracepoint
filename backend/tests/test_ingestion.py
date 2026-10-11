@@ -228,7 +228,11 @@ def test_group_report_ingestion_and_search(session):
     for _ in range(2):  # a second run replaces the pages
         with start_run(session, "test.ingest.documents") as run:
             assert ingest_document(session, run, max_pages=5)["pages"] == 5
-    pages = session.scalars(select(DocumentPage).order_by(DocumentPage.page)).all()
+    pages = session.scalars(
+        select(DocumentPage)
+        .where(DocumentPage.source_id == "SRC-GROUP-REPORT")  # external pages sit beside it
+        .order_by(DocumentPage.page)
+    ).all()
     assert [p.page for p in pages] == [1, 2, 3, 4, 5]
     assert all(p.locator["page"] == p.page and p.created_run_id for p in pages)
     hit = call_tool(session, "search_documents", {"query": "strategic goals all-electric"})

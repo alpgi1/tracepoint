@@ -9,7 +9,7 @@
 
 ## 1. Delivered
 
-Decision D-078.
+Decision D-081.
 
 While this step was in work, `main` revised the frontend side (PR #20, D-076): the subsystem
 list now reads the engine's model file instead of a second copy, the view carries a narration
@@ -98,7 +98,7 @@ having no market evidence at all.
 Model calls of this branch so far, development included: 64 calls, USD 3.86 (the three analyses
 were run twice: once before `main` revised the contract, once on the final code).
 
-## 3. Second part: where a change starts and how large it is (D-079)
+## 3. Second part: where a change starts and how large it is (D-082)
 
 After the first part the start subsystem of an analyst's change was an information flag and its
 size (`own_impact`) the model's judgement. Both decide the estimate: a seat change comes to about
