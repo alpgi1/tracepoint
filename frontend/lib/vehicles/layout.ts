@@ -3,7 +3,8 @@
  * drawing grows into the place it has on the next screen. CSS pixels; the
  * same numbers are written in globals.css (.workspace).
  */
-export const STAGE_TOP = 112;
+/** Header row 112 px, the stage bar 48 px under a hairline, 16 px below it (step 14). */
+export const STAGE_TOP = 112 + 1 + 48 + 16;
 export const PAGE_PAD = 48;
 export const ASIDE_WIDTH = 400;
 export const COLUMN_GAP = 72;

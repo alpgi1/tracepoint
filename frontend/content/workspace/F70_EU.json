@@ -1,0 +1,5250 @@
+{
+ "vehicle": "F70",
+ "market": "EU",
+ "snapshot": {
+  "takenAt": "2026-10-11T02:46:24.772Z",
+  "api": "http://127.0.0.1:8000",
+  "codeVersion": "e06b37f",
+  "modelHash": "789fcb7624b8",
+  "endpoints": {
+   "requirements": "/requirements?vehicle=F70&market=EU",
+   "efforts": "/effort/requirements?vehicle=F70&market=EU",
+   "scenarios": "/effort/scenarios?vehicle=F70&market=EU",
+   "excluded": "/events?entity_type=scope&entity_id=F70:EU",
+   "events": "/events?entity_type=requirement&limit=5000"
+  }
+ },
+ "requirements": [
+  {
+   "id": "REQ-F70-EU-DA-01",
+   "vehicle": "F70",
+   "market": "EU",
+   "domain": "driver_assistance",
+   "title": "Assistance systems that help instead of irritating",
+   "statement": "Speed-limit warning and lane assistance shall be switchable off with one press per drive, and the emergency brake shall not intervene without a real obstacle.",
+   "recommend": true,
+   "recommend_rationale": "Driver assistance draws 24 rows with 17 defects (unexpected braking) and the speed-limit assistant 16 rows (14 usability) because it must be switched off after every start.",
+   "horizon": "H1",
+   "horizon_rationale": "Software within the limits of EU safety regulation.",
+   "markets": [
+    "EU"
+   ],
+   "criteria": [
+    {
+     "basis": "assumption",
+     "market": "EU",
+     "method": "Function test",
+     "metric": "Presses to switch off speed-limit warning and lane assistance",
+     "target": "1 (one shortcut for both)"
+    },
+    {
+     "basis": "assumption",
+     "market": "EU",
+     "method": "Customer feedback",
+     "metric": "Unjustified emergency brake interventions reported",
+     "target": "0 in the next feedback wave"
+    }
+   ],
+   "assumptions": [],
+   "uncertainties": [
+    "EU General Safety Regulation requires these systems to be active at every start; only the switch-off effort can change."
+   ],
+   "evidence_level": "B",
+   "priority_score": null,
+   "status": "proposed",
+   "version": 1,
+   "findings": [
+    {
+     "id": "FND-F70-EU-VOC-driver_assistance_automated_driving_overall_tech",
+     "role": "primary",
+     "title": "Driver assistance, automated driving, overall technology: 24 complaints (recurring complaint)"
+    },
+    {
+     "id": "FND-F70-EU-VOC-speed_limit_assistant",
+     "role": "supporting",
+     "title": "Speed Limit Assistant: 16 complaints (recurring complaint)"
+    }
+   ]
+  },
+  {
+   "id": "REQ-F70-EU-DD-01",
+   "vehicle": "F70",
+   "market": "EU",
+   "domain": "driving_dynamics",
+   "title": "Comfortable ride on poor road surfaces",
+   "statement": "Non-M variants shall offer a comfort-oriented suspension that absorbs sharp bumps on poor European roads without losing the car's sporty handling.",
+   "recommend": true,
+   "recommend_rationale": "Suspension and damping draw 41 complaint rows (2.2 %, 12 wishes for a softer ride) and the study scores ride comfort at 9.20 vs peer 9.73; adaptive suspension is standard only on the M135.",
+   "horizon": "H1",
+   "horizon_rationale": "Damper tuning and an adaptive-suspension option fit the life-cycle impulse.",
+   "markets": [
+    "EU"
+   ],
+   "criteria": [
+    {
+     "basis": "evidence",
+     "market": "EU",
+     "method": "Next EU customer study wave",
+     "metric": "Study ride comfort (1-10)",
+     "target": ">= 9.6 (today 9.20, peer 9.73)"
+    },
+    {
+     "basis": "assumption",
+     "market": "EU",
+     "method": "Offer check",
+     "metric": "Adaptive suspension",
+     "target": "Available as option on all variants"
+    }
+   ],
+   "assumptions": [],
+   "uncertainties": [],
+   "evidence_level": "B",
+   "priority_score": null,
+   "status": "proposed",
+   "version": 1,
+   "findings": [
+    {
+     "id": "FND-F70-EU-VOC-cushioning_damping_vehicle",
+     "role": "primary",
+     "title": "Cushioning / damping vehicle: 41 complaints (recurring complaint)"
+    },
+    {
+     "id": "FND-F70-EU-MET-cn_eu_2025-ride_comfort",
+     "role": "supporting",
+     "title": "Quality of ride: weak study rating (9.2)"
+    },
+    {
+     "id": "FND-F70-EU-EQ-cushioning_damping_vehicle",
+     "role": "context",
+     "title": "Cushioning / damping vehicle: wished or criticised, related equipment is optional or missing"
+    }
+   ]
+  },
+  {
+   "id": "REQ-F70-EU-DD-02",
+   "vehicle": "F70",
+   "market": "EU",
+   "domain": "driving_dynamics",
+   "title": "Keep the sporty handling and the fuel economy in the next generation",
+   "statement": "The successor shall keep the agile handling and the fuel economy that customers praise today.",
+   "recommend": true,
+   "recommend_rationale": "Sportiness (9.34 vs peer 7.30) and fuel economy (9.30 vs 7.56) are the strongest study advantages; driving dynamics collects 415 likes. Strengths to protect.",
+   "horizon": "H2",
+   "horizon_rationale": "Applies to the successor generation.",
+   "markets": [
+    "EU"
+   ],
+   "criteria": [
+    {
+     "basis": "evidence",
+     "market": "EU",
+     "method": "Customer study of the successor",
+     "metric": "Study sportiness and fuel economy (1-10)",
+     "target": ">= 9.0 each"
+    }
+   ],
+   "assumptions": [],
+   "uncertainties": [],
+   "evidence_level": "B",
+   "priority_score": null,
+   "status": "proposed",
+   "version": 1,
+   "findings": [
+    {
+     "id": "FND-F70-EU-MET-STRENGTH-cn_eu_2025-sportiness",
+     "role": "primary",
+     "title": "Sportiness: strong study rating (9.34)"
+    },
+    {
+     "id": "FND-F70-EU-MET-STRENGTH-cn_eu_2025-fuel_economy",
+     "role": "primary",
+     "title": "Fuel economy/ energy efficiency: strong study rating (9.3)"
+    },
+    {
+     "id": "FND-F70-EU-VOC-STRENGTH-drive_driving_dynamics_and_chassis_overall_techn",
+     "role": "supporting",
+     "title": "Drive, driving dynamics and chassis, overall technology: strength to keep (415 likes)"
+    }
+   ]
+  },
+  {
+   "id": "REQ-F70-EU-EX-01",
+   "vehicle": "F70",
+   "market": "EU",
+   "domain": "exterior_design",
+   "title": "Reliable exterior lights and helpful door mirrors",
+   "statement": "Exterior lights shall work without fault messages; door mirrors shall tilt down on the kerb side when reversing and fold automatically when locking.",
+   "recommend": true,
+   "recommend_rationale": "Exterior lighting draws 26 rows with 19 defects (failed or falsely reported lamps); door mirrors 28 rows with 11 wishes for kerb tilt and auto-fold that previous 1 Series had.",
+   "horizon": "H1",
+   "horizon_rationale": "Production quality and software functions.",
+   "markets": [
+    "EU"
+   ],
+   "criteria": [
+    {
+     "basis": "assumption",
+     "market": "EU",
+     "method": "Customer feedback",
+     "metric": "Lighting defect rows",
+     "target": "<= 5 per 6 months (today 19)"
+    },
+    {
+     "basis": "assumption",
+     "market": "EU",
+     "method": "Offer check",
+     "metric": "Kerb-side mirror tilt in reverse",
+     "target": "Standard on all variants"
+    }
+   ],
+   "assumptions": [],
+   "uncertainties": [],
+   "evidence_level": "B",
+   "priority_score": null,
+   "status": "proposed",
+   "version": 1,
+   "findings": [
+    {
+     "id": "FND-F70-EU-VOC-exterior_lighting",
+     "role": "primary",
+     "title": "Exterior lighting: 26 complaints (recurring complaint)"
+    },
+    {
+     "id": "FND-F70-EU-VOC-exterior_rearview_mirror",
+     "role": "primary",
+     "title": "Exterior rearview mirror: 28 complaints (recurring complaint)"
+    }
+   ]
+  },
+  {
+   "id": "REQ-F70-EU-EX-02",
+   "vehicle": "F70",
+   "market": "EU",
+   "domain": "exterior_design",
+   "title": "Quiet tyres and wheels that are easy to clean",
+   "statement": "Standard tyres shall keep road noise low on rough surfaces, and wheel designs shall be easy to clean and resist corrosion.",
+   "recommend": true,
+   "recommend_rationale": "Wheels and tyres draw 34 complaint rows (15 defects): tyre noise, early corrosion and intricate wheel designs that are hard to clean.",
+   "horizon": "H1",
+   "horizon_rationale": "Tyre sourcing and wheel design in the life-cycle impulse.",
+   "markets": [
+    "EU"
+   ],
+   "criteria": [
+    {
+     "basis": "assumption",
+     "market": "EU",
+     "method": "Tyre label",
+     "metric": "EU tyre label noise class of standard tyres",
+     "target": "A (<= 70 dB)"
+    },
+    {
+     "basis": "assumption",
+     "market": "EU",
+     "method": "Warranty data",
+     "metric": "Wheel corrosion reports in the first year",
+     "target": "0"
+    }
+   ],
+   "assumptions": [],
+   "uncertainties": [],
+   "evidence_level": "B",
+   "priority_score": null,
+   "status": "proposed",
+   "version": 1,
+   "findings": [
+    {
+     "id": "FND-F70-EU-VOC-wheels_tires",
+     "role": "primary",
+     "title": "Wheels / tires: 34 complaints (recurring complaint)"
+    },
+    {
+     "id": "FND-F70-EU-EQ-wheels_tires",
+     "role": "context",
+     "title": "Wheels / tires: wished or criticised, related equipment is optional or missing"
+    }
+   ]
+  },
+  {
+   "id": "REQ-F70-EU-GE-01",
+   "vehicle": "F70",
+   "market": "EU",
+   "domain": "general",
+   "title": "No silent de-contenting against the previous 1 Series",
+   "statement": "Items that loyal customers used on the previous generation (12 V socket in the boot, rear USB charging, mirror kerb tilt, dual-zone climate, fog lights, glove-box light) shall stay standard on the comparable trim, or the change shall be shown clearly at configuration.",
+   "recommend": true,
+   "recommend_rationale": "The general equipment theme draws 73 complaint rows with 35 wishes, mostly from repeat buyers listing features that were standard on the F40 and are now missing or optional.",
+   "horizon": "H1",
+   "horizon_rationale": "Standard-content and configurator decision.",
+   "markets": [
+    "EU"
+   ],
+   "criteria": [
+    {
+     "basis": "assumption",
+     "market": "EU",
+     "method": "Offer check",
+     "metric": "Listed items standard on the M Sport trim",
+     "target": "All"
+    },
+    {
+     "basis": "assumption",
+     "market": "EU",
+     "method": "Customer feedback",
+     "metric": "Complaint rows about missing standard equipment",
+     "target": "-50 % within 12 months"
+    }
+   ],
+   "assumptions": [],
+   "uncertainties": [
+    "Cost impact not quantified; rough effort follows in Phase 5."
+   ],
+   "evidence_level": "B",
+   "priority_score": null,
+   "status": "proposed",
+   "version": 1,
+   "findings": [
+    {
+     "id": "FND-F70-EU-VOC-body_equipment_overall_technology",
+     "role": "primary",
+     "title": "Body equipment, overall technology: 73 complaints (recurring complaint)"
+    }
+   ]
+  },
+  {
+   "id": "REQ-F70-EU-IC-01",
+   "vehicle": "F70",
+   "market": "EU",
+   "domain": "interior_comfort",
+   "title": "Supportive, durable seats with lumbar adjustment",
+   "statement": "The front seats shall support the back on long drives, offer lumbar adjustment on the volume trims and keep their stitching and shape over the warranty period.",
+   "recommend": true,
+   "recommend_rationale": "Seats draw 50 complaint rows with 24 defects (stitching, loss of shape, squeaks) and comfort complaints about M Sport seats; active seats are an option on all six variants.",
+   "horizon": "H1",
+   "horizon_rationale": "Seat trim, foam and lumbar option within the life-cycle impulse.",
+   "markets": [
+    "EU"
+   ],
+   "criteria": [
+    {
+     "basis": "assumption",
+     "market": "EU",
+     "method": "Customer feedback",
+     "metric": "Seat defect rows",
+     "target": "<= 8 per 6 months (today 24)"
+    },
+    {
+     "basis": "assumption",
+     "market": "EU",
+     "method": "Offer check",
+     "metric": "Lumbar adjustment",
+     "target": "Available on every trim with electric seats"
+    }
+   ],
+   "assumptions": [],
+   "uncertainties": [],
+   "evidence_level": "B",
+   "priority_score": null,
+   "status": "proposed",
+   "version": 1,
+   "findings": [
+    {
+     "id": "FND-F70-EU-VOC-seats",
+     "role": "primary",
+     "title": "Seats: 50 complaints (recurring complaint)"
+    },
+    {
+     "id": "FND-F70-EU-EQ-seats",
+     "role": "context",
+     "title": "Seats: wished or criticised, related equipment is optional or missing"
+    }
+   ]
+  },
+  {
+   "id": "REQ-F70-EU-IC-02",
+   "vehicle": "F70",
+   "market": "EU",
+   "domain": "interior_comfort",
+   "title": "Dual-zone climate as standard and rear ventilation",
+   "statement": "Driver and passenger temperatures shall be adjustable independently on every variant, the display shall not suggest zones that are not fitted, and rear passengers shall get air vents.",
+   "recommend": true,
+   "recommend_rationale": "Climatisation (24 rows), climate control panel (24) and climate settings (17, nine wishes) describe synced temperatures that cannot be split and a display that looks dual-zone; the study scores climate control at 7.31 vs peer 8.13, the largest interior gap.",
+   "horizon": "H1",
+   "horizon_rationale": "Software activation plus standard-content decision; rear vents in the life-cycle impulse.",
+   "markets": [
+    "EU"
+   ],
+   "criteria": [
+    {
+     "basis": "evidence",
+     "market": "EU",
+     "method": "Next EU customer study wave",
+     "metric": "Study climate control (1-10)",
+     "target": ">= 8.0 (today 7.31, peer 8.13)"
+    },
+    {
+     "basis": "assumption",
+     "market": "EU",
+     "method": "Offer check",
+     "metric": "Independent driver and passenger temperature",
+     "target": "Standard on all variants"
+    }
+   ],
+   "assumptions": [],
+   "uncertainties": [],
+   "evidence_level": "B",
+   "priority_score": null,
+   "status": "proposed",
+   "version": 1,
+   "findings": [
+    {
+     "id": "FND-F70-EU-VOC-vehicle_climatization",
+     "role": "primary",
+     "title": "Vehicle, climatization: 24 complaints (recurring complaint)"
+    },
+    {
+     "id": "FND-F70-EU-VOC-air_conditioning_control_panel",
+     "role": "supporting",
+     "title": "Air conditioning control panel: 24 complaints (recurring complaint)"
+    },
+    {
+     "id": "FND-F70-EU-VOC-air_conditioning_setting",
+     "role": "supporting",
+     "title": "Air conditioning, setting: 17 complaints (unmet need)"
+    },
+    {
+     "id": "FND-F70-EU-MET-cn_eu_2025-climate_control",
+     "role": "supporting",
+     "title": "Heating/ ventilation/ air conditioning: weak study rating (7.3)"
+    }
+   ]
+  },
+  {
+   "id": "REQ-F70-EU-IC-03",
+   "vehicle": "F70",
+   "market": "EU",
+   "domain": "interior_comfort",
+   "title": "Cockpit lighting without reflections in the mirrors and windscreen",
+   "statement": "Ambient and display lighting shall not reflect in the side mirrors, side windows or windscreen at night at any brightness setting.",
+   "recommend": true,
+   "recommend_rationale": "Instrument panel complaints (33 rows, 11 defects) include repeated reports that dash and ambient lights reflect in the door mirrors and windscreen at night, which owners call a safety issue.",
+   "horizon": "H1",
+   "horizon_rationale": "Light guide and default brightness changes.",
+   "markets": [
+    "EU"
+   ],
+   "criteria": [
+    {
+     "basis": "assumption",
+     "market": "EU",
+     "method": "Night visibility test",
+     "metric": "Visible reflection of interior lighting in the side mirrors at night",
+     "target": "None at default brightness"
+    }
+   ],
+   "assumptions": [],
+   "uncertainties": [],
+   "evidence_level": "B",
+   "priority_score": null,
+   "status": "proposed",
+   "version": 1,
+   "findings": [
+    {
+     "id": "FND-F70-EU-VOC-instrument_panel",
+     "role": "primary",
+     "title": "Instrument panel: 33 complaints (recurring complaint)"
+    }
+   ]
+  },
+  {
+   "id": "REQ-F70-EU-ID-01",
+   "vehicle": "F70",
+   "market": "EU",
+   "domain": "infotainment_digital",
+   "title": "Physical controls for climate and a rotary controller option",
+   "statement": "Temperature, fan and seat or steering wheel heating shall have physical controls, and a rotary controller (or an equivalent haptic control) shall operate map zoom, lists and shortcuts so the driver does not have to aim at the touch screen while driving.",
+   "recommend": true,
+   "recommend_rationale": "Touch screen operation is the largest complaint theme of the F70 in Europe (141 rows, 7.4 % of all complaints, 91 usability); 25 owners explicitly ask for the iDrive controller back and the operating concept adds 30 rows. Many describe touch-only climate control as unsafe.",
+   "horizon": "H1",
+   "horizon_rationale": "Physical climate keys and a controller are a life-cycle-impulse change of the centre console.",
+   "markets": [
+    "EU"
+   ],
+   "criteria": [
+    {
+     "basis": "assumption",
+     "market": "EU",
+     "method": "Customer feedback, rolling 6 months",
+     "metric": "Share of touch-screen complaint rows",
+     "target": "<= 3 % of complaint rows (today 7.4 %)"
+    },
+    {
+     "basis": "evidence",
+     "market": "EU",
+     "method": "Function test",
+     "metric": "Climate temperature and fan operable without the touch screen",
+     "target": "Yes"
+    },
+    {
+     "basis": "assumption",
+     "market": "EU",
+     "method": "HMI eye-tracking test",
+     "metric": "Glance time for a temperature change while driving",
+     "target": "<= 1.5 s"
+    }
+   ],
+   "assumptions": [],
+   "uncertainties": [],
+   "evidence_level": "B",
+   "priority_score": null,
+   "status": "proposed",
+   "version": 1,
+   "findings": [
+    {
+     "id": "FND-F70-EU-VOC-touch_screen_operation",
+     "role": "primary",
+     "title": "Touch screen, operation: 141 complaints (recurring complaint)"
+    },
+    {
+     "id": "FND-F70-EU-VOC-controller_operation",
+     "role": "primary",
+     "title": "Controller operation: 26 complaints (unmet need)"
+    },
+    {
+     "id": "FND-F70-EU-VOC-operating_concept_operating_system",
+     "role": "supporting",
+     "title": "Operating concept, operating system: 30 complaints (recurring complaint)"
+    },
+    {
+     "id": "FND-F70-EU-VOC-instrument_cluster",
+     "role": "supporting",
+     "title": "Instrument cluster: 27 complaints (recurring complaint)"
+    }
+   ]
+  },
+  {
+   "id": "REQ-F70-EU-ID-02",
+   "vehicle": "F70",
+   "market": "EU",
+   "domain": "infotainment_digital",
+   "title": "Stable infotainment and settings that survive updates",
+   "statement": "The central display and connected functions shall not freeze, go blank or reboot in normal use, and over-the-air updates shall keep all personal settings.",
+   "recommend": true,
+   "recommend_rationale": "Connected drive and infotainment technology draws 107 complaint rows with 51 defects (blank screens, freezes, lost functions); software updates add 13 rows with 9 defects that wiped settings, and the study scores connected services at 7.36 vs peer 7.62.",
+   "horizon": "H1",
+   "horizon_rationale": "Software quality and update process.",
+   "markets": [
+    "EU"
+   ],
+   "criteria": [
+    {
+     "basis": "assumption",
+     "market": "EU",
+     "method": "Customer feedback",
+     "metric": "Infotainment defect rows",
+     "target": "-60 % within 12 months (today 51)"
+    },
+    {
+     "basis": "evidence",
+     "market": "EU",
+     "method": "Update regression test",
+     "metric": "User settings kept after an OTA update",
+     "target": "100 % of profile settings"
+    },
+    {
+     "basis": "evidence",
+     "market": "EU",
+     "method": "Next EU customer study wave",
+     "metric": "Study connected services (1-10)",
+     "target": ">= 7.6 (today 7.36, peer 7.62)"
+    }
+   ],
+   "assumptions": [],
+   "uncertainties": [],
+   "evidence_level": "B",
+   "priority_score": null,
+   "status": "proposed",
+   "version": 1,
+   "findings": [
+    {
+     "id": "FND-F70-EU-VOC-connecteddrive_and_infotainment_overall_technolo",
+     "role": "primary",
+     "title": "ConnectedDrive and Infotainment, overall technology: 107 complaints (recurring complaint)"
+    },
+    {
+     "id": "FND-F70-EU-VOC-remote_software_upgrade_rsu",
+     "role": "supporting",
+     "title": "Remote Software Upgrade/RSU: 13 complaints (recurring complaint)"
+    },
+    {
+     "id": "FND-F70-EU-MET-cn_eu_2025-connected_services",
+     "role": "supporting",
+     "title": "Connected services: weak study rating (7.36)"
+    }
+   ]
+  },
+  {
+   "id": "REQ-F70-EU-ID-03",
+   "vehicle": "F70",
+   "market": "EU",
+   "domain": "infotainment_digital",
+   "title": "Functions bought with the car stay included for the first owner",
+   "statement": "Functions that are fitted and shown at handover (high-beam assistant, traffic information, 3D maps, media apps) shall stay active for the first owner without a subscription, and any time-limited content shall be stated clearly at the point of sale.",
+   "recommend": true,
+   "recommend_rationale": "47 complaint rows about connected upgrades, all usability: functions such as automatic high beam and live traffic switch off after three months; the catalogue lists Digital Premium as time-limited (480 EUR option). Owners feel misled and say they will change brand.",
+   "horizon": "H1",
+   "horizon_rationale": "Offer and licensing decision; no hardware change.",
+   "markets": [
+    "EU"
+   ],
+   "criteria": [
+    {
+     "basis": "assumption",
+     "market": "EU",
+     "method": "Offer check",
+     "metric": "Hardware-enabled safety and lighting functions behind a subscription",
+     "target": "None"
+    },
+    {
+     "basis": "assumption",
+     "market": "EU",
+     "method": "Customer feedback",
+     "metric": "Complaint rows about expiring functions",
+     "target": "<= 10 per 6 months (today 47)"
+    }
+   ],
+   "assumptions": [],
+   "uncertainties": [
+    "Touches the digital revenue model; needs a commercial decision beyond the product scope."
+   ],
+   "evidence_level": "B",
+   "priority_score": null,
+   "status": "proposed",
+   "version": 1,
+   "findings": [
+    {
+     "id": "FND-F70-EU-VOC-bmw_connecteddrive_upgrades_mini_connected_upgra",
+     "role": "primary",
+     "title": "BMW ConnectedDrive upgrades/ MINI CONNECTED upgrades: 47 complaints (recurring complaint)"
+    },
+    {
+     "id": "FND-F70-EU-EQ-connecteddrive_and_infotainment_overall_technolo",
+     "role": "context",
+     "title": "ConnectedDrive and Infotainment, overall technology: wished or criticised, related equipment is optional or missing"
+    }
+   ]
+  },
+  {
+   "id": "REQ-F70-EU-ID-04",
+   "vehicle": "F70",
+   "market": "EU",
+   "domain": "infotainment_digital",
+   "title": "Printed quick-start handbook and better in-car help",
+   "statement": "Every car shall be delivered with a printed, model-specific quick-start handbook, and the in-car manual shall be searchable and show only the functions fitted to the car.",
+   "recommend": true,
+   "recommend_rationale": "The owner's manual is the third-largest digital complaint (86 rows, 37 wishes for a printed handbook); older owners report being unable to use functions without it.",
+   "horizon": "H1",
+   "horizon_rationale": "Content and print; no vehicle change.",
+   "markets": [
+    "EU"
+   ],
+   "criteria": [
+    {
+     "basis": "evidence",
+     "market": "EU",
+     "method": "Delivery audit",
+     "metric": "Printed quick-start handbook at delivery",
+     "target": "Every car"
+    },
+    {
+     "basis": "assumption",
+     "market": "EU",
+     "method": "Customer feedback",
+     "metric": "Manual complaint rows",
+     "target": "<= 20 per 6 months (today 86)"
+    }
+   ],
+   "assumptions": [],
+   "uncertainties": [],
+   "evidence_level": "B",
+   "priority_score": null,
+   "status": "proposed",
+   "version": 1,
+   "findings": [
+    {
+     "id": "FND-F70-EU-VOC-owner_s_manual",
+     "role": "primary",
+     "title": "Owner's Manual: 86 complaints (recurring complaint)"
+    }
+   ]
+  },
+  {
+   "id": "REQ-F70-EU-ID-05",
+   "vehicle": "F70",
+   "market": "EU",
+   "domain": "infotainment_digital",
+   "title": "Music from USB sticks",
+   "statement": "The USB-C ports shall play audio files from a USB stick, without requiring a smartphone.",
+   "recommend": true,
+   "recommend_rationale": "30 complaint rows, 17 wishes: owners copied their CDs to USB sticks and lost playback with the new generation; several say USB only charges.",
+   "horizon": "H1",
+   "horizon_rationale": "Software (media player and USB data path), possibly a hub change in the life-cycle impulse.",
+   "markets": [
+    "EU"
+   ],
+   "criteria": [
+    {
+     "basis": "evidence",
+     "market": "EU",
+     "method": "Function test",
+     "metric": "Playback of MP3 and AAC from a FAT32 or exFAT USB stick",
+     "target": "Yes"
+    }
+   ],
+   "assumptions": [],
+   "uncertainties": [],
+   "evidence_level": "B",
+   "priority_score": null,
+   "status": "proposed",
+   "version": 1,
+   "findings": [
+    {
+     "id": "FND-F70-EU-VOC-usb_port",
+     "role": "primary",
+     "title": "USB port: 30 complaints (unmet need)"
+    }
+   ]
+  },
+  {
+   "id": "REQ-F70-EU-ID-06",
+   "vehicle": "F70",
+   "market": "EU",
+   "domain": "infotainment_digital",
+   "title": "Navigation route choice and clear guidance",
+   "statement": "Navigation shall offer fastest, shortest and road-type preferences, avoid single-track lanes on main routes and keep map zoom operable without the touch screen.",
+   "recommend": true,
+   "recommend_rationale": "Navigation draws 29 complaint rows (11 defects) about routes through narrow lanes and missing route options; the study scores navigation at 8.30 vs peer 8.71.",
+   "horizon": "H1",
+   "horizon_rationale": "Software.",
+   "markets": [
+    "EU"
+   ],
+   "criteria": [
+    {
+     "basis": "evidence",
+     "market": "EU",
+     "method": "Next EU customer study wave",
+     "metric": "Study navigation (1-10)",
+     "target": ">= 8.7 (today 8.30, peer 8.71)"
+    },
+    {
+     "basis": "assumption",
+     "market": "EU",
+     "method": "Function test",
+     "metric": "Route preference options",
+     "target": "Fastest, shortest, avoid narrow roads"
+    }
+   ],
+   "assumptions": [],
+   "uncertainties": [],
+   "evidence_level": "B",
+   "priority_score": null,
+   "status": "proposed",
+   "version": 1,
+   "findings": [
+    {
+     "id": "FND-F70-EU-VOC-navigation",
+     "role": "primary",
+     "title": "Navigation: 29 complaints (recurring complaint)"
+    },
+    {
+     "id": "FND-F70-EU-MET-cn_eu_2025-navigation",
+     "role": "supporting",
+     "title": "Integrated navigation system: weak study rating (8.3)"
+    }
+   ]
+  },
+  {
+   "id": "REQ-F70-EU-PR-01",
+   "vehicle": "F70",
+   "market": "EU",
+   "domain": "powertrain_range_charging",
+   "title": "Smooth dual-clutch gearbox and immediate response when pulling away",
+   "statement": "The car shall pull away without a perceptible delay or jerk, including when the throttle is pressed while still rolling, and the gearbox shall shift smoothly at low speed and when cold.",
+   "recommend": true,
+   "recommend_rationale": "Drivetrain complaints (123 rows, 6.5 %, 73 usability) and transmission complaints (48 rows, 12 defects) describe a dead spot when pulling away at junctions and jerky DCT behaviour; the study scores acceleration at 8.21 vs 8.90.",
+   "horizon": "H1",
+   "horizon_rationale": "Engine, hybrid and gearbox calibration.",
+   "markets": [
+    "EU"
+   ],
+   "criteria": [
+    {
+     "basis": "assumption",
+     "market": "EU",
+     "method": "Vehicle measurement",
+     "metric": "Delay from throttle input to traction when rolling below 10 km/h",
+     "target": "<= 0.3 s"
+    },
+    {
+     "basis": "evidence",
+     "market": "EU",
+     "method": "Next EU customer study wave",
+     "metric": "Study acceleration (1-10)",
+     "target": ">= 8.8 (today 8.21, peer 8.90)"
+    },
+    {
+     "basis": "assumption",
+     "market": "EU",
+     "method": "Customer feedback",
+     "metric": "Pull-away and gearbox complaint rows",
+     "target": "-50 % within 12 months"
+    }
+   ],
+   "assumptions": [],
+   "uncertainties": [],
+   "evidence_level": "B",
+   "priority_score": null,
+   "status": "proposed",
+   "version": 1,
+   "findings": [
+    {
+     "id": "FND-F70-EU-VOC-drivetrain",
+     "role": "primary",
+     "title": "Drivetrain: 123 complaints (recurring complaint)"
+    },
+    {
+     "id": "FND-F70-EU-VOC-transmission",
+     "role": "primary",
+     "title": "Transmission: 48 complaints (recurring complaint)"
+    },
+    {
+     "id": "FND-F70-EU-MET-cn_eu_2025-acceleration",
+     "role": "supporting",
+     "title": "Acceleration: weak study rating (8.21)"
+    }
+   ]
+  },
+  {
+   "id": "REQ-F70-EU-QN-01",
+   "vehicle": "F70",
+   "market": "EU",
+   "domain": "quality_nvh",
+   "title": "Quiet, solid-feeling cabin without rattles",
+   "statement": "Doors and interior trim shall be free of rattles and buzzing, and the cabin noise at motorway speed shall match the premium compact segment.",
+   "recommend": true,
+   "recommend_rationale": "Front door complaints (16 rows, 13 defects: buzzing, rattles) support the study gaps in quietness (7.62 vs peer 8.79, the largest gap of the car) and build quality (7.95 vs 8.23).",
+   "horizon": "H1",
+   "horizon_rationale": "Acoustic package and assembly fixes.",
+   "markets": [
+    "EU"
+   ],
+   "criteria": [
+    {
+     "basis": "evidence",
+     "market": "EU",
+     "method": "Next EU customer study wave",
+     "metric": "Study quietness (1-10)",
+     "target": ">= 8.5 (today 7.62, peer 8.79)"
+    },
+    {
+     "basis": "assumption",
+     "market": "EU",
+     "method": "Acoustic measurement",
+     "metric": "Interior noise at 130 km/h",
+     "target": "Segment benchmark (value to be set by engineering)"
+    }
+   ],
+   "assumptions": [],
+   "uncertainties": [],
+   "evidence_level": "B",
+   "priority_score": null,
+   "status": "proposed",
+   "version": 1,
+   "findings": [
+    {
+     "id": "FND-F70-EU-MET-cn_eu_2025-quietness",
+     "role": "primary",
+     "title": "Quietness when driving: weak study rating (7.62)"
+    },
+    {
+     "id": "FND-F70-EU-VOC-door_front",
+     "role": "supporting",
+     "title": "Door, front: 16 complaints (recurring complaint)"
+    },
+    {
+     "id": "FND-F70-EU-MET-cn_eu_2025-build_quality",
+     "role": "supporting",
+     "title": "Overall build quality: weak study rating (7.95)"
+    }
+   ]
+  },
+  {
+   "id": "REQ-F70-EU-SP-01",
+   "vehicle": "F70",
+   "market": "EU",
+   "domain": "space_practicality",
+   "title": "Practical boot with power tailgate and luggage fixtures",
+   "statement": "The boot shall offer tie-down points, a 12 V socket and a parcel shelf that stays in place; the tailgate shall close from a button on the lid where a power tailgate is fitted.",
+   "recommend": true,
+   "recommend_rationale": "Luggage compartment (23 rows), trunk lid (15 defects) and tailgate operation (19 rows, 12 wishes) complaints match the study gaps in cargo capacity (7.07 vs 7.47) and loading ease (7.50 vs 7.95); the power tailgate is an option on all variants.",
+   "horizon": "H1",
+   "horizon_rationale": "Boot fixtures and offer changes in the life-cycle impulse.",
+   "markets": [
+    "EU"
+   ],
+   "criteria": [
+    {
+     "basis": "evidence",
+     "market": "EU",
+     "method": "Next EU customer study wave",
+     "metric": "Study loading ease (1-10)",
+     "target": ">= 7.9 (today 7.50, peer 7.95)"
+    },
+    {
+     "basis": "evidence",
+     "market": "EU",
+     "method": "Offer check",
+     "metric": "Tie-down points and 12 V socket in the boot",
+     "target": "Every variant"
+    }
+   ],
+   "assumptions": [],
+   "uncertainties": [],
+   "evidence_level": "B",
+   "priority_score": null,
+   "status": "proposed",
+   "version": 1,
+   "findings": [
+    {
+     "id": "FND-F70-EU-VOC-luggage_compartment",
+     "role": "primary",
+     "title": "Luggage compartment: 23 complaints (recurring complaint)"
+    },
+    {
+     "id": "FND-F70-EU-VOC-trunk_lid_open_close",
+     "role": "supporting",
+     "title": "Trunk lid, open / close: 19 complaints (unmet need)"
+    },
+    {
+     "id": "FND-F70-EU-VOC-trunk_lid",
+     "role": "supporting",
+     "title": "Trunk lid: 15 complaints (recurring complaint)"
+    },
+    {
+     "id": "FND-F70-EU-MET-cn_eu_2025-loading_ease",
+     "role": "supporting",
+     "title": "Ease of loading/ unloading luggage: weak study rating (7.5)"
+    },
+    {
+     "id": "FND-F70-EU-EQ-luggage_compartment",
+     "role": "context",
+     "title": "Luggage compartment: wished or criticised, related equipment is optional or missing"
+    }
+   ]
+  }
+ ],
+ "efforts": [
+  {
+   "id": "REQ-F70-EU-DA-01",
+   "vehicle": "F70",
+   "market": "EU",
+   "title": "Assistance systems that help instead of irritating",
+   "horizon": "H1",
+   "recommend": true,
+   "status": "proposed",
+   "requirement_version": 1,
+   "kind": "change",
+   "effort_pct": 0.37,
+   "p5": 0.17,
+   "p95": 0.65,
+   "decision": "adapt",
+   "decision_stable_pct": 100,
+   "layer": "K1",
+   "size": "XS",
+   "certification": false,
+   "changes": [
+    {
+     "why": "One-press off per drive within EU regulation, emergency-brake false positives",
+     "layer": "K1",
+     "carryover": false,
+     "subsystem": "software_hmi",
+     "own_impact": 0.03,
+     "portfolio_terms": []
+    }
+   ],
+   "subsystems": [
+    {
+     "name": "Software/HMI",
+     "path": null,
+     "risk": 0.03,
+     "subsystem": "software_hmi",
+     "effort_pct": 0.35
+    },
+    {
+     "name": "E/E architecture",
+     "path": [
+      "Software/HMI",
+      "E/E architecture"
+     ],
+     "risk": 0.002,
+     "subsystem": "ee_architecture",
+     "effort_pct": 0.02
+    }
+   ],
+   "portfolio": [],
+   "flags": [],
+   "note": null,
+   "model_hash": "789fcb7624b8",
+   "stale": false
+  },
+  {
+   "id": "REQ-F70-EU-DD-01",
+   "vehicle": "F70",
+   "market": "EU",
+   "title": "Comfortable ride on poor road surfaces",
+   "horizon": "H1",
+   "recommend": true,
+   "status": "proposed",
+   "requirement_version": 1,
+   "kind": "change",
+   "effort_pct": 2.07,
+   "p5": 0.97,
+   "p95": 3.51,
+   "decision": "adapt",
+   "decision_stable_pct": 100,
+   "layer": "K1",
+   "size": "S",
+   "certification": false,
+   "changes": [
+    {
+     "why": "Comfort damper tuning; adaptive suspension exists on the M variants",
+     "layer": "K1",
+     "carryover": true,
+     "subsystem": "chassis",
+     "own_impact": 0.15,
+     "portfolio_terms": [
+      "Adaptive M suspension",
+      "Adaptives M Fahrwerk"
+     ]
+    }
+   ],
+   "subsystems": [
+    {
+     "name": "Chassis",
+     "path": null,
+     "risk": 0.15,
+     "subsystem": "chassis",
+     "effort_pct": 1.74
+    },
+    {
+     "name": "Body/structure",
+     "path": [
+      "Chassis",
+      "Body/structure"
+     ],
+     "risk": 0.009,
+     "subsystem": "body_structure",
+     "effort_pct": 0.19
+    },
+    {
+     "name": "Interior/console",
+     "path": [
+      "Chassis",
+      "Body/structure",
+      "Interior/console"
+     ],
+     "risk": 0.0068,
+     "subsystem": "interior_console",
+     "effort_pct": 0.05
+    },
+    {
+     "name": "Exterior design",
+     "path": [
+      "Chassis",
+      "Body/structure",
+      "Exterior design"
+     ],
+     "risk": 0.0054,
+     "subsystem": "exterior_design",
+     "effort_pct": 0.04
+    },
+    {
+     "name": "E/E architecture",
+     "path": [
+      "Chassis",
+      "Body/structure",
+      "Interior/console",
+      "E/E architecture"
+     ],
+     "risk": 0.0016,
+     "subsystem": "ee_architecture",
+     "effort_pct": 0.02
+    },
+    {
+     "name": "Software/HMI",
+     "path": [
+      "Chassis",
+      "Body/structure",
+      "Interior/console",
+      "Software/HMI"
+     ],
+     "risk": 0.0013,
+     "subsystem": "software_hmi",
+     "effort_pct": 0.02
+    },
+    {
+     "name": "Seats",
+     "path": [
+      "Chassis",
+      "Body/structure",
+      "Interior/console",
+      "Seats"
+     ],
+     "risk": 0.0013,
+     "subsystem": "seats",
+     "effort_pct": 0.01
+    }
+   ],
+   "portfolio": [
+    {
+     "level": 0,
+     "terms": [
+      "Adaptive M suspension",
+      "Adaptives M Fahrwerk"
+     ],
+     "vehicles": {
+      "F70": {
+       "item": "Adaptive M suspension",
+       "status": "standard"
+      },
+      "G60": {
+       "item": "Adaptive M suspension Professional",
+       "status": "optional"
+      }
+     },
+     "subsystem": "chassis",
+     "own_variants": {
+      "total": 6,
+      "optional": 0,
+      "standard": 1
+     }
+    }
+   ],
+   "flags": [
+    {
+     "rule": "43",
+     "text": "chassis: already standard on F70 (standard on 1, optional on 0 of 6 F70 variants); check whether only configuration (K0) is needed",
+     "level": "info"
+    }
+   ],
+   "note": null,
+   "model_hash": "789fcb7624b8",
+   "stale": false
+  },
+  {
+   "id": "REQ-F70-EU-DD-02",
+   "vehicle": "F70",
+   "market": "EU",
+   "title": "Keep the sporty handling and the fuel economy in the next generation",
+   "horizon": "H2",
+   "recommend": true,
+   "status": "proposed",
+   "requirement_version": 1,
+   "kind": "preserve",
+   "effort_pct": 0,
+   "p5": 0,
+   "p95": 0,
+   "decision": "no change",
+   "decision_stable_pct": 100,
+   "layer": "K0",
+   "size": "-",
+   "certification": false,
+   "changes": [],
+   "subsystems": [],
+   "portfolio": [],
+   "flags": [],
+   "note": "Protects today's handling and fuel economy for the successor; no change to estimate.",
+   "model_hash": "789fcb7624b8",
+   "stale": false
+  },
+  {
+   "id": "REQ-F70-EU-EX-01",
+   "vehicle": "F70",
+   "market": "EU",
+   "title": "Reliable exterior lights and helpful door mirrors",
+   "horizon": "H1",
+   "recommend": true,
+   "status": "proposed",
+   "requirement_version": 1,
+   "kind": "change",
+   "effort_pct": 1.11,
+   "p5": 0.54,
+   "p95": 1.97,
+   "decision": "adapt",
+   "decision_stable_pct": 100,
+   "layer": "K1",
+   "size": "S",
+   "certification": false,
+   "changes": [
+    {
+     "why": "Lighting fault fixes; mirror kerb tilt and auto fold motors",
+     "layer": "K1",
+     "carryover": false,
+     "subsystem": "exterior_design",
+     "own_impact": 0.05,
+     "portfolio_terms": []
+    },
+    {
+     "why": "Mirror functions in the settings",
+     "layer": "K0",
+     "carryover": false,
+     "subsystem": "software_hmi",
+     "own_impact": 0.02,
+     "portfolio_terms": []
+    }
+   ],
+   "subsystems": [
+    {
+     "name": "Software/HMI",
+     "path": [
+      "Exterior design",
+      "E/E architecture",
+      "Software/HMI"
+     ],
+     "risk": 0.0419,
+     "subsystem": "software_hmi",
+     "effort_pct": 0.49
+    },
+    {
+     "name": "Exterior design",
+     "path": null,
+     "risk": 0.05,
+     "subsystem": "exterior_design",
+     "effort_pct": 0.35
+    },
+    {
+     "name": "Chassis",
+     "path": [
+      "Exterior design",
+      "Body/structure",
+      "Chassis"
+     ],
+     "risk": 0.0067,
+     "subsystem": "chassis",
+     "effort_pct": 0.08
+    },
+    {
+     "name": "E/E architecture",
+     "path": [
+      "Exterior design",
+      "E/E architecture"
+     ],
+     "risk": 0.0073,
+     "subsystem": "ee_architecture",
+     "effort_pct": 0.08
+    },
+    {
+     "name": "Body/structure",
+     "path": [
+      "Exterior design",
+      "Body/structure"
+     ],
+     "risk": 0.0033,
+     "subsystem": "body_structure",
+     "effort_pct": 0.07
+    },
+    {
+     "name": "Interior/console",
+     "path": [
+      "Exterior design",
+      "Body/structure",
+      "Interior/console"
+     ],
+     "risk": 0.005,
+     "subsystem": "interior_console",
+     "effort_pct": 0.04
+    },
+    {
+     "name": "Seats",
+     "path": [
+      "Exterior design",
+      "Body/structure",
+      "Interior/console",
+      "Seats"
+     ],
+     "risk": 0.001,
+     "subsystem": "seats",
+     "effort_pct": 0.01
+    }
+   ],
+   "portfolio": [],
+   "flags": [],
+   "note": null,
+   "model_hash": "789fcb7624b8",
+   "stale": false
+  },
+  {
+   "id": "REQ-F70-EU-EX-02",
+   "vehicle": "F70",
+   "market": "EU",
+   "title": "Quiet tyres and wheels that are easy to clean",
+   "horizon": "H1",
+   "recommend": true,
+   "status": "proposed",
+   "requirement_version": 1,
+   "kind": "change",
+   "effort_pct": 1.44,
+   "p5": 0.73,
+   "p95": 2.52,
+   "decision": "adapt",
+   "decision_stable_pct": 100,
+   "layer": "K1",
+   "size": "S",
+   "certification": false,
+   "changes": [
+    {
+     "why": "Easy-clean, corrosion-resistant wheel designs",
+     "layer": "K1",
+     "carryover": false,
+     "subsystem": "exterior_design",
+     "own_impact": 0.05,
+     "portfolio_terms": []
+    },
+    {
+     "why": "Quieter standard tyre sourcing",
+     "layer": "K1",
+     "carryover": false,
+     "subsystem": "chassis",
+     "own_impact": 0.03,
+     "portfolio_terms": []
+    }
+   ],
+   "subsystems": [
+    {
+     "name": "Chassis",
+     "path": null,
+     "risk": 0.0365,
+     "subsystem": "chassis",
+     "effort_pct": 0.42
+    },
+    {
+     "name": "Exterior design",
+     "path": null,
+     "risk": 0.0534,
+     "subsystem": "exterior_design",
+     "effort_pct": 0.37
+    },
+    {
+     "name": "Software/HMI",
+     "path": [
+      "Exterior design",
+      "E/E architecture",
+      "Software/HMI"
+     ],
+     "risk": 0.0232,
+     "subsystem": "software_hmi",
+     "effort_pct": 0.27
+    },
+    {
+     "name": "Body/structure",
+     "path": [
+      "Chassis",
+      "Body/structure"
+     ],
+     "risk": 0.0093,
+     "subsystem": "body_structure",
+     "effort_pct": 0.19
+    },
+    {
+     "name": "E/E architecture",
+     "path": [
+      "Exterior design",
+      "E/E architecture"
+     ],
+     "risk": 0.0084,
+     "subsystem": "ee_architecture",
+     "effort_pct": 0.09
+    },
+    {
+     "name": "Interior/console",
+     "path": [
+      "Exterior design",
+      "Body/structure",
+      "Interior/console"
+     ],
+     "risk": 0.0095,
+     "subsystem": "interior_console",
+     "effort_pct": 0.08
+    },
+    {
+     "name": "Seats",
+     "path": [
+      "Exterior design",
+      "Body/structure",
+      "Interior/console",
+      "Seats"
+     ],
+     "risk": 0.0019,
+     "subsystem": "seats",
+     "effort_pct": 0.01
+    }
+   ],
+   "portfolio": [],
+   "flags": [],
+   "note": null,
+   "model_hash": "789fcb7624b8",
+   "stale": false
+  },
+  {
+   "id": "REQ-F70-EU-GE-01",
+   "vehicle": "F70",
+   "market": "EU",
+   "title": "No silent de-contenting against the previous 1 Series",
+   "horizon": "H1",
+   "recommend": true,
+   "status": "proposed",
+   "requirement_version": 1,
+   "kind": "change",
+   "effort_pct": 0.24,
+   "p5": 0.11,
+   "p95": 0.42,
+   "decision": "adapt",
+   "decision_stable_pct": 100,
+   "layer": "K0",
+   "size": "XS",
+   "certification": false,
+   "changes": [
+    {
+     "why": "Standard-content decision for items the platform still carries; becomes K1 if the hardware was dropped from the F70 harness",
+     "layer": "K0",
+     "carryover": false,
+     "subsystem": "interior_console",
+     "own_impact": 0.03,
+     "portfolio_terms": []
+    }
+   ],
+   "subsystems": [
+    {
+     "name": "Interior/console",
+     "path": null,
+     "risk": 0.03,
+     "subsystem": "interior_console",
+     "effort_pct": 0.24
+    }
+   ],
+   "portfolio": [],
+   "flags": [],
+   "note": null,
+   "model_hash": "789fcb7624b8",
+   "stale": false
+  },
+  {
+   "id": "REQ-F70-EU-IC-01",
+   "vehicle": "F70",
+   "market": "EU",
+   "title": "Supportive, durable seats with lumbar adjustment",
+   "horizon": "H1",
+   "recommend": true,
+   "status": "proposed",
+   "requirement_version": 1,
+   "kind": "change",
+   "effort_pct": 2.13,
+   "p5": 1,
+   "p95": 3.69,
+   "decision": "adapt",
+   "decision_stable_pct": 100,
+   "layer": "K1",
+   "size": "S",
+   "certification": false,
+   "changes": [
+    {
+     "why": "Foam, trim durability and a lumbar option; lumbar support is standard on the G60",
+     "layer": "K1",
+     "carryover": true,
+     "subsystem": "seats",
+     "own_impact": 0.2,
+     "portfolio_terms": [
+      "Lordosenstütze",
+      "Lumbar support"
+     ]
+    }
+   ],
+   "subsystems": [
+    {
+     "name": "Seats",
+     "path": null,
+     "risk": 0.2,
+     "subsystem": "seats",
+     "effort_pct": 1.16
+    },
+    {
+     "name": "Software/HMI",
+     "path": [
+      "Seats",
+      "E/E architecture",
+      "Software/HMI"
+     ],
+     "risk": 0.0559,
+     "subsystem": "software_hmi",
+     "effort_pct": 0.65
+    },
+    {
+     "name": "E/E architecture",
+     "path": [
+      "Seats",
+      "E/E architecture"
+     ],
+     "risk": 0.0203,
+     "subsystem": "ee_architecture",
+     "effort_pct": 0.21
+    },
+    {
+     "name": "Thermal/HVAC",
+     "path": [
+      "Seats",
+      "Thermal/HVAC"
+     ],
+     "risk": 0.015,
+     "subsystem": "thermal_hvac",
+     "effort_pct": 0.1
+    }
+   ],
+   "portfolio": [
+    {
+     "level": 2,
+     "terms": [
+      "Lordosenstütze",
+      "Lumbar support"
+     ],
+     "vehicles": {
+      "G60": {
+       "item": "Lumbar support for driver and front passenger",
+       "status": "standard"
+      }
+     },
+     "subsystem": "seats",
+     "own_variants": {
+      "total": 6,
+      "optional": 0,
+      "standard": 0
+     }
+    }
+   ],
+   "flags": [],
+   "note": null,
+   "model_hash": "789fcb7624b8",
+   "stale": false
+  },
+  {
+   "id": "REQ-F70-EU-IC-02",
+   "vehicle": "F70",
+   "market": "EU",
+   "title": "Dual-zone climate as standard and rear ventilation",
+   "horizon": "H1",
+   "recommend": true,
+   "status": "proposed",
+   "requirement_version": 1,
+   "kind": "change",
+   "effort_pct": 2.55,
+   "p5": 1.24,
+   "p95": 4.77,
+   "decision": "adapt",
+   "decision_stable_pct": 100,
+   "layer": "K2",
+   "size": "S",
+   "certification": false,
+   "changes": [
+    {
+     "why": "Dual zone as standard content and a display that matches the fitted zones",
+     "layer": "K0",
+     "carryover": false,
+     "subsystem": "thermal_hvac",
+     "own_impact": 0.02,
+     "portfolio_terms": [
+      "2-Zonen",
+      "2-zone"
+     ]
+    },
+    {
+     "why": "Rear air vents need ducts through the centre console",
+     "layer": "K2",
+     "carryover": false,
+     "subsystem": "interior_console",
+     "own_impact": 0.1,
+     "portfolio_terms": []
+    }
+   ],
+   "subsystems": [
+    {
+     "name": "Software/HMI",
+     "path": [
+      "Interior/console",
+      "E/E architecture",
+      "Software/HMI"
+     ],
+     "risk": 0.0902,
+     "subsystem": "software_hmi",
+     "effort_pct": 1.05
+    },
+    {
+     "name": "Interior/console",
+     "path": null,
+     "risk": 0.1,
+     "subsystem": "interior_console",
+     "effort_pct": 0.81
+    },
+    {
+     "name": "E/E architecture",
+     "path": [
+      "Interior/console",
+      "E/E architecture"
+     ],
+     "risk": 0.0325,
+     "subsystem": "ee_architecture",
+     "effort_pct": 0.34
+    },
+    {
+     "name": "Thermal/HVAC",
+     "path": null,
+     "risk": 0.0338,
+     "subsystem": "thermal_hvac",
+     "effort_pct": 0.24
+    },
+    {
+     "name": "Seats",
+     "path": [
+      "Interior/console",
+      "Seats"
+     ],
+     "risk": 0.02,
+     "subsystem": "seats",
+     "effort_pct": 0.12
+    }
+   ],
+   "portfolio": [
+    {
+     "level": 0,
+     "terms": [
+      "2-Zonen",
+      "2-zone"
+     ],
+     "vehicles": {
+      "F70": {
+       "item": "2-zone automatic climate control with extended features",
+       "status": "standard"
+      }
+     },
+     "subsystem": "thermal_hvac",
+     "own_variants": {
+      "total": 6,
+      "optional": 0,
+      "standard": 6
+     }
+    }
+   ],
+   "flags": [],
+   "note": null,
+   "model_hash": "789fcb7624b8",
+   "stale": false
+  },
+  {
+   "id": "REQ-F70-EU-IC-03",
+   "vehicle": "F70",
+   "market": "EU",
+   "title": "Cockpit lighting without reflections in the mirrors and windscreen",
+   "horizon": "H1",
+   "recommend": true,
+   "status": "proposed",
+   "requirement_version": 1,
+   "kind": "change",
+   "effort_pct": 1.22,
+   "p5": 0.58,
+   "p95": 2.33,
+   "decision": "adapt",
+   "decision_stable_pct": 100,
+   "layer": "K1",
+   "size": "S",
+   "certification": false,
+   "changes": [
+    {
+     "why": "Light guides and default brightness",
+     "layer": "K1",
+     "carryover": false,
+     "subsystem": "interior_console",
+     "own_impact": 0.05,
+     "portfolio_terms": []
+    }
+   ],
+   "subsystems": [
+    {
+     "name": "Software/HMI",
+     "path": [
+      "Interior/console",
+      "E/E architecture",
+      "Software/HMI"
+     ],
+     "risk": 0.0458,
+     "subsystem": "software_hmi",
+     "effort_pct": 0.53
+    },
+    {
+     "name": "Interior/console",
+     "path": null,
+     "risk": 0.05,
+     "subsystem": "interior_console",
+     "effort_pct": 0.41
+    },
+    {
+     "name": "E/E architecture",
+     "path": [
+      "Interior/console",
+      "E/E architecture"
+     ],
+     "risk": 0.0163,
+     "subsystem": "ee_architecture",
+     "effort_pct": 0.17
+    },
+    {
+     "name": "Seats",
+     "path": [
+      "Interior/console",
+      "Seats"
+     ],
+     "risk": 0.01,
+     "subsystem": "seats",
+     "effort_pct": 0.06
+    },
+    {
+     "name": "Thermal/HVAC",
+     "path": [
+      "Interior/console",
+      "Seats",
+      "Thermal/HVAC"
+     ],
+     "risk": 0.0071,
+     "subsystem": "thermal_hvac",
+     "effort_pct": 0.05
+    }
+   ],
+   "portfolio": [],
+   "flags": [],
+   "note": null,
+   "model_hash": "789fcb7624b8",
+   "stale": false
+  },
+  {
+   "id": "REQ-F70-EU-ID-01",
+   "vehicle": "F70",
+   "market": "EU",
+   "title": "Physical controls for climate and a rotary controller option",
+   "horizon": "H1",
+   "recommend": true,
+   "status": "proposed",
+   "requirement_version": 1,
+   "kind": "change",
+   "effort_pct": 4.17,
+   "p5": 2.13,
+   "p95": 6.41,
+   "decision": "adapt",
+   "decision_stable_pct": 100,
+   "layer": "K2",
+   "size": "S",
+   "certification": false,
+   "changes": [
+    {
+     "why": "New console with physical climate keys and a rotary controller; the iDrive Controller is standard on G60 and G70 (not listed as a catalogue item)",
+     "layer": "K2",
+     "carryover": true,
+     "subsystem": "interior_console",
+     "own_impact": 0.25,
+     "portfolio_terms": []
+    },
+    {
+     "why": "Controller support in an OS that was built touch-first",
+     "layer": "K2",
+     "carryover": false,
+     "subsystem": "software_hmi",
+     "own_impact": 0.08,
+     "portfolio_terms": []
+    }
+   ],
+   "subsystems": [
+    {
+     "name": "Interior/console",
+     "path": null,
+     "risk": 0.25,
+     "subsystem": "interior_console",
+     "effort_pct": 2.03
+    },
+    {
+     "name": "Software/HMI",
+     "path": null,
+     "risk": 0.1427,
+     "subsystem": "software_hmi",
+     "effort_pct": 1.66
+    },
+    {
+     "name": "E/E architecture",
+     "path": [
+      "Interior/console",
+      "E/E architecture"
+     ],
+     "risk": 0.0296,
+     "subsystem": "ee_architecture",
+     "effort_pct": 0.31
+    },
+    {
+     "name": "Seats",
+     "path": [
+      "Interior/console",
+      "Seats"
+     ],
+     "risk": 0.015,
+     "subsystem": "seats",
+     "effort_pct": 0.09
+    },
+    {
+     "name": "Thermal/HVAC",
+     "path": [
+      "Interior/console",
+      "Seats",
+      "Thermal/HVAC"
+     ],
+     "risk": 0.0106,
+     "subsystem": "thermal_hvac",
+     "effort_pct": 0.07
+    }
+   ],
+   "portfolio": [],
+   "flags": [],
+   "note": null,
+   "model_hash": "789fcb7624b8",
+   "stale": false
+  },
+  {
+   "id": "REQ-F70-EU-ID-02",
+   "vehicle": "F70",
+   "market": "EU",
+   "title": "Stable infotainment and settings that survive updates",
+   "horizon": "H1",
+   "recommend": true,
+   "status": "proposed",
+   "requirement_version": 1,
+   "kind": "change",
+   "effort_pct": 0.99,
+   "p5": 0.45,
+   "p95": 1.72,
+   "decision": "adapt",
+   "decision_stable_pct": 100,
+   "layer": "K1",
+   "size": "XS",
+   "certification": false,
+   "changes": [
+    {
+     "why": "Stability fixes and settings migration across OTA updates",
+     "layer": "K1",
+     "carryover": false,
+     "subsystem": "software_hmi",
+     "own_impact": 0.08,
+     "portfolio_terms": []
+    }
+   ],
+   "subsystems": [
+    {
+     "name": "Software/HMI",
+     "path": null,
+     "risk": 0.08,
+     "subsystem": "software_hmi",
+     "effort_pct": 0.93
+    },
+    {
+     "name": "E/E architecture",
+     "path": [
+      "Software/HMI",
+      "E/E architecture"
+     ],
+     "risk": 0.0053,
+     "subsystem": "ee_architecture",
+     "effort_pct": 0.06
+    }
+   ],
+   "portfolio": [],
+   "flags": [],
+   "note": null,
+   "model_hash": "789fcb7624b8",
+   "stale": false
+  },
+  {
+   "id": "REQ-F70-EU-ID-03",
+   "vehicle": "F70",
+   "market": "EU",
+   "title": "Functions bought with the car stay included for the first owner",
+   "horizon": "H1",
+   "recommend": true,
+   "status": "proposed",
+   "requirement_version": 1,
+   "kind": "no_vehicle_change",
+   "effort_pct": 0,
+   "p5": 0,
+   "p95": 0,
+   "decision": "no change",
+   "decision_stable_pct": 100,
+   "layer": "K0",
+   "size": "-",
+   "certification": false,
+   "changes": [],
+   "subsystems": [],
+   "portfolio": [],
+   "flags": [],
+   "note": "Offer and licensing decision; no hardware or software change.",
+   "model_hash": "789fcb7624b8",
+   "stale": false
+  },
+  {
+   "id": "REQ-F70-EU-ID-04",
+   "vehicle": "F70",
+   "market": "EU",
+   "title": "Printed quick-start handbook and better in-car help",
+   "horizon": "H1",
+   "recommend": true,
+   "status": "proposed",
+   "requirement_version": 1,
+   "kind": "change",
+   "effort_pct": 0.23,
+   "p5": 0.1,
+   "p95": 0.41,
+   "decision": "adapt",
+   "decision_stable_pct": 100,
+   "layer": "K0",
+   "size": "XS",
+   "certification": false,
+   "changes": [
+    {
+     "why": "Searchable in-car manual filtered by fitted equipment; the printed handbook is not a vehicle change",
+     "layer": "K0",
+     "carryover": false,
+     "subsystem": "software_hmi",
+     "own_impact": 0.02,
+     "portfolio_terms": []
+    }
+   ],
+   "subsystems": [
+    {
+     "name": "Software/HMI",
+     "path": null,
+     "risk": 0.02,
+     "subsystem": "software_hmi",
+     "effort_pct": 0.23
+    }
+   ],
+   "portfolio": [],
+   "flags": [],
+   "note": null,
+   "model_hash": "789fcb7624b8",
+   "stale": false
+  },
+  {
+   "id": "REQ-F70-EU-ID-05",
+   "vehicle": "F70",
+   "market": "EU",
+   "title": "Music from USB sticks",
+   "horizon": "H1",
+   "recommend": true,
+   "status": "proposed",
+   "requirement_version": 1,
+   "kind": "change",
+   "effort_pct": 0.37,
+   "p5": 0.17,
+   "p95": 0.65,
+   "decision": "adapt",
+   "decision_stable_pct": 100,
+   "layer": "K1",
+   "size": "XS",
+   "certification": false,
+   "changes": [
+    {
+     "why": "Media player and USB mass-storage data path",
+     "layer": "K1",
+     "carryover": false,
+     "subsystem": "software_hmi",
+     "own_impact": 0.03,
+     "portfolio_terms": []
+    }
+   ],
+   "subsystems": [
+    {
+     "name": "Software/HMI",
+     "path": null,
+     "risk": 0.03,
+     "subsystem": "software_hmi",
+     "effort_pct": 0.35
+    },
+    {
+     "name": "E/E architecture",
+     "path": [
+      "Software/HMI",
+      "E/E architecture"
+     ],
+     "risk": 0.002,
+     "subsystem": "ee_architecture",
+     "effort_pct": 0.02
+    }
+   ],
+   "portfolio": [],
+   "flags": [],
+   "note": null,
+   "model_hash": "789fcb7624b8",
+   "stale": false
+  },
+  {
+   "id": "REQ-F70-EU-ID-06",
+   "vehicle": "F70",
+   "market": "EU",
+   "title": "Navigation route choice and clear guidance",
+   "horizon": "H1",
+   "recommend": true,
+   "status": "proposed",
+   "requirement_version": 1,
+   "kind": "change",
+   "effort_pct": 0.49,
+   "p5": 0.22,
+   "p95": 0.86,
+   "decision": "adapt",
+   "decision_stable_pct": 100,
+   "layer": "K1",
+   "size": "XS",
+   "certification": false,
+   "changes": [
+    {
+     "why": "Route preferences, road-class filter, zoom without the touch screen",
+     "layer": "K1",
+     "carryover": false,
+     "subsystem": "software_hmi",
+     "own_impact": 0.04,
+     "portfolio_terms": []
+    }
+   ],
+   "subsystems": [
+    {
+     "name": "Software/HMI",
+     "path": null,
+     "risk": 0.04,
+     "subsystem": "software_hmi",
+     "effort_pct": 0.47
+    },
+    {
+     "name": "E/E architecture",
+     "path": [
+      "Software/HMI",
+      "E/E architecture"
+     ],
+     "risk": 0.0027,
+     "subsystem": "ee_architecture",
+     "effort_pct": 0.03
+    }
+   ],
+   "portfolio": [],
+   "flags": [],
+   "note": null,
+   "model_hash": "789fcb7624b8",
+   "stale": false
+  },
+  {
+   "id": "REQ-F70-EU-PR-01",
+   "vehicle": "F70",
+   "market": "EU",
+   "title": "Smooth dual-clutch gearbox and immediate response when pulling away",
+   "horizon": "H1",
+   "recommend": true,
+   "status": "proposed",
+   "requirement_version": 1,
+   "kind": "change",
+   "effort_pct": 3.27,
+   "p5": 1.63,
+   "p95": 6.31,
+   "decision": "adapt",
+   "decision_stable_pct": 100,
+   "layer": "K1",
+   "size": "S",
+   "certification": false,
+   "changes": [
+    {
+     "why": "Engine, MHEV and dual-clutch launch calibration",
+     "layer": "K1",
+     "carryover": false,
+     "subsystem": "powertrain",
+     "own_impact": 0.05,
+     "portfolio_terms": []
+    }
+   ],
+   "subsystems": [
+    {
+     "name": "Powertrain",
+     "path": null,
+     "risk": 0.05,
+     "subsystem": "powertrain",
+     "effort_pct": 0.81
+    },
+    {
+     "name": "Software/HMI",
+     "path": [
+      "Powertrain",
+      "E/E architecture",
+      "Software/HMI"
+     ],
+     "risk": 0.0686,
+     "subsystem": "software_hmi",
+     "effort_pct": 0.8
+    },
+    {
+     "name": "Body/structure",
+     "path": [
+      "Powertrain",
+      "Body/structure"
+     ],
+     "risk": 0.0239,
+     "subsystem": "body_structure",
+     "effort_pct": 0.5
+    },
+    {
+     "name": "E/E architecture",
+     "path": [
+      "Powertrain",
+      "E/E architecture"
+     ],
+     "risk": 0.0423,
+     "subsystem": "ee_architecture",
+     "effort_pct": 0.44
+    },
+    {
+     "name": "Chassis",
+     "path": [
+      "Powertrain",
+      "Body/structure",
+      "Chassis"
+     ],
+     "risk": 0.0265,
+     "subsystem": "chassis",
+     "effort_pct": 0.31
+    },
+    {
+     "name": "Thermal/HVAC",
+     "path": [
+      "Powertrain",
+      "Thermal/HVAC"
+     ],
+     "risk": 0.0306,
+     "subsystem": "thermal_hvac",
+     "effort_pct": 0.21
+    },
+    {
+     "name": "Interior/console",
+     "path": [
+      "Powertrain",
+      "Body/structure",
+      "Interior/console"
+     ],
+     "risk": 0.013,
+     "subsystem": "interior_console",
+     "effort_pct": 0.11
+    },
+    {
+     "name": "Exterior design",
+     "path": [
+      "Powertrain",
+      "Body/structure",
+      "Exterior design"
+     ],
+     "risk": 0.0104,
+     "subsystem": "exterior_design",
+     "effort_pct": 0.07
+    },
+    {
+     "name": "Seats",
+     "path": [
+      "Powertrain",
+      "Body/structure",
+      "Interior/console",
+      "Seats"
+     ],
+     "risk": 0.002,
+     "subsystem": "seats",
+     "effort_pct": 0.01
+    }
+   ],
+   "portfolio": [],
+   "flags": [],
+   "note": null,
+   "model_hash": "789fcb7624b8",
+   "stale": false
+  },
+  {
+   "id": "REQ-F70-EU-QN-01",
+   "vehicle": "F70",
+   "market": "EU",
+   "title": "Quiet, solid-feeling cabin without rattles",
+   "horizon": "H1",
+   "recommend": true,
+   "status": "proposed",
+   "requirement_version": 1,
+   "kind": "change",
+   "effort_pct": 3.42,
+   "p5": 1.75,
+   "p95": 6,
+   "decision": "adapt",
+   "decision_stable_pct": 100,
+   "layer": "K1",
+   "size": "S",
+   "certification": false,
+   "changes": [
+    {
+     "why": "Trim fixings against rattles",
+     "layer": "K1",
+     "carryover": false,
+     "subsystem": "interior_console",
+     "own_impact": 0.05,
+     "portfolio_terms": []
+    },
+    {
+     "why": "Sealing and damping material (acoustic package)",
+     "layer": "K1",
+     "carryover": false,
+     "subsystem": "body_structure",
+     "own_impact": 0.05,
+     "portfolio_terms": []
+    }
+   ],
+   "subsystems": [
+    {
+     "name": "Body/structure",
+     "path": null,
+     "risk": 0.05,
+     "subsystem": "body_structure",
+     "effort_pct": 1.05
+    },
+    {
+     "name": "Software/HMI",
+     "path": [
+      "Interior/console",
+      "E/E architecture",
+      "Software/HMI"
+     ],
+     "risk": 0.0702,
+     "subsystem": "software_hmi",
+     "effort_pct": 0.82
+    },
+    {
+     "name": "Interior/console",
+     "path": null,
+     "risk": 0.0738,
+     "subsystem": "interior_console",
+     "effort_pct": 0.6
+    },
+    {
+     "name": "Chassis",
+     "path": [
+      "Body/structure",
+      "Chassis"
+     ],
+     "risk": 0.0333,
+     "subsystem": "chassis",
+     "effort_pct": 0.39
+    },
+    {
+     "name": "E/E architecture",
+     "path": [
+      "Interior/console",
+      "E/E architecture"
+     ],
+     "risk": 0.0257,
+     "subsystem": "ee_architecture",
+     "effort_pct": 0.27
+    },
+    {
+     "name": "Exterior design",
+     "path": [
+      "Body/structure",
+      "Exterior design"
+     ],
+     "risk": 0.02,
+     "subsystem": "exterior_design",
+     "effort_pct": 0.14
+    },
+    {
+     "name": "Seats",
+     "path": [
+      "Interior/console",
+      "Seats"
+     ],
+     "risk": 0.015,
+     "subsystem": "seats",
+     "effort_pct": 0.09
+    },
+    {
+     "name": "Thermal/HVAC",
+     "path": [
+      "Interior/console",
+      "Seats",
+      "Thermal/HVAC"
+     ],
+     "risk": 0.0106,
+     "subsystem": "thermal_hvac",
+     "effort_pct": 0.07
+    }
+   ],
+   "portfolio": [],
+   "flags": [],
+   "note": null,
+   "model_hash": "789fcb7624b8",
+   "stale": false
+  },
+  {
+   "id": "REQ-F70-EU-SP-01",
+   "vehicle": "F70",
+   "market": "EU",
+   "title": "Practical boot with power tailgate and luggage fixtures",
+   "horizon": "H1",
+   "recommend": true,
+   "status": "proposed",
+   "requirement_version": 1,
+   "kind": "change",
+   "effort_pct": 1.74,
+   "p5": 0.85,
+   "p95": 3.23,
+   "decision": "adapt",
+   "decision_stable_pct": 100,
+   "layer": "K1",
+   "size": "S",
+   "certification": false,
+   "changes": [
+    {
+     "why": "Tie-down points, 12 V socket, parcel shelf holder",
+     "layer": "K1",
+     "carryover": false,
+     "subsystem": "interior_console",
+     "own_impact": 0.05,
+     "portfolio_terms": []
+    },
+    {
+     "why": "Close button on the power tailgate",
+     "layer": "K1",
+     "carryover": false,
+     "subsystem": "exterior_design",
+     "own_impact": 0.03,
+     "portfolio_terms": []
+    }
+   ],
+   "subsystems": [
+    {
+     "name": "Software/HMI",
+     "path": [
+      "Interior/console",
+      "E/E architecture",
+      "Software/HMI"
+     ],
+     "risk": 0.0586,
+     "subsystem": "software_hmi",
+     "effort_pct": 0.68
+    },
+    {
+     "name": "Interior/console",
+     "path": null,
+     "risk": 0.0529,
+     "subsystem": "interior_console",
+     "effort_pct": 0.43
+    },
+    {
+     "name": "E/E architecture",
+     "path": [
+      "Interior/console",
+      "E/E architecture"
+     ],
+     "risk": 0.0207,
+     "subsystem": "ee_architecture",
+     "effort_pct": 0.22
+    },
+    {
+     "name": "Exterior design",
+     "path": null,
+     "risk": 0.03,
+     "subsystem": "exterior_design",
+     "effort_pct": 0.21
+    },
+    {
+     "name": "Seats",
+     "path": [
+      "Interior/console",
+      "Seats"
+     ],
+     "risk": 0.0106,
+     "subsystem": "seats",
+     "effort_pct": 0.06
+    },
+    {
+     "name": "Thermal/HVAC",
+     "path": [
+      "Interior/console",
+      "Seats",
+      "Thermal/HVAC"
+     ],
+     "risk": 0.0073,
+     "subsystem": "thermal_hvac",
+     "effort_pct": 0.05
+    },
+    {
+     "name": "Chassis",
+     "path": [
+      "Exterior design",
+      "Body/structure",
+      "Chassis"
+     ],
+     "risk": 0.004,
+     "subsystem": "chassis",
+     "effort_pct": 0.05
+    },
+    {
+     "name": "Body/structure",
+     "path": [
+      "Exterior design",
+      "Body/structure"
+     ],
+     "risk": 0.002,
+     "subsystem": "body_structure",
+     "effort_pct": 0.04
+    }
+   ],
+   "portfolio": [],
+   "flags": [],
+   "note": null,
+   "model_hash": "789fcb7624b8",
+   "stale": false
+  }
+ ],
+ "scenarios": [
+  {
+   "scenario": "H1",
+   "label": "Evolve the current model (H1 requirements in one life-cycle impulse)",
+   "requirements": 17,
+   "with_changes": 16,
+   "sum_of_single_pct": 25.81,
+   "effort_pct": 21.41,
+   "layer": "K2",
+   "decision": "major revision",
+   "size": "L",
+   "certification_add_on": false,
+   "platform_change": false,
+   "subsystems": [
+    {
+     "subsystem": "software_hmi",
+     "name": "Software/HMI",
+     "risk": 0.564,
+     "effort_pct": 6.56,
+     "path": [
+      "Interior/console",
+      "E/E architecture",
+      "Software/HMI"
+     ]
+    },
+    {
+     "subsystem": "interior_console",
+     "name": "Interior/console",
+     "risk": 0.4727,
+     "effort_pct": 3.85,
+     "path": null
+    },
+    {
+     "subsystem": "chassis",
+     "name": "Chassis",
+     "risk": 0.2375,
+     "effort_pct": 2.76,
+     "path": null
+    },
+    {
+     "subsystem": "ee_architecture",
+     "name": "E/E architecture",
+     "risk": 0.1972,
+     "effort_pct": 2.06,
+     "path": [
+      "Powertrain",
+      "E/E architecture"
+     ]
+    },
+    {
+     "subsystem": "body_structure",
+     "name": "Body/structure",
+     "risk": 0.0945,
+     "effort_pct": 1.98,
+     "path": null
+    },
+    {
+     "subsystem": "seats",
+     "name": "Seats",
+     "risk": 0.2595,
+     "effort_pct": 1.51,
+     "path": null
+    }
+   ],
+   "p5": 12.28,
+   "p95": 31.16,
+   "decision_stable_pct": 85.4,
+   "score_stable_pct": 85.4,
+   "kind": "change"
+  },
+  {
+   "scenario": "H2",
+   "label": "Successor generation (H2 requirements)",
+   "requirements": 1,
+   "with_changes": 0,
+   "sum_of_single_pct": 0,
+   "effort_pct": 0,
+   "layer": "K0",
+   "decision": "no change",
+   "size": "-",
+   "certification_add_on": false,
+   "platform_change": false,
+   "subsystems": [],
+   "p5": 0,
+   "p95": 0,
+   "decision_stable_pct": 100,
+   "score_stable_pct": 100,
+   "kind": "change"
+  },
+  {
+   "scenario": "ALL",
+   "label": "Everything on the current model (H1 + H2 in one impulse)",
+   "requirements": 18,
+   "with_changes": 16,
+   "sum_of_single_pct": 25.81,
+   "effort_pct": 21.41,
+   "layer": "K2",
+   "decision": "major revision",
+   "size": "L",
+   "certification_add_on": false,
+   "platform_change": false,
+   "subsystems": [
+    {
+     "subsystem": "software_hmi",
+     "name": "Software/HMI",
+     "risk": 0.564,
+     "effort_pct": 6.56,
+     "path": [
+      "Interior/console",
+      "E/E architecture",
+      "Software/HMI"
+     ]
+    },
+    {
+     "subsystem": "interior_console",
+     "name": "Interior/console",
+     "risk": 0.4727,
+     "effort_pct": 3.85,
+     "path": null
+    },
+    {
+     "subsystem": "chassis",
+     "name": "Chassis",
+     "risk": 0.2375,
+     "effort_pct": 2.76,
+     "path": null
+    },
+    {
+     "subsystem": "ee_architecture",
+     "name": "E/E architecture",
+     "risk": 0.1972,
+     "effort_pct": 2.06,
+     "path": [
+      "Powertrain",
+      "E/E architecture"
+     ]
+    },
+    {
+     "subsystem": "body_structure",
+     "name": "Body/structure",
+     "risk": 0.0945,
+     "effort_pct": 1.98,
+     "path": null
+    },
+    {
+     "subsystem": "seats",
+     "name": "Seats",
+     "risk": 0.2595,
+     "effort_pct": 1.51,
+     "path": null
+    }
+   ],
+   "p5": 12.28,
+   "p95": 31.16,
+   "decision_stable_pct": 85.4,
+   "score_stable_pct": 85.4,
+   "kind": "change"
+  }
+ ],
+ "excluded": [
+  {
+   "reason": "Value perception; F70 already scores above the peer, no product requirement needed.",
+   "finding": "FND-F70-EU-MET-cn_eu_2025-value_for_money"
+  },
+  {
+   "reason": "Equal to the peer; no gap to act on.",
+   "finding": "FND-F70-EU-MET-cn_eu_2025-environmental_friendliness"
+  },
+  {
+   "reason": "Information requests about dealer and ownership topics; covered by the handbook requirement where product-related.",
+   "finding": "FND-F70-EU-VOC-general_enquiry_customer_feedback"
+  },
+  {
+   "reason": "11 rows; the F70 has no BEV variant, wishes refer to a future electric 1 Series (portfolio decision).",
+   "finding": "FND-F70-EU-VOC-electric_range"
+  }
+ ],
+ "events": [
+  {
+   "id": 3083,
+   "ts": "2026-10-11T02:43:05.157275+00:00",
+   "run_id": "RUN-20261011-024304-requirements.import-56c4",
+   "actor_type": "agent",
+   "actor_id": "assistant:claude-opus-5-5",
+   "action": "requirement.created",
+   "entity_type": "requirement",
+   "entity_id": "REQ-F70-EU-ID-01",
+   "before": null,
+   "after": {
+    "title": "Physical controls for climate and a rotary controller option",
+    "domain": "infotainment_digital",
+    "horizon": "H1",
+    "markets": [
+     "EU"
+    ],
+    "criteria": [
+     {
+      "basis": "assumption",
+      "market": "EU",
+      "method": "Customer feedback, rolling 6 months",
+      "metric": "Share of touch-screen complaint rows",
+      "target": "<= 3 % of complaint rows (today 7.4 %)"
+     },
+     {
+      "basis": "evidence",
+      "market": "EU",
+      "method": "Function test",
+      "metric": "Climate temperature and fan operable without the touch screen",
+      "target": "Yes"
+     },
+     {
+      "basis": "assumption",
+      "market": "EU",
+      "method": "HMI eye-tracking test",
+      "metric": "Glance time for a temperature change while driving",
+      "target": "<= 1.5 s"
+     }
+    ],
+    "findings": [
+     {
+      "id": "FND-F70-EU-VOC-touch_screen_operation",
+      "role": "primary"
+     },
+     {
+      "id": "FND-F70-EU-VOC-controller_operation",
+      "role": "primary"
+     },
+     {
+      "id": "FND-F70-EU-VOC-operating_concept_operating_system",
+      "role": "supporting"
+     },
+     {
+      "id": "FND-F70-EU-VOC-instrument_cluster",
+      "role": "supporting"
+     }
+    ],
+    "recommend": true,
+    "statement": "Temperature, fan and seat or steering wheel heating shall have physical controls, and a rotary controller (or an equivalent haptic control) shall operate map zoom, lists and shortcuts so the driver does not have to aim at the touch screen while driving.",
+    "assumptions": [],
+    "uncertainties": [],
+    "evidence_level": "B",
+    "horizon_rationale": "Physical climate keys and a controller are a life-cycle-impulse change of the centre console.",
+    "recommend_rationale": "Touch screen operation is the largest complaint theme of the F70 in Europe (141 rows, 7.4 % of all complaints, 91 usability); 25 owners explicitly ask for the iDrive controller back and the operating concept adds 30 rows. Many describe touch-only climate control as unsafe."
+   },
+   "rationale": "Touch screen operation is the largest complaint theme of the F70 in Europe (141 rows, 7.4 % of all complaints, 91 usability); 25 owners explicitly ask for the iDrive controller back and the operating concept adds 30 rows. Many describe touch-only climate control as unsafe.",
+   "model_id": null,
+   "prompt_version": null,
+   "parent_event_id": null
+  },
+  {
+   "id": 3084,
+   "ts": "2026-10-11T02:43:05.173565+00:00",
+   "run_id": "RUN-20261011-024304-requirements.import-56c4",
+   "actor_type": "agent",
+   "actor_id": "assistant:claude-opus-5-5",
+   "action": "requirement.created",
+   "entity_type": "requirement",
+   "entity_id": "REQ-F70-EU-ID-02",
+   "before": null,
+   "after": {
+    "title": "Stable infotainment and settings that survive updates",
+    "domain": "infotainment_digital",
+    "horizon": "H1",
+    "markets": [
+     "EU"
+    ],
+    "criteria": [
+     {
+      "basis": "assumption",
+      "market": "EU",
+      "method": "Customer feedback",
+      "metric": "Infotainment defect rows",
+      "target": "-60 % within 12 months (today 51)"
+     },
+     {
+      "basis": "evidence",
+      "market": "EU",
+      "method": "Update regression test",
+      "metric": "User settings kept after an OTA update",
+      "target": "100 % of profile settings"
+     },
+     {
+      "basis": "evidence",
+      "market": "EU",
+      "method": "Next EU customer study wave",
+      "metric": "Study connected services (1-10)",
+      "target": ">= 7.6 (today 7.36, peer 7.62)"
+     }
+    ],
+    "findings": [
+     {
+      "id": "FND-F70-EU-VOC-connecteddrive_and_infotainment_overall_technolo",
+      "role": "primary"
+     },
+     {
+      "id": "FND-F70-EU-VOC-remote_software_upgrade_rsu",
+      "role": "supporting"
+     },
+     {
+      "id": "FND-F70-EU-MET-cn_eu_2025-connected_services",
+      "role": "supporting"
+     }
+    ],
+    "recommend": true,
+    "statement": "The central display and connected functions shall not freeze, go blank or reboot in normal use, and over-the-air updates shall keep all personal settings.",
+    "assumptions": [],
+    "uncertainties": [],
+    "evidence_level": "B",
+    "horizon_rationale": "Software quality and update process.",
+    "recommend_rationale": "Connected drive and infotainment technology draws 107 complaint rows with 51 defects (blank screens, freezes, lost functions); software updates add 13 rows with 9 defects that wiped settings, and the study scores connected services at 7.36 vs peer 7.62."
+   },
+   "rationale": "Connected drive and infotainment technology draws 107 complaint rows with 51 defects (blank screens, freezes, lost functions); software updates add 13 rows with 9 defects that wiped settings, and the study scores connected services at 7.36 vs peer 7.62.",
+   "model_id": null,
+   "prompt_version": null,
+   "parent_event_id": null
+  },
+  {
+   "id": 3085,
+   "ts": "2026-10-11T02:43:05.182120+00:00",
+   "run_id": "RUN-20261011-024304-requirements.import-56c4",
+   "actor_type": "agent",
+   "actor_id": "assistant:claude-opus-5-5",
+   "action": "requirement.created",
+   "entity_type": "requirement",
+   "entity_id": "REQ-F70-EU-ID-03",
+   "before": null,
+   "after": {
+    "title": "Functions bought with the car stay included for the first owner",
+    "domain": "infotainment_digital",
+    "horizon": "H1",
+    "markets": [
+     "EU"
+    ],
+    "criteria": [
+     {
+      "basis": "assumption",
+      "market": "EU",
+      "method": "Offer check",
+      "metric": "Hardware-enabled safety and lighting functions behind a subscription",
+      "target": "None"
+     },
+     {
+      "basis": "assumption",
+      "market": "EU",
+      "method": "Customer feedback",
+      "metric": "Complaint rows about expiring functions",
+      "target": "<= 10 per 6 months (today 47)"
+     }
+    ],
+    "findings": [
+     {
+      "id": "FND-F70-EU-VOC-bmw_connecteddrive_upgrades_mini_connected_upgra",
+      "role": "primary"
+     },
+     {
+      "id": "FND-F70-EU-EQ-connecteddrive_and_infotainment_overall_technolo",
+      "role": "context"
+     }
+    ],
+    "recommend": true,
+    "statement": "Functions that are fitted and shown at handover (high-beam assistant, traffic information, 3D maps, media apps) shall stay active for the first owner without a subscription, and any time-limited content shall be stated clearly at the point of sale.",
+    "assumptions": [],
+    "uncertainties": [
+     "Touches the digital revenue model; needs a commercial decision beyond the product scope."
+    ],
+    "evidence_level": "B",
+    "horizon_rationale": "Offer and licensing decision; no hardware change.",
+    "recommend_rationale": "47 complaint rows about connected upgrades, all usability: functions such as automatic high beam and live traffic switch off after three months; the catalogue lists Digital Premium as time-limited (480 EUR option). Owners feel misled and say they will change brand."
+   },
+   "rationale": "47 complaint rows about connected upgrades, all usability: functions such as automatic high beam and live traffic switch off after three months; the catalogue lists Digital Premium as time-limited (480 EUR option). Owners feel misled and say they will change brand.",
+   "model_id": null,
+   "prompt_version": null,
+   "parent_event_id": null
+  },
+  {
+   "id": 3086,
+   "ts": "2026-10-11T02:43:05.189364+00:00",
+   "run_id": "RUN-20261011-024304-requirements.import-56c4",
+   "actor_type": "agent",
+   "actor_id": "assistant:claude-opus-5-5",
+   "action": "requirement.created",
+   "entity_type": "requirement",
+   "entity_id": "REQ-F70-EU-ID-04",
+   "before": null,
+   "after": {
+    "title": "Printed quick-start handbook and better in-car help",
+    "domain": "infotainment_digital",
+    "horizon": "H1",
+    "markets": [
+     "EU"
+    ],
+    "criteria": [
+     {
+      "basis": "evidence",
+      "market": "EU",
+      "method": "Delivery audit",
+      "metric": "Printed quick-start handbook at delivery",
+      "target": "Every car"
+     },
+     {
+      "basis": "assumption",
+      "market": "EU",
+      "method": "Customer feedback",
+      "metric": "Manual complaint rows",
+      "target": "<= 20 per 6 months (today 86)"
+     }
+    ],
+    "findings": [
+     {
+      "id": "FND-F70-EU-VOC-owner_s_manual",
+      "role": "primary"
+     }
+    ],
+    "recommend": true,
+    "statement": "Every car shall be delivered with a printed, model-specific quick-start handbook, and the in-car manual shall be searchable and show only the functions fitted to the car.",
+    "assumptions": [],
+    "uncertainties": [],
+    "evidence_level": "B",
+    "horizon_rationale": "Content and print; no vehicle change.",
+    "recommend_rationale": "The owner's manual is the third-largest digital complaint (86 rows, 37 wishes for a printed handbook); older owners report being unable to use functions without it."
+   },
+   "rationale": "The owner's manual is the third-largest digital complaint (86 rows, 37 wishes for a printed handbook); older owners report being unable to use functions without it.",
+   "model_id": null,
+   "prompt_version": null,
+   "parent_event_id": null
+  },
+  {
+   "id": 3087,
+   "ts": "2026-10-11T02:43:05.196864+00:00",
+   "run_id": "RUN-20261011-024304-requirements.import-56c4",
+   "actor_type": "agent",
+   "actor_id": "assistant:claude-opus-5-5",
+   "action": "requirement.created",
+   "entity_type": "requirement",
+   "entity_id": "REQ-F70-EU-ID-05",
+   "before": null,
+   "after": {
+    "title": "Music from USB sticks",
+    "domain": "infotainment_digital",
+    "horizon": "H1",
+    "markets": [
+     "EU"
+    ],
+    "criteria": [
+     {
+      "basis": "evidence",
+      "market": "EU",
+      "method": "Function test",
+      "metric": "Playback of MP3 and AAC from a FAT32 or exFAT USB stick",
+      "target": "Yes"
+     }
+    ],
+    "findings": [
+     {
+      "id": "FND-F70-EU-VOC-usb_port",
+      "role": "primary"
+     }
+    ],
+    "recommend": true,
+    "statement": "The USB-C ports shall play audio files from a USB stick, without requiring a smartphone.",
+    "assumptions": [],
+    "uncertainties": [],
+    "evidence_level": "B",
+    "horizon_rationale": "Software (media player and USB data path), possibly a hub change in the life-cycle impulse.",
+    "recommend_rationale": "30 complaint rows, 17 wishes: owners copied their CDs to USB sticks and lost playback with the new generation; several say USB only charges."
+   },
+   "rationale": "30 complaint rows, 17 wishes: owners copied their CDs to USB sticks and lost playback with the new generation; several say USB only charges.",
+   "model_id": null,
+   "prompt_version": null,
+   "parent_event_id": null
+  },
+  {
+   "id": 3088,
+   "ts": "2026-10-11T02:43:05.203997+00:00",
+   "run_id": "RUN-20261011-024304-requirements.import-56c4",
+   "actor_type": "agent",
+   "actor_id": "assistant:claude-opus-5-5",
+   "action": "requirement.created",
+   "entity_type": "requirement",
+   "entity_id": "REQ-F70-EU-ID-06",
+   "before": null,
+   "after": {
+    "title": "Navigation route choice and clear guidance",
+    "domain": "infotainment_digital",
+    "horizon": "H1",
+    "markets": [
+     "EU"
+    ],
+    "criteria": [
+     {
+      "basis": "evidence",
+      "market": "EU",
+      "method": "Next EU customer study wave",
+      "metric": "Study navigation (1-10)",
+      "target": ">= 8.7 (today 8.30, peer 8.71)"
+     },
+     {
+      "basis": "assumption",
+      "market": "EU",
+      "method": "Function test",
+      "metric": "Route preference options",
+      "target": "Fastest, shortest, avoid narrow roads"
+     }
+    ],
+    "findings": [
+     {
+      "id": "FND-F70-EU-VOC-navigation",
+      "role": "primary"
+     },
+     {
+      "id": "FND-F70-EU-MET-cn_eu_2025-navigation",
+      "role": "supporting"
+     }
+    ],
+    "recommend": true,
+    "statement": "Navigation shall offer fastest, shortest and road-type preferences, avoid single-track lanes on main routes and keep map zoom operable without the touch screen.",
+    "assumptions": [],
+    "uncertainties": [],
+    "evidence_level": "B",
+    "horizon_rationale": "Software.",
+    "recommend_rationale": "Navigation draws 29 complaint rows (11 defects) about routes through narrow lanes and missing route options; the study scores navigation at 8.30 vs peer 8.71."
+   },
+   "rationale": "Navigation draws 29 complaint rows (11 defects) about routes through narrow lanes and missing route options; the study scores navigation at 8.30 vs peer 8.71.",
+   "model_id": null,
+   "prompt_version": null,
+   "parent_event_id": null
+  },
+  {
+   "id": 3089,
+   "ts": "2026-10-11T02:43:05.210515+00:00",
+   "run_id": "RUN-20261011-024304-requirements.import-56c4",
+   "actor_type": "agent",
+   "actor_id": "assistant:claude-opus-5-5",
+   "action": "requirement.created",
+   "entity_type": "requirement",
+   "entity_id": "REQ-F70-EU-IC-01",
+   "before": null,
+   "after": {
+    "title": "Supportive, durable seats with lumbar adjustment",
+    "domain": "interior_comfort",
+    "horizon": "H1",
+    "markets": [
+     "EU"
+    ],
+    "criteria": [
+     {
+      "basis": "assumption",
+      "market": "EU",
+      "method": "Customer feedback",
+      "metric": "Seat defect rows",
+      "target": "<= 8 per 6 months (today 24)"
+     },
+     {
+      "basis": "assumption",
+      "market": "EU",
+      "method": "Offer check",
+      "metric": "Lumbar adjustment",
+      "target": "Available on every trim with electric seats"
+     }
+    ],
+    "findings": [
+     {
+      "id": "FND-F70-EU-VOC-seats",
+      "role": "primary"
+     },
+     {
+      "id": "FND-F70-EU-EQ-seats",
+      "role": "context"
+     }
+    ],
+    "recommend": true,
+    "statement": "The front seats shall support the back on long drives, offer lumbar adjustment on the volume trims and keep their stitching and shape over the warranty period.",
+    "assumptions": [],
+    "uncertainties": [],
+    "evidence_level": "B",
+    "horizon_rationale": "Seat trim, foam and lumbar option within the life-cycle impulse.",
+    "recommend_rationale": "Seats draw 50 complaint rows with 24 defects (stitching, loss of shape, squeaks) and comfort complaints about M Sport seats; active seats are an option on all six variants."
+   },
+   "rationale": "Seats draw 50 complaint rows with 24 defects (stitching, loss of shape, squeaks) and comfort complaints about M Sport seats; active seats are an option on all six variants.",
+   "model_id": null,
+   "prompt_version": null,
+   "parent_event_id": null
+  },
+  {
+   "id": 3090,
+   "ts": "2026-10-11T02:43:05.221754+00:00",
+   "run_id": "RUN-20261011-024304-requirements.import-56c4",
+   "actor_type": "agent",
+   "actor_id": "assistant:claude-opus-5-5",
+   "action": "requirement.created",
+   "entity_type": "requirement",
+   "entity_id": "REQ-F70-EU-IC-02",
+   "before": null,
+   "after": {
+    "title": "Dual-zone climate as standard and rear ventilation",
+    "domain": "interior_comfort",
+    "horizon": "H1",
+    "markets": [
+     "EU"
+    ],
+    "criteria": [
+     {
+      "basis": "evidence",
+      "market": "EU",
+      "method": "Next EU customer study wave",
+      "metric": "Study climate control (1-10)",
+      "target": ">= 8.0 (today 7.31, peer 8.13)"
+     },
+     {
+      "basis": "assumption",
+      "market": "EU",
+      "method": "Offer check",
+      "metric": "Independent driver and passenger temperature",
+      "target": "Standard on all variants"
+     }
+    ],
+    "findings": [
+     {
+      "id": "FND-F70-EU-VOC-vehicle_climatization",
+      "role": "primary"
+     },
+     {
+      "id": "FND-F70-EU-VOC-air_conditioning_control_panel",
+      "role": "supporting"
+     },
+     {
+      "id": "FND-F70-EU-VOC-air_conditioning_setting",
+      "role": "supporting"
+     },
+     {
+      "id": "FND-F70-EU-MET-cn_eu_2025-climate_control",
+      "role": "supporting"
+     }
+    ],
+    "recommend": true,
+    "statement": "Driver and passenger temperatures shall be adjustable independently on every variant, the display shall not suggest zones that are not fitted, and rear passengers shall get air vents.",
+    "assumptions": [],
+    "uncertainties": [],
+    "evidence_level": "B",
+    "horizon_rationale": "Software activation plus standard-content decision; rear vents in the life-cycle impulse.",
+    "recommend_rationale": "Climatisation (24 rows), climate control panel (24) and climate settings (17, nine wishes) describe synced temperatures that cannot be split and a display that looks dual-zone; the study scores climate control at 7.31 vs peer 8.13, the largest interior gap."
+   },
+   "rationale": "Climatisation (24 rows), climate control panel (24) and climate settings (17, nine wishes) describe synced temperatures that cannot be split and a display that looks dual-zone; the study scores climate control at 7.31 vs peer 8.13, the largest interior gap.",
+   "model_id": null,
+   "prompt_version": null,
+   "parent_event_id": null
+  },
+  {
+   "id": 3091,
+   "ts": "2026-10-11T02:43:05.231353+00:00",
+   "run_id": "RUN-20261011-024304-requirements.import-56c4",
+   "actor_type": "agent",
+   "actor_id": "assistant:claude-opus-5-5",
+   "action": "requirement.created",
+   "entity_type": "requirement",
+   "entity_id": "REQ-F70-EU-IC-03",
+   "before": null,
+   "after": {
+    "title": "Cockpit lighting without reflections in the mirrors and windscreen",
+    "domain": "interior_comfort",
+    "horizon": "H1",
+    "markets": [
+     "EU"
+    ],
+    "criteria": [
+     {
+      "basis": "assumption",
+      "market": "EU",
+      "method": "Night visibility test",
+      "metric": "Visible reflection of interior lighting in the side mirrors at night",
+      "target": "None at default brightness"
+     }
+    ],
+    "findings": [
+     {
+      "id": "FND-F70-EU-VOC-instrument_panel",
+      "role": "primary"
+     }
+    ],
+    "recommend": true,
+    "statement": "Ambient and display lighting shall not reflect in the side mirrors, side windows or windscreen at night at any brightness setting.",
+    "assumptions": [],
+    "uncertainties": [],
+    "evidence_level": "B",
+    "horizon_rationale": "Light guide and default brightness changes.",
+    "recommend_rationale": "Instrument panel complaints (33 rows, 11 defects) include repeated reports that dash and ambient lights reflect in the door mirrors and windscreen at night, which owners call a safety issue."
+   },
+   "rationale": "Instrument panel complaints (33 rows, 11 defects) include repeated reports that dash and ambient lights reflect in the door mirrors and windscreen at night, which owners call a safety issue.",
+   "model_id": null,
+   "prompt_version": null,
+   "parent_event_id": null
+  },
+  {
+   "id": 3092,
+   "ts": "2026-10-11T02:43:05.238708+00:00",
+   "run_id": "RUN-20261011-024304-requirements.import-56c4",
+   "actor_type": "agent",
+   "actor_id": "assistant:claude-opus-5-5",
+   "action": "requirement.created",
+   "entity_type": "requirement",
+   "entity_id": "REQ-F70-EU-DD-01",
+   "before": null,
+   "after": {
+    "title": "Comfortable ride on poor road surfaces",
+    "domain": "driving_dynamics",
+    "horizon": "H1",
+    "markets": [
+     "EU"
+    ],
+    "criteria": [
+     {
+      "basis": "evidence",
+      "market": "EU",
+      "method": "Next EU customer study wave",
+      "metric": "Study ride comfort (1-10)",
+      "target": ">= 9.6 (today 9.20, peer 9.73)"
+     },
+     {
+      "basis": "assumption",
+      "market": "EU",
+      "method": "Offer check",
+      "metric": "Adaptive suspension",
+      "target": "Available as option on all variants"
+     }
+    ],
+    "findings": [
+     {
+      "id": "FND-F70-EU-VOC-cushioning_damping_vehicle",
+      "role": "primary"
+     },
+     {
+      "id": "FND-F70-EU-MET-cn_eu_2025-ride_comfort",
+      "role": "supporting"
+     },
+     {
+      "id": "FND-F70-EU-EQ-cushioning_damping_vehicle",
+      "role": "context"
+     }
+    ],
+    "recommend": true,
+    "statement": "Non-M variants shall offer a comfort-oriented suspension that absorbs sharp bumps on poor European roads without losing the car's sporty handling.",
+    "assumptions": [],
+    "uncertainties": [],
+    "evidence_level": "B",
+    "horizon_rationale": "Damper tuning and an adaptive-suspension option fit the life-cycle impulse.",
+    "recommend_rationale": "Suspension and damping draw 41 complaint rows (2.2 %, 12 wishes for a softer ride) and the study scores ride comfort at 9.20 vs peer 9.73; adaptive suspension is standard only on the M135."
+   },
+   "rationale": "Suspension and damping draw 41 complaint rows (2.2 %, 12 wishes for a softer ride) and the study scores ride comfort at 9.20 vs peer 9.73; adaptive suspension is standard only on the M135.",
+   "model_id": null,
+   "prompt_version": null,
+   "parent_event_id": null
+  },
+  {
+   "id": 3093,
+   "ts": "2026-10-11T02:43:05.247575+00:00",
+   "run_id": "RUN-20261011-024304-requirements.import-56c4",
+   "actor_type": "agent",
+   "actor_id": "assistant:claude-opus-5-5",
+   "action": "requirement.created",
+   "entity_type": "requirement",
+   "entity_id": "REQ-F70-EU-DD-02",
+   "before": null,
+   "after": {
+    "title": "Keep the sporty handling and the fuel economy in the next generation",
+    "domain": "driving_dynamics",
+    "horizon": "H2",
+    "markets": [
+     "EU"
+    ],
+    "criteria": [
+     {
+      "basis": "evidence",
+      "market": "EU",
+      "method": "Customer study of the successor",
+      "metric": "Study sportiness and fuel economy (1-10)",
+      "target": ">= 9.0 each"
+     }
+    ],
+    "findings": [
+     {
+      "id": "FND-F70-EU-MET-STRENGTH-cn_eu_2025-sportiness",
+      "role": "primary"
+     },
+     {
+      "id": "FND-F70-EU-MET-STRENGTH-cn_eu_2025-fuel_economy",
+      "role": "primary"
+     },
+     {
+      "id": "FND-F70-EU-VOC-STRENGTH-drive_driving_dynamics_and_chassis_overall_techn",
+      "role": "supporting"
+     }
+    ],
+    "recommend": true,
+    "statement": "The successor shall keep the agile handling and the fuel economy that customers praise today.",
+    "assumptions": [],
+    "uncertainties": [],
+    "evidence_level": "B",
+    "horizon_rationale": "Applies to the successor generation.",
+    "recommend_rationale": "Sportiness (9.34 vs peer 7.30) and fuel economy (9.30 vs 7.56) are the strongest study advantages; driving dynamics collects 415 likes. Strengths to protect."
+   },
+   "rationale": "Sportiness (9.34 vs peer 7.30) and fuel economy (9.30 vs 7.56) are the strongest study advantages; driving dynamics collects 415 likes. Strengths to protect.",
+   "model_id": null,
+   "prompt_version": null,
+   "parent_event_id": null
+  },
+  {
+   "id": 3094,
+   "ts": "2026-10-11T02:43:05.256036+00:00",
+   "run_id": "RUN-20261011-024304-requirements.import-56c4",
+   "actor_type": "agent",
+   "actor_id": "assistant:claude-opus-5-5",
+   "action": "requirement.created",
+   "entity_type": "requirement",
+   "entity_id": "REQ-F70-EU-PR-01",
+   "before": null,
+   "after": {
+    "title": "Smooth dual-clutch gearbox and immediate response when pulling away",
+    "domain": "powertrain_range_charging",
+    "horizon": "H1",
+    "markets": [
+     "EU"
+    ],
+    "criteria": [
+     {
+      "basis": "assumption",
+      "market": "EU",
+      "method": "Vehicle measurement",
+      "metric": "Delay from throttle input to traction when rolling below 10 km/h",
+      "target": "<= 0.3 s"
+     },
+     {
+      "basis": "evidence",
+      "market": "EU",
+      "method": "Next EU customer study wave",
+      "metric": "Study acceleration (1-10)",
+      "target": ">= 8.8 (today 8.21, peer 8.90)"
+     },
+     {
+      "basis": "assumption",
+      "market": "EU",
+      "method": "Customer feedback",
+      "metric": "Pull-away and gearbox complaint rows",
+      "target": "-50 % within 12 months"
+     }
+    ],
+    "findings": [
+     {
+      "id": "FND-F70-EU-VOC-drivetrain",
+      "role": "primary"
+     },
+     {
+      "id": "FND-F70-EU-VOC-transmission",
+      "role": "primary"
+     },
+     {
+      "id": "FND-F70-EU-MET-cn_eu_2025-acceleration",
+      "role": "supporting"
+     }
+    ],
+    "recommend": true,
+    "statement": "The car shall pull away without a perceptible delay or jerk, including when the throttle is pressed while still rolling, and the gearbox shall shift smoothly at low speed and when cold.",
+    "assumptions": [],
+    "uncertainties": [],
+    "evidence_level": "B",
+    "horizon_rationale": "Engine, hybrid and gearbox calibration.",
+    "recommend_rationale": "Drivetrain complaints (123 rows, 6.5 %, 73 usability) and transmission complaints (48 rows, 12 defects) describe a dead spot when pulling away at junctions and jerky DCT behaviour; the study scores acceleration at 8.21 vs 8.90."
+   },
+   "rationale": "Drivetrain complaints (123 rows, 6.5 %, 73 usability) and transmission complaints (48 rows, 12 defects) describe a dead spot when pulling away at junctions and jerky DCT behaviour; the study scores acceleration at 8.21 vs 8.90.",
+   "model_id": null,
+   "prompt_version": null,
+   "parent_event_id": null
+  },
+  {
+   "id": 3095,
+   "ts": "2026-10-11T02:43:05.263856+00:00",
+   "run_id": "RUN-20261011-024304-requirements.import-56c4",
+   "actor_type": "agent",
+   "actor_id": "assistant:claude-opus-5-5",
+   "action": "requirement.created",
+   "entity_type": "requirement",
+   "entity_id": "REQ-F70-EU-SP-01",
+   "before": null,
+   "after": {
+    "title": "Practical boot with power tailgate and luggage fixtures",
+    "domain": "space_practicality",
+    "horizon": "H1",
+    "markets": [
+     "EU"
+    ],
+    "criteria": [
+     {
+      "basis": "evidence",
+      "market": "EU",
+      "method": "Next EU customer study wave",
+      "metric": "Study loading ease (1-10)",
+      "target": ">= 7.9 (today 7.50, peer 7.95)"
+     },
+     {
+      "basis": "evidence",
+      "market": "EU",
+      "method": "Offer check",
+      "metric": "Tie-down points and 12 V socket in the boot",
+      "target": "Every variant"
+     }
+    ],
+    "findings": [
+     {
+      "id": "FND-F70-EU-VOC-luggage_compartment",
+      "role": "primary"
+     },
+     {
+      "id": "FND-F70-EU-VOC-trunk_lid_open_close",
+      "role": "supporting"
+     },
+     {
+      "id": "FND-F70-EU-VOC-trunk_lid",
+      "role": "supporting"
+     },
+     {
+      "id": "FND-F70-EU-MET-cn_eu_2025-loading_ease",
+      "role": "supporting"
+     },
+     {
+      "id": "FND-F70-EU-EQ-luggage_compartment",
+      "role": "context"
+     }
+    ],
+    "recommend": true,
+    "statement": "The boot shall offer tie-down points, a 12 V socket and a parcel shelf that stays in place; the tailgate shall close from a button on the lid where a power tailgate is fitted.",
+    "assumptions": [],
+    "uncertainties": [],
+    "evidence_level": "B",
+    "horizon_rationale": "Boot fixtures and offer changes in the life-cycle impulse.",
+    "recommend_rationale": "Luggage compartment (23 rows), trunk lid (15 defects) and tailgate operation (19 rows, 12 wishes) complaints match the study gaps in cargo capacity (7.07 vs 7.47) and loading ease (7.50 vs 7.95); the power tailgate is an option on all variants."
+   },
+   "rationale": "Luggage compartment (23 rows), trunk lid (15 defects) and tailgate operation (19 rows, 12 wishes) complaints match the study gaps in cargo capacity (7.07 vs 7.47) and loading ease (7.50 vs 7.95); the power tailgate is an option on all variants.",
+   "model_id": null,
+   "prompt_version": null,
+   "parent_event_id": null
+  },
+  {
+   "id": 3096,
+   "ts": "2026-10-11T02:43:05.272015+00:00",
+   "run_id": "RUN-20261011-024304-requirements.import-56c4",
+   "actor_type": "agent",
+   "actor_id": "assistant:claude-opus-5-5",
+   "action": "requirement.created",
+   "entity_type": "requirement",
+   "entity_id": "REQ-F70-EU-DA-01",
+   "before": null,
+   "after": {
+    "title": "Assistance systems that help instead of irritating",
+    "domain": "driver_assistance",
+    "horizon": "H1",
+    "markets": [
+     "EU"
+    ],
+    "criteria": [
+     {
+      "basis": "assumption",
+      "market": "EU",
+      "method": "Function test",
+      "metric": "Presses to switch off speed-limit warning and lane assistance",
+      "target": "1 (one shortcut for both)"
+     },
+     {
+      "basis": "assumption",
+      "market": "EU",
+      "method": "Customer feedback",
+      "metric": "Unjustified emergency brake interventions reported",
+      "target": "0 in the next feedback wave"
+     }
+    ],
+    "findings": [
+     {
+      "id": "FND-F70-EU-VOC-driver_assistance_automated_driving_overall_tech",
+      "role": "primary"
+     },
+     {
+      "id": "FND-F70-EU-VOC-speed_limit_assistant",
+      "role": "supporting"
+     }
+    ],
+    "recommend": true,
+    "statement": "Speed-limit warning and lane assistance shall be switchable off with one press per drive, and the emergency brake shall not intervene without a real obstacle.",
+    "assumptions": [],
+    "uncertainties": [
+     "EU General Safety Regulation requires these systems to be active at every start; only the switch-off effort can change."
+    ],
+    "evidence_level": "B",
+    "horizon_rationale": "Software within the limits of EU safety regulation.",
+    "recommend_rationale": "Driver assistance draws 24 rows with 17 defects (unexpected braking) and the speed-limit assistant 16 rows (14 usability) because it must be switched off after every start."
+   },
+   "rationale": "Driver assistance draws 24 rows with 17 defects (unexpected braking) and the speed-limit assistant 16 rows (14 usability) because it must be switched off after every start.",
+   "model_id": null,
+   "prompt_version": null,
+   "parent_event_id": null
+  },
+  {
+   "id": 3097,
+   "ts": "2026-10-11T02:43:05.279974+00:00",
+   "run_id": "RUN-20261011-024304-requirements.import-56c4",
+   "actor_type": "agent",
+   "actor_id": "assistant:claude-opus-5-5",
+   "action": "requirement.created",
+   "entity_type": "requirement",
+   "entity_id": "REQ-F70-EU-EX-01",
+   "before": null,
+   "after": {
+    "title": "Reliable exterior lights and helpful door mirrors",
+    "domain": "exterior_design",
+    "horizon": "H1",
+    "markets": [
+     "EU"
+    ],
+    "criteria": [
+     {
+      "basis": "assumption",
+      "market": "EU",
+      "method": "Customer feedback",
+      "metric": "Lighting defect rows",
+      "target": "<= 5 per 6 months (today 19)"
+     },
+     {
+      "basis": "assumption",
+      "market": "EU",
+      "method": "Offer check",
+      "metric": "Kerb-side mirror tilt in reverse",
+      "target": "Standard on all variants"
+     }
+    ],
+    "findings": [
+     {
+      "id": "FND-F70-EU-VOC-exterior_lighting",
+      "role": "primary"
+     },
+     {
+      "id": "FND-F70-EU-VOC-exterior_rearview_mirror",
+      "role": "primary"
+     }
+    ],
+    "recommend": true,
+    "statement": "Exterior lights shall work without fault messages; door mirrors shall tilt down on the kerb side when reversing and fold automatically when locking.",
+    "assumptions": [],
+    "uncertainties": [],
+    "evidence_level": "B",
+    "horizon_rationale": "Production quality and software functions.",
+    "recommend_rationale": "Exterior lighting draws 26 rows with 19 defects (failed or falsely reported lamps); door mirrors 28 rows with 11 wishes for kerb tilt and auto-fold that previous 1 Series had."
+   },
+   "rationale": "Exterior lighting draws 26 rows with 19 defects (failed or falsely reported lamps); door mirrors 28 rows with 11 wishes for kerb tilt and auto-fold that previous 1 Series had.",
+   "model_id": null,
+   "prompt_version": null,
+   "parent_event_id": null
+  },
+  {
+   "id": 3098,
+   "ts": "2026-10-11T02:43:05.287973+00:00",
+   "run_id": "RUN-20261011-024304-requirements.import-56c4",
+   "actor_type": "agent",
+   "actor_id": "assistant:claude-opus-5-5",
+   "action": "requirement.created",
+   "entity_type": "requirement",
+   "entity_id": "REQ-F70-EU-EX-02",
+   "before": null,
+   "after": {
+    "title": "Quiet tyres and wheels that are easy to clean",
+    "domain": "exterior_design",
+    "horizon": "H1",
+    "markets": [
+     "EU"
+    ],
+    "criteria": [
+     {
+      "basis": "assumption",
+      "market": "EU",
+      "method": "Tyre label",
+      "metric": "EU tyre label noise class of standard tyres",
+      "target": "A (<= 70 dB)"
+     },
+     {
+      "basis": "assumption",
+      "market": "EU",
+      "method": "Warranty data",
+      "metric": "Wheel corrosion reports in the first year",
+      "target": "0"
+     }
+    ],
+    "findings": [
+     {
+      "id": "FND-F70-EU-VOC-wheels_tires",
+      "role": "primary"
+     },
+     {
+      "id": "FND-F70-EU-EQ-wheels_tires",
+      "role": "context"
+     }
+    ],
+    "recommend": true,
+    "statement": "Standard tyres shall keep road noise low on rough surfaces, and wheel designs shall be easy to clean and resist corrosion.",
+    "assumptions": [],
+    "uncertainties": [],
+    "evidence_level": "B",
+    "horizon_rationale": "Tyre sourcing and wheel design in the life-cycle impulse.",
+    "recommend_rationale": "Wheels and tyres draw 34 complaint rows (15 defects): tyre noise, early corrosion and intricate wheel designs that are hard to clean."
+   },
+   "rationale": "Wheels and tyres draw 34 complaint rows (15 defects): tyre noise, early corrosion and intricate wheel designs that are hard to clean.",
+   "model_id": null,
+   "prompt_version": null,
+   "parent_event_id": null
+  },
+  {
+   "id": 3099,
+   "ts": "2026-10-11T02:43:05.296214+00:00",
+   "run_id": "RUN-20261011-024304-requirements.import-56c4",
+   "actor_type": "agent",
+   "actor_id": "assistant:claude-opus-5-5",
+   "action": "requirement.created",
+   "entity_type": "requirement",
+   "entity_id": "REQ-F70-EU-QN-01",
+   "before": null,
+   "after": {
+    "title": "Quiet, solid-feeling cabin without rattles",
+    "domain": "quality_nvh",
+    "horizon": "H1",
+    "markets": [
+     "EU"
+    ],
+    "criteria": [
+     {
+      "basis": "evidence",
+      "market": "EU",
+      "method": "Next EU customer study wave",
+      "metric": "Study quietness (1-10)",
+      "target": ">= 8.5 (today 7.62, peer 8.79)"
+     },
+     {
+      "basis": "assumption",
+      "market": "EU",
+      "method": "Acoustic measurement",
+      "metric": "Interior noise at 130 km/h",
+      "target": "Segment benchmark (value to be set by engineering)"
+     }
+    ],
+    "findings": [
+     {
+      "id": "FND-F70-EU-MET-cn_eu_2025-quietness",
+      "role": "primary"
+     },
+     {
+      "id": "FND-F70-EU-VOC-door_front",
+      "role": "supporting"
+     },
+     {
+      "id": "FND-F70-EU-MET-cn_eu_2025-build_quality",
+      "role": "supporting"
+     }
+    ],
+    "recommend": true,
+    "statement": "Doors and interior trim shall be free of rattles and buzzing, and the cabin noise at motorway speed shall match the premium compact segment.",
+    "assumptions": [],
+    "uncertainties": [],
+    "evidence_level": "B",
+    "horizon_rationale": "Acoustic package and assembly fixes.",
+    "recommend_rationale": "Front door complaints (16 rows, 13 defects: buzzing, rattles) support the study gaps in quietness (7.62 vs peer 8.79, the largest gap of the car) and build quality (7.95 vs 8.23)."
+   },
+   "rationale": "Front door complaints (16 rows, 13 defects: buzzing, rattles) support the study gaps in quietness (7.62 vs peer 8.79, the largest gap of the car) and build quality (7.95 vs 8.23).",
+   "model_id": null,
+   "prompt_version": null,
+   "parent_event_id": null
+  },
+  {
+   "id": 3100,
+   "ts": "2026-10-11T02:43:05.305189+00:00",
+   "run_id": "RUN-20261011-024304-requirements.import-56c4",
+   "actor_type": "agent",
+   "actor_id": "assistant:claude-opus-5-5",
+   "action": "requirement.created",
+   "entity_type": "requirement",
+   "entity_id": "REQ-F70-EU-GE-01",
+   "before": null,
+   "after": {
+    "title": "No silent de-contenting against the previous 1 Series",
+    "domain": "general",
+    "horizon": "H1",
+    "markets": [
+     "EU"
+    ],
+    "criteria": [
+     {
+      "basis": "assumption",
+      "market": "EU",
+      "method": "Offer check",
+      "metric": "Listed items standard on the M Sport trim",
+      "target": "All"
+     },
+     {
+      "basis": "assumption",
+      "market": "EU",
+      "method": "Customer feedback",
+      "metric": "Complaint rows about missing standard equipment",
+      "target": "-50 % within 12 months"
+     }
+    ],
+    "findings": [
+     {
+      "id": "FND-F70-EU-VOC-body_equipment_overall_technology",
+      "role": "primary"
+     }
+    ],
+    "recommend": true,
+    "statement": "Items that loyal customers used on the previous generation (12 V socket in the boot, rear USB charging, mirror kerb tilt, dual-zone climate, fog lights, glove-box light) shall stay standard on the comparable trim, or the change shall be shown clearly at configuration.",
+    "assumptions": [],
+    "uncertainties": [
+     "Cost impact not quantified; rough effort follows in Phase 5."
+    ],
+    "evidence_level": "B",
+    "horizon_rationale": "Standard-content and configurator decision.",
+    "recommend_rationale": "The general equipment theme draws 73 complaint rows with 35 wishes, mostly from repeat buyers listing features that were standard on the F40 and are now missing or optional."
+   },
+   "rationale": "The general equipment theme draws 73 complaint rows with 35 wishes, mostly from repeat buyers listing features that were standard on the F40 and are now missing or optional.",
+   "model_id": null,
+   "prompt_version": null,
+   "parent_event_id": null
+  },
+  {
+   "id": 3145,
+   "ts": "2026-10-11T02:43:09.045740+00:00",
+   "run_id": "RUN-20261011-024308-effort.estimate-321f",
+   "actor_type": "system",
+   "actor_id": "effort-engine",
+   "action": "effort.estimated",
+   "entity_type": "requirement",
+   "entity_id": "REQ-F70-EU-ID-01",
+   "before": null,
+   "after": {
+    "p5": 2.13,
+    "p95": 6.41,
+    "kind": "change",
+    "note": null,
+    "size": "S",
+    "flags": [],
+    "layer": "K2",
+    "changes": [
+     {
+      "why": "New console with physical climate keys and a rotary controller; the iDrive Controller is standard on G60 and G70 (not listed as a catalogue item)",
+      "layer": "K2",
+      "carryover": true,
+      "subsystem": "interior_console",
+      "own_impact": 0.25,
+      "portfolio_terms": []
+     },
+     {
+      "why": "Controller support in an OS that was built touch-first",
+      "layer": "K2",
+      "carryover": false,
+      "subsystem": "software_hmi",
+      "own_impact": 0.08,
+      "portfolio_terms": []
+     }
+    ],
+    "decision": "adapt",
+    "portfolio": [],
+    "effort_pct": 4.17,
+    "model_hash": "789fcb7624b8",
+    "subsystems": [
+     {
+      "name": "Interior/console",
+      "path": null,
+      "risk": 0.25,
+      "subsystem": "interior_console",
+      "effort_pct": 2.03
+     },
+     {
+      "name": "Software/HMI",
+      "path": null,
+      "risk": 0.1427,
+      "subsystem": "software_hmi",
+      "effort_pct": 1.66
+     },
+     {
+      "name": "E/E architecture",
+      "path": [
+       "Interior/console",
+       "E/E architecture"
+      ],
+      "risk": 0.0296,
+      "subsystem": "ee_architecture",
+      "effort_pct": 0.31
+     },
+     {
+      "name": "Seats",
+      "path": [
+       "Interior/console",
+       "Seats"
+      ],
+      "risk": 0.015,
+      "subsystem": "seats",
+      "effort_pct": 0.09
+     },
+     {
+      "name": "Thermal/HVAC",
+      "path": [
+       "Interior/console",
+       "Seats",
+       "Thermal/HVAC"
+      ],
+      "risk": 0.0106,
+      "subsystem": "thermal_hvac",
+      "effort_pct": 0.07
+     }
+    ],
+    "certification": false,
+    "decision_stable_pct": 100,
+    "requirement_version": 1
+   },
+   "rationale": "CPM effort model 789fcb7624b8, profile by assistant",
+   "model_id": null,
+   "prompt_version": null,
+   "parent_event_id": null
+  },
+  {
+   "id": 3146,
+   "ts": "2026-10-11T02:43:09.064111+00:00",
+   "run_id": "RUN-20261011-024308-effort.estimate-321f",
+   "actor_type": "system",
+   "actor_id": "effort-engine",
+   "action": "effort.estimated",
+   "entity_type": "requirement",
+   "entity_id": "REQ-F70-EU-ID-02",
+   "before": null,
+   "after": {
+    "p5": 0.45,
+    "p95": 1.72,
+    "kind": "change",
+    "note": null,
+    "size": "XS",
+    "flags": [],
+    "layer": "K1",
+    "changes": [
+     {
+      "why": "Stability fixes and settings migration across OTA updates",
+      "layer": "K1",
+      "carryover": false,
+      "subsystem": "software_hmi",
+      "own_impact": 0.08,
+      "portfolio_terms": []
+     }
+    ],
+    "decision": "adapt",
+    "portfolio": [],
+    "effort_pct": 0.99,
+    "model_hash": "789fcb7624b8",
+    "subsystems": [
+     {
+      "name": "Software/HMI",
+      "path": null,
+      "risk": 0.08,
+      "subsystem": "software_hmi",
+      "effort_pct": 0.93
+     },
+     {
+      "name": "E/E architecture",
+      "path": [
+       "Software/HMI",
+       "E/E architecture"
+      ],
+      "risk": 0.0053,
+      "subsystem": "ee_architecture",
+      "effort_pct": 0.06
+     }
+    ],
+    "certification": false,
+    "decision_stable_pct": 100,
+    "requirement_version": 1
+   },
+   "rationale": "CPM effort model 789fcb7624b8, profile by assistant",
+   "model_id": null,
+   "prompt_version": null,
+   "parent_event_id": null
+  },
+  {
+   "id": 3147,
+   "ts": "2026-10-11T02:43:09.068545+00:00",
+   "run_id": "RUN-20261011-024308-effort.estimate-321f",
+   "actor_type": "system",
+   "actor_id": "effort-engine",
+   "action": "effort.estimated",
+   "entity_type": "requirement",
+   "entity_id": "REQ-F70-EU-ID-03",
+   "before": null,
+   "after": {
+    "p5": 0,
+    "p95": 0,
+    "kind": "no_vehicle_change",
+    "note": "Offer and licensing decision; no hardware or software change.",
+    "size": "-",
+    "flags": [],
+    "layer": "K0",
+    "changes": [],
+    "decision": "no change",
+    "portfolio": [],
+    "effort_pct": 0,
+    "model_hash": "789fcb7624b8",
+    "subsystems": [],
+    "certification": false,
+    "decision_stable_pct": 100,
+    "requirement_version": 1
+   },
+   "rationale": "CPM effort model 789fcb7624b8, profile by assistant",
+   "model_id": null,
+   "prompt_version": null,
+   "parent_event_id": null
+  },
+  {
+   "id": 3148,
+   "ts": "2026-10-11T02:43:09.080006+00:00",
+   "run_id": "RUN-20261011-024308-effort.estimate-321f",
+   "actor_type": "system",
+   "actor_id": "effort-engine",
+   "action": "effort.estimated",
+   "entity_type": "requirement",
+   "entity_id": "REQ-F70-EU-ID-04",
+   "before": null,
+   "after": {
+    "p5": 0.1,
+    "p95": 0.41,
+    "kind": "change",
+    "note": null,
+    "size": "XS",
+    "flags": [],
+    "layer": "K0",
+    "changes": [
+     {
+      "why": "Searchable in-car manual filtered by fitted equipment; the printed handbook is not a vehicle change",
+      "layer": "K0",
+      "carryover": false,
+      "subsystem": "software_hmi",
+      "own_impact": 0.02,
+      "portfolio_terms": []
+     }
+    ],
+    "decision": "adapt",
+    "portfolio": [],
+    "effort_pct": 0.23,
+    "model_hash": "789fcb7624b8",
+    "subsystems": [
+     {
+      "name": "Software/HMI",
+      "path": null,
+      "risk": 0.02,
+      "subsystem": "software_hmi",
+      "effort_pct": 0.23
+     }
+    ],
+    "certification": false,
+    "decision_stable_pct": 100,
+    "requirement_version": 1
+   },
+   "rationale": "CPM effort model 789fcb7624b8, profile by assistant",
+   "model_id": null,
+   "prompt_version": null,
+   "parent_event_id": null
+  },
+  {
+   "id": 3149,
+   "ts": "2026-10-11T02:43:09.101890+00:00",
+   "run_id": "RUN-20261011-024308-effort.estimate-321f",
+   "actor_type": "system",
+   "actor_id": "effort-engine",
+   "action": "effort.estimated",
+   "entity_type": "requirement",
+   "entity_id": "REQ-F70-EU-ID-05",
+   "before": null,
+   "after": {
+    "p5": 0.17,
+    "p95": 0.65,
+    "kind": "change",
+    "note": null,
+    "size": "XS",
+    "flags": [],
+    "layer": "K1",
+    "changes": [
+     {
+      "why": "Media player and USB mass-storage data path",
+      "layer": "K1",
+      "carryover": false,
+      "subsystem": "software_hmi",
+      "own_impact": 0.03,
+      "portfolio_terms": []
+     }
+    ],
+    "decision": "adapt",
+    "portfolio": [],
+    "effort_pct": 0.37,
+    "model_hash": "789fcb7624b8",
+    "subsystems": [
+     {
+      "name": "Software/HMI",
+      "path": null,
+      "risk": 0.03,
+      "subsystem": "software_hmi",
+      "effort_pct": 0.35
+     },
+     {
+      "name": "E/E architecture",
+      "path": [
+       "Software/HMI",
+       "E/E architecture"
+      ],
+      "risk": 0.002,
+      "subsystem": "ee_architecture",
+      "effort_pct": 0.02
+     }
+    ],
+    "certification": false,
+    "decision_stable_pct": 100,
+    "requirement_version": 1
+   },
+   "rationale": "CPM effort model 789fcb7624b8, profile by assistant",
+   "model_id": null,
+   "prompt_version": null,
+   "parent_event_id": null
+  },
+  {
+   "id": 3150,
+   "ts": "2026-10-11T02:43:09.122982+00:00",
+   "run_id": "RUN-20261011-024308-effort.estimate-321f",
+   "actor_type": "system",
+   "actor_id": "effort-engine",
+   "action": "effort.estimated",
+   "entity_type": "requirement",
+   "entity_id": "REQ-F70-EU-ID-06",
+   "before": null,
+   "after": {
+    "p5": 0.22,
+    "p95": 0.86,
+    "kind": "change",
+    "note": null,
+    "size": "XS",
+    "flags": [],
+    "layer": "K1",
+    "changes": [
+     {
+      "why": "Route preferences, road-class filter, zoom without the touch screen",
+      "layer": "K1",
+      "carryover": false,
+      "subsystem": "software_hmi",
+      "own_impact": 0.04,
+      "portfolio_terms": []
+     }
+    ],
+    "decision": "adapt",
+    "portfolio": [],
+    "effort_pct": 0.49,
+    "model_hash": "789fcb7624b8",
+    "subsystems": [
+     {
+      "name": "Software/HMI",
+      "path": null,
+      "risk": 0.04,
+      "subsystem": "software_hmi",
+      "effort_pct": 0.47
+     },
+     {
+      "name": "E/E architecture",
+      "path": [
+       "Software/HMI",
+       "E/E architecture"
+      ],
+      "risk": 0.0027,
+      "subsystem": "ee_architecture",
+      "effort_pct": 0.03
+     }
+    ],
+    "certification": false,
+    "decision_stable_pct": 100,
+    "requirement_version": 1
+   },
+   "rationale": "CPM effort model 789fcb7624b8, profile by assistant",
+   "model_id": null,
+   "prompt_version": null,
+   "parent_event_id": null
+  },
+  {
+   "id": 3151,
+   "ts": "2026-10-11T02:43:09.171793+00:00",
+   "run_id": "RUN-20261011-024308-effort.estimate-321f",
+   "actor_type": "system",
+   "actor_id": "effort-engine",
+   "action": "effort.estimated",
+   "entity_type": "requirement",
+   "entity_id": "REQ-F70-EU-IC-01",
+   "before": null,
+   "after": {
+    "p5": 1,
+    "p95": 3.69,
+    "kind": "change",
+    "note": null,
+    "size": "S",
+    "flags": [],
+    "layer": "K1",
+    "changes": [
+     {
+      "why": "Foam, trim durability and a lumbar option; lumbar support is standard on the G60",
+      "layer": "K1",
+      "carryover": true,
+      "subsystem": "seats",
+      "own_impact": 0.2,
+      "portfolio_terms": [
+       "Lordosenstütze",
+       "Lumbar support"
+      ]
+     }
+    ],
+    "decision": "adapt",
+    "portfolio": [
+     {
+      "level": 2,
+      "terms": [
+       "Lordosenstütze",
+       "Lumbar support"
+      ],
+      "vehicles": {
+       "G60": {
+        "item": "Lumbar support for driver and front passenger",
+        "status": "standard"
+       }
+      },
+      "subsystem": "seats",
+      "own_variants": {
+       "total": 6,
+       "optional": 0,
+       "standard": 0
+      }
+     }
+    ],
+    "effort_pct": 2.13,
+    "model_hash": "789fcb7624b8",
+    "subsystems": [
+     {
+      "name": "Seats",
+      "path": null,
+      "risk": 0.2,
+      "subsystem": "seats",
+      "effort_pct": 1.16
+     },
+     {
+      "name": "Software/HMI",
+      "path": [
+       "Seats",
+       "E/E architecture",
+       "Software/HMI"
+      ],
+      "risk": 0.0559,
+      "subsystem": "software_hmi",
+      "effort_pct": 0.65
+     },
+     {
+      "name": "E/E architecture",
+      "path": [
+       "Seats",
+       "E/E architecture"
+      ],
+      "risk": 0.0203,
+      "subsystem": "ee_architecture",
+      "effort_pct": 0.21
+     },
+     {
+      "name": "Thermal/HVAC",
+      "path": [
+       "Seats",
+       "Thermal/HVAC"
+      ],
+      "risk": 0.015,
+      "subsystem": "thermal_hvac",
+      "effort_pct": 0.1
+     }
+    ],
+    "certification": false,
+    "decision_stable_pct": 100,
+    "requirement_version": 1
+   },
+   "rationale": "CPM effort model 789fcb7624b8, profile by assistant",
+   "model_id": null,
+   "prompt_version": null,
+   "parent_event_id": null
+  },
+  {
+   "id": 3152,
+   "ts": "2026-10-11T02:43:09.251886+00:00",
+   "run_id": "RUN-20261011-024308-effort.estimate-321f",
+   "actor_type": "system",
+   "actor_id": "effort-engine",
+   "action": "effort.estimated",
+   "entity_type": "requirement",
+   "entity_id": "REQ-F70-EU-IC-02",
+   "before": null,
+   "after": {
+    "p5": 1.24,
+    "p95": 4.77,
+    "kind": "change",
+    "note": null,
+    "size": "S",
+    "flags": [],
+    "layer": "K2",
+    "changes": [
+     {
+      "why": "Dual zone as standard content and a display that matches the fitted zones",
+      "layer": "K0",
+      "carryover": false,
+      "subsystem": "thermal_hvac",
+      "own_impact": 0.02,
+      "portfolio_terms": [
+       "2-Zonen",
+       "2-zone"
+      ]
+     },
+     {
+      "why": "Rear air vents need ducts through the centre console",
+      "layer": "K2",
+      "carryover": false,
+      "subsystem": "interior_console",
+      "own_impact": 0.1,
+      "portfolio_terms": []
+     }
+    ],
+    "decision": "adapt",
+    "portfolio": [
+     {
+      "level": 0,
+      "terms": [
+       "2-Zonen",
+       "2-zone"
+      ],
+      "vehicles": {
+       "F70": {
+        "item": "2-zone automatic climate control with extended features",
+        "status": "standard"
+       }
+      },
+      "subsystem": "thermal_hvac",
+      "own_variants": {
+       "total": 6,
+       "optional": 0,
+       "standard": 6
+      }
+     }
+    ],
+    "effort_pct": 2.55,
+    "model_hash": "789fcb7624b8",
+    "subsystems": [
+     {
+      "name": "Software/HMI",
+      "path": [
+       "Interior/console",
+       "E/E architecture",
+       "Software/HMI"
+      ],
+      "risk": 0.0902,
+      "subsystem": "software_hmi",
+      "effort_pct": 1.05
+     },
+     {
+      "name": "Interior/console",
+      "path": null,
+      "risk": 0.1,
+      "subsystem": "interior_console",
+      "effort_pct": 0.81
+     },
+     {
+      "name": "E/E architecture",
+      "path": [
+       "Interior/console",
+       "E/E architecture"
+      ],
+      "risk": 0.0325,
+      "subsystem": "ee_architecture",
+      "effort_pct": 0.34
+     },
+     {
+      "name": "Thermal/HVAC",
+      "path": null,
+      "risk": 0.0338,
+      "subsystem": "thermal_hvac",
+      "effort_pct": 0.24
+     },
+     {
+      "name": "Seats",
+      "path": [
+       "Interior/console",
+       "Seats"
+      ],
+      "risk": 0.02,
+      "subsystem": "seats",
+      "effort_pct": 0.12
+     }
+    ],
+    "certification": false,
+    "decision_stable_pct": 100,
+    "requirement_version": 1
+   },
+   "rationale": "CPM effort model 789fcb7624b8, profile by assistant",
+   "model_id": null,
+   "prompt_version": null,
+   "parent_event_id": null
+  },
+  {
+   "id": 3153,
+   "ts": "2026-10-11T02:43:09.322877+00:00",
+   "run_id": "RUN-20261011-024308-effort.estimate-321f",
+   "actor_type": "system",
+   "actor_id": "effort-engine",
+   "action": "effort.estimated",
+   "entity_type": "requirement",
+   "entity_id": "REQ-F70-EU-IC-03",
+   "before": null,
+   "after": {
+    "p5": 0.58,
+    "p95": 2.33,
+    "kind": "change",
+    "note": null,
+    "size": "S",
+    "flags": [],
+    "layer": "K1",
+    "changes": [
+     {
+      "why": "Light guides and default brightness",
+      "layer": "K1",
+      "carryover": false,
+      "subsystem": "interior_console",
+      "own_impact": 0.05,
+      "portfolio_terms": []
+     }
+    ],
+    "decision": "adapt",
+    "portfolio": [],
+    "effort_pct": 1.22,
+    "model_hash": "789fcb7624b8",
+    "subsystems": [
+     {
+      "name": "Software/HMI",
+      "path": [
+       "Interior/console",
+       "E/E architecture",
+       "Software/HMI"
+      ],
+      "risk": 0.0458,
+      "subsystem": "software_hmi",
+      "effort_pct": 0.53
+     },
+     {
+      "name": "Interior/console",
+      "path": null,
+      "risk": 0.05,
+      "subsystem": "interior_console",
+      "effort_pct": 0.41
+     },
+     {
+      "name": "E/E architecture",
+      "path": [
+       "Interior/console",
+       "E/E architecture"
+      ],
+      "risk": 0.0163,
+      "subsystem": "ee_architecture",
+      "effort_pct": 0.17
+     },
+     {
+      "name": "Seats",
+      "path": [
+       "Interior/console",
+       "Seats"
+      ],
+      "risk": 0.01,
+      "subsystem": "seats",
+      "effort_pct": 0.06
+     },
+     {
+      "name": "Thermal/HVAC",
+      "path": [
+       "Interior/console",
+       "Seats",
+       "Thermal/HVAC"
+      ],
+      "risk": 0.0071,
+      "subsystem": "thermal_hvac",
+      "effort_pct": 0.05
+     }
+    ],
+    "certification": false,
+    "decision_stable_pct": 100,
+    "requirement_version": 1
+   },
+   "rationale": "CPM effort model 789fcb7624b8, profile by assistant",
+   "model_id": null,
+   "prompt_version": null,
+   "parent_event_id": null
+  },
+  {
+   "id": 3154,
+   "ts": "2026-10-11T02:43:09.373756+00:00",
+   "run_id": "RUN-20261011-024308-effort.estimate-321f",
+   "actor_type": "system",
+   "actor_id": "effort-engine",
+   "action": "effort.estimated",
+   "entity_type": "requirement",
+   "entity_id": "REQ-F70-EU-DD-01",
+   "before": null,
+   "after": {
+    "p5": 0.97,
+    "p95": 3.51,
+    "kind": "change",
+    "note": null,
+    "size": "S",
+    "flags": [
+     {
+      "rule": "43",
+      "text": "chassis: already standard on F70 (standard on 1, optional on 0 of 6 F70 variants); check whether only configuration (K0) is needed",
+      "level": "info"
+     }
+    ],
+    "layer": "K1",
+    "changes": [
+     {
+      "why": "Comfort damper tuning; adaptive suspension exists on the M variants",
+      "layer": "K1",
+      "carryover": true,
+      "subsystem": "chassis",
+      "own_impact": 0.15,
+      "portfolio_terms": [
+       "Adaptive M suspension",
+       "Adaptives M Fahrwerk"
+      ]
+     }
+    ],
+    "decision": "adapt",
+    "portfolio": [
+     {
+      "level": 0,
+      "terms": [
+       "Adaptive M suspension",
+       "Adaptives M Fahrwerk"
+      ],
+      "vehicles": {
+       "F70": {
+        "item": "Adaptive M suspension",
+        "status": "standard"
+       },
+       "G60": {
+        "item": "Adaptive M suspension Professional",
+        "status": "optional"
+       }
+      },
+      "subsystem": "chassis",
+      "own_variants": {
+       "total": 6,
+       "optional": 0,
+       "standard": 1
+      }
+     }
+    ],
+    "effort_pct": 2.07,
+    "model_hash": "789fcb7624b8",
+    "subsystems": [
+     {
+      "name": "Chassis",
+      "path": null,
+      "risk": 0.15,
+      "subsystem": "chassis",
+      "effort_pct": 1.74
+     },
+     {
+      "name": "Body/structure",
+      "path": [
+       "Chassis",
+       "Body/structure"
+      ],
+      "risk": 0.009,
+      "subsystem": "body_structure",
+      "effort_pct": 0.19
+     },
+     {
+      "name": "Interior/console",
+      "path": [
+       "Chassis",
+       "Body/structure",
+       "Interior/console"
+      ],
+      "risk": 0.0068,
+      "subsystem": "interior_console",
+      "effort_pct": 0.05
+     },
+     {
+      "name": "Exterior design",
+      "path": [
+       "Chassis",
+       "Body/structure",
+       "Exterior design"
+      ],
+      "risk": 0.0054,
+      "subsystem": "exterior_design",
+      "effort_pct": 0.04
+     },
+     {
+      "name": "E/E architecture",
+      "path": [
+       "Chassis",
+       "Body/structure",
+       "Interior/console",
+       "E/E architecture"
+      ],
+      "risk": 0.0016,
+      "subsystem": "ee_architecture",
+      "effort_pct": 0.02
+     },
+     {
+      "name": "Software/HMI",
+      "path": [
+       "Chassis",
+       "Body/structure",
+       "Interior/console",
+       "Software/HMI"
+      ],
+      "risk": 0.0013,
+      "subsystem": "software_hmi",
+      "effort_pct": 0.02
+     },
+     {
+      "name": "Seats",
+      "path": [
+       "Chassis",
+       "Body/structure",
+       "Interior/console",
+       "Seats"
+      ],
+      "risk": 0.0013,
+      "subsystem": "seats",
+      "effort_pct": 0.01
+     }
+    ],
+    "certification": false,
+    "decision_stable_pct": 100,
+    "requirement_version": 1
+   },
+   "rationale": "CPM effort model 789fcb7624b8, profile by assistant",
+   "model_id": null,
+   "prompt_version": null,
+   "parent_event_id": null
+  },
+  {
+   "id": 3155,
+   "ts": "2026-10-11T02:43:09.377130+00:00",
+   "run_id": "RUN-20261011-024308-effort.estimate-321f",
+   "actor_type": "system",
+   "actor_id": "effort-engine",
+   "action": "effort.estimated",
+   "entity_type": "requirement",
+   "entity_id": "REQ-F70-EU-DD-02",
+   "before": null,
+   "after": {
+    "p5": 0,
+    "p95": 0,
+    "kind": "preserve",
+    "note": "Protects today's handling and fuel economy for the successor; no change to estimate.",
+    "size": "-",
+    "flags": [],
+    "layer": "K0",
+    "changes": [],
+    "decision": "no change",
+    "portfolio": [],
+    "effort_pct": 0,
+    "model_hash": "789fcb7624b8",
+    "subsystems": [],
+    "certification": false,
+    "decision_stable_pct": 100,
+    "requirement_version": 1
+   },
+   "rationale": "CPM effort model 789fcb7624b8, profile by assistant",
+   "model_id": null,
+   "prompt_version": null,
+   "parent_event_id": null
+  },
+  {
+   "id": 3156,
+   "ts": "2026-10-11T02:43:09.481034+00:00",
+   "run_id": "RUN-20261011-024308-effort.estimate-321f",
+   "actor_type": "system",
+   "actor_id": "effort-engine",
+   "action": "effort.estimated",
+   "entity_type": "requirement",
+   "entity_id": "REQ-F70-EU-PR-01",
+   "before": null,
+   "after": {
+    "p5": 1.63,
+    "p95": 6.31,
+    "kind": "change",
+    "note": null,
+    "size": "S",
+    "flags": [],
+    "layer": "K1",
+    "changes": [
+     {
+      "why": "Engine, MHEV and dual-clutch launch calibration",
+      "layer": "K1",
+      "carryover": false,
+      "subsystem": "powertrain",
+      "own_impact": 0.05,
+      "portfolio_terms": []
+     }
+    ],
+    "decision": "adapt",
+    "portfolio": [],
+    "effort_pct": 3.27,
+    "model_hash": "789fcb7624b8",
+    "subsystems": [
+     {
+      "name": "Powertrain",
+      "path": null,
+      "risk": 0.05,
+      "subsystem": "powertrain",
+      "effort_pct": 0.81
+     },
+     {
+      "name": "Software/HMI",
+      "path": [
+       "Powertrain",
+       "E/E architecture",
+       "Software/HMI"
+      ],
+      "risk": 0.0686,
+      "subsystem": "software_hmi",
+      "effort_pct": 0.8
+     },
+     {
+      "name": "Body/structure",
+      "path": [
+       "Powertrain",
+       "Body/structure"
+      ],
+      "risk": 0.0239,
+      "subsystem": "body_structure",
+      "effort_pct": 0.5
+     },
+     {
+      "name": "E/E architecture",
+      "path": [
+       "Powertrain",
+       "E/E architecture"
+      ],
+      "risk": 0.0423,
+      "subsystem": "ee_architecture",
+      "effort_pct": 0.44
+     },
+     {
+      "name": "Chassis",
+      "path": [
+       "Powertrain",
+       "Body/structure",
+       "Chassis"
+      ],
+      "risk": 0.0265,
+      "subsystem": "chassis",
+      "effort_pct": 0.31
+     },
+     {
+      "name": "Thermal/HVAC",
+      "path": [
+       "Powertrain",
+       "Thermal/HVAC"
+      ],
+      "risk": 0.0306,
+      "subsystem": "thermal_hvac",
+      "effort_pct": 0.21
+     },
+     {
+      "name": "Interior/console",
+      "path": [
+       "Powertrain",
+       "Body/structure",
+       "Interior/console"
+      ],
+      "risk": 0.013,
+      "subsystem": "interior_console",
+      "effort_pct": 0.11
+     },
+     {
+      "name": "Exterior design",
+      "path": [
+       "Powertrain",
+       "Body/structure",
+       "Exterior design"
+      ],
+      "risk": 0.0104,
+      "subsystem": "exterior_design",
+      "effort_pct": 0.07
+     },
+     {
+      "name": "Seats",
+      "path": [
+       "Powertrain",
+       "Body/structure",
+       "Interior/console",
+       "Seats"
+      ],
+      "risk": 0.002,
+      "subsystem": "seats",
+      "effort_pct": 0.01
+     }
+    ],
+    "certification": false,
+    "decision_stable_pct": 100,
+    "requirement_version": 1
+   },
+   "rationale": "CPM effort model 789fcb7624b8, profile by assistant",
+   "model_id": null,
+   "prompt_version": null,
+   "parent_event_id": null
+  },
+  {
+   "id": 3157,
+   "ts": "2026-10-11T02:43:09.560649+00:00",
+   "run_id": "RUN-20261011-024308-effort.estimate-321f",
+   "actor_type": "system",
+   "actor_id": "effort-engine",
+   "action": "effort.estimated",
+   "entity_type": "requirement",
+   "entity_id": "REQ-F70-EU-SP-01",
+   "before": null,
+   "after": {
+    "p5": 0.85,
+    "p95": 3.23,
+    "kind": "change",
+    "note": null,
+    "size": "S",
+    "flags": [],
+    "layer": "K1",
+    "changes": [
+     {
+      "why": "Tie-down points, 12 V socket, parcel shelf holder",
+      "layer": "K1",
+      "carryover": false,
+      "subsystem": "interior_console",
+      "own_impact": 0.05,
+      "portfolio_terms": []
+     },
+     {
+      "why": "Close button on the power tailgate",
+      "layer": "K1",
+      "carryover": false,
+      "subsystem": "exterior_design",
+      "own_impact": 0.03,
+      "portfolio_terms": []
+     }
+    ],
+    "decision": "adapt",
+    "portfolio": [],
+    "effort_pct": 1.74,
+    "model_hash": "789fcb7624b8",
+    "subsystems": [
+     {
+      "name": "Software/HMI",
+      "path": [
+       "Interior/console",
+       "E/E architecture",
+       "Software/HMI"
+      ],
+      "risk": 0.0586,
+      "subsystem": "software_hmi",
+      "effort_pct": 0.68
+     },
+     {
+      "name": "Interior/console",
+      "path": null,
+      "risk": 0.0529,
+      "subsystem": "interior_console",
+      "effort_pct": 0.43
+     },
+     {
+      "name": "E/E architecture",
+      "path": [
+       "Interior/console",
+       "E/E architecture"
+      ],
+      "risk": 0.0207,
+      "subsystem": "ee_architecture",
+      "effort_pct": 0.22
+     },
+     {
+      "name": "Exterior design",
+      "path": null,
+      "risk": 0.03,
+      "subsystem": "exterior_design",
+      "effort_pct": 0.21
+     },
+     {
+      "name": "Seats",
+      "path": [
+       "Interior/console",
+       "Seats"
+      ],
+      "risk": 0.0106,
+      "subsystem": "seats",
+      "effort_pct": 0.06
+     },
+     {
+      "name": "Thermal/HVAC",
+      "path": [
+       "Interior/console",
+       "Seats",
+       "Thermal/HVAC"
+      ],
+      "risk": 0.0073,
+      "subsystem": "thermal_hvac",
+      "effort_pct": 0.05
+     },
+     {
+      "name": "Chassis",
+      "path": [
+       "Exterior design",
+       "Body/structure",
+       "Chassis"
+      ],
+      "risk": 0.004,
+      "subsystem": "chassis",
+      "effort_pct": 0.05
+     },
+     {
+      "name": "Body/structure",
+      "path": [
+       "Exterior design",
+       "Body/structure"
+      ],
+      "risk": 0.002,
+      "subsystem": "body_structure",
+      "effort_pct": 0.04
+     }
+    ],
+    "certification": false,
+    "decision_stable_pct": 100,
+    "requirement_version": 1
+   },
+   "rationale": "CPM effort model 789fcb7624b8, profile by assistant",
+   "model_id": null,
+   "prompt_version": null,
+   "parent_event_id": null
+  },
+  {
+   "id": 3158,
+   "ts": "2026-10-11T02:43:09.581044+00:00",
+   "run_id": "RUN-20261011-024308-effort.estimate-321f",
+   "actor_type": "system",
+   "actor_id": "effort-engine",
+   "action": "effort.estimated",
+   "entity_type": "requirement",
+   "entity_id": "REQ-F70-EU-DA-01",
+   "before": null,
+   "after": {
+    "p5": 0.17,
+    "p95": 0.65,
+    "kind": "change",
+    "note": null,
+    "size": "XS",
+    "flags": [],
+    "layer": "K1",
+    "changes": [
+     {
+      "why": "One-press off per drive within EU regulation, emergency-brake false positives",
+      "layer": "K1",
+      "carryover": false,
+      "subsystem": "software_hmi",
+      "own_impact": 0.03,
+      "portfolio_terms": []
+     }
+    ],
+    "decision": "adapt",
+    "portfolio": [],
+    "effort_pct": 0.37,
+    "model_hash": "789fcb7624b8",
+    "subsystems": [
+     {
+      "name": "Software/HMI",
+      "path": null,
+      "risk": 0.03,
+      "subsystem": "software_hmi",
+      "effort_pct": 0.35
+     },
+     {
+      "name": "E/E architecture",
+      "path": [
+       "Software/HMI",
+       "E/E architecture"
+      ],
+      "risk": 0.002,
+      "subsystem": "ee_architecture",
+      "effort_pct": 0.02
+     }
+    ],
+    "certification": false,
+    "decision_stable_pct": 100,
+    "requirement_version": 1
+   },
+   "rationale": "CPM effort model 789fcb7624b8, profile by assistant",
+   "model_id": null,
+   "prompt_version": null,
+   "parent_event_id": null
+  },
+  {
+   "id": 3159,
+   "ts": "2026-10-11T02:43:09.630437+00:00",
+   "run_id": "RUN-20261011-024308-effort.estimate-321f",
+   "actor_type": "system",
+   "actor_id": "effort-engine",
+   "action": "effort.estimated",
+   "entity_type": "requirement",
+   "entity_id": "REQ-F70-EU-EX-01",
+   "before": null,
+   "after": {
+    "p5": 0.54,
+    "p95": 1.97,
+    "kind": "change",
+    "note": null,
+    "size": "S",
+    "flags": [],
+    "layer": "K1",
+    "changes": [
+     {
+      "why": "Lighting fault fixes; mirror kerb tilt and auto fold motors",
+      "layer": "K1",
+      "carryover": false,
+      "subsystem": "exterior_design",
+      "own_impact": 0.05,
+      "portfolio_terms": []
+     },
+     {
+      "why": "Mirror functions in the settings",
+      "layer": "K0",
+      "carryover": false,
+      "subsystem": "software_hmi",
+      "own_impact": 0.02,
+      "portfolio_terms": []
+     }
+    ],
+    "decision": "adapt",
+    "portfolio": [],
+    "effort_pct": 1.11,
+    "model_hash": "789fcb7624b8",
+    "subsystems": [
+     {
+      "name": "Software/HMI",
+      "path": [
+       "Exterior design",
+       "E/E architecture",
+       "Software/HMI"
+      ],
+      "risk": 0.0419,
+      "subsystem": "software_hmi",
+      "effort_pct": 0.49
+     },
+     {
+      "name": "Exterior design",
+      "path": null,
+      "risk": 0.05,
+      "subsystem": "exterior_design",
+      "effort_pct": 0.35
+     },
+     {
+      "name": "Chassis",
+      "path": [
+       "Exterior design",
+       "Body/structure",
+       "Chassis"
+      ],
+      "risk": 0.0067,
+      "subsystem": "chassis",
+      "effort_pct": 0.08
+     },
+     {
+      "name": "E/E architecture",
+      "path": [
+       "Exterior design",
+       "E/E architecture"
+      ],
+      "risk": 0.0073,
+      "subsystem": "ee_architecture",
+      "effort_pct": 0.08
+     },
+     {
+      "name": "Body/structure",
+      "path": [
+       "Exterior design",
+       "Body/structure"
+      ],
+      "risk": 0.0033,
+      "subsystem": "body_structure",
+      "effort_pct": 0.07
+     },
+     {
+      "name": "Interior/console",
+      "path": [
+       "Exterior design",
+       "Body/structure",
+       "Interior/console"
+      ],
+      "risk": 0.005,
+      "subsystem": "interior_console",
+      "effort_pct": 0.04
+     },
+     {
+      "name": "Seats",
+      "path": [
+       "Exterior design",
+       "Body/structure",
+       "Interior/console",
+       "Seats"
+      ],
+      "risk": 0.001,
+      "subsystem": "seats",
+      "effort_pct": 0.01
+     }
+    ],
+    "certification": false,
+    "decision_stable_pct": 100,
+    "requirement_version": 1
+   },
+   "rationale": "CPM effort model 789fcb7624b8, profile by assistant",
+   "model_id": null,
+   "prompt_version": null,
+   "parent_event_id": null
+  },
+  {
+   "id": 3160,
+   "ts": "2026-10-11T02:43:09.704107+00:00",
+   "run_id": "RUN-20261011-024308-effort.estimate-321f",
+   "actor_type": "system",
+   "actor_id": "effort-engine",
+   "action": "effort.estimated",
+   "entity_type": "requirement",
+   "entity_id": "REQ-F70-EU-EX-02",
+   "before": null,
+   "after": {
+    "p5": 0.73,
+    "p95": 2.52,
+    "kind": "change",
+    "note": null,
+    "size": "S",
+    "flags": [],
+    "layer": "K1",
+    "changes": [
+     {
+      "why": "Easy-clean, corrosion-resistant wheel designs",
+      "layer": "K1",
+      "carryover": false,
+      "subsystem": "exterior_design",
+      "own_impact": 0.05,
+      "portfolio_terms": []
+     },
+     {
+      "why": "Quieter standard tyre sourcing",
+      "layer": "K1",
+      "carryover": false,
+      "subsystem": "chassis",
+      "own_impact": 0.03,
+      "portfolio_terms": []
+     }
+    ],
+    "decision": "adapt",
+    "portfolio": [],
+    "effort_pct": 1.44,
+    "model_hash": "789fcb7624b8",
+    "subsystems": [
+     {
+      "name": "Chassis",
+      "path": null,
+      "risk": 0.0365,
+      "subsystem": "chassis",
+      "effort_pct": 0.42
+     },
+     {
+      "name": "Exterior design",
+      "path": null,
+      "risk": 0.0534,
+      "subsystem": "exterior_design",
+      "effort_pct": 0.37
+     },
+     {
+      "name": "Software/HMI",
+      "path": [
+       "Exterior design",
+       "E/E architecture",
+       "Software/HMI"
+      ],
+      "risk": 0.0232,
+      "subsystem": "software_hmi",
+      "effort_pct": 0.27
+     },
+     {
+      "name": "Body/structure",
+      "path": [
+       "Chassis",
+       "Body/structure"
+      ],
+      "risk": 0.0093,
+      "subsystem": "body_structure",
+      "effort_pct": 0.19
+     },
+     {
+      "name": "E/E architecture",
+      "path": [
+       "Exterior design",
+       "E/E architecture"
+      ],
+      "risk": 0.0084,
+      "subsystem": "ee_architecture",
+      "effort_pct": 0.09
+     },
+     {
+      "name": "Interior/console",
+      "path": [
+       "Exterior design",
+       "Body/structure",
+       "Interior/console"
+      ],
+      "risk": 0.0095,
+      "subsystem": "interior_console",
+      "effort_pct": 0.08
+     },
+     {
+      "name": "Seats",
+      "path": [
+       "Exterior design",
+       "Body/structure",
+       "Interior/console",
+       "Seats"
+      ],
+      "risk": 0.0019,
+      "subsystem": "seats",
+      "effort_pct": 0.01
+     }
+    ],
+    "certification": false,
+    "decision_stable_pct": 100,
+    "requirement_version": 1
+   },
+   "rationale": "CPM effort model 789fcb7624b8, profile by assistant",
+   "model_id": null,
+   "prompt_version": null,
+   "parent_event_id": null
+  },
+  {
+   "id": 3161,
+   "ts": "2026-10-11T02:43:09.800394+00:00",
+   "run_id": "RUN-20261011-024308-effort.estimate-321f",
+   "actor_type": "system",
+   "actor_id": "effort-engine",
+   "action": "effort.estimated",
+   "entity_type": "requirement",
+   "entity_id": "REQ-F70-EU-QN-01",
+   "before": null,
+   "after": {
+    "p5": 1.75,
+    "p95": 6,
+    "kind": "change",
+    "note": null,
+    "size": "S",
+    "flags": [],
+    "layer": "K1",
+    "changes": [
+     {
+      "why": "Trim fixings against rattles",
+      "layer": "K1",
+      "carryover": false,
+      "subsystem": "interior_console",
+      "own_impact": 0.05,
+      "portfolio_terms": []
+     },
+     {
+      "why": "Sealing and damping material (acoustic package)",
+      "layer": "K1",
+      "carryover": false,
+      "subsystem": "body_structure",
+      "own_impact": 0.05,
+      "portfolio_terms": []
+     }
+    ],
+    "decision": "adapt",
+    "portfolio": [],
+    "effort_pct": 3.42,
+    "model_hash": "789fcb7624b8",
+    "subsystems": [
+     {
+      "name": "Body/structure",
+      "path": null,
+      "risk": 0.05,
+      "subsystem": "body_structure",
+      "effort_pct": 1.05
+     },
+     {
+      "name": "Software/HMI",
+      "path": [
+       "Interior/console",
+       "E/E architecture",
+       "Software/HMI"
+      ],
+      "risk": 0.0702,
+      "subsystem": "software_hmi",
+      "effort_pct": 0.82
+     },
+     {
+      "name": "Interior/console",
+      "path": null,
+      "risk": 0.0738,
+      "subsystem": "interior_console",
+      "effort_pct": 0.6
+     },
+     {
+      "name": "Chassis",
+      "path": [
+       "Body/structure",
+       "Chassis"
+      ],
+      "risk": 0.0333,
+      "subsystem": "chassis",
+      "effort_pct": 0.39
+     },
+     {
+      "name": "E/E architecture",
+      "path": [
+       "Interior/console",
+       "E/E architecture"
+      ],
+      "risk": 0.0257,
+      "subsystem": "ee_architecture",
+      "effort_pct": 0.27
+     },
+     {
+      "name": "Exterior design",
+      "path": [
+       "Body/structure",
+       "Exterior design"
+      ],
+      "risk": 0.02,
+      "subsystem": "exterior_design",
+      "effort_pct": 0.14
+     },
+     {
+      "name": "Seats",
+      "path": [
+       "Interior/console",
+       "Seats"
+      ],
+      "risk": 0.015,
+      "subsystem": "seats",
+      "effort_pct": 0.09
+     },
+     {
+      "name": "Thermal/HVAC",
+      "path": [
+       "Interior/console",
+       "Seats",
+       "Thermal/HVAC"
+      ],
+      "risk": 0.0106,
+      "subsystem": "thermal_hvac",
+      "effort_pct": 0.07
+     }
+    ],
+    "certification": false,
+    "decision_stable_pct": 100,
+    "requirement_version": 1
+   },
+   "rationale": "CPM effort model 789fcb7624b8, profile by assistant",
+   "model_id": null,
+   "prompt_version": null,
+   "parent_event_id": null
+  },
+  {
+   "id": 3162,
+   "ts": "2026-10-11T02:43:09.811986+00:00",
+   "run_id": "RUN-20261011-024308-effort.estimate-321f",
+   "actor_type": "system",
+   "actor_id": "effort-engine",
+   "action": "effort.estimated",
+   "entity_type": "requirement",
+   "entity_id": "REQ-F70-EU-GE-01",
+   "before": null,
+   "after": {
+    "p5": 0.11,
+    "p95": 0.42,
+    "kind": "change",
+    "note": null,
+    "size": "XS",
+    "flags": [],
+    "layer": "K0",
+    "changes": [
+     {
+      "why": "Standard-content decision for items the platform still carries; becomes K1 if the hardware was dropped from the F70 harness",
+      "layer": "K0",
+      "carryover": false,
+      "subsystem": "interior_console",
+      "own_impact": 0.03,
+      "portfolio_terms": []
+     }
+    ],
+    "decision": "adapt",
+    "portfolio": [],
+    "effort_pct": 0.24,
+    "model_hash": "789fcb7624b8",
+    "subsystems": [
+     {
+      "name": "Interior/console",
+      "path": null,
+      "risk": 0.03,
+      "subsystem": "interior_console",
+      "effort_pct": 0.24
+     }
+    ],
+    "certification": false,
+    "decision_stable_pct": 100,
+    "requirement_version": 1
+   },
+   "rationale": "CPM effort model 789fcb7624b8, profile by assistant",
+   "model_id": null,
+   "prompt_version": null,
+   "parent_event_id": null
+  }
+ ]
+}

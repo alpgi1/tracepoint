@@ -1,15 +1,16 @@
 "use client";
 
-import Link from "next/link";
 import { useLayoutEffect, useRef } from "react";
 import { VehicleDrawing } from "@/components/vehicles/vehicle-drawing";
-import { full, scaleTop, score } from "@/lib/content/format";
+import { scaleTop, score } from "@/lib/content/format";
 import type { CpmCatalogue, CpmView } from "@/lib/content/cpm-types";
 import type { MarketContent, VehicleContent } from "@/lib/content/types";
 import { drawingFor, photoFor } from "@/lib/vehicles/drawings";
 import { arriveHandoff, useSketchPhase } from "@/lib/vehicles/handoff";
 import { site } from "@/lib/site";
+import type { StageFigures } from "@/lib/workspace/stages";
 import { CpmList } from "./cpm-list";
+import { WorkspaceHeader } from "./workspace-header";
 
 /*
  * Screen 2: one vehicle in one market. The car as a sketch (side and top
@@ -17,20 +18,21 @@ import { CpmList } from "./cpm-list";
  * the customer and market evidence. Arriving from the map, the hand-over
  * layer brings the car's photo to the side view's silhouette box; this screen
  * reports that box once laid out, keeps the sketch hidden while the photo
- * fades, then reveals it. Decisions are not built yet.
+ * fades, then reveals it. This screen is stage 1 of the scope workspace;
+ * the header's stage bar leads to the others (step 14).
  */
 export interface VehicleWorkspaceProps {
   market: MarketContent;
   vehicle: VehicleContent;
   cpm: { catalogue: CpmCatalogue; view: CpmView };
+  figures: StageFigures;
 }
 
-export function VehicleWorkspace({ market, vehicle, cpm }: VehicleWorkspaceProps) {
+export function VehicleWorkspace({ market, vehicle, cpm, figures }: VehicleWorkspaceProps) {
   const hasVerbatims = vehicle.verbatims > 0;
   const side = drawingFor(vehicle.drawing, "side");
   const top = drawingFor(vehicle.drawing, "top");
   const photo = photoFor(vehicle.drawing);
-  const note = site.panel.drawingNotes[vehicle.code];
   const { workspace } = site;
 
   // Where the photo must land: the side view's silhouette box, measured after layout.
@@ -53,21 +55,7 @@ export function VehicleWorkspace({ market, vehicle, cpm }: VehicleWorkspaceProps
 
   return (
     <div className="workspace">
-      <header className="workspace-head">
-        <Link href="/" className="tap workspace-back">
-          {workspace.back}
-        </Link>
-        <div>
-          <h1 className="workspace-title">
-            {vehicle.name} <span className="workspace-code">{vehicle.code}</span>
-          </h1>
-          <p className="workspace-meta">
-            {market.name} · {full(vehicle.sales.units)} {site.readout.units} {String(vehicle.sales.year)} ·{" "}
-            {hasVerbatims ? `${full(vehicle.verbatims)} ${site.readout.verbatims}` : site.readout.noVerbatims}
-            {note ? ` · ${note}` : ""}
-          </p>
-        </div>
-      </header>
+      <WorkspaceHeader market={market} vehicle={vehicle} current="situation" figures={figures} />
       <div className="workspace-body">
         <section className="workspace-stage" aria-label={workspace.stageLabel} data-sketch={sketchPhase}>
           <div className="workspace-view">

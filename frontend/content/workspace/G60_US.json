@@ -1,0 +1,6060 @@
+{
+ "vehicle": "G60",
+ "market": "US",
+ "snapshot": {
+  "takenAt": "2026-10-11T02:46:22.060Z",
+  "api": "http://127.0.0.1:8000",
+  "codeVersion": "e06b37f",
+  "modelHash": "789fcb7624b8",
+  "endpoints": {
+   "requirements": "/requirements?vehicle=G60&market=US",
+   "efforts": "/effort/requirements?vehicle=G60&market=US",
+   "scenarios": "/effort/scenarios?vehicle=G60&market=US",
+   "excluded": "/events?entity_type=scope&entity_id=G60:US",
+   "events": "/events?entity_type=requirement&limit=5000"
+  }
+ },
+ "requirements": [
+  {
+   "id": "REQ-G60-US-IC-01",
+   "vehicle": "G60",
+   "market": "US",
+   "domain": "interior_comfort",
+   "title": "Front and rear seats comfortable for long drives across body sizes",
+   "statement": "The front seats shall allow a pain-free two-hour drive for drivers from 1.60 m to 1.90 m, including a lumbar support that can be set completely flat, and the rear seat cushion and backrest shall match the comfort of the front seats.",
+   "recommend": true,
+   "recommend_rationale": "Seats are the largest complaint theme of the interior (62 complaint rows, 2.4 % of all US complaints, level A) and both study attributes sit below the peer: front seat comfort 5.74 vs 6.04, rear seat comfort 5.27 vs 6.24. Verbatims name back pain, firmness and a lumbar support that cannot be flattened.",
+   "horizon": "H1",
+   "horizon_rationale": "Cushion, contour and lumbar calibration change within the life-cycle impulse; no new architecture needed.",
+   "markets": [
+    "US"
+   ],
+   "criteria": [
+    {
+     "basis": "evidence",
+     "market": "US",
+     "method": "Next US customer study wave",
+     "metric": "Study front seat comfort (1-7)",
+     "target": ">= 6.0 (today 5.74, peer 6.04)"
+    },
+    {
+     "basis": "evidence",
+     "market": "US",
+     "method": "Next US customer study wave",
+     "metric": "Study rear seat comfort (1-7)",
+     "target": ">= 6.0 (today 5.27, peer 6.24)"
+    },
+    {
+     "basis": "assumption",
+     "market": "US",
+     "method": "Customer feedback sources A-D, rolling 6 months",
+     "metric": "Share of seat complaint rows",
+     "target": "<= 1.2 % of complaint rows (today 2.4 %)"
+    },
+    {
+     "basis": "evidence",
+     "market": "US",
+     "method": "Seat test",
+     "metric": "Lumbar support travel",
+     "target": "Can be set to a completely flat position"
+    }
+   ],
+   "assumptions": [
+    "Study scores of the next wave are comparable with the 2025 wave."
+   ],
+   "uncertainties": [
+    "Comfort perception differs between ICE (71 rows) and BEV (38 rows) buyers; the split is small."
+   ],
+   "evidence_level": "A",
+   "priority_score": null,
+   "status": "proposed",
+   "version": 1,
+   "findings": [
+    {
+     "id": "FND-G60-US-VOC-seats",
+     "role": "primary",
+     "title": "Seats: 62 complaints (recurring complaint)"
+    },
+    {
+     "id": "FND-G60-US-MET-us_2025-seat_comfort",
+     "role": "supporting",
+     "title": "Overall comfort of the seats: weak study rating (5.74)"
+    },
+    {
+     "id": "FND-G60-US-MET-us_2025-rear_seat_comfort",
+     "role": "supporting",
+     "title": "Comfort of 2nd row seat: weak study rating (5.27)"
+    },
+    {
+     "id": "FND-G60-US-VOC-adjustment_of_lower_lumbar_support",
+     "role": "supporting",
+     "title": "Adjustment of lower lumbar support: 6 complaints (unmet need)"
+    },
+    {
+     "id": "FND-G60-US-EQ-seats",
+     "role": "context",
+     "title": "Seats: wished or criticised, related equipment is optional or missing"
+    }
+   ]
+  },
+  {
+   "id": "REQ-G60-US-IC-02",
+   "vehicle": "G60",
+   "market": "US",
+   "domain": "interior_comfort",
+   "title": "Climate control direct, strong enough for US heat, and remembers its settings",
+   "statement": "Temperature and fan speed shall have a physical or always-visible control; recirculation, zone sync and seat-ventilation defaults shall persist per driver profile across drives; the system shall cool the cabin from a heat-soaked state within an agreed time.",
+   "recommend": true,
+   "recommend_rationale": "Climate setting is a level-A complaint (24 rows) supported by the study attribute climate controls usability (4.80); blower (19) and control panel (17) complaints add hidden vents, weak airflow and settings that reset after every drive.",
+   "horizon": "H1",
+   "horizon_rationale": "Persistence and control placement are software; vent and blower tuning fit the life-cycle impulse.",
+   "markets": [
+    "US"
+   ],
+   "criteria": [
+    {
+     "basis": "assumption",
+     "market": "US",
+     "method": "Next US customer study wave",
+     "metric": "Study climate controls usability (1-7)",
+     "target": ">= 5.3 (today 4.80)"
+    },
+    {
+     "basis": "evidence",
+     "market": "US",
+     "method": "Function test",
+     "metric": "Settings kept after ignition off",
+     "target": "Recirculation, sync and seat ventilation default kept per profile"
+    },
+    {
+     "basis": "assumption",
+     "market": "US",
+     "method": "Climate chamber test",
+     "metric": "Cabin cool-down from 60 °C soak to 25 °C",
+     "target": "<= 10 min (to be validated)"
+    }
+   ],
+   "assumptions": [],
+   "uncertainties": [],
+   "evidence_level": "A",
+   "priority_score": null,
+   "status": "proposed",
+   "version": 1,
+   "findings": [
+    {
+     "id": "FND-G60-US-VOC-air_conditioning_setting",
+     "role": "primary",
+     "title": "Air conditioning, setting: 24 complaints (recurring complaint)"
+    },
+    {
+     "id": "FND-G60-US-MET-us_2025-climate_controls_usability",
+     "role": "supporting",
+     "title": "Operation of heater/ AC controls: weak study rating (4.8)"
+    },
+    {
+     "id": "FND-G60-US-VOC-blower_function",
+     "role": "supporting",
+     "title": "Blower function: 19 complaints (recurring complaint)"
+    },
+    {
+     "id": "FND-G60-US-VOC-air_conditioning_control_panel",
+     "role": "supporting",
+     "title": "Air conditioning control panel: 17 complaints (recurring complaint)"
+    },
+    {
+     "id": "FND-G60-US-VOC-vehicle_climatization",
+     "role": "supporting",
+     "title": "Vehicle, climatization: 26 complaints (recurring complaint)"
+    }
+   ]
+  },
+  {
+   "id": "REQ-G60-US-IC-03",
+   "vehicle": "G60",
+   "market": "US",
+   "domain": "interior_comfort",
+   "title": "Interior materials that match the price class",
+   "statement": "Door panels, dashboard and trim within reach shall use soft-touch or leather materials, and a full-leather upholstery option shall be offered.",
+   "recommend": true,
+   "recommend_rationale": "Upholstery and trim is level A (20 rows) and supported by the study attribute interior material quality (5.62 vs 5.95); door panels add 19 rows. Owners compare the cabin with the previous generation and with Audi.",
+   "horizon": "H1",
+   "horizon_rationale": "Material and option changes within the life-cycle impulse.",
+   "markets": [
+    "US"
+   ],
+   "criteria": [
+    {
+     "basis": "evidence",
+     "market": "US",
+     "method": "Next US customer study wave",
+     "metric": "Study interior material quality (1-7)",
+     "target": ">= 5.95 (today 5.62, peer 5.95)"
+    },
+    {
+     "basis": "assumption",
+     "market": "US",
+     "method": "Offer check",
+     "metric": "Leather upholstery option",
+     "target": "Available on every variant"
+    }
+   ],
+   "assumptions": [],
+   "uncertainties": [],
+   "evidence_level": "A",
+   "priority_score": null,
+   "status": "proposed",
+   "version": 1,
+   "findings": [
+    {
+     "id": "FND-G60-US-VOC-upholstery_interior_trim",
+     "role": "primary",
+     "title": "Upholstery / interior trim: 20 complaints (recurring complaint)"
+    },
+    {
+     "id": "FND-G60-US-MET-us_2025-interior_material_quality",
+     "role": "supporting",
+     "title": "Quality of interior materials: weak study rating (5.62)"
+    },
+    {
+     "id": "FND-G60-US-VOC-door_finisher_panel_front",
+     "role": "supporting",
+     "title": "Door, finisher panel, front: 19 complaints (recurring complaint)"
+    },
+    {
+     "id": "FND-G60-US-EQ-upholstery_interior_trim",
+     "role": "context",
+     "title": "Upholstery / interior trim: wished or criticised, related equipment is optional or missing"
+    }
+   ]
+  },
+  {
+   "id": "REQ-G60-US-ID-01",
+   "vehicle": "G60",
+   "market": "US",
+   "domain": "infotainment_digital",
+   "title": "Frequently used functions reachable with one touch or a physical control",
+   "statement": "Climate temperature and fan, seat and steering wheel heating, drive mode, start-stop, assistance on/off, volume, map and phone shall each be operable with one touch or a physical control while driving, without leaving the current screen.",
+   "recommend": true,
+   "recommend_rationale": "The operating concept is a level-A recurring complaint (53 rows, 39 of them usability) and is linked to the study attribute infotainment menu structure (4.88). Touch screen (35 rows) and instrument cluster (38 rows) complaints repeat the same pattern: functions are buried in menus and pull the eyes off the road.",
+   "horizon": "H1",
+   "horizon_rationale": "Mostly software (shortcut layer, widget placement); physical controls only where the panel allows them in the life-cycle impulse.",
+   "markets": [
+    "US"
+   ],
+   "criteria": [
+    {
+     "basis": "assumption",
+     "market": "US",
+     "method": "HMI test protocol",
+     "metric": "Touches to reach each of the ten listed functions while driving",
+     "target": "<= 1"
+    },
+    {
+     "basis": "assumption",
+     "market": "US",
+     "method": "Next US customer study wave",
+     "metric": "Study infotainment menu structure (1-7)",
+     "target": ">= 5.3 (today 4.88)"
+    },
+    {
+     "basis": "assumption",
+     "market": "US",
+     "method": "Customer feedback, rolling 6 months",
+     "metric": "Share of operating-concept complaint rows",
+     "target": "<= 1.0 % (today 2.0 %)"
+    }
+   ],
+   "assumptions": [],
+   "uncertainties": [
+    "Part of the criticism is unfamiliarity; onboarding (REQ-G60-US-GE-01) may reduce it without HMI changes."
+   ],
+   "evidence_level": "A",
+   "priority_score": null,
+   "status": "proposed",
+   "version": 1,
+   "findings": [
+    {
+     "id": "FND-G60-US-VOC-operating_concept_operating_system",
+     "role": "primary",
+     "title": "Operating concept, operating system: 53 complaints (recurring complaint)"
+    },
+    {
+     "id": "FND-G60-US-MET-us_2025-infotainment_menu_structure",
+     "role": "supporting",
+     "title": "Menu structure of infotainment system: weak study rating (4.88)"
+    },
+    {
+     "id": "FND-G60-US-VOC-touch_screen_operation",
+     "role": "supporting",
+     "title": "Touch screen, operation: 35 complaints (recurring complaint)"
+    },
+    {
+     "id": "FND-G60-US-VOC-instrument_cluster",
+     "role": "supporting",
+     "title": "Instrument cluster: 38 complaints (recurring complaint)"
+    }
+   ]
+  },
+  {
+   "id": "REQ-G60-US-ID-02",
+   "vehicle": "G60",
+   "market": "US",
+   "domain": "infotainment_digital",
+   "title": "Phone integration that just works",
+   "statement": "Apple CarPlay shall connect to the phone of the active driver profile, play at the same loudness as the native sources, and wireless charging shall keep the phone charged without overheating.",
+   "recommend": true,
+   "recommend_rationale": "Apple CarPlay (37 rows, 12 defects) and wireless charging (26 rows, level A, 11 defects, supported by the study attribute phone charging) are among the most frequent digital complaints; low CarPlay volume and the wrong phone connecting are repeated themes.",
+   "horizon": "H1",
+   "horizon_rationale": "Software and charger thermal management.",
+   "markets": [
+    "US"
+   ],
+   "criteria": [
+    {
+     "basis": "assumption",
+     "market": "US",
+     "method": "Audio test",
+     "metric": "CarPlay audio level vs native sources",
+     "target": "Within 3 dB at the same volume step"
+    },
+    {
+     "basis": "assumption",
+     "market": "US",
+     "method": "Fleet telemetry",
+     "metric": "Phone connected at start",
+     "target": "Phone of the active profile in >= 98 % of starts"
+    },
+    {
+     "basis": "assumption",
+     "market": "US",
+     "method": "Lab test",
+     "metric": "Wireless charging with navigation running",
+     "target": "Battery level does not drop over 60 min at 30 °C cabin"
+    }
+   ],
+   "assumptions": [],
+   "uncertainties": [],
+   "evidence_level": "A",
+   "priority_score": null,
+   "status": "proposed",
+   "version": 1,
+   "findings": [
+    {
+     "id": "FND-G60-US-VOC-apple_carplay",
+     "role": "primary",
+     "title": "Apple CarPlay: 37 complaints (recurring complaint)"
+    },
+    {
+     "id": "FND-G60-US-VOC-mobile_device_wireless_charging",
+     "role": "primary",
+     "title": "Mobile device, wireless charging: 26 complaints (recurring complaint)"
+    },
+    {
+     "id": "FND-G60-US-MET-us_2025-phone_charging",
+     "role": "supporting",
+     "title": "Phone charging: weak study rating (5.46)"
+    },
+    {
+     "id": "FND-G60-US-VOC-manage_pair_mobile_device_bluetooth",
+     "role": "supporting",
+     "title": "Manage / pair mobile device (Bluetooth): 11 complaints (recurring complaint)"
+    }
+   ]
+  },
+  {
+   "id": "REQ-G60-US-SP-02",
+   "vehicle": "G60",
+   "market": "US",
+   "domain": "space_practicality",
+   "title": "Practical storage for everyday items",
+   "statement": "The cabin shall provide seat-back pockets, a sunglasses holder, a covered console tray and a glove box and door pockets that take a bottle and an umbrella.",
+   "recommend": true,
+   "recommend_rationale": "Storage compartments (28 rows, half of them wishes) and front centre console (30 rows) are level-A findings supported by the study attribute interior storage (5.15 vs peer 5.33); owners miss the removed seat-back pockets and sunglasses holder.",
+   "horizon": "H1",
+   "horizon_rationale": "Trim parts within the life-cycle impulse.",
+   "markets": [
+    "US"
+   ],
+   "criteria": [
+    {
+     "basis": "assumption",
+     "market": "US",
+     "method": "Next US customer study wave",
+     "metric": "Study interior storage (1-7)",
+     "target": ">= 5.5 (today 5.15, peer 5.33)"
+    },
+    {
+     "basis": "evidence",
+     "market": "US",
+     "method": "Offer check",
+     "metric": "Seat-back pockets and sunglasses holder",
+     "target": "Present on every variant"
+    }
+   ],
+   "assumptions": [],
+   "uncertainties": [],
+   "evidence_level": "A",
+   "priority_score": null,
+   "status": "proposed",
+   "version": 1,
+   "findings": [
+    {
+     "id": "FND-G60-US-VOC-storage_compartments",
+     "role": "primary",
+     "title": "Storage compartments: 28 complaints (unmet need)"
+    },
+    {
+     "id": "FND-G60-US-VOC-center_console_front",
+     "role": "primary",
+     "title": "Center console, front: 30 complaints (recurring complaint)"
+    },
+    {
+     "id": "FND-G60-US-MET-us_2025-interior_storage",
+     "role": "supporting",
+     "title": "Interior storage: weak study rating (5.15)"
+    },
+    {
+     "id": "FND-G60-US-VOC-glove_box",
+     "role": "supporting",
+     "title": "Glove box: 14 complaints (recurring complaint)"
+    },
+    {
+     "id": "FND-G60-US-VOC-cupholder",
+     "role": "supporting",
+     "title": "Cupholder: 13 complaints (recurring complaint)"
+    }
+   ]
+  },
+  {
+   "id": "REQ-G60-US-SP-03",
+   "vehicle": "G60",
+   "market": "US",
+   "domain": "space_practicality",
+   "title": "Keyless access on all four doors and easy door handling",
+   "statement": "Comfort access shall lock and unlock from all four door handles, the doors shall close without slamming and the handles shall be easy to find in the dark.",
+   "recommend": true,
+   "recommend_rationale": "Door open/close is level A (31 rows) and linked to the study attribute rear entry/exit (5.41 vs 6.0); comfort access (30 rows, 17 wishes) and lock/unlock (38 rows) complain that the rear doors lost the touch sensor of earlier generations.",
+   "horizon": "H1",
+   "horizon_rationale": "Rear handle sensors and closing-force tuning fit the life-cycle impulse.",
+   "markets": [
+    "US"
+   ],
+   "criteria": [
+    {
+     "basis": "evidence",
+     "market": "US",
+     "method": "Offer check",
+     "metric": "Doors with comfort-access sensor",
+     "target": "4 of 4 where comfort access is fitted"
+    },
+    {
+     "basis": "assumption",
+     "market": "US",
+     "method": "Door test",
+     "metric": "Door closing energy",
+     "target": "Closes fully without slamming (value to be set by engineering)"
+    },
+    {
+     "basis": "assumption",
+     "market": "US",
+     "method": "Next US customer study wave",
+     "metric": "Study entry/exit rear (1-7)",
+     "target": ">= 5.8 (today 5.41)"
+    }
+   ],
+   "assumptions": [],
+   "uncertainties": [],
+   "evidence_level": "A",
+   "priority_score": null,
+   "status": "proposed",
+   "version": 1,
+   "findings": [
+    {
+     "id": "FND-G60-US-VOC-door_open_close",
+     "role": "primary",
+     "title": "Door, open / close: 31 complaints (recurring complaint)"
+    },
+    {
+     "id": "FND-G60-US-VOC-comfort_access",
+     "role": "supporting",
+     "title": "Comfort Access: 30 complaints (unmet need)"
+    },
+    {
+     "id": "FND-G60-US-VOC-vehicle_lock_unlock",
+     "role": "supporting",
+     "title": "Vehicle, lock / unlock: 38 complaints (recurring complaint)"
+    },
+    {
+     "id": "FND-G60-US-MET-us_2025-entry_exit_rear",
+     "role": "supporting",
+     "title": "Ease of 2nd row seat entry: weak study rating (5.41)"
+    }
+   ]
+  },
+  {
+   "id": "REQ-G60-US-DA-01",
+   "vehicle": "G60",
+   "market": "US",
+   "domain": "driver_assistance",
+   "title": "Adaptive cruise control as standard and simple assistance controls",
+   "statement": "Adaptive cruise control shall be standard; following distance, lane keeping and assistance on/off shall be adjustable with one control while driving.",
+   "recommend": true,
+   "recommend_rationale": "Active cruise control (23 rows) and parking assistant (22 rows) complaints mention paying extra for functions expected as standard and awkward controls; the catalogue offers Driving Assistant Plus only as an option (1,000 EUR, 0 of 10 variants standard).",
+   "horizon": "H1",
+   "horizon_rationale": "Hardware is fitted; standard content and HMI are a product decision.",
+   "markets": [
+    "US"
+   ],
+   "criteria": [
+    {
+     "basis": "evidence",
+     "market": "US",
+     "method": "Offer check",
+     "metric": "Variants with adaptive cruise control as standard",
+     "target": "All"
+    },
+    {
+     "basis": "assumption",
+     "market": "US",
+     "method": "Function test",
+     "metric": "Gap adjustment while driving",
+     "target": "One control on the steering wheel"
+    }
+   ],
+   "assumptions": [],
+   "uncertainties": [
+    "The catalogue is the German price list; US standard content may differ."
+   ],
+   "evidence_level": "B",
+   "priority_score": null,
+   "status": "proposed",
+   "version": 1,
+   "findings": [
+    {
+     "id": "FND-G60-US-VOC-active_cruise_control",
+     "role": "primary",
+     "title": "(Active) cruise control: 23 complaints (recurring complaint)"
+    },
+    {
+     "id": "FND-G60-US-EQ-active_cruise_control",
+     "role": "supporting",
+     "title": "(Active) cruise control: wished or criticised, related equipment is optional or missing"
+    },
+    {
+     "id": "FND-G60-US-VOC-parking_assistant",
+     "role": "supporting",
+     "title": "Parking Assistant: 22 complaints (recurring complaint)"
+    },
+    {
+     "id": "FND-G60-US-VOC-lane_departure_warning",
+     "role": "supporting",
+     "title": "Lane departure warning: 10 complaints (recurring complaint)"
+    }
+   ]
+  },
+  {
+   "id": "REQ-G60-US-DD-01",
+   "vehicle": "G60",
+   "market": "US",
+   "domain": "driving_dynamics",
+   "title": "Personal drive mode that is really personal",
+   "statement": "The personal mode shall let the driver combine steering, suspension, throttle, sound and energy settings freely, hide unused modes and start in the last chosen mode.",
+   "recommend": true,
+   "recommend_rationale": "My Modes draws 36 complaint rows, 15 of them wishes: owners want to start in sport or efficient mode and to configure the personal mode instead of fixed presets.",
+   "horizon": "H1",
+   "horizon_rationale": "Software.",
+   "markets": [
+    "US"
+   ],
+   "criteria": [
+    {
+     "basis": "evidence",
+     "market": "US",
+     "method": "Function test",
+     "metric": "Mode kept after ignition off",
+     "target": "Last mode per profile"
+    },
+    {
+     "basis": "assumption",
+     "market": "US",
+     "method": "Function test",
+     "metric": "Configurable parameters in personal mode",
+     "target": "Steering, damping, throttle, sound, energy"
+    }
+   ],
+   "assumptions": [],
+   "uncertainties": [],
+   "evidence_level": "B",
+   "priority_score": null,
+   "status": "proposed",
+   "version": 1,
+   "findings": [
+    {
+     "id": "FND-G60-US-VOC-my_modes_driving_experience",
+     "role": "primary",
+     "title": "My Modes / driving experience: 36 complaints (recurring complaint)"
+    }
+   ]
+  },
+  {
+   "id": "REQ-G60-US-DD-02",
+   "vehicle": "G60",
+   "market": "US",
+   "domain": "driving_dynamics",
+   "title": "Progressive brake pedal feel and predictable recuperation",
+   "statement": "Brake pedal response shall be progressive without an initial grab, and lifting off the accelerator shall decelerate the car predictably, with an option for one-pedal driving to a standstill.",
+   "recommend": true,
+   "recommend_rationale": "Braking draws 37 complaint rows (28 usability: grabbing, poor modulation) and recuperation 13 rows asking for consistent engine braking and a full stop in one-pedal mode.",
+   "horizon": "H1",
+   "horizon_rationale": "Brake-by-wire and recuperation calibration.",
+   "markets": [
+    "US"
+   ],
+   "criteria": [
+    {
+     "basis": "assumption",
+     "market": "US",
+     "method": "Customer feedback",
+     "metric": "Braking complaint rows",
+     "target": "<= 15 per 6 months (today 37)"
+    },
+    {
+     "basis": "assumption",
+     "market": "US",
+     "method": "Function test",
+     "metric": "One-pedal stop",
+     "target": "Car stops and holds without the brake pedal in the strongest mode"
+    }
+   ],
+   "assumptions": [],
+   "uncertainties": [],
+   "evidence_level": "B",
+   "priority_score": null,
+   "status": "proposed",
+   "version": 1,
+   "findings": [
+    {
+     "id": "FND-G60-US-VOC-braking",
+     "role": "primary",
+     "title": "Braking: 37 complaints (recurring complaint)"
+    },
+    {
+     "id": "FND-G60-US-VOC-brake_energy_regeneration_recuperation",
+     "role": "supporting",
+     "title": "Brake Energy Regeneration / recuperation: 13 complaints (recurring complaint)"
+    }
+   ]
+  },
+  {
+   "id": "REQ-G60-US-DD-03",
+   "vehicle": "G60",
+   "market": "US",
+   "domain": "driving_dynamics",
+   "title": "Keep the handling and ride character in the next generation",
+   "statement": "The successor shall keep the handling precision and ride composition that customers praise today.",
+   "recommend": true,
+   "recommend_rationale": "Handling and riding is the strongest praise theme (210 likes) and handling/manoeuvrability scores above the peer (6.06 vs 5.62); a strength to protect, not to change.",
+   "horizon": "H2",
+   "horizon_rationale": "Applies to the chassis of the successor generation.",
+   "markets": [
+    "US"
+   ],
+   "criteria": [
+    {
+     "basis": "evidence",
+     "market": "US",
+     "method": "Customer study of the successor",
+     "metric": "Study handling/manoeuvrability (1-7)",
+     "target": ">= 6.0 (today 6.06)"
+    }
+   ],
+   "assumptions": [],
+   "uncertainties": [],
+   "evidence_level": "B",
+   "priority_score": null,
+   "status": "proposed",
+   "version": 1,
+   "findings": [
+    {
+     "id": "FND-G60-US-VOC-STRENGTH-handling_riding",
+     "role": "primary",
+     "title": "Handling / Riding: strength to keep (210 likes)"
+    },
+    {
+     "id": "FND-G60-US-MET-STRENGTH-us_2025-handling_manoeuvrability",
+     "role": "supporting",
+     "title": "Handling/Maneuverability: strong study rating (6.06)"
+    }
+   ]
+  },
+  {
+   "id": "REQ-G60-US-GE-01",
+   "vehicle": "G60",
+   "market": "US",
+   "domain": "general",
+   "title": "Guided onboarding for a feature-rich car",
+   "statement": "Every new owner shall get an in-car guided tour and a searchable, model-specific help function that explains the ten most used functions within the first week.",
+   "recommend": true,
+   "recommend_rationale": "The largest single complaint cluster (98 rows, 63 usability) is about the car being hard to figure out; owner's manual complaints (16 rows) add that the manual is hard to search.",
+   "horizon": "H1",
+   "horizon_rationale": "Software and content.",
+   "markets": [
+    "US"
+   ],
+   "criteria": [
+    {
+     "basis": "assumption",
+     "market": "US",
+     "method": "Telemetry",
+     "metric": "Owners who completed the guided tour in week 1",
+     "target": ">= 60 %"
+    },
+    {
+     "basis": "assumption",
+     "market": "US",
+     "method": "Customer feedback",
+     "metric": "Complaint rows about complexity",
+     "target": "-30 % within 12 months"
+    }
+   ],
+   "assumptions": [],
+   "uncertainties": [],
+   "evidence_level": "B",
+   "priority_score": null,
+   "status": "proposed",
+   "version": 1,
+   "findings": [
+    {
+     "id": "FND-G60-US-VOC-body_equipment_overall_technology",
+     "role": "primary",
+     "title": "Body equipment, overall technology: 98 complaints (recurring complaint)"
+    },
+    {
+     "id": "FND-G60-US-VOC-owner_s_manual",
+     "role": "supporting",
+     "title": "Owner's Manual: 16 complaints (recurring complaint)"
+    }
+   ]
+  },
+  {
+   "id": "REQ-G60-US-ID-03",
+   "vehicle": "G60",
+   "market": "US",
+   "domain": "infotainment_digital",
+   "title": "Driver profiles and settings survive updates and shared use",
+   "statement": "Personal settings shall survive over-the-air updates; each profile shall support at least two keys or phones, and the car shall recognise the right driver when two key holders approach together.",
+   "recommend": true,
+   "recommend_rationale": "Driver profile complaints (25 rows) and software update complaints (15 rows) report seat memories, wake words and assistance settings wiped by updates and the wrong profile loaded.",
+   "horizon": "H1",
+   "horizon_rationale": "Software.",
+   "markets": [
+    "US"
+   ],
+   "criteria": [
+    {
+     "basis": "evidence",
+     "market": "US",
+     "method": "Update regression test",
+     "metric": "User settings kept after an OTA update",
+     "target": "100 % of profile settings"
+    },
+    {
+     "basis": "evidence",
+     "market": "US",
+     "method": "Function test",
+     "metric": "Keys or phones per profile",
+     "target": ">= 2"
+    }
+   ],
+   "assumptions": [],
+   "uncertainties": [],
+   "evidence_level": "B",
+   "priority_score": null,
+   "status": "proposed",
+   "version": 1,
+   "findings": [
+    {
+     "id": "FND-G60-US-VOC-driver_profile",
+     "role": "primary",
+     "title": "Driver profile: 25 complaints (recurring complaint)"
+    },
+    {
+     "id": "FND-G60-US-VOC-remote_software_upgrade_rsu",
+     "role": "supporting",
+     "title": "Remote Software Upgrade/RSU: 15 complaints (recurring complaint)"
+    },
+    {
+     "id": "FND-G60-US-VOC-digital_key",
+     "role": "supporting",
+     "title": "Digital Key: 18 complaints (recurring complaint)"
+    }
+   ]
+  },
+  {
+   "id": "REQ-G60-US-PR-01",
+   "vehicle": "G60",
+   "market": "US",
+   "domain": "powertrain_range_charging",
+   "title": "Auto start-stop can be switched off permanently by the driver",
+   "statement": "Drivers of ICE and mild-hybrid variants shall be able to switch auto start-stop off with one control and keep it off across drives in their profile; the restart shall not jolt the car.",
+   "recommend": true,
+   "recommend_rationale": "45 complaint rows, all from ICE drivers (1.7 % of US complaints): the function cannot be disabled permanently, cuts in too early and feels harsh and unsafe at intersections.",
+   "horizon": "H1",
+   "horizon_rationale": "Software setting and calibration, deliverable over the air.",
+   "markets": [
+    "US"
+   ],
+   "criteria": [
+    {
+     "basis": "evidence",
+     "market": "US",
+     "method": "Function test",
+     "metric": "Start-stop off setting kept after ignition off",
+     "target": "Yes, per driver profile"
+    },
+    {
+     "basis": "assumption",
+     "market": "US",
+     "method": "Customer feedback",
+     "metric": "Start-stop complaint rows",
+     "target": "<= 10 per 6 months (today 45)"
+    }
+   ],
+   "assumptions": [],
+   "uncertainties": [
+    "Fuel economy certification credits may constrain a persistent off setting; legal check needed."
+   ],
+   "evidence_level": "B",
+   "priority_score": null,
+   "status": "proposed",
+   "version": 1,
+   "findings": [
+    {
+     "id": "FND-G60-US-VOC-automatic_engine_start_stop_function_msa",
+     "role": "primary",
+     "title": "Automatic engine start-stop function (MSA): 45 complaints (recurring complaint)"
+    }
+   ]
+  },
+  {
+   "id": "REQ-G60-US-PR-02",
+   "vehicle": "G60",
+   "market": "US",
+   "domain": "powertrain_range_charging",
+   "title": "Reliable range prediction and cold-weather range guidance for BEV and PHEV",
+   "statement": "The displayed remaining range shall stay within an agreed tolerance of the real range in cold weather, and the car shall explain the expected winter range and the effect of pre-conditioning before a trip.",
+   "recommend": true,
+   "recommend_rationale": "Electric range is the second-largest powertrain complaint (67 rows, 2.6 %, 83 of them BEV); verbatims report estimates that are \"off\" and range that collapses in winter.",
+   "horizon": "H1",
+   "horizon_rationale": "Range estimation and guidance are software.",
+   "markets": [
+    "US"
+   ],
+   "criteria": [
+    {
+     "basis": "assumption",
+     "market": "US",
+     "method": "Fleet data analysis",
+     "metric": "Deviation of displayed vs actual range at 0 °C",
+     "target": "<= 10 %"
+    },
+    {
+     "basis": "assumption",
+     "market": "US",
+     "method": "Function test",
+     "metric": "Winter range guidance in navigation",
+     "target": "Shown before departure when the trip exceeds 70 % of predicted range"
+    }
+   ],
+   "assumptions": [],
+   "uncertainties": [],
+   "evidence_level": "B",
+   "priority_score": null,
+   "status": "proposed",
+   "version": 1,
+   "findings": [
+    {
+     "id": "FND-G60-US-VOC-electric_range",
+     "role": "primary",
+     "title": "Electric Range: 67 complaints (recurring complaint)"
+    },
+    {
+     "id": "FND-G60-US-VOC-high_voltage_battery",
+     "role": "supporting",
+     "title": "High voltage battery: 14 complaints (recurring complaint)"
+    }
+   ]
+  },
+  {
+   "id": "REQ-G60-US-PR-03",
+   "vehicle": "G60",
+   "market": "US",
+   "domain": "powertrain_range_charging",
+   "title": "More real-world electric range in the successor generation",
+   "statement": "The successor of the i5 shall offer a usable real-world range that covers typical US long-distance stages without a charging stop, including in cold weather.",
+   "recommend": true,
+   "recommend_rationale": "Range wishes (17 rows) and usability complaints (50 rows) ask for 350 to 400 miles; the battery capacity of the current generation cannot be raised within the life cycle.",
+   "horizon": "H2",
+   "horizon_rationale": "Needs a new cell and pack generation.",
+   "markets": [
+    "US"
+   ],
+   "criteria": [
+    {
+     "basis": "assumption",
+     "market": "US",
+     "method": "Homologation",
+     "metric": "EPA range of the volume BEV variant",
+     "target": ">= 350 mi"
+    },
+    {
+     "basis": "assumption",
+     "market": "US",
+     "method": "Cold-weather test",
+     "metric": "Range at -7 °C",
+     "target": ">= 75 % of EPA range"
+    }
+   ],
+   "assumptions": [
+    "Customer wishes of 350 to 400 miles in the verbatims represent the US BEV buyer."
+   ],
+   "uncertainties": [],
+   "evidence_level": "B",
+   "priority_score": null,
+   "status": "proposed",
+   "version": 1,
+   "findings": [
+    {
+     "id": "FND-G60-US-VOC-electric_range",
+     "role": "primary",
+     "title": "Electric Range: 67 complaints (recurring complaint)"
+    }
+   ]
+  },
+  {
+   "id": "REQ-G60-US-PR-04",
+   "vehicle": "G60",
+   "market": "US",
+   "domain": "powertrain_range_charging",
+   "title": "Dependable public fast charging on US trips",
+   "statement": "BEV owners shall be able to use the Tesla Supercharger (NACS) network without improvising, the route planner shall prefer stations that are reported working, and the car shall hold its advertised peak charging power for a meaningful part of the session.",
+   "recommend": true,
+   "recommend_rationale": "Public charging draws 55 complaint rows (65 BEV mentions) and battery charging 31 more: broken stations, no NACS access, slow sessions and charge cut-offs make long trips stressful.",
+   "horizon": "H1",
+   "horizon_rationale": "Adapter, network agreement and route-planner logic do not need a new vehicle generation.",
+   "markets": [
+    "US"
+   ],
+   "criteria": [
+    {
+     "basis": "evidence",
+     "market": "US",
+     "method": "Offer check",
+     "metric": "NACS access",
+     "target": "Adapter supplied or available at delivery; Supercharger usable from the car"
+    },
+    {
+     "basis": "assumption",
+     "market": "US",
+     "method": "Route-planner logs",
+     "metric": "Planned stops at stations reported out of order",
+     "target": "<= 5 %"
+    },
+    {
+     "basis": "assumption",
+     "market": "US",
+     "method": "Customer feedback",
+     "metric": "Charging complaint rows",
+     "target": "-50 % within 12 months"
+    }
+   ],
+   "assumptions": [],
+   "uncertainties": [
+    "Third-party network reliability is outside BMW's direct control."
+   ],
+   "evidence_level": "B",
+   "priority_score": null,
+   "status": "proposed",
+   "version": 1,
+   "findings": [
+    {
+     "id": "FND-G60-US-VOC-public_charging_external_providers",
+     "role": "primary",
+     "title": "Public charging / external providers: 55 complaints (recurring complaint)"
+    },
+    {
+     "id": "FND-G60-US-VOC-charge_high_voltage_battery",
+     "role": "supporting",
+     "title": "Charge high-voltage battery: 31 complaints (recurring complaint)"
+    },
+    {
+     "id": "FND-G60-US-EQ-charge_high_voltage_battery",
+     "role": "context",
+     "title": "Charge high-voltage battery: wished or criticised, related equipment is optional or missing"
+    }
+   ]
+  },
+  {
+   "id": "REQ-G60-US-PR-05",
+   "vehicle": "G60",
+   "market": "US",
+   "domain": "powertrain_range_charging",
+   "title": "Charging flap opens reliably in every condition",
+   "statement": "The charge port cover shall open on the first request whenever the car is unlocked, including in frost.",
+   "recommend": true,
+   "recommend_rationale": "20 complaint rows with 13 defects (BEV 19); owners report being stranded because the flap stays locked.",
+   "horizon": "H1",
+   "horizon_rationale": "Field fix of the actuator and its software.",
+   "markets": [
+    "US"
+   ],
+   "criteria": [
+    {
+     "basis": "assumption",
+     "market": "US",
+     "method": "Endurance and climate test",
+     "metric": "Flap opening success rate",
+     "target": ">= 99.9 % down to -20 °C"
+    },
+    {
+     "basis": "assumption",
+     "market": "US",
+     "method": "Customer feedback",
+     "metric": "Defect reports on the flap",
+     "target": "0 in the next feedback wave"
+    }
+   ],
+   "assumptions": [],
+   "uncertainties": [],
+   "evidence_level": "B",
+   "priority_score": null,
+   "status": "proposed",
+   "version": 1,
+   "findings": [
+    {
+     "id": "FND-G60-US-VOC-opening_closing_charging_socket_cover",
+     "role": "primary",
+     "title": "Opening/closing charging socket cover: 20 complaints (recurring complaint)"
+    }
+   ]
+  },
+  {
+   "id": "REQ-G60-US-SP-01",
+   "vehicle": "G60",
+   "market": "US",
+   "domain": "space_practicality",
+   "title": "Hands-free tailgate opens on the first kick and closes from inside",
+   "statement": "The hands-free tailgate shall open on the first foot movement and the trunk shall have a close button on the lid.",
+   "recommend": true,
+   "recommend_rationale": "Non-contact trunk opening is one of the largest single usability complaints (44 rows, 39 usability); trunk lid open/close adds 18 rows with 9 defects.",
+   "horizon": "H1",
+   "horizon_rationale": "Sensor calibration and a close button fit the life-cycle impulse.",
+   "markets": [
+    "US"
+   ],
+   "criteria": [
+    {
+     "basis": "assumption",
+     "market": "US",
+     "method": "User test with 30 participants",
+     "metric": "First-attempt opening rate",
+     "target": ">= 95 %"
+    },
+    {
+     "basis": "evidence",
+     "market": "US",
+     "method": "Offer check",
+     "metric": "Close button on the tailgate",
+     "target": "Present on every variant with power tailgate"
+    }
+   ],
+   "assumptions": [],
+   "uncertainties": [],
+   "evidence_level": "B",
+   "priority_score": null,
+   "status": "proposed",
+   "version": 1,
+   "findings": [
+    {
+     "id": "FND-G60-US-VOC-non_contact_trunk_lid_opening",
+     "role": "primary",
+     "title": "non-contact trunk lid opening: 44 complaints (recurring complaint)"
+    },
+    {
+     "id": "FND-G60-US-VOC-trunk_lid_open_close",
+     "role": "supporting",
+     "title": "Trunk lid, open / close: 18 complaints (recurring complaint)"
+    }
+   ]
+  },
+  {
+   "id": "REQ-G60-US-ID-04",
+   "vehicle": "G60",
+   "market": "US",
+   "domain": "infotainment_digital",
+   "title": "Factory CD player",
+   "statement": "Offer a factory CD player.",
+   "recommend": false,
+   "recommend_rationale": "Seven explicit wishes, all from ICE owners; physical media is declining and the cabin has no package space for it. Kept visible so the PM can confirm the rejection.",
+   "horizon": "H1",
+   "horizon_rationale": "Would only be possible as an accessory.",
+   "markets": [
+    "US"
+   ],
+   "criteria": [
+    {
+     "basis": "assumption",
+     "market": "US",
+     "method": "PM confirmation",
+     "metric": "Not applicable",
+     "target": "Not recommended"
+    }
+   ],
+   "assumptions": [],
+   "uncertainties": [],
+   "evidence_level": "C",
+   "priority_score": null,
+   "status": "proposed",
+   "version": 1,
+   "findings": [
+    {
+     "id": "FND-G60-US-VOC-cd_dvd_changer_playback",
+     "role": "primary",
+     "title": "CD / DVD changer, playback: 7 complaints (unmet need)"
+    }
+   ]
+  }
+ ],
+ "efforts": [
+  {
+   "id": "REQ-G60-US-DA-01",
+   "vehicle": "G60",
+   "market": "US",
+   "title": "Adaptive cruise control as standard and simple assistance controls",
+   "horizon": "H1",
+   "recommend": true,
+   "status": "proposed",
+   "requirement_version": 1,
+   "kind": "change",
+   "effort_pct": 0.2,
+   "p5": 0.08,
+   "p95": 0.36,
+   "decision": "adapt",
+   "decision_stable_pct": 100,
+   "layer": "K0",
+   "size": "XS",
+   "certification": false,
+   "changes": [
+    {
+     "why": "Standard-content decision, hardware is fitted; one-control settings in the HMI",
+     "layer": "K0",
+     "carryover": false,
+     "subsystem": "software_hmi",
+     "own_impact": 0.02,
+     "portfolio_terms": [
+      "Driving Assistant Plus",
+      "Driving Assistant Professional"
+     ]
+    }
+   ],
+   "subsystems": [
+    {
+     "name": "Software/HMI",
+     "path": null,
+     "risk": 0.02,
+     "subsystem": "software_hmi",
+     "effort_pct": 0.2
+    }
+   ],
+   "portfolio": [
+    {
+     "level": 1,
+     "terms": [
+      "Driving Assistant Plus",
+      "Driving Assistant Professional"
+     ],
+     "vehicles": {
+      "F70": {
+       "item": "Driving Assistant Plus",
+       "status": "optional"
+      },
+      "G60": {
+       "item": "Driving Assistant Plus",
+       "status": "optional"
+      },
+      "G70": {
+       "item": "Driving Assistant Plus",
+       "status": "standard"
+      }
+     },
+     "subsystem": "software_hmi",
+     "own_variants": {
+      "total": 10,
+      "optional": 10,
+      "standard": 0
+     }
+    }
+   ],
+   "flags": [],
+   "note": null,
+   "model_hash": "789fcb7624b8",
+   "stale": false
+  },
+  {
+   "id": "REQ-G60-US-DD-01",
+   "vehicle": "G60",
+   "market": "US",
+   "title": "Personal drive mode that is really personal",
+   "horizon": "H1",
+   "recommend": true,
+   "status": "proposed",
+   "requirement_version": 1,
+   "kind": "change",
+   "effort_pct": 0.32,
+   "p5": 0.14,
+   "p95": 0.56,
+   "decision": "adapt",
+   "decision_stable_pct": 100,
+   "layer": "K1",
+   "size": "XS",
+   "certification": false,
+   "changes": [
+    {
+     "why": "Free combination of drive-mode parameters, last mode remembered",
+     "layer": "K1",
+     "carryover": false,
+     "subsystem": "software_hmi",
+     "own_impact": 0.03,
+     "portfolio_terms": []
+    }
+   ],
+   "subsystems": [
+    {
+     "name": "Software/HMI",
+     "path": null,
+     "risk": 0.03,
+     "subsystem": "software_hmi",
+     "effort_pct": 0.3
+    },
+    {
+     "name": "E/E architecture",
+     "path": [
+      "Software/HMI",
+      "E/E architecture"
+     ],
+     "risk": 0.002,
+     "subsystem": "ee_architecture",
+     "effort_pct": 0.02
+    }
+   ],
+   "portfolio": [],
+   "flags": [],
+   "note": null,
+   "model_hash": "789fcb7624b8",
+   "stale": false
+  },
+  {
+   "id": "REQ-G60-US-DD-02",
+   "vehicle": "G60",
+   "market": "US",
+   "title": "Progressive brake pedal feel and predictable recuperation",
+   "horizon": "H1",
+   "recommend": true,
+   "status": "proposed",
+   "requirement_version": 1,
+   "kind": "change",
+   "effort_pct": 1.02,
+   "p5": 0.51,
+   "p95": 1.72,
+   "decision": "adapt",
+   "decision_stable_pct": 100,
+   "layer": "K1",
+   "size": "S",
+   "certification": false,
+   "changes": [
+    {
+     "why": "Brake-by-wire pedal map",
+     "layer": "K1",
+     "carryover": false,
+     "subsystem": "chassis",
+     "own_impact": 0.05,
+     "portfolio_terms": []
+    },
+    {
+     "why": "Recuperation strategy and one-pedal option",
+     "layer": "K1",
+     "carryover": false,
+     "subsystem": "software_hmi",
+     "own_impact": 0.02,
+     "portfolio_terms": []
+    }
+   ],
+   "subsystems": [
+    {
+     "name": "Chassis",
+     "path": null,
+     "risk": 0.05,
+     "subsystem": "chassis",
+     "effort_pct": 0.5
+    },
+    {
+     "name": "Software/HMI",
+     "path": null,
+     "risk": 0.0215,
+     "subsystem": "software_hmi",
+     "effort_pct": 0.21
+    },
+    {
+     "name": "Body/structure",
+     "path": [
+      "Chassis",
+      "Body/structure"
+     ],
+     "risk": 0.01,
+     "subsystem": "body_structure",
+     "effort_pct": 0.18
+    },
+    {
+     "name": "Interior/console",
+     "path": [
+      "Chassis",
+      "Body/structure",
+      "Interior/console"
+     ],
+     "risk": 0.0075,
+     "subsystem": "interior_console",
+     "effort_pct": 0.05
+    },
+    {
+     "name": "Exterior design",
+     "path": [
+      "Chassis",
+      "Body/structure",
+      "Exterior design"
+     ],
+     "risk": 0.006,
+     "subsystem": "exterior_design",
+     "effort_pct": 0.04
+    },
+    {
+     "name": "E/E architecture",
+     "path": [
+      "Chassis",
+      "Body/structure",
+      "Interior/console",
+      "E/E architecture"
+     ],
+     "risk": 0.0031,
+     "subsystem": "ee_architecture",
+     "effort_pct": 0.03
+    },
+    {
+     "name": "Seats",
+     "path": [
+      "Chassis",
+      "Body/structure",
+      "Interior/console",
+      "Seats"
+     ],
+     "risk": 0.0015,
+     "subsystem": "seats",
+     "effort_pct": 0.01
+    }
+   ],
+   "portfolio": [],
+   "flags": [],
+   "note": null,
+   "model_hash": "789fcb7624b8",
+   "stale": false
+  },
+  {
+   "id": "REQ-G60-US-DD-03",
+   "vehicle": "G60",
+   "market": "US",
+   "title": "Keep the handling and ride character in the next generation",
+   "horizon": "H2",
+   "recommend": true,
+   "status": "proposed",
+   "requirement_version": 1,
+   "kind": "preserve",
+   "effort_pct": 0,
+   "p5": 0,
+   "p95": 0,
+   "decision": "no change",
+   "decision_stable_pct": 100,
+   "layer": "K0",
+   "size": "-",
+   "certification": false,
+   "changes": [],
+   "subsystems": [],
+   "portfolio": [],
+   "flags": [],
+   "note": "Protects today's handling for the successor; no change to estimate.",
+   "model_hash": "789fcb7624b8",
+   "stale": false
+  },
+  {
+   "id": "REQ-G60-US-GE-01",
+   "vehicle": "G60",
+   "market": "US",
+   "title": "Guided onboarding for a feature-rich car",
+   "horizon": "H1",
+   "recommend": true,
+   "status": "proposed",
+   "requirement_version": 1,
+   "kind": "change",
+   "effort_pct": 0.2,
+   "p5": 0.08,
+   "p95": 0.36,
+   "decision": "adapt",
+   "decision_stable_pct": 100,
+   "layer": "K0",
+   "size": "XS",
+   "certification": false,
+   "changes": [
+    {
+     "why": "Guided tour and searchable help are content on the existing system",
+     "layer": "K0",
+     "carryover": false,
+     "subsystem": "software_hmi",
+     "own_impact": 0.02,
+     "portfolio_terms": []
+    }
+   ],
+   "subsystems": [
+    {
+     "name": "Software/HMI",
+     "path": null,
+     "risk": 0.02,
+     "subsystem": "software_hmi",
+     "effort_pct": 0.2
+    }
+   ],
+   "portfolio": [],
+   "flags": [],
+   "note": null,
+   "model_hash": "789fcb7624b8",
+   "stale": false
+  },
+  {
+   "id": "REQ-G60-US-IC-01",
+   "vehicle": "G60",
+   "market": "US",
+   "title": "Front and rear seats comfortable for long drives across body sizes",
+   "horizon": "H1",
+   "recommend": true,
+   "status": "proposed",
+   "requirement_version": 1,
+   "kind": "change",
+   "effort_pct": 4.58,
+   "p5": 2.02,
+   "p95": 7.15,
+   "decision": "adapt",
+   "decision_stable_pct": 100,
+   "layer": "K1",
+   "size": "S",
+   "certification": false,
+   "changes": [
+    {
+     "why": "Front and rear cushion foam, contour and lumbar travel on the existing seat structure",
+     "layer": "K1",
+     "carryover": false,
+     "subsystem": "seats",
+     "own_impact": 0.25,
+     "portfolio_terms": []
+    }
+   ],
+   "subsystems": [
+    {
+     "name": "Software/HMI",
+     "path": [
+      "Seats",
+      "E/E architecture",
+      "Software/HMI"
+     ],
+     "risk": 0.2206,
+     "subsystem": "software_hmi",
+     "effort_pct": 2.21
+    },
+    {
+     "name": "Seats",
+     "path": null,
+     "risk": 0.25,
+     "subsystem": "seats",
+     "effort_pct": 1.25
+    },
+    {
+     "name": "E/E architecture",
+     "path": [
+      "Seats",
+      "E/E architecture"
+     ],
+     "risk": 0.0829,
+     "subsystem": "ee_architecture",
+     "effort_pct": 0.75
+    },
+    {
+     "name": "Thermal/HVAC",
+     "path": [
+      "Seats",
+      "Thermal/HVAC"
+     ],
+     "risk": 0.0625,
+     "subsystem": "thermal_hvac",
+     "effort_pct": 0.38
+    }
+   ],
+   "portfolio": [],
+   "flags": [],
+   "note": null,
+   "model_hash": "789fcb7624b8",
+   "stale": false
+  },
+  {
+   "id": "REQ-G60-US-IC-02",
+   "vehicle": "G60",
+   "market": "US",
+   "title": "Climate control direct, strong enough for US heat, and remembers its settings",
+   "horizon": "H1",
+   "recommend": true,
+   "status": "proposed",
+   "requirement_version": 1,
+   "kind": "change",
+   "effort_pct": 2.58,
+   "p5": 1.25,
+   "p95": 4.75,
+   "decision": "adapt",
+   "decision_stable_pct": 100,
+   "layer": "K2",
+   "size": "S",
+   "certification": false,
+   "changes": [
+    {
+     "why": "Vent and blower tuning for heat-soak cool-down",
+     "layer": "K2",
+     "carryover": false,
+     "subsystem": "thermal_hvac",
+     "own_impact": 0.1,
+     "portfolio_terms": []
+    },
+    {
+     "why": "Always-visible temperature and fan control",
+     "layer": "K1",
+     "carryover": false,
+     "subsystem": "interior_console",
+     "own_impact": 0.05,
+     "portfolio_terms": []
+    },
+    {
+     "why": "Persist recirculation, sync and seat-ventilation defaults per profile",
+     "layer": "K1",
+     "carryover": false,
+     "subsystem": "software_hmi",
+     "own_impact": 0.03,
+     "portfolio_terms": []
+    }
+   ],
+   "subsystems": [
+    {
+     "name": "Software/HMI",
+     "path": [
+      "Interior/console",
+      "E/E architecture",
+      "Software/HMI"
+     ],
+     "risk": 0.114,
+     "subsystem": "software_hmi",
+     "effort_pct": 1.14
+    },
+    {
+     "name": "Thermal/HVAC",
+     "path": null,
+     "risk": 0.1064,
+     "subsystem": "thermal_hvac",
+     "effort_pct": 0.64
+    },
+    {
+     "name": "E/E architecture",
+     "path": [
+      "Thermal/HVAC",
+      "E/E architecture"
+     ],
+     "risk": 0.0445,
+     "subsystem": "ee_architecture",
+     "effort_pct": 0.4
+    },
+    {
+     "name": "Interior/console",
+     "path": null,
+     "risk": 0.05,
+     "subsystem": "interior_console",
+     "effort_pct": 0.35
+    },
+    {
+     "name": "Seats",
+     "path": [
+      "Interior/console",
+      "Seats"
+     ],
+     "risk": 0.01,
+     "subsystem": "seats",
+     "effort_pct": 0.05
+    }
+   ],
+   "portfolio": [],
+   "flags": [],
+   "note": null,
+   "model_hash": "789fcb7624b8",
+   "stale": false
+  },
+  {
+   "id": "REQ-G60-US-IC-03",
+   "vehicle": "G60",
+   "market": "US",
+   "title": "Interior materials that match the price class",
+   "horizon": "H1",
+   "recommend": true,
+   "status": "proposed",
+   "requirement_version": 1,
+   "kind": "change",
+   "effort_pct": 3.52,
+   "p5": 1.63,
+   "p95": 6.48,
+   "decision": "adapt",
+   "decision_stable_pct": 100,
+   "layer": "K1",
+   "size": "S",
+   "certification": false,
+   "changes": [
+    {
+     "why": "Soft-touch door panels and dashboard surfaces",
+     "layer": "K1",
+     "carryover": false,
+     "subsystem": "interior_console",
+     "own_impact": 0.15,
+     "portfolio_terms": []
+    },
+    {
+     "why": "Full-leather upholstery option; Merino leather is offered on the G70",
+     "layer": "K1",
+     "carryover": true,
+     "subsystem": "seats",
+     "own_impact": 0.05,
+     "portfolio_terms": [
+      "Merino"
+     ]
+    }
+   ],
+   "subsystems": [
+    {
+     "name": "Software/HMI",
+     "path": [
+      "Interior/console",
+      "E/E architecture",
+      "Software/HMI"
+     ],
+     "risk": 0.1453,
+     "subsystem": "software_hmi",
+     "effort_pct": 1.45
+    },
+    {
+     "name": "Interior/console",
+     "path": null,
+     "risk": 0.15,
+     "subsystem": "interior_console",
+     "effort_pct": 1.05
+    },
+    {
+     "name": "E/E architecture",
+     "path": [
+      "Interior/console",
+      "E/E architecture"
+     ],
+     "risk": 0.0532,
+     "subsystem": "ee_architecture",
+     "effort_pct": 0.48
+    },
+    {
+     "name": "Seats",
+     "path": null,
+     "risk": 0.0785,
+     "subsystem": "seats",
+     "effort_pct": 0.39
+    },
+    {
+     "name": "Thermal/HVAC",
+     "path": [
+      "Interior/console",
+      "Seats",
+      "Thermal/HVAC"
+     ],
+     "risk": 0.0248,
+     "subsystem": "thermal_hvac",
+     "effort_pct": 0.15
+    }
+   ],
+   "portfolio": [
+    {
+     "level": 2,
+     "terms": [
+      "Merino"
+     ],
+     "vehicles": {
+      "G70": {
+       "item": "BMW M Merino leather Black | Atlas Grey",
+       "status": "standard"
+      }
+     },
+     "subsystem": "seats",
+     "own_variants": {
+      "total": 10,
+      "optional": 0,
+      "standard": 0
+     }
+    }
+   ],
+   "flags": [],
+   "note": null,
+   "model_hash": "789fcb7624b8",
+   "stale": false
+  },
+  {
+   "id": "REQ-G60-US-ID-01",
+   "vehicle": "G60",
+   "market": "US",
+   "title": "Frequently used functions reachable with one touch or a physical control",
+   "horizon": "H1",
+   "recommend": true,
+   "status": "proposed",
+   "requirement_version": 1,
+   "kind": "change",
+   "effort_pct": 3.05,
+   "p5": 1.47,
+   "p95": 5.48,
+   "decision": "adapt",
+   "decision_stable_pct": 100,
+   "layer": "K2",
+   "size": "S",
+   "certification": false,
+   "changes": [
+    {
+     "why": "Shortcut layer and widget placement for ten functions",
+     "layer": "K2",
+     "carryover": false,
+     "subsystem": "software_hmi",
+     "own_impact": 0.1,
+     "portfolio_terms": []
+    },
+    {
+     "why": "Physical controls where the panel allows them",
+     "layer": "K2",
+     "carryover": false,
+     "subsystem": "interior_console",
+     "own_impact": 0.1,
+     "portfolio_terms": []
+    }
+   ],
+   "subsystems": [
+    {
+     "name": "Software/HMI",
+     "path": null,
+     "risk": 0.1812,
+     "subsystem": "software_hmi",
+     "effort_pct": 1.81
+    },
+    {
+     "name": "Interior/console",
+     "path": null,
+     "risk": 0.1,
+     "subsystem": "interior_console",
+     "effort_pct": 0.7
+    },
+    {
+     "name": "E/E architecture",
+     "path": [
+      "Interior/console",
+      "E/E architecture"
+     ],
+     "risk": 0.0389,
+     "subsystem": "ee_architecture",
+     "effort_pct": 0.35
+    },
+    {
+     "name": "Seats",
+     "path": [
+      "Interior/console",
+      "Seats"
+     ],
+     "risk": 0.02,
+     "subsystem": "seats",
+     "effort_pct": 0.1
+    },
+    {
+     "name": "Thermal/HVAC",
+     "path": [
+      "Interior/console",
+      "Seats",
+      "Thermal/HVAC"
+     ],
+     "risk": 0.0141,
+     "subsystem": "thermal_hvac",
+     "effort_pct": 0.08
+    }
+   ],
+   "portfolio": [],
+   "flags": [],
+   "note": null,
+   "model_hash": "789fcb7624b8",
+   "stale": false
+  },
+  {
+   "id": "REQ-G60-US-ID-02",
+   "vehicle": "G60",
+   "market": "US",
+   "title": "Phone integration that just works",
+   "horizon": "H1",
+   "recommend": true,
+   "status": "proposed",
+   "requirement_version": 1,
+   "kind": "change",
+   "effort_pct": 1.45,
+   "p5": 0.69,
+   "p95": 2.67,
+   "decision": "adapt",
+   "decision_stable_pct": 100,
+   "layer": "K1",
+   "size": "S",
+   "certification": false,
+   "changes": [
+    {
+     "why": "CarPlay profile binding and loudness matching",
+     "layer": "K1",
+     "carryover": false,
+     "subsystem": "software_hmi",
+     "own_impact": 0.04,
+     "portfolio_terms": []
+    },
+    {
+     "why": "Wireless charger tray cooling",
+     "layer": "K1",
+     "carryover": false,
+     "subsystem": "interior_console",
+     "own_impact": 0.05,
+     "portfolio_terms": []
+    }
+   ],
+   "subsystems": [
+    {
+     "name": "Software/HMI",
+     "path": [
+      "Interior/console",
+      "E/E architecture",
+      "Software/HMI"
+     ],
+     "risk": 0.084,
+     "subsystem": "software_hmi",
+     "effort_pct": 0.84
+    },
+    {
+     "name": "Interior/console",
+     "path": null,
+     "risk": 0.05,
+     "subsystem": "interior_console",
+     "effort_pct": 0.35
+    },
+    {
+     "name": "E/E architecture",
+     "path": [
+      "Interior/console",
+      "E/E architecture"
+     ],
+     "risk": 0.019,
+     "subsystem": "ee_architecture",
+     "effort_pct": 0.17
+    },
+    {
+     "name": "Seats",
+     "path": [
+      "Interior/console",
+      "Seats"
+     ],
+     "risk": 0.01,
+     "subsystem": "seats",
+     "effort_pct": 0.05
+    },
+    {
+     "name": "Thermal/HVAC",
+     "path": [
+      "Interior/console",
+      "Seats",
+      "Thermal/HVAC"
+     ],
+     "risk": 0.0071,
+     "subsystem": "thermal_hvac",
+     "effort_pct": 0.04
+    }
+   ],
+   "portfolio": [],
+   "flags": [],
+   "note": null,
+   "model_hash": "789fcb7624b8",
+   "stale": false
+  },
+  {
+   "id": "REQ-G60-US-ID-03",
+   "vehicle": "G60",
+   "market": "US",
+   "title": "Driver profiles and settings survive updates and shared use",
+   "horizon": "H1",
+   "recommend": true,
+   "status": "proposed",
+   "requirement_version": 1,
+   "kind": "change",
+   "effort_pct": 0.42,
+   "p5": 0.18,
+   "p95": 0.75,
+   "decision": "adapt",
+   "decision_stable_pct": 100,
+   "layer": "K1",
+   "size": "XS",
+   "certification": false,
+   "changes": [
+    {
+     "why": "Profiles survive OTA, two keys per profile, driver recognition",
+     "layer": "K1",
+     "carryover": false,
+     "subsystem": "software_hmi",
+     "own_impact": 0.04,
+     "portfolio_terms": []
+    }
+   ],
+   "subsystems": [
+    {
+     "name": "Software/HMI",
+     "path": null,
+     "risk": 0.04,
+     "subsystem": "software_hmi",
+     "effort_pct": 0.4
+    },
+    {
+     "name": "E/E architecture",
+     "path": [
+      "Software/HMI",
+      "E/E architecture"
+     ],
+     "risk": 0.0027,
+     "subsystem": "ee_architecture",
+     "effort_pct": 0.02
+    }
+   ],
+   "portfolio": [],
+   "flags": [],
+   "note": null,
+   "model_hash": "789fcb7624b8",
+   "stale": false
+  },
+  {
+   "id": "REQ-G60-US-ID-04",
+   "vehicle": "G60",
+   "market": "US",
+   "title": "Factory CD player",
+   "horizon": "H1",
+   "recommend": false,
+   "status": "proposed",
+   "requirement_version": 1,
+   "kind": "change",
+   "effort_pct": 2.08,
+   "p5": 0.94,
+   "p95": 4.07,
+   "decision": "adapt",
+   "decision_stable_pct": 100,
+   "layer": "K2",
+   "size": "S",
+   "certification": false,
+   "changes": [
+    {
+     "why": "CD drive as an accessory needs a mount, supply and a media source; not in any BMW catalogue",
+     "layer": "K2",
+     "carryover": false,
+     "subsystem": "interior_console",
+     "own_impact": 0.1,
+     "portfolio_terms": []
+    }
+   ],
+   "subsystems": [
+    {
+     "name": "Software/HMI",
+     "path": [
+      "Interior/console",
+      "E/E architecture",
+      "Software/HMI"
+     ],
+     "risk": 0.0902,
+     "subsystem": "software_hmi",
+     "effort_pct": 0.9
+    },
+    {
+     "name": "Interior/console",
+     "path": null,
+     "risk": 0.1,
+     "subsystem": "interior_console",
+     "effort_pct": 0.7
+    },
+    {
+     "name": "E/E architecture",
+     "path": [
+      "Interior/console",
+      "E/E architecture"
+     ],
+     "risk": 0.0325,
+     "subsystem": "ee_architecture",
+     "effort_pct": 0.29
+    },
+    {
+     "name": "Seats",
+     "path": [
+      "Interior/console",
+      "Seats"
+     ],
+     "risk": 0.02,
+     "subsystem": "seats",
+     "effort_pct": 0.1
+    },
+    {
+     "name": "Thermal/HVAC",
+     "path": [
+      "Interior/console",
+      "Seats",
+      "Thermal/HVAC"
+     ],
+     "risk": 0.0141,
+     "subsystem": "thermal_hvac",
+     "effort_pct": 0.08
+    }
+   ],
+   "portfolio": [],
+   "flags": [],
+   "note": null,
+   "model_hash": "789fcb7624b8",
+   "stale": false
+  },
+  {
+   "id": "REQ-G60-US-PR-01",
+   "vehicle": "G60",
+   "market": "US",
+   "title": "Auto start-stop can be switched off permanently by the driver",
+   "horizon": "H1",
+   "recommend": true,
+   "status": "proposed",
+   "requirement_version": 1,
+   "kind": "change",
+   "effort_pct": 1.88,
+   "p5": 0.91,
+   "p95": 3.55,
+   "decision": "adapt",
+   "decision_stable_pct": 100,
+   "layer": "K1",
+   "size": "S",
+   "certification": false,
+   "changes": [
+    {
+     "why": "Persistent off setting in the driver profile (OTA)",
+     "layer": "K0",
+     "carryover": false,
+     "subsystem": "software_hmi",
+     "own_impact": 0.02,
+     "portfolio_terms": []
+    },
+    {
+     "why": "Restart calibration; certification credit check stays open (requirement uncertainty)",
+     "layer": "K1",
+     "carryover": false,
+     "subsystem": "powertrain",
+     "own_impact": 0.03,
+     "portfolio_terms": []
+    }
+   ],
+   "subsystems": [
+    {
+     "name": "Software/HMI",
+     "path": [
+      "Powertrain",
+      "E/E architecture",
+      "Software/HMI"
+     ],
+     "risk": 0.0607,
+     "subsystem": "software_hmi",
+     "effort_pct": 0.61
+    },
+    {
+     "name": "Powertrain",
+     "path": null,
+     "risk": 0.03,
+     "subsystem": "powertrain",
+     "effort_pct": 0.42
+    },
+    {
+     "name": "Body/structure",
+     "path": [
+      "Powertrain",
+      "Body/structure"
+     ],
+     "risk": 0.0144,
+     "subsystem": "body_structure",
+     "effort_pct": 0.26
+    },
+    {
+     "name": "E/E architecture",
+     "path": [
+      "Powertrain",
+      "E/E architecture"
+     ],
+     "risk": 0.0255,
+     "subsystem": "ee_architecture",
+     "effort_pct": 0.23
+    },
+    {
+     "name": "Chassis",
+     "path": [
+      "Powertrain",
+      "Body/structure",
+      "Chassis"
+     ],
+     "risk": 0.0159,
+     "subsystem": "chassis",
+     "effort_pct": 0.16
+    },
+    {
+     "name": "Thermal/HVAC",
+     "path": [
+      "Powertrain",
+      "Thermal/HVAC"
+     ],
+     "risk": 0.0184,
+     "subsystem": "thermal_hvac",
+     "effort_pct": 0.11
+    },
+    {
+     "name": "Interior/console",
+     "path": [
+      "Powertrain",
+      "Body/structure",
+      "Interior/console"
+     ],
+     "risk": 0.0078,
+     "subsystem": "interior_console",
+     "effort_pct": 0.05
+    },
+    {
+     "name": "Exterior design",
+     "path": [
+      "Powertrain",
+      "Body/structure",
+      "Exterior design"
+     ],
+     "risk": 0.0062,
+     "subsystem": "exterior_design",
+     "effort_pct": 0.04
+    },
+    {
+     "name": "Seats",
+     "path": [
+      "Powertrain",
+      "Body/structure",
+      "Interior/console",
+      "Seats"
+     ],
+     "risk": 0.0012,
+     "subsystem": "seats",
+     "effort_pct": 0.01
+    }
+   ],
+   "portfolio": [],
+   "flags": [],
+   "note": null,
+   "model_hash": "789fcb7624b8",
+   "stale": false
+  },
+  {
+   "id": "REQ-G60-US-PR-02",
+   "vehicle": "G60",
+   "market": "US",
+   "title": "Reliable range prediction and cold-weather range guidance for BEV and PHEV",
+   "horizon": "H1",
+   "recommend": true,
+   "status": "proposed",
+   "requirement_version": 1,
+   "kind": "change",
+   "effort_pct": 0.42,
+   "p5": 0.18,
+   "p95": 0.75,
+   "decision": "adapt",
+   "decision_stable_pct": 100,
+   "layer": "K1",
+   "size": "XS",
+   "certification": false,
+   "changes": [
+    {
+     "why": "Range estimation model and winter guidance in navigation",
+     "layer": "K1",
+     "carryover": false,
+     "subsystem": "software_hmi",
+     "own_impact": 0.04,
+     "portfolio_terms": []
+    }
+   ],
+   "subsystems": [
+    {
+     "name": "Software/HMI",
+     "path": null,
+     "risk": 0.04,
+     "subsystem": "software_hmi",
+     "effort_pct": 0.4
+    },
+    {
+     "name": "E/E architecture",
+     "path": [
+      "Software/HMI",
+      "E/E architecture"
+     ],
+     "risk": 0.0027,
+     "subsystem": "ee_architecture",
+     "effort_pct": 0.02
+    }
+   ],
+   "portfolio": [],
+   "flags": [],
+   "note": null,
+   "model_hash": "789fcb7624b8",
+   "stale": false
+  },
+  {
+   "id": "REQ-G60-US-PR-03",
+   "vehicle": "G60",
+   "market": "US",
+   "title": "More real-world electric range in the successor generation",
+   "horizon": "H2",
+   "recommend": true,
+   "status": "proposed",
+   "requirement_version": 1,
+   "kind": "change",
+   "effort_pct": 48.98,
+   "p5": 36.73,
+   "p95": 56.87,
+   "decision": "new generation",
+   "decision_stable_pct": 100,
+   "layer": "K3",
+   "size": "L",
+   "certification": true,
+   "changes": [
+    {
+     "why": "New cell and pack generation for more range (same case as the Gen6 anchor)",
+     "layer": "K3",
+     "carryover": false,
+     "subsystem": "hv_battery",
+     "own_impact": 1,
+     "portfolio_terms": []
+    }
+   ],
+   "subsystems": [
+    {
+     "name": "HV battery",
+     "path": null,
+     "risk": 1,
+     "subsystem": "hv_battery",
+     "effort_pct": 10
+    },
+    {
+     "name": "Body/structure",
+     "path": [
+      "HV battery",
+      "Body/structure"
+     ],
+     "risk": 0.4216,
+     "subsystem": "body_structure",
+     "effort_pct": 7.59
+    },
+    {
+     "name": "Software/HMI",
+     "path": [
+      "HV battery",
+      "E/E architecture",
+      "Software/HMI"
+     ],
+     "risk": 0.4475,
+     "subsystem": "software_hmi",
+     "effort_pct": 4.47
+    },
+    {
+     "name": "E/E architecture",
+     "path": [
+      "HV battery",
+      "E/E architecture"
+     ],
+     "risk": 0.4667,
+     "subsystem": "ee_architecture",
+     "effort_pct": 4.2
+    },
+    {
+     "name": "Thermal/HVAC",
+     "path": [
+      "HV battery",
+      "Thermal/HVAC"
+     ],
+     "risk": 0.5437,
+     "subsystem": "thermal_hvac",
+     "effort_pct": 3.26
+    },
+    {
+     "name": "Chassis",
+     "path": [
+      "HV battery",
+      "Chassis"
+     ],
+     "risk": 0.3112,
+     "subsystem": "chassis",
+     "effort_pct": 3.11
+    },
+    {
+     "name": "Charging",
+     "path": [
+      "HV battery",
+      "Charging"
+     ],
+     "risk": 0.63,
+     "subsystem": "charging",
+     "effort_pct": 2.52
+    },
+    {
+     "name": "Interior/console",
+     "path": [
+      "HV battery",
+      "Body/structure",
+      "Interior/console"
+     ],
+     "risk": 0.1438,
+     "subsystem": "interior_console",
+     "effort_pct": 1.01
+    },
+    {
+     "name": "Exterior design",
+     "path": [
+      "HV battery",
+      "Body/structure",
+      "Exterior design"
+     ],
+     "risk": 0.1155,
+     "subsystem": "exterior_design",
+     "effort_pct": 0.69
+    },
+    {
+     "name": "Seats",
+     "path": [
+      "HV battery",
+      "Body/structure",
+      "Interior/console",
+      "Seats"
+     ],
+     "risk": 0.024,
+     "subsystem": "seats",
+     "effort_pct": 0.12
+    }
+   ],
+   "portfolio": [],
+   "flags": [],
+   "note": null,
+   "model_hash": "789fcb7624b8",
+   "stale": false
+  },
+  {
+   "id": "REQ-G60-US-PR-04",
+   "vehicle": "G60",
+   "market": "US",
+   "title": "Dependable public fast charging on US trips",
+   "horizon": "H1",
+   "recommend": true,
+   "status": "proposed",
+   "requirement_version": 1,
+   "kind": "change",
+   "effort_pct": 0.92,
+   "p5": 0.44,
+   "p95": 1.54,
+   "decision": "adapt",
+   "decision_stable_pct": 100,
+   "layer": "K2",
+   "size": "XS",
+   "certification": false,
+   "changes": [
+    {
+     "why": "NACS inlet or adapter; built-in NACS comes with the i5 M60 in 2026",
+     "layer": "K2",
+     "carryover": true,
+     "subsystem": "charging",
+     "own_impact": 0.15,
+     "portfolio_terms": []
+    },
+    {
+     "why": "Route planner prefers working stations",
+     "layer": "K1",
+     "carryover": false,
+     "subsystem": "software_hmi",
+     "own_impact": 0.03,
+     "portfolio_terms": []
+    }
+   ],
+   "subsystems": [
+    {
+     "name": "Charging",
+     "path": null,
+     "risk": 0.15,
+     "subsystem": "charging",
+     "effort_pct": 0.6
+    },
+    {
+     "name": "Software/HMI",
+     "path": null,
+     "risk": 0.03,
+     "subsystem": "software_hmi",
+     "effort_pct": 0.3
+    },
+    {
+     "name": "E/E architecture",
+     "path": [
+      "Software/HMI",
+      "E/E architecture"
+     ],
+     "risk": 0.002,
+     "subsystem": "ee_architecture",
+     "effort_pct": 0.02
+    }
+   ],
+   "portfolio": [],
+   "flags": [],
+   "note": null,
+   "model_hash": "789fcb7624b8",
+   "stale": false
+  },
+  {
+   "id": "REQ-G60-US-PR-05",
+   "vehicle": "G60",
+   "market": "US",
+   "title": "Charging flap opens reliably in every condition",
+   "horizon": "H1",
+   "recommend": true,
+   "status": "proposed",
+   "requirement_version": 1,
+   "kind": "change",
+   "effort_pct": 0.2,
+   "p5": 0.08,
+   "p95": 0.37,
+   "decision": "adapt",
+   "decision_stable_pct": 100,
+   "layer": "K1",
+   "size": "XS",
+   "certification": false,
+   "changes": [
+    {
+     "why": "Flap actuator field fix and frost strategy",
+     "layer": "K1",
+     "carryover": false,
+     "subsystem": "charging",
+     "own_impact": 0.05,
+     "portfolio_terms": []
+    }
+   ],
+   "subsystems": [
+    {
+     "name": "Charging",
+     "path": null,
+     "risk": 0.05,
+     "subsystem": "charging",
+     "effort_pct": 0.2
+    }
+   ],
+   "portfolio": [],
+   "flags": [],
+   "note": null,
+   "model_hash": "789fcb7624b8",
+   "stale": false
+  },
+  {
+   "id": "REQ-G60-US-SP-01",
+   "vehicle": "G60",
+   "market": "US",
+   "title": "Hands-free tailgate opens on the first kick and closes from inside",
+   "horizon": "H1",
+   "recommend": true,
+   "status": "proposed",
+   "requirement_version": 1,
+   "kind": "change",
+   "effort_pct": 0.61,
+   "p5": 0.29,
+   "p95": 1.17,
+   "decision": "adapt",
+   "decision_stable_pct": 100,
+   "layer": "K1",
+   "size": "XS",
+   "certification": false,
+   "changes": [
+    {
+     "why": "Kick-sensor calibration and a close button on the lid",
+     "layer": "K1",
+     "carryover": false,
+     "subsystem": "exterior_design",
+     "own_impact": 0.04,
+     "portfolio_terms": []
+    }
+   ],
+   "subsystems": [
+    {
+     "name": "Exterior design",
+     "path": null,
+     "risk": 0.04,
+     "subsystem": "exterior_design",
+     "effort_pct": 0.24
+    },
+    {
+     "name": "Software/HMI",
+     "path": [
+      "Exterior design",
+      "E/E architecture",
+      "Software/HMI"
+     ],
+     "risk": 0.0179,
+     "subsystem": "software_hmi",
+     "effort_pct": 0.18
+    },
+    {
+     "name": "Body/structure",
+     "path": [
+      "Exterior design",
+      "Body/structure"
+     ],
+     "risk": 0.0027,
+     "subsystem": "body_structure",
+     "effort_pct": 0.05
+    },
+    {
+     "name": "Chassis",
+     "path": [
+      "Exterior design",
+      "Body/structure",
+      "Chassis"
+     ],
+     "risk": 0.0053,
+     "subsystem": "chassis",
+     "effort_pct": 0.05
+    },
+    {
+     "name": "E/E architecture",
+     "path": [
+      "Exterior design",
+      "E/E architecture"
+     ],
+     "risk": 0.0059,
+     "subsystem": "ee_architecture",
+     "effort_pct": 0.05
+    },
+    {
+     "name": "Interior/console",
+     "path": [
+      "Exterior design",
+      "Body/structure",
+      "Interior/console"
+     ],
+     "risk": 0.004,
+     "subsystem": "interior_console",
+     "effort_pct": 0.03
+    }
+   ],
+   "portfolio": [],
+   "flags": [],
+   "note": null,
+   "model_hash": "789fcb7624b8",
+   "stale": false
+  },
+  {
+   "id": "REQ-G60-US-SP-02",
+   "vehicle": "G60",
+   "market": "US",
+   "title": "Practical storage for everyday items",
+   "horizon": "H1",
+   "recommend": true,
+   "status": "proposed",
+   "requirement_version": 1,
+   "kind": "change",
+   "effort_pct": 2.08,
+   "p5": 0.94,
+   "p95": 4.07,
+   "decision": "adapt",
+   "decision_stable_pct": 100,
+   "layer": "K1",
+   "size": "S",
+   "certification": false,
+   "changes": [
+    {
+     "why": "Seat-back pockets, sunglasses holder, covered tray, larger door pockets",
+     "layer": "K1",
+     "carryover": false,
+     "subsystem": "interior_console",
+     "own_impact": 0.1,
+     "portfolio_terms": []
+    }
+   ],
+   "subsystems": [
+    {
+     "name": "Software/HMI",
+     "path": [
+      "Interior/console",
+      "E/E architecture",
+      "Software/HMI"
+     ],
+     "risk": 0.0902,
+     "subsystem": "software_hmi",
+     "effort_pct": 0.9
+    },
+    {
+     "name": "Interior/console",
+     "path": null,
+     "risk": 0.1,
+     "subsystem": "interior_console",
+     "effort_pct": 0.7
+    },
+    {
+     "name": "E/E architecture",
+     "path": [
+      "Interior/console",
+      "E/E architecture"
+     ],
+     "risk": 0.0325,
+     "subsystem": "ee_architecture",
+     "effort_pct": 0.29
+    },
+    {
+     "name": "Seats",
+     "path": [
+      "Interior/console",
+      "Seats"
+     ],
+     "risk": 0.02,
+     "subsystem": "seats",
+     "effort_pct": 0.1
+    },
+    {
+     "name": "Thermal/HVAC",
+     "path": [
+      "Interior/console",
+      "Seats",
+      "Thermal/HVAC"
+     ],
+     "risk": 0.0141,
+     "subsystem": "thermal_hvac",
+     "effort_pct": 0.08
+    }
+   ],
+   "portfolio": [],
+   "flags": [],
+   "note": null,
+   "model_hash": "789fcb7624b8",
+   "stale": false
+  },
+  {
+   "id": "REQ-G60-US-SP-03",
+   "vehicle": "G60",
+   "market": "US",
+   "title": "Keyless access on all four doors and easy door handling",
+   "horizon": "H1",
+   "recommend": true,
+   "status": "proposed",
+   "requirement_version": 1,
+   "kind": "change",
+   "effort_pct": 0.44,
+   "p5": 0.21,
+   "p95": 0.79,
+   "decision": "adapt",
+   "decision_stable_pct": 100,
+   "layer": "K1",
+   "size": "XS",
+   "certification": false,
+   "changes": [
+    {
+     "why": "Sensor door handles at the rear, closing-force tuning; comfort access exists on the G70",
+     "layer": "K1",
+     "carryover": true,
+     "subsystem": "exterior_design",
+     "own_impact": 0.05,
+     "portfolio_terms": [
+      "Komfortzugang",
+      "Comfort Access"
+     ]
+    }
+   ],
+   "subsystems": [
+    {
+     "name": "Exterior design",
+     "path": null,
+     "risk": 0.05,
+     "subsystem": "exterior_design",
+     "effort_pct": 0.3
+    },
+    {
+     "name": "Software/HMI",
+     "path": [
+      "Exterior design",
+      "E/E architecture",
+      "Software/HMI"
+     ],
+     "risk": 0.0067,
+     "subsystem": "software_hmi",
+     "effort_pct": 0.07
+    },
+    {
+     "name": "Body/structure",
+     "path": [
+      "Exterior design",
+      "Body/structure"
+     ],
+     "risk": 0.001,
+     "subsystem": "body_structure",
+     "effort_pct": 0.02
+    },
+    {
+     "name": "Chassis",
+     "path": [
+      "Exterior design",
+      "Body/structure",
+      "Chassis"
+     ],
+     "risk": 0.002,
+     "subsystem": "chassis",
+     "effort_pct": 0.02
+    },
+    {
+     "name": "E/E architecture",
+     "path": [
+      "Exterior design",
+      "E/E architecture"
+     ],
+     "risk": 0.0022,
+     "subsystem": "ee_architecture",
+     "effort_pct": 0.02
+    },
+    {
+     "name": "Interior/console",
+     "path": [
+      "Exterior design",
+      "Body/structure",
+      "Interior/console"
+     ],
+     "risk": 0.0015,
+     "subsystem": "interior_console",
+     "effort_pct": 0.01
+    }
+   ],
+   "portfolio": [
+    {
+     "level": 2,
+     "terms": [
+      "Komfortzugang",
+      "Comfort Access"
+     ],
+     "vehicles": {
+      "G70": {
+       "item": "Comfort Access",
+       "status": "standard"
+      }
+     },
+     "subsystem": "exterior_design",
+     "own_variants": {
+      "total": 10,
+      "optional": 0,
+      "standard": 0
+     }
+    }
+   ],
+   "flags": [],
+   "note": null,
+   "model_hash": "789fcb7624b8",
+   "stale": false
+  }
+ ],
+ "scenarios": [
+  {
+   "scenario": "H1",
+   "label": "Evolve the current model (H1 requirements in one life-cycle impulse)",
+   "requirements": 17,
+   "with_changes": 17,
+   "sum_of_single_pct": 23.89,
+   "effort_pct": 18.35,
+   "layer": "K2",
+   "decision": "major revision",
+   "size": "L",
+   "certification_add_on": false,
+   "platform_change": false,
+   "subsystems": [
+    {
+     "subsystem": "software_hmi",
+     "name": "Software/HMI",
+     "risk": 0.6992,
+     "effort_pct": 6.99,
+     "path": [
+      "Seats",
+      "E/E architecture",
+      "Software/HMI"
+     ]
+    },
+    {
+     "subsystem": "interior_console",
+     "name": "Interior/console",
+     "risk": 0.3915,
+     "effort_pct": 2.74,
+     "path": null
+    },
+    {
+     "subsystem": "ee_architecture",
+     "name": "E/E architecture",
+     "risk": 0.2774,
+     "effort_pct": 2.5,
+     "path": [
+      "Seats",
+      "E/E architecture"
+     ]
+    },
+    {
+     "subsystem": "seats",
+     "name": "Seats",
+     "risk": 0.3519,
+     "effort_pct": 1.76,
+     "path": null
+    },
+    {
+     "subsystem": "thermal_hvac",
+     "name": "Thermal/HVAC",
+     "risk": 0.2267,
+     "effort_pct": 1.36,
+     "path": null
+    },
+    {
+     "subsystem": "charging",
+     "name": "Charging",
+     "risk": 0.1925,
+     "effort_pct": 0.77,
+     "path": null
+    }
+   ],
+   "p5": 10.44,
+   "p95": 26.81,
+   "decision_stable_pct": 72.7,
+   "score_stable_pct": 72.7,
+   "kind": "change"
+  },
+  {
+   "scenario": "H2",
+   "label": "Successor generation (H2 requirements)",
+   "requirements": 2,
+   "with_changes": 1,
+   "sum_of_single_pct": 48.98,
+   "effort_pct": 48.98,
+   "layer": "K3",
+   "decision": "new generation",
+   "size": "L",
+   "certification_add_on": true,
+   "platform_change": true,
+   "subsystems": [
+    {
+     "subsystem": "hv_battery",
+     "name": "HV battery",
+     "risk": 1,
+     "effort_pct": 10,
+     "path": null
+    },
+    {
+     "subsystem": "body_structure",
+     "name": "Body/structure",
+     "risk": 0.4216,
+     "effort_pct": 7.59,
+     "path": [
+      "HV battery",
+      "Body/structure"
+     ]
+    },
+    {
+     "subsystem": "software_hmi",
+     "name": "Software/HMI",
+     "risk": 0.4475,
+     "effort_pct": 4.47,
+     "path": [
+      "HV battery",
+      "E/E architecture",
+      "Software/HMI"
+     ]
+    },
+    {
+     "subsystem": "ee_architecture",
+     "name": "E/E architecture",
+     "risk": 0.4667,
+     "effort_pct": 4.2,
+     "path": [
+      "HV battery",
+      "E/E architecture"
+     ]
+    },
+    {
+     "subsystem": "thermal_hvac",
+     "name": "Thermal/HVAC",
+     "risk": 0.5437,
+     "effort_pct": 3.26,
+     "path": [
+      "HV battery",
+      "Thermal/HVAC"
+     ]
+    },
+    {
+     "subsystem": "chassis",
+     "name": "Chassis",
+     "risk": 0.3112,
+     "effort_pct": 3.11,
+     "path": [
+      "HV battery",
+      "Chassis"
+     ]
+    }
+   ],
+   "p5": 36.73,
+   "p95": 56.87,
+   "decision_stable_pct": 100,
+   "score_stable_pct": 71.5,
+   "kind": "change"
+  },
+  {
+   "scenario": "ALL",
+   "label": "Everything on the current model (H1 + H2 in one impulse)",
+   "requirements": 19,
+   "with_changes": 18,
+   "sum_of_single_pct": 72.87,
+   "effort_pct": 60.87,
+   "layer": "K3",
+   "decision": "new generation",
+   "size": "XL",
+   "certification_add_on": true,
+   "platform_change": true,
+   "subsystems": [
+    {
+     "subsystem": "hv_battery",
+     "name": "HV battery",
+     "risk": 1,
+     "effort_pct": 10,
+     "path": null
+    },
+    {
+     "subsystem": "software_hmi",
+     "name": "Software/HMI",
+     "risk": 0.8338,
+     "effort_pct": 8.34,
+     "path": [
+      "HV battery",
+      "E/E architecture",
+      "Software/HMI"
+     ]
+    },
+    {
+     "subsystem": "body_structure",
+     "name": "Body/structure",
+     "risk": 0.4377,
+     "effort_pct": 7.88,
+     "path": [
+      "HV battery",
+      "Body/structure"
+     ]
+    },
+    {
+     "subsystem": "ee_architecture",
+     "name": "E/E architecture",
+     "risk": 0.6146,
+     "effort_pct": 5.53,
+     "path": [
+      "HV battery",
+      "E/E architecture"
+     ]
+    },
+    {
+     "subsystem": "thermal_hvac",
+     "name": "Thermal/HVAC",
+     "risk": 0.6471,
+     "effort_pct": 3.88,
+     "path": [
+      "HV battery",
+      "Thermal/HVAC"
+     ]
+    },
+    {
+     "subsystem": "chassis",
+     "name": "Chassis",
+     "risk": 0.3608,
+     "effort_pct": 3.61,
+     "path": [
+      "HV battery",
+      "Chassis"
+     ]
+    }
+   ],
+   "p5": 46.54,
+   "p95": 70.45,
+   "decision_stable_pct": 100,
+   "score_stable_pct": 87.5,
+   "kind": "change"
+  }
+ ],
+ "excluded": [
+  {
+   "reason": "Pricing; outside the scope of product requirements (challenge brief).",
+   "finding": "FND-G60-US-MET-us_2025-affordability"
+  },
+  {
+   "reason": "Residual value; commercial topic, not a product requirement.",
+   "finding": "FND-G60-US-MET-us_2025-resale_value"
+  },
+  {
+   "reason": "Cost of ownership; commercial topic.",
+   "finding": "FND-G60-US-MET-us_2025-cost_of_ownership"
+  },
+  {
+   "reason": "Off-road capability is not a target attribute of a sedan.",
+   "finding": "FND-G60-US-MET-us_2025-offroad_capability"
+  },
+  {
+   "reason": "10 rows; conflicts with aerodynamics and range targets.",
+   "finding": "FND-G60-US-VOC-ground_clearance"
+  },
+  {
+   "reason": "5 wishes, below the relevance threshold.",
+   "finding": "FND-G60-US-VOC-fog_light"
+  }
+ ],
+ "events": [
+  {
+   "id": 3102,
+   "ts": "2026-10-11T02:43:05.408559+00:00",
+   "run_id": "RUN-20261011-024304-requirements.import-56c4",
+   "actor_type": "agent",
+   "actor_id": "assistant:claude-opus-5-5",
+   "action": "requirement.created",
+   "entity_type": "requirement",
+   "entity_id": "REQ-G60-US-IC-01",
+   "before": null,
+   "after": {
+    "title": "Front and rear seats comfortable for long drives across body sizes",
+    "domain": "interior_comfort",
+    "horizon": "H1",
+    "markets": [
+     "US"
+    ],
+    "criteria": [
+     {
+      "basis": "evidence",
+      "market": "US",
+      "method": "Next US customer study wave",
+      "metric": "Study front seat comfort (1-7)",
+      "target": ">= 6.0 (today 5.74, peer 6.04)"
+     },
+     {
+      "basis": "evidence",
+      "market": "US",
+      "method": "Next US customer study wave",
+      "metric": "Study rear seat comfort (1-7)",
+      "target": ">= 6.0 (today 5.27, peer 6.24)"
+     },
+     {
+      "basis": "assumption",
+      "market": "US",
+      "method": "Customer feedback sources A-D, rolling 6 months",
+      "metric": "Share of seat complaint rows",
+      "target": "<= 1.2 % of complaint rows (today 2.4 %)"
+     },
+     {
+      "basis": "evidence",
+      "market": "US",
+      "method": "Seat test",
+      "metric": "Lumbar support travel",
+      "target": "Can be set to a completely flat position"
+     }
+    ],
+    "findings": [
+     {
+      "id": "FND-G60-US-VOC-seats",
+      "role": "primary"
+     },
+     {
+      "id": "FND-G60-US-MET-us_2025-seat_comfort",
+      "role": "supporting"
+     },
+     {
+      "id": "FND-G60-US-MET-us_2025-rear_seat_comfort",
+      "role": "supporting"
+     },
+     {
+      "id": "FND-G60-US-VOC-adjustment_of_lower_lumbar_support",
+      "role": "supporting"
+     },
+     {
+      "id": "FND-G60-US-EQ-seats",
+      "role": "context"
+     }
+    ],
+    "recommend": true,
+    "statement": "The front seats shall allow a pain-free two-hour drive for drivers from 1.60 m to 1.90 m, including a lumbar support that can be set completely flat, and the rear seat cushion and backrest shall match the comfort of the front seats.",
+    "assumptions": [
+     "Study scores of the next wave are comparable with the 2025 wave."
+    ],
+    "uncertainties": [
+     "Comfort perception differs between ICE (71 rows) and BEV (38 rows) buyers; the split is small."
+    ],
+    "evidence_level": "A",
+    "horizon_rationale": "Cushion, contour and lumbar calibration change within the life-cycle impulse; no new architecture needed.",
+    "recommend_rationale": "Seats are the largest complaint theme of the interior (62 complaint rows, 2.4 % of all US complaints, level A) and both study attributes sit below the peer: front seat comfort 5.74 vs 6.04, rear seat comfort 5.27 vs 6.24. Verbatims name back pain, firmness and a lumbar support that cannot be flattened."
+   },
+   "rationale": "Seats are the largest complaint theme of the interior (62 complaint rows, 2.4 % of all US complaints, level A) and both study attributes sit below the peer: front seat comfort 5.74 vs 6.04, rear seat comfort 5.27 vs 6.24. Verbatims name back pain, firmness and a lumbar support that cannot be flattened.",
+   "model_id": null,
+   "prompt_version": null,
+   "parent_event_id": null
+  },
+  {
+   "id": 3103,
+   "ts": "2026-10-11T02:43:05.415363+00:00",
+   "run_id": "RUN-20261011-024304-requirements.import-56c4",
+   "actor_type": "agent",
+   "actor_id": "assistant:claude-opus-5-5",
+   "action": "requirement.created",
+   "entity_type": "requirement",
+   "entity_id": "REQ-G60-US-ID-01",
+   "before": null,
+   "after": {
+    "title": "Frequently used functions reachable with one touch or a physical control",
+    "domain": "infotainment_digital",
+    "horizon": "H1",
+    "markets": [
+     "US"
+    ],
+    "criteria": [
+     {
+      "basis": "assumption",
+      "market": "US",
+      "method": "HMI test protocol",
+      "metric": "Touches to reach each of the ten listed functions while driving",
+      "target": "<= 1"
+     },
+     {
+      "basis": "assumption",
+      "market": "US",
+      "method": "Next US customer study wave",
+      "metric": "Study infotainment menu structure (1-7)",
+      "target": ">= 5.3 (today 4.88)"
+     },
+     {
+      "basis": "assumption",
+      "market": "US",
+      "method": "Customer feedback, rolling 6 months",
+      "metric": "Share of operating-concept complaint rows",
+      "target": "<= 1.0 % (today 2.0 %)"
+     }
+    ],
+    "findings": [
+     {
+      "id": "FND-G60-US-VOC-operating_concept_operating_system",
+      "role": "primary"
+     },
+     {
+      "id": "FND-G60-US-MET-us_2025-infotainment_menu_structure",
+      "role": "supporting"
+     },
+     {
+      "id": "FND-G60-US-VOC-touch_screen_operation",
+      "role": "supporting"
+     },
+     {
+      "id": "FND-G60-US-VOC-instrument_cluster",
+      "role": "supporting"
+     }
+    ],
+    "recommend": true,
+    "statement": "Climate temperature and fan, seat and steering wheel heating, drive mode, start-stop, assistance on/off, volume, map and phone shall each be operable with one touch or a physical control while driving, without leaving the current screen.",
+    "assumptions": [],
+    "uncertainties": [
+     "Part of the criticism is unfamiliarity; onboarding (REQ-G60-US-GE-01) may reduce it without HMI changes."
+    ],
+    "evidence_level": "A",
+    "horizon_rationale": "Mostly software (shortcut layer, widget placement); physical controls only where the panel allows them in the life-cycle impulse.",
+    "recommend_rationale": "The operating concept is a level-A recurring complaint (53 rows, 39 of them usability) and is linked to the study attribute infotainment menu structure (4.88). Touch screen (35 rows) and instrument cluster (38 rows) complaints repeat the same pattern: functions are buried in menus and pull the eyes off the road."
+   },
+   "rationale": "The operating concept is a level-A recurring complaint (53 rows, 39 of them usability) and is linked to the study attribute infotainment menu structure (4.88). Touch screen (35 rows) and instrument cluster (38 rows) complaints repeat the same pattern: functions are buried in menus and pull the eyes off the road.",
+   "model_id": null,
+   "prompt_version": null,
+   "parent_event_id": null
+  },
+  {
+   "id": 3104,
+   "ts": "2026-10-11T02:43:05.421443+00:00",
+   "run_id": "RUN-20261011-024304-requirements.import-56c4",
+   "actor_type": "agent",
+   "actor_id": "assistant:claude-opus-5-5",
+   "action": "requirement.created",
+   "entity_type": "requirement",
+   "entity_id": "REQ-G60-US-IC-02",
+   "before": null,
+   "after": {
+    "title": "Climate control direct, strong enough for US heat, and remembers its settings",
+    "domain": "interior_comfort",
+    "horizon": "H1",
+    "markets": [
+     "US"
+    ],
+    "criteria": [
+     {
+      "basis": "assumption",
+      "market": "US",
+      "method": "Next US customer study wave",
+      "metric": "Study climate controls usability (1-7)",
+      "target": ">= 5.3 (today 4.80)"
+     },
+     {
+      "basis": "evidence",
+      "market": "US",
+      "method": "Function test",
+      "metric": "Settings kept after ignition off",
+      "target": "Recirculation, sync and seat ventilation default kept per profile"
+     },
+     {
+      "basis": "assumption",
+      "market": "US",
+      "method": "Climate chamber test",
+      "metric": "Cabin cool-down from 60 °C soak to 25 °C",
+      "target": "<= 10 min (to be validated)"
+     }
+    ],
+    "findings": [
+     {
+      "id": "FND-G60-US-VOC-air_conditioning_setting",
+      "role": "primary"
+     },
+     {
+      "id": "FND-G60-US-MET-us_2025-climate_controls_usability",
+      "role": "supporting"
+     },
+     {
+      "id": "FND-G60-US-VOC-blower_function",
+      "role": "supporting"
+     },
+     {
+      "id": "FND-G60-US-VOC-air_conditioning_control_panel",
+      "role": "supporting"
+     },
+     {
+      "id": "FND-G60-US-VOC-vehicle_climatization",
+      "role": "supporting"
+     }
+    ],
+    "recommend": true,
+    "statement": "Temperature and fan speed shall have a physical or always-visible control; recirculation, zone sync and seat-ventilation defaults shall persist per driver profile across drives; the system shall cool the cabin from a heat-soaked state within an agreed time.",
+    "assumptions": [],
+    "uncertainties": [],
+    "evidence_level": "A",
+    "horizon_rationale": "Persistence and control placement are software; vent and blower tuning fit the life-cycle impulse.",
+    "recommend_rationale": "Climate setting is a level-A complaint (24 rows) supported by the study attribute climate controls usability (4.80); blower (19) and control panel (17) complaints add hidden vents, weak airflow and settings that reset after every drive."
+   },
+   "rationale": "Climate setting is a level-A complaint (24 rows) supported by the study attribute climate controls usability (4.80); blower (19) and control panel (17) complaints add hidden vents, weak airflow and settings that reset after every drive.",
+   "model_id": null,
+   "prompt_version": null,
+   "parent_event_id": null
+  },
+  {
+   "id": 3105,
+   "ts": "2026-10-11T02:43:05.428347+00:00",
+   "run_id": "RUN-20261011-024304-requirements.import-56c4",
+   "actor_type": "agent",
+   "actor_id": "assistant:claude-opus-5-5",
+   "action": "requirement.created",
+   "entity_type": "requirement",
+   "entity_id": "REQ-G60-US-PR-01",
+   "before": null,
+   "after": {
+    "title": "Auto start-stop can be switched off permanently by the driver",
+    "domain": "powertrain_range_charging",
+    "horizon": "H1",
+    "markets": [
+     "US"
+    ],
+    "criteria": [
+     {
+      "basis": "evidence",
+      "market": "US",
+      "method": "Function test",
+      "metric": "Start-stop off setting kept after ignition off",
+      "target": "Yes, per driver profile"
+     },
+     {
+      "basis": "assumption",
+      "market": "US",
+      "method": "Customer feedback",
+      "metric": "Start-stop complaint rows",
+      "target": "<= 10 per 6 months (today 45)"
+     }
+    ],
+    "findings": [
+     {
+      "id": "FND-G60-US-VOC-automatic_engine_start_stop_function_msa",
+      "role": "primary"
+     }
+    ],
+    "recommend": true,
+    "statement": "Drivers of ICE and mild-hybrid variants shall be able to switch auto start-stop off with one control and keep it off across drives in their profile; the restart shall not jolt the car.",
+    "assumptions": [],
+    "uncertainties": [
+     "Fuel economy certification credits may constrain a persistent off setting; legal check needed."
+    ],
+    "evidence_level": "B",
+    "horizon_rationale": "Software setting and calibration, deliverable over the air.",
+    "recommend_rationale": "45 complaint rows, all from ICE drivers (1.7 % of US complaints): the function cannot be disabled permanently, cuts in too early and feels harsh and unsafe at intersections."
+   },
+   "rationale": "45 complaint rows, all from ICE drivers (1.7 % of US complaints): the function cannot be disabled permanently, cuts in too early and feels harsh and unsafe at intersections.",
+   "model_id": null,
+   "prompt_version": null,
+   "parent_event_id": null
+  },
+  {
+   "id": 3106,
+   "ts": "2026-10-11T02:43:05.434613+00:00",
+   "run_id": "RUN-20261011-024304-requirements.import-56c4",
+   "actor_type": "agent",
+   "actor_id": "assistant:claude-opus-5-5",
+   "action": "requirement.created",
+   "entity_type": "requirement",
+   "entity_id": "REQ-G60-US-PR-02",
+   "before": null,
+   "after": {
+    "title": "Reliable range prediction and cold-weather range guidance for BEV and PHEV",
+    "domain": "powertrain_range_charging",
+    "horizon": "H1",
+    "markets": [
+     "US"
+    ],
+    "criteria": [
+     {
+      "basis": "assumption",
+      "market": "US",
+      "method": "Fleet data analysis",
+      "metric": "Deviation of displayed vs actual range at 0 °C",
+      "target": "<= 10 %"
+     },
+     {
+      "basis": "assumption",
+      "market": "US",
+      "method": "Function test",
+      "metric": "Winter range guidance in navigation",
+      "target": "Shown before departure when the trip exceeds 70 % of predicted range"
+     }
+    ],
+    "findings": [
+     {
+      "id": "FND-G60-US-VOC-electric_range",
+      "role": "primary"
+     },
+     {
+      "id": "FND-G60-US-VOC-high_voltage_battery",
+      "role": "supporting"
+     }
+    ],
+    "recommend": true,
+    "statement": "The displayed remaining range shall stay within an agreed tolerance of the real range in cold weather, and the car shall explain the expected winter range and the effect of pre-conditioning before a trip.",
+    "assumptions": [],
+    "uncertainties": [],
+    "evidence_level": "B",
+    "horizon_rationale": "Range estimation and guidance are software.",
+    "recommend_rationale": "Electric range is the second-largest powertrain complaint (67 rows, 2.6 %, 83 of them BEV); verbatims report estimates that are \"off\" and range that collapses in winter."
+   },
+   "rationale": "Electric range is the second-largest powertrain complaint (67 rows, 2.6 %, 83 of them BEV); verbatims report estimates that are \"off\" and range that collapses in winter.",
+   "model_id": null,
+   "prompt_version": null,
+   "parent_event_id": null
+  },
+  {
+   "id": 3107,
+   "ts": "2026-10-11T02:43:05.440844+00:00",
+   "run_id": "RUN-20261011-024304-requirements.import-56c4",
+   "actor_type": "agent",
+   "actor_id": "assistant:claude-opus-5-5",
+   "action": "requirement.created",
+   "entity_type": "requirement",
+   "entity_id": "REQ-G60-US-PR-03",
+   "before": null,
+   "after": {
+    "title": "More real-world electric range in the successor generation",
+    "domain": "powertrain_range_charging",
+    "horizon": "H2",
+    "markets": [
+     "US"
+    ],
+    "criteria": [
+     {
+      "basis": "assumption",
+      "market": "US",
+      "method": "Homologation",
+      "metric": "EPA range of the volume BEV variant",
+      "target": ">= 350 mi"
+     },
+     {
+      "basis": "assumption",
+      "market": "US",
+      "method": "Cold-weather test",
+      "metric": "Range at -7 °C",
+      "target": ">= 75 % of EPA range"
+     }
+    ],
+    "findings": [
+     {
+      "id": "FND-G60-US-VOC-electric_range",
+      "role": "primary"
+     }
+    ],
+    "recommend": true,
+    "statement": "The successor of the i5 shall offer a usable real-world range that covers typical US long-distance stages without a charging stop, including in cold weather.",
+    "assumptions": [
+     "Customer wishes of 350 to 400 miles in the verbatims represent the US BEV buyer."
+    ],
+    "uncertainties": [],
+    "evidence_level": "B",
+    "horizon_rationale": "Needs a new cell and pack generation.",
+    "recommend_rationale": "Range wishes (17 rows) and usability complaints (50 rows) ask for 350 to 400 miles; the battery capacity of the current generation cannot be raised within the life cycle."
+   },
+   "rationale": "Range wishes (17 rows) and usability complaints (50 rows) ask for 350 to 400 miles; the battery capacity of the current generation cannot be raised within the life cycle.",
+   "model_id": null,
+   "prompt_version": null,
+   "parent_event_id": null
+  },
+  {
+   "id": 3108,
+   "ts": "2026-10-11T02:43:05.445938+00:00",
+   "run_id": "RUN-20261011-024304-requirements.import-56c4",
+   "actor_type": "agent",
+   "actor_id": "assistant:claude-opus-5-5",
+   "action": "requirement.created",
+   "entity_type": "requirement",
+   "entity_id": "REQ-G60-US-PR-04",
+   "before": null,
+   "after": {
+    "title": "Dependable public fast charging on US trips",
+    "domain": "powertrain_range_charging",
+    "horizon": "H1",
+    "markets": [
+     "US"
+    ],
+    "criteria": [
+     {
+      "basis": "evidence",
+      "market": "US",
+      "method": "Offer check",
+      "metric": "NACS access",
+      "target": "Adapter supplied or available at delivery; Supercharger usable from the car"
+     },
+     {
+      "basis": "assumption",
+      "market": "US",
+      "method": "Route-planner logs",
+      "metric": "Planned stops at stations reported out of order",
+      "target": "<= 5 %"
+     },
+     {
+      "basis": "assumption",
+      "market": "US",
+      "method": "Customer feedback",
+      "metric": "Charging complaint rows",
+      "target": "-50 % within 12 months"
+     }
+    ],
+    "findings": [
+     {
+      "id": "FND-G60-US-VOC-public_charging_external_providers",
+      "role": "primary"
+     },
+     {
+      "id": "FND-G60-US-VOC-charge_high_voltage_battery",
+      "role": "supporting"
+     },
+     {
+      "id": "FND-G60-US-EQ-charge_high_voltage_battery",
+      "role": "context"
+     }
+    ],
+    "recommend": true,
+    "statement": "BEV owners shall be able to use the Tesla Supercharger (NACS) network without improvising, the route planner shall prefer stations that are reported working, and the car shall hold its advertised peak charging power for a meaningful part of the session.",
+    "assumptions": [],
+    "uncertainties": [
+     "Third-party network reliability is outside BMW's direct control."
+    ],
+    "evidence_level": "B",
+    "horizon_rationale": "Adapter, network agreement and route-planner logic do not need a new vehicle generation.",
+    "recommend_rationale": "Public charging draws 55 complaint rows (65 BEV mentions) and battery charging 31 more: broken stations, no NACS access, slow sessions and charge cut-offs make long trips stressful."
+   },
+   "rationale": "Public charging draws 55 complaint rows (65 BEV mentions) and battery charging 31 more: broken stations, no NACS access, slow sessions and charge cut-offs make long trips stressful.",
+   "model_id": null,
+   "prompt_version": null,
+   "parent_event_id": null
+  },
+  {
+   "id": 3109,
+   "ts": "2026-10-11T02:43:05.451870+00:00",
+   "run_id": "RUN-20261011-024304-requirements.import-56c4",
+   "actor_type": "agent",
+   "actor_id": "assistant:claude-opus-5-5",
+   "action": "requirement.created",
+   "entity_type": "requirement",
+   "entity_id": "REQ-G60-US-PR-05",
+   "before": null,
+   "after": {
+    "title": "Charging flap opens reliably in every condition",
+    "domain": "powertrain_range_charging",
+    "horizon": "H1",
+    "markets": [
+     "US"
+    ],
+    "criteria": [
+     {
+      "basis": "assumption",
+      "market": "US",
+      "method": "Endurance and climate test",
+      "metric": "Flap opening success rate",
+      "target": ">= 99.9 % down to -20 °C"
+     },
+     {
+      "basis": "assumption",
+      "market": "US",
+      "method": "Customer feedback",
+      "metric": "Defect reports on the flap",
+      "target": "0 in the next feedback wave"
+     }
+    ],
+    "findings": [
+     {
+      "id": "FND-G60-US-VOC-opening_closing_charging_socket_cover",
+      "role": "primary"
+     }
+    ],
+    "recommend": true,
+    "statement": "The charge port cover shall open on the first request whenever the car is unlocked, including in frost.",
+    "assumptions": [],
+    "uncertainties": [],
+    "evidence_level": "B",
+    "horizon_rationale": "Field fix of the actuator and its software.",
+    "recommend_rationale": "20 complaint rows with 13 defects (BEV 19); owners report being stranded because the flap stays locked."
+   },
+   "rationale": "20 complaint rows with 13 defects (BEV 19); owners report being stranded because the flap stays locked.",
+   "model_id": null,
+   "prompt_version": null,
+   "parent_event_id": null
+  },
+  {
+   "id": 3110,
+   "ts": "2026-10-11T02:43:05.456774+00:00",
+   "run_id": "RUN-20261011-024304-requirements.import-56c4",
+   "actor_type": "agent",
+   "actor_id": "assistant:claude-opus-5-5",
+   "action": "requirement.created",
+   "entity_type": "requirement",
+   "entity_id": "REQ-G60-US-SP-01",
+   "before": null,
+   "after": {
+    "title": "Hands-free tailgate opens on the first kick and closes from inside",
+    "domain": "space_practicality",
+    "horizon": "H1",
+    "markets": [
+     "US"
+    ],
+    "criteria": [
+     {
+      "basis": "assumption",
+      "market": "US",
+      "method": "User test with 30 participants",
+      "metric": "First-attempt opening rate",
+      "target": ">= 95 %"
+     },
+     {
+      "basis": "evidence",
+      "market": "US",
+      "method": "Offer check",
+      "metric": "Close button on the tailgate",
+      "target": "Present on every variant with power tailgate"
+     }
+    ],
+    "findings": [
+     {
+      "id": "FND-G60-US-VOC-non_contact_trunk_lid_opening",
+      "role": "primary"
+     },
+     {
+      "id": "FND-G60-US-VOC-trunk_lid_open_close",
+      "role": "supporting"
+     }
+    ],
+    "recommend": true,
+    "statement": "The hands-free tailgate shall open on the first foot movement and the trunk shall have a close button on the lid.",
+    "assumptions": [],
+    "uncertainties": [],
+    "evidence_level": "B",
+    "horizon_rationale": "Sensor calibration and a close button fit the life-cycle impulse.",
+    "recommend_rationale": "Non-contact trunk opening is one of the largest single usability complaints (44 rows, 39 usability); trunk lid open/close adds 18 rows with 9 defects."
+   },
+   "rationale": "Non-contact trunk opening is one of the largest single usability complaints (44 rows, 39 usability); trunk lid open/close adds 18 rows with 9 defects.",
+   "model_id": null,
+   "prompt_version": null,
+   "parent_event_id": null
+  },
+  {
+   "id": 3111,
+   "ts": "2026-10-11T02:43:05.462280+00:00",
+   "run_id": "RUN-20261011-024304-requirements.import-56c4",
+   "actor_type": "agent",
+   "actor_id": "assistant:claude-opus-5-5",
+   "action": "requirement.created",
+   "entity_type": "requirement",
+   "entity_id": "REQ-G60-US-SP-02",
+   "before": null,
+   "after": {
+    "title": "Practical storage for everyday items",
+    "domain": "space_practicality",
+    "horizon": "H1",
+    "markets": [
+     "US"
+    ],
+    "criteria": [
+     {
+      "basis": "assumption",
+      "market": "US",
+      "method": "Next US customer study wave",
+      "metric": "Study interior storage (1-7)",
+      "target": ">= 5.5 (today 5.15, peer 5.33)"
+     },
+     {
+      "basis": "evidence",
+      "market": "US",
+      "method": "Offer check",
+      "metric": "Seat-back pockets and sunglasses holder",
+      "target": "Present on every variant"
+     }
+    ],
+    "findings": [
+     {
+      "id": "FND-G60-US-VOC-storage_compartments",
+      "role": "primary"
+     },
+     {
+      "id": "FND-G60-US-VOC-center_console_front",
+      "role": "primary"
+     },
+     {
+      "id": "FND-G60-US-MET-us_2025-interior_storage",
+      "role": "supporting"
+     },
+     {
+      "id": "FND-G60-US-VOC-glove_box",
+      "role": "supporting"
+     },
+     {
+      "id": "FND-G60-US-VOC-cupholder",
+      "role": "supporting"
+     }
+    ],
+    "recommend": true,
+    "statement": "The cabin shall provide seat-back pockets, a sunglasses holder, a covered console tray and a glove box and door pockets that take a bottle and an umbrella.",
+    "assumptions": [],
+    "uncertainties": [],
+    "evidence_level": "A",
+    "horizon_rationale": "Trim parts within the life-cycle impulse.",
+    "recommend_rationale": "Storage compartments (28 rows, half of them wishes) and front centre console (30 rows) are level-A findings supported by the study attribute interior storage (5.15 vs peer 5.33); owners miss the removed seat-back pockets and sunglasses holder."
+   },
+   "rationale": "Storage compartments (28 rows, half of them wishes) and front centre console (30 rows) are level-A findings supported by the study attribute interior storage (5.15 vs peer 5.33); owners miss the removed seat-back pockets and sunglasses holder.",
+   "model_id": null,
+   "prompt_version": null,
+   "parent_event_id": null
+  },
+  {
+   "id": 3112,
+   "ts": "2026-10-11T02:43:05.468054+00:00",
+   "run_id": "RUN-20261011-024304-requirements.import-56c4",
+   "actor_type": "agent",
+   "actor_id": "assistant:claude-opus-5-5",
+   "action": "requirement.created",
+   "entity_type": "requirement",
+   "entity_id": "REQ-G60-US-SP-03",
+   "before": null,
+   "after": {
+    "title": "Keyless access on all four doors and easy door handling",
+    "domain": "space_practicality",
+    "horizon": "H1",
+    "markets": [
+     "US"
+    ],
+    "criteria": [
+     {
+      "basis": "evidence",
+      "market": "US",
+      "method": "Offer check",
+      "metric": "Doors with comfort-access sensor",
+      "target": "4 of 4 where comfort access is fitted"
+     },
+     {
+      "basis": "assumption",
+      "market": "US",
+      "method": "Door test",
+      "metric": "Door closing energy",
+      "target": "Closes fully without slamming (value to be set by engineering)"
+     },
+     {
+      "basis": "assumption",
+      "market": "US",
+      "method": "Next US customer study wave",
+      "metric": "Study entry/exit rear (1-7)",
+      "target": ">= 5.8 (today 5.41)"
+     }
+    ],
+    "findings": [
+     {
+      "id": "FND-G60-US-VOC-door_open_close",
+      "role": "primary"
+     },
+     {
+      "id": "FND-G60-US-VOC-comfort_access",
+      "role": "supporting"
+     },
+     {
+      "id": "FND-G60-US-VOC-vehicle_lock_unlock",
+      "role": "supporting"
+     },
+     {
+      "id": "FND-G60-US-MET-us_2025-entry_exit_rear",
+      "role": "supporting"
+     }
+    ],
+    "recommend": true,
+    "statement": "Comfort access shall lock and unlock from all four door handles, the doors shall close without slamming and the handles shall be easy to find in the dark.",
+    "assumptions": [],
+    "uncertainties": [],
+    "evidence_level": "A",
+    "horizon_rationale": "Rear handle sensors and closing-force tuning fit the life-cycle impulse.",
+    "recommend_rationale": "Door open/close is level A (31 rows) and linked to the study attribute rear entry/exit (5.41 vs 6.0); comfort access (30 rows, 17 wishes) and lock/unlock (38 rows) complain that the rear doors lost the touch sensor of earlier generations."
+   },
+   "rationale": "Door open/close is level A (31 rows) and linked to the study attribute rear entry/exit (5.41 vs 6.0); comfort access (30 rows, 17 wishes) and lock/unlock (38 rows) complain that the rear doors lost the touch sensor of earlier generations.",
+   "model_id": null,
+   "prompt_version": null,
+   "parent_event_id": null
+  },
+  {
+   "id": 3113,
+   "ts": "2026-10-11T02:43:05.473735+00:00",
+   "run_id": "RUN-20261011-024304-requirements.import-56c4",
+   "actor_type": "agent",
+   "actor_id": "assistant:claude-opus-5-5",
+   "action": "requirement.created",
+   "entity_type": "requirement",
+   "entity_id": "REQ-G60-US-ID-02",
+   "before": null,
+   "after": {
+    "title": "Phone integration that just works",
+    "domain": "infotainment_digital",
+    "horizon": "H1",
+    "markets": [
+     "US"
+    ],
+    "criteria": [
+     {
+      "basis": "assumption",
+      "market": "US",
+      "method": "Audio test",
+      "metric": "CarPlay audio level vs native sources",
+      "target": "Within 3 dB at the same volume step"
+     },
+     {
+      "basis": "assumption",
+      "market": "US",
+      "method": "Fleet telemetry",
+      "metric": "Phone connected at start",
+      "target": "Phone of the active profile in >= 98 % of starts"
+     },
+     {
+      "basis": "assumption",
+      "market": "US",
+      "method": "Lab test",
+      "metric": "Wireless charging with navigation running",
+      "target": "Battery level does not drop over 60 min at 30 °C cabin"
+     }
+    ],
+    "findings": [
+     {
+      "id": "FND-G60-US-VOC-apple_carplay",
+      "role": "primary"
+     },
+     {
+      "id": "FND-G60-US-VOC-mobile_device_wireless_charging",
+      "role": "primary"
+     },
+     {
+      "id": "FND-G60-US-MET-us_2025-phone_charging",
+      "role": "supporting"
+     },
+     {
+      "id": "FND-G60-US-VOC-manage_pair_mobile_device_bluetooth",
+      "role": "supporting"
+     }
+    ],
+    "recommend": true,
+    "statement": "Apple CarPlay shall connect to the phone of the active driver profile, play at the same loudness as the native sources, and wireless charging shall keep the phone charged without overheating.",
+    "assumptions": [],
+    "uncertainties": [],
+    "evidence_level": "A",
+    "horizon_rationale": "Software and charger thermal management.",
+    "recommend_rationale": "Apple CarPlay (37 rows, 12 defects) and wireless charging (26 rows, level A, 11 defects, supported by the study attribute phone charging) are among the most frequent digital complaints; low CarPlay volume and the wrong phone connecting are repeated themes."
+   },
+   "rationale": "Apple CarPlay (37 rows, 12 defects) and wireless charging (26 rows, level A, 11 defects, supported by the study attribute phone charging) are among the most frequent digital complaints; low CarPlay volume and the wrong phone connecting are repeated themes.",
+   "model_id": null,
+   "prompt_version": null,
+   "parent_event_id": null
+  },
+  {
+   "id": 3114,
+   "ts": "2026-10-11T02:43:05.479753+00:00",
+   "run_id": "RUN-20261011-024304-requirements.import-56c4",
+   "actor_type": "agent",
+   "actor_id": "assistant:claude-opus-5-5",
+   "action": "requirement.created",
+   "entity_type": "requirement",
+   "entity_id": "REQ-G60-US-ID-03",
+   "before": null,
+   "after": {
+    "title": "Driver profiles and settings survive updates and shared use",
+    "domain": "infotainment_digital",
+    "horizon": "H1",
+    "markets": [
+     "US"
+    ],
+    "criteria": [
+     {
+      "basis": "evidence",
+      "market": "US",
+      "method": "Update regression test",
+      "metric": "User settings kept after an OTA update",
+      "target": "100 % of profile settings"
+     },
+     {
+      "basis": "evidence",
+      "market": "US",
+      "method": "Function test",
+      "metric": "Keys or phones per profile",
+      "target": ">= 2"
+     }
+    ],
+    "findings": [
+     {
+      "id": "FND-G60-US-VOC-driver_profile",
+      "role": "primary"
+     },
+     {
+      "id": "FND-G60-US-VOC-remote_software_upgrade_rsu",
+      "role": "supporting"
+     },
+     {
+      "id": "FND-G60-US-VOC-digital_key",
+      "role": "supporting"
+     }
+    ],
+    "recommend": true,
+    "statement": "Personal settings shall survive over-the-air updates; each profile shall support at least two keys or phones, and the car shall recognise the right driver when two key holders approach together.",
+    "assumptions": [],
+    "uncertainties": [],
+    "evidence_level": "B",
+    "horizon_rationale": "Software.",
+    "recommend_rationale": "Driver profile complaints (25 rows) and software update complaints (15 rows) report seat memories, wake words and assistance settings wiped by updates and the wrong profile loaded."
+   },
+   "rationale": "Driver profile complaints (25 rows) and software update complaints (15 rows) report seat memories, wake words and assistance settings wiped by updates and the wrong profile loaded.",
+   "model_id": null,
+   "prompt_version": null,
+   "parent_event_id": null
+  },
+  {
+   "id": 3115,
+   "ts": "2026-10-11T02:43:05.485717+00:00",
+   "run_id": "RUN-20261011-024304-requirements.import-56c4",
+   "actor_type": "agent",
+   "actor_id": "assistant:claude-opus-5-5",
+   "action": "requirement.created",
+   "entity_type": "requirement",
+   "entity_id": "REQ-G60-US-IC-03",
+   "before": null,
+   "after": {
+    "title": "Interior materials that match the price class",
+    "domain": "interior_comfort",
+    "horizon": "H1",
+    "markets": [
+     "US"
+    ],
+    "criteria": [
+     {
+      "basis": "evidence",
+      "market": "US",
+      "method": "Next US customer study wave",
+      "metric": "Study interior material quality (1-7)",
+      "target": ">= 5.95 (today 5.62, peer 5.95)"
+     },
+     {
+      "basis": "assumption",
+      "market": "US",
+      "method": "Offer check",
+      "metric": "Leather upholstery option",
+      "target": "Available on every variant"
+     }
+    ],
+    "findings": [
+     {
+      "id": "FND-G60-US-VOC-upholstery_interior_trim",
+      "role": "primary"
+     },
+     {
+      "id": "FND-G60-US-MET-us_2025-interior_material_quality",
+      "role": "supporting"
+     },
+     {
+      "id": "FND-G60-US-VOC-door_finisher_panel_front",
+      "role": "supporting"
+     },
+     {
+      "id": "FND-G60-US-EQ-upholstery_interior_trim",
+      "role": "context"
+     }
+    ],
+    "recommend": true,
+    "statement": "Door panels, dashboard and trim within reach shall use soft-touch or leather materials, and a full-leather upholstery option shall be offered.",
+    "assumptions": [],
+    "uncertainties": [],
+    "evidence_level": "A",
+    "horizon_rationale": "Material and option changes within the life-cycle impulse.",
+    "recommend_rationale": "Upholstery and trim is level A (20 rows) and supported by the study attribute interior material quality (5.62 vs 5.95); door panels add 19 rows. Owners compare the cabin with the previous generation and with Audi."
+   },
+   "rationale": "Upholstery and trim is level A (20 rows) and supported by the study attribute interior material quality (5.62 vs 5.95); door panels add 19 rows. Owners compare the cabin with the previous generation and with Audi.",
+   "model_id": null,
+   "prompt_version": null,
+   "parent_event_id": null
+  },
+  {
+   "id": 3116,
+   "ts": "2026-10-11T02:43:05.491618+00:00",
+   "run_id": "RUN-20261011-024304-requirements.import-56c4",
+   "actor_type": "agent",
+   "actor_id": "assistant:claude-opus-5-5",
+   "action": "requirement.created",
+   "entity_type": "requirement",
+   "entity_id": "REQ-G60-US-GE-01",
+   "before": null,
+   "after": {
+    "title": "Guided onboarding for a feature-rich car",
+    "domain": "general",
+    "horizon": "H1",
+    "markets": [
+     "US"
+    ],
+    "criteria": [
+     {
+      "basis": "assumption",
+      "market": "US",
+      "method": "Telemetry",
+      "metric": "Owners who completed the guided tour in week 1",
+      "target": ">= 60 %"
+     },
+     {
+      "basis": "assumption",
+      "market": "US",
+      "method": "Customer feedback",
+      "metric": "Complaint rows about complexity",
+      "target": "-30 % within 12 months"
+     }
+    ],
+    "findings": [
+     {
+      "id": "FND-G60-US-VOC-body_equipment_overall_technology",
+      "role": "primary"
+     },
+     {
+      "id": "FND-G60-US-VOC-owner_s_manual",
+      "role": "supporting"
+     }
+    ],
+    "recommend": true,
+    "statement": "Every new owner shall get an in-car guided tour and a searchable, model-specific help function that explains the ten most used functions within the first week.",
+    "assumptions": [],
+    "uncertainties": [],
+    "evidence_level": "B",
+    "horizon_rationale": "Software and content.",
+    "recommend_rationale": "The largest single complaint cluster (98 rows, 63 usability) is about the car being hard to figure out; owner's manual complaints (16 rows) add that the manual is hard to search."
+   },
+   "rationale": "The largest single complaint cluster (98 rows, 63 usability) is about the car being hard to figure out; owner's manual complaints (16 rows) add that the manual is hard to search.",
+   "model_id": null,
+   "prompt_version": null,
+   "parent_event_id": null
+  },
+  {
+   "id": 3117,
+   "ts": "2026-10-11T02:43:05.496763+00:00",
+   "run_id": "RUN-20261011-024304-requirements.import-56c4",
+   "actor_type": "agent",
+   "actor_id": "assistant:claude-opus-5-5",
+   "action": "requirement.created",
+   "entity_type": "requirement",
+   "entity_id": "REQ-G60-US-DD-01",
+   "before": null,
+   "after": {
+    "title": "Personal drive mode that is really personal",
+    "domain": "driving_dynamics",
+    "horizon": "H1",
+    "markets": [
+     "US"
+    ],
+    "criteria": [
+     {
+      "basis": "evidence",
+      "market": "US",
+      "method": "Function test",
+      "metric": "Mode kept after ignition off",
+      "target": "Last mode per profile"
+     },
+     {
+      "basis": "assumption",
+      "market": "US",
+      "method": "Function test",
+      "metric": "Configurable parameters in personal mode",
+      "target": "Steering, damping, throttle, sound, energy"
+     }
+    ],
+    "findings": [
+     {
+      "id": "FND-G60-US-VOC-my_modes_driving_experience",
+      "role": "primary"
+     }
+    ],
+    "recommend": true,
+    "statement": "The personal mode shall let the driver combine steering, suspension, throttle, sound and energy settings freely, hide unused modes and start in the last chosen mode.",
+    "assumptions": [],
+    "uncertainties": [],
+    "evidence_level": "B",
+    "horizon_rationale": "Software.",
+    "recommend_rationale": "My Modes draws 36 complaint rows, 15 of them wishes: owners want to start in sport or efficient mode and to configure the personal mode instead of fixed presets."
+   },
+   "rationale": "My Modes draws 36 complaint rows, 15 of them wishes: owners want to start in sport or efficient mode and to configure the personal mode instead of fixed presets.",
+   "model_id": null,
+   "prompt_version": null,
+   "parent_event_id": null
+  },
+  {
+   "id": 3118,
+   "ts": "2026-10-11T02:43:05.501464+00:00",
+   "run_id": "RUN-20261011-024304-requirements.import-56c4",
+   "actor_type": "agent",
+   "actor_id": "assistant:claude-opus-5-5",
+   "action": "requirement.created",
+   "entity_type": "requirement",
+   "entity_id": "REQ-G60-US-DD-02",
+   "before": null,
+   "after": {
+    "title": "Progressive brake pedal feel and predictable recuperation",
+    "domain": "driving_dynamics",
+    "horizon": "H1",
+    "markets": [
+     "US"
+    ],
+    "criteria": [
+     {
+      "basis": "assumption",
+      "market": "US",
+      "method": "Customer feedback",
+      "metric": "Braking complaint rows",
+      "target": "<= 15 per 6 months (today 37)"
+     },
+     {
+      "basis": "assumption",
+      "market": "US",
+      "method": "Function test",
+      "metric": "One-pedal stop",
+      "target": "Car stops and holds without the brake pedal in the strongest mode"
+     }
+    ],
+    "findings": [
+     {
+      "id": "FND-G60-US-VOC-braking",
+      "role": "primary"
+     },
+     {
+      "id": "FND-G60-US-VOC-brake_energy_regeneration_recuperation",
+      "role": "supporting"
+     }
+    ],
+    "recommend": true,
+    "statement": "Brake pedal response shall be progressive without an initial grab, and lifting off the accelerator shall decelerate the car predictably, with an option for one-pedal driving to a standstill.",
+    "assumptions": [],
+    "uncertainties": [],
+    "evidence_level": "B",
+    "horizon_rationale": "Brake-by-wire and recuperation calibration.",
+    "recommend_rationale": "Braking draws 37 complaint rows (28 usability: grabbing, poor modulation) and recuperation 13 rows asking for consistent engine braking and a full stop in one-pedal mode."
+   },
+   "rationale": "Braking draws 37 complaint rows (28 usability: grabbing, poor modulation) and recuperation 13 rows asking for consistent engine braking and a full stop in one-pedal mode.",
+   "model_id": null,
+   "prompt_version": null,
+   "parent_event_id": null
+  },
+  {
+   "id": 3119,
+   "ts": "2026-10-11T02:43:05.507142+00:00",
+   "run_id": "RUN-20261011-024304-requirements.import-56c4",
+   "actor_type": "agent",
+   "actor_id": "assistant:claude-opus-5-5",
+   "action": "requirement.created",
+   "entity_type": "requirement",
+   "entity_id": "REQ-G60-US-DD-03",
+   "before": null,
+   "after": {
+    "title": "Keep the handling and ride character in the next generation",
+    "domain": "driving_dynamics",
+    "horizon": "H2",
+    "markets": [
+     "US"
+    ],
+    "criteria": [
+     {
+      "basis": "evidence",
+      "market": "US",
+      "method": "Customer study of the successor",
+      "metric": "Study handling/manoeuvrability (1-7)",
+      "target": ">= 6.0 (today 6.06)"
+     }
+    ],
+    "findings": [
+     {
+      "id": "FND-G60-US-VOC-STRENGTH-handling_riding",
+      "role": "primary"
+     },
+     {
+      "id": "FND-G60-US-MET-STRENGTH-us_2025-handling_manoeuvrability",
+      "role": "supporting"
+     }
+    ],
+    "recommend": true,
+    "statement": "The successor shall keep the handling precision and ride composition that customers praise today.",
+    "assumptions": [],
+    "uncertainties": [],
+    "evidence_level": "B",
+    "horizon_rationale": "Applies to the chassis of the successor generation.",
+    "recommend_rationale": "Handling and riding is the strongest praise theme (210 likes) and handling/manoeuvrability scores above the peer (6.06 vs 5.62); a strength to protect, not to change."
+   },
+   "rationale": "Handling and riding is the strongest praise theme (210 likes) and handling/manoeuvrability scores above the peer (6.06 vs 5.62); a strength to protect, not to change.",
+   "model_id": null,
+   "prompt_version": null,
+   "parent_event_id": null
+  },
+  {
+   "id": 3120,
+   "ts": "2026-10-11T02:43:05.512056+00:00",
+   "run_id": "RUN-20261011-024304-requirements.import-56c4",
+   "actor_type": "agent",
+   "actor_id": "assistant:claude-opus-5-5",
+   "action": "requirement.created",
+   "entity_type": "requirement",
+   "entity_id": "REQ-G60-US-DA-01",
+   "before": null,
+   "after": {
+    "title": "Adaptive cruise control as standard and simple assistance controls",
+    "domain": "driver_assistance",
+    "horizon": "H1",
+    "markets": [
+     "US"
+    ],
+    "criteria": [
+     {
+      "basis": "evidence",
+      "market": "US",
+      "method": "Offer check",
+      "metric": "Variants with adaptive cruise control as standard",
+      "target": "All"
+     },
+     {
+      "basis": "assumption",
+      "market": "US",
+      "method": "Function test",
+      "metric": "Gap adjustment while driving",
+      "target": "One control on the steering wheel"
+     }
+    ],
+    "findings": [
+     {
+      "id": "FND-G60-US-VOC-active_cruise_control",
+      "role": "primary"
+     },
+     {
+      "id": "FND-G60-US-EQ-active_cruise_control",
+      "role": "supporting"
+     },
+     {
+      "id": "FND-G60-US-VOC-parking_assistant",
+      "role": "supporting"
+     },
+     {
+      "id": "FND-G60-US-VOC-lane_departure_warning",
+      "role": "supporting"
+     }
+    ],
+    "recommend": true,
+    "statement": "Adaptive cruise control shall be standard; following distance, lane keeping and assistance on/off shall be adjustable with one control while driving.",
+    "assumptions": [],
+    "uncertainties": [
+     "The catalogue is the German price list; US standard content may differ."
+    ],
+    "evidence_level": "B",
+    "horizon_rationale": "Hardware is fitted; standard content and HMI are a product decision.",
+    "recommend_rationale": "Active cruise control (23 rows) and parking assistant (22 rows) complaints mention paying extra for functions expected as standard and awkward controls; the catalogue offers Driving Assistant Plus only as an option (1,000 EUR, 0 of 10 variants standard)."
+   },
+   "rationale": "Active cruise control (23 rows) and parking assistant (22 rows) complaints mention paying extra for functions expected as standard and awkward controls; the catalogue offers Driving Assistant Plus only as an option (1,000 EUR, 0 of 10 variants standard).",
+   "model_id": null,
+   "prompt_version": null,
+   "parent_event_id": null
+  },
+  {
+   "id": 3121,
+   "ts": "2026-10-11T02:43:05.517423+00:00",
+   "run_id": "RUN-20261011-024304-requirements.import-56c4",
+   "actor_type": "agent",
+   "actor_id": "assistant:claude-opus-5-5",
+   "action": "requirement.created",
+   "entity_type": "requirement",
+   "entity_id": "REQ-G60-US-ID-04",
+   "before": null,
+   "after": {
+    "title": "Factory CD player",
+    "domain": "infotainment_digital",
+    "horizon": "H1",
+    "markets": [
+     "US"
+    ],
+    "criteria": [
+     {
+      "basis": "assumption",
+      "market": "US",
+      "method": "PM confirmation",
+      "metric": "Not applicable",
+      "target": "Not recommended"
+     }
+    ],
+    "findings": [
+     {
+      "id": "FND-G60-US-VOC-cd_dvd_changer_playback",
+      "role": "primary"
+     }
+    ],
+    "recommend": false,
+    "statement": "Offer a factory CD player.",
+    "assumptions": [],
+    "uncertainties": [],
+    "evidence_level": "C",
+    "horizon_rationale": "Would only be possible as an accessory.",
+    "recommend_rationale": "Seven explicit wishes, all from ICE owners; physical media is declining and the cabin has no package space for it. Kept visible so the PM can confirm the rejection."
+   },
+   "rationale": "Seven explicit wishes, all from ICE owners; physical media is declining and the cabin has no package space for it. Kept visible so the PM can confirm the rejection.",
+   "model_id": null,
+   "prompt_version": null,
+   "parent_event_id": null
+  },
+  {
+   "id": 3163,
+   "ts": "2026-10-11T02:43:09.848008+00:00",
+   "run_id": "RUN-20261011-024308-effort.estimate-321f",
+   "actor_type": "system",
+   "actor_id": "effort-engine",
+   "action": "effort.estimated",
+   "entity_type": "requirement",
+   "entity_id": "REQ-G60-US-IC-01",
+   "before": null,
+   "after": {
+    "p5": 2.02,
+    "p95": 7.15,
+    "kind": "change",
+    "note": null,
+    "size": "S",
+    "flags": [],
+    "layer": "K1",
+    "changes": [
+     {
+      "why": "Front and rear cushion foam, contour and lumbar travel on the existing seat structure",
+      "layer": "K1",
+      "carryover": false,
+      "subsystem": "seats",
+      "own_impact": 0.25,
+      "portfolio_terms": []
+     }
+    ],
+    "decision": "adapt",
+    "portfolio": [],
+    "effort_pct": 4.58,
+    "model_hash": "789fcb7624b8",
+    "subsystems": [
+     {
+      "name": "Software/HMI",
+      "path": [
+       "Seats",
+       "E/E architecture",
+       "Software/HMI"
+      ],
+      "risk": 0.2206,
+      "subsystem": "software_hmi",
+      "effort_pct": 2.21
+     },
+     {
+      "name": "Seats",
+      "path": null,
+      "risk": 0.25,
+      "subsystem": "seats",
+      "effort_pct": 1.25
+     },
+     {
+      "name": "E/E architecture",
+      "path": [
+       "Seats",
+       "E/E architecture"
+      ],
+      "risk": 0.0829,
+      "subsystem": "ee_architecture",
+      "effort_pct": 0.75
+     },
+     {
+      "name": "Thermal/HVAC",
+      "path": [
+       "Seats",
+       "Thermal/HVAC"
+      ],
+      "risk": 0.0625,
+      "subsystem": "thermal_hvac",
+      "effort_pct": 0.38
+     }
+    ],
+    "certification": false,
+    "decision_stable_pct": 100,
+    "requirement_version": 1
+   },
+   "rationale": "CPM effort model 789fcb7624b8, profile by assistant",
+   "model_id": null,
+   "prompt_version": null,
+   "parent_event_id": null
+  },
+  {
+   "id": 3164,
+   "ts": "2026-10-11T02:43:09.919697+00:00",
+   "run_id": "RUN-20261011-024308-effort.estimate-321f",
+   "actor_type": "system",
+   "actor_id": "effort-engine",
+   "action": "effort.estimated",
+   "entity_type": "requirement",
+   "entity_id": "REQ-G60-US-ID-01",
+   "before": null,
+   "after": {
+    "p5": 1.47,
+    "p95": 5.48,
+    "kind": "change",
+    "note": null,
+    "size": "S",
+    "flags": [],
+    "layer": "K2",
+    "changes": [
+     {
+      "why": "Shortcut layer and widget placement for ten functions",
+      "layer": "K2",
+      "carryover": false,
+      "subsystem": "software_hmi",
+      "own_impact": 0.1,
+      "portfolio_terms": []
+     },
+     {
+      "why": "Physical controls where the panel allows them",
+      "layer": "K2",
+      "carryover": false,
+      "subsystem": "interior_console",
+      "own_impact": 0.1,
+      "portfolio_terms": []
+     }
+    ],
+    "decision": "adapt",
+    "portfolio": [],
+    "effort_pct": 3.05,
+    "model_hash": "789fcb7624b8",
+    "subsystems": [
+     {
+      "name": "Software/HMI",
+      "path": null,
+      "risk": 0.1812,
+      "subsystem": "software_hmi",
+      "effort_pct": 1.81
+     },
+     {
+      "name": "Interior/console",
+      "path": null,
+      "risk": 0.1,
+      "subsystem": "interior_console",
+      "effort_pct": 0.7
+     },
+     {
+      "name": "E/E architecture",
+      "path": [
+       "Interior/console",
+       "E/E architecture"
+      ],
+      "risk": 0.0389,
+      "subsystem": "ee_architecture",
+      "effort_pct": 0.35
+     },
+     {
+      "name": "Seats",
+      "path": [
+       "Interior/console",
+       "Seats"
+      ],
+      "risk": 0.02,
+      "subsystem": "seats",
+      "effort_pct": 0.1
+     },
+     {
+      "name": "Thermal/HVAC",
+      "path": [
+       "Interior/console",
+       "Seats",
+       "Thermal/HVAC"
+      ],
+      "risk": 0.0141,
+      "subsystem": "thermal_hvac",
+      "effort_pct": 0.08
+     }
+    ],
+    "certification": false,
+    "decision_stable_pct": 100,
+    "requirement_version": 1
+   },
+   "rationale": "CPM effort model 789fcb7624b8, profile by assistant",
+   "model_id": null,
+   "prompt_version": null,
+   "parent_event_id": null
+  },
+  {
+   "id": 3165,
+   "ts": "2026-10-11T02:43:09.990143+00:00",
+   "run_id": "RUN-20261011-024308-effort.estimate-321f",
+   "actor_type": "system",
+   "actor_id": "effort-engine",
+   "action": "effort.estimated",
+   "entity_type": "requirement",
+   "entity_id": "REQ-G60-US-IC-02",
+   "before": null,
+   "after": {
+    "p5": 1.25,
+    "p95": 4.75,
+    "kind": "change",
+    "note": null,
+    "size": "S",
+    "flags": [],
+    "layer": "K2",
+    "changes": [
+     {
+      "why": "Vent and blower tuning for heat-soak cool-down",
+      "layer": "K2",
+      "carryover": false,
+      "subsystem": "thermal_hvac",
+      "own_impact": 0.1,
+      "portfolio_terms": []
+     },
+     {
+      "why": "Always-visible temperature and fan control",
+      "layer": "K1",
+      "carryover": false,
+      "subsystem": "interior_console",
+      "own_impact": 0.05,
+      "portfolio_terms": []
+     },
+     {
+      "why": "Persist recirculation, sync and seat-ventilation defaults per profile",
+      "layer": "K1",
+      "carryover": false,
+      "subsystem": "software_hmi",
+      "own_impact": 0.03,
+      "portfolio_terms": []
+     }
+    ],
+    "decision": "adapt",
+    "portfolio": [],
+    "effort_pct": 2.58,
+    "model_hash": "789fcb7624b8",
+    "subsystems": [
+     {
+      "name": "Software/HMI",
+      "path": [
+       "Interior/console",
+       "E/E architecture",
+       "Software/HMI"
+      ],
+      "risk": 0.114,
+      "subsystem": "software_hmi",
+      "effort_pct": 1.14
+     },
+     {
+      "name": "Thermal/HVAC",
+      "path": null,
+      "risk": 0.1064,
+      "subsystem": "thermal_hvac",
+      "effort_pct": 0.64
+     },
+     {
+      "name": "E/E architecture",
+      "path": [
+       "Thermal/HVAC",
+       "E/E architecture"
+      ],
+      "risk": 0.0445,
+      "subsystem": "ee_architecture",
+      "effort_pct": 0.4
+     },
+     {
+      "name": "Interior/console",
+      "path": null,
+      "risk": 0.05,
+      "subsystem": "interior_console",
+      "effort_pct": 0.35
+     },
+     {
+      "name": "Seats",
+      "path": [
+       "Interior/console",
+       "Seats"
+      ],
+      "risk": 0.01,
+      "subsystem": "seats",
+      "effort_pct": 0.05
+     }
+    ],
+    "certification": false,
+    "decision_stable_pct": 100,
+    "requirement_version": 1
+   },
+   "rationale": "CPM effort model 789fcb7624b8, profile by assistant",
+   "model_id": null,
+   "prompt_version": null,
+   "parent_event_id": null
+  },
+  {
+   "id": 3166,
+   "ts": "2026-10-11T02:43:10.074184+00:00",
+   "run_id": "RUN-20261011-024308-effort.estimate-321f",
+   "actor_type": "system",
+   "actor_id": "effort-engine",
+   "action": "effort.estimated",
+   "entity_type": "requirement",
+   "entity_id": "REQ-G60-US-PR-01",
+   "before": null,
+   "after": {
+    "p5": 0.91,
+    "p95": 3.55,
+    "kind": "change",
+    "note": null,
+    "size": "S",
+    "flags": [],
+    "layer": "K1",
+    "changes": [
+     {
+      "why": "Persistent off setting in the driver profile (OTA)",
+      "layer": "K0",
+      "carryover": false,
+      "subsystem": "software_hmi",
+      "own_impact": 0.02,
+      "portfolio_terms": []
+     },
+     {
+      "why": "Restart calibration; certification credit check stays open (requirement uncertainty)",
+      "layer": "K1",
+      "carryover": false,
+      "subsystem": "powertrain",
+      "own_impact": 0.03,
+      "portfolio_terms": []
+     }
+    ],
+    "decision": "adapt",
+    "portfolio": [],
+    "effort_pct": 1.88,
+    "model_hash": "789fcb7624b8",
+    "subsystems": [
+     {
+      "name": "Software/HMI",
+      "path": [
+       "Powertrain",
+       "E/E architecture",
+       "Software/HMI"
+      ],
+      "risk": 0.0607,
+      "subsystem": "software_hmi",
+      "effort_pct": 0.61
+     },
+     {
+      "name": "Powertrain",
+      "path": null,
+      "risk": 0.03,
+      "subsystem": "powertrain",
+      "effort_pct": 0.42
+     },
+     {
+      "name": "Body/structure",
+      "path": [
+       "Powertrain",
+       "Body/structure"
+      ],
+      "risk": 0.0144,
+      "subsystem": "body_structure",
+      "effort_pct": 0.26
+     },
+     {
+      "name": "E/E architecture",
+      "path": [
+       "Powertrain",
+       "E/E architecture"
+      ],
+      "risk": 0.0255,
+      "subsystem": "ee_architecture",
+      "effort_pct": 0.23
+     },
+     {
+      "name": "Chassis",
+      "path": [
+       "Powertrain",
+       "Body/structure",
+       "Chassis"
+      ],
+      "risk": 0.0159,
+      "subsystem": "chassis",
+      "effort_pct": 0.16
+     },
+     {
+      "name": "Thermal/HVAC",
+      "path": [
+       "Powertrain",
+       "Thermal/HVAC"
+      ],
+      "risk": 0.0184,
+      "subsystem": "thermal_hvac",
+      "effort_pct": 0.11
+     },
+     {
+      "name": "Interior/console",
+      "path": [
+       "Powertrain",
+       "Body/structure",
+       "Interior/console"
+      ],
+      "risk": 0.0078,
+      "subsystem": "interior_console",
+      "effort_pct": 0.05
+     },
+     {
+      "name": "Exterior design",
+      "path": [
+       "Powertrain",
+       "Body/structure",
+       "Exterior design"
+      ],
+      "risk": 0.0062,
+      "subsystem": "exterior_design",
+      "effort_pct": 0.04
+     },
+     {
+      "name": "Seats",
+      "path": [
+       "Powertrain",
+       "Body/structure",
+       "Interior/console",
+       "Seats"
+      ],
+      "risk": 0.0012,
+      "subsystem": "seats",
+      "effort_pct": 0.01
+     }
+    ],
+    "certification": false,
+    "decision_stable_pct": 100,
+    "requirement_version": 1
+   },
+   "rationale": "CPM effort model 789fcb7624b8, profile by assistant",
+   "model_id": null,
+   "prompt_version": null,
+   "parent_event_id": null
+  },
+  {
+   "id": 3167,
+   "ts": "2026-10-11T02:43:10.094145+00:00",
+   "run_id": "RUN-20261011-024308-effort.estimate-321f",
+   "actor_type": "system",
+   "actor_id": "effort-engine",
+   "action": "effort.estimated",
+   "entity_type": "requirement",
+   "entity_id": "REQ-G60-US-PR-02",
+   "before": null,
+   "after": {
+    "p5": 0.18,
+    "p95": 0.75,
+    "kind": "change",
+    "note": null,
+    "size": "XS",
+    "flags": [],
+    "layer": "K1",
+    "changes": [
+     {
+      "why": "Range estimation model and winter guidance in navigation",
+      "layer": "K1",
+      "carryover": false,
+      "subsystem": "software_hmi",
+      "own_impact": 0.04,
+      "portfolio_terms": []
+     }
+    ],
+    "decision": "adapt",
+    "portfolio": [],
+    "effort_pct": 0.42,
+    "model_hash": "789fcb7624b8",
+    "subsystems": [
+     {
+      "name": "Software/HMI",
+      "path": null,
+      "risk": 0.04,
+      "subsystem": "software_hmi",
+      "effort_pct": 0.4
+     },
+     {
+      "name": "E/E architecture",
+      "path": [
+       "Software/HMI",
+       "E/E architecture"
+      ],
+      "risk": 0.0027,
+      "subsystem": "ee_architecture",
+      "effort_pct": 0.02
+     }
+    ],
+    "certification": false,
+    "decision_stable_pct": 100,
+    "requirement_version": 1
+   },
+   "rationale": "CPM effort model 789fcb7624b8, profile by assistant",
+   "model_id": null,
+   "prompt_version": null,
+   "parent_event_id": null
+  },
+  {
+   "id": 3168,
+   "ts": "2026-10-11T02:43:10.180138+00:00",
+   "run_id": "RUN-20261011-024308-effort.estimate-321f",
+   "actor_type": "system",
+   "actor_id": "effort-engine",
+   "action": "effort.estimated",
+   "entity_type": "requirement",
+   "entity_id": "REQ-G60-US-PR-03",
+   "before": null,
+   "after": {
+    "p5": 36.73,
+    "p95": 56.87,
+    "kind": "change",
+    "note": null,
+    "size": "L",
+    "flags": [],
+    "layer": "K3",
+    "changes": [
+     {
+      "why": "New cell and pack generation for more range (same case as the Gen6 anchor)",
+      "layer": "K3",
+      "carryover": false,
+      "subsystem": "hv_battery",
+      "own_impact": 1,
+      "portfolio_terms": []
+     }
+    ],
+    "decision": "new generation",
+    "portfolio": [],
+    "effort_pct": 48.98,
+    "model_hash": "789fcb7624b8",
+    "subsystems": [
+     {
+      "name": "HV battery",
+      "path": null,
+      "risk": 1,
+      "subsystem": "hv_battery",
+      "effort_pct": 10
+     },
+     {
+      "name": "Body/structure",
+      "path": [
+       "HV battery",
+       "Body/structure"
+      ],
+      "risk": 0.4216,
+      "subsystem": "body_structure",
+      "effort_pct": 7.59
+     },
+     {
+      "name": "Software/HMI",
+      "path": [
+       "HV battery",
+       "E/E architecture",
+       "Software/HMI"
+      ],
+      "risk": 0.4475,
+      "subsystem": "software_hmi",
+      "effort_pct": 4.47
+     },
+     {
+      "name": "E/E architecture",
+      "path": [
+       "HV battery",
+       "E/E architecture"
+      ],
+      "risk": 0.4667,
+      "subsystem": "ee_architecture",
+      "effort_pct": 4.2
+     },
+     {
+      "name": "Thermal/HVAC",
+      "path": [
+       "HV battery",
+       "Thermal/HVAC"
+      ],
+      "risk": 0.5437,
+      "subsystem": "thermal_hvac",
+      "effort_pct": 3.26
+     },
+     {
+      "name": "Chassis",
+      "path": [
+       "HV battery",
+       "Chassis"
+      ],
+      "risk": 0.3112,
+      "subsystem": "chassis",
+      "effort_pct": 3.11
+     },
+     {
+      "name": "Charging",
+      "path": [
+       "HV battery",
+       "Charging"
+      ],
+      "risk": 0.63,
+      "subsystem": "charging",
+      "effort_pct": 2.52
+     },
+     {
+      "name": "Interior/console",
+      "path": [
+       "HV battery",
+       "Body/structure",
+       "Interior/console"
+      ],
+      "risk": 0.1438,
+      "subsystem": "interior_console",
+      "effort_pct": 1.01
+     },
+     {
+      "name": "Exterior design",
+      "path": [
+       "HV battery",
+       "Body/structure",
+       "Exterior design"
+      ],
+      "risk": 0.1155,
+      "subsystem": "exterior_design",
+      "effort_pct": 0.69
+     },
+     {
+      "name": "Seats",
+      "path": [
+       "HV battery",
+       "Body/structure",
+       "Interior/console",
+       "Seats"
+      ],
+      "risk": 0.024,
+      "subsystem": "seats",
+      "effort_pct": 0.12
+     }
+    ],
+    "certification": true,
+    "decision_stable_pct": 100,
+    "requirement_version": 1
+   },
+   "rationale": "CPM effort model 789fcb7624b8, profile by assistant",
+   "model_id": null,
+   "prompt_version": null,
+   "parent_event_id": null
+  },
+  {
+   "id": 3169,
+   "ts": "2026-10-11T02:43:10.204717+00:00",
+   "run_id": "RUN-20261011-024308-effort.estimate-321f",
+   "actor_type": "system",
+   "actor_id": "effort-engine",
+   "action": "effort.estimated",
+   "entity_type": "requirement",
+   "entity_id": "REQ-G60-US-PR-04",
+   "before": null,
+   "after": {
+    "p5": 0.44,
+    "p95": 1.54,
+    "kind": "change",
+    "note": null,
+    "size": "XS",
+    "flags": [],
+    "layer": "K2",
+    "changes": [
+     {
+      "why": "NACS inlet or adapter; built-in NACS comes with the i5 M60 in 2026",
+      "layer": "K2",
+      "carryover": true,
+      "subsystem": "charging",
+      "own_impact": 0.15,
+      "portfolio_terms": []
+     },
+     {
+      "why": "Route planner prefers working stations",
+      "layer": "K1",
+      "carryover": false,
+      "subsystem": "software_hmi",
+      "own_impact": 0.03,
+      "portfolio_terms": []
+     }
+    ],
+    "decision": "adapt",
+    "portfolio": [],
+    "effort_pct": 0.92,
+    "model_hash": "789fcb7624b8",
+    "subsystems": [
+     {
+      "name": "Charging",
+      "path": null,
+      "risk": 0.15,
+      "subsystem": "charging",
+      "effort_pct": 0.6
+     },
+     {
+      "name": "Software/HMI",
+      "path": null,
+      "risk": 0.03,
+      "subsystem": "software_hmi",
+      "effort_pct": 0.3
+     },
+     {
+      "name": "E/E architecture",
+      "path": [
+       "Software/HMI",
+       "E/E architecture"
+      ],
+      "risk": 0.002,
+      "subsystem": "ee_architecture",
+      "effort_pct": 0.02
+     }
+    ],
+    "certification": false,
+    "decision_stable_pct": 100,
+    "requirement_version": 1
+   },
+   "rationale": "CPM effort model 789fcb7624b8, profile by assistant",
+   "model_id": null,
+   "prompt_version": null,
+   "parent_event_id": null
+  },
+  {
+   "id": 3170,
+   "ts": "2026-10-11T02:43:10.218838+00:00",
+   "run_id": "RUN-20261011-024308-effort.estimate-321f",
+   "actor_type": "system",
+   "actor_id": "effort-engine",
+   "action": "effort.estimated",
+   "entity_type": "requirement",
+   "entity_id": "REQ-G60-US-PR-05",
+   "before": null,
+   "after": {
+    "p5": 0.08,
+    "p95": 0.37,
+    "kind": "change",
+    "note": null,
+    "size": "XS",
+    "flags": [],
+    "layer": "K1",
+    "changes": [
+     {
+      "why": "Flap actuator field fix and frost strategy",
+      "layer": "K1",
+      "carryover": false,
+      "subsystem": "charging",
+      "own_impact": 0.05,
+      "portfolio_terms": []
+     }
+    ],
+    "decision": "adapt",
+    "portfolio": [],
+    "effort_pct": 0.2,
+    "model_hash": "789fcb7624b8",
+    "subsystems": [
+     {
+      "name": "Charging",
+      "path": null,
+      "risk": 0.05,
+      "subsystem": "charging",
+      "effort_pct": 0.2
+     }
+    ],
+    "certification": false,
+    "decision_stable_pct": 100,
+    "requirement_version": 1
+   },
+   "rationale": "CPM effort model 789fcb7624b8, profile by assistant",
+   "model_id": null,
+   "prompt_version": null,
+   "parent_event_id": null
+  },
+  {
+   "id": 3171,
+   "ts": "2026-10-11T02:43:10.270948+00:00",
+   "run_id": "RUN-20261011-024308-effort.estimate-321f",
+   "actor_type": "system",
+   "actor_id": "effort-engine",
+   "action": "effort.estimated",
+   "entity_type": "requirement",
+   "entity_id": "REQ-G60-US-SP-01",
+   "before": null,
+   "after": {
+    "p5": 0.29,
+    "p95": 1.17,
+    "kind": "change",
+    "note": null,
+    "size": "XS",
+    "flags": [],
+    "layer": "K1",
+    "changes": [
+     {
+      "why": "Kick-sensor calibration and a close button on the lid",
+      "layer": "K1",
+      "carryover": false,
+      "subsystem": "exterior_design",
+      "own_impact": 0.04,
+      "portfolio_terms": []
+     }
+    ],
+    "decision": "adapt",
+    "portfolio": [],
+    "effort_pct": 0.61,
+    "model_hash": "789fcb7624b8",
+    "subsystems": [
+     {
+      "name": "Exterior design",
+      "path": null,
+      "risk": 0.04,
+      "subsystem": "exterior_design",
+      "effort_pct": 0.24
+     },
+     {
+      "name": "Software/HMI",
+      "path": [
+       "Exterior design",
+       "E/E architecture",
+       "Software/HMI"
+      ],
+      "risk": 0.0179,
+      "subsystem": "software_hmi",
+      "effort_pct": 0.18
+     },
+     {
+      "name": "Body/structure",
+      "path": [
+       "Exterior design",
+       "Body/structure"
+      ],
+      "risk": 0.0027,
+      "subsystem": "body_structure",
+      "effort_pct": 0.05
+     },
+     {
+      "name": "Chassis",
+      "path": [
+       "Exterior design",
+       "Body/structure",
+       "Chassis"
+      ],
+      "risk": 0.0053,
+      "subsystem": "chassis",
+      "effort_pct": 0.05
+     },
+     {
+      "name": "E/E architecture",
+      "path": [
+       "Exterior design",
+       "E/E architecture"
+      ],
+      "risk": 0.0059,
+      "subsystem": "ee_architecture",
+      "effort_pct": 0.05
+     },
+     {
+      "name": "Interior/console",
+      "path": [
+       "Exterior design",
+       "Body/structure",
+       "Interior/console"
+      ],
+      "risk": 0.004,
+      "subsystem": "interior_console",
+      "effort_pct": 0.03
+     }
+    ],
+    "certification": false,
+    "decision_stable_pct": 100,
+    "requirement_version": 1
+   },
+   "rationale": "CPM effort model 789fcb7624b8, profile by assistant",
+   "model_id": null,
+   "prompt_version": null,
+   "parent_event_id": null
+  },
+  {
+   "id": 3172,
+   "ts": "2026-10-11T02:43:10.320395+00:00",
+   "run_id": "RUN-20261011-024308-effort.estimate-321f",
+   "actor_type": "system",
+   "actor_id": "effort-engine",
+   "action": "effort.estimated",
+   "entity_type": "requirement",
+   "entity_id": "REQ-G60-US-SP-02",
+   "before": null,
+   "after": {
+    "p5": 0.94,
+    "p95": 4.07,
+    "kind": "change",
+    "note": null,
+    "size": "S",
+    "flags": [],
+    "layer": "K1",
+    "changes": [
+     {
+      "why": "Seat-back pockets, sunglasses holder, covered tray, larger door pockets",
+      "layer": "K1",
+      "carryover": false,
+      "subsystem": "interior_console",
+      "own_impact": 0.1,
+      "portfolio_terms": []
+     }
+    ],
+    "decision": "adapt",
+    "portfolio": [],
+    "effort_pct": 2.08,
+    "model_hash": "789fcb7624b8",
+    "subsystems": [
+     {
+      "name": "Software/HMI",
+      "path": [
+       "Interior/console",
+       "E/E architecture",
+       "Software/HMI"
+      ],
+      "risk": 0.0902,
+      "subsystem": "software_hmi",
+      "effort_pct": 0.9
+     },
+     {
+      "name": "Interior/console",
+      "path": null,
+      "risk": 0.1,
+      "subsystem": "interior_console",
+      "effort_pct": 0.7
+     },
+     {
+      "name": "E/E architecture",
+      "path": [
+       "Interior/console",
+       "E/E architecture"
+      ],
+      "risk": 0.0325,
+      "subsystem": "ee_architecture",
+      "effort_pct": 0.29
+     },
+     {
+      "name": "Seats",
+      "path": [
+       "Interior/console",
+       "Seats"
+      ],
+      "risk": 0.02,
+      "subsystem": "seats",
+      "effort_pct": 0.1
+     },
+     {
+      "name": "Thermal/HVAC",
+      "path": [
+       "Interior/console",
+       "Seats",
+       "Thermal/HVAC"
+      ],
+      "risk": 0.0141,
+      "subsystem": "thermal_hvac",
+      "effort_pct": 0.08
+     }
+    ],
+    "certification": false,
+    "decision_stable_pct": 100,
+    "requirement_version": 1
+   },
+   "rationale": "CPM effort model 789fcb7624b8, profile by assistant",
+   "model_id": null,
+   "prompt_version": null,
+   "parent_event_id": null
+  },
+  {
+   "id": 3173,
+   "ts": "2026-10-11T02:43:10.400119+00:00",
+   "run_id": "RUN-20261011-024308-effort.estimate-321f",
+   "actor_type": "system",
+   "actor_id": "effort-engine",
+   "action": "effort.estimated",
+   "entity_type": "requirement",
+   "entity_id": "REQ-G60-US-SP-03",
+   "before": null,
+   "after": {
+    "p5": 0.21,
+    "p95": 0.79,
+    "kind": "change",
+    "note": null,
+    "size": "XS",
+    "flags": [],
+    "layer": "K1",
+    "changes": [
+     {
+      "why": "Sensor door handles at the rear, closing-force tuning; comfort access exists on the G70",
+      "layer": "K1",
+      "carryover": true,
+      "subsystem": "exterior_design",
+      "own_impact": 0.05,
+      "portfolio_terms": [
+       "Komfortzugang",
+       "Comfort Access"
+      ]
+     }
+    ],
+    "decision": "adapt",
+    "portfolio": [
+     {
+      "level": 2,
+      "terms": [
+       "Komfortzugang",
+       "Comfort Access"
+      ],
+      "vehicles": {
+       "G70": {
+        "item": "Comfort Access",
+        "status": "standard"
+       }
+      },
+      "subsystem": "exterior_design",
+      "own_variants": {
+       "total": 10,
+       "optional": 0,
+       "standard": 0
+      }
+     }
+    ],
+    "effort_pct": 0.44,
+    "model_hash": "789fcb7624b8",
+    "subsystems": [
+     {
+      "name": "Exterior design",
+      "path": null,
+      "risk": 0.05,
+      "subsystem": "exterior_design",
+      "effort_pct": 0.3
+     },
+     {
+      "name": "Software/HMI",
+      "path": [
+       "Exterior design",
+       "E/E architecture",
+       "Software/HMI"
+      ],
+      "risk": 0.0067,
+      "subsystem": "software_hmi",
+      "effort_pct": 0.07
+     },
+     {
+      "name": "Body/structure",
+      "path": [
+       "Exterior design",
+       "Body/structure"
+      ],
+      "risk": 0.001,
+      "subsystem": "body_structure",
+      "effort_pct": 0.02
+     },
+     {
+      "name": "Chassis",
+      "path": [
+       "Exterior design",
+       "Body/structure",
+       "Chassis"
+      ],
+      "risk": 0.002,
+      "subsystem": "chassis",
+      "effort_pct": 0.02
+     },
+     {
+      "name": "E/E architecture",
+      "path": [
+       "Exterior design",
+       "E/E architecture"
+      ],
+      "risk": 0.0022,
+      "subsystem": "ee_architecture",
+      "effort_pct": 0.02
+     },
+     {
+      "name": "Interior/console",
+      "path": [
+       "Exterior design",
+       "Body/structure",
+       "Interior/console"
+      ],
+      "risk": 0.0015,
+      "subsystem": "interior_console",
+      "effort_pct": 0.01
+     }
+    ],
+    "certification": false,
+    "decision_stable_pct": 100,
+    "requirement_version": 1
+   },
+   "rationale": "CPM effort model 789fcb7624b8, profile by assistant",
+   "model_id": null,
+   "prompt_version": null,
+   "parent_event_id": null
+  },
+  {
+   "id": 3174,
+   "ts": "2026-10-11T02:43:10.464187+00:00",
+   "run_id": "RUN-20261011-024308-effort.estimate-321f",
+   "actor_type": "system",
+   "actor_id": "effort-engine",
+   "action": "effort.estimated",
+   "entity_type": "requirement",
+   "entity_id": "REQ-G60-US-ID-02",
+   "before": null,
+   "after": {
+    "p5": 0.69,
+    "p95": 2.67,
+    "kind": "change",
+    "note": null,
+    "size": "S",
+    "flags": [],
+    "layer": "K1",
+    "changes": [
+     {
+      "why": "CarPlay profile binding and loudness matching",
+      "layer": "K1",
+      "carryover": false,
+      "subsystem": "software_hmi",
+      "own_impact": 0.04,
+      "portfolio_terms": []
+     },
+     {
+      "why": "Wireless charger tray cooling",
+      "layer": "K1",
+      "carryover": false,
+      "subsystem": "interior_console",
+      "own_impact": 0.05,
+      "portfolio_terms": []
+     }
+    ],
+    "decision": "adapt",
+    "portfolio": [],
+    "effort_pct": 1.45,
+    "model_hash": "789fcb7624b8",
+    "subsystems": [
+     {
+      "name": "Software/HMI",
+      "path": [
+       "Interior/console",
+       "E/E architecture",
+       "Software/HMI"
+      ],
+      "risk": 0.084,
+      "subsystem": "software_hmi",
+      "effort_pct": 0.84
+     },
+     {
+      "name": "Interior/console",
+      "path": null,
+      "risk": 0.05,
+      "subsystem": "interior_console",
+      "effort_pct": 0.35
+     },
+     {
+      "name": "E/E architecture",
+      "path": [
+       "Interior/console",
+       "E/E architecture"
+      ],
+      "risk": 0.019,
+      "subsystem": "ee_architecture",
+      "effort_pct": 0.17
+     },
+     {
+      "name": "Seats",
+      "path": [
+       "Interior/console",
+       "Seats"
+      ],
+      "risk": 0.01,
+      "subsystem": "seats",
+      "effort_pct": 0.05
+     },
+     {
+      "name": "Thermal/HVAC",
+      "path": [
+       "Interior/console",
+       "Seats",
+       "Thermal/HVAC"
+      ],
+      "risk": 0.0071,
+      "subsystem": "thermal_hvac",
+      "effort_pct": 0.04
+     }
+    ],
+    "certification": false,
+    "decision_stable_pct": 100,
+    "requirement_version": 1
+   },
+   "rationale": "CPM effort model 789fcb7624b8, profile by assistant",
+   "model_id": null,
+   "prompt_version": null,
+   "parent_event_id": null
+  },
+  {
+   "id": 3175,
+   "ts": "2026-10-11T02:43:10.482867+00:00",
+   "run_id": "RUN-20261011-024308-effort.estimate-321f",
+   "actor_type": "system",
+   "actor_id": "effort-engine",
+   "action": "effort.estimated",
+   "entity_type": "requirement",
+   "entity_id": "REQ-G60-US-ID-03",
+   "before": null,
+   "after": {
+    "p5": 0.18,
+    "p95": 0.75,
+    "kind": "change",
+    "note": null,
+    "size": "XS",
+    "flags": [],
+    "layer": "K1",
+    "changes": [
+     {
+      "why": "Profiles survive OTA, two keys per profile, driver recognition",
+      "layer": "K1",
+      "carryover": false,
+      "subsystem": "software_hmi",
+      "own_impact": 0.04,
+      "portfolio_terms": []
+     }
+    ],
+    "decision": "adapt",
+    "portfolio": [],
+    "effort_pct": 0.42,
+    "model_hash": "789fcb7624b8",
+    "subsystems": [
+     {
+      "name": "Software/HMI",
+      "path": null,
+      "risk": 0.04,
+      "subsystem": "software_hmi",
+      "effort_pct": 0.4
+     },
+     {
+      "name": "E/E architecture",
+      "path": [
+       "Software/HMI",
+       "E/E architecture"
+      ],
+      "risk": 0.0027,
+      "subsystem": "ee_architecture",
+      "effort_pct": 0.02
+     }
+    ],
+    "certification": false,
+    "decision_stable_pct": 100,
+    "requirement_version": 1
+   },
+   "rationale": "CPM effort model 789fcb7624b8, profile by assistant",
+   "model_id": null,
+   "prompt_version": null,
+   "parent_event_id": null
+  },
+  {
+   "id": 3176,
+   "ts": "2026-10-11T02:43:10.558478+00:00",
+   "run_id": "RUN-20261011-024308-effort.estimate-321f",
+   "actor_type": "system",
+   "actor_id": "effort-engine",
+   "action": "effort.estimated",
+   "entity_type": "requirement",
+   "entity_id": "REQ-G60-US-IC-03",
+   "before": null,
+   "after": {
+    "p5": 1.63,
+    "p95": 6.48,
+    "kind": "change",
+    "note": null,
+    "size": "S",
+    "flags": [],
+    "layer": "K1",
+    "changes": [
+     {
+      "why": "Soft-touch door panels and dashboard surfaces",
+      "layer": "K1",
+      "carryover": false,
+      "subsystem": "interior_console",
+      "own_impact": 0.15,
+      "portfolio_terms": []
+     },
+     {
+      "why": "Full-leather upholstery option; Merino leather is offered on the G70",
+      "layer": "K1",
+      "carryover": true,
+      "subsystem": "seats",
+      "own_impact": 0.05,
+      "portfolio_terms": [
+       "Merino"
+      ]
+     }
+    ],
+    "decision": "adapt",
+    "portfolio": [
+     {
+      "level": 2,
+      "terms": [
+       "Merino"
+      ],
+      "vehicles": {
+       "G70": {
+        "item": "BMW M Merino leather Black | Atlas Grey",
+        "status": "standard"
+       }
+      },
+      "subsystem": "seats",
+      "own_variants": {
+       "total": 10,
+       "optional": 0,
+       "standard": 0
+      }
+     }
+    ],
+    "effort_pct": 3.52,
+    "model_hash": "789fcb7624b8",
+    "subsystems": [
+     {
+      "name": "Software/HMI",
+      "path": [
+       "Interior/console",
+       "E/E architecture",
+       "Software/HMI"
+      ],
+      "risk": 0.1453,
+      "subsystem": "software_hmi",
+      "effort_pct": 1.45
+     },
+     {
+      "name": "Interior/console",
+      "path": null,
+      "risk": 0.15,
+      "subsystem": "interior_console",
+      "effort_pct": 1.05
+     },
+     {
+      "name": "E/E architecture",
+      "path": [
+       "Interior/console",
+       "E/E architecture"
+      ],
+      "risk": 0.0532,
+      "subsystem": "ee_architecture",
+      "effort_pct": 0.48
+     },
+     {
+      "name": "Seats",
+      "path": null,
+      "risk": 0.0785,
+      "subsystem": "seats",
+      "effort_pct": 0.39
+     },
+     {
+      "name": "Thermal/HVAC",
+      "path": [
+       "Interior/console",
+       "Seats",
+       "Thermal/HVAC"
+      ],
+      "risk": 0.0248,
+      "subsystem": "thermal_hvac",
+      "effort_pct": 0.15
+     }
+    ],
+    "certification": false,
+    "decision_stable_pct": 100,
+    "requirement_version": 1
+   },
+   "rationale": "CPM effort model 789fcb7624b8, profile by assistant",
+   "model_id": null,
+   "prompt_version": null,
+   "parent_event_id": null
+  },
+  {
+   "id": 3177,
+   "ts": "2026-10-11T02:43:10.568853+00:00",
+   "run_id": "RUN-20261011-024308-effort.estimate-321f",
+   "actor_type": "system",
+   "actor_id": "effort-engine",
+   "action": "effort.estimated",
+   "entity_type": "requirement",
+   "entity_id": "REQ-G60-US-GE-01",
+   "before": null,
+   "after": {
+    "p5": 0.08,
+    "p95": 0.36,
+    "kind": "change",
+    "note": null,
+    "size": "XS",
+    "flags": [],
+    "layer": "K0",
+    "changes": [
+     {
+      "why": "Guided tour and searchable help are content on the existing system",
+      "layer": "K0",
+      "carryover": false,
+      "subsystem": "software_hmi",
+      "own_impact": 0.02,
+      "portfolio_terms": []
+     }
+    ],
+    "decision": "adapt",
+    "portfolio": [],
+    "effort_pct": 0.2,
+    "model_hash": "789fcb7624b8",
+    "subsystems": [
+     {
+      "name": "Software/HMI",
+      "path": null,
+      "risk": 0.02,
+      "subsystem": "software_hmi",
+      "effort_pct": 0.2
+     }
+    ],
+    "certification": false,
+    "decision_stable_pct": 100,
+    "requirement_version": 1
+   },
+   "rationale": "CPM effort model 789fcb7624b8, profile by assistant",
+   "model_id": null,
+   "prompt_version": null,
+   "parent_event_id": null
+  },
+  {
+   "id": 3178,
+   "ts": "2026-10-11T02:43:10.586608+00:00",
+   "run_id": "RUN-20261011-024308-effort.estimate-321f",
+   "actor_type": "system",
+   "actor_id": "effort-engine",
+   "action": "effort.estimated",
+   "entity_type": "requirement",
+   "entity_id": "REQ-G60-US-DD-01",
+   "before": null,
+   "after": {
+    "p5": 0.14,
+    "p95": 0.56,
+    "kind": "change",
+    "note": null,
+    "size": "XS",
+    "flags": [],
+    "layer": "K1",
+    "changes": [
+     {
+      "why": "Free combination of drive-mode parameters, last mode remembered",
+      "layer": "K1",
+      "carryover": false,
+      "subsystem": "software_hmi",
+      "own_impact": 0.03,
+      "portfolio_terms": []
+     }
+    ],
+    "decision": "adapt",
+    "portfolio": [],
+    "effort_pct": 0.32,
+    "model_hash": "789fcb7624b8",
+    "subsystems": [
+     {
+      "name": "Software/HMI",
+      "path": null,
+      "risk": 0.03,
+      "subsystem": "software_hmi",
+      "effort_pct": 0.3
+     },
+     {
+      "name": "E/E architecture",
+      "path": [
+       "Software/HMI",
+       "E/E architecture"
+      ],
+      "risk": 0.002,
+      "subsystem": "ee_architecture",
+      "effort_pct": 0.02
+     }
+    ],
+    "certification": false,
+    "decision_stable_pct": 100,
+    "requirement_version": 1
+   },
+   "rationale": "CPM effort model 789fcb7624b8, profile by assistant",
+   "model_id": null,
+   "prompt_version": null,
+   "parent_event_id": null
+  },
+  {
+   "id": 3179,
+   "ts": "2026-10-11T02:43:10.635774+00:00",
+   "run_id": "RUN-20261011-024308-effort.estimate-321f",
+   "actor_type": "system",
+   "actor_id": "effort-engine",
+   "action": "effort.estimated",
+   "entity_type": "requirement",
+   "entity_id": "REQ-G60-US-DD-02",
+   "before": null,
+   "after": {
+    "p5": 0.51,
+    "p95": 1.72,
+    "kind": "change",
+    "note": null,
+    "size": "S",
+    "flags": [],
+    "layer": "K1",
+    "changes": [
+     {
+      "why": "Brake-by-wire pedal map",
+      "layer": "K1",
+      "carryover": false,
+      "subsystem": "chassis",
+      "own_impact": 0.05,
+      "portfolio_terms": []
+     },
+     {
+      "why": "Recuperation strategy and one-pedal option",
+      "layer": "K1",
+      "carryover": false,
+      "subsystem": "software_hmi",
+      "own_impact": 0.02,
+      "portfolio_terms": []
+     }
+    ],
+    "decision": "adapt",
+    "portfolio": [],
+    "effort_pct": 1.02,
+    "model_hash": "789fcb7624b8",
+    "subsystems": [
+     {
+      "name": "Chassis",
+      "path": null,
+      "risk": 0.05,
+      "subsystem": "chassis",
+      "effort_pct": 0.5
+     },
+     {
+      "name": "Software/HMI",
+      "path": null,
+      "risk": 0.0215,
+      "subsystem": "software_hmi",
+      "effort_pct": 0.21
+     },
+     {
+      "name": "Body/structure",
+      "path": [
+       "Chassis",
+       "Body/structure"
+      ],
+      "risk": 0.01,
+      "subsystem": "body_structure",
+      "effort_pct": 0.18
+     },
+     {
+      "name": "Interior/console",
+      "path": [
+       "Chassis",
+       "Body/structure",
+       "Interior/console"
+      ],
+      "risk": 0.0075,
+      "subsystem": "interior_console",
+      "effort_pct": 0.05
+     },
+     {
+      "name": "Exterior design",
+      "path": [
+       "Chassis",
+       "Body/structure",
+       "Exterior design"
+      ],
+      "risk": 0.006,
+      "subsystem": "exterior_design",
+      "effort_pct": 0.04
+     },
+     {
+      "name": "E/E architecture",
+      "path": [
+       "Chassis",
+       "Body/structure",
+       "Interior/console",
+       "E/E architecture"
+      ],
+      "risk": 0.0031,
+      "subsystem": "ee_architecture",
+      "effort_pct": 0.03
+     },
+     {
+      "name": "Seats",
+      "path": [
+       "Chassis",
+       "Body/structure",
+       "Interior/console",
+       "Seats"
+      ],
+      "risk": 0.0015,
+      "subsystem": "seats",
+      "effort_pct": 0.01
+     }
+    ],
+    "certification": false,
+    "decision_stable_pct": 100,
+    "requirement_version": 1
+   },
+   "rationale": "CPM effort model 789fcb7624b8, profile by assistant",
+   "model_id": null,
+   "prompt_version": null,
+   "parent_event_id": null
+  },
+  {
+   "id": 3180,
+   "ts": "2026-10-11T02:43:10.639275+00:00",
+   "run_id": "RUN-20261011-024308-effort.estimate-321f",
+   "actor_type": "system",
+   "actor_id": "effort-engine",
+   "action": "effort.estimated",
+   "entity_type": "requirement",
+   "entity_id": "REQ-G60-US-DD-03",
+   "before": null,
+   "after": {
+    "p5": 0,
+    "p95": 0,
+    "kind": "preserve",
+    "note": "Protects today's handling for the successor; no change to estimate.",
+    "size": "-",
+    "flags": [],
+    "layer": "K0",
+    "changes": [],
+    "decision": "no change",
+    "portfolio": [],
+    "effort_pct": 0,
+    "model_hash": "789fcb7624b8",
+    "subsystems": [],
+    "certification": false,
+    "decision_stable_pct": 100,
+    "requirement_version": 1
+   },
+   "rationale": "CPM effort model 789fcb7624b8, profile by assistant",
+   "model_id": null,
+   "prompt_version": null,
+   "parent_event_id": null
+  },
+  {
+   "id": 3181,
+   "ts": "2026-10-11T02:43:10.656908+00:00",
+   "run_id": "RUN-20261011-024308-effort.estimate-321f",
+   "actor_type": "system",
+   "actor_id": "effort-engine",
+   "action": "effort.estimated",
+   "entity_type": "requirement",
+   "entity_id": "REQ-G60-US-DA-01",
+   "before": null,
+   "after": {
+    "p5": 0.08,
+    "p95": 0.36,
+    "kind": "change",
+    "note": null,
+    "size": "XS",
+    "flags": [],
+    "layer": "K0",
+    "changes": [
+     {
+      "why": "Standard-content decision, hardware is fitted; one-control settings in the HMI",
+      "layer": "K0",
+      "carryover": false,
+      "subsystem": "software_hmi",
+      "own_impact": 0.02,
+      "portfolio_terms": [
+       "Driving Assistant Plus",
+       "Driving Assistant Professional"
+      ]
+     }
+    ],
+    "decision": "adapt",
+    "portfolio": [
+     {
+      "level": 1,
+      "terms": [
+       "Driving Assistant Plus",
+       "Driving Assistant Professional"
+      ],
+      "vehicles": {
+       "F70": {
+        "item": "Driving Assistant Plus",
+        "status": "optional"
+       },
+       "G60": {
+        "item": "Driving Assistant Plus",
+        "status": "optional"
+       },
+       "G70": {
+        "item": "Driving Assistant Plus",
+        "status": "standard"
+       }
+      },
+      "subsystem": "software_hmi",
+      "own_variants": {
+       "total": 10,
+       "optional": 10,
+       "standard": 0
+      }
+     }
+    ],
+    "effort_pct": 0.2,
+    "model_hash": "789fcb7624b8",
+    "subsystems": [
+     {
+      "name": "Software/HMI",
+      "path": null,
+      "risk": 0.02,
+      "subsystem": "software_hmi",
+      "effort_pct": 0.2
+     }
+    ],
+    "certification": false,
+    "decision_stable_pct": 100,
+    "requirement_version": 1
+   },
+   "rationale": "CPM effort model 789fcb7624b8, profile by assistant",
+   "model_id": null,
+   "prompt_version": null,
+   "parent_event_id": null
+  },
+  {
+   "id": 3182,
+   "ts": "2026-10-11T02:43:10.704718+00:00",
+   "run_id": "RUN-20261011-024308-effort.estimate-321f",
+   "actor_type": "system",
+   "actor_id": "effort-engine",
+   "action": "effort.estimated",
+   "entity_type": "requirement",
+   "entity_id": "REQ-G60-US-ID-04",
+   "before": null,
+   "after": {
+    "p5": 0.94,
+    "p95": 4.07,
+    "kind": "change",
+    "note": null,
+    "size": "S",
+    "flags": [],
+    "layer": "K2",
+    "changes": [
+     {
+      "why": "CD drive as an accessory needs a mount, supply and a media source; not in any BMW catalogue",
+      "layer": "K2",
+      "carryover": false,
+      "subsystem": "interior_console",
+      "own_impact": 0.1,
+      "portfolio_terms": []
+     }
+    ],
+    "decision": "adapt",
+    "portfolio": [],
+    "effort_pct": 2.08,
+    "model_hash": "789fcb7624b8",
+    "subsystems": [
+     {
+      "name": "Software/HMI",
+      "path": [
+       "Interior/console",
+       "E/E architecture",
+       "Software/HMI"
+      ],
+      "risk": 0.0902,
+      "subsystem": "software_hmi",
+      "effort_pct": 0.9
+     },
+     {
+      "name": "Interior/console",
+      "path": null,
+      "risk": 0.1,
+      "subsystem": "interior_console",
+      "effort_pct": 0.7
+     },
+     {
+      "name": "E/E architecture",
+      "path": [
+       "Interior/console",
+       "E/E architecture"
+      ],
+      "risk": 0.0325,
+      "subsystem": "ee_architecture",
+      "effort_pct": 0.29
+     },
+     {
+      "name": "Seats",
+      "path": [
+       "Interior/console",
+       "Seats"
+      ],
+      "risk": 0.02,
+      "subsystem": "seats",
+      "effort_pct": 0.1
+     },
+     {
+      "name": "Thermal/HVAC",
+      "path": [
+       "Interior/console",
+       "Seats",
+       "Thermal/HVAC"
+      ],
+      "risk": 0.0141,
+      "subsystem": "thermal_hvac",
+      "effort_pct": 0.08
+     }
+    ],
+    "certification": false,
+    "decision_stable_pct": 100,
+    "requirement_version": 1
+   },
+   "rationale": "CPM effort model 789fcb7624b8, profile by assistant",
+   "model_id": null,
+   "prompt_version": null,
+   "parent_event_id": null
+  }
+ ]
+}
