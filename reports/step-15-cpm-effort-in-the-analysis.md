@@ -88,9 +88,12 @@ the pushed commit found that they were trusted too far; all of the following is 
 * When a recommendation names a requirement and adds changes of its own, both are counted.
   Before, the additions were dropped.
 * Carryover in an analyst's profile is reported and not applied: the profile is computed as a
-  new development, and the report shows the figure with the claim beside it. Catalogue terms
-  are bounded (five per change, at least four characters, no wildcards), changes to eight per
-  proposal.
+  new development, and the report shows the figure with the claim beside it.
+* The size limits (eight changes per proposal, five catalogue terms per change, 20 proposals)
+  are part of the answer schema (D-076): the provider enforces them and an answer beyond them
+  is rejected as a whole. A first version cut a profile to its first eight changes and still
+  showed the estimate; nothing is cut now. Terms under four characters or with a wildcard are
+  not searched and are named in a flag.
 * Every estimate is computed from the current effort model, also one from a requirement's
   profile, instead of being copied from the table.
 
@@ -106,7 +109,8 @@ In the Korea run the analyst claimed carryover in three proposals; without the c
 to 4.9, 4.2 and 2.8 % instead of 4.4, 3.4 and 2.4 %. The figures of section 3 are those of
 prompt v3 and are kept as the record of that run.
 
-62 tests passed. Model calls of this branch so far, development included: 44 calls, USD 2.54.
+63 tests passed. Model calls of this branch so far, development included: 47 calls, USD 2.66
+(one more live run for Korea confirmed that the provider accepts the bounded schema).
 
 ## 5. Known limitations
 

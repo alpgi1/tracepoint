@@ -45,6 +45,23 @@ PROMPT_VERSION = "situation-analysis-v4"
 ACTOR = "agent:analyst"
 
 
+# Bounds on what the model may send. They are part of the answer schema, so the provider enforces
+# them and an answer beyond them is rejected as a whole at parsing; nothing is cut to fit.
+MAX_INSIGHTS = 30
+MAX_PROPOSALS = 20
+MAX_REFS = 40  # per insight or proposal
+MAX_CHANGES = 8  # per proposal
+MAX_TERMS = 5  # catalogue terms per change
+
+
+class ProposedChange(Change):
+    """A change written by the analyst: the engine's format with a bounded term list."""
+
+    portfolio_terms: list[str] = Field(
+        max_length=MAX_TERMS, description="Catalogue search terms, German or English"
+    )
+
+
 class Insight(BaseModel):
     title: str
     kind: Literal[
@@ -53,7 +70,7 @@ class Insight(BaseModel):
     domain: str = Field(description="Vehicle domain key as written in the context pack")
     statement: str = Field(description="What the evidence shows, with its numbers")
     customer_quote: str | None = Field(description="One short verbatim quote, or null")
-    evidence_refs: list[str] = Field(min_length=1)
+    evidence_refs: list[str] = Field(min_length=1, max_length=MAX_REFS)
     confidence: Literal["high", "medium", "low"]
 
 
@@ -62,7 +79,7 @@ class Recommendation(BaseModel):
     proposal: str = Field(description="What the product manager should consider, customer-facing")
     horizon: Literal["H1", "H2"]
     rationale: str
-    evidence_refs: list[str] = Field(min_length=1)
+    evidence_refs: list[str] = Field(min_length=1, max_length=MAX_REFS)
     related_requirement: str | None = Field(
         description="Id of an existing requirement (REQ-…) that already covers this, or null"
     )
@@ -70,9 +87,10 @@ class Recommendation(BaseModel):
         description="True when the proposal changes hardware, software or content of the "
         "vehicle; false only when it keeps something as it is or acts outside the vehicle"
     )
-    effort_changes: list[Change] | None = Field(
+    effort_changes: list[ProposedChange] | None = Field(
+        max_length=MAX_CHANGES,
         description="Change profile for the effort engine: null when related_requirement is set "
-        "and its stored profile covers the proposal, or when changes_vehicle is false"
+        "and its stored profile covers the proposal, or when changes_vehicle is false",
     )
 
 
@@ -80,8 +98,8 @@ class SituationAnalysis(BaseModel):
     headline: str
     summary: str
     data_coverage: str = Field(description="Which evidence the analysis rests on and how much")
-    insights: list[Insight]
-    recommendations: list[Recommendation]
+    insights: list[Insight] = Field(max_length=MAX_INSIGHTS)
+    recommendations: list[Recommendation] = Field(max_length=MAX_PROPOSALS)
     assumptions_and_gaps: list[str]
 
 
@@ -210,8 +228,6 @@ def effort_brief(engine: Engine) -> str:
 
 
 _EFFORT_KEYS = ("effort_pct", "p5", "p95", "decision", "decision_stable_pct", "layer", "size")
-MAX_CHANGES = 8  # per proposal
-MAX_TERMS = 5  # catalogue terms per change
 
 
 def _flag(level: str, rule: str, text: str) -> dict[str, str]:
@@ -234,11 +250,17 @@ def _requirement_in_scope(
     return req, None
 
 
+def _searchable(term: str) -> bool:
+    """A catalogue term is matched as a substring: too short or with a wildcard it matches
+    almost every item and would make any feature look as if BMW already offered it."""
+    return len(term.strip()) >= 4 and not set("%_") & set(term)
+
+
 def _analyst_change(c: Change) -> Change:
     """A change written by the model, as the engine may use it: computed as a new development
-    (the carryover discount is a claim nobody has checked) and with bounded catalogue terms."""
-    terms = [t.strip() for t in c.portfolio_terms if len(t.strip()) >= 4 and not set("%_") & set(t)]
-    return c.model_copy(update={"carryover": False, "portfolio_terms": terms[:MAX_TERMS]})
+    (the carryover discount is a claim nobody has checked), searched with usable terms only."""
+    terms = [t.strip() for t in c.portfolio_terms if _searchable(t)]
+    return c.model_copy(update={"carryover": False, "portfolio_terms": terms})
 
 
 def effort_of_proposals(
@@ -294,13 +316,17 @@ def effort_of_proposals(
         if stored is not None:
             sources.append(f"change profile of {req.id}")
         own = list(rec.effort_changes or [])
-        if len(own) > MAX_CHANGES:
-            faults.append(
-                f'"{rec.title}" lists {len(own)} changes; give at most {MAX_CHANGES}, one per '
-                "subsystem where the change starts."
-            )
-            own = own[:MAX_CHANGES]
         claimed = [c.subsystem for c in own if c.carryover]
+        unsearched = sorted({t for c in own for t in c.portfolio_terms if not _searchable(t)})
+        if unsearched:
+            flags.append(
+                _flag(
+                    "info",
+                    "43",
+                    "catalogue terms not searched (under four characters or with a wildcard): "
+                    + ", ".join(repr(t) for t in unsearched),
+                )
+            )
         as_written, own = own, [_analyst_change(c) for c in own]
         if own:
             sources.append("analyst's change profile")

@@ -259,13 +259,15 @@ def test_situation_analysis_for_a_country(engine, ingested):
     # a requirement id the model made up gives no profile; its own profile is used and flagged
     assert seats["source"] == "analyst's change profile" and seats["flags"][0]["rule"] == "scope"
     assert seats["changes"][0]["portfolio_terms"] == []
-    assert body["decision"] == "new generation" and body["flags"][0]["level"] == "conflict"
+    assert "catalogue terms not searched" in seats["flags"][1]["text"]  # dropped, and said so
+    assert body["decision"] == "new generation"
+    assert any(f["level"] == "conflict" for f in body["flags"])
     assert battery["status"] == "invalid" and "not present on F70" in battery["error"]
     # only a declared "no change" passes without an estimate
     assert keep["status"] == "no_vehicle_change" and silent["status"] == "missing"
     # the model cannot lower its own estimate by claiming carryover
     assert carried["effort_pct"] == seats["effort_pct"] and not carried["changes"][0]["carryover"]
-    assert "is not applied" in carried["flags"][0]["text"]
+    assert any("is not applied" in f["text"] for f in carried["flags"])
     for sent_back in (
         "REQ-INVENTED, which does not exist",
         '"new body" is H1',
@@ -319,3 +321,21 @@ def test_quote_check_does_not_pass_quotes_it_cannot_compare(engine, ingested):
         for quote in ("…", "座席が硬い"):
             assert unverified_quotes(session, analysis(quote, [ref])) == [quote]
         assert unverified_quotes(session, analysis(real, ["FND-X"])) == [real]  # no verbatim cited
+
+
+def test_answer_schema_bounds_reject_instead_of_truncating():
+    from tracepoint.agent.analysis import MAX_CHANGES, MAX_TERMS, ProposedChange, Recommendation
+    from tracepoint.llm.schema import to_strict_schema
+
+    change = {"subsystem": "seats", "own_impact": 0.1, "layer": "K1", "carryover": False}
+    rec = _rec("verbatim:x", "t", None, None)
+    Recommendation(**{**rec, "effort_changes": [{**change, "portfolio_terms": []}] * MAX_CHANGES})
+    with pytest.raises(ValidationError):  # one more change than allowed: the answer is invalid
+        Recommendation(
+            **{**rec, "effort_changes": [{**change, "portfolio_terms": []}] * (MAX_CHANGES + 1)}
+        )
+    with pytest.raises(ValidationError):
+        ProposedChange(**change, portfolio_terms=["term"] * (MAX_TERMS + 1))
+    # the provider is given the same bounds
+    schema = json.dumps(to_strict_schema(SituationAnalysis))
+    assert f'"maxItems": {MAX_CHANGES}' in schema and f'"maxItems": {MAX_TERMS}' in schema
