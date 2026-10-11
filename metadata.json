@@ -1,0 +1,45 @@
+{
+  "cli_version": "0.11.4",
+  "checkpoint_id": "01M4MCXAMB5E6YNFF5FCEPVRV9",
+  "strategy": "manual-commit",
+  "branch": "claude/backend-classification-agent-requirements",
+  "checkpoints_count": 2,
+  "files_touched": [
+    "backend/README.md",
+    "backend/tests/test_agent.py",
+    "backend/tests/test_effort.py",
+    "backend/tests/test_subsystems.py",
+    "backend/tracepoint/agent/analysis.py",
+    "backend/tracepoint/agent/context_pack.py",
+    "backend/tracepoint/agent/loop.py",
+    "backend/tracepoint/agent/tools.py",
+    "backend/tracepoint/api/app.py",
+    "backend/tracepoint/effort/store.py",
+    "backend/tracepoint/effort/subsystems.py",
+    "plan/decisions.md",
+    "reports/analysis/F70_GB.json",
+    "reports/analysis/F70_GB.md",
+    "reports/analysis/G60_US.json",
+    "reports/analysis/G60_US.md",
+    "reports/analysis/G68_CN.json",
+    "reports/analysis/G68_CN.md",
+    "reports/step-15-cpm-effort-in-the-analysis.md",
+    "reports/step-16-cpm-subsystems-in-the-analysis-flow.md"
+  ],
+  "sessions": [
+    {
+      "metadata": "/0/metadata.json",
+      "transcript": "/0/full.jsonl",
+      "compact_transcript": "/0/transcript.jsonl",
+      "content_hash": "/0/content_hash.txt",
+      "prompt": "/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 82,
+    "cache_creation_tokens": 137731,
+    "cache_read_tokens": 21502794,
+    "output_tokens": 81053,
+    "api_call_count": 41
+  }
+}

@@ -1,0 +1,5 @@
+ai flow'una analiz kısmına ve genel pipeline'a entegre ettik mi?
+
+---
+
+tamam şimdi backend tarafındaki ai'ın içerikleri alıp analiz ettiği flow'da kullanması için cpm işini flow'a detaylı bir şekilde entegre edelim
