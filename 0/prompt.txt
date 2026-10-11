@@ -1,0 +1,7 @@
+agentic ai tarafı bitti m*
+
+---
+
+<task-notification>
+<summary>Commit security review found 2 issues: parser differential / incomplete sanitizer (link injection) in backend/tracepoint/agent/analysis.py; sanitizer-regression / link injection in rendered report in backend/tracepoint/agent/analysis.py</summary>
+</task-notification>
