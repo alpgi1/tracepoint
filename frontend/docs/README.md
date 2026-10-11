@@ -10,6 +10,7 @@ it). These documents are the memory of the frontend track; read them before touc
 | `03-landing-map.md` | Specification of the landing page as built: the dotted world map, the market readouts, data pipeline, mask, zoom and focus, the market panel with the vehicle cards, interaction states and timings, accessibility, tokens, how to tune it |
 | `04-vehicle-models-feasibility.md` | Whether and how the three vehicles can appear as 3D models in the magnified state: technology, model sources and licences, rendering style, alternatives, effort. The team chose drawings instead (step 07) |
 | `05-vehicle-drawings.md` | The vehicle drawings as built: sources, the annotation-stripping and silhouette pipeline, dots and lines rendering, the vehicle screen with the car as domain selector, the zones, honesty notes, how to regenerate |
+| `06-cpm-subsystems.md` | The CPM subsystem list and the subsystem dialog as built (step 13): the twelve subsystems with their weights, the theme mapping, the market evidence file, the pipeline, the dialog's anatomy and states, the backend contract, verification |
 | `screenshots/` | Captures of the delivered states, taken by `tools/audit/screenshots.mjs` |
 | `research/` | Raw working notes from the research pass, per source, kept verbatim. They are in Turkish (the language the review was run in) and are source material, not specification; the English documents above are the ones that bind |
 

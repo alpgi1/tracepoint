@@ -1,0 +1,249 @@
+# Authored mapping of every canonical VFC level-2 theme (config/taxonomy/vfc_level2.yaml, 225
+# names) to one CPM subsystem (config/cpm/subsystems.yaml) or to none. Every canonical name must
+# appear exactly once, either under a subsystem or under `unassigned`.
+#
+# ASSUMPTION (effort rule 50): the assistant's first mapping, 2026-10-11, to be checked by a
+# mentor or BMW engineering. Principle: functions and interfaces go to software_hmi, physical
+# sensors, keys, power and connectivity hardware to ee_architecture, cockpit hardware and
+# controls to interior_console, closures and glazing to body_structure. The themes keep their
+# customer domain (config/taxonomy/domain_map.yaml); this file adds the engineering view.
+map:
+  body_structure:
+    - Hood
+    - Outer door handle, front
+    - Outer door handle, rear
+    - Roof
+    - Windshield
+    - Windshield wiper
+    - Rear wiper
+    - Washer fluid, top up
+    - Heated rear window
+    - Automatic doors
+    - Panorama glass roof
+    - Side window, open / close
+    - Door, open / close
+    - Frunk
+    - Hood, open / close
+    - Luggage compartment
+    - non-contact trunk lid opening
+    - Space / spatial impression
+    - Trailer, use
+    - Trunk lid
+    - Trunk lid, open / close
+    - Trunk light
+    - Vehicle, access and exit
+    - Airbags
+    - Child safety latch
+    - Impression of safety
+    - Seat belts
+    - Vehicle safety, overall technology
+    - Fuel filler flap , open / close
+    - Body equipment, overall technology
+    - Door, front
+    - Interior acoustics
+    - Opening / closing convertible top / hardtop
+    - Towing eye
+  chassis:
+    - Wheels / tires
+    - Tire pressure control
+    - Automatic-hold
+    - Braking
+    - Cushioning / damping vehicle
+    - Drive, driving dynamics and chassis, overall technology
+    - Dynamic Stability Control
+    - Dynamic Stability Control (DSC)
+    - Handling / Riding
+    - Parking brake
+    - Pedals, operate
+    - Self-leveling suspension
+    - Steering
+    - ground clearance
+    - RSC tire
+    - Tirefit
+  powertrain:
+    - Automatic engine start-stop function (MSA)
+    - Brake Energy Regeneration / recuperation
+    - Drivetrain
+    - Engine oil
+    - Exhaust system
+    - Fuel tank
+    - Start engine/switch on drive readiness
+    - Starting engine
+    - Transmission
+    - Engine acoustics / engine sound
+    - Launch Control
+  hv_battery:
+    - Electric Range
+    - High voltage battery
+    - High voltage battery, preconditioning
+  thermal_hvac:
+    - Air conditioning, overall technology
+    - Air conditioning, setting
+    - Auxiliary heater function
+    - Blower function
+    - Cooling
+    - Panel heating
+    - Vehicle, climatization
+  ee_architecture:
+    - 12 V connection
+    - Audio mode, sound
+    - CD / DVD changer, playback
+    - Comfort Access
+    - Display key
+    - Garage door opener
+    - Interior camera
+    - Interior mirror, garage door opener
+    - Mobile device, wireless charging
+    - Personal eSIM
+    - Remote Engine Start (Vehicle Key )
+    - USB port
+    - Vehicle key
+    - Vehicle, lock / unlock
+    - Wi-Fi connection
+    - WiFi hotspot
+    - All-round view
+    - Anti-theft alarm system
+    - Emergency request
+    - Night Vision
+    - Rear view camera
+    - Side View
+    - Surround View
+    - Vehicle battery
+    - Horns
+    - Resting state after door opening
+  software_hmi:
+    - Android Auto
+    - Apple CarPlay
+    - Apps (in-car)
+    - Apps (smartphone)
+    - BMW ConnectedDrive upgrades/ MINI CONNECTED upgrades
+    - BMW Online / MINI Online
+    - Caring Car
+    - ConnectedDrive and Infotainment, overall technology
+    - ConnectedDrive services (smartphone) technology overall
+    - Customer Account (My BMW / MINI Portal)
+    - Digital Key
+    - Display, time
+    - Drive Recorder
+    - Driver profile
+    - Driver's Guide App
+    - Experience Modes
+    - Gesture control
+    - Head-Up Display
+    - Instrument cluster
+    - Intelligent Personal Assistant
+    - Intelligent Personal Assistant, activation word
+    - Manage / pair mobile device (Bluetooth)
+    - Map update
+    - My BMW / MINI Portal
+    - My BMW App / MINI App
+    - Navigation
+    - Operating concept, operating system
+    - Priorities for telephones
+    - Radio function
+    - Real Time Traffic Information (RTTI)
+    - Rear seat entertainment
+    - Remote 3D View (My BMW App / MINI App)
+    - Remote Engine Start (My BMW App / MINI App)
+    - Remote interior camera (My BMW App / MINI App)
+    - Remote Services & Remote Keyless Entry (My BMW App/MINI App)
+    - Remote Software Upgrade/RSU
+    - Screen mirroring
+    - Smart POI search
+    - Teleservices
+    - Touch Command
+    - Touch screen, operation
+    - Traffic Camera Information
+    - "Video: playback / streaming"
+    - Voice control / speech recognition
+    - (Active) cruise control
+    - Back-up Assistant
+    - Blind spot monitoring
+    - Cross Traffic Warning Rear with Brake Intervention
+    - Driver assistance, automated driving, overall technology
+    - Emergency Stop Assistant
+    - Fatigue Alert
+    - Front collision warning
+    - High-beam assistant
+    - Highway assistant
+    - Intersection Warning with Brake Intervention
+    - Lane Change Assistant
+    - Lane departure warning
+    - Park Distance Control (PDC)
+    - Parking Assistant
+    - Rain sensor mode
+    - Rear-end collision warning
+    - Remote controlled parking
+    - Speed Limit Assistant
+    - Steering and lane guide assist
+    - Traffic Jam Assistant
+    - Traffic Light And Sign Warning
+    - Route optimized for charging
+    - My Modes / driving experience
+  interior_console:
+    - Wash / wipe switch
+    - Air conditioning control panel
+    - Ambient light
+    - Center armrest, front
+    - Center console, front
+    - Door, finisher panel, front
+    - Floor mat
+    - Grab handle
+    - Heated steering wheel
+    - Instrument panel
+    - Interior
+    - Interior comfort
+    - Interior design
+    - Interior rearview mirror
+    - Roof function centre
+    - Steering wheel
+    - Sun protection
+    - Sun visor, front
+    - Upholstery / interior trim
+    - Vehicle interior, lighting
+    - Cupholder
+    - Glove box
+    - Storage compartments
+    - Controller operation
+    - Light switch operating unit
+    - Multi-function steering wheel operation
+    - Operate selector lever
+    - Shift paddle
+  seats:
+    - Adjustment of lower lumbar support
+    - Headrest, adjust
+    - Headrests, rear
+    - Seat massage
+    - Seat memory
+    - Seating, ventilate / heat
+    - Seats
+    - Through-loading facility
+    - Child restraint seat
+    - Child restraint seat, use
+  exterior_design:
+    - Bumper, front
+    - Bumper, rear
+    - Exterior
+    - Exterior design
+    - Exterior lighting
+    - Exterior rearview mirror
+    - Flashing
+    - Fog light
+    - Radiator grille
+    - Running board
+    - Side sill trim panel
+    - Welcome Light Carpet
+  paint_color: []
+  charging:
+    - Bidirectional charging
+    - Charge high-voltage battery
+    - Charging cable
+    - High-voltage charging power socket
+    - Opening/closing charging socket cover
+    - Public charging / external providers
+    - Wallbox, charging / home charging
+# Not a vehicle subsystem: left out of the CPM view, counted as unassigned rows.
+unassigned:
+  - Accessories / Parts
+  - "General enquiry: customer feedback"
+  - Owner's Manual

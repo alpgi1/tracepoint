@@ -1,40 +1,36 @@
 "use client";
 
 import Link from "next/link";
-import { useLayoutEffect, useRef, useState } from "react";
+import { useLayoutEffect, useRef } from "react";
 import { VehicleDrawing } from "@/components/vehicles/vehicle-drawing";
-import { full, percent, scaleTop, score } from "@/lib/content/format";
-import type { DomainFigures, DomainKey, MarketContent, VehicleContent } from "@/lib/content/types";
+import { full, scaleTop, score } from "@/lib/content/format";
+import type { CpmCatalogue, CpmView } from "@/lib/content/cpm-types";
+import type { MarketContent, VehicleContent } from "@/lib/content/types";
 import { drawingFor, photoFor } from "@/lib/vehicles/drawings";
 import { arriveHandoff, useSketchPhase } from "@/lib/vehicles/handoff";
 import { site } from "@/lib/site";
+import { CpmList } from "./cpm-list";
 
 /*
  * Screen 2: one vehicle in one market. The car as a sketch (side and top
- * view) beside the domain list; the selected or hovered domain shows its
- * complaint themes. Arriving from the map, the hand-over layer brings the
- * car's photo to the side view's silhouette box; this screen reports that
- * box once laid out, keeps the sketch hidden while the photo fades, then
- * reveals it. Decisions are not built yet.
+ * view) beside the twelve CPM subsystems; a subsystem opens the dialog with
+ * the customer and market evidence. Arriving from the map, the hand-over
+ * layer brings the car's photo to the side view's silhouette box; this screen
+ * reports that box once laid out, keeps the sketch hidden while the photo
+ * fades, then reveals it. Decisions are not built yet.
  */
 export interface VehicleWorkspaceProps {
   market: MarketContent;
   vehicle: VehicleContent;
+  cpm: { catalogue: CpmCatalogue; view: CpmView };
 }
 
-const THEMES_SHOWN = 6;
-
-export function VehicleWorkspace({ market, vehicle }: VehicleWorkspaceProps) {
-  const domains = [...vehicle.domains].filter((d) => d.key !== "general").sort((a, b) => b.complaintShare - a.complaintShare);
-  const hasVerbatims = domains.length > 0;
-  const [active, setActive] = useState<DomainKey | null>(vehicle.weakestDomain?.key ?? domains[0]?.key ?? null);
-  const [hovered, setHovered] = useState<DomainKey | null>(null);
-  const shown = hovered ?? active;
+export function VehicleWorkspace({ market, vehicle, cpm }: VehicleWorkspaceProps) {
+  const hasVerbatims = vehicle.verbatims > 0;
   const side = drawingFor(vehicle.drawing, "side");
   const top = drawingFor(vehicle.drawing, "top");
   const photo = photoFor(vehicle.drawing);
   const note = site.panel.drawingNotes[vehicle.code];
-  const themes = shown ? vehicle.complaintThemes.filter((t) => t.domain === shown).sort((a, b) => b.complaints - a.complaints).slice(0, THEMES_SHOWN) : [];
   const { workspace } = site;
 
   // Where the photo must land: the side view's silhouette box, measured after layout.
@@ -67,7 +63,7 @@ export function VehicleWorkspace({ market, vehicle }: VehicleWorkspaceProps) {
           </h1>
           <p className="workspace-meta">
             {market.name} · {full(vehicle.sales.units)} {site.readout.units} {String(vehicle.sales.year)} ·{" "}
-            {vehicle.verbatims > 0 ? `${full(vehicle.verbatims)} ${site.readout.verbatims}` : site.readout.noVerbatims}
+            {hasVerbatims ? `${full(vehicle.verbatims)} ${site.readout.verbatims}` : site.readout.noVerbatims}
             {note ? ` · ${note}` : ""}
           </p>
         </div>
@@ -83,44 +79,8 @@ export function VehicleWorkspace({ market, vehicle }: VehicleWorkspaceProps) {
           </div>
         </section>
         <aside className="workspace-domains">
-          {hasVerbatims ? (
-            <>
-              <section className="panel-card">
-                <h2 className="workspace-h2">{workspace.domainsHeading}</h2>
-                <p className="workspace-hint">{workspace.domainsHint}</p>
-                <ol className="domain-list">
-                  {domains.map((domain) => (
-                    <li key={domain.key}>
-                      <DomainRow domain={domain} active={active === domain.key} hovered={hovered === domain.key} onHover={setHovered} onPick={setActive} />
-                    </li>
-                  ))}
-                </ol>
-              </section>
-              {shown ? (
-                <section className="panel-card themes" aria-live="polite">
-                  <h3 className="workspace-h3">
-                    {workspace.themesHeading} · {domains.find((d) => d.key === shown)?.name}
-                  </h3>
-                  {themes.length > 0 ? (
-                    <ol className="theme-list">
-                      {themes.map((theme) => (
-                        <li key={theme.theme} className="theme">
-                          <span className="theme-name">{theme.theme}</span>
-                          <span className="theme-figures">
-                            {full(theme.complaints)} {workspace.complaints} {site.readout.of} {full(theme.rows)} {workspace.rows} ·{" "}
-                            {full(theme.defects)} {workspace.defects} · {full(theme.difficultToUse)} {workspace.difficultToUse} ·{" "}
-                            {full(theme.wants)} {workspace.wants}
-                          </span>
-                        </li>
-                      ))}
-                    </ol>
-                  ) : (
-                    <p className="workspace-hint">{workspace.noThemes}</p>
-                  )}
-                </section>
-              ) : null}
-            </>
-          ) : (
+          <CpmList catalogue={cpm.catalogue} view={cpm.view} market={market} vehicle={vehicle} />
+          {!hasVerbatims ? (
             <section className="panel-card">
               <h2 className="workspace-h2">{workspace.noVerbatimsHeading}</h2>
               <p className="workspace-hint">{workspace.noVerbatimsBody}</p>
@@ -147,41 +107,9 @@ export function VehicleWorkspace({ market, vehicle }: VehicleWorkspaceProps) {
                 </>
               ) : null}
             </section>
-          )}
+          ) : null}
         </aside>
       </div>
     </div>
-  );
-}
-
-interface DomainRowProps {
-  domain: DomainFigures;
-  active: boolean;
-  hovered: boolean;
-  onHover: (key: DomainKey | null) => void;
-  onPick: (key: DomainKey) => void;
-}
-
-function DomainRow({ domain, active, hovered, onHover, onPick }: DomainRowProps) {
-  return (
-    <button
-      type="button"
-      className="domain-row"
-      aria-pressed={active}
-      data-hovered={hovered ? "true" : undefined}
-      onClick={() => onPick(domain.key)}
-      onMouseEnter={() => onHover(domain.key)}
-      onMouseLeave={() => onHover(null)}
-      onFocus={() => onHover(domain.key)}
-      onBlur={() => onHover(null)}
-    >
-      <span className="domain-row-name">{domain.name}</span>
-      <span className="domain-row-figures">
-        {percent(domain.complaintShare)} {site.readout.of} {full(domain.rows)} {site.workspace.rows}
-      </span>
-      <span className="domain-row-bar" aria-hidden="true">
-        <span style={{ width: percent(domain.complaintShare) }} />
-      </span>
-    </button>
   );
 }
