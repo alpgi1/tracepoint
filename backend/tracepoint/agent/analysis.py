@@ -36,14 +36,16 @@ from tracepoint.effort.store import (
     evaluate,
     evaluate_changes,
     horizon_flags,
+    reference_changes,
 )
 from tracepoint.effort.subsystems import subsystem_names, subsystems_of_refs
 from tracepoint.llm.gateway import LlmGateway
 
 # v2: the loop's untrusted-data rule joins the prompt; v3: CPM effort and change profiles;
 # v4: changes_vehicle, scope of related_requirement, carryover of own profiles not applied;
-# v5: the CPM subsystem view and the market evidence
-PROMPT_VERSION = "situation-analysis-v5"
+# v5: the CPM subsystem view and the market evidence;
+# v6: reference changes per subsystem, start subsystem and size are checked and sent back
+PROMPT_VERSION = "situation-analysis-v6"
 ACTOR = "agent:analyst"
 
 
@@ -142,7 +144,9 @@ Effort
 - You do not write an effort percentage for your own proposals. The engine computes it from a change profile and the report shows it. Figures returned by get_effort may be quoted.
 - A recommendation that an existing requirement covers names it in related_requirement and leaves effort_changes null: the requirement's stored profile is used. Name only requirements of the vehicle and market you analyse; any other is refused. If your proposal goes beyond the requirement, add the extra in effort_changes: both are counted.
 - A requirement the product manager rejected at gate G2 is not proposed again, unless your rationale says what new evidence justifies it.
-- Any other recommendation that changes the vehicle sets changes_vehicle to true and gives effort_changes, at most eight entries, one per subsystem where the change starts: the subsystem key from the effort model in the user message, own_impact (share of that subsystem's design redone, judged against the reference points given there), the layer, carryover, why in one sentence, and portfolio_terms (two or three German or English catalogue words for the feature; the catalogue is searched with them). List only where the change starts; the engine adds the propagation to other subsystems. Start a change in the subsystem where the evidence you cite sits, or say in why why it starts elsewhere (a complaint about setting the climate through the screen sits in thermal_hvac or software_hmi; physical keys for it start in interior_console).
+- Any other recommendation that changes the vehicle sets changes_vehicle to true and gives effort_changes, at most eight entries, one per subsystem where the change starts: the subsystem key from the effort model in the user message, own_impact (share of that subsystem's design redone, judged against the reference points given there), the layer, carryover, why in one sentence, and portfolio_terms (two or three German or English catalogue words for the feature; the catalogue is searched with them). List only where the change starts; the engine adds the propagation to other subsystems.
+- Where a change starts is checked against your evidence. A change that starts in a subsystem none of the findings, requirements or market rows you cite sits in, and that fewer than two of your verbatims touch, is sent back: cite evidence for that subsystem, move the start, or state in why what puts the work there (a complaint about setting the climate through the screen sits in thermal_hvac or software_hmi; physical keys for it start in interior_console, and why says so).
+- own_impact is set by comparison, not by feel. The effort model in the user message lists reference changes for every subsystem: documented BMW decisions and the reviewed profiles of existing requirements. Find the nearest ones, decide whether your change is smaller or larger, and name that comparison in why ("smaller than the OS 7 release at 0.4: one menu layer, not a new system"). A value outside the range of its subsystem's references is sent back.
 - carryover in your own profile is a claim for the product manager to check. It is reported and not applied: your profile is computed as a new development.
 - Only a recommendation that changes nothing on the vehicle (keep a strength, explain a function) sets changes_vehicle to false and has no profile. A proposal that changes the vehicle and has no profile is sent back.
 - Horizon follows effort: H1 holds what stays an adaptation of the current model. A major revision or a new generation belongs to H2, or is split into an H1 step and an H2 step. Several H1 proposals add up: get_effort shows what the existing H1 requirements already come to as one package.
@@ -237,8 +241,59 @@ def effort_brief(engine: Engine) -> str:
         "above that or any K3 change without carryover a new generation.",
         "Reference points for own_impact (documented BMW decisions):",
         *anchors,
+        "Reference changes per subsystem (own_impact, layer, source: what was changed). The "
+        "smallest, a middle and the largest of each; n is how many exist:",
+        *_reference_lines(set(engine.base.weights)),
     ]
     return "\n".join(lines)
+
+
+MIN_REFERENCES = 3  # fewer than this is no scale to hold a size against
+
+
+def _reference_text(r: dict[str, Any]) -> str:
+    label = r["label"] if len(r["label"]) <= 70 else r["label"][:70] + " …"
+    return f"{r['own_impact']} {r['layer']}, {r['source']}: {label}"
+
+
+def _reference_lines(present: set[str]) -> list[str]:
+    lines = []
+    for key, rows in reference_changes().items():
+        if key not in present:
+            continue
+        picks = {0: rows[0], len(rows) // 2: rows[len(rows) // 2], len(rows) - 1: rows[-1]}
+        lines.append(
+            f"- {key} (n={len(rows)}): " + " | ".join(_reference_text(r) for r in picks.values())
+        )
+    return lines
+
+
+def _size_check(c: Change) -> tuple[dict[str, Any], str | None]:
+    """Where an analyst's own_impact stands among the reference changes of its subsystem, and
+    the complaint if it is outside their range."""
+    rows = reference_changes().get(c.subsystem, [])
+    below = [r for r in rows if r["own_impact"] <= c.own_impact]
+    above = [r for r in rows if r["own_impact"] >= c.own_impact]
+    info = {
+        "subsystem": c.subsystem,
+        "own_impact": c.own_impact,
+        "references": len(rows),
+        "nearest_below": below[-1] if below else None,
+        "nearest_above": above[0] if above else None,
+    }
+    if len(rows) < MIN_REFERENCES:
+        return info, None
+    if not above:
+        return info, (
+            f"own_impact {c.own_impact} for {c.subsystem} is above every reference change of "
+            f"that subsystem (largest: {_reference_text(rows[-1])})"
+        )
+    if not below:
+        return info, (
+            f"own_impact {c.own_impact} for {c.subsystem} is below every reference change of "
+            f"that subsystem (smallest: {_reference_text(rows[0])})"
+        )
+    return info, None
 
 
 _EFFORT_KEYS = ("effort_pct", "p5", "p95", "decision", "decision_stable_pct", "layer", "size")
@@ -332,16 +387,53 @@ def effort_of_proposals(
         own = list(rec.effort_changes or [])
         claimed = [c.subsystem for c in own if c.carryover]
         cited_in = subsystems_of_refs(session, rec.evidence_refs)
-        elsewhere = sorted({c.subsystem for c in own} - set(cited_in))
-        if own and cited_in and elsewhere:
+        # Where the evidence sits for certain: findings, requirements and market rows carry one
+        # theme each; a verbatim carries several labels, so one verbatim alone is not enough.
+        precise = subsystems_of_refs(
+            session, [r for r in rec.evidence_refs if not r.startswith("verbatim:")]
+        )
+        core = set(precise) | {k for k, n in cited_in.items() if n >= 2}
+        elsewhere = sorted({c.subsystem for c in own} - core)
+        if own and not core:
             flags.append(
                 _flag(
                     "info",
                     "map",
-                    f"the change starts in {', '.join(elsewhere)}; the cited evidence sits in "
-                    f"{', '.join(cited_in)} by the theme mapping. Check the profile's reason",
+                    "the cited evidence pins no subsystem (no finding, requirement or market "
+                    "row with a theme, and no two verbatims in one subsystem), so where the "
+                    "change starts cannot be checked against it",
                 )
             )
+        elif elsewhere:
+            text = (
+                f"the change starts in {', '.join(elsewhere)}; the cited evidence sits in "
+                f"{', '.join(sorted(core))} by the theme mapping"
+            )
+            flags.append(_flag("warning", "map", text + ". Check the reason given for it"))
+            faults.append(
+                f'"{rec.title}": {text}. Cite evidence for {", ".join(elsewhere)}, move the '
+                "start of the change to where the evidence sits, or state in the change's why "
+                "what puts the work there."
+            )
+        sizes = []
+        for c in own:
+            info, problem = _size_check(c)
+            sizes.append(info)
+            if problem:
+                flags.append(_flag("warning", "size", problem))
+                faults.append(
+                    f'"{rec.title}": {problem}. Correct own_impact, or state in why what makes '
+                    "this change larger or smaller than that reference."
+                )
+            elif info["references"] < MIN_REFERENCES:
+                flags.append(
+                    _flag(
+                        "info",
+                        "size",
+                        f"{c.subsystem} has {info['references']} reference change(s); the size "
+                        "of this change rests on the analyst's judgement alone",
+                    )
+                )
         unsearched = sorted({t for c in own for t in c.portfolio_terms if not _searchable(t)})
         if unsearched:
             flags.append(
@@ -360,6 +452,7 @@ def effort_of_proposals(
             "source": " plus ".join(sources) or None,
             "flags": flags,
             "evidence_subsystems": cited_in,
+            "size_references": sizes,
         }
         rows.append(row)
         if not changes:
@@ -623,6 +716,20 @@ def render_analysis(out: dict[str, Any]) -> str:
                 + (" carryover" if c["carryover"] else "")
                 + (f": {c['why']}" if c["why"] else "")
                 for c in e["changes"]
+            ],
+            *[
+                f"- size of {r['subsystem']} {r['own_impact']} among {r['references']} "
+                "reference change(s): "
+                + "; ".join(
+                    f"{side} {_reference_text(r[key])}"
+                    for side, key in (
+                        ("at or below", "nearest_below"),
+                        ("at or above", "nearest_above"),
+                    )
+                    if r[key]
+                )
+                for r in e["size_references"]
+                if r["references"]
             ],
             # what the catalogue terms matched, so a flag of rule 43 can be judged
             *[

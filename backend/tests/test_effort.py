@@ -227,3 +227,21 @@ def test_package_of_requirements_and_free_changes(engine, ingested):
     assert [i["requirement"] for i in pkg["items"]] == [seats, hmi, None]  # named twice: once
     assert pkg["combined"]["effort_pct"] < pkg["sum_of_single_pct"]
     assert pkg["combined"]["decision"] == "adapt" and pkg["combined"]["subsystems"]
+
+
+def test_reference_changes_are_the_scale_for_a_new_change():
+    from tracepoint.agent.analysis import _size_check
+    from tracepoint.effort.store import reference_changes
+
+    refs = reference_changes()
+    seats = refs["seats"]
+    assert [r["own_impact"] for r in seats] == sorted(r["own_impact"] for r in seats)
+    assert refs["software_hmi"][-1]["source"] == "BMW decision"  # the OS 7 release at 0.4
+    low, high = seats[0]["own_impact"], seats[-1]["own_impact"]
+    inside, no_problem = _size_check(Change(subsystem="seats", own_impact=high, layer="K1"))
+    assert no_problem is None and inside["nearest_below"]["own_impact"] == high
+    assert "above every reference" in _size_check(_c("seats", high + 0.2))[1]
+    assert "below every reference" in _size_check(_c("seats", low / 5))[1]
+    # one reference is no scale: not held against the change, but said in the report
+    info, problem = _size_check(_c("paint_color", 0.9))
+    assert problem is None and info["references"] == 1

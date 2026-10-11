@@ -39,6 +39,7 @@ from tracepoint.effort.cpm import (
     config_dir,
     draw,
     estimate,
+    load_anchors,
     load_model,
     model_hash,
     sensitivity,
@@ -431,6 +432,36 @@ def list_efforts(
             }
         )
     return out
+
+
+def reference_changes() -> dict[str, list[dict[str, Any]]]:
+    """Changes whose size somebody authored and others can check: the independent back-test
+    anchors (documented BMW decisions) and the change profiles of the requirements. Per subsystem,
+    smallest own impact first. They are the scale a new change is judged against."""
+    refs: dict[str, list[dict[str, Any]]] = {}
+
+    def add(c: Change, source: str, label: str) -> None:
+        refs.setdefault(c.subsystem, []).append(
+            {
+                "own_impact": c.own_impact,
+                "layer": c.layer,
+                "carryover": c.carryover,
+                "source": source,
+                "label": label,
+            }
+        )
+
+    for anchor in load_anchors().anchors:
+        if anchor.independent:
+            for c in anchor.changes:
+                add(c, "BMW decision", anchor.name)
+    for f in load_profiles():
+        for p in f.profiles:
+            for c in p.changes:
+                add(c, p.requirement, c.why)
+    for rows in refs.values():
+        rows.sort(key=lambda r: (r["own_impact"], r["source"]))
+    return refs
 
 
 def estimate_package(

@@ -4,7 +4,7 @@
 |---|---|
 | Date | 2026-10-11 |
 | Author | Claude (AI assistant), on request of the team |
-| Status | Done – backend view equal to the frontend content, three live analyses, 71 tests passed |
+| Status | Done – backend view equal to the frontend content, three live analyses, 72 tests passed |
 | Why | Step 15 gave the analyst the effort engine. The theme to subsystem mapping and the market evidence of the frontend's step 13 (`config/cpm/`, D-073 to D-076) were read by the frontend build only. The analyst chose the subsystem of a change by judgement and had no market or competitor evidence at all |
 
 ## 1. Delivered
@@ -98,11 +98,54 @@ having no market evidence at all.
 Model calls of this branch so far, development included: 64 calls, USD 3.86 (the three analyses
 were run twice: once before `main` revised the contract, once on the final code).
 
-## 3. Known limitations
+## 3. Second part: where a change starts and how large it is (D-079)
+
+After the first part the start subsystem of an analyst's change was an information flag and its
+size (`own_impact`) the model's judgement. Both decide the estimate: a seat change comes to about
+5 % of a new vehicle generation, a battery generation to about 49 %.
+
+* **Reference changes** (`effort.store.reference_changes`): the independent back-test anchors and
+  the authored change profiles of the 57 requirements, per subsystem. Software / HMI has 33
+  (0.02 to 0.4, the OS 7 release), interior / console 19, exterior design 9; chassis, powertrain
+  and HV battery 4 each; body, seats, thermal and charging 3 each; paint 1.
+* **In the prompt** (`situation-analysis-v6`): the smallest, a middle and the largest reference of
+  every subsystem. The model sets `own_impact` by comparison and names the comparison in the
+  change's `why`.
+* **Size check**: a value outside the range of its subsystem's references goes back to the
+  model, where the subsystem has at least three references. With fewer, the report says the size
+  rests on the analyst's judgement alone.
+* **Start check**: a change that starts in a subsystem none of the cited findings, requirements
+  or market rows sits in, and that fewer than two of the cited verbatims touch, goes back to the
+  model. A finding carries one theme; a verbatim carries several labels, so one verbatim alone
+  pins nothing.
+* **Report**: under every analyst change the nearest reference at or below and at or above its
+  size. What the correction request does not settle stays as a warning.
+
+Live runs with prompt v6 (these are the samples under `reports/analysis/`):
+
+| Scope | Model turns | Tool calls | References (unverified) | Analyst changes sized | Start or size sent back | Open faults | Cost (USD) |
+|---|---|---|---|---|---|---|---|
+| G60, market US | 3 | 15 | 51 (0) | 1 (body 0.05, "smaller than the long-wheelbase body change at 0.4") | 0 | 0 | 0.22 |
+| G68, market CN | 2 | 12 | 33 (0) | 6 in 5 proposals, each naming its reference in `why` | 0 | 0 | 0.11 |
+| F70, country GB | 2 | 12 | 47 (0) | 0 (every proposal uses a requirement's profile) | 0 | 0 | 0.17 |
+
+No live run produced a size or a start that had to go back; the test with the fake provider
+covers both (a change that starts outside its evidence, and sizes above every reference). In the
+China run four proposals carry the flag "the cited evidence pins no subsystem": study scores
+have no theme.
+
+72 tests passed. Model calls of this branch so far, development included: 71 calls, USD 4.36.
+
+## 4. Known limitations
 
 * A verbatim with several labels counts for each of its subsystems, so the subsystem line of an
-  insight shows the dominant subsystem and some noise. For the same reason the "starts outside
-  its evidence" flag fires rarely.
+  insight shows the dominant subsystem and some noise. The start check therefore counts a
+  subsystem only when a finding, requirement or market row sits in it or two verbatims do.
+* The size check knows the range of the references, not the right value. A change understated
+  inside the range passes; in the China run the analyst chose the smallest reference for three
+  changes and said why. The layer (K0 to K3) is checked by the engine's rules only.
+* The references are themselves assumptions: eight documented decisions and 57 profiles written
+  by the assistant.
 * Study metrics, catalogue items and sales rows carry no theme, so they have no subsystem. The
   China scopes, which rest on study scores, get no attribution.
 * `market_context.yaml` holds four rows, all from secondary sources. The analyst treats them as
@@ -117,7 +160,7 @@ were run twice: once before `main` revised the contract, once on the final code)
 * `G70 EU` has 33 classified rows in the backend view; the frontend content withholds them
   until a baseline report exists for the scope.
 
-## 4. Next step
+## 5. Next step
 
 The block narration by the agent (`basis: agent`), checked against the block's figures before
 it replaces the derived text. Phase 5 scoring with effort as the negative factor. For the market

@@ -179,11 +179,11 @@ def test_agent_loop_must_answer_at_the_step_limit(engine, ingested):
     assert res.steps == 3 and res.hit_step_limit and res.unknown_refs == []
 
 
-def _rec(ref, title, requirement, changes, *, changes_vehicle=True, carryover=False):
+def _rec(ref, title, requirement, changes, *, changes_vehicle=True, carryover=False, horizon="H1"):
     return {
         "title": title,
         "proposal": "p",
-        "horizon": "H1",
+        "horizon": horizon,
         "rationale": "why",
         "evidence_refs": [ref],
         "related_requirement": requirement,
@@ -235,6 +235,14 @@ def test_situation_analysis_for_a_country(engine, ingested):
                 _rec(ref, "keep the handling", None, None, changes_vehicle=False),
                 _rec(ref, "silent change", None, None),
                 _rec(ref, "seat foam as carryover", None, [("seats", 0.25, "K1")], carryover=True),
+                # cites a market row on powertrains, starts elsewhere, and oversizes the chassis
+                _rec(
+                    "market:MKT-EU-powertrain-1",
+                    "repaint and new chassis",
+                    None,
+                    [("paint_color", 0.5, "K1"), ("chassis", 0.9, "K2")],
+                    horizon="H2",
+                ),
             ],
             "assumptions_and_gaps": ["a"],
         }
@@ -257,15 +265,22 @@ def test_situation_analysis_for_a_country(engine, ingested):
     # effort comes from the CPM engine, from the change profile the analyst gave
     assert "## Effort model (CPM)" in seen_user[0]
     assert "Not on this vehicle, so no change can start there: hv_battery, charging" in seen_user[0]
-    seats, body, battery, keep, silent, carried = out["effort"]["recommendations"]
+    seats, body, battery, keep, silent, carried, misplaced = out["effort"]["recommendations"]
     assert seats["decision"] == "adapt" and 0 < seats["p5"] < seats["effort_pct"] < seats["p95"]
     # a requirement id the model made up gives no profile; its own profile is used and flagged
     assert seats["source"] == "analyst's change profile" and seats["flags"][0]["rule"] == "scope"
     assert seats["changes"][0]["portfolio_terms"] == []
     texts = " | ".join(f["text"] for f in seats["flags"])
     assert "catalogue terms not searched" in texts  # dropped, and said so
-    # the profile starts in seats while the quote it cites is about something else: flagged
-    assert seats["evidence_subsystems"] and "the cited evidence sits in" in texts
+    # one verbatim pins no subsystem: said so, and not held against the proposal
+    assert seats["evidence_subsystems"] and "pins no subsystem" in texts
+    # a market row does: a change that starts elsewhere, and a size beyond every reference, go back
+    rules = {f["rule"]: f for f in misplaced["flags"]}
+    assert rules["map"]["level"] == "warning" and "paint_color" in rules["map"]["text"]
+    assert "own_impact 0.9 for chassis is above every reference change" in rules["size"]["text"]
+    chassis = next(r for r in misplaced["size_references"] if r["subsystem"] == "chassis")
+    assert chassis["nearest_below"]["own_impact"] == 0.15 and chassis["nearest_above"] is None
+    assert seats["size_references"][0]["nearest_above"]["source"].startswith("REQ-")
     assert out["subsystems"]["insights"][0] == seats["evidence_subsystems"]
     assert body["decision"] == "new generation"
     assert any(f["level"] == "conflict" for f in body["flags"])
@@ -280,10 +295,13 @@ def test_situation_analysis_for_a_country(engine, ingested):
         '"new body" is H1',
         "breaks the effort model",
         '"silent change" changes the vehicle but has no change profile',
+        '"repaint and new chassis": the change starts in',
+        "above every reference change of that subsystem",
     ):
         assert sent_back in correction
-    assert len(out["effort"]["open_faults"]) == 4  # the fake provider did not correct them
-    (package,) = out["effort"]["packages"]
+    # four as before, the misplaced start, and two sizes beyond every reference (chassis, body)
+    assert len(out["effort"]["open_faults"]) == 7  # the fake provider did not correct them
+    package = next(p for p in out["effort"]["packages"] if p["horizon"] == "H1")
     assert (package["horizon"], package["proposals"]) == ("H1", 3)
     assert package["not_counted"] == ["bigger battery", "silent change"]
     assert package["decision"] == "new generation" and out["effort"]["model_hash"]
@@ -298,6 +316,10 @@ def test_situation_analysis_for_a_country(engine, ingested):
         "## CPM subsystems" in seen_user[0] and "## Market and competition evidence" in seen_user[0]
     )
     assert "Effort (CPM estimate): **" in text and "## Effort of the proposals as packages" in text
+    assert (
+        "Reference changes per subsystem" in seen_user[0] and "- seats (n=3): 0.05" in seen_user[0]
+    )
+    assert "- size of chassis 0.9 among 4 reference change(s): at or below 0.15" in text
     assert "not estimated**, the profile breaks the model" in text
     assert "not estimated**, no change profile was given" in text
     assert "not counted, no usable change profile: silent change" in text
