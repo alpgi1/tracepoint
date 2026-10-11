@@ -1,0 +1,63 @@
+# Market and competitor evidence per market and CPM subsystem, shown in the subsystem dialog
+# (frontend) and available to the backend. Rules 31 to 36 of the team's rule set v0.2: every row
+# carries its source with URL, date and primary / secondary; the evidence level follows the number
+# of independent sources (one weak, two medium, three or more strong); a contradiction is shown as
+# both sides, never averaged; every statement is marked evidence or assumption.
+#
+# First content (2026-10-11): the four web rows of the rule set v0.2, carried over as written
+# there, with their verification notes. Phase 2 research agents append rows with the same fields.
+#
+# kind:   market (what the regional market buys or expects) or competitor (what rivals offer)
+# basis:  evidence (a measured or reported fact) or assumption (a projection or judgement)
+rows:
+  - market: EU
+    subsystem: powertrain
+    kind: market
+    statement: "EU new-car registrations 2025 by powertrain: BEV 17.4 %, hybrid 34.5 %, plug-in hybrid 9.4 %, petrol 26.6 %, diesel 8.9 %."
+    source:
+      title: Battery-Tech, reporting ACEA data
+      url: https://battery-tech.net/battery-markets-news/eu-car-registrations-up-1-8-in-2025-ev-share-climbs-17-4/
+      date: 2026-01-27
+      type: secondary
+    level: weak
+    basis: evidence
+    note: Secondary source, to be verified against ACEA's primary release; the diesel figure is an estimate in the source.
+  - market: CN
+    subsystem: powertrain
+    kind: market
+    statement: "China 2025: new-energy vehicle retail sales about 12.8 million, passing combustion cars for the first time."
+    source:
+      title: Energy Intelligence, reporting CPCA data
+      url: https://www.energyintel.com/0000019b-b19e-dfaa-a19f-f19f05150000
+      date: 2026-01-12
+      type: secondary
+    level: weak
+    basis: evidence
+    note: No percentage and no BEV / PHEV / EREV split on the page; to be taken from CPCA.
+  - market: US
+    subsystem: powertrain
+    kind: market
+    statement: "US 2025: electric vehicles 7.8 % of new-vehicle sales (2024: 8.1 %)."
+    source:
+      title: Clean Air Choice, reporting Kelley Blue Book and Cox Automotive data
+      url: https://www.cleanairchoice.org/ev-market-outlook-sales-trends-and-whats-ahead/
+      date: 2026-02-22
+      type: secondary
+    level: weak
+    basis: evidence
+    note: Total EV share only; the hybrid and plug-in hybrid split is missing and still to be fetched.
+  - market: CN
+    subsystem: interior_console
+    kind: competitor
+    statement: "In-car fridge: standard in nearly every new-energy model above 200,000 yuan in China."
+    source:
+      title: Gasgoo, "Only 5 % use in-car fridges"
+      url: https://autonews.gasgoo.com/articles/ev/only-5-use-in-car-fridges-its-time-to-end-the-nev-feature-arms-race-2108189097536745472
+      date: 2026-10-08
+      type: secondary
+    level: medium
+    basis: evidence
+    note: Rule 7 of the team's rule set gives the fridge a higher priority in China than in Europe, not a mandatory one.
+    contradiction:
+      for: Rivals offer it widely (strong side).
+      against: Actual use is disputed; the 5 % usage claim comes from one executive, with method and sample not stated (weak side).

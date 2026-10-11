@@ -1,0 +1,118 @@
+import { describe, expect, it } from "vitest";
+import { cpmCatalogue, cpmView, subsystemsByWeight } from "./cpm";
+import { content } from "./markets";
+
+/*
+ * The CPM content (content/cpm.json) is generated; these tests pin the
+ * contract the screen relies on: twelve subsystems whose weights sum to 100,
+ * links to known subsystems, one view per vehicle and market pair with every
+ * subsystem present, quotes with their evidence reference, sourced market
+ * rows, and theme figures that agree with content/markets.json.
+ */
+const catalogue = cpmCatalogue();
+const keys = catalogue.subsystems.map((s) => s.key);
+
+describe("CPM catalogue", () => {
+  it("has twelve subsystems whose weights sum to 100", () => {
+    expect(catalogue.subsystems).toHaveLength(12);
+    expect(new Set(keys).size).toBe(12);
+    expect(catalogue.subsystems.reduce((sum, s) => sum + s.weight, 0)).toBe(100);
+  });
+
+  it("links only to known subsystems with likelihood and impact in 0 to 1", () => {
+    for (const s of catalogue.subsystems) {
+      for (const link of s.links) {
+        expect(keys).toContain(link.to);
+        expect(link.to).not.toBe(s.key);
+        expect(link.likelihood).toBeGreaterThan(0);
+        expect(link.likelihood).toBeLessThanOrEqual(1);
+        expect(link.impact).toBeGreaterThan(0);
+        expect(link.impact).toBeLessThanOrEqual(1);
+      }
+    }
+  });
+
+  it("orders by weight, heaviest first", () => {
+    const ordered = subsystemsByWeight(catalogue);
+    expect(ordered[0].weight).toBe(18);
+    for (let i = 1; i < ordered.length; i++) expect(ordered[i - 1].weight).toBeGreaterThanOrEqual(ordered[i].weight);
+  });
+
+  it("names its method and marks the values as assumptions", () => {
+    expect(catalogue.method.name).toBe("Change Prediction Method");
+    expect(catalogue.method.basis).toContain("assumption");
+    expect(catalogue.mapping.themes + catalogue.mapping.unassigned.length).toBe(225);
+  });
+});
+
+describe("CPM views", () => {
+  const pairs = content.markets.flatMap((m) => m.vehicles.map((v) => ({ market: m, vehicle: v })));
+
+  it("exist for every vehicle and market pair with all twelve subsystems", () => {
+    for (const { market, vehicle } of pairs) {
+      const view = cpmView(vehicle.code, market.code);
+      expect(view, `${vehicle.code} ${market.code}`).toBeDefined();
+      expect(view?.subsystems.map((s) => s.key)).toEqual(keys);
+      expect(view?.verbatims).toBe(vehicle.verbatims);
+    }
+  });
+
+  it("count likes and complaints within the rows and carry quotes with evidence references", () => {
+    for (const { market, vehicle } of pairs) {
+      const view = cpmView(vehicle.code, market.code);
+      if (!view) continue;
+      let rows = 0;
+      for (const s of view.subsystems) {
+        rows += s.rows;
+        expect(s.likes + s.complaints).toBeLessThanOrEqual(s.rows);
+        for (const theme of [...s.liked, ...s.criticised]) {
+          expect(theme.quotes.length).toBeLessThanOrEqual(2);
+          for (const q of theme.quotes) {
+            expect(q.evidenceRef).toBe(`verbatim:${q.id}`);
+            expect(q.text.length).toBeGreaterThan(0);
+          }
+        }
+        for (const t of s.criticised) expect(t.defects + t.difficultToUse + t.wants).toBe(t.complaints);
+      }
+      expect(rows + view.unassignedRows).toBe(view.rows);
+      if (view.verbatims === 0) expect(view.rows).toBe(0);
+    }
+  });
+
+  it("agree with the complaint themes of markets.json", () => {
+    let compared = 0;
+    for (const { market, vehicle } of pairs) {
+      const view = cpmView(vehicle.code, market.code);
+      if (!view) continue;
+      const criticised = view.subsystems.flatMap((s) => s.criticised);
+      for (const theme of vehicle.complaintThemes) {
+        const here = criticised.find((t) => t.theme === theme.theme);
+        if (!here) continue;
+        expect(here.rows, theme.theme).toBe(theme.rows);
+        expect(here.complaints, theme.theme).toBe(theme.complaints);
+        expect(here.defects, theme.theme).toBe(theme.defects);
+        compared++;
+      }
+    }
+    expect(compared).toBeGreaterThan(10);
+  });
+
+  it("carries sourced market rows with a date, a type and a level", () => {
+    let rows = 0;
+    for (const { market, vehicle } of pairs) {
+      const view = cpmView(vehicle.code, market.code);
+      for (const s of view?.subsystems ?? []) {
+        for (const row of s.market) {
+          rows++;
+          expect(row.source.url).toMatch(/^https:\/\//);
+          expect(row.source.date).toMatch(/^\d{4}-\d{2}-\d{2}$/);
+          expect(["primary", "secondary"]).toContain(row.source.type);
+          expect(["strong", "medium", "weak"]).toContain(row.level);
+          expect(["market", "competitor"]).toContain(row.kind);
+          expect(["evidence", "assumption"]).toContain(row.basis);
+        }
+      }
+    }
+    expect(rows).toBeGreaterThan(0);
+  });
+});

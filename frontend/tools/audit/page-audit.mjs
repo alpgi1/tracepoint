@@ -2,8 +2,11 @@
  * Page audit in a real browser (Chromium via Playwright): landmarks and
  * headings, accessible names, keyboard tour with visible focus, tap targets
  * measured (control or its label, whichever is larger), horizontal overflow
- * at 375 px, console errors, and a scan of the rendered text for the
- * forbidden-list items that can be measured. Ported from the sister
+ * at 375 px, console errors, a scan of the rendered text for the
+ * forbidden-list items that can be measured (quoted verbatims excepted), and
+ * on the vehicle pages the subsystem dialog: name, headings, tap targets,
+ * a keyboard tour that must never reach the inert page behind it, Escape and
+ * the return of focus. Ported from the sister
  * projects, whose logs name the false alarms this version avoids: measure
  * the larger of control and label, give every tab stop a unique mark, and
  * expect the focus ring only after a real Tab key press.
@@ -32,6 +35,132 @@ const FORBIDDEN = [
   [/\bsimply\b|\bseamless\b|\bcutting-edge\b|\beffortless\b|\bsupercharge\b|\bunleash\b|\belevate\b/i, "marketing filler"],
   [/SECTION 0\d/, "SECTION 01 label"],
 ];
+
+/** The page's visible text without quoted verbatims. */
+async function visibleText(page) {
+  return page.evaluate(() => {
+    const style = document.createElement("style");
+    style.textContent = "blockquote { display: none !important; }";
+    document.head.appendChild(style);
+    const text = document.body.innerText;
+    style.remove();
+    return text;
+  });
+}
+
+function forbiddenText(text, prefix = "") {
+  const out = [];
+  for (const [pattern, label] of FORBIDDEN) {
+    const match = text.match(pattern);
+    if (match) {
+      const at = Math.max(0, (match.index ?? 0) - 30);
+      out.push(`${prefix}forbidden text (${label}): …${text.slice(at, at + 70).replace(/\s+/g, " ")}…`);
+    }
+  }
+  return out;
+}
+
+/** Tap targets inside a root selector: the larger of the control and its label. */
+async function smallTapTargets(page, root, min) {
+  return page.evaluate(
+    ([root, min]) => {
+      const out = [];
+      const controls = document.querySelectorAll(`${root} a, ${root} button, ${root} input, ${root} select, ${root} textarea, ${root} [role=button]`);
+      for (const el of controls) {
+        const rects = [el.getBoundingClientRect()];
+        const label = el.id ? document.querySelector(`label[for="${el.id}"]`) : el.closest("label");
+        if (label) rects.push(label.getBoundingClientRect());
+        const w = Math.max(...rects.map((r) => r.width));
+        const h = Math.max(...rects.map((r) => r.height));
+        if (w === 0 && h === 0) continue;
+        if (getComputedStyle(el).pointerEvents === "none") continue;
+        if (w < min || h < min) {
+          const name = (el.textContent?.trim() || el.getAttribute("aria-label") || el.tagName).slice(0, 40);
+          out.push(`tap target ${String(Math.round(w))}x${String(Math.round(h))} < ${String(min)}: ${name}`);
+        }
+      }
+      return out;
+    },
+    [root, min],
+  );
+}
+
+/**
+ * The subsystem dialog of the vehicle screen (step 13): open the first
+ * subsystem, check the dialog's name, headings, tap targets, focus rings on a
+ * keyboard tour that must stay inside the dialog, the forbidden text, then
+ * Escape must close it and return focus to the row.
+ */
+async function auditDialog(page) {
+  const out = [];
+  const row = page.locator(".cpm-row").first();
+  if ((await row.count()) === 0) return { findings: out, stops: 0 };
+  await row.click();
+  try {
+    await page.waitForSelector("dialog[open]", { timeout: 3000 });
+  } catch {
+    return { findings: ["dialog: did not open on click"], stops: 0 };
+  }
+  await page.waitForTimeout(400);
+  out.push(
+    ...(await page.evaluate(() => {
+      const found = [];
+      const dialog = document.querySelector("dialog[open]");
+      const id = dialog?.getAttribute("aria-labelledby");
+      const title = id ? document.getElementById(id) : null;
+      if (!title || !title.textContent?.trim()) found.push("dialog: no accessible name");
+      if (dialog && !dialog.querySelector("h2")) found.push("dialog: no h2");
+      const levels = [...(dialog?.querySelectorAll("h2,h3,h4") ?? [])].map((h) => Number(h.tagName[1]));
+      for (let i = 1; i < levels.length; i++) {
+        if (levels[i] - levels[i - 1] > 1) found.push(`dialog: heading jump h${String(levels[i - 1])} to h${String(levels[i])}`);
+      }
+      const active = document.activeElement;
+      if (!dialog?.contains(active)) found.push("dialog: focus is not inside the dialog after opening");
+      return found;
+    })),
+  );
+  out.push(...(await smallTapTargets(page, "dialog[open]", MIN_TAP)).map((f) => `dialog: ${f}`));
+  out.push(...forbiddenText(await visibleText(page), "dialog: "));
+  // Keyboard tour inside the dialog. A native modal dialog does not cycle focus: after its last
+  // control, Tab hands focus to the browser's own UI (activeElement becomes body) and the next
+  // Tab returns to the dialog's first control. The page behind is inert, so no page control may
+  // ever receive focus while the dialog is open.
+  const focused = async () =>
+    page.evaluate(() => {
+      const el = document.activeElement;
+      const dialog = document.querySelector("dialog[open]");
+      if (!el || el === document.body) return { inside: false, body: true, ring: false, name: "body" };
+      const style = getComputedStyle(el);
+      const ring = (style.outlineStyle !== "none" && parseFloat(style.outlineWidth) > 0) || style.boxShadow !== "none";
+      return { inside: Boolean(dialog?.contains(el)), body: false, ring, name: (el.textContent?.trim() || el.tagName).slice(0, 40) };
+    });
+  let stops = 1; // the control showModal focused on opening (checked above to be inside)
+  for (let i = 0; i < 20; i++) {
+    await page.keyboard.press("Tab");
+    const info = await focused();
+    if (info.body) {
+      await page.keyboard.press("Tab");
+      const back = await focused();
+      if (!back.inside) out.push(`dialog: focus did not return into the dialog after the browser UI (${back.name})`);
+      break;
+    }
+    if (!info.inside) {
+      out.push(`dialog: focus reached page content behind the dialog on Tab ${String(i + 1)} (${info.name})`);
+      break;
+    }
+    if (!info.ring) out.push(`dialog: no visible focus ring: ${info.name}`);
+    stops++;
+  }
+  await page.keyboard.press("Escape");
+  await page.waitForTimeout(400);
+  const after = await page.evaluate(() => ({
+    open: Boolean(document.querySelector("dialog[open]")),
+    onRow: document.activeElement?.classList.contains("cpm-row") ?? false,
+  }));
+  if (after.open) out.push("dialog: Escape did not close it");
+  if (!after.onRow) out.push("dialog: focus did not return to the subsystem row after closing");
+  return { findings: out, stops };
+}
 
 async function auditPage(browser, path) {
   const findings = [];
@@ -100,15 +229,9 @@ async function auditPage(browser, path) {
     }, MIN_TAP)),
   );
 
-  // Forbidden text in the rendered page.
-  const text = await page.evaluate(() => document.body.innerText);
-  for (const [pattern, label] of FORBIDDEN) {
-    const match = text.match(pattern);
-    if (match) {
-      const at = Math.max(0, (match.index ?? 0) - 30);
-      findings.push(`forbidden text (${label}): …${text.slice(at, at + 70).replace(/\s+/g, " ")}…`);
-    }
-  }
+  // Forbidden text in the rendered page. Quoted verbatims (blockquote) are customer text shown
+  // as written and are left out of the scan.
+  findings.push(...forbiddenText(await visibleText(page)));
 
   // Keyboard tour: every stop has a visible focus ring, measured after real Tab presses.
   const stops = [];
@@ -135,6 +258,9 @@ async function auditPage(browser, path) {
   }
   if (stops.length === 0) findings.push("keyboard tour found no stops");
 
+  const dialog = await auditDialog(page);
+  findings.push(...dialog.findings);
+
   // Horizontal overflow at 375 px, loaded fresh at that width.
   const narrow = await browser.newContext({ viewport: { width: 375, height: 700 } });
   const narrowPage = await narrow.newPage();
@@ -145,15 +271,15 @@ async function auditPage(browser, path) {
 
   if (errors.length) findings.push(...errors.map((e) => `console: ${e}`));
   await context.close();
-  return { path, findings, stops: stops.length };
+  return { path, findings, stops: stops.length, dialogStops: dialog.stops };
 }
 
 const browser = await chromium.launch({ executablePath: "/opt/pw-browsers/chromium" });
 let total = 0;
 for (const path of PATHS) {
-  const { findings, stops } = await auditPage(browser, path);
+  const { findings, stops, dialogStops } = await auditPage(browser, path);
   total += findings.length;
-  console.log(`${path}: ${String(findings.length)} finding(s), ${String(stops)} keyboard stop(s)`);
+  console.log(`${path}: ${String(findings.length)} finding(s), ${String(stops)} keyboard stop(s)${dialogStops ? `, ${String(dialogStops)} in the dialog` : ""}`);
   for (const f of findings) console.log(`  - ${f}`);
 }
 await browser.close();

@@ -45,6 +45,9 @@ The database is derived, never the source of truth: `./start.sh --reset` on any 
 it from `docs/` (raw inputs), `config/` (authored mappings) and
 `config/classifications/*_gaps.jsonl` (labels for the rows the source files left unclassified).
 Anything that should survive a rebuild must therefore be committed as a file under `config/`.
+`config/cpm/` holds the Change Prediction Method inputs (subsystem weights and links, the
+theme-to-subsystem mapping, market and competitor evidence) that both the effort engine and the
+frontend's content build read.
 
 ## After the start
 

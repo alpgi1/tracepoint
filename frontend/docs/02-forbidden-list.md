@@ -152,6 +152,12 @@ motion, and moves only `transform` and `opacity`. The photos are the team's conf
 from the BMW configurator, identified as such in `assets/vehicles/photos/README.md`; they are
 not stock or AI imagery.
 
+**E5, customer verbatims as written (2026-10-11, step 13, D-063).** The subsystem dialog quotes
+customer verbatims from the workbooks as evidence. They are customer text, not UI copy: they keep
+their exclamation marks, dashes and wording, are set as `blockquote` with their verbatim id, and
+the page audit's forbidden-text scan leaves `blockquote` out. Nothing in them is edited or
+invented.
+
 ## 8. Pre-delivery checklist
 
 - [ ] Does every number on screen come from a real field with a source and a date? Nothing invented?
@@ -159,10 +165,10 @@ not stock or AI imagery.
 - [ ] Three equal cards or an equal bento grid anywhere?
 - [ ] Purple gradient, gradient text, box-shadow glow, shimmer, second animated ground?
 - [ ] Any stock or AI imagery? Every picture a real screen or real data?
-- [ ] Any infinite loop? If yes, is it covered by E1, E2 or E4?
+- [ ] Any infinite loop? If yes, is it covered by E1, E2 or E4? Any quoted text outside `blockquote` (E5)?
 - [ ] Does any content wait behind a loader? Is the page readable with JavaScript off?
 - [ ] With `prefers-reduced-motion`: no entrance, instant state changes, no coasting?
-- [ ] Keyboard: every control reachable, `focus-visible` ring visible, Escape closes the zoomed state?
+- [ ] Keyboard: every control reachable, `focus-visible` ring visible, Escape closes the zoomed state and the dialog, focus returns to the row?
 - [ ] Every tap target at least 44 px, measured?
 - [ ] Horizontal overflow at 375 px?
 - [ ] Console clean? No runtime fetch from third-party hosts?

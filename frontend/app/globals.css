@@ -492,67 +492,10 @@
   font-size: 0.8125rem;
   line-height: 1.45;
 }
-.domain-list,
 .theme-list {
   list-style: none;
   margin: 12px 0 0;
   padding: 0;
-}
-.domain-row {
-  display: grid;
-  grid-template-columns: 1fr auto;
-  row-gap: 5px;
-  width: 100%;
-  min-height: 44px;
-  padding: 9px 8px;
-  margin: 0 -8px;
-  width: calc(100% + 16px);
-  text-align: left;
-  font: inherit;
-  color: inherit;
-  background: transparent;
-  border: 0;
-  border-radius: calc(var(--radius) * 1.5);
-  cursor: pointer;
-  transition:
-    box-shadow 0.18s var(--ease-out),
-    background 0.18s var(--ease-out);
-}
-.domain-list > li + li .domain-row {
-  border-top: 1px solid var(--color-line);
-}
-.domain-row[aria-pressed="true"] {
-  box-shadow: inset 0 0 0 1px var(--color-blue);
-  border-top-color: transparent;
-}
-.domain-row[data-hovered="true"]:not([aria-pressed="true"]) {
-  background: rgb(20 23 28 / 0.03);
-}
-.domain-row-name {
-  font-size: 0.875rem;
-}
-.domain-row-figures {
-  color: var(--color-ink-2);
-  font-size: 0.8125rem;
-  font-variant-numeric: tabular-nums;
-}
-.domain-row-bar {
-  grid-column: 1 / -1;
-  height: 3px;
-  background: var(--color-line);
-}
-.domain-row-bar > span {
-  display: block;
-  height: 100%;
-  background: var(--vehicle-dot-active);
-  transition: background 0.18s var(--ease-out);
-}
-.domain-row[aria-pressed="true"] .domain-row-bar > span,
-.domain-row[data-hovered="true"] .domain-row-bar > span {
-  background: var(--color-blue);
-}
-.domain-row[aria-pressed="true"] .domain-row-name {
-  font-weight: 500;
 }
 .theme {
   display: grid;
@@ -582,10 +525,349 @@
   .callout-lines,
   .vehicle,
   .vehicle-card-photo,
-  .handoff-veil,
-  .domain-row,
-  .domain-row-bar > span {
+  .handoff-veil {
     animation: none;
+    transition: none;
+  }
+}
+
+/* ---------- step 13: CPM subsystems and the subsystem dialog ---------- */
+
+:root {
+  /* The veil behind the subsystem dialog: ink at a third. */
+  --veil: rgb(20 23 28 / 0.32);
+}
+
+/* The twelve subsystems, heaviest first; each row is the dialog's button. */
+.cpm-list {
+  list-style: none;
+  margin: 12px 0 0;
+  padding: 0;
+}
+.cpm-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  row-gap: 5px;
+  width: calc(100% + 16px);
+  min-height: 44px;
+  margin: 0 -8px;
+  padding: 9px 8px;
+  text-align: left;
+  font: inherit;
+  color: inherit;
+  background: transparent;
+  border: 0;
+  border-radius: calc(var(--radius) * 1.5);
+  cursor: pointer;
+  transition: background 0.18s var(--ease-out);
+}
+.cpm-list > li + li .cpm-row {
+  border-top: 1px solid var(--color-line);
+}
+.cpm-row:hover {
+  background: rgb(20 23 28 / 0.03);
+}
+.cpm-row-name {
+  font-size: 0.875rem;
+}
+.cpm-row-weight {
+  color: var(--color-ink-2);
+  font-size: 0.8125rem;
+  font-variant-numeric: tabular-nums;
+}
+.cpm-row-weight b {
+  color: var(--color-ink);
+  font-weight: 500;
+}
+.cpm-row-bar {
+  grid-column: 1 / -1;
+  height: 3px;
+  background: var(--color-line);
+}
+.cpm-row-bar > span {
+  display: block;
+  height: 100%;
+  background: var(--color-blue);
+}
+.cpm-row-figures {
+  grid-column: 1 / -1;
+  color: var(--color-ink-2);
+  font-size: 0.8125rem;
+  font-variant-numeric: tabular-nums;
+}
+.cpm-note {
+  margin-top: 12px;
+  color: var(--color-ink-2);
+  font-size: 0.75rem;
+  line-height: 1.45;
+}
+
+/*
+ * The subsystem dialog: a native dialog in the top layer, most of the
+ * viewport, a sticky header over a body that scrolls natively. The page
+ * behind is inert (showModal) and does not scroll.
+ */
+body:has(.cpm-dialog[open]) {
+  overflow: hidden;
+}
+.cpm-dialog {
+  width: min(1280px, calc(100vw - 96px));
+  height: calc(100vh - 96px);
+  max-width: none;
+  max-height: none;
+  margin: auto;
+  padding: 0;
+  color: var(--color-ink);
+  background: var(--color-paper);
+  border: 1px solid var(--color-line);
+  border-radius: calc(var(--radius) * 2);
+  box-shadow: 0 24px 64px rgb(20 23 28 / 0.18);
+  opacity: 0;
+  transform: translateY(8px);
+  transition:
+    opacity 0.16s var(--ease-out),
+    transform 0.16s var(--ease-out),
+    display 0.16s allow-discrete,
+    overlay 0.16s allow-discrete;
+}
+.cpm-dialog[open] {
+  opacity: 1;
+  transform: none;
+  transition-duration: 0.2s;
+}
+.cpm-dialog::backdrop {
+  background: var(--veil);
+  opacity: 0;
+  transition:
+    opacity 0.16s var(--ease-out),
+    display 0.16s allow-discrete,
+    overlay 0.16s allow-discrete;
+}
+.cpm-dialog[open]::backdrop {
+  opacity: 1;
+  transition-duration: 0.2s;
+}
+@starting-style {
+  .cpm-dialog[open] {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  .cpm-dialog[open]::backdrop {
+    opacity: 0;
+  }
+}
+.cpm-dialog-frame {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  height: 100%;
+}
+.cpm-dialog-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 20px 32px 16px;
+  border-bottom: 1px solid var(--color-line);
+}
+.cpm-dialog-title {
+  font-size: 1.25rem;
+  font-weight: 500;
+  line-height: 1.3;
+}
+.cpm-dialog-meta {
+  margin-top: 2px;
+  color: var(--color-ink-2);
+  font-size: 0.875rem;
+  font-variant-numeric: tabular-nums;
+}
+.cpm-dialog-close {
+  padding: 0 12px;
+  margin: -6px -12px 0 0;
+  font-size: 0.875rem;
+  color: var(--color-blue);
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+}
+.cpm-dialog-body {
+  overflow: auto;
+  padding: 4px 32px 32px;
+}
+
+/* Facts about the subsystem: a hairline key-value list. */
+.cpm-facts {
+  display: grid;
+  grid-template-columns: max-content minmax(0, 1fr);
+  column-gap: 32px;
+  margin: 0;
+}
+.cpm-facts > div {
+  display: contents;
+}
+.cpm-facts dt,
+.cpm-facts dd {
+  margin: 0;
+  padding: 11px 0;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  border-bottom: 1px solid var(--color-line);
+}
+.cpm-facts dt {
+  color: var(--color-ink-2);
+}
+.cpm-facts dd {
+  font-variant-numeric: tabular-nums;
+}
+.cpm-muted {
+  color: var(--color-ink-2);
+}
+.cpm-partition {
+  display: inline-block;
+  width: 160px;
+  height: 4px;
+  margin-left: 12px;
+  vertical-align: middle;
+  background: var(--color-line);
+}
+.cpm-partition > span {
+  display: block;
+  height: 100%;
+  background: var(--color-blue);
+}
+
+/* Likes and criticisms side by side, one hairline between; the market table below. */
+.cpm-blocks {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  margin-top: 28px;
+}
+.cpm-blocks > .cpm-block:first-child {
+  padding-right: 36px;
+}
+.cpm-blocks > .cpm-block + .cpm-block {
+  padding-left: 36px;
+  border-left: 1px solid var(--color-line);
+}
+.cpm-block-h {
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1.3;
+}
+.cpm-block-market {
+  margin-top: 36px;
+}
+.cpm-themes {
+  list-style: none;
+  margin: 8px 0 0;
+  padding: 0;
+}
+.cpm-theme {
+  padding: 12px 0 14px;
+  border-top: 1px solid var(--color-line);
+}
+.cpm-theme-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+}
+.cpm-theme-name {
+  font-size: 0.9375rem;
+  font-weight: 500;
+  line-height: 1.3;
+}
+.cpm-theme-domain {
+  flex: none;
+  color: var(--color-ink-2);
+  font-size: 0.75rem;
+  line-height: 1.3;
+}
+.cpm-theme-figures {
+  margin-top: 2px;
+  color: var(--color-ink-2);
+  font-size: 0.8125rem;
+  font-variant-numeric: tabular-nums;
+}
+.cpm-quotes {
+  display: grid;
+  gap: 8px;
+  list-style: none;
+  margin: 10px 0 0;
+  padding: 0;
+}
+.cpm-quote {
+  margin: 0;
+  padding: 0 0 0 12px;
+  border-left: 2px solid var(--color-line);
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+.cpm-quote p {
+  margin: 0;
+}
+.cpm-quote footer {
+  margin-top: 3px;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  color: var(--color-ink-2);
+}
+.cpm-empty {
+  margin-top: 8px;
+  color: var(--color-ink-2);
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+/* The market and competition evidence: a hairline table. */
+.cpm-table {
+  width: 100%;
+  margin-top: 10px;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+.cpm-table th {
+  padding: 8px 16px 8px 0;
+  text-align: left;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--color-ink-2);
+  border-bottom: 1px solid var(--color-line);
+}
+.cpm-table td {
+  padding: 10px 16px 10px 0;
+  vertical-align: top;
+  border-bottom: 1px solid var(--color-line);
+}
+.cpm-table td p {
+  margin: 0;
+}
+.cpm-table td p + p {
+  margin-top: 4px;
+}
+.cpm-kind {
+  display: block;
+  color: var(--color-ink-2);
+  font-size: 0.75rem;
+}
+.cpm-source a {
+  margin-top: -11px;
+  color: var(--color-blue);
+  text-decoration: none;
+}
+.cpm-source a:hover {
+  text-decoration: underline;
+}
+.cpm-source .cpm-muted {
+  display: block;
+  margin-top: -8px;
+  font-size: 0.75rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cpm-row,
+  .cpm-dialog,
+  .cpm-dialog::backdrop {
     transition: none;
   }
 }
