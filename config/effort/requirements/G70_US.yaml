@@ -1,0 +1,75 @@
+# Change profiles for the G70 US requirements (config/requirements/G70_US.yaml). See the header of
+# G60_US.yaml for the scale of own_impact and why the profiles live in their own file.
+vehicle: G70
+market: US
+author: assistant
+profiles:
+  - requirement: REQ-G70-US-IC-01
+    changes:
+      - {subsystem: software_hmi, own_impact: 0.02, layer: K1, why: "Interlock: no inside opening while moving or in gear, start delay"}
+      - {subsystem: interior_console, own_impact: 0.03, layer: K1, why: "Button guard or relocation"}
+  - requirement: REQ-G70-US-ID-01
+    changes:
+      - {subsystem: software_hmi, own_impact: 0.1, layer: K2, why: "Shortcut concept and reliable voice commands"}
+      - {subsystem: interior_console, own_impact: 0.05, layer: K1, why: "Physical controls in the life-cycle impulse"}
+  - requirement: REQ-G70-US-ID-02
+    changes:
+      - {subsystem: software_hmi, own_impact: 0.03, layer: K1, why: "eSIM and hotspot activation; most of the work is backend and carrier integration outside the car"}
+  - requirement: REQ-G70-US-ID-03
+    changes:
+      - {subsystem: interior_console, own_impact: 0.08, layer: K2, why: "Camera image in the interior mirror when the theatre screen or blind is deployed"}
+      - {subsystem: software_hmi, own_impact: 0.04, layer: K1, why: "Rear view on demand, wireless streaming to the theatre screen"}
+  - requirement: REQ-G70-US-ID-04
+    changes:
+      - {subsystem: software_hmi, own_impact: 0.03, layer: K1, why: "Pairing, profile binding and loudness matching"}
+      - {subsystem: interior_console, own_impact: 0.05, layer: K1, why: "Audio tuning and speaker placement"}
+  - requirement: REQ-G70-US-ID-05
+    changes:
+      - {subsystem: software_hmi, own_impact: 0.06, layer: K1, why: "Lane guidance and natural-language voice commands (OTA)"}
+  - requirement: REQ-G70-US-IC-02
+    changes:
+      - {subsystem: thermal_hvac, own_impact: 0.12, layer: K2, why: "Cool-down capacity and directable vents for a large cabin"}
+      - {subsystem: interior_console, own_impact: 0.05, layer: K1, why: "Rear vent outlets that can be directed"}
+      - {subsystem: software_hmi, own_impact: 0.02, layer: K1, why: "Temperature and fan without menus"}
+  - requirement: REQ-G70-US-IC-03
+    changes:
+      - {subsystem: body_structure, own_impact: 0.3, layer: K2, why: "Opening sunroof needs a new roof opening and frame in the body in white"}
+      - {subsystem: exterior_design, own_impact: 0.05, layer: K1, why: "Glass with lower heat entry"}
+      - {subsystem: interior_console, own_impact: 0.05, layer: K1, why: "Blind mechanisms that do not get stuck"}
+  - requirement: REQ-G70-US-PR-01
+    changes:
+      - {subsystem: software_hmi, own_impact: 0.02, layer: K0, why: "Persistent off setting (OTA)"}
+      - {subsystem: powertrain, own_impact: 0.03, layer: K1, why: "No engine stop before standstill, smooth restart"}
+  - requirement: REQ-G70-US-PR-02
+    changes:
+      - {subsystem: hv_battery, own_impact: 1.0, layer: K3, why: "Next battery generation (Gen6 / Neue Klasse, as in the anchor)"}
+  - requirement: REQ-G70-US-PR-03
+    changes:
+      - {subsystem: charging, own_impact: 0.1, layer: K2, carryover: true, why: "NACS adapter as on the G60"}
+      - {subsystem: software_hmi, own_impact: 0.03, layer: K1, why: "Charging offer registration and station reliability in the planner"}
+  - requirement: REQ-G70-US-QN-01
+    kind: no_vehicle_change
+    note: Launch quality in production and pre-delivery inspection; process, not a development change.
+  - requirement: REQ-G70-US-DD-01
+    changes:
+      - {subsystem: software_hmi, own_impact: 0.03, layer: K1, why: "Free combination of drive-mode parameters"}
+  - requirement: REQ-G70-US-DD-02
+    changes:
+      - {subsystem: chassis, own_impact: 0.08, layer: K1, why: "Brake feel at highway speed"}
+      - {subsystem: software_hmi, own_impact: 0.04, layer: K1, why: "Earlier, smoother deceleration of assisted driving"}
+  - requirement: REQ-G70-US-DA-01
+    changes:
+      - {subsystem: software_hmi, own_impact: 0.02, layer: K0, why: "Standard-content decision; hardware exists", portfolio_terms: [Driving Assistant Professional, Parking Assistant Plus]}
+  - requirement: REQ-G70-US-EX-01
+    changes:
+      - {subsystem: software_hmi, own_impact: 0.02, layer: K0, why: "Activate selective high beam where US regulation and the fitted hardware allow"}
+      - {subsystem: exterior_design, own_impact: 0.05, layer: K1, why: "Headlight fault fixes and low-beam reach"}
+  - requirement: REQ-G70-US-EX-02
+    changes:
+      - {subsystem: exterior_design, own_impact: 0.5, layer: K2, why: "New front end (grille, bumper, black surfaces), like the G30 LCI front"}
+  - requirement: REQ-G70-US-SP-01
+    changes:
+      - {subsystem: interior_console, own_impact: 0.1, layer: K1, why: "Phone place, sunglasses holder, adaptable cup holders, covered storage"}
+  - requirement: REQ-G70-US-GE-01
+    changes:
+      - {subsystem: software_hmi, own_impact: 0.02, layer: K0, why: "In-car guided tour and searchable manual; personal introductions are a retail service"}

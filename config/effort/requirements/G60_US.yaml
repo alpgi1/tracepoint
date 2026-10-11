@@ -1,0 +1,79 @@
+# Change profiles for the G60 US requirements (config/requirements/G60_US.yaml), input of the CPM
+# effort engine (config/effort/model.yaml). Kept apart from the requirement file on purpose: an
+# effort correction must not create a new requirement version and invalidate a G2 decision.
+# own_impact = share of the subsystem's design redone; scale reference from the back-test: a new
+# operating system release (OS 7) is software_hmi 0.4, new headlights and bumper are
+# exterior_design 0.5. Every value is an assumption for engineering to correct (rule 50).
+# portfolio_terms are searched in the option-list catalogues of all vehicles (rule 43).
+vehicle: G60
+market: US
+author: assistant
+profiles:
+  - requirement: REQ-G60-US-IC-01
+    changes:
+      - {subsystem: seats, own_impact: 0.25, layer: K1, why: "Front and rear cushion foam, contour and lumbar travel on the existing seat structure"}
+  - requirement: REQ-G60-US-ID-01
+    changes:
+      - {subsystem: software_hmi, own_impact: 0.1, layer: K2, why: "Shortcut layer and widget placement for ten functions"}
+      - {subsystem: interior_console, own_impact: 0.1, layer: K2, why: "Physical controls where the panel allows them"}
+  - requirement: REQ-G60-US-IC-02
+    changes:
+      - {subsystem: thermal_hvac, own_impact: 0.1, layer: K2, why: "Vent and blower tuning for heat-soak cool-down"}
+      - {subsystem: interior_console, own_impact: 0.05, layer: K1, why: "Always-visible temperature and fan control"}
+      - {subsystem: software_hmi, own_impact: 0.03, layer: K1, why: "Persist recirculation, sync and seat-ventilation defaults per profile"}
+  - requirement: REQ-G60-US-PR-01
+    changes:
+      - {subsystem: software_hmi, own_impact: 0.02, layer: K0, why: "Persistent off setting in the driver profile (OTA)"}
+      - {subsystem: powertrain, own_impact: 0.03, layer: K1, why: "Restart calibration; certification credit check stays open (requirement uncertainty)"}
+  - requirement: REQ-G60-US-PR-02
+    changes:
+      - {subsystem: software_hmi, own_impact: 0.04, layer: K1, why: "Range estimation model and winter guidance in navigation"}
+  - requirement: REQ-G60-US-PR-03
+    changes:
+      - {subsystem: hv_battery, own_impact: 1.0, layer: K3, why: "New cell and pack generation for more range (same case as the Gen6 anchor)"}
+  - requirement: REQ-G60-US-PR-04
+    changes:
+      - {subsystem: charging, own_impact: 0.15, layer: K2, carryover: true, why: "NACS inlet or adapter; built-in NACS comes with the i5 M60 in 2026"}
+      - {subsystem: software_hmi, own_impact: 0.03, layer: K1, why: "Route planner prefers working stations"}
+  - requirement: REQ-G60-US-PR-05
+    changes:
+      - {subsystem: charging, own_impact: 0.05, layer: K1, why: "Flap actuator field fix and frost strategy"}
+  - requirement: REQ-G60-US-SP-01
+    changes:
+      - {subsystem: exterior_design, own_impact: 0.04, layer: K1, why: "Kick-sensor calibration and a close button on the lid"}
+  - requirement: REQ-G60-US-SP-02
+    changes:
+      - {subsystem: interior_console, own_impact: 0.1, layer: K1, why: "Seat-back pockets, sunglasses holder, covered tray, larger door pockets"}
+  - requirement: REQ-G60-US-SP-03
+    changes:
+      - {subsystem: exterior_design, own_impact: 0.05, layer: K1, carryover: true, why: "Sensor door handles at the rear, closing-force tuning; comfort access exists on the G70", portfolio_terms: [Komfortzugang, Comfort Access]}
+  - requirement: REQ-G60-US-ID-02
+    changes:
+      - {subsystem: software_hmi, own_impact: 0.04, layer: K1, why: "CarPlay profile binding and loudness matching"}
+      - {subsystem: interior_console, own_impact: 0.05, layer: K1, why: "Wireless charger tray cooling"}
+  - requirement: REQ-G60-US-ID-03
+    changes:
+      - {subsystem: software_hmi, own_impact: 0.04, layer: K1, why: "Profiles survive OTA, two keys per profile, driver recognition"}
+  - requirement: REQ-G60-US-IC-03
+    changes:
+      - {subsystem: interior_console, own_impact: 0.15, layer: K1, why: "Soft-touch door panels and dashboard surfaces"}
+      - {subsystem: seats, own_impact: 0.05, layer: K1, carryover: true, why: "Full-leather upholstery option; Merino leather is offered on the G70", portfolio_terms: [Merino]}
+  - requirement: REQ-G60-US-GE-01
+    changes:
+      - {subsystem: software_hmi, own_impact: 0.02, layer: K0, why: "Guided tour and searchable help are content on the existing system"}
+  - requirement: REQ-G60-US-DD-01
+    changes:
+      - {subsystem: software_hmi, own_impact: 0.03, layer: K1, why: "Free combination of drive-mode parameters, last mode remembered"}
+  - requirement: REQ-G60-US-DD-02
+    changes:
+      - {subsystem: chassis, own_impact: 0.05, layer: K1, why: "Brake-by-wire pedal map"}
+      - {subsystem: software_hmi, own_impact: 0.02, layer: K1, why: "Recuperation strategy and one-pedal option"}
+  - requirement: REQ-G60-US-DD-03
+    kind: preserve
+    note: Protects today's handling for the successor; no change to estimate.
+  - requirement: REQ-G60-US-DA-01
+    changes:
+      - {subsystem: software_hmi, own_impact: 0.02, layer: K0, why: "Standard-content decision, hardware is fitted; one-control settings in the HMI", portfolio_terms: [Driving Assistant Plus, Driving Assistant Professional]}
+  - requirement: REQ-G60-US-ID-04
+    changes:
+      - {subsystem: interior_console, own_impact: 0.1, layer: K2, why: "CD drive as an accessory needs a mount, supply and a media source; not in any BMW catalogue"}

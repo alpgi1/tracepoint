@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+from datetime import UTC, datetime
 
 import pytest
 from pydantic import BaseModel
@@ -13,10 +14,14 @@ from tracepoint.db.models import LlmCall
 from tracepoint.llm.gateway import (
     FakeProvider,
     LlmBudgetExceeded,
+    LlmError,
     LlmGateway,
     LlmRequest,
     LlmSchemaError,
+    ProviderResponse,
+    make_provider,
 )
+from tracepoint.llm.pricing import estimate_cost_usd
 from tracepoint.llm.schema import to_strict_schema
 
 
@@ -95,6 +100,85 @@ def test_gateway_budget_cap(engine, ingested, monkeypatch):
             gw.complete(_req("capped"), Answer)
 
 
+def test_gateway_daily_cap_spans_runs(engine, ingested):
+    provider = FakeProvider(lambda kw: {"label": "ok", "score": 0.5, "note": None})
+    with Session(engine) as session, start_run(session, "test.llm.daycap") as run:
+        earlier = LlmCall(
+            purpose="other run",
+            provider="fake",
+            model="m",
+            input_hash="x",
+            cost_estimate_usd=2.0,
+            created_at=datetime.now(UTC),
+        )
+        session.add(earlier)
+        session.flush()
+        gw = LlmGateway(session, provider, run.id, Settings(llm_max_cost_usd_per_day=1.0))
+        with pytest.raises(LlmBudgetExceeded, match="per 24 hours"):
+            gw.complete(_req("day cap"), Answer)
+        session.delete(earlier)
+
+
+class _Stub:
+    """A provider that is not the fake one, so the cost rules of real providers apply."""
+
+    name = "stub"
+
+    def __init__(self, finish_reason="stop", text='{"label": "ok", "score": 1, "note": null}'):
+        self.finish_reason = finish_reason
+        self.text = text
+
+    def complete(self, *, model, **kw):
+        return ProviderResponse(
+            text=self.text,
+            model=model,
+            input_tokens=1000,
+            cached_tokens=0,
+            output_tokens=1000,
+            finish_reason=self.finish_reason,
+        )
+
+
+def _priced(user: str, model: str) -> LlmRequest:
+    return LlmRequest(purpose="test", system="s", user=user, prompt_version="t-v1", model=model)
+
+
+def test_cost_caps_refuse_a_model_without_a_price(engine, ingested):
+    with Session(engine) as session, start_run(session, "test.llm.unpriced") as run:
+        capped = LlmGateway(session, _Stub(), run.id)
+        with pytest.raises(LlmError, match="no price"):
+            capped.complete(_priced("unpriced", "mystery-model"), Answer)
+        assert capped.complete(_priced("priced", "gpt-5.4"), Answer).cost_estimate_usd > 0
+        uncapped = Settings(llm_max_cost_usd_per_run=0, llm_max_cost_usd_per_day=0)
+        free = LlmGateway(session, _Stub(), run.id, uncapped)
+        assert free.complete(_priced("unpriced", "mystery-model"), Answer).parsed.label == "ok"
+
+
+def test_truncated_answer_is_logged_with_its_cost(engine, ingested):
+    with Session(engine) as session, start_run(session, "test.llm.truncated") as run:
+        gw = LlmGateway(session, _Stub(finish_reason="length"), run.id)
+        with pytest.raises(LlmError, match="truncated"):
+            gw.complete(_priced("too long", "gpt-5.4"), Answer)
+        row = session.scalar(select(LlmCall).where(LlmCall.run_id == run.id))
+        assert row.status == "error" and row.cost_estimate_usd > 0
+        assert gw.run_spent_usd() == row.cost_estimate_usd  # counts towards the caps
+        session.delete(row)  # keep the day's total of the test database unchanged
+
+
+def test_answers_rejected_twice_are_both_logged_with_their_cost(engine, ingested):
+    with Session(engine) as session, start_run(session, "test.llm.rejected") as run:
+        gw = LlmGateway(session, _Stub(text="not json"), run.id)
+        with pytest.raises(LlmSchemaError):
+            gw.complete(_priced("never valid", "gpt-5.4"), Answer)
+        rows = session.scalars(select(LlmCall).where(LlmCall.run_id == run.id)).all()
+        # the first answer and the repair attempt
+        assert [r.status for r in rows] == ["error", "error"]
+        assert all(r.cost_estimate_usd > 0 for r in rows)
+        assert gw.run_spent_usd() == pytest.approx(sum(r.cost_estimate_usd for r in rows))
+        for row in rows:
+            session.delete(row)  # keep the day's total of the test database unchanged
+
+
 def test_fake_provider_payload_is_json():
     provider = FakeProvider(lambda kw: {"a": 1})
     resp = provider.complete(
@@ -108,3 +192,42 @@ def test_fake_provider_payload_is_json():
         timeout=1.0,
     )
     assert json.loads(resp.text) == {"a": 1}
+
+
+def test_empty_base_url_falls_back_to_default_endpoint():
+    provider = make_provider(Settings(openai_api_key="sk-test", openai_base_url=""))
+    assert str(provider._client.base_url).startswith("https://")
+
+
+def test_dated_snapshot_is_priced_as_its_alias():
+    mini = estimate_cost_usd("gpt-5.4-mini", 1_000_000, 0, 1_000_000)
+    assert mini is not None
+    assert estimate_cost_usd("gpt-5.4-mini-2026-03-17", 1_000_000, 0, 1_000_000) == mini
+    assert estimate_cost_usd("gpt-5.4-2026-03-05", 1_000_000, 0, 1_000_000) != mini
+    assert estimate_cost_usd("some-other-model", 1, 0, 1) is None
+
+
+def test_gateway_returns_and_caches_tool_calls(engine, ingested):
+    call = {"id": "c1", "name": "get_sales", "arguments": {"vehicle": "G60"}}
+    provider = FakeProvider(
+        lambda kw: ProviderResponse(text="", model="fake-model", tool_calls=[call])
+    )
+    tools = ({"name": "get_sales", "description": "d", "input_schema": {"type": "object"}},)
+    req = LlmRequest(purpose="test", system="s", user="tools", prompt_version="t-v1", tools=tools)
+    later = LlmRequest(
+        purpose="test",
+        system="s",
+        user="tools",
+        prompt_version="t-v1",
+        tools=tools,
+        history=({"role": "tool", "tool_call_id": "c1", "content": "{}"},),
+    )
+    with Session(engine) as session, start_run(session, "test.llm.tools") as run:
+        gw = LlmGateway(session, provider, run.id)
+        first = gw.complete(req, Answer)  # a tool-call turn is not parsed against the schema
+        again = gw.complete(req, Answer)
+        gw.complete(later, Answer)  # the history is part of the cache key
+        assert first.tool_calls == [call] and first.parsed is None
+        assert again.cached and again.tool_calls == [call]
+        assert len(provider.calls) == 2 and provider.calls[1]["history"] == later.history
+        assert session.get(LlmCall, first.llm_call_id).request["tools"] == ["get_sales"]

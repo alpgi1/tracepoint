@@ -1,0 +1,105 @@
+# CPM effort model (rules 41-52 of the cost rules, Change Prediction Method, Clarkson et al. 2004).
+# Every number below is an ASSUMPTION, not calibrated (rule 50). The PM or BMW engineering may
+# change any value; the change is a reviewed file change and every estimate run records the
+# model hash, so old estimates stay traceable. The formula is fixed in
+# backend/tracepoint/effort/cpm.py. The order of subsystems and links is kept from the first
+# prototype so that the published back-test numbers stay reproducible with the same seed.
+version: 1
+status: assumption, not calibrated
+
+# Share of the total development effort of a new vehicle generation (sum = 100).
+subsystems:
+  - {key: body_structure, name: Body/structure, weight: 18, basis: "Team estimate: split of the non-drivetrain ~64-70 % of vehicle cost (Thunder Said Energy 2024) across body, chassis and interior"}
+  - {key: chassis, name: Chassis, weight: 10, basis: Team estimate (same split)}
+  - {key: powertrain, name: Powertrain, weight: 14, basis: "Powertrain + HV battery + charging = 28, drivetrain ~30 % (ICE) to ~36 % (EV) of vehicle cost (Thunder Said Energy 2024)"}
+  - {key: hv_battery, name: HV battery, weight: 10, basis: Part of the drivetrain share above}
+  - {key: thermal_hvac, name: Thermal/HVAC, weight: 6, basis: Team estimate}
+  - {key: ee_architecture, name: E/E architecture, weight: 9, basis: "E/E + software = 19; electronics 16 % of premium component cost in 2020, expected 35 % by 2025 (Bosch 2020)"}
+  - {key: software_hmi, name: Software/HMI, weight: 10, basis: Part of the electronics share above}
+  - {key: interior_console, name: Interior/console, weight: 7, basis: Team estimate (non-drivetrain split)}
+  - {key: seats, name: Seats, weight: 5, basis: Team estimate (non-drivetrain split)}
+  - {key: exterior_design, name: Exterior design, weight: 6, basis: "Team estimate; includes lighting, closures' visible parts, wheels"}
+  - {key: paint_color, name: Paint/color, weight: 1, basis: Team estimate}
+  - {key: charging, name: Charging, weight: 4, basis: Part of the drivetrain share above}
+
+# Direct links only where a physical or functional interface exists.
+# likelihood = probability that a change in `from` forces a change in `to`;
+# impact = share of the target's design work redone if it does.
+links:
+  - {from: hv_battery, to: body_structure, likelihood: 0.8, impact: 0.5, why: "The pack sits in the floor; new pack dimensions change floor and crash structure"}
+  - {from: hv_battery, to: thermal_hvac, likelihood: 0.9, impact: 0.6, why: "Cell cooling and heat pump are sized for the pack"}
+  - {from: hv_battery, to: ee_architecture, likelihood: 0.8, impact: 0.5, why: "High-voltage network, battery management and voltage level"}
+  - {from: hv_battery, to: charging, likelihood: 0.9, impact: 0.7, why: "Charge power, voltage (400 / 800 V) and inlet hardware follow the pack"}
+  - {from: hv_battery, to: chassis, likelihood: 0.6, impact: 0.3, why: "Mass and its distribution change springs, dampers, brakes"}
+  - {from: hv_battery, to: software_hmi, likelihood: 0.7, impact: 0.2, why: "Range, charging and energy screens"}
+  - {from: powertrain, to: body_structure, likelihood: 0.4, impact: 0.3, why: "Package space, mounts, tunnel"}
+  - {from: powertrain, to: thermal_hvac, likelihood: 0.6, impact: 0.3, why: "Cooling circuits"}
+  - {from: powertrain, to: ee_architecture, likelihood: 0.6, impact: 0.3, why: "Control units and wiring"}
+  - {from: powertrain, to: software_hmi, likelihood: 0.7, impact: 0.2, why: "Drive modes, energy displays"}
+  - {from: powertrain, to: chassis, likelihood: 0.4, impact: 0.2, why: "Axle loads and drive shafts"}
+  - {from: body_structure, to: interior_console, likelihood: 0.5, impact: 0.3, why: "Interior parts are fixed to the body in white"}
+  - {from: body_structure, to: exterior_design, likelihood: 0.4, impact: 0.3, why: "Outer skin follows the structure"}
+  - {from: body_structure, to: chassis, likelihood: 0.5, impact: 0.4, why: "Axle mounting points and wheelbase"}
+  - {from: ee_architecture, to: software_hmi, likelihood: 0.8, impact: 0.4, why: "Software runs on and talks through the E/E architecture"}
+  - {from: thermal_hvac, to: ee_architecture, likelihood: 0.4, impact: 0.2, why: "Climate control units and actuators"}
+  - {from: chassis, to: body_structure, likelihood: 0.3, impact: 0.2, why: "Mounting points"}
+  - {from: software_hmi, to: ee_architecture, likelihood: 0.2, impact: 0.1, why: "Rarely: more compute or bandwidth"}
+  - {from: exterior_design, to: ee_architecture, likelihood: 0.4, impact: 0.1, why: "Lights, sensors behind the skin"}
+  - {from: exterior_design, to: body_structure, likelihood: 0.2, impact: 0.1, why: "Mounting points of skin parts"}
+  - {from: interior_console, to: ee_architecture, likelihood: 0.4, impact: 0.1, why: "Switches, 12 V supply, buses"}
+  - {from: interior_console, to: thermal_hvac, likelihood: 0.2, impact: 0.1, why: "Vents and air ducts"}
+  - {from: interior_console, to: software_hmi, likelihood: 0.6, impact: 0.1, why: "Menus and settings for new functions"}
+  - {from: interior_console, to: seats, likelihood: 0.3, impact: 0.2, why: "Package space between console and seats"}
+  - {from: seats, to: ee_architecture, likelihood: 0.5, impact: 0.1, why: "Seat control units and supply"}
+  - {from: seats, to: thermal_hvac, likelihood: 0.5, impact: 0.15, why: "Seat ventilation / climate integration"}
+  - {from: seats, to: software_hmi, likelihood: 0.6, impact: 0.1, why: "Seat settings and profiles"}
+  - {from: paint_color, to: exterior_design, likelihood: 0.1, impact: 0.05, why: "Colour and trim combinations"}
+
+# Rule 46: fixed testing / certification add-on (crash, emission, range re-tests), once per package.
+certification:
+  add_on: 12
+  trigger_subsystems: [body_structure, hv_battery, powertrain]
+  min_own_impact: 0.3
+
+# Rule 43: multiplier on the first-hop likelihoods when the feature already exists in the
+# portfolio or the platform was prepared for it (interfaces already designed).
+carryover_factor: 0.3
+
+# The link likelihoods describe a change of the usual size of a module change (own impact about
+# 0.3, the smallest anchor of the back-test). A smaller change propagates proportionally less:
+# its first-hop likelihoods are scaled by own_impact / 0.3. Without this, a 3 % calibration
+# propagates as far as a redesign (found when the requirement profiles were first estimated).
+propagation_reference_impact: 0.3
+
+# Rules 42 / 47: replacing a platform subsystem (almost) completely without carryover is a K3
+# change and means a new generation regardless of the score. A change that matches this rule
+# must be authored as K3; the import refuses anything lower.
+platform_rule:
+  subsystems: [body_structure, hv_battery, powertrain, ee_architecture]
+  min_own_impact: 0.8
+
+# Rule 47 thresholds in % of a new vehicle (PM-editable).
+thresholds: {major_revision: 15, new_generation: 50}
+
+# K0 (configuration: standard content, package, OTA activation of existing hardware) does not
+# propagate; its own impact must stay small.
+k0_max_own_impact: 0.1
+
+max_path_length: 3
+
+# T-shirt sizes for the PM workspace (upper bound, exclusive); everything above L is XL.
+sizes: {XS: 1, S: 5, M: 15, L: 50}
+
+# Per-vehicle applicability. Subsystems listed as absent are removed and the weights renormalised
+# to 100 for that vehicle; a change that starts in an absent subsystem is refused (it would be a
+# new powertrain concept for that car, i.e. a new generation).
+vehicles:
+  F70:
+    platform: FAAR (front-wheel-drive compact)
+    absent: [hv_battery, charging]
+    note: >-
+      All F70 variants in the German catalogue are ICE or 48 V MHEV. The link matrix was written
+      for CLAR and is reused as an assumption; FAAR-specific links are not calibrated.
+  G60: {platform: CLAR}
+  G68: {platform: CLAR, note: China long-wheelbase derivative of G60 (Dadong)}
+  G70: {platform: CLAR}

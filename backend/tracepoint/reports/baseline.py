@@ -63,8 +63,13 @@ def _pick_quotes(verbatims: list[Verbatim], n: int = 3) -> list[dict[str, Any]]:
 
 
 def build_baseline(
-    session: Session, vehicle_code: str, market_code: str | None = None
+    session: Session,
+    vehicle_code: str,
+    market_code: str | None = None,
+    country_code: str | None = None,
 ) -> dict[str, Any]:
+    """``country_code`` narrows the customer verbatims only; study metrics, equipment and sales
+    exist per market."""
     vehicle = session.get(Vehicle, vehicle_code)
     if vehicle is None:
         raise ValueError(f"unknown vehicle {vehicle_code}")
@@ -74,6 +79,8 @@ def build_baseline(
     stmt = select(Verbatim).where(Verbatim.vehicle_code == vehicle_code)
     if market_code:
         stmt = stmt.where(Verbatim.market_code == market_code)
+    if country_code:
+        stmt = stmt.where(Verbatim.country_code == country_code)
     verbatims = list(session.scalars(stmt))
     v_ids = {v.id for v in verbatims}
     by_id = {v.id: v for v in verbatims}

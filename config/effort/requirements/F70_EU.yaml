@@ -1,0 +1,67 @@
+# Change profiles for the F70 EU requirements (config/requirements/F70_EU.yaml). See the header of
+# G60_US.yaml for the scale of own_impact. The F70 has no HV battery and no charging subsystem
+# (ICE / MHEV only), so its weights are renormalised without them (config/effort/model.yaml).
+vehicle: F70
+market: EU
+author: assistant
+profiles:
+  - requirement: REQ-F70-EU-ID-01
+    changes:
+      - {subsystem: interior_console, own_impact: 0.25, layer: K2, carryover: true, why: "New console with physical climate keys and a rotary controller; the iDrive Controller is standard on G60 and G70 (not listed as a catalogue item)"}
+      - {subsystem: software_hmi, own_impact: 0.08, layer: K2, why: "Controller support in an OS that was built touch-first"}
+  - requirement: REQ-F70-EU-ID-02
+    changes:
+      - {subsystem: software_hmi, own_impact: 0.08, layer: K1, why: "Stability fixes and settings migration across OTA updates"}
+  - requirement: REQ-F70-EU-ID-03
+    kind: no_vehicle_change
+    note: Offer and licensing decision; no hardware or software change.
+  - requirement: REQ-F70-EU-ID-04
+    changes:
+      - {subsystem: software_hmi, own_impact: 0.02, layer: K0, why: "Searchable in-car manual filtered by fitted equipment; the printed handbook is not a vehicle change"}
+  - requirement: REQ-F70-EU-ID-05
+    changes:
+      - {subsystem: software_hmi, own_impact: 0.03, layer: K1, why: "Media player and USB mass-storage data path"}
+  - requirement: REQ-F70-EU-ID-06
+    changes:
+      - {subsystem: software_hmi, own_impact: 0.04, layer: K1, why: "Route preferences, road-class filter, zoom without the touch screen"}
+  - requirement: REQ-F70-EU-IC-01
+    changes:
+      - {subsystem: seats, own_impact: 0.2, layer: K1, carryover: true, why: "Foam, trim durability and a lumbar option; lumbar support is standard on the G60", portfolio_terms: [Lordosenstütze, Lumbar support]}
+  - requirement: REQ-F70-EU-IC-02
+    changes:
+      - {subsystem: thermal_hvac, own_impact: 0.02, layer: K0, why: "Dual zone as standard content and a display that matches the fitted zones", portfolio_terms: [2-Zonen, 2-zone]}
+      - {subsystem: interior_console, own_impact: 0.1, layer: K2, why: "Rear air vents need ducts through the centre console"}
+  - requirement: REQ-F70-EU-IC-03
+    changes:
+      - {subsystem: interior_console, own_impact: 0.05, layer: K1, why: "Light guides and default brightness"}
+  - requirement: REQ-F70-EU-DD-01
+    changes:
+      - {subsystem: chassis, own_impact: 0.15, layer: K1, carryover: true, why: "Comfort damper tuning; adaptive suspension exists on the M variants", portfolio_terms: [Adaptive M suspension, Adaptives M Fahrwerk]}
+  - requirement: REQ-F70-EU-DD-02
+    kind: preserve
+    note: Protects today's handling and fuel economy for the successor; no change to estimate.
+  - requirement: REQ-F70-EU-PR-01
+    changes:
+      - {subsystem: powertrain, own_impact: 0.05, layer: K1, why: "Engine, MHEV and dual-clutch launch calibration"}
+  - requirement: REQ-F70-EU-SP-01
+    changes:
+      - {subsystem: interior_console, own_impact: 0.05, layer: K1, why: "Tie-down points, 12 V socket, parcel shelf holder"}
+      - {subsystem: exterior_design, own_impact: 0.03, layer: K1, why: "Close button on the power tailgate"}
+  - requirement: REQ-F70-EU-DA-01
+    changes:
+      - {subsystem: software_hmi, own_impact: 0.03, layer: K1, why: "One-press off per drive within EU regulation, emergency-brake false positives"}
+  - requirement: REQ-F70-EU-EX-01
+    changes:
+      - {subsystem: exterior_design, own_impact: 0.05, layer: K1, why: "Lighting fault fixes; mirror kerb tilt and auto fold motors"}
+      - {subsystem: software_hmi, own_impact: 0.02, layer: K0, why: "Mirror functions in the settings"}
+  - requirement: REQ-F70-EU-EX-02
+    changes:
+      - {subsystem: exterior_design, own_impact: 0.05, layer: K1, why: "Easy-clean, corrosion-resistant wheel designs"}
+      - {subsystem: chassis, own_impact: 0.03, layer: K1, why: "Quieter standard tyre sourcing"}
+  - requirement: REQ-F70-EU-QN-01
+    changes:
+      - {subsystem: interior_console, own_impact: 0.05, layer: K1, why: "Trim fixings against rattles"}
+      - {subsystem: body_structure, own_impact: 0.05, layer: K1, why: "Sealing and damping material (acoustic package)"}
+  - requirement: REQ-F70-EU-GE-01
+    changes:
+      - {subsystem: interior_console, own_impact: 0.03, layer: K0, why: "Standard-content decision for items the platform still carries; becomes K1 if the hardware was dropped from the F70 harness"}

@@ -14,8 +14,8 @@ import re
 import time
 from collections.abc import Callable
 from concurrent.futures import ThreadPoolExecutor
-from dataclasses import dataclass, field
-from datetime import UTC, datetime
+from dataclasses import dataclass, field, replace
+from datetime import UTC, datetime, timedelta
 from typing import Any, Protocol, TypeVar
 
 from pydantic import BaseModel, ValidationError
@@ -31,7 +31,10 @@ T = TypeVar("T", bound=BaseModel)
 
 
 class LlmError(RuntimeError):
-    """Base class for gateway errors."""
+    """Base class for gateway errors. ``response`` is set when the provider did answer (and
+    billed) but the answer is unusable."""
+
+    response: ProviderResponse | None = None
 
 
 class LlmRetryableError(LlmError):
@@ -58,6 +61,12 @@ class LlmRequest:
     temperature: float | None = None
     max_output_tokens: int = 1024
     metadata: dict[str, Any] = field(default_factory=dict)
+    # Agent turns that follow ``user``, in a provider-neutral form:
+    #   {"role": "assistant", "content": str, "tool_calls": [{"id", "name", "arguments"}]}
+    #   {"role": "tool", "tool_call_id": str, "content": str}  /  {"role": "user", "content": str}
+    history: tuple[dict[str, Any], ...] = ()
+    tools: tuple[dict[str, Any], ...] = ()  # entries of agent.tools.tool_schemas()
+    allow_tool_calls: bool = True  # False: the tools stay declared but the model must answer
 
 
 @dataclass
@@ -68,6 +77,7 @@ class ProviderResponse:
     cached_tokens: int | None = None
     output_tokens: int | None = None
     finish_reason: str | None = None
+    tool_calls: list[dict[str, Any]] = field(default_factory=list)
 
 
 @dataclass
@@ -82,6 +92,7 @@ class LlmResult:
     cached: bool
     llm_call_id: int | None
     input_hash: str
+    tool_calls: list[dict[str, Any]] = field(default_factory=list)
 
 
 class Provider(Protocol):
@@ -98,6 +109,9 @@ class Provider(Protocol):
         temperature: float,
         max_output_tokens: int,
         timeout: float,
+        history: tuple[dict[str, Any], ...] = (),
+        tools: tuple[dict[str, Any], ...] = (),
+        allow_tool_calls: bool = True,
     ) -> ProviderResponse: ...
 
 
@@ -122,15 +136,54 @@ class OpenAIProvider:
         temperature: float,
         max_output_tokens: int,
         timeout: float,
+        history: tuple[dict[str, Any], ...] = (),
+        tools: tuple[dict[str, Any], ...] = (),
+        allow_tool_calls: bool = True,
     ) -> ProviderResponse:
         import openai
 
+        messages: list[dict[str, Any]] = [
+            {"role": "system", "content": system},
+            {"role": "user", "content": user},
+        ]
+        for turn in history:
+            if turn.get("tool_calls"):
+                turn = {
+                    "role": "assistant",
+                    "content": turn.get("content") or None,
+                    "tool_calls": [
+                        {
+                            "id": c["id"],
+                            "type": "function",
+                            "function": {
+                                "name": c["name"],
+                                "arguments": json.dumps(c["arguments"] or {}),
+                            },
+                        }
+                        for c in turn["tool_calls"]
+                    ],
+                }
+            messages.append(turn)
         kwargs: dict[str, Any] = {
             "model": model,
-            "messages": [{"role": "system", "content": system}, {"role": "user", "content": user}],
+            "messages": messages,
             "max_completion_tokens": max_output_tokens,
             "timeout": timeout,
         }
+        if tools:
+            kwargs["tools"] = [
+                {
+                    "type": "function",
+                    "function": {
+                        "name": t["name"],
+                        "description": t["description"],
+                        "parameters": t["input_schema"],
+                    },
+                }
+                for t in tools
+            ]
+            if not allow_tool_calls:
+                kwargs["tool_choice"] = "none"
         if temperature is not None:
             kwargs["temperature"] = temperature
         if schema is not None:
@@ -156,11 +209,29 @@ class OpenAIProvider:
             cached_tokens=getattr(details, "cached_tokens", None) if details else None,
             output_tokens=getattr(usage, "completion_tokens", None) if usage else None,
             finish_reason=getattr(choice, "finish_reason", None),
+            tool_calls=[
+                {
+                    "id": c.id,
+                    "name": c.function.name,
+                    "arguments": _json_object(c.function.arguments),
+                }
+                for c in (choice.message.tool_calls or [])
+            ],
         )
 
 
+def _json_object(text: str) -> dict[str, Any] | None:
+    """Tool arguments as a dict; None when the model wrote something else."""
+    try:
+        value = json.loads(text or "{}")
+    except json.JSONDecodeError:
+        return None
+    return value if isinstance(value, dict) else None
+
+
 class FakeProvider:
-    """Deterministic provider for tests and dry runs. ``responder`` maps a request to JSON."""
+    """Deterministic provider for tests and dry runs. ``responder`` maps a request to JSON, or
+    to a ``ProviderResponse`` when the test needs tool calls."""
 
     name = "fake"
 
@@ -174,6 +245,8 @@ class FakeProvider:
     def complete(self, **kwargs: Any) -> ProviderResponse:
         self.calls.append(kwargs)
         payload = self._responder(kwargs)
+        if isinstance(payload, ProviderResponse):
+            return payload
         text = payload if isinstance(payload, str) else json.dumps(payload, ensure_ascii=False)
         return ProviderResponse(
             text=text,
@@ -190,7 +263,9 @@ def make_provider(settings: Settings | None = None) -> Provider:
     if settings.llm_provider == "openai":
         if not settings.openai_api_key:
             raise LlmError("TRACEPOINT_OPENAI_API_KEY is not set; use --dry-run or a FakeProvider")
-        return OpenAIProvider(settings.openai_api_key, settings.openai_base_url)
+        # An empty TRACEPOINT_OPENAI_BASE_URL= line in .env arrives as "", which the client
+        # would take literally; treat it as unset.
+        return OpenAIProvider(settings.openai_api_key, settings.openai_base_url or None)
     raise LlmError(f"unknown LLM provider {settings.llm_provider!r}")
 
 
@@ -242,6 +317,10 @@ class LlmGateway:
             if req.temperature is not None
             else self.settings.llm_temperature,
         }
+        if req.history or req.tools:  # only then, so the hashes of plain requests stay the same
+            payload["history"] = list(req.history)
+            payload["tools"] = list(req.tools)
+            payload["allow_tool_calls"] = req.allow_tool_calls
         return hashlib.sha256(
             json.dumps(payload, sort_keys=True, ensure_ascii=False).encode("utf-8")
         ).hexdigest()
@@ -259,6 +338,14 @@ class LlmGateway:
         total = self.session.scalar(
             select(func.coalesce(func.sum(LlmCall.cost_estimate_usd), 0.0)).where(
                 LlmCall.run_id == self.run_id
+            )
+        )
+        return float(total or 0.0)
+
+    def day_spent_usd(self) -> float:
+        total = self.session.scalar(
+            select(func.coalesce(func.sum(LlmCall.cost_estimate_usd), 0.0)).where(
+                LlmCall.created_at >= datetime.now(UTC) - timedelta(hours=24)
             )
         )
         return float(total or 0.0)
@@ -305,8 +392,16 @@ class LlmGateway:
                 "user": req.user,
                 "schema_name": req.schema_name,
                 "metadata": req.metadata,
+                "history": list(req.history),
+                "tools": [t["name"] for t in req.tools],
             },
-            response={"text": resp.text, "finish_reason": resp.finish_reason} if resp else None,
+            response={
+                "text": resp.text,
+                "finish_reason": resp.finish_reason,
+                "tool_calls": resp.tool_calls,
+            }
+            if resp
+            else None,
             status=status,
             error=error,
             latency_ms=latency_ms,
@@ -330,8 +425,10 @@ class LlmGateway:
         if use_cache:
             hit = self.cached_call(ihash)
             if hit is not None and hit.response:
+                tool_calls = hit.response.get("tool_calls") or []
                 return LlmResult(
-                    parsed=self._parse(hit.response["text"], schema_model),
+                    tool_calls=tool_calls,
+                    parsed=None if tool_calls else self._parse(hit.response["text"], schema_model),
                     text=hit.response["text"],
                     model=hit.model,
                     input_tokens=hit.input_tokens,
@@ -342,22 +439,21 @@ class LlmGateway:
                     llm_call_id=hit.id,
                     input_hash=ihash,
                 )
-        resp = self._call_with_retries(req, model, schema, ihash)
+        resp = self._billed_call(req, model, schema, ihash)
         parsed = None
         attempts_total = 1
         try:
-            parsed = self._parse(resp.text, schema_model)
+            parsed = self._parse_billed(req, model, ihash, resp, schema_model)
         except LlmSchemaError as exc:
-            # one repair attempt with the validation error appended to the user message
-            repair = LlmRequest(
-                **{
-                    **req.__dict__,
-                    "user": req.user
-                    + f"\n\nThe previous answer was not valid for the schema ({exc}). Return only valid JSON for the schema.",
-                }
+            # one repair attempt with the validation error sent back as the latest user text
+            note = f"The previous answer was not valid for the schema ({exc}). Return only valid JSON for the schema."
+            repair = (
+                replace(req, history=(*req.history, {"role": "user", "content": note}))
+                if req.history
+                else replace(req, user=f"{req.user}\n\n{note}")
             )
-            resp = self._call_with_retries(repair, model, schema, ihash)
-            parsed = self._parse(resp.text, schema_model)
+            resp = self._billed_call(repair, model, schema, ihash)
+            parsed = self._parse_billed(repair, model, ihash, resp, schema_model)
             attempts_total = 2
         latency = int(resp.__dict__.get("_latency_ms", 0))
         row = self._record(
@@ -381,6 +477,7 @@ class LlmGateway:
             cached=False,
             llm_call_id=row.id,
             input_hash=ihash,
+            tool_calls=resp.tool_calls,
         )
 
     def complete_many(
@@ -437,7 +534,7 @@ class LlmGateway:
                     req,
                     model,
                     ihash,
-                    None,
+                    getattr(resp, "response", None),
                     status="error",
                     error=str(resp)[:2000],
                     latency_ms=0,
@@ -486,12 +583,67 @@ class LlmGateway:
 
     # ---- internals ----------------------------------------------------------------------------
 
+    def _parse_billed(
+        self,
+        req: LlmRequest,
+        model: str,
+        ihash: str,
+        resp: ProviderResponse,
+        schema_model: type[T] | None,
+    ) -> Any:
+        """Parse an answer; one that is invalid for the schema was billed all the same and is
+        logged with its cost before the error goes on (first answer and repair alike)."""
+        if resp.tool_calls:  # a turn that calls tools carries no answer to parse yet
+            return None
+        try:
+            return self._parse(resp.text, schema_model)
+        except LlmSchemaError as exc:
+            self._record(
+                req, model, ihash, resp, status="error", error=str(exc), latency_ms=0, attempts=1
+            )
+            raise
+
+    def _billed_call(
+        self, req: LlmRequest, model: str, schema: dict[str, Any] | None, ihash: str
+    ) -> ProviderResponse:
+        """Provider call whose unusable but billed answer is logged before the error goes on."""
+        try:
+            return self._call_with_retries(req, model, schema, ihash)
+        except LlmError as exc:
+            if exc.response is not None:
+                self._record(
+                    req,
+                    model,
+                    ihash,
+                    exc.response,
+                    status="error",
+                    error=str(exc),
+                    latency_ms=0,
+                    attempts=1,
+                )
+            raise
+
     def _call_with_retries(
         self, req: LlmRequest, model: str, schema: dict[str, Any] | None, ihash: str | None
     ) -> ProviderResponse:
         cap = self.settings.llm_max_cost_usd_per_run
+        day_cap = self.settings.llm_max_cost_usd_per_day
+        if (
+            (cap or day_cap)
+            and not isinstance(self.provider, FakeProvider)
+            and estimate_cost_usd(model, 0, 0, 0) is None
+        ):
+            raise LlmError(
+                f"model {model!r} has no price in config/llm/pricing.yaml, so the cost caps "
+                "cannot count it; add its price or set both caps to 0"
+            )
         if cap and self.run_spent_usd() >= cap:
             raise LlmBudgetExceeded(f"run cost cap of USD {cap} reached")
+        if day_cap and self.day_spent_usd() >= day_cap:
+            raise LlmBudgetExceeded(
+                f"cost cap of USD {day_cap} per 24 hours reached "
+                "(TRACEPOINT_LLM_MAX_COST_USD_PER_DAY)"
+            )
         temperature = (
             req.temperature if req.temperature is not None else self.settings.llm_temperature
         )
@@ -508,10 +660,15 @@ class LlmGateway:
                     temperature=temperature,
                     max_output_tokens=req.max_output_tokens,
                     timeout=self.settings.llm_timeout_seconds,
+                    history=req.history,
+                    tools=req.tools,
+                    allow_tool_calls=req.allow_tool_calls,
                 )
                 resp.__dict__["_latency_ms"] = int((time.monotonic() - started) * 1000)
                 if resp.finish_reason == "length":
-                    raise LlmError("provider answer truncated (max_output_tokens too small)")
+                    exc = LlmError("provider answer truncated (max_output_tokens too small)")
+                    exc.response = resp  # billed all the same: the caller logs it with its cost
+                    raise exc
                 return resp
             except LlmRetryableError as exc:
                 last_error = exc
