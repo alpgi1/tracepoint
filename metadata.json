@@ -1,0 +1,32 @@
+{
+  "cli_version": "0.11.4",
+  "checkpoint_id": "01M4M8A378V78YQ7E8SQ8H91WD",
+  "strategy": "manual-commit",
+  "branch": "claude/backend-classification-agent-requirements",
+  "checkpoints_count": 1,
+  "files_touched": [
+    "backend/tests/test_audit_and_api.py",
+    "backend/tests/test_llm_gateway.py",
+    "backend/tracepoint/api/app.py",
+    "backend/tracepoint/llm/gateway.py",
+    "config/llm/pricing.yaml",
+    "plan/decisions.md",
+    "reports/step-13-analyst-agent-loop.md"
+  ],
+  "sessions": [
+    {
+      "metadata": "/0/metadata.json",
+      "transcript": "/0/full.jsonl",
+      "compact_transcript": "/0/transcript.jsonl",
+      "content_hash": "/0/content_hash.txt",
+      "prompt": "/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 8,
+    "cache_creation_tokens": 12332,
+    "cache_read_tokens": 1242687,
+    "output_tokens": 10358,
+    "api_call_count": 4
+  }
+}
