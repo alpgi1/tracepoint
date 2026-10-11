@@ -54,15 +54,35 @@ they dislike, and the market competition analysis of the selected model for that
   return of focus; the forbidden-text scan leaves quoted verbatims out (exemption E5). Four
   dialog states were added to the screenshots.
 
+## 2a. Revision 2 the same day: three bands (D-065)
+
+The team found the dialog too long and sketched three sections: Liked and Disliked, each with a
+heading, a suggestion in one sentence, a summary in a few sentences and a chart of the themes
+(bars rising for likes, hanging for dislikes); and Market analysis below. Built as sketched:
+
+* The quote lists and the facts list are gone; the header carries the weight and the rows.
+* **Suggestion and summary** are template sentences derived from the counts and the finding
+  rules (`config/findings/findings.yaml`): Liked names the themes that meet the strength rule
+  (at least 15 likes and 70 % of the theme's rows) or says none does; Disliked names the theme
+  to address first with its figures, the dominant type and whether it is a recurring complaint
+  or an unmet need. The content marks them `basis: derived`; the backend's agent writes the same
+  fields later. Every sentence names its rule and its figures, so it is checkable on the spot.
+* **Columns**: one series in the one blue, 20 px, rounded at the data end, values on the caps
+  and names in ink, six slots in every chart. The sketch's green and red were not taken: a
+  second and third accent would break D-039 and colour alone may not carry information; the
+  direction and the heading carry the polarity. If the team wants the two hues, it is two tokens.
+* The market band keeps the sourced statements as a compact list beside a count line.
+* All three bands fit a 1440 by 900 viewport without scrolling.
+
 ## 3. What was verified
 
 | Check | Result |
 |---|---|
-| `pnpm check` (lint, typecheck, 16 tests, build) | Clean |
+| `pnpm check` (lint, typecheck, 17 tests, build) | Clean, after revision 2 as well |
 | `pnpm audit:pages` on `/` and the seven vehicle pages | 0 findings; 13 keyboard stops on vehicle pages (Map and the twelve rows); 2 stops in the dialog where market rows exist (Close, the source link), 1 otherwise; Escape closes and focus returns to the row |
 | Counts against the baseline reports | Classified rows equal per scope (G60 US 3,853; G70 US 3,867; F70 EU 2,191; G60 EU 165); every top complaint theme of `markets.json` matches in rows, complaints and defects (test) |
-| Page weight | Vehicle page HTML 29 KB (China) to 115 KB (US G60), of which the subsystem view is 2 to 78 KB; `content/cpm.json` 353 KB stays on the server |
-| Screenshots (`frontend/docs/screenshots/`, 18 states, 4 new) | The list on EU F70, US G70 with a hovered row, CN G68; the dialog for US G60 Software / HMI, US G60 Powertrain scrolled to the market table, CN G68 Interior / console (no verbatims, the fridge row with its contradiction), EU F70 Seats at 1920 px |
+| Page weight | Vehicle page HTML 30 KB (China) to 124 KB (US G60), of which the subsystem view is 3 to 86 KB (the quotes, unused by the dialog's second revision, are the larger part); `content/cpm.json` 400 KB stays on the server |
+| Screenshots (`frontend/docs/screenshots/`, 18 states, 4 new) | The list on EU F70, US G70 with a hovered row, CN G68; the dialog for US G60 Software / HMI, US G60 Powertrain (with a market row), CN G68 Interior / console (no verbatims, the fridge row with its contradiction), EU F70 Seats at 1920 px |
 | Forbidden-list checklist (section 8) | Passed: every figure is a reconciled count or a sourced row; assumptions are called assumptions on screen; one accent, hairlines, no gradient, glow, glass, chips or labels; motion on click only and none under reduced motion; verbatims as written under E5 |
 
 ## 4. Figures on screen (from `content/cpm.json`)
@@ -94,11 +114,13 @@ D-062 to D-064 in `plan/decisions.md`; exemption E5 in the forbidden list.
 4. **Market evidence exists for four pairs** (EU, CN, US Powertrain; CN Interior / console); the
    other 32 say that no source is registered. Phase 2 research agents append to
    `config/cpm/market_context.yaml` with the same fields.
-5. **The dialog's data travels with the page** (up to 78 KB). When the backend endpoint exists,
-   `lib/content/cpm.ts` is the one module to swap; fetching the view on open would also cut the
-   page weight.
-6. **Quotes are the first two by verbatim id** among the readable candidates; ranking by
-   informativeness (or the agent's choice) is a later step.
+5. **The dialog's data travels with the page** (up to 86 KB, most of it the quotes the second
+   revision does not show). When the backend endpoint exists, `lib/content/cpm.ts` is the one
+   module to swap; fetching the view on open, or dropping the quotes from the page payload until
+   the evidence drawer needs them, would cut the page weight.
+6. **The suggestion and summary are derived template text.** They are honest and checkable but
+   plain; the agent's narration replaces them in the same fields. Quotes stay in the content
+   (the first two by verbatim id among the readable candidates) for the later evidence drawer.
 7. The three team documents supplied in the session (effort metrics pitch, rule set v0.2, effort
    rules 41 to 52) and `cost/cpm_engine.py` are referenced, not committed; the backend team
    commits the engine with its integration.

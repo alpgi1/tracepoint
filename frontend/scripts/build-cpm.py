@@ -6,7 +6,10 @@ theme-to-subsystem mapping (config/cpm/theme_subsystem_map.yaml), the market and
 evidence (config/cpm/market_context.yaml), the customer domains, the feedback workbooks under
 docs/ and the vehicle × market pairs of frontend/content/markets.json, and writes
 frontend/content/cpm.json: per vehicle × market, every subsystem's rows, likes and complaints,
-the themes customers like and criticise with two verbatims each, and the market rows.
+the themes customers like and criticise with two verbatims each, a derived one-sentence
+suggestion and a few-sentence summary per block (template text from the counts and the finding
+rules of config/findings/findings.yaml; the backend's agent replaces it in the same fields), and
+the market rows.
 
 Counting follows the baseline reports (reports/baseline/*.json): one classification row per
 workbook row with a canonical level-2 theme; the script checks its totals against the baselines
@@ -97,6 +100,57 @@ def pick_quotes(cands: list[dict]) -> list[dict]:
     ]
 
 
+def join_names(names: list[str]) -> str:
+    if len(names) <= 1:
+        return "".join(names)
+    return ", ".join(names[:-1]) + " and " + names[-1]
+
+
+def liked_narration(liked: list[tuple[str, dict]], likes: int, rows: int, n_themes: int, rules: dict) -> dict | None:
+    """Template text from the counts and the strength rule (finding config), basis 'derived'."""
+    if rows == 0:
+        return None
+    min_rows, min_share = rules["min_strength_rows"], rules["min_strength_share"]
+    strengths = [(n, t) for n, t in liked if t["likes"] >= min_rows and t["likes"] / t["rows"] >= min_share][:3]
+    rule = f"at least {min_rows} likes and {min_share:.0%} of its rows"
+    if strengths:
+        share = min(t["likes"] / t["rows"] for _, t in strengths)
+        share_text = f"{share:.0%} of its rows are likes" if len(strengths) == 1 else f"{share:.0%} or more of their rows are likes"
+        suggestion = f"Keep {join_names([n for n, _ in strengths])}: {share_text} (strength rule: {rule})."
+    elif likes == 0:
+        suggestion = "No likes recorded in this subsystem; nothing is flagged to keep."
+    else:
+        suggestion = f"No theme meets the strength rule ({rule}), so nothing in this subsystem is flagged to keep."
+    parts = [f"{likes:,} likes in {rows:,} rows across {n_themes} theme{'s' if n_themes != 1 else ''}."]
+    if liked:
+        n0, t0 = liked[0]
+        lead = f"{n0} leads with {t0['likes']:,} likes of {t0['rows']:,} rows"
+        rest = [f"{n} ({t['likes']:,} of {t['rows']:,})" for n, t in liked[1:3]]
+        parts.append(lead + (", then " + join_names(rest) if rest else "") + ".")
+    return {"suggestion": suggestion, "summary": " ".join(parts), "basis": "derived"}
+
+
+def criticised_narration(criticised: list[tuple[str, dict]], complaints: int, rows: int, totals: dict, rules: dict) -> dict | None:
+    """Template text from the counts and the unmet-need rule (finding config), basis 'derived'."""
+    if rows == 0:
+        return None
+    if not criticised:
+        return {"suggestion": "No complaints recorded in this subsystem.", "summary": f"{rows:,} rows, none of them a complaint.", "basis": "derived"}
+    n0, t0 = criticised[0]
+    kinds = {"defects": t0["defects"], "difficult to use": t0["difficultToUse"], "wants": t0["wants"]}
+    dominant = max(kinds, key=lambda k: kinds[k])
+    kind = "an unmet need" if t0["wants"] / t0["complaints"] >= rules["unmet_need_wants_share"] else "a recurring complaint"
+    suggestion = f"Address {n0} first: {t0['complaints']:,} complaints of {t0['rows']:,} rows, mostly {dominant} ({kind})."
+    top = criticised[:3]
+    share = sum(t["complaints"] for _, t in top) / complaints
+    summary = (
+        f"{complaints:,} complaints in {rows:,} rows: {totals['defects']:,} defects, {totals['difficultToUse']:,} difficult to use, {totals['wants']:,} wants. "
+        f"{join_names([f"{n} ({t['complaints']:,})" for n, t in top])} "
+        f"carr{'ies' if len(top) == 1 else 'y'} {share:.0%} of them."
+    )
+    return {"suggestion": suggestion, "summary": summary, "basis": "derived"}
+
+
 def main() -> None:
     cpm = load_yaml(ROOT / "config" / "cpm" / "subsystems.yaml")
     mapping = load_yaml(ROOT / "config" / "cpm" / "theme_subsystem_map.yaml")
@@ -107,6 +161,7 @@ def main() -> None:
     markets_cfg = load_yaml(ROOT / "config" / "markets.yaml")
     country_market = {code: c["market"] for code, c in markets_cfg["countries"].items()}
     markets = json.loads((ROOT / "frontend" / "content" / "markets.json").read_text(encoding="utf-8"))
+    finding_rules = load_yaml(ROOT / "config" / "findings" / "findings.yaml")["voice_of_customer"]
 
     subsystems = cpm["subsystems"]
     keys = [s["key"] for s in subsystems]
@@ -177,24 +232,34 @@ def main() -> None:
                 themes = per_sub[key]
                 liked = sorted(((n, t) for n, t in themes.items() if t["likes"] > 0), key=lambda nt: (-nt[1]["likes"], nt[0]))[:MAX_THEMES]
                 criticised = sorted(((n, t) for n, t in themes.items() if t["complaints"] > 0), key=lambda nt: (-nt[1]["complaints"], nt[0]))[:MAX_THEMES]
+                sub_rows = sum(t["rows"] for t in themes.values())
+                sub_likes = sum(t["likes"] for t in themes.values())
+                sub_complaints = sum(t["complaints"] for t in themes.values())
+                totals = {k: sum(t[k] for t in themes.values()) for k in ("defects", "difficultToUse", "wants")}
                 entries.append({
                     "key": key,
-                    "rows": sum(t["rows"] for t in themes.values()),
-                    "likes": sum(t["likes"] for t in themes.values()),
-                    "complaints": sum(t["complaints"] for t in themes.values()),
+                    "rows": sub_rows,
+                    "likes": sub_likes,
+                    "complaints": sub_complaints,
                     "themes": len(themes),
-                    "liked": [
-                        {"theme": n, "domain": theme_domain.get(n, "general"), "rows": t["rows"], "likes": t["likes"], "quotes": pick_quotes(t["likeQuotes"])}
-                        for n, t in liked
-                    ],
-                    "criticised": [
-                        {
-                            "theme": n, "domain": theme_domain.get(n, "general"), "rows": t["rows"], "complaints": t["complaints"],
-                            "defects": t["defects"], "difficultToUse": t["difficultToUse"], "wants": t["wants"],
-                            "quotes": pick_quotes(t["complaintQuotes"]),
-                        }
-                        for n, t in criticised
-                    ],
+                    "liked": {
+                        "narration": liked_narration(liked, sub_likes, sub_rows, len(themes), finding_rules),
+                        "themes": [
+                            {"theme": n, "domain": theme_domain.get(n, "general"), "rows": t["rows"], "likes": t["likes"], "quotes": pick_quotes(t["likeQuotes"])}
+                            for n, t in liked
+                        ],
+                    },
+                    "criticised": {
+                        "narration": criticised_narration(criticised, sub_complaints, sub_rows, totals, finding_rules),
+                        "themes": [
+                            {
+                                "theme": n, "domain": theme_domain.get(n, "general"), "rows": t["rows"], "complaints": t["complaints"],
+                                "defects": t["defects"], "difficultToUse": t["difficultToUse"], "wants": t["wants"],
+                                "quotes": pick_quotes(t["complaintQuotes"]),
+                            }
+                            for n, t in criticised
+                        ],
+                    },
                     "market": [
                         {
                             "kind": c["kind"],
@@ -251,6 +316,7 @@ def main() -> None:
             "unassigned": sorted(unassigned),
         },
         "marketContextSource": "config/cpm/market_context.yaml (rules 31 to 36 of the team's rule set v0.2)",
+        "narrationSource": "suggestion and summary per block are template text derived from the counts and config/findings/findings.yaml (strength and unmet-need rules); basis 'derived' until the backend's agent writes them",
         "domains": {k: d["name"] for k, d in domains.items()},
         "views": views,
     }

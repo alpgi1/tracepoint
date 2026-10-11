@@ -58,6 +58,7 @@ export interface CpmCatalogue {
   subsystems: CpmSubsystem[];
   mapping: { source: string; themes: number; unassigned: string[] };
   marketContextSource: string;
+  narrationSource: string;
   domains: Record<DomainKey, string>;
 }
 
@@ -107,6 +108,24 @@ export interface CpmMarketRow {
   contradiction: { for: string; against: string } | null;
 }
 
+/**
+ * The one-sentence suggestion and the few-sentence summary of a block.
+ * `derived`: template text from the counts and the finding rules (the content
+ * build); `agent`: written by the backend's agent (same fields).
+ */
+export interface CpmNarration {
+  suggestion: string;
+  summary: string;
+  basis: "derived" | "agent";
+}
+
+export interface CpmBlock<T> {
+  /** Null where the market has no classified verbatims. */
+  narration: CpmNarration | null;
+  /** Up to six themes, ranked by likes or by complaints. */
+  themes: T[];
+}
+
 export interface CpmSubsystemView {
   key: CpmSubsystemKey;
   /** Classified verbatim rows whose theme maps to this subsystem. */
@@ -115,8 +134,8 @@ export interface CpmSubsystemView {
   complaints: number;
   /** Distinct themes with rows in this subsystem. */
   themes: number;
-  liked: CpmLikedTheme[];
-  criticised: CpmCriticisedTheme[];
+  liked: CpmBlock<CpmLikedTheme>;
+  criticised: CpmBlock<CpmCriticisedTheme>;
   market: CpmMarketRow[];
 }
 

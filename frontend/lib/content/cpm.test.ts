@@ -65,17 +65,42 @@ describe("CPM views", () => {
       for (const s of view.subsystems) {
         rows += s.rows;
         expect(s.likes + s.complaints).toBeLessThanOrEqual(s.rows);
-        for (const theme of [...s.liked, ...s.criticised]) {
+        for (const theme of [...s.liked.themes, ...s.criticised.themes]) {
           expect(theme.quotes.length).toBeLessThanOrEqual(2);
           for (const q of theme.quotes) {
             expect(q.evidenceRef).toBe(`verbatim:${q.id}`);
             expect(q.text.length).toBeGreaterThan(0);
           }
         }
-        for (const t of s.criticised) expect(t.defects + t.difficultToUse + t.wants).toBe(t.complaints);
+        for (const t of s.criticised.themes) expect(t.defects + t.difficultToUse + t.wants).toBe(t.complaints);
+        expect(s.liked.themes.length).toBeLessThanOrEqual(6);
+        expect(s.criticised.themes.length).toBeLessThanOrEqual(6);
+        for (let i = 1; i < s.liked.themes.length; i++) expect(s.liked.themes[i - 1].likes).toBeGreaterThanOrEqual(s.liked.themes[i].likes);
+        for (let i = 1; i < s.criticised.themes.length; i++) expect(s.criticised.themes[i - 1].complaints).toBeGreaterThanOrEqual(s.criticised.themes[i].complaints);
       }
       expect(rows + view.unassignedRows).toBe(view.rows);
       if (view.verbatims === 0) expect(view.rows).toBe(0);
+    }
+  });
+
+  it("carry a derived suggestion and summary wherever a subsystem has rows, none where it has not", () => {
+    for (const { market, vehicle } of pairs) {
+      const view = cpmView(vehicle.code, market.code);
+      for (const s of view?.subsystems ?? []) {
+        for (const block of [s.liked, s.criticised]) {
+          if (s.rows === 0) {
+            expect(block.narration).toBeNull();
+            continue;
+          }
+          expect(block.narration?.basis).toBe("derived");
+          expect(block.narration?.suggestion).toMatch(/\.$/);
+          expect(block.narration?.summary.length).toBeGreaterThan(20);
+          for (const text of [block.narration?.suggestion ?? "", block.narration?.summary ?? ""]) {
+            expect(text).not.toMatch(/[—–!{}]/);
+            expect(text).not.toMatch(/\bundefined\b|\bNaN\b|\bnull\b/);
+          }
+        }
+      }
     }
   });
 
@@ -84,7 +109,7 @@ describe("CPM views", () => {
     for (const { market, vehicle } of pairs) {
       const view = cpmView(vehicle.code, market.code);
       if (!view) continue;
-      const criticised = view.subsystems.flatMap((s) => s.criticised);
+      const criticised = view.subsystems.flatMap((s) => s.criticised.themes);
       for (const theme of vehicle.complaintThemes) {
         const here = criticised.find((t) => t.theme === theme.theme);
         if (!here) continue;

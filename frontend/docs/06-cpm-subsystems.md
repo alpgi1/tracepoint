@@ -3,7 +3,7 @@
 | Field | Value |
 |---|---|
 | Date | 2026-10-11, step 13 |
-| Status | Built and verified (D-062, D-063, D-064) |
+| Status | Built and verified (D-062, D-063, D-064); dialog revised to three bands the same day (D-065) |
 | Files | `config/cpm/subsystems.yaml`, `config/cpm/theme_subsystem_map.yaml`, `config/cpm/market_context.yaml` (inputs), `scripts/build-cpm.py` (pipeline), `content/cpm.json` (output), `lib/content/cpm-types.ts` (the contract), `lib/content/cpm.ts` (loader), `components/workspace/cpm-list.tsx`, `components/workspace/cpm-dialog.tsx`, `components/workspace/vehicle-workspace.tsx`, `lib/site.ts` (copy), `app/globals.css` (step 13 block), `lib/content/cpm.test.ts`, `tools/audit/page-audit.mjs` (dialog pass), `tools/audit/screenshots.mjs` |
 | Plan | `plan/07-frontend-plan.md` sections 4 to 7 |
 
@@ -48,9 +48,18 @@ a change is measured by how it propagates, not by counting changes).
    each: one per verbatim id, sources other than the survey (Source C) first, texts of 40 to 240
    characters, ordered by id, longer texts cut at 300 characters with an ellipsis as the backend
    does. Rows whose theme is unassigned are counted as `unassignedRows`.
-5. Writes `content/cpm.json` (seven views, about 350 KB). The vehicle page, a server component,
-   passes only its own view to the browser: the view is 2 KB (China, no verbatims) to 78 KB
-   (US G60) of the page's HTML, which measures 29 KB to 115 KB in total.
+5. Per block a **narration**: a one-sentence suggestion and a few-sentence summary as template
+   text from the counts and the finding rules of `config/findings/findings.yaml` (`basis:
+   derived`). Liked: the themes to keep by the strength rule (at least 15 likes and 70 % of the
+   theme's rows) or that none meets it; the leading three themes with their figures. Disliked:
+   the theme to address first with its figures, the dominant type, recurring complaint or unmet
+   need (wants at least half of the complaints); the complaint split and the share of the three
+   leading themes. Every sentence can be checked against the columns beside it. The backend's
+   agent writes the same two fields with `basis: agent`.
+6. Writes `content/cpm.json` (seven views, about 400 KB). The vehicle page, a server component,
+   passes only its own view to the browser: the view is 3 KB (China, no verbatims) to 86 KB
+   (US G60) of the page's HTML, which measures 30 KB to 124 KB in total; the quotes are the
+   larger part and are kept for the later evidence drawer.
 
 Cross-check in `lib/content/cpm.test.ts`: the theme figures agree with `content/markets.json`
 (rows, complaints, defects of every top complaint theme), likes plus complaints never exceed
@@ -66,7 +75,7 @@ classified verbatims" where the market has none, or "no theme mapped to this sub
 tints the row; nothing else moves. Markets without verbatims keep the list (weights are per
 platform) and the study card of step 07 below it.
 
-## 5. The dialog (`cpm-dialog.tsx`)
+## 5. The dialog (`cpm-dialog.tsx`, three bands since D-065)
 
 * **Native `dialog`, `showModal()`.** The browser provides the top layer, Escape, focus
   containment (the page behind is inert) and the return of focus to the row. The React state
@@ -74,22 +83,30 @@ platform) and the study card of step 07 below it.
   clears the state; a click on the backdrop (the dialog element itself) closes. Nothing is
   installed. The last shown subsystem stays rendered while the dialog fades out.
 * **Size.** `min(1280px, 100vw - 96px)` by `100vh - 96px`, centred; the backdrop is ink at a
-  third (`--veil`); `body:has(dialog[open])` stops the page from scrolling.
-* **Header, sticky.** The subsystem name (h2, the dialog's accessible name), vehicle, market and
-  verbatims; the Close control.
-* **Facts.** A hairline key-value list: weight with its note, scope, customer rows as "915 rows ·
-  608 complaints · 305 likes" with a two-segment partition bar, and "A change here propagates to"
-  the directly linked subsystems with likelihood and impact (effort rule 52), plus the
-  certification note for body, powertrain and battery.
-* **Likes and criticisms, side by side.** Themes with their domain, the figures, and the
-  verbatims as `blockquote` with the id, source and powertrain in mono. Empty states: "No
-  classified verbatims for this market yet.", "No likes recorded in this subsystem.", "No
-  complaints recorded in this subsystem."
-* **Market and competition, full width.** A hairline table: statement with its kind, source
-  (link, date, primary or secondary), evidence level, basis, note and the contradiction as "For"
-  and "Against". The footnote states how the level is set. Empty state: "No market or
-  competitor source for {market} is registered yet for this subsystem. Competitor and regional
-  sources are Phase 2 of the master plan."
+  third (`--veil`); `body:has(dialog[open])` stops the page from scrolling. The three bands fit
+  a 1440 by 900 viewport without scrolling.
+* **Header, sticky.** The subsystem name (h2, the dialog's accessible name); vehicle, market and
+  verbatims; the weight with its note and the rows in this subsystem; the Close control.
+* **Band Liked.** Left: the suggestion (what to keep, by the strength rule, or that nothing
+  meets it) and the summary. Right: columns rising from one baseline, likes per theme for the
+  six most liked themes, the value on each cap, the theme name beneath.
+* **Band Disliked.** Left: the suggestion (what to address first, its figures, the dominant
+  type, recurring complaint or unmet need) and the summary. Right: columns hanging under one
+  baseline, complaints per theme for the six most criticised themes, the name above, the value
+  beneath.
+* **Band Market analysis.** Left: a count line (statements, market and competitor) and how the
+  evidence level is set. Right: the sourced statements as a hairline list: statement with its
+  kind, the source as a link (44 px), date, primary or secondary, evidence level, basis, the
+  note, and a contradiction as For and Against. Empty state: "No market or competitor source for
+  {market} is registered yet for this subsystem. Competitor and regional sources are Phase 2 of
+  the master plan."
+* **Columns** (`ThemeBars`): one series in the one blue, 20 px wide, 4 px rounded data-end and
+  square at the baseline, a 96 px track scaled to the chart's maximum, six slots always so the
+  pitch and the baseline are the same in every chart, values and names in ink tokens, no legend
+  (one series) and no axis (every value is labelled). Polarity is carried by the direction and
+  the heading, not by a second colour.
+* **Empty states.** "No classified verbatims for this market yet.", "No likes recorded in this
+  subsystem.", "No complaints recorded in this subsystem."
 * **Motion.** 200 ms fade and 8 px rise on open, 160 ms on close, through `@starting-style` and
   `transition-behavior: allow-discrete`; none under reduced motion.
 
@@ -103,10 +120,10 @@ when the endpoints exist; the page is a server component, so the swap does not t
 
 | Check | Result |
 |---|---|
-| `pnpm check` | Clean: lint, typecheck, 16 tests (8 new), build |
+| `pnpm check` | Clean: lint, typecheck, 17 tests (9 new), build |
 | `pnpm audit:pages`, eight pages | 0 findings; 13 keyboard stops on vehicle pages (Map, twelve rows); in the dialog 2 stops (Close and the source link) where market rows exist, 1 otherwise; Tab after the last control reaches the browser's own UI and the next Tab returns into the dialog, never the inert page; Escape closes and focus returns to the row |
 | Forbidden-text scan | Runs on the open dialog too, with quoted verbatims left out (they are customer text, shown as written) |
-| Screenshots | `docs/screenshots/dialog-*.jpg`: US G60 Software / HMI, US G60 Powertrain scrolled to the market table, CN G68 Interior / console (no verbatims, the fridge evidence with its contradiction), EU F70 Seats at 1920 px |
+| Screenshots | `docs/screenshots/dialog-*.jpg`: US G60 Software / HMI, US G60 Powertrain (with a market row), CN G68 Interior / console (no verbatims, the fridge evidence with its contradiction), EU F70 Seats at 1920 px (two liked themes in six slots) |
 
 ## 8. Honesty notes
 
@@ -115,4 +132,7 @@ when the endpoints exist; the page is a server component, so the swap does not t
 * The weights, links and the theme mapping are assumptions and are called that on screen.
 * Market evidence exists for four market × subsystem pairs; the other 32 pairs say that no source
   is registered. Nothing is shown as "coming soon".
-* Verbatims are not edited; the survey answers of Source C keep their question prefix.
+* Verbatims are not edited; the survey answers of Source C keep their question prefix. The
+  dialog's second revision shows no quotes; they stay in the content for the evidence drawer.
+* The suggestion and the summary are derived sentences: each names the rule it applies and the
+  figures it rests on, so a reader can check it against the columns beside it.

@@ -79,7 +79,7 @@ The nine customer domains do not disappear: every theme keeps its domain, and th
 the domain beside each theme. The CPM list is the engineering view of the same rows (rule 41:
 measure a change by its propagation, not by counting).
 
-## 5. The subsystem dialog (step 13, D-063)
+## 5. The subsystem dialog (step 13, D-063; three bands since revision 2, D-065)
 
 Opens over the vehicle screen and covers most of it: width `min(1280px, 100vw - 96px)`, height
 `100vh - 96px`, centred, a dimmed backdrop; the page behind is inert and does not scroll. Built on
@@ -87,33 +87,38 @@ the native `dialog` element (`showModal`), which gives the top layer, Escape, fo
 and focus return for free; no library.
 
 **Header (sticky while the body scrolls).** Subsystem name as the h2; the vehicle, market and
-verbatim count; the Close control (text, 44 px). A facts line: weight "18 of 100 of a new
-vehicle's development effort (assumption, not calibrated)", the rows in this subsystem as a
-partition "428 complaints · 68 likes of 496 rows" with a two-segment bar, and "A change here
-propagates to" the directly linked subsystems with their likelihood and impact (rule 52).
+verbatim count; a second line with the weight ("10 of 100 of a new vehicle's development effort,
+assumption, not calibrated") and the rows in this subsystem ("915 rows: 608 complaints, 305
+likes"); the Close control (text, 44 px).
 
-**Three blocks, in this order (the team's brief):**
+**Three bands, one hairline between, after the team's sketch.** Each band is text on the left
+(heading, a one-sentence suggestion, a few-sentence summary) and the figures on the right.
 
-| Block | Heading | Rows | Empty state |
+| Band | Left | Right | Empty state |
 |---|---|---|---|
-| 1 | What customers like | Themes of this subsystem ranked by likes (up to 6): theme name, its domain, "274 likes of 325 rows", up to two verbatims classified as Likes with the verbatim id, source and powertrain | "No classified verbatims for this market yet." or "No likes recorded in this subsystem." |
-| 2 | What customers criticise | Themes ranked by complaints (up to 6): theme name, its domain, "55 complaints of 98 rows · 13 defects · 30 difficult to use · 12 wants", up to two verbatims classified as Defect, Difficult to Use or Wants | as above, with "No complaints recorded in this subsystem." |
-| 3 | Market and competition in {market} | A hairline table: statement; kind (market or competitor); source title, date, primary or secondary; evidence level (strong, medium, weak by the number of independent sources, rule 34); note; a contradiction shown as both sides (rule 35); basis evidence or assumption (rule 36) | "No market or competitor source for {market} is registered yet for this subsystem. Competitor and regional sources are Phase 2 of the master plan." |
+| Liked | Suggestion: the themes to keep by the strength rule (at least 15 likes and 70 % of the theme's rows, `config/findings/findings.yaml`), or that no theme meets it. Summary: likes in rows across themes, the three leading themes with their figures | Columns rising from one baseline: likes per theme for the six most liked themes, value on each cap, theme name beneath | "No classified verbatims for this market yet." or "No likes recorded in this subsystem." |
+| Disliked | Suggestion: the theme to address first (most complaints), its figures, the dominant type and whether it is a recurring complaint or an unmet need (wants at least half of the complaints). Summary: complaints in rows with the defect / difficult to use / wants split, the share the three leading themes carry | Columns hanging under one baseline: complaints per theme for the six most criticised themes, theme name above, value beneath | as above, with "No complaints recorded in this subsystem." |
+| Market analysis in {market} | A count line (statements, market and competitor) and how the evidence level is set | The sourced statements: statement with its kind, the source as a link, date, primary or secondary, evidence level, basis, the note, a contradiction as For and Against | "No market or competitor source for {market} is registered yet for this subsystem. Competitor and regional sources are Phase 2 of the master plan." |
 
-Blocks 1 and 2 sit side by side (two columns, one hairline between); block 3 is full width
-beneath. Quotes are set as `blockquote` with the id in mono: `G60-1249 · Source B · BEV`.
+The suggestion and the summary are **template text derived from the counts and the finding
+rules** (`basis: derived` in the content), so every sentence is checkable against the chart beside
+it; the backend's agent writes the same two fields (`basis: agent`) when it exists. The columns
+follow the chart rules: one series in the one blue, 20 px wide, rounded at the data end and square
+at the baseline, values and names in ink, no legend, no axis (six values, all labelled). Likes and
+complaints share no colour difference: direction and the heading carry the polarity.
 
 **States.** With verbatims and market rows (US G60 Powertrain), with verbatims and no market
 rows (most), without verbatims and with market rows (CN G68 Interior / console: the fridge
-evidence with its contradiction), without either (CN Seats).
+evidence with its contradiction), without either (CN Seats). All three bands fit a 1440 by 900
+viewport without scrolling; the body scrolls natively if a market has many rows.
 
 **Motion.** Open: 200 ms fade and 8 px rise, backdrop fade; close: 160 ms. Interaction-bound,
 so no exemption is needed; none under reduced motion.
 
 **Keyboard.** Tab reaches the rows; Enter or Space opens; inside the dialog Tab moves over the
-Close control and any links, then to the browser's own UI and back into the dialog (native modal
-behaviour; the page behind is inert and never receives focus); Escape closes and focus returns
-to the row that opened it.
+Close control and any source links, then to the browser's own UI and back into the dialog (native
+modal behaviour; the page behind is inert and never receives focus); Escape closes and focus
+returns to the row that opened it.
 
 ## 6. Data for screen 2 and the dialog
 
@@ -124,7 +129,9 @@ to the row that opened it.
 | `config/cpm/market_context.yaml` | Market and competitor statements per market and subsystem with source, date, primary or secondary, level, note, contradiction, basis. First content: the four web rows of the rule set v0.2 (EU, CN and US powertrain shares; the China fridge) | Team; Phase 2 research agents append |
 | `frontend/content/cpm.json` | Generated by `frontend/scripts/build-cpm.py` from the three files above, the feedback workbooks and the baseline reports: the subsystems, and per vehicle × market (the four baselines) each subsystem's rows, likes, complaints, liked themes with quotes, criticised themes with quotes, market rows | `pnpm content` |
 
-Counting follows the baseline reports exactly (classification rows of the workbooks; the gap
+The suggestion and summary of each block are template sentences from the counts and the finding
+rules until the backend's agent writes them (same fields, `basis` tells which). Counting follows
+the baseline reports exactly (classification rows of the workbooks; the gap
 labels of D-056 are not in the committed baselines and therefore not here; the build follows the
 baselines when they are regenerated). Quotes prefer Sources A, B and D over the survey answers
 of Source C, texts between 40 and 240 characters, deterministic order by id.
@@ -137,7 +144,7 @@ TypeScript types in `frontend/lib/content/cpm-types.ts` are the contract.
 | Endpoint | Returns | Frontend type |
 |---|---|---|
 | `GET /cpm/subsystems` | The twelve subsystems with weight, links, certification trigger, thresholds, method note | `CpmSubsystem[]`, `CpmMethod` |
-| `GET /cpm/{vehicle}?market={market}` | Per subsystem: `rows`, `likes`, `complaints`, `themes` (count), `liked[]` and `criticised[]` theme rows with `quotes[]` (`id`, `evidenceRef`, `text`, `source`, `powertrain`), `market[]` evidence rows | `CpmView` |
+| `GET /cpm/{vehicle}?market={market}` | Per subsystem: `rows`, `likes`, `complaints`, `themes` (count); `liked` and `criticised` blocks, each with `narration` (`suggestion`, `summary`, `basis` derived or agent) and `themes[]` (figures and `quotes[]` with `id`, `evidenceRef`, `text`, `source`, `powertrain`); `market[]` evidence rows | `CpmView`, `CpmBlock`, `CpmNarration` |
 | `POST /cpm/effort` (step 15) | For a change (subsystem, own impact, carryover): effort percent, low and high scenario, class (adapt, major revision, new generation), the affected subsystems with their risk | `CpmEffort` (defined in step 15) |
 
 Every quote carries `evidenceRef` in the backend's form (`verbatim:G60-1249`) so the evidence

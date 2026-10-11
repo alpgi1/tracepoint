@@ -11,8 +11,8 @@ import type { CpmCatalogue, CpmContent, CpmSubsystem, CpmSubsystemView, CpmView 
 const content = raw as unknown as CpmContent;
 
 export function cpmCatalogue(): CpmCatalogue {
-  const { generatedAt, method, subsystems, mapping, marketContextSource, domains } = content;
-  return { generatedAt, method, subsystems, mapping, marketContextSource, domains };
+  const { generatedAt, method, subsystems, mapping, marketContextSource, narrationSource, domains } = content;
+  return { generatedAt, method, subsystems, mapping, marketContextSource, narrationSource, domains };
 }
 
 export function cpmView(vehicle: string, market: string): CpmView | undefined {
