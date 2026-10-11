@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import json
+
 import httpx
 from sqlalchemy import func, select
 from sqlalchemy.orm import Session
@@ -84,37 +86,116 @@ def test_page_text_keeps_the_article_and_drops_the_chrome():
     assert not any(word in text for word in ("Menu entry", "Site header", "Imprint", "var a"))
 
 
-def test_fetcher_stays_on_public_hosts_and_bounds_the_body(monkeypatch):
+def _reply(status=200, body=b"", **headers) -> httpx.Response:
+    """An answer that still has to be read, like one from the network."""
+    names = {k.replace("_", "-"): v for k, v in headers.items()}
+    return httpx.Response(status, headers=names, stream=httpx.ByteStream(body))
+
+
+def _fetcher(monkeypatch, answer, names=None):
+    """A fetcher on a fake network: ``names`` are the DNS answers, literal addresses pass."""
+    real = external.socket.getaddrinfo
+
+    def resolve(host, port, **kw):
+        if names and host in names:
+            return [(2, 1, 6, "", (names[host], port))]
+        return real(host, port, flags=external.socket.AI_NUMERICHOST, **kw)  # never real DNS
+
+    monkeypatch.setattr(external.socket, "getaddrinfo", resolve)
+    monkeypatch.setattr(external, "HOST_PAUSE_SECONDS", 0)
+    fetcher = Fetcher()
+    fetcher.client = httpx.Client(transport=httpx.MockTransport(answer))
+    return fetcher
+
+
+def test_fetcher_stays_on_public_hosts(monkeypatch):
+    seen = []
+
+    def answer(request: httpx.Request) -> httpx.Response:
+        seen.append(request)
+        if request.url.path == "/moved":  # a public page that points inwards
+            return _reply(302, location="http://169.254.169.254/latest")
+        if request.url.path == "/broken":
+            return _reply(302, location="http://[::1")
+        if request.url.path == "/loop":
+            return _reply(302, location="/loop")
+        if request.url.path == "/robots.txt":
+            return _reply(404)
+        return _reply(200, b"x" * 5000, content_type="text/html")
+
+    names = {"pages.example": "93.184.216.34", "inside.example": "10.0.0.5"}
+    fetcher = _fetcher(monkeypatch, answer, names)
     for url in (
         "http://127.0.0.1/admin",
         "http://169.254.169.254/latest/meta-data/",
         "http://10.0.0.5/",
         "http://[::1]/",
+        "http://inside.example/",  # a public name with a private address
+        "http://unknown.example/",
         "file:///etc/passwd",
         "ftp://8.8.8.8/",
     ):
         assert not public_address(url), url
-    assert public_address("https://8.8.8.8/page")
+        assert fetcher.snapshot(url)[0]["status"] == "non_public_address", url
+    assert not seen  # none of them was requested, robots.txt included
+    assert fetcher.snapshot("https://8.8.8.8/moved")[0]["status"] == "non_public_address"
+    # a redirect to nowhere is a failed fetch with a status, whoever notices it first
+    assert fetcher.snapshot("https://8.8.8.8/broken")[0]["status"] in (
+        "invalid_url",
+        "non_public_address",
+        "error",
+    )
+    assert fetcher.snapshot("https://8.8.8.8/loop")[0]["status"] == "too_many_redirects"
+    # the connection goes to the address that was checked, under the host's own name, so a
+    # second DNS answer cannot move it
+    record, body = fetcher.snapshot("https://pages.example/page")
+    assert (record["status"], len(body)) == ("fetched", 5000)
+    assert record["final_url"] == "https://pages.example/page"
+    sent = seen[-1]
+    assert sent.url.host == "93.184.216.34" and sent.headers["host"] == "pages.example"
+    assert sent.extensions["sni_hostname"] == "pages.example"
+
+
+def test_fetcher_bounds_the_body_while_reading(monkeypatch):
+    import gzip
 
     def answer(request: httpx.Request) -> httpx.Response:
-        if request.url.path == "/moved":  # a public page that points inwards
-            return httpx.Response(302, headers={"location": "http://169.254.169.254/latest"})
-        if request.url.path == "/loop":
-            return httpx.Response(302, headers={"location": "/loop"})
         if request.url.path == "/robots.txt":
-            return httpx.Response(404)
-        return httpx.Response(200, content=b"x" * 5000, headers={"content-type": "text/html"})
+            return _reply(404)
+        if request.url.path == "/bomb":  # 20 MB of zeros in 20 kB
+            return _reply(200, gzip.compress(b"\0" * 20_000_000), content_encoding="gzip")
+        if request.url.path == "/packed":
+            return _reply(200, gzip.compress(b"hello " * 100), content_encoding="gzip")
+        if request.url.path == "/brotli":
+            return _reply(200, b"??", content_encoding="br")
+        return _reply(200, b"x" * 5000)
 
-    monkeypatch.setattr(external, "HOST_PAUSE_SECONDS", 0)
-    fetcher = Fetcher()
-    fetcher.client = httpx.Client(transport=httpx.MockTransport(answer))
-    assert fetcher.snapshot("https://8.8.8.8/moved")[0]["status"] == "non_public_address"
-    assert fetcher.snapshot("https://8.8.8.8/loop")[0]["status"] == "too_many_redirects"
-    record, body = fetcher.snapshot("https://8.8.8.8/page")
-    assert (record["status"], len(body)) == ("fetched", 5000)
-    monkeypatch.setattr(external, "MAX_BYTES", 1000)  # cut off while reading
-    record, body = fetcher.snapshot("https://8.8.8.8/page")
-    assert (record["status"], body) == ("too_large", None)
+    fetcher = _fetcher(monkeypatch, answer)
+    assert fetcher.snapshot("https://8.8.8.8/packed")[1] == b"hello " * 100
+    assert fetcher.snapshot("https://8.8.8.8/brotli")[0]["status"] == "unsupported_encoding"
+    monkeypatch.setattr(external, "MAX_BYTES", 1000)
+    for path in ("/plain", "/bomb"):  # cut off as it arrives, inflated or not
+        record, body = fetcher.snapshot(f"https://8.8.8.8{path}")
+        assert (record["status"], body) == ("too_large", None), path
+
+
+def test_api_source_fails_as_a_status_not_as_a_crash(monkeypatch, tmp_path):
+    src = next(s for s in load_registry()["sources"] if s["ref"] == "E-16")
+    names = {"api.nhtsa.gov": "93.184.216.34"}
+    shapes = iter([{"results": None}, "not an object", {"count": 0, "results": []}])
+
+    def run(payload, folder):
+        monkeypatch.setattr(external, "cache_dir", lambda: tmp_path / folder)
+        body = json.dumps(payload).encode()
+        fetcher = _fetcher(monkeypatch, lambda r: _reply(200, body), names)
+        return external.fetch_api(fetcher, src)
+
+    assert run(next(shapes), "a")["status"] == "error"
+    assert run(next(shapes), "b")["status"] == "error"
+    monkeypatch.setattr(external, "MAX_API_REQUESTS", 2)  # an API that never stops listing
+    assert run(next(shapes), "c")["status"] == "too_many_requests"
+    (tmp_path / "c" / "E-16" / "meta.json").write_text("{broken")  # a broken cache is refetched
+    assert run({"count": 0, "results": []}, "c")["status"] == "too_many_requests"
 
 
 def test_level_counts_independent_origins_of_a_topic_and_region():

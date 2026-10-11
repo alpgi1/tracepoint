@@ -27,12 +27,13 @@ import json
 import re
 import socket
 import time
+import zlib
 from collections import Counter
 from datetime import UTC, date, datetime
 from html.parser import HTMLParser
 from pathlib import Path
-from typing import Any, Literal
-from urllib.parse import quote, urlsplit
+from typing import Any, Literal, NamedTuple
+from urllib.parse import quote, urljoin, urlsplit
 from urllib.robotparser import RobotFileParser
 
 import httpx
@@ -53,6 +54,9 @@ ROBOTS_NAME = "TracepointResearch"  # the name robots.txt rules are matched agai
 MAX_BYTES = 30_000_000  # a body is cut off here while it is read, not after
 MAX_REDIRECTS = 5
 REQUEST_SECONDS = 120.0  # for one body; the client's own timeout only bounds each read
+MAX_API_REQUESTS = 600  # per API source and run (the EPA tables took about 230)
+MAX_API_BYTES = 50_000_000
+PDF_SECONDS = 120.0
 MAX_PDF_PAGES = 150
 HOST_PAUSE_SECONDS = 1.0
 PAGE_CHARS = 1800  # size of one searchable chunk of a web page
@@ -439,8 +443,15 @@ def html_text(raw: bytes, content_type: str = "") -> str:
 def pdf_pages(raw: bytes) -> list[str]:
     import pdfplumber
 
+    # ponytail: the budget is checked between pages, so one pathological page can still hang
+    # the parser; parse in a child process with a hard limit if this ever runs unattended.
+    deadline, pages = time.monotonic() + PDF_SECONDS, []
     with pdfplumber.open(io.BytesIO(raw)) as pdf:
-        return [_lines(p.extract_text() or "") for p in pdf.pages[:MAX_PDF_PAGES]]
+        for page in pdf.pages[:MAX_PDF_PAGES]:
+            if time.monotonic() > deadline:
+                break
+            pages.append(_lines(page.extract_text() or ""))
+    return pages
 
 
 def _write_json(path: Path, data: Any) -> None:
@@ -453,33 +464,58 @@ class Refused(ValueError):
     """The client will not make or finish a request; the reason becomes the fetch status."""
 
 
-def public_address(url: str) -> bool:
-    """http(s) to a host all of whose addresses are public. A listed URL, or a redirect a page
-    answers with, must not reach the machine's own network (loopback, private and link-local
-    ranges, the cloud metadata address)."""
-    parts = urlsplit(url)
-    if parts.scheme not in ("http", "https") or not parts.hostname:
-        return False
+class Answer(NamedTuple):
+    status: int
+    headers: httpx.Headers
+    url: str  # where the last hop led
+    body: bytes
+
+
+# what may go wrong with one URL without it being a fault of this program
+FETCH_ERRORS = (httpx.HTTPError, httpx.InvalidURL, httpx.StreamError, OSError, ValueError)
+
+
+def public_addresses(url: str) -> list[str]:
+    """The addresses of an http(s) host if every one of them is public, else none. A listed URL,
+    or a redirect a page answers with, must not reach the machine's own network (loopback,
+    private and link-local ranges, the cloud metadata address)."""
     try:
+        parts = urlsplit(url)
+        if parts.scheme not in ("http", "https") or not parts.hostname:
+            return []
         found = socket.getaddrinfo(parts.hostname, parts.port or 443, type=socket.SOCK_STREAM)
-        return all(ipaddress.ip_address(info[4][0].split("%")[0]).is_global for info in found)
+        addresses = [info[4][0].split("%")[0] for info in found]
+        return addresses if all(ipaddress.ip_address(a).is_global for a in addresses) else []
     except (OSError, ValueError):
-        return False
+        return []
+
+
+def public_address(url: str) -> bool:
+    return bool(public_addresses(url))
 
 
 class Fetcher:
     """One polite client: it says who it is, asks robots.txt, waits between two requests to a
-    host, and never retries a refusal. It follows redirects itself, so that every hop is
-    checked, and reads a body only up to ``MAX_BYTES``."""
+    host, and never retries a refusal. It follows redirects itself and connects to the address
+    it checked, reads a body only up to ``MAX_BYTES`` (after decompression too), and turns
+    whatever a URL does into a status instead of an exception."""
 
     def __init__(self) -> None:
         self.client = httpx.Client(
-            headers={"User-Agent": USER_AGENT, "Accept-Language": "en,de;q=0.8,zh;q=0.6"},
+            # gzip only: it is inflated here with a bound, not by the library without one
+            headers={
+                "User-Agent": USER_AGENT,
+                "Accept-Language": "en,de;q=0.8,zh;q=0.6",
+                "Accept-Encoding": "gzip",
+            },
             follow_redirects=False,
             timeout=40.0,
+            # a connection belongs to one host name; two names can share one address
+            limits=httpx.Limits(max_keepalive_connections=0),
         )
         self.robots: dict[str, RobotFileParser | None] = {}
         self.last: dict[str, float] = {}
+        self.api_requests = self.api_bytes = 0
 
     def _wait(self, host: str) -> None:
         pause = self.last.get(host, 0) + HOST_PAUSE_SECONDS - time.monotonic()
@@ -487,29 +523,57 @@ class Fetcher:
             time.sleep(pause)
         self.last[host] = time.monotonic()
 
-    def get(self, url: str, headers: dict[str, str] | None = None) -> tuple[httpx.Response, bytes]:
-        """(response, body) of one GET. Raises ``Refused`` for a hop to a non-public address,
-        too many redirects, a body beyond ``MAX_BYTES`` or one that takes too long."""
+    @staticmethod
+    def _body(res: httpx.Response) -> bytes:
+        """The body, inflated if gzipped, never longer than ``MAX_BYTES``."""
+        encoding = res.headers.get("content-encoding", "identity").strip().lower()
+        if encoding not in ("identity", "gzip", ""):
+            raise Refused("unsupported_encoding")
+        inflate = zlib.decompressobj(16 + zlib.MAX_WBITS) if encoding == "gzip" else None
+        deadline, body, raw = time.monotonic() + REQUEST_SECONDS, bytearray(), 0
+        for chunk in res.iter_raw():
+            if time.monotonic() > deadline:
+                raise Refused("too_slow")
+            raw += len(chunk)
+            if inflate:
+                try:  # at most one byte more than is still allowed comes out
+                    chunk = inflate.decompress(chunk, MAX_BYTES - len(body) + 1)
+                except zlib.error:
+                    raise Refused("bad_encoding") from None
+                if inflate.unconsumed_tail:
+                    raise Refused("too_large")
+            body += chunk
+            if max(raw, len(body)) > MAX_BYTES:
+                raise Refused("too_large")
+        return bytes(body)
+
+    def get(self, url: str, headers: dict[str, str] | None = None) -> Answer:
+        """One GET. Every hop must be an http(s) host with public addresses only, and the
+        connection goes to the address that was checked, under the host's own name for TLS and
+        the Host header. Raises ``Refused`` with the reason otherwise."""
         for _ in range(MAX_REDIRECTS + 1):
-            # ponytail: the address is checked before the connection, not pinned to it; a host
-            # that changes its DNS answer in between gets through. Pin the resolved address in
-            # the transport if this ever runs unattended or behind the API.
-            if not public_address(url):
+            addresses = public_addresses(url)
+            if not addresses:
                 raise Refused("non_public_address")
-            self._wait(urlsplit(url).netloc)
-            deadline = time.monotonic() + REQUEST_SECONDS
-            with self.client.stream("GET", url, headers=headers) as res:
+            try:
+                named = httpx.URL(url)
+                pinned = named.copy_with(host=addresses[0])
+            except (httpx.InvalidURL, ValueError):
+                raise Refused("invalid_url") from None
+            self._wait(named.netloc.decode("ascii"))
+            with self.client.stream(
+                "GET",
+                pinned,
+                headers={**(headers or {}), "Host": named.netloc.decode("ascii")},
+                extensions={"sni_hostname": named.host} if named.scheme == "https" else {},
+            ) as res:
                 if res.is_redirect and "location" in res.headers:
-                    url = str(res.url.join(res.headers["location"]))
+                    try:
+                        url = urljoin(url, res.headers["location"])
+                    except ValueError:
+                        raise Refused("invalid_url") from None
                     continue
-                body = bytearray()
-                for chunk in res.iter_bytes():
-                    body += chunk
-                    if len(body) > MAX_BYTES:
-                        raise Refused("too_large")
-                    if time.monotonic() > deadline:
-                        raise Refused("too_slow")
-                return res, bytes(body)
+                return Answer(res.status_code, res.headers, url, self._body(res))
         raise Refused("too_many_redirects")
 
     def allowed(self, url: str) -> bool:
@@ -518,12 +582,12 @@ class Fetcher:
         if host not in self.robots:
             rules: RobotFileParser | None = None
             try:
-                res, body = self.get(f"{host}/robots.txt")
-                text = body.decode("utf-8", errors="replace")
-                if res.status_code == 200 and "<html" not in text[:500].lower():
+                res = self.get(f"{host}/robots.txt")
+                text = res.body.decode("utf-8", errors="replace")
+                if res.status == 200 and "<html" not in text[:500].lower():
                     rules = RobotFileParser()
                     rules.parse(text.splitlines())
-            except (httpx.HTTPError, Refused):
+            except FETCH_ERRORS:
                 pass  # no readable rules: the page request decides
             self.robots[host] = rules
         rules = self.robots[host]
@@ -538,26 +602,26 @@ class Fetcher:
         try:
             if not self.allowed(url):
                 return {**record, "status": "blocked_by_robots"}, None
-            res, body = self.get(url)
+            res = self.get(url)
         except Refused as exc:
             return {**record, "status": str(exc)}, None
-        except httpx.HTTPError as exc:
+        except FETCH_ERRORS as exc:
             return {**record, "status": "error", "detail": type(exc).__name__}, None
-        record |= {
-            "http_status": res.status_code,
-            "final_url": str(res.url),
-            "content_type": res.headers.get("content-type", "").split(";")[0].strip(),
-        }
-        if res.status_code != 200:
-            return {**record, "status": f"http_{res.status_code}"}, None
         charset = res.headers.get("content-type", "")
         record |= {
+            "http_status": res.status,
+            "final_url": res.url,
+            "content_type": charset.split(";")[0].strip(),
+        }
+        if res.status != 200:
+            return {**record, "status": f"http_{res.status}"}, None
+        record |= {
             "status": "fetched",
-            "bytes": len(body),
-            "sha256": hashlib.sha256(body).hexdigest(),
+            "bytes": len(res.body),
+            "sha256": hashlib.sha256(res.body).hexdigest(),
             "charset_header": charset if "charset" in charset.lower() else None,
         }
-        return record, body
+        return record, res.body
 
 
 def _is_pdf(record: dict[str, Any], body: bytes) -> bool:
@@ -570,12 +634,21 @@ def _read_pages(record: dict[str, Any], body: bytes) -> list[str]:
     return [html_text(body, record.get("charset_header") or "")]
 
 
+def _cached_record(meta: Path) -> dict[str, Any] | None:
+    """The record of an earlier fetch; a missing or broken file means: fetch again."""
+    try:
+        record = json.loads(meta.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return None
+    return record if isinstance(record, dict) and "status" in record else None
+
+
 def fetch_page(fetcher: Fetcher, ref: str, url: str) -> dict[str, Any]:
     """Fetch one page into the cache (raw body, record, text) unless it is there already."""
     folder = cache_dir() / ref
     meta = folder / "meta.json"
-    if meta.exists():
-        return json.loads(meta.read_text(encoding="utf-8"))
+    if cached := _cached_record(meta):
+        return cached
     record, body = fetcher.snapshot(url)
     folder.mkdir(parents=True, exist_ok=True)
     if body is not None:
@@ -614,10 +687,17 @@ EPA = "https://www.fueleconomy.gov/ws/rest/vehicle"
 
 
 def _json(fetcher: Fetcher, url: str) -> Any:
-    res, body = fetcher.get(url, headers={"Accept": "application/json"})
-    if res.status_code != 200:
-        raise ValueError(f"HTTP {res.status_code} from {url}")
-    return json.loads(body) if body.strip() else None
+    """One API answer, within the budget of requests and bytes of the source."""
+    fetcher.api_requests += 1
+    if fetcher.api_requests > MAX_API_REQUESTS:
+        raise Refused("too_many_requests")
+    res = fetcher.get(url, headers={"Accept": "application/json"})
+    fetcher.api_bytes += len(res.body)
+    if fetcher.api_bytes > MAX_API_BYTES:
+        raise Refused("too_large")
+    if res.status != 200:
+        raise ValueError(f"HTTP {res.status} from {url}")
+    return json.loads(res.body) if res.body.strip() else None
 
 
 def _as_list(value: Any) -> list[Any]:
@@ -650,11 +730,11 @@ def fetch_nhtsa(fetcher: Fetcher, src: dict[str, Any]) -> dict[str, Any]:
                             "vehicle": vehicle,
                             "model": model,
                             "model_year": year,
-                            "filed": r["dateComplaintFiled"],
-                            "components": r["components"],
-                            "crash": r["crash"],
-                            "fire": r["fire"],
-                            "summary": r["summary"],
+                            "filed": str(r.get("dateComplaintFiled") or ""),
+                            "components": str(r.get("components") or ""),
+                            "crash": bool(r.get("crash")),
+                            "fire": bool(r.get("fire")),
+                            "summary": str(r.get("summary") or ""),
                         },
                     )
     return {"complaints": sorted(complaints.values(), key=lambda c: c["odi_number"])}
@@ -764,17 +844,21 @@ def fetch_api(fetcher: Fetcher, src: dict[str, Any]) -> dict[str, Any]:
     """Run an API source into the cache unless it is there already; returns its record."""
     folder = cache_dir() / src["ref"]
     meta = folder / "meta.json"
-    if meta.exists():
-        return json.loads(meta.read_text(encoding="utf-8"))
+    if cached := _cached_record(meta):
+        return cached
     record: dict[str, Any] = {
         "url": src["url"],
         "fetched_at": datetime.now(UTC).isoformat(timespec="seconds"),
     }
     folder.mkdir(parents=True, exist_ok=True)
+    fetcher.api_requests = fetcher.api_bytes = 0
     try:
         api = src["spec"].api
         data = fetch_nhtsa(fetcher, src) if api == "nhtsa_complaints" else fetch_epa(fetcher, src)
-    except (httpx.HTTPError, KeyError, ValueError) as exc:
+    except Refused as exc:
+        record |= {"status": str(exc)}
+    # an answer of another shape than expected is a failed fetch, not a crash of the run
+    except (*FETCH_ERRORS, LookupError, TypeError, AttributeError) as exc:
         record |= {"status": "error", "detail": type(exc).__name__}
     else:
         body = json.dumps(data, indent=1, ensure_ascii=False, sort_keys=True).encode()
@@ -791,8 +875,11 @@ def fetch_api(fetcher: Fetcher, src: dict[str, Any]) -> dict[str, Any]:
 
 
 def cached_api(ref: str) -> dict[str, Any] | None:
-    path = cache_dir() / ref / "data.json"
-    return json.loads(path.read_text(encoding="utf-8")) if path.exists() else None
+    try:
+        data = json.loads((cache_dir() / ref / "data.json").read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return None
+    return data if isinstance(data, dict) else None
 
 
 # --------------------------------------------------------------------------------------------

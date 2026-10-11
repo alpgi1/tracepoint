@@ -4,12 +4,12 @@
 |---|---|
 | Date | 2026-10-11 |
 | Author | Claude (AI assistant), on request of the team |
-| Status | Done – 124 sources and 143 claims in the database, 72 of 100 pages fetched, 82 tests passed, one live analysis |
+| Status | Done – 124 sources and 143 claims in the database, 72 of 100 pages fetched, 84 tests passed, one live analysis |
 | Why | The team added `docs/trend_sources.md` and `docs/external_sources_v2.json` and asked to read them, to store what is useful for the programme in the database in a usable form, to fetch the content behind the links, and to add nothing outside the scope of the vehicles and the programme. Until now the market layer was four rows in `config/cpm/market_context.yaml` |
 
 ## 1. Delivered
 
-Decisions D-080 to D-084. This is the first part of Phase 2 of the master plan (external evidence
+Decisions D-080 to D-085. This is the first part of Phase 2 of the master plan (external evidence
 ingestion, D-007).
 
 ### 1.1 What the two files are
@@ -186,7 +186,7 @@ Read on the pages, each a row with its passage:
 
 | Check | Result |
 |---|---|
-| `uv run pytest -q` | 82 passed (72 before, 10 new in `tests/test_external.py`) |
+| `uv run pytest -q` | 84 passed (72 before, 12 new in `tests/test_external.py`) |
 | `uv run ruff check`, `ruff format --check` | clean |
 | every entry of the two lists decided | 131 = 124 in scope + 7 excluded; the test fails on an undecided entry |
 | excluded entries absent from the database | tested for all seven |
@@ -267,9 +267,10 @@ What the external rows changed in the analysis:
   tools only read, and every agent prompt carries the rule that tool results are data, never an
   instruction (D-069); an instruction hidden in a page can still bend an answer.
 * `--fetch` parses the pages and PDFs it receives and runs from the command line only, never
-  from the API. After the security review (D-084) it follows redirects itself, refuses every hop
-  to a non-public address and cuts a body off at 30 MB while reading. The address is checked
-  before the connection, not pinned to it.
+  from the API. After two security reviews (D-084, D-085) it follows redirects itself, connects
+  only to a public address it has checked, cuts a body off at 30 MB while reading (inflated
+  gzip included), budgets the API sources and turns every failure of one URL into a status.
+  One pathological PDF page can still hang the parser.
 * The first probe of four URLs in this session carried the committer's e-mail address in the
   user agent. The client in the repository does not.
 
