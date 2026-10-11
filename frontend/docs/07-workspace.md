@@ -3,8 +3,8 @@
 | Field | Value |
 |---|---|
 | Date | 2026-10-11, step 14 |
-| Status | Built and verified: step 14 (D-078 to D-080) the data layer, the stage bar and stage 2; step 15 (D-083) stage 3 and the bridges; step 16 (D-084) stage 4, the package builder and the method sheet; step 17 (D-099) stage 5 and the live mode; step 19 (D-100 to D-104) the integration with the backend: one data feed, the analyst's brief, the series and the market evidence pages, the stages that exist per scope, the exports of the backend, the copy in the product manager's words (section 4d) |
-| Files | `scripts/snapshot.mjs` (the data feed), `lib/data/analyses.ts`, `lib/data/exports.ts`, `lib/content/brief-types.ts`, `lib/workspace/market.ts`, `components/workspace/analyst-brief.tsx`, `series-view.tsx`, `brief-parts.tsx`, `external-rows.tsx`, `app/markets/[market]/[vehicle]/regions/page.tsx`, `market/page.tsx`, `log/requirements.md/route.ts` (step 19), `content/workspace/*.json` (the API's responses, committed), `lib/content/workspace-types.ts` (the contract), `lib/data/workspace.ts` (reads), `lib/workspace/candidates.ts` (the candidate rules), `lib/workspace/requirements.ts` (routes, evidence resolution, footprint, bridges), `lib/workspace/stages.ts` and `figures.ts` (the stage bar's data), `components/workspace/workspace-header.tsx`, `stage-bar.tsx`, `candidate-filters.tsx`, `candidate-table.tsx`, `requirement-page.tsx`, `evidence-list.tsx`, `effort-block.tsx`, `app/markets/[market]/[vehicle]/structure/page.tsx`, `requirements/page.tsx`, `requirements/[id]/page.tsx`, `priorities/page.tsx`, `priorities/method/page.tsx`, `priority-matrix.tsx`, `package-table.tsx`, `lib/workspace/priorities.ts`, `lib/data/effort.ts` (the effort model file and the one live read, `POST /effort/estimate`), `content/effort.json`, `lib/site.ts` (copy), `app/globals.css` (step 14 and 15 blocks), `lib/content/workspace.test.ts`, `lib/workspace/requirements.test.ts`, `tools/audit/screenshots.mjs` |
+| Status | Built and verified: step 14 (D-078 to D-080) the data layer, the stage bar and stage 2; step 15 (D-083) stage 3 and the bridges; step 16 (D-084) stage 4, the package builder and the method sheet, its scatter replaced by the evidence and effort chart (D-105); step 17 (D-099) stage 5 and the live mode; step 19 (D-100 to D-104) the integration with the backend: one data feed, the analyst's brief, the series and the market evidence pages, the stages that exist per scope, the exports of the backend, the copy in the product manager's words (section 4d) |
+| Files | `scripts/snapshot.mjs` (the data feed), `lib/data/analyses.ts`, `lib/data/exports.ts`, `lib/content/brief-types.ts`, `lib/workspace/market.ts`, `components/workspace/analyst-brief.tsx`, `series-view.tsx`, `brief-parts.tsx`, `external-rows.tsx`, `app/markets/[market]/[vehicle]/regions/page.tsx`, `market/page.tsx`, `log/requirements.md/route.ts` (step 19), `content/workspace/*.json` (the API's responses, committed), `lib/content/workspace-types.ts` (the contract), `lib/data/workspace.ts` (reads), `lib/workspace/candidates.ts` (the candidate rules), `lib/workspace/requirements.ts` (routes, evidence resolution, footprint, bridges), `lib/workspace/stages.ts` and `figures.ts` (the stage bar's data), `components/workspace/workspace-header.tsx`, `stage-bar.tsx`, `candidate-filters.tsx`, `candidate-table.tsx`, `requirement-page.tsx`, `evidence-list.tsx`, `effort-block.tsx`, `app/markets/[market]/[vehicle]/structure/page.tsx`, `requirements/page.tsx`, `requirements/[id]/page.tsx`, `priorities/page.tsx`, `priorities/method/page.tsx`, `priority-chart.tsx`, `package-table.tsx`, `lib/workspace/priorities.ts`, `lib/data/effort.ts` (the effort model file and the one live read, `POST /effort/estimate`), `content/effort.json`, `lib/site.ts` (copy), `app/globals.css` (step 14 and 15 blocks), `lib/content/workspace.test.ts`, `lib/workspace/requirements.test.ts`, `tools/audit/screenshots.mjs` |
 | Plan | `plan/08-engineering-workbench-plan.md` sections 3, 4.1 to 4.3, 4.5 and 6 |
 
 ## 1. What it is
@@ -168,18 +168,35 @@ not the effort rows.
 
 ## 4b. Stage 4, Prioritization (`/priorities`, `/priorities/method`; step 16, D-084)
 
-**The matrix** (`priority-matrix.tsx`, inline SVG). One mark per requirement: horizontal the
-effort in % of a new vehicle with the P5 to P95 range as a 2 px line at 35 % through the mark,
-vertical the complaint rows of the primary finding (the backend's `quantification.complaints`;
-a requirement whose primary finding is a study attribute or a strength sits at 0 and is named
-beneath the chart). H1 marks are 10 px circles, H2 marks 10 px squares, both in the one blue with
-a 2 px ring in the paper colour; the evidence level stands beside each mark in muted 10 px text;
-the two largest efforts and the two largest evidence counts carry their id; every mark names its
-requirement, figures and level in a native `title`. Axes and gridlines are solid hairlines with
-ticks at clean steps (`axisMax`). A legend beneath names the two shapes and the range line. The
-table twin follows, most complaint rows first, with id (link), title, horizon, level, rows,
-effort, range and class. There is **no composite score**: the hint says the Phase 5 score is not
-built and the page does not invent one.
+**Customer evidence and effort per requirement** (`priority-chart.tsx`, D-105; it replaced the
+scatter of step 16). A hairline table, one row per requirement, grouped by horizon (H1 first,
+the group row names the horizon and counts it) and ordered inside each group by complaint rows,
+then effort, then id (`horizonGroups`, the twin's `byEvidence`). Columns: the id (link to the
+requirement), the title, the evidence level, and two chart cells. Each chart cell holds the figure
+as text in a 52 px column and a track beside it; gridlines and bands are drawn in every row's
+track, so they run through the column as one chart. Left: the complaint rows of the primary
+finding (the backend's `quantification.complaints`) as a 12 px bar from 0 with a 4 px rounded end,
+on a linear scale from 0 in steps of 25, or of 50 past 100 rows (`rowsAxis`); a row with none
+names its primary finding ("primary finding: strength to keep"). Right: the effort as a 10 px
+dot with a 2 px paper ring on its P5 to P95 line at 35 %, on a **logarithmic** scale
+(`effortAxis`, `logPosition`) from a clean bound under the smallest P5 (0.05 % on every current
+scope) to 100 %, a whole new vehicle generation, with ticks at the decades. The engine's classes
+are bands behind it, from the thresholds of the effort model: adapt unshaded, major revision and
+new generation in two steps of grey. A requirement that does not change the vehicle says so in
+the track. The legend beneath names the estimate mark and the three bands with their thresholds.
+Every row names its figures, range, class, level and horizon in a native `title`; the hover tint
+is opaque so a note covers the gridlines in either state. Below 880 px the table scrolls
+sideways like every table of the workspace. The table twin follows in a `<details>`, closed, most
+complaint rows first, with id (link), title, horizon, level, rows, effort, range and class. There
+is **no composite score**: the hint says the Phase 5 score is not built and the page does not
+invent one.
+
+Why the scatter went: on G60 US the one H2 change at 49 % set the linear effort axis to 60 %,
+and the other nineteen requirements (0.2 % to 4.6 %) shared its first 50 px: the marks and their
+level letters overlapped, only the four extremes carried an id, the class thresholds were not on
+the chart, and the requirement at 0 sat on the origin. The question the stage asks is per
+requirement (how much evidence, how much effort, which class), not a correlation, and the
+efforts span three orders of magnitude.
 
 **The packages** (`package-table.tsx`). One hairline table with the engine's three variations
 (`scenarios`: H1, H2, ALL): requirements, combined effort, P5 to P95, class with "kept in n % of
