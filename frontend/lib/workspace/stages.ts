@@ -17,7 +17,7 @@ export const STAGE_SEGMENT: Record<StageKey, string | null> = {
   structure: "structure",
   requirements: "requirements",
   priorities: "priorities",
-  documentation: null,
+  documentation: "log",
 };
 
 export function stageHref(market: MarketCode, vehicle: string, stage: StageKey): string | null {

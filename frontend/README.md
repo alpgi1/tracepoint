@@ -29,16 +29,28 @@ Documentation lives in `docs/` (start with `docs/README.md`).
 | `pnpm build` and `pnpm start` | Production build and server on port 3400 |
 | `pnpm lint`, `pnpm typecheck`, `pnpm test` | ESLint, route typegen plus `tsc --noEmit`, vitest (market outlines, classification, projection fit, vehicle drawings and zones, the CPM content, the workspace snapshots, the candidate rules, the requirement helpers, the matrix and the packages, the effort model file) |
 | `pnpm check` | All of the above plus the build; must pass before a step is committed |
-| `pnpm audit:pages` | Page audit in Chromium against a running server, on the landing page, the seven vehicle pages, five states of the structure page, five of stage 3 and four of stage 4: landmarks, headings, accessible names, tap targets, keyboard tour, 375 px overflow, forbidden text (quoted verbatims excepted), console errors, and the open subsystem dialog (name, headings, tap targets, keyboard tour that never reaches the inert page, Escape and the return of focus); exit code 1 on findings |
-| `pnpm shots` | Screenshots of the states (resting with callouts, hover, the three magnified markets with their panels, card hover, the photo on its way and fading on the vehicle screen, vehicle screens, keyboard focus, 1920 px, reduced motion, the subsystem dialog in four states, the stage bar and stage 2 in six states, stage 3 and the bridges in five, stage 4 and the method sheet in four) into `tools/audit/out/` |
+| `pnpm audit:pages` | Page audit in Chromium against a running server, on the landing page, the seven vehicle pages, five states of the structure page, five of stage 3, four of stage 4, three of stage 5 and the requirement page with a decision notice: landmarks, headings, accessible names, tap targets, keyboard tour, 375 px overflow, forbidden text (quoted verbatims excepted), console errors, and the open subsystem dialog (name, headings, tap targets, keyboard tour that never reaches the inert page, Escape and the return of focus); exit code 1 on findings |
+| `pnpm shots` | Screenshots of the states (resting with callouts, hover, the three magnified markets with their panels, card hover, the photo on its way and fading on the vehicle screen, vehicle screens, keyboard focus, 1920 px, reduced motion, the subsystem dialog in four states, the stage bar and stage 2 in six states, stage 3 and the bridges in five, stage 4 and the method sheet in four, stage 5 and gate G2 in five) into `tools/audit/out/` |
 | `pnpm content` | Regenerates `content/markets.json` and `content/cpm.json` from `reports/baseline`, `docs/*.xlsx` and `config/` (Python 3 with openpyxl and PyYAML); the CPM build stops if its counts differ from the baseline reports |
-| `pnpm snapshot` | Reads the running backend API (`TRACEPOINT_API_URL`, default `http://127.0.0.1:8000`) once per vehicle and market pair and writes its responses unchanged to `content/workspace/<VEHICLE>_<MARKET>.json` (requirements, effort per requirement, the package variations, excluded candidates, events, the detail of every requirement, and the verbatims, study metrics and catalogue items its findings reference) and `content/effort.json` (the effort model and the back-test); the stage pages read these files; the package builder alone asks the running API (`TRACEPOINT_API_URL`) at request time |
+| `pnpm snapshot` | Reads the running backend API (`TRACEPOINT_API_URL`, default `http://127.0.0.1:8000`) once per vehicle and market pair and writes its responses unchanged to `content/workspace/<VEHICLE>_<MARKET>.json` (requirements, effort per requirement, the package variations, excluded candidates, events, the detail of every requirement, and the verbatims, study metrics and catalogue items its findings reference) and `content/effort.json` (the effort model and the back-test); the stage pages read these files, and in the live mode (below) the running API as well; the package builder asks the running API (`TRACEPOINT_API_URL`) at request time in both modes |
 | `pnpm vehicles` | Regenerates the vehicle drawings (body, lines and contour masks under `public/vehicles/`, `content/vehicles/*.json`) from `assets/vehicles/sources` |
 | `pnpm photos` | Regenerates the photo cut-outs of the configured cars (`public/vehicles/*-photo-side.webp`, `content/vehicles/*-photo.json`) from `assets/vehicles/photos` |
 
 Run the audit and the screenshots against a built app started in another shell
 (`pnpm build && pnpm start`). Both use the Playwright Chromium installed in this environment
-(`/opt/pw-browsers/chromium`).
+(`/opt/pw-browsers/chromium`). In the live mode the screenshots make one decision (Defer on
+`REQ-G60-US-PR-03`, with a rationale that names the audit) for the states after a decision.
+
+## Live mode
+
+| Variable | Default | Effect |
+|---|---|---|
+| `TRACEPOINT_LIVE` | unset | `1` turns the live mode on: every stage page and the CSV export read the backend API at request time (the requirement list with its gate statuses, the estimates, the packages, the excluded candidates, the events, the requirement on its page) and merge them into the committed snapshot, whose evidence rows stay; the gate G2 controls on the requirement page become a form whose decision a server action forwards to `POST /requirements/{id}/decision`. When the API does not answer, the page shows the snapshot and says so on its source line |
+| `TRACEPOINT_API_URL` | `http://127.0.0.1:8000` | Where the Next.js server finds the backend API, for the live mode, the package builder and `pnpm snapshot` |
+
+Both are read when the server starts, not when it is built: `pnpm build` once, then
+`TRACEPOINT_LIVE=1 pnpm start` with the backend up (`cd backend && uv run uvicorn
+tracepoint.api.app:app --port 8000`). The browser never calls the API in either mode.
 
 ## Layout
 

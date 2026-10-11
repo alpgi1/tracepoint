@@ -4,13 +4,13 @@ import { Suspense } from "react";
 import { CandidateFilters } from "@/components/workspace/candidate-filters";
 import { CandidateTable, ExcludedTable } from "@/components/workspace/candidate-table";
 import { NoRequirements } from "@/components/workspace/no-requirements";
+import { SourceLine, StagePending } from "@/components/workspace/source-line";
 import { WorkspaceHeader } from "@/components/workspace/workspace-header";
 import { cpmCatalogue, cpmView } from "@/lib/content/cpm";
-import { dateTime } from "@/lib/content/format";
 import { allVehicleParams, content, domainName, marketByCode, vehicleHref, vehicleIn } from "@/lib/content/markets";
 import type { MarketContent, VehicleContent } from "@/lib/content/types";
 import type { WorkspaceSnapshot } from "@/lib/content/workspace-types";
-import { workspaceSnapshot } from "@/lib/data/workspace";
+import { readWorkspace, workspaceSnapshot } from "@/lib/data/workspace";
 import { site } from "@/lib/site";
 import {
   type Candidate,
@@ -26,9 +26,9 @@ import { stageFigures } from "@/lib/workspace/figures";
 /*
  * Stage 2 of the scope workspace, Structure & context: all potential
  * requirements of the vehicle in the market with the agent's 0/1 proposal
- * (plan 08 section 4.1). The shell (header, stage bar, heading) is
- * prerendered; the table reads the view and the filters from the URL and
- * streams in (Cache Components: a runtime API behind a Suspense boundary).
+ * (plan 08 section 4.1). The body reads the workspace at request time (the
+ * snapshot, or the API in the live mode, D-085) and the view and the
+ * filters from the URL, behind the Suspense boundary (Cache Components).
  */
 export function generateStaticParams() {
   return allVehicleParams();
@@ -48,8 +48,18 @@ export default async function StructurePage({ params, searchParams }: Props) {
   const { market, vehicle } = await params;
   const m = marketByCode(market);
   const v = m ? vehicleIn(m, vehicle) : undefined;
-  const snapshot = m && v ? workspaceSnapshot(v.code, m.code) : undefined;
-  if (!m || !v || !snapshot) notFound();
+  if (!m || !v || !workspaceSnapshot(v.code, m.code)) notFound();
+  return (
+    <Suspense fallback={<StagePending />}>
+      <StructureBody market={m} vehicle={v} searchParams={searchParams} />
+    </Suspense>
+  );
+}
+
+async function StructureBody({ market: m, vehicle: v, searchParams }: { market: MarketContent; vehicle: VehicleContent; searchParams: Props["searchParams"] }) {
+  const [read, query] = await Promise.all([readWorkspace(v.code, m.code), searchParams]);
+  if (!read) notFound();
+  const { snapshot } = read;
   const copy = site.structure;
   const figures = stageFigures(v, m.code, snapshot);
   return (
@@ -60,18 +70,8 @@ export default async function StructurePage({ params, searchParams }: Props) {
           {copy.heading}
         </h2>
         <p className="workspace-hint stage-hint">{copy.hint}</p>
-        {snapshot.requirements.length === 0 ? (
-          <NoRequirements market={m} vehicle={v} />
-        ) : (
-          <Suspense fallback={<div className="stage-pending" aria-busy="true" />}>
-            <Candidates snapshot={snapshot} market={m} vehicle={v} searchParams={searchParams} />
-          </Suspense>
-        )}
-        <p className="stage-source">
-          {copy.sourceBefore} {dateTime(snapshot.snapshot.takenAt)}
-          {snapshot.snapshot.modelHash ? `; ${copy.sourceModel} ${snapshot.snapshot.modelHash}, ${copy.sourceModelNote}` : ""}
-          {snapshot.snapshot.codeVersion ? `; ${copy.sourceCode} ${snapshot.snapshot.codeVersion}` : ""}.
-        </p>
+        {snapshot.requirements.length === 0 ? <NoRequirements market={m} vehicle={v} /> : <Candidates snapshot={snapshot} market={m} vehicle={v} query={query} />}
+        <SourceLine read={read} />
       </section>
     </div>
   );
@@ -81,14 +81,13 @@ interface CandidatesProps {
   snapshot: WorkspaceSnapshot;
   market: MarketContent;
   vehicle: VehicleContent;
-  searchParams: Props["searchParams"];
+  query: Awaited<Props["searchParams"]>;
 }
 
 const VIEWS: CandidateView[] = ["inbox", "all", "excluded"];
 
-async function Candidates({ snapshot, market, vehicle, searchParams }: CandidatesProps) {
+function Candidates({ snapshot, market, vehicle, query }: CandidatesProps) {
   const copy = site.structure;
-  const query = await searchParams;
   const one = (key: string) => {
     const value = query[key];
     return typeof value === "string" && value !== "" ? value : undefined;
