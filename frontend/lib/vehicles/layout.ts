@@ -39,9 +39,8 @@ interface Framed extends Sized {
 
 /**
  * Where the car photo sits on the vehicle screen: inside the stage, over the
- * drawing's silhouette box, the same length and top-aligned (roof on roof),
- * so the photo's shadow falls below the drawn ground. Mirrored by the
- * `.vehicle-photo` percentages set in the workspace.
+ * drawing's silhouette box, the same length and top-aligned (roof on roof).
+ * Mirrored by the `.vehicle-photo` percentages set in the workspace.
  */
 export function photoTarget(viewportWidth: number, drawing: Framed, photo: Sized): Box {
   const stage = stageRect(viewportWidth);
