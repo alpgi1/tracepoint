@@ -25,12 +25,14 @@ export const KIND_REGION = 2;
 const ANTARCTICA = "010";
 
 /**
- * The part of the world the map is fitted to: every market and all other
- * land but Antarctica, with the empty Pacific margin west of mainland Alaska
- * trimmed. [west, south] to [east, north] in degrees.
+ * The part of the world the map is fitted to, [west, south] to [east, north]
+ * in degrees. The west edge runs through Hawaii's Big Island, so the empty
+ * Pacific west of it and the tip of Alaska's peninsula fall just off the left
+ * edge; the south edge lies 12 degrees below Cape Horn, so the land sits
+ * slightly above the middle with room below South America.
  */
 export const FIT_WINDOW: [[number, number], [number, number]] = [
-  [-168, -56],
+  [-156, -68],
   [180, 84],
 ];
 
@@ -73,16 +75,19 @@ export function landFeature(topology: WorldTopology): Feature<MultiPolygon> {
 /**
  * The fit window as a polygon whose edges follow the parallels and meridians.
  * d3 projects straight edges along great circles, so the ring is densified
- * every five degrees to keep the window's true shape.
+ * every five degrees to keep the window's true shape. d3 takes a clockwise
+ * ring's inside as the polygon: the ring runs west to east along the north
+ * edge first; the other way round it would mean the rest of the globe, and a
+ * fit to it is a fit to the whole sphere.
  */
 export function fitWindow(step = 5): Polygon {
   const [[west, south], [east, north]] = FIT_WINDOW;
   const ring: [number, number][] = [];
-  for (let lon = west; lon < east; lon += step) ring.push([lon, south]);
-  for (let lat = south; lat < north; lat += step) ring.push([east, lat]);
-  for (let lon = east; lon > west; lon -= step) ring.push([lon, north]);
-  for (let lat = north; lat > south; lat -= step) ring.push([west, lat]);
-  ring.push([west, south]);
+  for (let lon = west; lon < east; lon += step) ring.push([lon, north]);
+  for (let lat = north; lat > south; lat -= step) ring.push([east, lat]);
+  for (let lon = east; lon > west; lon -= step) ring.push([lon, south]);
+  for (let lat = south; lat < north; lat += step) ring.push([west, lat]);
+  ring.push([west, north]);
   return { type: "Polygon", coordinates: [ring] };
 }
 
