@@ -143,9 +143,9 @@ TypeScript types in `frontend/lib/content/cpm-types.ts` are the contract.
 
 | Endpoint | Returns | Frontend type |
 |---|---|---|
-| `GET /effort/model` (exists, backend step 12) | The twelve subsystems with weight, links, certification, thresholds, per-vehicle applicability | `CpmSubsystem[]`, `CpmMethod` (the catalogue part of the content mirrors it) |
+| `GET /effort/model` (not on the API yet; requested in `08-engineering-workbench-plan.md` section 7) | The twelve subsystems with weight, links, certification, thresholds, per-vehicle applicability | `CpmSubsystem[]`, `CpmMethod` (the catalogue part of the content mirrors it) |
 | `GET /cpm/{vehicle}?market={market}` | Per subsystem: `rows`, `likes`, `complaints`, `themes` (count); `liked` and `criticised` blocks, each with `narration` (`suggestion`, `summary`, `basis` derived or agent) and `themes[]` (figures and `quotes[]` with `id`, `evidenceRef`, `text`, `source`, `powertrain`); `market[]` evidence rows | `CpmView`, `CpmBlock`, `CpmNarration` |
-| `POST /effort/estimate`, `GET /effort/scenarios`, `GET /requirements/{id}/effort` (exist, backend step 12) | For a change profile: effort percent, P5 to P95, class (adapt, major revision, new generation), size, the affected subsystems; the H1 and H2 packages | `CpmEffort` (frontend type to be defined in step 15 from the backend's response) |
+| `GET /effort/requirements`, `GET /effort/scenarios`, effort inside `GET /requirements/{id}` (exist, backend step 12); `POST /effort/estimate` (not on the API yet, requested in plan 08) | For a change profile: effort percent, P5 to P95, class (adapt, major revision, new generation), size, the affected subsystems; the H1 and H2 packages | `CpmEffort` (frontend type to be defined in step 15 from the backend's response) |
 
 Every quote carries `evidenceRef` in the backend's form (`verbatim:G60-1249`) so the evidence
 drawer of the later screens resolves it through `GET /verbatims/{id}`.
@@ -159,7 +159,7 @@ twelve subsystems as the rows and a centred dialog with the three blocks, which 
 Both lenses rest on the same rows (every theme keeps its domain in `cpm.json`), so either table can
 be derived from the same content; the choice is the team's and the two plans name it as such.
 
-## 8. Next screens (outline, re-planned when they start)
+## 8. Next screens (outline, re-planned when they start; the proposal in `08-engineering-workbench-plan.md` replaces this section once the team accepts it)
 
 | Step | Screen | What | Rules |
 |---|---|---|---|
