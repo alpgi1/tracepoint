@@ -106,8 +106,8 @@ function mix(a: number, b: number, t: number): number {
  * only paints when something changed.
  *
  * Geometry is projected once with a Natural Earth projection fitted to the
- * canvas (`base`): the fit covers all land but Antarctica (data.ts
- * FIT_WINDOW), so the map uses the height it has. Dots sit on a square
+ * canvas (`base`) to the window in data.ts FIT_WINDOW: the land from Hawaii
+ * to Fiji and from the Arctic to Cape Horn, without Antarctica. Dots sit on a square
  * screen-space grid over the land of that fit, like a printed halftone.
  * Zooming is an affine transform applied to the base coordinates, so the dot
  * pattern simply magnifies; the market outlines are drawn with a second
