@@ -2,7 +2,7 @@
 
 | Field | Value |
 |---|---|
-| Version | 0.4 (2026-10-11): accepted by the team ("proceed with the proposals"); decisions D-078 to D-080, D-083 and D-084 (D-081 and D-082 are the backend's); UI steps 14 (data layer, stage bar, stage 2), 15 (stage 3, the bridges) and 16 (stage 4, the package builder, the method sheet) built; the backend's step 16 delivered the CPM endpoints of section 7. Steps 17 and 18 are the next work |
+| Version | 0.5 (2026-10-11): accepted by the team ("proceed with the proposals"); decisions D-078 to D-080 and D-083 to D-085 (D-081 and D-082 are the backend's); UI steps 14 (data layer, stage bar, stage 2), 15 (stage 3, the bridges), 16 (stage 4, the package builder, the method sheet) and 17 (the live mode, gate G2, stage 5 with the CSV export) built; the backend's step 16 delivered the CPM endpoints of section 7. Step 18 is the next work and waits on the analyses endpoints |
 | Track | Frontend. Section 7 lists what the frontend needs from the backend team |
 | Builds on | `07-frontend-plan.md` (screens 0 to 2 and the subsystem dialog, built), `05-effort-market-layer-and-domain-panel.md` (bridge plan), `06-pm-workspace-ux-spec.md` (screens 3 to 6 as an outline), backend steps 11, 12, 14 and 15 |
 | Replaces | Section 8 of `07-frontend-plan.md` (next screens) once the team accepts it |
@@ -252,6 +252,13 @@ and writes. Proposal:
    static in snapshot mode. Next.js 16 changed caching and server actions; read
    `node_modules/next/dist/docs/` before writing them (`frontend/AGENTS.md`).
 
+Built in steps 14 to 17 (D-079, D-085): items 1 to 4 as written, with one read
+(`readWorkspace`) that merges the API's current answers into the snapshot instead of two
+implementations. Item 5 changed: every stage page, the vehicle screen included, is a partial
+prerender that reads at request time in both modes, because the live mode is a start-time setting
+(`TRACEPOINT_LIVE=1` on `pnpm start`) and a build must not bake the mode in; the cost in the
+snapshot mode is one read of the in-memory snapshot per request.
+
 ---
 
 ## 7. Requests to the backend team
@@ -260,9 +267,9 @@ and writes. Proposal:
 |---|---|---|
 | P0 | `POST /effort/estimate` with `{vehicle, market, requirement_ids?, changes?}`, returning each item and the combination (rule 45) with range, class, stability and footprint | Package builder; combined effort is not a sum and must not be computed in the browser. **Delivered** (backend step 16, D-081): `items[]`, `sum_of_single_pct`, `combined`, `model_hash`, `basis` |
 | P0 | `GET /analyses?vehicle=&market=` and `GET /analyses/{run_id}` reading `data/analyses/` | The analyst brief without spending a run on every page view |
-| P0 | Scope filter on `GET /events` (`vehicle`, `market`, or an entity id prefix such as `REQ-G60-US-`) | Stage 5 timeline in one call instead of one per requirement |
+| P0 | Scope filter on `GET /events` (`vehicle`, `market`, or an entity id prefix such as `REQ-G60-US-`) | Stage 5 timeline in one call instead of one per requirement. **Worked around** in step 17: one `GET /events?entity_type=requirement&limit=5000` call, kept to the scope by its id prefix on the Next.js server; a filter on the API would make it one small call and remove the limit |
 | P1 | `GET /effort/model` (W, L, I, thresholds, notes, model hash) | Method sheet from the API instead of the YAML file; plan v2 listed it as existing. **Delivered** (backend step 16), together with `GET /cpm/{vehicle}?market=&country=&labels=` (the `CpmView` the frontend builds into `content/cpm.json`) and `GET /requirements/{id}/effort` |
-| P1 | `GET /requirements/export?vehicle=&market=&format=csv\|md` | Export button in stage 5 (the CLI exporter exists) |
+| P1 | `GET /requirements/export?vehicle=&market=&format=csv\|md` | Export button in stage 5 (the CLI exporter exists). **Not needed for CSV** since step 17: the frontend writes the D2 list as CSV from the fields it holds (`/log/requirements.csv`); the Markdown export stays with the CLI |
 | P1 | Phase 5 customer-side components (reach, severity, 2030 market weight, evidence confidence) and `priority_score` with its components | The vertical axis and a ranked list with a visible formula |
 | P1 | Requirement sets for G60 EU and G68 CN (the requirement agent named as the next step in step 15) | Stages 2 to 5 are empty outside the three scopes |
 | P2 | `PATCH /requirements/{id}` (versioned edit of criteria, horizon, assumptions) | Choosing a criterion level ("600 or 700 mi") as a logged change |
@@ -280,7 +287,7 @@ Everything in P0 and P1 reads data the backend already holds; none needs a model
 | 14 | Data layer (adapter, types, snapshot script, snapshots for the three scopes), the stage bar, stage 2 read-only (candidate table, three views, left out, inbox rules) | Nothing new | **Built** (`reports/step-14-ui-workspace-stages-and-structure.md`) |
 | 15 | Stage 3: requirement page with criteria, evidence panel, CPM effort block and footprint; bridges 1 to 3 on the vehicle screen and in the dialog | Nothing new | **Built** (`reports/step-15-ui-requirement-page-and-bridges.md`) |
 | 16 | Stage 4: matrix and packages; the CPM method sheet with the matrix of links and the back-test; the package builder (moved forward from step 18, since `POST /effort/estimate` exists) | `GET /effort/model`, `GET /effort/backtest`, `POST /effort/estimate` (all delivered) | **Built** (`reports/step-16-ui-prioritization-and-method-sheet.md`) |
-| 17 | Live mode: gate G2 decisions through server actions; stage 5 record and timeline; export | Events scope filter, export endpoint | After 16, or in parallel with a running API |
+| 17 | Live mode: gate G2 decisions through server actions; stage 5 record and timeline; export | Nothing new in the end: the events are one filtered call, the CSV a route handler of the frontend | **Built** (`reports/step-17-ui-live-mode-decisions-and-documentation.md`) |
 | 18 | Analyst brief and run (the package builder is built in step 16) | Analyses endpoints | When the backend delivers P0 |
 
 Each step follows the verification of plan v2 section 9: `pnpm check`, `pnpm audit:pages`

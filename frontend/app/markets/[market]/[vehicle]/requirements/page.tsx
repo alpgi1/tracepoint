@@ -1,12 +1,14 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { Suspense } from "react";
 import { NoRequirements } from "@/components/workspace/no-requirements";
+import { SourceLine, StagePending } from "@/components/workspace/source-line";
 import { WorkspaceHeader } from "@/components/workspace/workspace-header";
-import { dateTime, full } from "@/lib/content/format";
+import { full } from "@/lib/content/format";
 import { allVehicleParams, content, domainName, marketByCode, vehicleIn } from "@/lib/content/markets";
-import type { DomainKey } from "@/lib/content/types";
-import { workspaceSnapshot } from "@/lib/data/workspace";
+import type { DomainKey, MarketContent, VehicleContent } from "@/lib/content/types";
+import { readWorkspace, workspaceSnapshot } from "@/lib/data/workspace";
 import { site } from "@/lib/site";
 import { groupByDomain } from "@/lib/workspace/candidates";
 import { stageFigures } from "@/lib/workspace/figures";
@@ -15,7 +17,8 @@ import { requirementHref } from "@/lib/workspace/requirements";
 /*
  * Stage 3, Requirements definition: the index of the scope's requirements
  * grouped by customer domain, the criteria count of each and how many rest
- * on evidence. Every row links to the requirement page. Static per scope.
+ * on evidence. Every row links to the requirement page. The body reads the
+ * workspace at request time (the snapshot, or the API in the live mode).
  */
 export function generateStaticParams() {
   return allVehicleParams();
@@ -35,8 +38,18 @@ export default async function RequirementsIndex({ params }: Props) {
   const { market, vehicle } = await params;
   const m = marketByCode(market);
   const v = m ? vehicleIn(m, vehicle) : undefined;
-  const snapshot = m && v ? workspaceSnapshot(v.code, m.code) : undefined;
-  if (!m || !v || !snapshot) notFound();
+  if (!m || !v || !workspaceSnapshot(v.code, m.code)) notFound();
+  return (
+    <Suspense fallback={<StagePending />}>
+      <IndexBody market={m} vehicle={v} />
+    </Suspense>
+  );
+}
+
+async function IndexBody({ market: m, vehicle: v }: { market: MarketContent; vehicle: VehicleContent }) {
+  const read = await readWorkspace(v.code, m.code);
+  if (!read) notFound();
+  const { snapshot } = read;
   const copy = site.requirements;
   const groups = groupByDomain(
     snapshot.requirements.map((requirement) => ({ requirement })),
@@ -101,10 +114,7 @@ export default async function RequirementsIndex({ params }: Props) {
             </table>
           </div>
         )}
-        <p className="stage-source">
-          {site.structure.sourceBefore} {dateTime(snapshot.snapshot.takenAt)}
-          {snapshot.snapshot.codeVersion ? `; ${site.structure.sourceCode} ${snapshot.snapshot.codeVersion}` : ""}.
-        </p>
+        <SourceLine read={read} />
       </section>
     </div>
   );

@@ -1,15 +1,17 @@
 import Link from "next/link";
-import { dateTime } from "@/lib/content/format";
 import type { CpmCatalogue, CpmView } from "@/lib/content/cpm-types";
 import { domainName } from "@/lib/content/markets";
 import type { MarketContent, VehicleContent } from "@/lib/content/types";
-import type { AuditEvent, WorkspaceSnapshot } from "@/lib/content/workspace-types";
+import type { WorkspaceRead } from "@/lib/data/workspace";
 import { site } from "@/lib/site";
 import type { RequirementRecord } from "@/lib/workspace/requirements";
 import { requirementsHref } from "@/lib/workspace/requirements";
 import type { StageFigures } from "@/lib/workspace/stages";
+import { DecisionForm, type DecisionFormProps } from "./decision-form";
 import { EffortBlock } from "./effort-block";
 import { EvidenceList } from "./evidence-list";
+import { SourceLine } from "./source-line";
+import { Timeline } from "./timeline";
 import { WorkspaceHeader } from "./workspace-header";
 
 /*
@@ -19,22 +21,26 @@ import { WorkspaceHeader } from "./workspace-header";
  * hairline definition list after the vertical table of the 21st.dev survey;
  * then the statement, the acceptance criteria as a table, the evidence,
  * assumptions and uncertainties, the CPM effort block, the gate G2
- * decision (disabled while the page reads a snapshot) and the history as a
- * hairline timeline. A server component: nothing of the snapshot reaches
- * the browser beyond the rendered page.
+ * decision (a form in the live mode, disabled otherwise, D-085) and the
+ * history as a hairline timeline. A server component: nothing of the
+ * snapshot reaches the browser beyond the rendered page.
  */
 export interface RequirementPageProps {
   market: MarketContent;
   vehicle: VehicleContent;
-  snapshot: WorkspaceSnapshot;
+  read: WorkspaceRead;
   record: RequirementRecord;
   catalogue: CpmCatalogue;
   view: CpmView;
   figures: StageFigures;
+  /** The page's own route, the return address of the decision form. */
+  pathname: string;
+  notice: DecisionFormProps["notice"];
 }
 
-export function RequirementPage({ market, vehicle, snapshot, record, catalogue, view, figures }: RequirementPageProps) {
+export function RequirementPage({ market, vehicle, read, record, catalogue, view, figures, pathname, notice }: RequirementPageProps) {
   const copy = site.requirements;
+  const { snapshot } = read;
   const { requirement: r, detail, effort } = record;
   const events = snapshot.events.filter((e) => e.entity_id === r.id);
   return (
@@ -135,32 +141,13 @@ export function RequirementPage({ market, vehicle, snapshot, record, catalogue, 
         <EffortBlock requirement={r} effort={effort} catalogue={catalogue} view={view} />
 
         <h3 className="stage-h3">{copy.decision.heading}</h3>
-        <p className="decision-status">
-          {copy.decision.current}: <b>{r.status}</b>, {copy.facts.version} {String(r.version)}.
-        </p>
-        <div className="button-row" role="group" aria-label={copy.decision.heading}>
-          <button type="button" className="filter-apply" disabled>
-            {copy.decision.approve}
-          </button>
-          <button type="button" className="filter-apply" disabled>
-            {copy.decision.reject}
-          </button>
-          <button type="button" className="filter-apply" disabled>
-            {copy.decision.defer}
-          </button>
-        </div>
-        <p className="workspace-hint">
-          {copy.decision.note} {dateTime(snapshot.snapshot.takenAt)}.
-        </p>
+        <DecisionForm requirement={r} read={read} pathname={pathname} notice={notice} />
 
         <h3 className="stage-h3">{copy.history.heading}</h3>
         <p className="workspace-hint">{copy.history.hint}</p>
-        <History events={events} />
+        <Timeline events={events} />
 
-        <p className="stage-source">
-          {site.structure.sourceBefore} {dateTime(snapshot.snapshot.takenAt)}
-          {snapshot.snapshot.codeVersion ? `; ${site.structure.sourceCode} ${snapshot.snapshot.codeVersion}` : ""}.
-        </p>
+        <SourceLine read={read} />
       </section>
     </div>
   );
@@ -174,37 +161,5 @@ function TextList({ items }: { items: string[] }) {
         <li key={item}>{item}</li>
       ))}
     </ul>
-  );
-}
-
-/*
- * The audit events of the requirement as a hairline timeline: a rail, one
- * mark per event, the time, the actor, the action and the rationale; a
- * status change names both states. Method after the timelines of the
- * 21st.dev survey (research notes 6.4) without their images and cards.
- */
-function History({ events }: { events: AuditEvent[] }) {
-  const copy = site.requirements.history;
-  if (events.length === 0) return <p className="stage-empty-line">{site.requirements.none}</p>;
-  return (
-    <ol className="timeline">
-      {events.map((e) => {
-        const before = e.before && typeof e.before.status === "string" ? e.before.status : null;
-        const after = e.after && typeof e.after.status === "string" ? e.after.status : null;
-        return (
-          <li key={e.id} className="timeline-item">
-            <span className="timeline-time">{dateTime(e.ts)}</span>
-            <span className="timeline-body">
-              <span className="timeline-head">
-                <b>{e.action}</b> · {copy.actors[e.actor_type] ?? e.actor_type} {e.actor_id}
-                {before && after && before !== after ? ` · ${copy.statusChange} ${before} ${copy.to} ${after}` : ""}
-              </span>
-              {e.rationale ? <span className="timeline-text">{e.rationale}</span> : null}
-              {e.run_id ? <span className="timeline-text cpm-muted">{e.run_id}</span> : null}
-            </span>
-          </li>
-        );
-      })}
-    </ol>
   );
 }

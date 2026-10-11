@@ -1,4 +1,4 @@
-# The scope workspace: the stage bar, the data layer and stage 2
+# The scope workspace: the stage bar, the data layer, stages 2 to 5 and the live mode
 
 | Field | Value |
 |---|---|
@@ -28,7 +28,7 @@ but counts and the share of a bar.
 |---|---|
 | `scripts/snapshot-workspace.mjs` (`pnpm snapshot`) | Calls the running backend API once per vehicle × market pair of `content/markets.json` and writes its responses unchanged to `content/workspace/<VEHICLE>_<MARKET>.json`: `GET /requirements`, `GET /effort/requirements`, `GET /effort/scenarios`, the excluded candidates (the scope event `requirements.candidates_excluded`) and the requirement events (`GET /events?entity_type=requirement`, the scope's share by the entity id prefix). The file records when it was taken, the endpoints, the backend's code version of its latest run and the effort model hash |
 | `lib/content/workspace-types.ts` | The contract, field for field in the backend's own names (snake_case): `Requirement` (D2 fields, D-060), `RequirementEffort` (D-062: effort in % of a new vehicle, P5 to P95, decision, stability, layer, size, the changes, the subsystems reached with the strongest path, the catalogue scan, flags with rule numbers, the model hash, `stale`), `EffortScenario` (the H1, H2 and ALL packages, rule 45), `ExcludedCandidate`, `AuditEvent` (D-026) |
-| `lib/data/workspace.ts` | `workspaceSnapshot(vehicle, market)`, `workspaceScopes()`, `scopesWithRequirements()`. One static import per snapshot file; the test checks that the folder and the list agree. Imported by server components only, so the browser never receives a snapshot. The live mode (reads at request time, writes through server actions) replaces the body of these functions and nothing else (step 17) |
+| `lib/data/workspace.ts` | `workspaceSnapshot(vehicle, market)`, `workspaceScopes()`, `scopesWithRequirements()` over one static import per snapshot file (the test checks that the folder and the list agree), and since step 17 `readWorkspace(vehicle, market, { detailOf? })`: the read every stage page and the CSV route make at request time, the snapshot or, in the live mode, the snapshot with the API's current answers merged in (`mergeLive`, pure and tested). Imported by server components, the server action and the route handler only, so the browser never receives a snapshot and never calls the API |
 | `lib/workspace/candidates.ts` | Joins a requirement with its estimate (`Candidate`: `starts`, the subsystems of the change profile; `reaches`, the subsystems the change propagates to), the inbox rules (section 4), the filters, the domain grouping and the stage counts |
 | `lib/content/workspace.test.ts` | Pins the contract: one file per pair, the literal unions, one effort row per requirement on known subsystems with P5 ≤ effort ≤ P95, the three scenarios with the combined effort never above the plain sum and the requirement count equal to the recommended, not rejected requirements of the horizon, events of the scope only, the candidate rules on G60 US |
 
@@ -48,6 +48,21 @@ set". A snapshot is imported by server components only, so its size never reache
 the requirement files or the profiles change; the page's source line names its date and the
 model hash, and `pnpm snapshot` refreshes it against a running API (`cd backend && uv run uvicorn
 tracepoint.api.app:app --port 8000`).
+
+**The live mode (step 17, D-085).** With `TRACEPOINT_LIVE=1` on the Next.js server and the
+backend API answering at `TRACEPOINT_API_URL` (default `http://127.0.0.1:8000`), `readWorkspace`
+asks the API in parallel for the five lists that change (`GET /requirements`,
+`GET /effort/requirements`, `GET /effort/scenarios`, the scope events for the excluded candidates,
+`GET /events?entity_type=requirement&limit=5000` kept to the scope's id prefix and sorted by id),
+and on a requirement page for `GET /requirements/{id}`, each with a 4 s timeout, and replaces those
+parts of the snapshot; the verbatims, study metrics and catalogue items stay from the snapshot,
+since they do not change between decisions. When any call fails the page shows the snapshot and its
+source line says which API did not answer and why ("fetch failed" within 0.1 s when nothing
+listens). Every stage body sits behind a Suspense boundary and calls `connection()` first, so the
+pages are partial prerenders (the shell static, the body streamed on every request) in both modes:
+the live mode is a start-time setting, not a build-time one, and a `pnpm build` made without it
+still goes live when started with it. Writes exist only in the live mode and only through the server
+action `app/actions/decide.ts` (gate G2, section 4c); the browser never calls the API.
 
 ## 3. The header and the stage bar
 
@@ -200,6 +215,46 @@ decision, the match and the independence, the two proposals of the pitch beneath
 decision. The carryover factor, the propagation reference impact and the platform rule's floor
 are in the model file but not in `GET /effort/model`; the sheet says so. Every effort figure of
 the workspace links here through its model hash.
+
+## 4c. Gate G2 and stage 5, Documentation (`/requirements/[id]#decision`, `/log`, `/log/requirements.csv`; step 17, D-085)
+
+**Gate G2 on the requirement page** (`components/workspace/decision-form.tsx`). In the live mode
+the block under "Decision at gate G2" is a form: the current status and version, the mandatory
+rationale (a textarea, `required`, at least three characters, as the API demands), and Approve,
+Reject and Defer as three submit controls of the one form (`name="decision"`). The server action
+`decideRequirement` reads the form, checks the id, the decision, the rationale and the return
+address (only a requirement page of this app), forwards `POST /requirements/{id}/decision` with
+`{decision, note}` to the API (10 s timeout) and redirects back to the page with the outcome in
+the URL: `?decision=approve|reject|defer` on success, `failed` with the API's reason, `invalid`,
+`note` or `offline` otherwise, and `#decision` so the block is in view. The page then reads the
+new status, the version and the `requirement.decided` event live, and shows the outcome as one
+line with the rule in the one blue ("Decision recorded: deferred."). The backend sets the actor
+from its own configuration (D-014), writes the audit event with the rationale and appends the
+decision to `config/decisions/requirements.jsonl` (D-061); the frontend stores nothing. Outside
+the live mode the three controls are disabled and the sentence names the snapshot's date; a
+submission that reaches the action without the live mode comes back as `offline`.
+
+**Stage 5, Documentation** (`app/markets/[market]/[vehicle]/log/page.tsx`,
+`lib/workspace/log.ts`). Three parts, nothing computed beyond joins:
+
+* **The decision record**: one row per requirement of the scope (ID and title linked to the
+  requirement page, status, version, the latest `requirement.decided` event's decision, actor,
+  time and rationale, or "no decision yet"), led by "n decided of m" counted as the stage bar
+  counts it (status other than proposed).
+* **Export**: a link to `/log/requirements.csv`, a route handler that writes the D2 list from the
+  same read (`requirementsCsv`): 28 columns in the API's names (the requirement's fields, the
+  criteria, assumptions, uncertainties and findings joined with ` | `, the engine's effort,
+  range, class, layer and model hash, the status and version, and the latest decision with actor,
+  time and rationale), cells quoted where they hold a comma, a quote or a line break, CRLF line
+  ends, served as `text/csv` with a `Content-Disposition` naming the scope and the day of the read.
+  The backend's own exporter (`tracepoint requirements export`) writes the same list as Markdown
+  and CSV; the route exists so the PM has it from the page.
+* **The audit trail**: every event the backend logged for the scope's requirements, newest first,
+  on the hairline timeline of stage 3 (`components/workspace/timeline.tsx`, now shared) with the
+  requirement id as a link leading each item; the count above it. Under 600 px the time stands
+  above the text.
+
+The stage bar's fifth figure ("n decided of m, k events") links here since step 17.
 
 ## 5. The inbox rules (`lib/workspace/candidates.ts`)
 
