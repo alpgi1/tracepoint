@@ -1,4 +1,4 @@
 :HL["/tracepoint/_next/static/chunks/102k6sibizct_.css","style"]
 :HC["/",""]
 1:[["children",{"s":"__PAGE__","h":160}]]
-0:{"b":"_CUX6Bsw_OYF7u0ejVL27","t":{"t":{"s":"","h":80,"c":"$Q1"}}}
+0:{"b":"4VMHvU5fKaA-_XO6bxDTL","t":{"t":{"s":"","h":80,"c":"$Q1"}}}
