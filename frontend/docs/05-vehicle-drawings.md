@@ -3,8 +3,8 @@
 | Field | Value |
 |---|---|
 | Date | 2026-10-10, step 07 |
-| Status | Built and verified; revised in step 08 (dot cloud to layered sketch), step 10 (crisp card lines) and step 11 (plain sketch without heat or leader lines, photos of the configured cars on the cards, photo-to-sketch hand-over), after the team's reviews |
-| Files | `scripts/vehicles/build.mjs` (drawing pipeline), `scripts/vehicles/photos.mjs` (photo cut-outs), `assets/vehicles/sources/` and `assets/vehicles/photos/` (inputs and their READMEs), `public/vehicles/` (masks and cut-outs), `content/vehicles/*.json`, `lib/vehicles/` (drawings, photos, layout, hand-over, zones), `components/vehicles/vehicle-drawing.tsx`, `components/landing/vehicle-card.tsx`, `components/workspace/vehicle-workspace.tsx`, `app/markets/[market]/[vehicle]/page.tsx` |
+| Status | Built and verified; revised in step 08 (dot cloud to layered sketch), step 10 (crisp card lines), step 11 (plain sketch without heat or leader lines, photos of the configured cars on the cards, photo-to-sketch hand-over) and step 20 (the hand-over starts with the click; the car in the header's corner), after the team's reviews |
+| Files | `scripts/vehicles/build.mjs` (drawing pipeline), `scripts/vehicles/photos.mjs` (photo cut-outs), `assets/vehicles/sources/` and `assets/vehicles/photos/` (inputs and their READMEs), `public/vehicles/` (masks and cut-outs), `content/vehicles/*.json`, `lib/vehicles/` (drawings, photos, layout, hand-over, zones), `components/vehicles/vehicle-drawing.tsx`, `components/landing/vehicle-card.tsx`, `components/workspace/vehicle-workspace.tsx`, `components/workspace/vehicle-dock.tsx`, `app/markets/[market]/[vehicle]/page.tsx` |
 
 ## 1. Why drawings and not 3D
 
@@ -89,32 +89,52 @@ that without any invented geometry.
 
 ## 4b. Hand-over from the map to the vehicle screen (`handoff-layer.tsx`, `lib/vehicles/handoff.ts`)
 
-The photo travels in a layer mounted in the root layout, so it survives the route change, and
-the card navigates the moment it is clicked.
+The photo travels in a layer mounted in the root layout, so it survives the route change. Since
+step 20 (D-108) nothing waits for the server before the photo moves.
 
-1. Click on a card: the card hands the layer the photo, its own box and a computed fallback
-   target, and navigates. A paper veil dissolves the map (220 ms).
-2. The vehicle screen renders underneath (the route is static and prefetched; about 25 ms in
-   the probe) with its sketch hidden, measures the silhouette box of its side view after
-   layout and reports it as the target (`arriveHandoff`); the layer waits at most 450 ms for
-   that report, else uses the fallback.
-3. The photo moves from the card straight to the target (720 ms, cubic in-out; no full-screen
-   stop) while the veil clears (450 ms), so the screen's header and cards appear under the
-   moving photo.
-4. On arrival the photo fades out (900 ms); 420 ms into the fade the screen reveals the sketch
-   (700 ms), so the sketch comes up behind the clearing photo. The layer unmounts when both
-   are done, about 2.2 s after the click.
+1. Click on a card: the card hands the layer the photo, its own box, the target the layout
+   computes (`photoTarget` in `lib/vehicles/layout.ts`) and a navigate callback. The photo
+   leaves the card at once and flies straight to the target (720 ms, `--ease-emphasized`:
+   under way with the click, a long settle) while a paper veil dissolves the map (220 ms).
+2. Once the veil covers the map, the layer navigates. The card's link prefetched its own
+   vehicle screen (the header and the stage), so the screen is there about 40 ms later, with
+   its sketch hidden; it measures the silhouette box of its side view after layout and reports
+   it (`arriveHandoff`). The veil clears (450 ms) and shows the screen under the moving photo;
+   the subsystems rise in when they are read (forbidden list E6).
+3. Where the reported box differs from the computed one (a classic scrollbar narrows the page),
+   a correction is composed after the flight (Web Animations, composite add; the math is
+   `landingCorrection`, tested in `lib/vehicles/layout.test.ts`) over the flight's remaining
+   time, so the photo lands on the pixel without a second movement.
+4. Landed on a screen that is there, the photo fades out (900 ms); 420 ms into the fade the
+   screen reveals the sketch (700 ms). The layer unmounts about 1.9 s after the click. A screen
+   slower than 4 s is shown as it is and the photo fades over it.
 
-A direct visit shows the sketch at once; with reduced motion the card only navigates. The
-probe in the step 12 report sampled the timeline at 1280, 1440 and 1920 px: the photo lands on
-the measured box to the pixel, then opacity 1 to 0, the sketch 0 to 1.
+A direct visit shows the sketch at once; with reduced motion the card only navigates. The step
+20 probe at 1280, 1440 and 1920 px: the photo lands within 0.2 px of the measured box with no
+correction; with the stage moved by 8 px the correction ran and the photo landed within 0.1 px.
+The flight is a transform on the compositor, so it keeps its pace while the new screen renders.
+
+## 4c. The car in the header's corner (`components/workspace/vehicle-dock.tsx`, `lib/vehicles/dock.ts`; step 20, D-107)
+
+On every screen of the scope but the vehicle screen, the side view sits small (176 px wide, the
+card masks) at the right of the header row, a link back to the vehicle screen. The stage's side
+view and the corner car carry one view transition name (`vehicle-<code>`, class
+`vehicle-dock`), so React pairs them when one leaves and the other arrives in the same
+navigation: the browser moves and scales captured images of the two and crossfades them over
+450 ms (`--ease-emphasized`). The document root is left out of view transitions
+(`view-transition-name: none` on `:root`), so only the car is captured and the page changes
+live. The corner car's link prefetches the vehicle screen with its stage, so the way back pairs
+too. Hover and keyboard focus turn its lines blue. Not below 600 px, not with reduced motion
+(the transition has no animation), not when the car was scrolled out of view (React skips a
+view transition it cannot see).
 
 ## 5. The vehicle screen (`/markets/<market>/<vehicle>`)
 
 * Static routes for the seven market and vehicle pairs (`generateStaticParams`); an unknown pair
   renders the not-found page (with status 200 under partial prerendering; see limits).
-* Header: a Map chip back, the vehicle's name and code, the market, 2025 units, verbatims, and
-  the drawing note for G68.
+* Header (the scope layout's since step 20, shared by every screen of the scope): a Map chip
+  back, the vehicle's name and code, the market, 2025 units, verbatims, and the drawing note for
+  G68.
 * Stage (left, at most 1040 px): the side view sketch, the top view at 62 % width below it;
   the hand-over photo sits over the side view only while arriving from the map.
 * Domains (right, 400 px): a card with every domain of the vehicle's baseline report except
@@ -170,7 +190,7 @@ Both outputs are committed so the app builds without poppler or the workbooks. T
 * The layers are rasters at 1600 px width; the vehicle screen shows them at up to 1040 px and
   the full-screen photo at up to 1500 px, so both stay crisp on 1x screens and slightly soft on
   2x screens.
-* The hand-over's fallback target is the geometry of `lib/vehicles/layout.ts`; the vehicle
-  screen's own measurement wins when it arrives within 450 ms, which it did in every probe.
+* The hand-over's first target is the geometry of `lib/vehicles/layout.ts`; the vehicle
+  screen's own measurement corrects it in flight (step 20); in every probe they agreed.
 * In the G70 press drawing the tyres are drawn apart from the wheel arches, so the contour
   traces both and the wheels read heavier than on the two vector drawings.

@@ -347,6 +347,33 @@ contact sheets reviewed. The registry holds few charts and no scatter: what was 
 Nothing was installed; the methods were written with the tokens in `priority-matrix.tsx`,
 `package-table.tsx`, the two stage-4 pages and `globals.css`.
 
+### 6.6 Survey for the motion between the screens (step 20, 2026-10-11)
+
+The team asked for the hand-over from the map and the move between the stages to run without a
+stop, for the text of a screen to arrive with a professional motion, and for the car to stay
+small in the top right corner. Search through the 21st.dev API (46 queries: page, route and view
+transition, shared element and shared layout animation, layout transition, image morph, expand
+to hero, text reveal, blur fade, fade in up, stagger, animated group, in view, text effect and
+animate, split text, word and line reveal, content loader, skeleton, top loading bar, sticky and
+shrinking header, floating thumbnail, picture in picture, mini player, dock, transition panel,
+crossfade, entrance and section reveal, staggered list), 587 demos of 486 components, 19 previews
+and 12 videos reviewed as frame strips (12 frames each). What was found and what was taken:
+
+| Component | What it is | Verdict |
+|---|---|---|
+| Animated Group 1154 (Motion Primitives, ibelick) | A wrapper that staggers its children in, with presets (fade, blur, slide, zoom) | **Method taken** for the arrival of a screen (E6): the children rise one after another, about 40 ms apart. Not taken: the blur preset (the list allows blur only on small elements), the spring, the `motion` library |
+| Blur Fade 1079 (Magic UI, dillionverma) | A heading, then a line under it, each fading in from a 6 px blur and offset with a growing delay | **Method taken**: a short rise (10 px here) and a delay per block, the heading first. The blur was not taken |
+| Task List 8242 (ravikatiyar162) | A table whose rows fade in one by one | Method noted: the CPM rows of the vehicle screen cascade the same way, capped at seven steps; table rows of the stages rise as one block, since a stagger over 40 rows would delay the last row past a second |
+| Transition Panel 1649 (ibelick) | Content swapped with an exit and an enter animation | Tried as a view transition of the whole screen (the old content lifting out in 160 ms) and removed: capturing the page cost 150 to 250 ms without a frame in the headless measurement (D-106) |
+| Morphing Dialog 651, Morphing Popover 1670 (ibelick), Layout Grid 1259 (Aceternity) | A card that grows into a dialog with `layoutId`, the same element in two places | **Method taken** for the car in the header's corner (E7) as the platform's own form: React's `ViewTransition` with one shared name for the stage's side view and the corner car, so the browser moves one car between the two places; no `motion` library |
+| Vertical Cut Reveal 884 (fancy components, danielpetho), Text Reveal 19727 (cnippet), Text Reveal 23571, Blurred Stagger Text 1858, Word Fade In 1185, Text Effect 965 (ibelick) | Text revealed word by word or letter by letter behind a mask or a blur | Rejected: a product manager reads figures and statements; revealing them a word at a time delays the reading, and the per-letter effects are the typewriter of the forbidden list |
+| Skeleton 1588 (shadcn), Lazy Image 7042, Animated Loading Skeleton 54, loaders | Grey shapes with a pulse or shimmer while content loads; spinners | Rejected: a loop (forbidden list section 4) and a preloader (section 3); the screen's place stays empty and says "Reading the workspace" only after 0.9 s |
+| Header 1 to 3 8964 to 8971, Floating Header 8137 (efferd) | Sticky headers that change with the scroll | Not needed: the header stays because it belongs to the layout, not because it sticks; the car's corner place took the idea of a compact header carrying the object |
+| Video Player 613 (mini player), docks 28, 2515, 1972 | A player that shrinks into a corner; macOS-like docks | Method noted: the object keeps living small in a corner while the user works elsewhere, which is the brief's car. The docks' magnification and glass were not taken |
+
+Nothing was installed; the methods were written with the tokens in `reveal.tsx`,
+`vehicle-dock.tsx`, `vehicle-workspace.tsx`, `handoff-layer.tsx` and `globals.css`.
+
 ## 7. Ideas beyond the brief
 
 Proposals, not decisions. Everything marked "needs data" waits for the evidence store API.

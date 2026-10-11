@@ -32,6 +32,27 @@ export interface ScopeContent {
   series: { key: string; topics: number; series: string } | null;
 }
 
+/**
+ * The stage a route segment under the scope layout belongs to (step 20): the
+ * vehicle screen is the null segment, its pages (the series across the
+ * regions, the market evidence) belong to stage 1, a requirement page to
+ * stage 3, the method sheet to stage 4.
+ */
+export function stageOfSegment(segment: string | null): StageKey {
+  switch (segment) {
+    case "structure":
+      return "structure";
+    case "requirements":
+      return "requirements";
+    case "priorities":
+      return "priorities";
+    case "log":
+      return "documentation";
+    default:
+      return "situation";
+  }
+}
+
 export function stageAvailable(stage: StageKey, scope: ScopeContent): boolean {
   switch (stage) {
     case "situation":

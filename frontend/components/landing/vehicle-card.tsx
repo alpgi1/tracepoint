@@ -17,9 +17,11 @@ import { site } from "@/lib/site";
  * One vehicle sold in the magnified market: the configured car's side
  * profile from the BMW configurator, the name, 2025 units, verbatims and
  * the weakest domain. A click hands the photo to the hand-over layer, which
- * carries it to the place the sketch has on the vehicle screen while the
- * route changes, and navigates at once. With reduced motion it only
- * navigates.
+ * sets it moving at once towards the place the sketch has on the vehicle
+ * screen and navigates once its veil covers the map. The link prefetches
+ * its own vehicle screen (the header and the sketch), so that screen is
+ * there the moment the layer asks for it (step 20). With reduced motion the
+ * card only navigates.
  */
 export interface VehicleCardProps {
   market: MarketContent;
@@ -45,20 +47,22 @@ export function VehicleCard({ market, vehicle }: VehicleCardProps) {
     if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || event.button !== 0) return;
     event.preventDefault();
     const box = boxRef.current;
-    if (!reducedMotion && box) {
-      const rect = box.getBoundingClientRect();
-      startHandoff({
-        code: vehicle.drawing,
-        src: photo.src,
-        from: { left: rect.left, top: rect.top, width: rect.width, height: rect.height },
-        fallbackTo: photoTarget(window.innerWidth, drawing, photo),
-      });
+    if (reducedMotion || !box) {
+      router.push(href);
+      return;
     }
-    router.push(href);
+    const rect = box.getBoundingClientRect();
+    startHandoff({
+      code: vehicle.drawing,
+      src: photo.src,
+      from: { left: rect.left, top: rect.top, width: rect.width, height: rect.height },
+      to: photoTarget(window.innerWidth, drawing, photo),
+      navigate: () => router.push(href),
+    });
   };
 
   return (
-    <Link href={href} className="vehicle-card" onClick={onClick}>
+    <Link href={href} prefetch className="vehicle-card" onClick={onClick}>
       <div className="vehicle-card-stage">
         <div ref={boxRef} className="vehicle-card-photo" style={{ aspectRatio: `${String(photo.width)} / ${String(photo.height)}` }}>
           <Image src={photo.src} alt="" width={photo.width} height={photo.height} unoptimized draggable={false} />

@@ -132,7 +132,8 @@ edge, rising over 180 ms and fading over 320 ms. It is a selection state, not de
 uses the one accent.
 
 **E2, one fade-in (2026-10-10).** The map fades in over 600 ms when its data arrives, once, never
-with reduced motion. There is no other entrance.
+with reduced motion. There is no other entrance on the landing page; the workspace screens arrive
+under E6.
 
 **E3, text on the landing page (2026-10-10, team decision D-040; revised the same day in step 07
 by D-045, callout cards since step 09, D-051).** On first view the page shows the map and, per
@@ -143,20 +144,47 @@ line exist for assistive technology and are visually hidden. The magnified state
 panel with the vehicle cards; it is a second state, not the first view.
 
 **E4, the hand-over from the map to the vehicle screen (2026-10-10, step 07, revised in steps 11
-and 12 by D-053 and D-055).** A clicked vehicle card hands the car's photo to a layer that
-carries it across the route change: a paper veil dissolves the map (220 ms), the photo moves
-straight from the card to the place the sketch has on the vehicle screen (720 ms) while the
-veil clears, then the photo fades out (900 ms) and the sketch is revealed behind it (700 ms).
-It is the one transition between the two screens, runs once per click, never with reduced
-motion, and moves only `transform` and `opacity`. The photos are the team's configured cars
-from the BMW configurator, identified as such in `assets/vehicles/photos/README.md`; they are
-not stock or AI imagery.
+and 12 by D-053 and D-055 and in step 20 by D-108).** A clicked vehicle card hands the car's
+photo to a layer that carries it across the route change. The photo leaves the card with the
+click and moves straight to the place the sketch has on the vehicle screen (720 ms, under way at
+once: `--ease-emphasized`) while a paper veil dissolves the map (220 ms); the route changes under
+the full veil, the veil clears as soon as the vehicle screen is there, a correction added to the
+flight lands the photo on the pixel the screen reports, then the photo fades out (900 ms) and the
+sketch is revealed behind it (700 ms). Nothing waits for the server before the photo moves. It is
+the one transition between the two screens, runs once per click, never with reduced motion, and
+moves only `transform` and `opacity`. The photos are the team's configured cars from the BMW
+configurator, identified as such in `assets/vehicles/photos/README.md`; they are not stock or AI
+imagery.
 
 **E5, customer verbatims as written (2026-10-11, step 13, D-074).** Wherever the UI quotes a
 customer verbatim from the workbooks as evidence (the content carries two per theme for the later
 evidence drawer; the dialog's second revision shows none), it is customer text, not UI copy: it
 keeps its exclamation marks, dashes and wording, is set as `blockquote` with its verbatim id, and
 the page audit's forbidden-text scan leaves `blockquote` out. Nothing in it is edited or invented.
+
+**E6, the arrival of a workspace screen (2026-10-11, step 20, D-106).** The team asked that moving
+between the stages never freeze and that the text arrive with a professional motion. When a
+screen of the scope workspace is reached by a click, its blocks rise into place one after
+another: 10 px and a fade over 380 ms, 40 ms apart, the eighth block and every later one
+together (`components/workspace/reveal.tsx`, Web Animations on `transform` and `opacity`, no
+blur, no spring). The header and the stage bar never move; a static heading and hint show the
+moment the stage is clicked, the content read at request time follows. It never plays on a
+direct visit (the content is painted by the server and readable at once), never for a new query
+on the same screen (a view tab, a filter, a builder preset, the outcome of a decision), never
+with reduced motion. While a screen is read, its place is empty; a plain line, "Reading the
+workspace", shows only after 0.9 s, so a quick read never flashes a message (no spinner, no
+skeleton, no loop).
+
+**E7, the car in the header's corner (2026-10-11, step 20, D-107).** The team asked that the car of
+the situation analysis not vanish on the other screens. On every screen of the scope but the
+vehicle screen, the side view sits small (176 px) at the right of the header row and links back
+to the vehicle screen. Leaving the vehicle screen, the browser moves the sketch from the stage
+into the corner over 450 ms (`--ease-emphasized`); coming back, it grows from the corner into
+the stage. It is a view transition with one captured element, the car (React's
+`ViewTransition`; the browser moves and scales captured images of the two sketches and crossfades
+them, the page's layout is not animated, and the page itself is not captured and never
+crossfades); without browser support the screens change at once. Not on phones (below 600 px there is no room in the header), not
+with reduced motion, not when the car is scrolled out of view.
 
 ## 8. Pre-delivery checklist
 
@@ -165,7 +193,7 @@ the page audit's forbidden-text scan leaves `blockquote` out. Nothing in it is e
 - [ ] Three equal cards or an equal bento grid anywhere?
 - [ ] Purple gradient, gradient text, box-shadow glow, shimmer, second animated ground?
 - [ ] Any stock or AI imagery? Every picture a real screen or real data?
-- [ ] Any infinite loop? If yes, is it covered by E1, E2 or E4? Any quoted text outside `blockquote` (E5)?
+- [ ] Any infinite loop? Any entrance or move that is not E1, E2, E4, E6 or E7? Any quoted text outside `blockquote` (E5)?
 - [ ] Does any content wait behind a loader? Is the page readable with JavaScript off?
 - [ ] With `prefers-reduced-motion`: no entrance, instant state changes, no coasting?
 - [ ] Keyboard: every control reachable, `focus-visible` ring visible, Escape closes the zoomed state and the dialog, focus returns to the row?

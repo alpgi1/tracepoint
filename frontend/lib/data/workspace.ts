@@ -1,4 +1,5 @@
 import { connection } from "next/server";
+import { cache } from "react";
 import F70_EU from "@/content/workspace/F70_EU.json";
 import G60_EU from "@/content/workspace/G60_EU.json";
 import G60_US from "@/content/workspace/G60_US.json";
@@ -131,3 +132,10 @@ export async function readWorkspace(vehicle: string, market: string, options: { 
     return { snapshot: base, live: false, api: API_URL, readAt: null, reason: error instanceof Error ? error.message : String(error) };
   }
 }
+
+/**
+ * The workspace of a scope, read once per request (step 20): the scope
+ * layout's stage figures and the page below it share the read when they
+ * render together, on a direct visit or a refresh.
+ */
+export const readScope = cache((vehicle: string, market: string) => readWorkspace(vehicle, market));

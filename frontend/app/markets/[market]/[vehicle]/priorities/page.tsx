@@ -4,8 +4,8 @@ import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import { EstimateView, H1Sentence, PackagesTable } from "@/components/workspace/package-table";
 import { PriorityMatrix } from "@/components/workspace/priority-matrix";
-import { SourceLine, StagePending } from "@/components/workspace/source-line";
-import { WorkspaceHeader } from "@/components/workspace/workspace-header";
+import { Reveal } from "@/components/workspace/reveal";
+import { SourceLine, StageWait } from "@/components/workspace/source-line";
 import { cpmCatalogue, cpmView } from "@/lib/content/cpm";
 import { full } from "@/lib/content/format";
 import { marketByCode, vehicleHref, vehicleIn } from "@/lib/content/markets";
@@ -13,9 +13,9 @@ import type { CpmCatalogue, CpmView } from "@/lib/content/cpm-types";
 import type { MarketContent, VehicleContent } from "@/lib/content/types";
 import type { WorkspaceSnapshot } from "@/lib/content/workspace-types";
 import { effortContent, estimatePackage } from "@/lib/data/effort";
-import { liveEnabled, readWorkspace } from "@/lib/data/workspace";
+import { liveEnabled, readScope } from "@/lib/data/workspace";
 import { site } from "@/lib/site";
-import { hasStage, stageFigures, stageParams } from "@/lib/workspace/figures";
+import { hasStage, stageParams } from "@/lib/workspace/figures";
 import { type MatrixPoint, byEvidence, chosenIds, h1Note, matrixPoints, presetIds } from "@/lib/workspace/priorities";
 import { requirementHref } from "@/lib/workspace/requirements";
 
@@ -25,7 +25,10 @@ import { requirementHref } from "@/lib/workspace/requirements";
  * and the package builder. The body reads the workspace at request time
  * (the snapshot, or the API in the live mode, D-085); inside it the builder
  * reads the chosen set from the URL and asks the backend API for the
- * estimate, behind its own Suspense boundary.
+ * estimate, behind its own Suspense boundary. The heading shows the moment
+ * the stage is clicked; a preset is the same screen with a new query and
+ * swaps at once (Reveal, step 20). The method sheet is static and its link
+ * prefetches it whole.
  */
 export function generateStaticParams() {
   return stageParams("priorities");
@@ -41,21 +44,26 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return { title: `${site.priorities.heading} · ${v.name} in ${m.name}` };
 }
 
-export default async function PrioritiesPage({ params, searchParams }: Props) {
+export default function PrioritiesPage({ params, searchParams }: Props) {
+  return (
+    <Reveal className="stage-body" aria-labelledby="priorities-heading">
+      <h2 id="priorities-heading" className="stage-h">
+        {site.priorities.heading}
+      </h2>
+      <Suspense fallback={<StageWait />}>
+        <PrioritiesBody params={params} searchParams={searchParams} />
+      </Suspense>
+    </Reveal>
+  );
+}
+
+async function PrioritiesBody({ params, searchParams }: { params: Props["params"]; searchParams: Props["searchParams"] }) {
   const { market, vehicle } = await params;
   const m = marketByCode(market);
   const v = m ? vehicleIn(m, vehicle) : undefined;
   const view = m && v ? cpmView(v.code, m.code) : undefined;
   if (!m || !v || !view || !hasStage("priorities", v.code, m.code)) notFound();
-  return (
-    <Suspense fallback={<StagePending />}>
-      <PrioritiesBody market={m} vehicle={v} view={view} searchParams={searchParams} />
-    </Suspense>
-  );
-}
-
-async function PrioritiesBody({ market: m, vehicle: v, view, searchParams }: { market: MarketContent; vehicle: VehicleContent; view: CpmView; searchParams: Props["searchParams"] }) {
-  const read = await readWorkspace(v.code, m.code);
+  const read = await readScope(v.code, m.code);
   if (!read) notFound();
   const { snapshot } = read;
   const copy = site.priorities;
@@ -65,63 +73,57 @@ async function PrioritiesBody({ market: m, vehicle: v, view, searchParams }: { m
   const note = h1Note(snapshot);
   const atZero = points.filter((p) => p.complaintRows === 0);
   return (
-    <div className="workspace">
-      <WorkspaceHeader market={m} vehicle={v} current="priorities" figures={stageFigures(v, m.code, snapshot)} />
-      <section className="stage-body" aria-labelledby="priorities-heading">
-        <h2 id="priorities-heading" className="stage-h">
-          {copy.heading}
-        </h2>
-        <p className="workspace-hint stage-hint">
-          {copy.hint} {copy.method}{" "}
-          <Link href={methodHref} className="cpm-citing-link">
-            {snapshot.snapshot.modelHash ?? effortContent().model.modelHash}
-          </Link>
-          .
-        </p>
-        {snapshot.requirements.length === 0 ? null : (
-          <>
-            <h3 className="stage-h3">{copy.matrixHeading}</h3>
-            <p className="workspace-hint stage-hint">{copy.matrixHint}</p>
-            <PriorityMatrix points={points} />
-            {atZero.length > 0 ? (
-              <p className="workspace-hint">
-                {copy.zeroNote}:{" "}
-                {atZero.map((p, i) => (
-                  <span key={p.id}>
-                    {i > 0 ? "; " : ""}
-                    <Link href={requirementHref(m.code, v.code, p.id)} className="cpm-citing-link">
-                      {p.id}
-                    </Link>{" "}
-                    ({p.primaryKinds.map((k) => site.requirements.kinds[k] ?? k).join(", ")})
-                  </span>
-                ))}
-                .
-              </p>
-            ) : null}
-            <p className="workspace-hint">{copy.tableHint}</p>
-            <MatrixTable points={byEvidence(points)} market={m} vehicle={v} />
+    <Reveal as="div" className="stage-content">
+      <p className="workspace-hint stage-hint">
+        {copy.hint} {copy.method}{" "}
+        <Link href={methodHref} prefetch className="cpm-citing-link">
+          {snapshot.snapshot.modelHash ?? effortContent().model.modelHash}
+        </Link>
+        .
+      </p>
+      {snapshot.requirements.length === 0 ? null : (
+        <>
+          <h3 className="stage-h3">{copy.matrixHeading}</h3>
+          <p className="workspace-hint stage-hint">{copy.matrixHint}</p>
+          <PriorityMatrix points={points} />
+          {atZero.length > 0 ? (
+            <p className="workspace-hint">
+              {copy.zeroNote}:{" "}
+              {atZero.map((p, i) => (
+                <span key={p.id}>
+                  {i > 0 ? "; " : ""}
+                  <Link href={requirementHref(m.code, v.code, p.id)} className="cpm-citing-link">
+                    {p.id}
+                  </Link>{" "}
+                  ({p.primaryKinds.map((k) => site.requirements.kinds[k] ?? k).join(", ")})
+                </span>
+              ))}
+              .
+            </p>
+          ) : null}
+          <p className="workspace-hint">{copy.tableHint}</p>
+          <MatrixTable points={byEvidence(points)} market={m} vehicle={v} />
 
-            <h3 className="stage-h3">{copy.packagesHeading}</h3>
-            <p className="workspace-hint stage-hint">{copy.packagesHint}</p>
-            <PackagesTable scenarios={snapshot.scenarios} catalogue={catalogue} view={view} />
-            {note ? <H1Sentence note={note} market={m.code} vehicle={v.code} /> : null}
+          <h3 className="stage-h3">{copy.packagesHeading}</h3>
+          <p className="workspace-hint stage-hint">{copy.packagesHint}</p>
+          <PackagesTable scenarios={snapshot.scenarios} catalogue={catalogue} view={view} />
+          {note ? <H1Sentence note={note} market={m.code} vehicle={v.code} /> : null}
 
-            <h3 className="stage-h3">{copy.builderHeading}</h3>
-            {liveEnabled() ? (
-              <>
-                <p className="workspace-hint stage-hint">{copy.builderHint}</p>
-                <Suspense fallback={<div className="stage-pending" aria-busy="true" />}>
-                  <Builder snapshot={snapshot} market={m} vehicle={v} catalogue={catalogue} view={view} searchParams={searchParams} />
-                </Suspense>
-              </>
-            ) : (
-              <p className="workspace-hint stage-hint">{copy.builderOffline}</p>
-            )}
-          </>
-        )}
-        <SourceLine read={read} />
-      </section>
-    </div>
+          <h3 className="stage-h3">{copy.builderHeading}</h3>
+          {liveEnabled() ? (
+            <>
+              <p className="workspace-hint stage-hint">{copy.builderHint}</p>
+              <Suspense fallback={<div className="stage-pending" aria-busy="true" />}>
+                <Builder snapshot={snapshot} market={m} vehicle={v} catalogue={catalogue} view={view} searchParams={searchParams} />
+              </Suspense>
+            </>
+          ) : (
+            <p className="workspace-hint stage-hint">{copy.builderOffline}</p>
+          )}
+        </>
+      )}
+      <SourceLine read={read} />
+    </Reveal>
   );
 }
 

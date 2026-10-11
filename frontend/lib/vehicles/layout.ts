@@ -64,3 +64,24 @@ export function fullScreenTarget(viewportWidth: number, viewportHeight: number, 
   }
   return { left: (viewportWidth - width) / 2, top: (viewportHeight - height) / 2, width, height };
 }
+
+/** The transform that carries a box onto another (origin at the top left corner): the photo's flight. */
+export function flightTransform(from: Box, to: Box): string {
+  return `translate(${String(to.left - from.left)}px, ${String(to.top - from.top)}px) scale(${String(to.width / from.width)})`;
+}
+
+/**
+ * What to add to a flight from `from` to the computed `to` so that it ends on
+ * the `exact` box the vehicle screen reported (step 20), or null when they
+ * agree to half a pixel. The flight ends at translate(T) scale(S); the
+ * correction is composed after it (Web Animations, composite "add"), so its
+ * translation is divided by S.
+ */
+export function landingCorrection(from: Box, to: Box, exact: Box): string | null {
+  const dx = exact.left - to.left;
+  const dy = exact.top - to.top;
+  const k = exact.width / to.width;
+  if (Math.abs(dx) < 0.5 && Math.abs(dy) < 0.5 && Math.abs(k - 1) < 0.001) return null;
+  const s = to.width / from.width;
+  return `translate(${String(dx / s)}px, ${String(dy / s)}px) scale(${String(k)})`;
+}
