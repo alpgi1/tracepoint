@@ -1,10 +1,12 @@
 import { ChevronDown } from "lucide-react";
+import Link from "next/link";
 import { cpmCatalogue } from "@/lib/content/cpm";
 import { domainName } from "@/lib/content/markets";
-import type { DomainKey } from "@/lib/content/types";
+import type { DomainKey, MarketCode } from "@/lib/content/types";
 import type { ExcludedCandidate } from "@/lib/content/workspace-types";
 import { site } from "@/lib/site";
 import type { Candidate, CandidateView } from "@/lib/workspace/candidates";
+import { requirementHref } from "@/lib/workspace/requirements";
 
 /*
  * Stage 2: the candidate table, grouped by customer domain. Columns: the
@@ -24,9 +26,11 @@ import type { Candidate, CandidateView } from "@/lib/workspace/candidates";
 export interface CandidateTableProps {
   groups: { domain: string; items: Candidate[] }[];
   view: CandidateView;
+  market: MarketCode;
+  vehicle: string;
 }
 
-export function CandidateTable({ groups, view }: CandidateTableProps) {
+export function CandidateTable({ groups, view, market, vehicle }: CandidateTableProps) {
   const copy = site.structure;
   const maxEffort = Math.max(0, ...groups.flatMap((g) => g.items.map((c) => c.effort?.effort_pct ?? 0)));
   return (
@@ -56,7 +60,7 @@ export function CandidateTable({ groups, view }: CandidateTableProps) {
               </th>
             </tr>
             {group.items.map((candidate) => (
-              <CandidateRow key={candidate.requirement.id} candidate={candidate} view={view} maxEffort={maxEffort} />
+              <CandidateRow key={candidate.requirement.id} candidate={candidate} view={view} maxEffort={maxEffort} href={requirementHref(market, vehicle, candidate.requirement.id)} />
             ))}
           </tbody>
         ))}
@@ -69,16 +73,22 @@ interface CandidateRowProps {
   candidate: Candidate;
   view: CandidateView;
   maxEffort: number;
+  /** The requirement page (stage 3). */
+  href: string;
 }
 
-function CandidateRow({ candidate, view, maxEffort }: CandidateRowProps) {
+function CandidateRow({ candidate, view, maxEffort, href }: CandidateRowProps) {
   const copy = site.structure;
   const { requirement: r, effort, starts, reaches, reasons } = candidate;
   const names = (keys: string[]) => keys.map((k) => subsystemName(k)).join(", ");
   const hasEstimate = effort !== null && effort.kind === "change";
   return (
     <tr className="candidate">
-      <td className="candidate-id">{r.id}</td>
+      <td className="candidate-id">
+        <Link href={href} className="id-link">
+          {r.id}
+        </Link>
+      </td>
       <td className="candidate-title">
         <details className="candidate-details" open={view === "inbox" ? true : undefined}>
           <summary className="candidate-summary">

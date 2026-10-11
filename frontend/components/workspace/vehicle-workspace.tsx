@@ -8,7 +8,9 @@ import type { MarketContent, VehicleContent } from "@/lib/content/types";
 import { drawingFor, photoFor } from "@/lib/vehicles/drawings";
 import { arriveHandoff, useSketchPhase } from "@/lib/vehicles/handoff";
 import { site } from "@/lib/site";
+import type { SubsystemBridge } from "@/lib/workspace/requirements";
 import type { StageFigures } from "@/lib/workspace/stages";
+import type { CpmSubsystemKey } from "@/lib/content/cpm-types";
 import { CpmList } from "./cpm-list";
 import { WorkspaceHeader } from "./workspace-header";
 
@@ -26,9 +28,10 @@ export interface VehicleWorkspaceProps {
   vehicle: VehicleContent;
   cpm: { catalogue: CpmCatalogue; view: CpmView };
   figures: StageFigures;
+  bridges: Partial<Record<CpmSubsystemKey, SubsystemBridge>> | undefined;
 }
 
-export function VehicleWorkspace({ market, vehicle, cpm, figures }: VehicleWorkspaceProps) {
+export function VehicleWorkspace({ market, vehicle, cpm, figures, bridges }: VehicleWorkspaceProps) {
   const hasVerbatims = vehicle.verbatims > 0;
   const side = drawingFor(vehicle.drawing, "side");
   const top = drawingFor(vehicle.drawing, "top");
@@ -67,7 +70,7 @@ export function VehicleWorkspace({ market, vehicle, cpm, figures }: VehicleWorks
           </div>
         </section>
         <aside className="workspace-domains">
-          <CpmList catalogue={cpm.catalogue} view={cpm.view} market={market} vehicle={vehicle} />
+          <CpmList catalogue={cpm.catalogue} view={cpm.view} market={market} vehicle={vehicle} bridges={bridges} />
           {!hasVerbatims ? (
             <section className="panel-card">
               <h2 className="workspace-h2">{workspace.noVerbatimsHeading}</h2>

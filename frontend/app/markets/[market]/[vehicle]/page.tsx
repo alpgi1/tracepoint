@@ -5,6 +5,7 @@ import { cpmCatalogue, cpmView } from "@/lib/content/cpm";
 import { allVehicleParams, marketByCode, vehicleIn } from "@/lib/content/markets";
 import { workspaceSnapshot } from "@/lib/data/workspace";
 import { stageFigures } from "@/lib/workspace/figures";
+import { bridgesFor } from "@/lib/workspace/requirements";
 
 export function generateStaticParams() {
   return allVehicleParams();
@@ -24,6 +25,8 @@ export default async function VehiclePage({ params }: PageProps<"/markets/[marke
   const v = m ? vehicleIn(m, vehicle) : undefined;
   const view = m && v ? cpmView(v.code, m.code) : undefined;
   if (!m || !v || !view) notFound();
-  const figures = stageFigures(v, m.code, workspaceSnapshot(v.code, m.code));
-  return <VehicleWorkspace market={m} vehicle={v} cpm={{ catalogue: cpmCatalogue(), view }} figures={figures} />;
+  const snapshot = workspaceSnapshot(v.code, m.code);
+  const figures = stageFigures(v, m.code, snapshot);
+  const bridges = snapshot && snapshot.requirements.length > 0 ? bridgesFor(snapshot, view) : undefined;
+  return <VehicleWorkspace market={m} vehicle={v} cpm={{ catalogue: cpmCatalogue(), view }} figures={figures} bridges={bridges} />;
 }

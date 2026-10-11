@@ -2,7 +2,7 @@
  "vehicle": "G68",
  "market": "CN",
  "snapshot": {
-  "takenAt": "2026-10-11T02:46:20.571Z",
+  "takenAt": "2026-10-11T03:55:19.739Z",
   "api": "http://127.0.0.1:8000",
   "codeVersion": "e06b37f",
   "modelHash": null,
@@ -11,7 +11,11 @@
    "efforts": "/effort/requirements?vehicle=G68&market=CN",
    "scenarios": "/effort/scenarios?vehicle=G68&market=CN",
    "excluded": "/events?entity_type=scope&entity_id=G68:CN",
-   "events": "/events?entity_type=requirement&limit=5000"
+   "events": "/events?entity_type=requirement&limit=5000",
+   "details": "/requirements/{id}",
+   "verbatims": "/verbatims/{id}",
+   "metrics": "/studies",
+   "equipment": "/equipment?vehicle={vehicle}"
   }
  },
  "requirements": [],
@@ -76,5 +80,9 @@
   }
  ],
  "excluded": [],
- "events": []
+ "events": [],
+ "details": {},
+ "verbatims": {},
+ "metrics": {},
+ "equipment": {}
 }

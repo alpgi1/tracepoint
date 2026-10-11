@@ -15,8 +15,8 @@ export const STAGES: StageKey[] = ["situation", "structure", "requirements", "pr
 export const STAGE_SEGMENT: Record<StageKey, string | null> = {
   situation: "",
   structure: "structure",
-  requirements: null,
-  priorities: null,
+  requirements: "requirements",
+  priorities: "priorities",
   documentation: null,
 };
 

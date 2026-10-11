@@ -1214,3 +1214,608 @@ a.stage-link:hover .stage-name {
     transition: none;
   }
 }
+
+/* ---------- step 15: stage 3, the requirement page, and the bridges ---------- */
+
+/* Breadcrumb: the index, a slash, the id. */
+.crumbs ol {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-size: 0.875rem;
+}
+.crumbs li + li::before {
+  content: "/";
+  margin-right: 8px;
+  color: var(--color-ink-2);
+}
+.crumb-link {
+  display: inline-flex;
+  align-items: center;
+  min-width: 44px;
+  min-height: 44px;
+  color: var(--color-blue);
+  text-decoration: none;
+}
+.crumb-link:hover {
+  text-decoration: underline;
+}
+.requirement-title {
+  max-width: 40ch;
+  margin-top: 4px;
+  font-size: 1.375rem;
+  font-weight: 500;
+  line-height: 1.3;
+}
+.stage-h3 {
+  margin-top: 36px;
+  font-size: 1.0625rem;
+  font-weight: 500;
+  line-height: 1.3;
+}
+.stage-h4 {
+  margin-top: 24px;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  line-height: 1.3;
+}
+.requirement-statement {
+  max-width: 72ch;
+  margin-top: 8px;
+  font-size: 0.9375rem;
+  line-height: 1.55;
+}
+.stage-empty-line {
+  margin-top: 8px;
+  color: var(--color-ink-2);
+  font-size: 0.875rem;
+}
+.text-list {
+  max-width: 72ch;
+  margin: 8px 0 0;
+  padding-left: 18px;
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+.text-list li + li {
+  margin-top: 4px;
+}
+
+/* The facts: a hairline definition list after the vertical table. */
+.facts {
+  max-width: 88ch;
+  margin: 20px 0 0;
+  border-top: 1px solid var(--color-line);
+}
+.facts > div {
+  display: grid;
+  grid-template-columns: 140px minmax(0, 1fr);
+  column-gap: 16px;
+  padding: 9px 0;
+  border-bottom: 1px solid var(--color-line);
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+.facts dt {
+  color: var(--color-ink-2);
+}
+.facts dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+.facts b,
+.effort-lead b,
+.footprint-figure b,
+.change-head b,
+.timeline-head b,
+.decision-status b {
+  font-weight: 500;
+}
+.criteria-table td {
+  font-size: 0.8125rem;
+  line-height: 1.5;
+}
+.criteria-target {
+  font-variant-numeric: tabular-nums;
+}
+.id-link,
+.title-link {
+  color: inherit;
+  text-decoration: none;
+}
+.id-link:hover,
+.title-link:hover {
+  color: var(--color-blue);
+}
+.candidate-table .id-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  margin: -13px 0;
+}
+.candidate-table .title-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  margin: -10px 0;
+}
+
+/* The findings of a requirement: accordion rows with the evidence inside. */
+.findings {
+  list-style: none;
+  margin: 12px 0 0;
+  padding: 0;
+  border-top: 1px solid var(--color-line);
+}
+.findings > li {
+  border-bottom: 1px solid var(--color-line);
+}
+.finding-summary {
+  display: grid;
+  grid-template-columns: 16px auto minmax(0, 1fr);
+  align-items: center;
+  column-gap: 10px;
+  min-height: 48px;
+  padding: 8px 0;
+  list-style: none;
+  cursor: pointer;
+}
+.finding-summary::-webkit-details-marker {
+  display: none;
+}
+.finding-summary:hover .candidate-chevron {
+  color: var(--color-blue);
+}
+.finding[open] .candidate-chevron {
+  transform: rotate(180deg);
+}
+.finding-role {
+  color: var(--color-ink-2);
+  font-size: 0.75rem;
+  min-width: 72px;
+}
+.finding-title {
+  font-size: 0.875rem;
+}
+.finding-meta {
+  grid-column: 3;
+  color: var(--color-ink-2);
+  font-size: 0.75rem;
+  font-variant-numeric: tabular-nums;
+}
+.finding-body {
+  max-width: 80ch;
+  padding: 0 0 16px 26px;
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+.finding-body .candidate-id,
+.finding-links .candidate-id,
+.evidence-line .candidate-id {
+  white-space: normal;
+}
+.finding-statement,
+.finding-figures {
+  margin-top: 6px;
+  font-variant-numeric: tabular-nums;
+}
+.finding-links {
+  margin: 8px 0 0;
+  padding-left: 18px;
+}
+.evidence-rows {
+  list-style: none;
+  margin: 10px 0 0;
+  padding: 0;
+}
+.evidence-rows > li + li {
+  margin-top: 8px;
+}
+.evidence-line {
+  font-variant-numeric: tabular-nums;
+}
+blockquote.verbatim {
+  margin: 0;
+  padding: 2px 0 2px 14px;
+  border-left: 2px solid var(--color-line);
+}
+blockquote.verbatim p {
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+.verbatim-meta {
+  margin-top: 4px;
+  color: var(--color-ink-2);
+  font-size: 0.75rem;
+  font-variant-numeric: tabular-nums;
+}
+
+/* The effort block: the lead line, the change profile, the footprint. */
+.effort {
+  margin-top: 8px;
+}
+.effort-lead {
+  max-width: 80ch;
+  margin-top: 8px;
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  font-variant-numeric: tabular-nums;
+}
+.changes {
+  list-style: none;
+  margin: 8px 0 0;
+  padding: 0;
+  max-width: 80ch;
+}
+.change {
+  display: grid;
+  gap: 2px;
+  padding: 8px 0;
+  border-top: 1px solid var(--color-line);
+  font-size: 0.8125rem;
+  line-height: 1.5;
+}
+.change-head {
+  font-variant-numeric: tabular-nums;
+}
+.footprint {
+  list-style: none;
+  margin: 8px 0 0;
+  padding: 0;
+  max-width: 88ch;
+}
+.footprint-row {
+  display: grid;
+  grid-template-columns: 160px minmax(0, 1fr);
+  grid-template-rows: auto auto;
+  column-gap: 16px;
+  row-gap: 4px;
+  padding: 8px 0;
+  border-top: 1px solid var(--color-line);
+  font-size: 0.8125rem;
+  line-height: 1.4;
+}
+.footprint-row[data-reached="false"] {
+  color: var(--color-ink-2);
+}
+.footprint-name {
+  grid-row: 1 / 3;
+  align-self: start;
+  padding-top: 1px;
+}
+.footprint-figure {
+  font-variant-numeric: tabular-nums;
+}
+.footprint-bar {
+  display: block;
+  grid-column: 2;
+  height: 3px;
+  background: var(--color-line);
+}
+.footprint-bar > span {
+  display: block;
+  height: 100%;
+  background: var(--color-blue);
+}
+.footprint-path {
+  grid-column: 2;
+  font-size: 0.75rem;
+}
+.decision-status {
+  margin-top: 8px;
+  font-size: 0.875rem;
+}
+.button-row {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+}
+.filter-apply:disabled {
+  color: var(--color-ink-2);
+  cursor: default;
+}
+.filter-apply:disabled:hover {
+  border-color: var(--color-line);
+}
+
+/* The history as a hairline timeline: a rail, a mark per event. */
+.timeline {
+  list-style: none;
+  margin: 12px 0 0;
+  padding: 0;
+  max-width: 88ch;
+}
+.timeline-item {
+  position: relative;
+  display: grid;
+  grid-template-columns: 150px minmax(0, 1fr);
+  column-gap: 16px;
+  padding: 8px 0 8px 20px;
+  font-size: 0.8125rem;
+  line-height: 1.5;
+}
+.timeline-item::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 4px;
+  border-left: 1px solid var(--color-line);
+}
+.timeline-item::after {
+  content: "";
+  position: absolute;
+  top: 14px;
+  left: 0;
+  width: 9px;
+  height: 9px;
+  background: var(--color-paper);
+  border: 1px solid var(--color-ink-2);
+  border-radius: 50%;
+}
+.timeline-time {
+  color: var(--color-ink-2);
+  font-variant-numeric: tabular-nums;
+}
+.timeline-body {
+  display: grid;
+  gap: 2px;
+}
+
+/* Bridges on the vehicle screen: the requirement line on a CPM row, the fourth band of the dialog. */
+.cpm-row-requirements {
+  grid-column: 1 / -1;
+  color: var(--color-ink-2);
+  font-size: 0.75rem;
+  font-variant-numeric: tabular-nums;
+}
+.cpm-requirement-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.cpm-requirement {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  column-gap: 16px;
+  align-items: center;
+  padding: 4px 0;
+  border-top: 1px solid var(--color-line);
+  font-size: 0.8125rem;
+}
+.cpm-requirement:first-child {
+  border-top: 0;
+}
+.cpm-requirement-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  color: var(--color-ink);
+  text-decoration: none;
+}
+.cpm-requirement-link:hover {
+  color: var(--color-blue);
+}
+.cpm-requirement-figure {
+  color: var(--color-ink-2);
+  font-size: 0.75rem;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.cpm-citing {
+  margin-top: 10px;
+  font-size: 0.8125rem;
+  line-height: 1.5;
+}
+.cpm-citing-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  margin: -15px 0;
+  color: var(--color-blue);
+  text-decoration: none;
+}
+.cpm-citing-link:hover {
+  text-decoration: underline;
+}
+
+/* ---------- step 16: stage 4, the matrix, the packages, the builder, the method sheet ---------- */
+
+/* The matrix: inline SVG, text in the ink tokens, marks in the one blue with a paper ring. */
+.matrix {
+  max-width: 820px;
+  margin: 12px 0 0;
+}
+.matrix-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.matrix-grid {
+  stroke: var(--color-line);
+  stroke-width: 1;
+}
+.matrix-axis {
+  stroke: var(--color-ink-2);
+  stroke-width: 1;
+}
+.matrix-tick {
+  fill: var(--color-ink-2);
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+}
+.matrix-title {
+  fill: var(--color-ink-2);
+  font-size: 12px;
+}
+.matrix-range {
+  stroke: var(--color-blue);
+  stroke-width: 2;
+  stroke-linecap: round;
+  opacity: 0.35;
+}
+.matrix-dot {
+  fill: var(--color-blue);
+  stroke: var(--color-paper);
+  stroke-width: 2;
+}
+.matrix-level {
+  fill: var(--color-ink-2);
+  font-size: 10px;
+}
+.matrix-label {
+  fill: var(--color-ink);
+  font-size: 10px;
+  font-family: var(--font-mono);
+}
+.matrix-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 24px;
+  margin-top: 6px;
+  color: var(--color-ink-2);
+  font-size: 0.75rem;
+}
+.matrix-legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.num-left {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Packages: the table, then the subsystems carrying most of each package. */
+.package-table td b,
+.package-note b {
+  font-weight: 500;
+}
+.package-footprints {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(360px, 100%), 1fr));
+  gap: 0 48px;
+  margin-top: 8px;
+}
+.package-footprint-h {
+  margin-top: 20px;
+  font-size: 0.8125rem;
+  color: var(--color-ink-2);
+}
+.package-footprint-h b {
+  color: var(--color-ink);
+  font-weight: 500;
+}
+.package-note {
+  max-width: 80ch;
+  margin-top: 16px;
+  font-size: 0.9375rem;
+  line-height: 1.55;
+  font-variant-numeric: tabular-nums;
+}
+
+/* The package builder: a GET form of checkbox rows, presets as links, the estimate beneath. */
+.builder {
+  margin-top: 8px;
+}
+.builder-presets {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 20px;
+}
+.builder-groups {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(420px, 100%), 1fr));
+  gap: 0 48px;
+  margin-top: 4px;
+}
+.builder-group {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  min-width: 0;
+}
+.builder-group legend {
+  padding: 10px 0 2px;
+  font-size: 0.8125rem;
+  font-weight: 500;
+}
+.pick {
+  display: grid;
+  grid-template-columns: 20px auto minmax(0, 1fr) auto;
+  align-items: center;
+  column-gap: 10px;
+  min-height: 44px;
+  padding: 4px 0;
+  border-top: 1px solid var(--color-line);
+  font-size: 0.8125rem;
+  cursor: pointer;
+}
+.pick input {
+  width: 16px;
+  height: 16px;
+  margin: 0;
+  accent-color: var(--color-blue);
+}
+.pick-title {
+  line-height: 1.35;
+}
+.pick-figure {
+  font-size: 0.75rem;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.builder .filter-apply {
+  margin-top: 16px;
+}
+.estimate {
+  margin-top: 8px;
+}
+
+/* The method sheet: the links as a matrix with upright column heads; a cell's fill follows the likelihood. */
+.dsm {
+  border-collapse: collapse;
+  font-size: 0.75rem;
+  font-variant-numeric: tabular-nums;
+}
+.dsm th,
+.dsm td {
+  border: 1px solid var(--color-line);
+  padding: 6px 8px;
+  text-align: left;
+  vertical-align: bottom;
+}
+.dsm-head {
+  height: 120px;
+  vertical-align: bottom;
+}
+.dsm-head span {
+  display: inline-block;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  font-weight: 400;
+  color: var(--color-ink-2);
+  white-space: nowrap;
+}
+.dsm-corner {
+  font-weight: 400;
+}
+.dsm-row {
+  font-weight: 400;
+  white-space: nowrap;
+}
+.dsm-cell {
+  min-width: 64px;
+  text-align: center;
+  background: color-mix(in oklab, var(--color-blue) calc(var(--l, 0) * 40%), transparent);
+}
+.dsm-cell[data-self="true"] {
+  background: rgb(20 23 28 / 0.04);
+}
+.candidate[data-absent="true"] td {
+  color: var(--color-ink-2);
+}

@@ -188,6 +188,234 @@ export interface AuditEvent {
   parent_event_id: number | null;
 }
 
+export type FindingKind = "recurring_complaint" | "unmet_need" | "strength" | "metric_gap" | "metric_strength" | "equipment_gap" | "competitor_advantage" | "trend";
+export type FindingLayer = "voice_of_customer" | "quantitative_metrics" | "portfolio_offering" | "regional_context" | "competition" | "market_trends";
+export type EvidenceRole = "example" | "quantifies" | "compares" | "supports";
+
+/**
+ * One evidence reference of a finding (D-026). `vclass:G60-0876#1` is a
+ * classification row of verbatim G60-0876, `metric:MET-…` a study attribute,
+ * `equipment:EQ-…` a catalogue item, `aggregate:…` a count, `finding:FND-…`
+ * another finding; the snapshot resolves the first three into `verbatims`,
+ * `metrics` and `equipment`.
+ */
+export interface EvidenceRow {
+  evidence_ref: string;
+  role: EvidenceRole;
+  weight: number | null;
+  note: string | null;
+}
+
+export interface FindingLink {
+  kind: string;
+  rationale: string | null;
+}
+
+export interface FindingLinkOut extends FindingLink {
+  to_finding_id: string;
+}
+
+export interface FindingLinkIn extends FindingLink {
+  from_finding_id: string;
+}
+
+/** A linked finding as GET /requirements/{id} returns it (D-036). */
+export interface FindingDetail {
+  role: FindingRole;
+  id: string;
+  vehicle_code: string;
+  market_code: string;
+  powertrain: string | null;
+  layer: FindingLayer;
+  kind: FindingKind;
+  domain_key: DomainKey;
+  theme_level2_id: string | null;
+  attribute_key: string | null;
+  title: string;
+  statement: string;
+  /** Counts per kind of finding; the keys differ by kind and are shown as given. */
+  quantification: Record<string, unknown>;
+  severity_score: number | null;
+  evidence_level: EvidenceLevel;
+  evidence_count: number;
+  status: string;
+  version: number;
+  created_by: string;
+  created_run_id: string | null;
+  updated_run_id: string | null;
+  evidence: EvidenceRow[];
+  links_out: FindingLinkOut[];
+  links_in: FindingLinkIn[];
+  events: AuditEvent[];
+}
+
+/** GET /requirements/{id}: the requirement with its findings, its estimate and its events. */
+export interface RequirementDetail {
+  id: string;
+  vehicle_code: string;
+  market_code: string;
+  domain_key: DomainKey;
+  title: string;
+  statement: string;
+  recommend: boolean;
+  recommend_rationale: string;
+  horizon: Horizon;
+  horizon_rationale: string;
+  markets: string[];
+  criteria: Criterion[];
+  assumptions: string[];
+  uncertainties: string[];
+  evidence_level: EvidenceLevel;
+  priority_score: number | null;
+  status: RequirementStatus;
+  version: number;
+  findings: FindingDetail[];
+  effort: RequirementEffort | null;
+  events: AuditEvent[];
+}
+
+export interface VerbatimClassification {
+  id: string;
+  feedback_type: string | null;
+  level2_id: string | null;
+  level2_raw: string | null;
+  level3_id: string | null;
+  level3_raw: string | null;
+  origin: string;
+  status: string;
+  confidence: number | null;
+}
+
+/** GET /verbatims/{id}: one customer verbatim as written, with its classification rows and its place in the workbook. */
+export interface Verbatim {
+  id: string;
+  vehicle_code: string;
+  source_label: string;
+  country_code: string;
+  market_code: string;
+  powertrain: string | null;
+  text: string;
+  char_len: number;
+  source_id: string;
+  locator: { id: string; row: number; file: string; sheet: string };
+  evidence_ref: string;
+  classifications: VerbatimClassification[];
+}
+
+/** One study attribute of GET /studies. */
+export interface StudyMetric {
+  id: string;
+  vehicle_code: string;
+  market_code: string;
+  study: string;
+  attribute_raw: string;
+  attribute_key: string;
+  domain_key: DomainKey | null;
+  stat_kind: string;
+  mean: number | null;
+  distribution: { top2: number | null; bottom3: number | null; scale: string; shares: Record<string, number>; mean_1_7?: number } | null;
+  scale_note: string | null;
+  locator: Record<string, unknown>;
+  evidence_ref: string;
+}
+
+/** One catalogue item of GET /equipment (D-024). */
+export interface EquipmentItem {
+  id: string;
+  sa_code: string | null;
+  name_de: string;
+  name_en: string | null;
+  section: string | null;
+  group_key: string | null;
+  domain_key: DomainKey | null;
+  description_de: string | null;
+  price_eur: string | null;
+  price_note: string | null;
+  locator: Record<string, unknown>;
+  evidence_ref: string;
+  availability: Record<string, string>;
+  dependencies: unknown[];
+}
+
+/** One row of GET /effort/backtest: a documented BMW decision re-estimated by the engine (D-062). */
+export interface BacktestRow {
+  id: string;
+  name: string;
+  /** False for the proposals the anchor file carries beside the eight anchors. */
+  anchor: boolean;
+  independent: boolean;
+  effort_pct: number;
+  layer: EffortLayer;
+  decision: EffortDecision;
+  size: EffortSize;
+  certification_add_on: boolean;
+  platform_change: boolean;
+  subsystems: EffortSubsystem[];
+  p5: number;
+  p95: number;
+  decision_stable_pct: number;
+  score_stable_pct: number;
+  /** BMW's own decision; null for a proposal. */
+  actual: EffortDecision | null;
+  ok: boolean | null;
+  k3_rule: boolean;
+}
+
+export interface Backtest {
+  rows: BacktestRow[];
+  hits: number;
+  anchors: number;
+  independent_hits: number;
+  independent_anchors: number;
+  runs: number;
+  spread: number;
+  scope: string;
+  seed: number;
+  model_hash: string;
+}
+
+/** POST /effort/estimate: each requirement or change on its own and all of them combined (rule 45). */
+export interface EstimateItem {
+  requirement: string | null;
+  title: string | null;
+  horizon: Horizon | null;
+  effort_pct: number;
+  p5: number;
+  p95: number;
+  decision: EffortDecision;
+  decision_stable_pct: number;
+  layer: EffortLayer;
+  size: EffortSize;
+  certification_add_on: boolean;
+  subsystems: EffortSubsystem[];
+  changes: EffortChange[];
+}
+
+export interface EstimateCombined {
+  effort_pct: number;
+  layer: EffortLayer;
+  decision: EffortDecision;
+  size: EffortSize;
+  certification_add_on: boolean;
+  platform_change: boolean;
+  subsystems: EffortSubsystem[];
+  p5: number;
+  p95: number;
+  decision_stable_pct: number;
+  score_stable_pct: number;
+  kind: EffortKind;
+}
+
+export interface EstimateResponse {
+  vehicle: string;
+  market: string | null;
+  items: EstimateItem[];
+  sum_of_single_pct: number;
+  combined: EstimateCombined;
+  model_hash: string;
+  basis: string;
+}
+
 export interface SnapshotMeta {
   /** When the API was read. */
   takenAt: string;
@@ -196,7 +424,7 @@ export interface SnapshotMeta {
   codeVersion: string | null;
   /** The effort model the estimates were computed with (config/effort/model.yaml). */
   modelHash: string | null;
-  endpoints: Record<"requirements" | "efforts" | "scenarios" | "excluded" | "events", string>;
+  endpoints: Record<"requirements" | "efforts" | "scenarios" | "excluded" | "events" | "details" | "verbatims" | "metrics" | "equipment", string>;
 }
 
 export interface WorkspaceSnapshot {
@@ -208,4 +436,10 @@ export interface WorkspaceSnapshot {
   scenarios: EffortScenario[];
   excluded: ExcludedCandidate[];
   events: AuditEvent[];
+  /** GET /requirements/{id} per requirement of the scope, keyed by id (step 15). */
+  details: Record<string, RequirementDetail>;
+  /** The evidence the findings reference, keyed by id: resolved once per scope. */
+  verbatims: Record<string, Verbatim>;
+  metrics: Record<string, StudyMetric>;
+  equipment: Record<string, EquipmentItem>;
 }

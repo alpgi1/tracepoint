@@ -3,13 +3,14 @@ import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import { CandidateFilters } from "@/components/workspace/candidate-filters";
 import { CandidateTable, ExcludedTable } from "@/components/workspace/candidate-table";
+import { NoRequirements } from "@/components/workspace/no-requirements";
 import { WorkspaceHeader } from "@/components/workspace/workspace-header";
 import { cpmCatalogue, cpmView } from "@/lib/content/cpm";
 import { dateTime } from "@/lib/content/format";
 import { allVehicleParams, content, domainName, marketByCode, vehicleHref, vehicleIn } from "@/lib/content/markets";
 import type { MarketContent, VehicleContent } from "@/lib/content/types";
 import type { WorkspaceSnapshot } from "@/lib/content/workspace-types";
-import { scopesWithRequirements, workspaceSnapshot } from "@/lib/data/workspace";
+import { workspaceSnapshot } from "@/lib/data/workspace";
 import { site } from "@/lib/site";
 import {
   type Candidate,
@@ -76,23 +77,6 @@ export default async function StructurePage({ params, searchParams }: Props) {
   );
 }
 
-function NoRequirements({ market, vehicle }: { market: MarketContent; vehicle: VehicleContent }) {
-  const copy = site.structure;
-  const others = scopesWithRequirements()
-    .map((s) => {
-      const om = marketByCode(s.market);
-      const ov = om ? vehicleIn(om, s.vehicle) : undefined;
-      return om && ov ? `${ov.name} ${ov.code}, ${om.name}` : `${s.vehicle}, ${s.market}`;
-    })
-    .join("; ");
-  return (
-    <p className="stage-empty">
-      {copy.noRequirementsBefore} {vehicle.name} {vehicle.code} in {market.name} {copy.noRequirementsMiddle} {others}
-      {copy.noRequirementsAfter}
-    </p>
-  );
-}
-
 interface CandidatesProps {
   snapshot: WorkspaceSnapshot;
   market: MarketContent;
@@ -131,7 +115,7 @@ async function Candidates({ snapshot, market, vehicle, searchParams }: Candidate
           <p className="stage-empty">{copy.noExcluded}</p>
         )
       ) : shown.length > 0 ? (
-        <CandidateTable groups={groups} view={view} />
+        <CandidateTable groups={groups} view={view} market={market.code} vehicle={vehicle.code} />
       ) : (
         <p className="stage-empty">{filtered.length === 0 ? copy.noMatch : copy.noInbox}</p>
       )}

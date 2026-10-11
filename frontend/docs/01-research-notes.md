@@ -298,6 +298,55 @@ with the tokens in `stage-bar.tsx`, `candidate-filters.tsx`, `candidate-table.ts
 anatomy, not copied: they rest on `@base-ui/react` tabs and TanStack Table, which a table of 20
 rows and three links do not need.
 
+### 6.4 Survey for the requirement page (step 15, 2026-10-11)
+
+The step adds stage 3: the requirements index and the requirement page (facts, statement,
+acceptance criteria, evidence with verbatims, assumptions, the CPM effort block with the
+footprint, the gate G2 decision, the history), and the bridges on the vehicle screen. Search
+through the 21st.dev API (14 queries: key-value and definition lists, specification and
+acceptance-criteria tables, quote and testimonial lists, audit and activity timelines,
+breadcrumbs, horizontal bar lists, detail page headers, requirement cards, disabled button
+groups, propagation path chains), 138 unique demos, 13 contact sheets reviewed. What was found
+and what was taken:
+
+| Component | What it is | Verdict |
+|---|---|---|
+| Breadcrumb "with slash" 440, "default" 436 (Origin UI) | Links separated by a slash or a chevron, a home icon | **Method taken** for the way back to the index: two items, a slash, the current id in mono; no icon |
+| Vertical table 93 (Origin UI), Key Value List 25162 (step 13) | Label column, value column, hairlines | **Method taken** for the facts list (proposal, horizon, domain, markets, evidence level, status) as a definition list |
+| Table "default" 84, "without horizontal dividers" 86, "dense" 89 (Origin UI) | Hairline tables | **Method taken** for the criteria table and the index, as in step 14 |
+| Quote Card 653 (danielpetho) | A quotation with the author beneath and a coloured dot | **Method taken** for the verbatims: a blockquote with a 2 px hairline, the id, source, country, powertrain, classification and workbook row beneath (exemption E5); the dot was not taken |
+| Accordion "Table w/ plus-minus" 503, "left plus-minus" 505 (Origin UI) | Rows that open with a plus or a chevron | **Method taken** for the findings: native `details` with the chevron of step 14, the primary finding open |
+| Timeline 857 (manuarora700), 5157 (preetsuthar17), 1074 (nyxbui), modern timeline 4647 | A vertical rail with marks, dates and cards, sometimes images | **Method taken** for the history: a hairline rail, a ring per event, the time, actor, action and rationale; no cards, no images |
+| Button group 711 (shadcn), disabled button 134 (Origin UI) | A row of bordered buttons; a disabled state in grey | **Method taken** for the gate G2 controls: three bordered buttons, disabled while the page reads a snapshot, with the sentence that says why |
+| Bar chart hatched and highlighted 4598 to 4600 (LegionWebDev) | Vertical bar charts | Rejected: the footprint is a list of rows, each with the subsystem's weight as the track and the propagated risk as the fill, after the CPM list |
+| Gradient tracing 569, 570 (preetsuthar17) | Animated gradient along a path | Rejected: the propagation path is text ("via HV battery, E/E architecture") |
+| Testimonials 2437, 1434, 6268, 9603; features 1906, 1017, 1898 to 1907; footers; bento 1197; credit-card inputs 178 to 181 | Marketing blocks and forms | Rejected on sight |
+
+Nothing was installed; the methods were written with the tokens in `requirement-page.tsx`,
+`evidence-list.tsx`, `effort-block.tsx` and `globals.css`.
+
+### 6.5 Survey for the matrix, the packages and the method sheet (step 16, 2026-10-11)
+
+The step adds stage 4: the effort-against-evidence matrix, the packages, the package builder,
+and the CPM method sheet with the 12 by 12 link matrix and the back-test. Search through the
+21st.dev API (12 queries: prioritization and value-effort matrix, quadrant chart, scatter and
+bubble chart, heatmap and dependency matrix, scenario comparison cards, checkbox list with a
+total, stat tile, range bar chart, comparison table, sticky summary bar), 125 unique demos, 11
+contact sheets reviewed. The registry holds few charts and no scatter: what was found and taken:
+
+| Component | What it is | Verdict |
+|---|---|---|
+| Table with vertical lines 88, Comparison table 95 (Origin UI) | A grid with vertical and horizontal hairlines; column heads standing upright | **Method taken** for the link matrix of the method sheet: a hairline grid, upright column heads, figures as text in every cell; the fill of a cell follows the likelihood in the one blue |
+| Vertical table 93 (Origin UI) | Label and value columns | **Method taken** for the model's facts (reference, engine, hash, thresholds, add-on, this vehicle) |
+| Checkbox "with a label and a description" 666 (Origin UI), coss checkbox with description 11449 | A checkbox with a title and a muted line | **Method taken** for the package builder's rows: a 44 px label row with the id, the title and the estimate beside the box; no card, no description paragraph |
+| Bar charts 4597 to 4624, line chart 4632, pie and radial 4638, 4640 (LegionWebDev), donut 9377, area 4453 | Charts in dark cards with glow, hatching, duotone | Rejected: a scatter was needed, and the cards' glow and gradients are on the forbidden list. The matrix is inline SVG written to the dataviz rules (10 px marks with a 2 px paper ring, hairline axes, selective labels, a legend for the two series, a table twin) |
+| Pricing tables and cards 1541, 5115, 6247, 69; cards stack 1832; compare slider 1080 | Plan comparisons and marketing blocks | Rejected for the packages: three rows of one hairline table with the subsystems beneath carry more than three cards |
+| Sidebars 1075, 1627, 1603, 2170; floating header 8137 | Navigation and sticky bars | Not needed: the stage bar is the navigation |
+| Infinite grid 9609, 9708; cybernetic bento 6014; moving dot card 2222 | Decorative grids and tiles | Rejected on sight |
+
+Nothing was installed; the methods were written with the tokens in `priority-matrix.tsx`,
+`package-table.tsx`, the two stage-4 pages and `globals.css`.
+
 ## 7. Ideas beyond the brief
 
 Proposals, not decisions. Everything marked "needs data" waits for the evidence store API.

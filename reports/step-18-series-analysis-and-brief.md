@@ -9,7 +9,7 @@
 
 ## 1. Delivered
 
-Decisions D-089 to D-094.
+Decisions D-091 to D-096.
 
 ### 1.1 The series analysis (`agent/series.py`, `tracepoint agent series --vehicle G60`)
 
@@ -22,7 +22,7 @@ first. For the 5 Series:
 | US | G60 | 3,628 verbatims | US_2025 | 78,000 |
 | CN | G68 | none | CN_EU_2025 | 75,000 |
 
-The remainder market RoW is left out (D-093). Its verbatims exist (G60: South Korea 205, Japan
+The remainder market RoW is left out (D-095). Its verbatims exist (G60: South Korea 205, Japan
 53, from Source A of the workbook), and the first runs showed the two countries as regions. But
 there is no study, no external evidence and no sales figure per country, so nothing could be
 held against those verbatims; the two regions produced "watch" lines only. They stay available
@@ -81,7 +81,7 @@ analyst reported as "the store returned no catalogue rows". `get_equipment`, `ge
 **Rivals.** Named only from external rows. The competitor matrix of `plan/05` is not curated, so
 where the store holds nothing the brief says "nothing stored on rivals for this topic".
 
-### 1.2 The brief (D-090)
+### 1.2 The brief (D-092)
 
 The Markdown file of an analysis is what a product manager reads; everything else is in the JSON
 beside it.
@@ -98,14 +98,14 @@ The three sample analyses under `reports/analysis/` are re-rendered from their J
 22 to 15 and 23 to 13 thousand characters. Their text is that of the earlier prompt;
 `situation-analysis-v8` asks for short fields.
 
-**After two security reviews (D-092, D-094).** The reports are read rendered, and their text
+**After two security reviews (D-094, D-096).** The reports are read rendered, and their text
 comes from the model. Whatever this program did not write now goes through one escaping
 function and is shown character for character: one line, no HTML or entity, no emphasis, link,
 image or code span, no table cell, no heading, list or rule (also not inside a bullet or a
 quote), no address a renderer would make clickable. A title holding a line break and `## ` used
 to make a section of its own.
 
-### 1.3 The agent fetches nothing (D-091)
+### 1.3 The agent fetches nothing (D-093)
 
 The tools read the evidence store and nothing else. A rival, a market fact or a figure that is
 not stored is reported as unknown. Fetching stays `tracepoint ingest external --fetch`, run by a
