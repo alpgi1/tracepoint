@@ -39,6 +39,7 @@ from tracepoint.effort.cpm import (
     config_dir,
     draw,
     estimate,
+    load_anchors,
     load_model,
     model_hash,
     sensitivity,
@@ -431,6 +432,94 @@ def list_efforts(
             }
         )
     return out
+
+
+def reference_changes() -> dict[str, list[dict[str, Any]]]:
+    """Changes whose size somebody authored and others can check: the independent back-test
+    anchors (documented BMW decisions) and the change profiles of the requirements. Per subsystem,
+    smallest own impact first. They are the scale a new change is judged against."""
+    refs: dict[str, list[dict[str, Any]]] = {}
+
+    def add(c: Change, source: str, label: str) -> None:
+        refs.setdefault(c.subsystem, []).append(
+            {
+                "own_impact": c.own_impact,
+                "layer": c.layer,
+                "carryover": c.carryover,
+                "source": source,
+                "label": label,
+            }
+        )
+
+    for anchor in load_anchors().anchors:
+        if anchor.independent:
+            for c in anchor.changes:
+                add(c, "BMW decision", anchor.name)
+    for f in load_profiles():
+        for p in f.profiles:
+            for c in p.changes:
+                add(c, p.requirement, c.why)
+    for rows in refs.values():
+        rows.sort(key=lambda r: (r["own_impact"], r["source"]))
+    return refs
+
+
+def estimate_package(
+    session: Session,
+    vehicle: str,
+    market: str | None = None,
+    requirement_ids: list[str] | None = None,
+    changes: list[Change] | None = None,
+) -> dict[str, Any]:
+    """Effort of a hand-picked package: stored requirement profiles and free changes, each on its
+    own and all combined per subsystem (rule 45; a requirement named twice counts once). Nothing
+    is stored. Raises ValueError for a requirement outside the vehicle and market, or without an
+    estimate, and for a change that breaks a rule of the model."""
+    engine, samples = engine_and_samples(vehicle)
+    stored = {r["id"]: r for r in list_efforts(session, vehicle, market)}
+    ids = list(dict.fromkeys(requirement_ids or []))
+    unknown = [i for i in ids if i not in stored]
+    if unknown:
+        scope = f"{vehicle} {market}" if market else vehicle
+        raise ValueError(
+            f"no effort estimate for {', '.join(unknown)} among the requirements of {scope}"
+        )
+    keys = ("effort_pct", "p5", "p95", "decision", "decision_stable_pct", "layer", "size")
+    items: list[dict[str, Any]] = [
+        {
+            "requirement": i,
+            "title": stored[i]["title"],
+            "horizon": stored[i]["horizon"],
+            **{k: stored[i][k] for k in keys},
+            "certification_add_on": stored[i]["certification"],
+            "subsystems": stored[i]["subsystems"],
+            "changes": stored[i]["changes"],
+        }
+        for i in ids
+    ]
+    combined = [Change.model_validate(c) for i in ids for c in stored[i]["changes"]]
+    for change in changes or []:
+        res = evaluate(engine, samples, [change])
+        items.append(
+            {
+                "requirement": None,
+                **{k: res[k] for k in keys},
+                "certification_add_on": res["certification_add_on"],
+                "subsystems": res["subsystems"],
+                "changes": [change.model_dump()],
+            }
+        )
+        combined.append(change)
+    cfg = load_model()
+    return {
+        "vehicle": vehicle,
+        "market": market,
+        "items": items,
+        "sum_of_single_pct": round(sum(i["effort_pct"] for i in items), 2),
+        "combined": evaluate(engine, samples, combined),
+        "model_hash": model_hash(cfg),
+        "basis": cfg.status,
+    }
 
 
 SCENARIOS = (

@@ -212,3 +212,36 @@ def test_analysis_takes_the_effort_of_an_existing_requirement_from_its_profile(e
     assert "belongs to G60 US, not G70 US" in foreign_faults[0]
     assert foreign["packages"][0]["not_counted"] == ["seats", "seats again"]
     assert any("rejected by the product manager at gate G2" in f for f in after_rejection)
+
+
+def test_package_of_requirements_and_free_changes(engine, ingested):
+    """Runs after the estimate test above, which fills requirement_effort."""
+    from tracepoint.effort.store import estimate_package
+
+    seats, hmi = "REQ-G60-US-IC-01", "REQ-G60-US-ID-01"
+    extra = Change(subsystem="software_hmi", own_impact=0.1, layer="K1")
+    with Session(engine) as session:
+        pkg = estimate_package(session, "G60", "US", [seats, hmi, seats], [extra])
+        with pytest.raises(ValueError, match="no effort estimate for REQ-G60-US-IC-01"):
+            estimate_package(session, "G70", "US", [seats])
+    assert [i["requirement"] for i in pkg["items"]] == [seats, hmi, None]  # named twice: once
+    assert pkg["combined"]["effort_pct"] < pkg["sum_of_single_pct"]
+    assert pkg["combined"]["decision"] == "adapt" and pkg["combined"]["subsystems"]
+
+
+def test_reference_changes_are_the_scale_for_a_new_change():
+    from tracepoint.agent.analysis import _size_check
+    from tracepoint.effort.store import reference_changes
+
+    refs = reference_changes()
+    seats = refs["seats"]
+    assert [r["own_impact"] for r in seats] == sorted(r["own_impact"] for r in seats)
+    assert refs["software_hmi"][-1]["source"] == "BMW decision"  # the OS 7 release at 0.4
+    low, high = seats[0]["own_impact"], seats[-1]["own_impact"]
+    inside, no_problem = _size_check(Change(subsystem="seats", own_impact=high, layer="K1"))
+    assert no_problem is None and inside["nearest_below"]["own_impact"] == high
+    assert "above every reference" in _size_check(_c("seats", high + 0.2))[1]
+    assert "below every reference" in _size_check(_c("seats", low / 5))[1]
+    # one reference is no scale: not held against the change, but said in the report
+    info, problem = _size_check(_c("paint_color", 0.9))
+    assert problem is None and info["references"] == 1
