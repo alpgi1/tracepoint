@@ -1,0 +1,56 @@
+{
+  "cli_version": "0.11.4",
+  "checkpoint_id": "01M4M931E5JAPCY4M8TSM1ZYAY",
+  "strategy": "manual-commit",
+  "branch": "claude/backend-classification-agent-requirements",
+  "checkpoints_count": 1,
+  "files_touched": [
+    "backend/README.md",
+    "backend/tests/test_agent.py",
+    "backend/tests/test_effort.py",
+    "backend/tracepoint/agent/tools.py",
+    "backend/tracepoint/api/app.py",
+    "backend/tracepoint/cli.py",
+    "backend/tracepoint/db/models.py",
+    "backend/tracepoint/effort/__init__.py",
+    "backend/tracepoint/effort/cpm.py",
+    "backend/tracepoint/effort/report.py",
+    "backend/tracepoint/effort/store.py",
+    "config/effort/anchors.yaml",
+    "config/effort/model.yaml",
+    "config/effort/requirements/F70_EU.yaml",
+    "config/effort/requirements/G60_US.yaml",
+    "config/effort/requirements/G70_US.yaml",
+    "frontend/content/vehicles/G60-side.json",
+    "frontend/public/vehicles/G60-side-body.png",
+    "frontend/public/vehicles/G60-side-contour.png",
+    "frontend/scripts/vehicles/build.mjs",
+    "plan/decisions.md",
+    "reports/effort/effort_F70_EU.md",
+    "reports/effort/effort_G60_US.md",
+    "reports/effort/effort_G70_US.md",
+    "reports/step-12-cpm-effort-engine.md",
+    "reports/step-12-group-report-ingestion.md",
+    "reports/step-13-analyst-agent-loop.md",
+    "reports/step-13-group-report-ingestion.md",
+    "reports/step-14-analyst-agent-loop.md",
+    "start.ps1",
+    "start.sh"
+  ],
+  "sessions": [
+    {
+      "metadata": "/0/metadata.json",
+      "transcript": "/0/full.jsonl",
+      "compact_transcript": "/0/transcript.jsonl",
+      "content_hash": "/0/content_hash.txt",
+      "prompt": "/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 16,
+    "cache_creation_tokens": 11040,
+    "cache_read_tokens": 2651929,
+    "output_tokens": 5164,
+    "api_call_count": 8
+  }
+}

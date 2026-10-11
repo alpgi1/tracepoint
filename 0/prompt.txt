@@ -1,0 +1,1 @@
+okay şimdi maini çek, çektikten sonra cpm eklendi onu analiz sürecine entegre etmemiz gerekiyor onu yapalım
