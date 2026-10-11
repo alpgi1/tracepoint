@@ -5,7 +5,10 @@
  * vehicle screen, the photo fading there while the sketch is revealed,
  * the vehicle screens for a market with verbatims and one without, keyboard
  * focus, reduced motion, and the subsystem dialog (with verbatims and market
- * rows, with a market row, without verbatims, at 1920 px). Run against a built app started in another shell
+ * rows, with a market row, without verbatims, at 1920 px), and the stage
+ * bar with stage 2 (the inbox, all candidates with a row opened, the
+ * filtered table, the left-out findings, a scope without a requirement
+ * set, 1920 px). Run against a built app started in another shell
  * (`pnpm build && pnpm start`).
  *
  *   node tools/audit/screenshots.mjs http://localhost:3400 [outDir]
@@ -123,5 +126,16 @@ await shoot("15-dialog-us-g60-software-1440", desktop, async (page) => openSubsy
 await shoot("16-dialog-us-g60-powertrain-1440", desktop, async (page) => openSubsystem(page, "Powertrain"), { path: "/markets/us/g60" });
 await shoot("17-dialog-cn-g68-interior-1440", desktop, async (page) => openSubsystem(page, "Interior/console"), { path: "/markets/cn/g68" });
 await shoot("18-dialog-eu-f70-seats-1920", wide, async (page) => openSubsystem(page, "Seats"), { path: "/markets/eu/f70" });
+
+// Step 14: the stage bar and stage 2, Structure & context.
+await shoot("19-structure-us-g60-inbox-1440", desktop, async () => {}, { path: "/markets/us/g60/structure" });
+await shoot("20-structure-us-g60-all-open-1440", desktop, async (page) => {
+  await page.locator(".candidate-summary").first().click();
+  await page.waitForTimeout(300);
+}, { path: "/markets/us/g60/structure?view=all" });
+await shoot("21-structure-eu-f70-filtered-1440", desktop, async () => {}, { path: "/markets/eu/f70/structure?view=all&subsystem=software_hmi" });
+await shoot("22-structure-us-g70-excluded-1440", desktop, async () => {}, { path: "/markets/us/g70/structure?view=excluded" });
+await shoot("23-structure-cn-g68-1440", desktop, async () => {}, { path: "/markets/cn/g68/structure" });
+await shoot("24-structure-us-g60-all-1920", wide, async () => {}, { path: "/markets/us/g60/structure?view=all" });
 
 await browser.close();

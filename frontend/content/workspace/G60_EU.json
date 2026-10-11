@@ -1,0 +1,80 @@
+{
+ "vehicle": "G60",
+ "market": "EU",
+ "snapshot": {
+  "takenAt": "2026-10-11T02:46:24.993Z",
+  "api": "http://127.0.0.1:8000",
+  "codeVersion": "e06b37f",
+  "modelHash": null,
+  "endpoints": {
+   "requirements": "/requirements?vehicle=G60&market=EU",
+   "efforts": "/effort/requirements?vehicle=G60&market=EU",
+   "scenarios": "/effort/scenarios?vehicle=G60&market=EU",
+   "excluded": "/events?entity_type=scope&entity_id=G60:EU",
+   "events": "/events?entity_type=requirement&limit=5000"
+  }
+ },
+ "requirements": [],
+ "efforts": [],
+ "scenarios": [
+  {
+   "scenario": "H1",
+   "label": "Evolve the current model (H1 requirements in one life-cycle impulse)",
+   "requirements": 0,
+   "with_changes": 0,
+   "sum_of_single_pct": 0,
+   "effort_pct": 0,
+   "layer": "K0",
+   "decision": "no change",
+   "size": "-",
+   "certification_add_on": false,
+   "platform_change": false,
+   "subsystems": [],
+   "p5": 0,
+   "p95": 0,
+   "decision_stable_pct": 100,
+   "score_stable_pct": 100,
+   "kind": "change"
+  },
+  {
+   "scenario": "H2",
+   "label": "Successor generation (H2 requirements)",
+   "requirements": 0,
+   "with_changes": 0,
+   "sum_of_single_pct": 0,
+   "effort_pct": 0,
+   "layer": "K0",
+   "decision": "no change",
+   "size": "-",
+   "certification_add_on": false,
+   "platform_change": false,
+   "subsystems": [],
+   "p5": 0,
+   "p95": 0,
+   "decision_stable_pct": 100,
+   "score_stable_pct": 100,
+   "kind": "change"
+  },
+  {
+   "scenario": "ALL",
+   "label": "Everything on the current model (H1 + H2 in one impulse)",
+   "requirements": 0,
+   "with_changes": 0,
+   "sum_of_single_pct": 0,
+   "effort_pct": 0,
+   "layer": "K0",
+   "decision": "no change",
+   "size": "-",
+   "certification_add_on": false,
+   "platform_change": false,
+   "subsystems": [],
+   "p5": 0,
+   "p95": 0,
+   "decision_stable_pct": 100,
+   "score_stable_pct": 100,
+   "kind": "change"
+  }
+ ],
+ "excluded": [],
+ "events": []
+}

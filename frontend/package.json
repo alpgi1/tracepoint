@@ -12,10 +12,11 @@
     "typecheck": "next typegen && tsc --noEmit",
     "test": "vitest run",
     "check": "pnpm lint && pnpm typecheck && pnpm test && pnpm build",
-    "audit:pages": "node tools/audit/page-audit.mjs http://localhost:3400 / /markets/eu/f70 /markets/eu/g60 /markets/eu/g70 /markets/us/g60 /markets/us/g70 /markets/cn/g68 /markets/cn/g70",
+    "audit:pages": "node tools/audit/page-audit.mjs http://localhost:3400 / /markets/eu/f70 /markets/eu/g60 /markets/eu/g70 /markets/us/g60 /markets/us/g70 /markets/cn/g68 /markets/cn/g70 /markets/us/g60/structure \"/markets/us/g60/structure?view=all\" \"/markets/us/g60/structure?view=excluded\" \"/markets/eu/f70/structure?view=all&subsystem=software_hmi\" /markets/cn/g68/structure",
     "shots": "node tools/audit/screenshots.mjs http://localhost:3400",
     "vehicles": "node scripts/vehicles/build.mjs",
     "content": "python3 scripts/build-content.py && python3 scripts/build-cpm.py",
+    "snapshot": "node scripts/snapshot-workspace.mjs",
     "photos": "node scripts/vehicles/photos.mjs"
   },
   "dependencies": {

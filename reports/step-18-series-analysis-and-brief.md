@@ -9,7 +9,7 @@
 
 ## 1. Delivered
 
-Decisions D-086 to D-088.
+Decisions D-089 to D-091.
 
 ### 1.1 The series analysis (`agent/series.py`, `tracepoint agent series --vehicle G60`)
 
@@ -66,7 +66,7 @@ next generation, keep, no action. Horizon and whether the vehicle changes follow
   region's expectations, also when the conclusion is to watch and change nothing;
 * text fields hold no reference ids (the brief strips any that slip through) and no working
   notes about tools or retrieval;
-* effort is computed by the CPM engine on the lead vehicle (D-071, D-072, D-079): a change that
+* effort is computed by the CPM engine on the lead vehicle (D-071, D-072, D-082): a change that
   comes to a major revision cannot be "now"; start subsystem and size are held against the
   evidence and the reference changes; a requirement may be named from any market of the series.
 
@@ -78,7 +78,7 @@ analyst reported as "the store returned no catalogue rows". `get_equipment`, `ge
 **Rivals.** Named only from external rows. The competitor matrix of `plan/05` is not curated, so
 where the store holds nothing the brief says "nothing stored on rivals for this topic".
 
-### 1.2 The brief (D-087)
+### 1.2 The brief (D-090)
 
 The Markdown file of an analysis is what a product manager reads; everything else is in the JSON
 beside it.
@@ -95,7 +95,7 @@ The three sample analyses under `reports/analysis/` are re-rendered from their J
 22 to 15 and 23 to 13 thousand characters. Their text is that of the earlier prompt;
 `situation-analysis-v8` asks for short fields.
 
-### 1.3 The agent fetches nothing (D-088)
+### 1.3 The agent fetches nothing (D-091)
 
 The tools read the evidence store and nothing else. A rival, a market fact or a figure that is
 not stored is reported as unknown. Fetching stays `tracepoint ingest external --fetch`, run by a

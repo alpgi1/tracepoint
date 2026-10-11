@@ -63,6 +63,8 @@ car's photo (D-053). A card click hands the photo over to the vehicle screen (D-
 Header (Map chip, vehicle name and code, market, units, verbatims), the sketch (side and top
 view) on the left, a 400 px column on the right.
 
+**Step 14 adds the stage bar** under the header (D-078): the vehicle screen is stage 1 of the scope workspace of `08-engineering-workbench-plan.md`, and `STAGE_TOP` in `lib/vehicles/layout.ts` grew by the bar.
+
 **Step 13 replaces the right column.** "Domains by complaint share" and the themes card go; the
 column carries the **CPM subsystem list** (D-073):
 

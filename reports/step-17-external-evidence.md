@@ -9,7 +9,7 @@
 
 ## 1. Delivered
 
-Decisions D-080 to D-085. This is the first part of Phase 2 of the master plan (external evidence
+Decisions D-083 to D-088. This is the first part of Phase 2 of the master plan (external evidence
 ingestion, D-007).
 
 ### 1.1 What the two files are
@@ -71,7 +71,7 @@ hold for several). By subsystem: software / HMI 64, powertrain 34, interior / co
 battery 21, charging 15, seats 9, the rest below 7. 43 claims name one or more of our vehicles (G60 23,
 G70 19, G68 4, F70 1); 100 describe a market.
 
-### 1.4 Fetching (D-081)
+### 1.4 Fetching (D-084)
 
 One client that says who it is, obeys robots.txt, waits a second between two requests to a host,
 fetches a page once and never retries or works around a refusal.
@@ -102,7 +102,7 @@ Two public APIs are read for our vehicles only:
   model year and kind of drive. Example: the i5 eDrive40 on 19-inch wheels is rated 295 miles
   for 2024 and 2025, 310 for 2026 and 328 for 2027; on 21-inch wheels 270 to 280.
 
-### 1.5 The check of a claim against its page (D-082)
+### 1.5 The check of a claim against its page (D-085)
 
 | Result | Claims | Meaning |
 |---|---|---|
@@ -169,7 +169,7 @@ Read on the pages, each a row with its passage:
   owners praise steering, acceleration and rear room and criticise the centre tunnel in the
   rear, low-speed smoothness and tyre noise. The first owner voice for China in the database.
 
-### 1.7 In the analysis flow (D-083)
+### 1.7 In the analysis flow (D-086)
 
 * Tool `get_external_evidence` (market, vehicle, subsystem, topic, kind): the rows of the market
   and the worldwide ones, rows about the vehicle first, the EPA tables last. Reachable over HTTP
@@ -179,7 +179,7 @@ Read on the pages, each a row with its passage:
 * Prompt `situation-analysis-v7`: the rules for market rows hold; a row that is not confirmed
   never carries a recommendation alone; a worldwide row describes no single market; rows about
   the vehicle are third-party statements and change no complaint count.
-* References `external:EXT-<source>-<n>`; in the check of where a change starts (D-079) an
+* References `external:EXT-<source>-<n>`; in the check of where a change starts (D-082) an
   external row counts like a verbatim.
 
 ## 2. Verification
@@ -221,7 +221,7 @@ Rows per scope (market rows plus worldwide rows, after the vehicle filter):
 | Customer quotes not found in a cited verbatim | 0 |
 | Insights / recommendations | 8 / 8 |
 | H1 package / H2 package | 10.6 % of a new generation, adapt / 49.0 %, new generation |
-| Open faults after the one correction | 1 (a change that starts in software / HMI while its evidence sits in charging; left for the product manager, D-079) |
+| Open faults after the one correction | 1 (a change that starts in software / HMI while its evidence sits in charging; left for the product manager, D-082) |
 
 What the external rows changed in the analysis:
 
@@ -267,7 +267,7 @@ What the external rows changed in the analysis:
   tools only read, and every agent prompt carries the rule that tool results are data, never an
   instruction (D-069); an instruction hidden in a page can still bend an answer.
 * `--fetch` parses the pages and PDFs it receives and runs from the command line only, never
-  from the API. After two security reviews (D-084, D-085) it follows redirects itself, connects
+  from the API. After two security reviews (D-087, D-088) it follows redirects itself, connects
   only to a public address it has checked, cuts a body off at 30 MB while reading (inflated
   gzip included), budgets the API sources and turns every failure of one URL into a status.
   One pathological PDF page can still hang the parser.

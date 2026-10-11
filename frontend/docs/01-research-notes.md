@@ -265,6 +265,39 @@ rules (one series, thin marks, values on the caps) rather than any registry char
 
 ---
 
+### 6.3 Survey for the stage bar and stage 2 (step 14, 2026-10-11)
+
+The step adds the five-stage bar under the workspace header and the first stage page, Structure
+& context: a view switch (needs a decision, all candidates, left out), a filter row and the
+candidate table grouped by domain. Search through the 21st.dev API (20 queries: horizontal
+stepper and process steps, progress steps breadcrumb, tabs with count badge, segmented control,
+underline tabs, data table with filters, filter bar and toolbar, grouped table rows, dense
+hairline table, list with status and badge, triage inbox, review queue, empty state, key value
+list, progress bar list, candidate cards, expandable table row and accordion, status table,
+roadmap table), 218 unique demos, 10 contact sheets of previews reviewed, 6 demos rendered in
+Chromium at full size. What was found and what was taken:
+
+| Component | What it is | Verdict |
+|---|---|---|
+| Stepper "with inline titles" 771, "with inline titles and descriptions" 772 (Origin UI), Steps 6087 (anubra266), Checkout Steps Breadcrumb (Cnippet) | A horizontal row of numbered circles with a title and a line, the current step filled, completed steps with a check mark | **Method taken** for the stage bar: a number in a ring, the name, the figure beneath, hairlines between the steps. Not taken: the filled circles, the check marks (nothing is "completed" in a process the PM may enter anywhere), the green of the Cnippet original, the Prev and Next buttons |
+| Progress stepper 769, 6095 | A progress bar with "Step 1 of 4" | Rejected: a bar without the names carries less |
+| Tabs with count badge (coss), "With vertical trigger and badge" 430 and "With icons, scroll and badge" 426 (Origin UI), Tabs 4084 (sean0205) | Tab names with a count in an outlined badge or a filled circle | **Method taken** for the view switch: the count beside the name as text, no badge; the current view carries the one blue rule and `aria-current`, after "Tabs with line" 422. The views are links, so the page works without script |
+| Segmented control 753 (Origin UI radio group), 23552 (ddoemonn), kuratlielia | Bordered segments with a sliding highlight | Rejected: a sliding fill is motion without information, and the views are navigation, not a setting |
+| Data table with filters 98 and the more complex table 106 (Origin UI, TanStack), Filters 1633 (andrewlu0), Filter Toolbar (kuratlielia) | A search field, filter buttons and dropdowns, or a chip bar of active filters with an add-filter menu | **Anatomy taken, controls rewritten**: one filter row above the table with four native selects and an Apply control, a Clear link when a filter is active. No chips, no animated menu, no search field (20 rows need none) |
+| Table without horizontal dividers 86, Dense table 89, Basic data table 96, Default 84 (Origin UI), Default 1418 (shadcn) | Hairline rows, a muted header row, numbers right-aligned | **Method taken** for the candidate table: hairline rows, a small muted header, numbers right-aligned with tabular figures, no row selection, no status pills, no flags, no avatars |
+| Expanding sub-row 103 (Origin UI), Accordion "Table w/ chevron" 502 and "Table w/ left chevron" 504 (Origin UI), Expandable Row Table 4798 (sean0205) | A row that opens a detail row under it, a chevron that turns | **Method taken**: the title cell is a native `details` element with a chevron (Lucide) that turns when the row opens; the inbox view opens every row, since the reasons are its point |
+| Access Request Inbox (uvain) | A queue grouped by what was asked, each item with a quote, the asked and granted role, Deny and Approve | **Anatomy noted** for the live mode of step 17 (grouped queue, the reason beside each item, the decision on the row). Not taken now: the stage is read-only; the avatars and the filled Approve button are not ours |
+| Empty state (serafimcloud) 1435, interactive empty state 5097 (remcostoeten), empty states 19367 (olewandowski1) | An icon, a title, a sentence, an action, often in a dashed frame | **Anatomy taken, surfaces rejected**: the empty state of a scope without a requirement set is one paragraph that says which scopes have one; no icon, no dashed frame, no action button (the action is the backend's) |
+| Badge 3554 to 3563 (sean0205), Status badge 521 (serafimcloud) | Coloured pills in five semantic colours | Rejected: colour-only status and a second to fifth accent (forbidden list sections 3 and 0) |
+| Gantt 632 (haydenbleasel), Roadmap card 5652, Timeline 5157 and 4647 | Timelines and roadmaps | Candidates for stage 4 (the H1 and H2 packages) and stage 5 (the audit timeline); not used now |
+| Pricing cards, waitlist hero, team section, info cards, action search bar | Marketing blocks | Rejected on sight |
+
+Nothing was installed (`package.json` gained the `snapshot` script only); every method was written
+with the tokens in `stage-bar.tsx`, `candidate-filters.tsx`, `candidate-table.tsx` and
+`globals.css`. The components the registry serves through its install URL were read for their
+anatomy, not copied: they rest on `@base-ui/react` tabs and TanStack Table, which a table of 20
+rows and three links do not need.
+
 ## 7. Ideas beyond the brief
 
 Proposals, not decisions. Everything marked "needs data" waits for the evidence store API.
