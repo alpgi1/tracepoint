@@ -37,7 +37,8 @@ export const site = {
     back: "Map",
     stageLabel: "The vehicle as a technical sketch, side and top view",
     noVerbatimsHeading: "No customer comments for this market",
-    noVerbatimsBody: "The customer study and the market evidence are the evidence here.",
+    noVerbatimsBody:
+      "The customer study and the market evidence are the evidence here.",
     studyHeading: "Lowest study scores",
     overall: "Overall",
     regionsLink: "across its regions",
@@ -74,14 +75,38 @@ export const site = {
   structure: {
     heading: "Structure & context",
     hint: "What the agents propose for this scope: the analyst's brief from the stored evidence, and every potential requirement with the requirement agent's proposal to implement it (1) or not (0), its horizon, the evidence level of its findings and the effort of its change profile from the CPM engine. The proposals are the agents'; the decision stays with the product manager at gate G2.",
-    views: { inbox: "Needs a decision", all: "All candidates", excluded: "Left out" },
+    views: {
+      inbox: "Needs a decision",
+      all: "All candidates",
+      excluded: "Left out",
+    },
     viewsLabel: "Views",
-    inboxHint: "Proposed candidates where at least one of these rules fires: not recommended by the agent; evidence level C; every acceptance criterion rests on an assumption; a conflict or warning flag of the effort model, or its note that an H2 change fits a life-cycle impulse (rule 48); the estimate is older than the requirement; a market statement with a contradiction in a subsystem the change touches. The rule is printed beside each entry.",
-    allHint: "Every candidate of the scope, grouped by its customer domain. Open a row for the agent's rationale.",
-    excludedHint: "Findings the requirement agent left out of the scope, with its reason. The filter is visible so it can be reversed.",
-    filters: { label: "Filters", domain: "Domain", subsystem: "Subsystem", horizon: "Horizon", status: "Status", any: "Any", apply: "Apply", clear: "Clear filters" },
+    inboxHint:
+      "Proposed candidates where at least one of these rules fires: not recommended by the agent; evidence level C; every acceptance criterion rests on an assumption; a conflict or warning flag of the effort model, or its note that an H2 change fits a life-cycle impulse (rule 48); the estimate is older than the requirement; a market statement with a contradiction in a subsystem the change touches. The rule is printed beside each entry.",
+    allHint:
+      "Every candidate of the scope, grouped by its customer domain. Open a row for the agent's rationale.",
+    excludedHint:
+      "Findings the requirement agent left out of the scope, with its reason. The filter is visible so it can be reversed.",
+    filters: {
+      label: "Filters",
+      domain: "Domain",
+      subsystem: "Subsystem",
+      horizon: "Horizon",
+      status: "Status",
+      any: "Any",
+      apply: "Apply",
+      clear: "Clear filters",
+    },
     openRequirement: "Open the requirement",
-    columns: { id: "Area", title: "Requirement", recommend: "Implement (0/1)", horizon: "Horizon", evidence: "Evidence", effort: "Effort", status: "Status" },
+    columns: {
+      id: "Area",
+      title: "Requirement",
+      recommend: "Implement (0/1)",
+      horizon: "Horizon",
+      evidence: "Evidence",
+      effort: "Effort",
+      status: "Status",
+    },
     excludedColumns: { finding: "Finding", reason: "Reason" },
     recommendYes: "1",
     recommendNo: "0",
@@ -102,14 +127,18 @@ export const site = {
     startsIn: "Change starts in",
     reaches: "reaches",
     noMatch: "No candidate matches the filters.",
-    noInbox: "No proposed candidate meets a rule; every candidate is in the All view.",
+    noInbox:
+      "No proposed candidate meets a rule; every candidate is in the All view.",
     noExcluded: "The agent left no finding out of this scope.",
     candidatesHeading: "Requirement candidates",
-    candidatesHint: "Three views of the same candidates: those that need a decision by the rules below, all of them, and the findings the agent left out with its reason.",
-    noCandidates: "No requirement set is derived for this scope; the analyst's proposals above are where the work stands.",
+    candidatesHint:
+      "Three views of the same candidates: those that need a decision by the rules below, all of them, and the findings the agent left out with its reason.",
+    noCandidates:
+      "No requirement set is derived for this scope; the analyst's proposals above are where the work stands.",
     sourceBefore: "Data as stored on",
     sourceLiveBefore: "Live data, read on",
-    sourceFallback: "The live service did not answer, so this page shows the data as stored on",
+    sourceFallback:
+      "The live service did not answer, so this page shows the data as stored on",
     sourceModel: "effort model",
     sourceModelNote: "its weights are assumptions, not calibrated",
     sourceCode: "Tracepoint version",
@@ -117,9 +146,18 @@ export const site = {
   /** Stage 3, Requirements definition: the index and the requirement page (step 15). */
   requirements: {
     heading: "Requirements definition",
-    indexHint: "The requirements of this scope as the requirement agent wrote them, grouped by customer domain, with their acceptance criteria per market and how many rest on evidence rather than an assumption. Open a requirement for its statement, criteria, evidence, effort and history.",
+    indexHint:
+      "The requirements of this scope as the requirement agent wrote them, grouped by customer domain, with their acceptance criteria per market and how many rest on evidence rather than an assumption. Open a requirement for its statement, criteria, evidence, effort and history.",
     all: "Requirements definition",
-    columns: { id: "Area", title: "Requirement", criteria: "Criteria", onEvidence: "on evidence", horizon: "Horizon", evidence: "Evidence", status: "Status" },
+    columns: {
+      id: "Area",
+      title: "Requirement",
+      criteria: "Criteria",
+      onEvidence: "on evidence",
+      horizon: "Horizon",
+      evidence: "Evidence",
+      status: "Status",
+    },
     facts: {
       proposal: "Proposal",
       recommendYes: "1, implement",
@@ -132,15 +170,28 @@ export const site = {
       status: "Status",
       version: "version",
       reference: "Reference",
-      referenceNote: "the key of the decisions, the audit trail and the exports",
+      referenceNote:
+        "the key of the decisions, the audit trail and the exports",
     },
     statement: "Statement",
     criteriaHeading: "Acceptance criteria",
-    criteriaHint: "One row per market where expectations differ. Basis: evidence is a measured study value or a count; assumption is the agent's proposal for the product manager to set.",
-    criteriaColumns: { market: "Market", metric: "Metric", target: "Target", method: "How measured", basis: "Basis" },
+    criteriaHint:
+      "One row per market where expectations differ. Basis: evidence is a measured study value or a count; assumption is the agent's proposal for the product manager to set.",
+    criteriaColumns: {
+      market: "Market",
+      metric: "Metric",
+      target: "Target",
+      method: "How measured",
+      basis: "Basis",
+    },
     evidenceHeading: "Evidence",
-    evidenceHint: "The findings this requirement rests on, by role, each with the evidence linked to it: customer comments as written, study attributes, catalogue items and counts. Open a finding for its rows.",
-    roles: { primary: "primary", supporting: "supporting", context: "context" } as Record<string, string>,
+    evidenceHint:
+      "The findings this requirement rests on, by role, each with the evidence linked to it: customer comments as written, study attributes, catalogue items and counts. Open a finding for its rows.",
+    roles: {
+      primary: "primary",
+      supporting: "supporting",
+      context: "context",
+    } as Record<string, string>,
     kinds: {
       recurring_complaint: "recurring complaint",
       unmet_need: "unmet need",
@@ -156,8 +207,17 @@ export const site = {
     rowsMany: "evidence rows",
     figures: "Figures",
     linksHeading: "Links to other findings",
-    linkKinds: { supports: "supports", explains: "explains", contradicts: "contradicts" } as Record<string, string>,
-    evidenceRoles: { example: "example", quantifies: "quantifies", compares: "compares", supports: "supports" } as Record<string, string>,
+    linkKinds: {
+      supports: "supports",
+      explains: "explains",
+      contradicts: "contradicts",
+    } as Record<string, string>,
+    evidenceRoles: {
+      example: "example",
+      quantifies: "quantifies",
+      compares: "compares",
+      supports: "supports",
+    } as Record<string, string>,
     workbookRow: "row",
     study: "study",
     mean: "mean",
@@ -213,7 +273,8 @@ export const site = {
       no: "no",
       noChange: "No change on the vehicle",
       changesHeading: "Change profile",
-      changesHint: "Where the change starts and the share of that subsystem's design redone (own impact), the layer from K0 configuration to K3 platform, whether it carries over from the portfolio, and the reason. Authored with the requirement, an assumption for engineering to correct.",
+      changesHint:
+        "Where the change starts and the share of that subsystem's design redone (own impact), the layer from K0 configuration to K3 platform, whether it carries over from the portfolio, and the reason. Authored with the requirement, an assumption for engineering to correct.",
       ownImpact: "own impact",
       carryover: "carryover",
       terms: "catalogue terms",
@@ -221,10 +282,15 @@ export const site = {
       via: "via",
       ofWeight: "of its",
       portfolioHeading: "Catalogue scan",
-      portfolioHint: "The option-list catalogues searched for the change's terms: level 0 standard on this vehicle, 1 optional on this vehicle, 2 elsewhere in the portfolio, 3 nowhere.",
+      portfolioHint:
+        "The option-list catalogues searched for the change's terms: level 0 standard on this vehicle, 1 optional on this vehicle, 2 elsewhere in the portfolio, 3 nowhere.",
       level: "level",
       flagsHeading: "Flags of the effort model",
-      flagLevels: { info: "note", warning: "warning", conflict: "conflict" } as Record<string, string>,
+      flagLevels: {
+        info: "note",
+        warning: "warning",
+        conflict: "conflict",
+      } as Record<string, string>,
       rule: "Rule",
       staleBefore: "The estimate was made on version",
       staleAfter: "of the requirement, which is now at version",
@@ -241,12 +307,19 @@ export const site = {
       rationaleHint: "Why this decision, for the audit trail",
       rationaleOptional: "Rationale, optional",
       note: "A decision holds for one version of the requirement and needs a rationale; it is kept in the audit trail and survives every update of the requirement list. Decisions are recorded when Tracepoint runs live; this page shows the data as stored on",
-      notAnswering: "A decision holds for one version of the requirement and needs a rationale; it is kept in the audit trail and survives every update of the requirement list. The Tracepoint service that records decisions does not answer right now; once it runs, reload this page to decide. Until then this page shows the data as stored on",
-      liveNote: "The decision is recorded in your role as product manager, with your rationale, in the audit trail, and holds for this version of the requirement.",
-      showcaseNote: "Showcase mode: decisions show on this page and in Documentation; they are not written to the stored data or the exports.",
+      notAnswering:
+        "A decision holds for one version of the requirement and needs a rationale; it is kept in the audit trail and survives every update of the requirement list. The Tracepoint service that records decisions does not answer right now; once it runs, reload this page to decide. Until then this page shows the data as stored on",
+      liveNote:
+        "The decision is recorded in your role as product manager, with your rationale, in the audit trail, and holds for this version of the requirement.",
+      showcaseNote:
+        "Showcase mode: decisions show on this page and in Documentation; they are not written to the stored data or the exports.",
       showcaseClear: "Reset the showcase decisions",
       recorded: "Decision recorded:",
-      outcomes: { approve: "approved", reject: "rejected", defer: "deferred" } as Record<string, string>,
+      outcomes: {
+        approve: "approved",
+        reject: "rejected",
+        defer: "deferred",
+      } as Record<string, string>,
       failed: "The decision was not recorded:",
       unreachable: "the live service did not answer.",
       error: "the live service could not record it.",
@@ -257,7 +330,10 @@ export const site = {
     history: {
       heading: "History",
       hint: "The requirement's audit events, oldest first: who did what, when, and why.",
-      actors: { human: "human", agent: "agent", system: "system" } as Record<string, string>,
+      actors: { human: "human", agent: "agent", system: "system" } as Record<
+        string,
+        string
+      >,
       statusChange: "status",
       to: "to",
     },
@@ -267,7 +343,8 @@ export const site = {
     heading: "Prioritization",
     hint: "Customer and business on two raw axes: the complaint rows behind each requirement's primary finding, and the effort of its change from the CPM engine. There is no composite priority score; the two figures stand side by side. The packages below are the engine's, combined per subsystem so shared work counts once, and the builder asks the engine for any set you choose.",
     matrixHeading: "Customer evidence and effort per requirement",
-    matrixHint: "One row per requirement, H1 first, each horizon ordered by complaint rows. Left: the complaint rows of the primary finding; where that finding is a study attribute or a strength to keep there are none, and the row names it. Right: the effort in % of a new vehicle generation on a logarithmic scale, so small and large changes are both readable: the dot is the estimate, the line its P5 to P95 range, the shading the engine's class. The letter is the evidence level.",
+    matrixHint:
+      "One row per requirement, H1 first, each horizon ordered by complaint rows. Left: the complaint rows of the primary finding; where that finding is a study attribute or a strength to keep there are none, and the row names it. Right: the effort in % of a new vehicle generation on a logarithmic scale, so small and large changes are both readable: the dot is the estimate, the line its P5 to P95 range, the shading the engine's class. The letter is the evidence level.",
     axisEffort: "Effort, % of a new vehicle generation (log scale)",
     axisEvidence: "Complaint rows of the primary finding",
     legendH1: "H1, within the current generation",
@@ -279,12 +356,32 @@ export const site = {
     bandNew: "new generation, from",
     noChange: "no change on the vehicle",
     noRows: "primary finding:",
-    tableSummary: "The same figures as a table, with the P5 to P95 range and the class",
-    columns: { id: "Area", title: "Requirement", horizon: "Horizon", evidence: "Evidence", rows: "Complaint rows", effort: "Effort", range: "P5 to P95", decision: "Class" },
+    tableSummary:
+      "The same figures as a table, with the P5 to P95 range and the class",
+    columns: {
+      id: "Area",
+      title: "Requirement",
+      horizon: "Horizon",
+      evidence: "Evidence",
+      rows: "Complaint rows",
+      effort: "Effort",
+      range: "P5 to P95",
+      decision: "Class",
+    },
     noEstimate: "no estimate",
     packagesHeading: "Packages",
-    packagesHint: "The engine's variations: the recommended, not rejected requirements of a horizon combined per subsystem, so shared work counts once; the plain sum of the single estimates beside it. Thresholds: adapt below 15 %, new generation from 50 %; a class kept in under 90 % of the sensitivity runs is borderline and the product manager decides (rule 51).",
-    packageColumns: { scenario: "Package", requirements: "Requirements", effort: "Combined", range: "P5 to P95", decision: "Class", stable: "kept in", sum: "Sum of single", certification: "Certification add-on" },
+    packagesHint:
+      "The engine's variations: the recommended, not rejected requirements of a horizon combined per subsystem, so shared work counts once; the plain sum of the single estimates beside it. Thresholds: adapt below 15 %, new generation from 50 %; a class kept in under 90 % of the sensitivity runs is borderline and the product manager decides (rule 51).",
+    packageColumns: {
+      scenario: "Package",
+      requirements: "Requirements",
+      effort: "Combined",
+      range: "P5 to P95",
+      decision: "Class",
+      stable: "kept in",
+      sum: "Sum of single",
+      certification: "Certification add-on",
+    },
     borderline: "borderline, the PM decides",
     ofRuns: "% of the runs",
     largestHeading: "The subsystems carrying most of it",
@@ -297,8 +394,10 @@ export const site = {
       fits: "The H1 package stays an adaptation.",
     },
     builderHeading: "Package builder",
-    builderHint: "Choose any set of requirements and the engine combines them per subsystem; the figure is never a sum. The effort engine computes it when you ask and stores nothing.",
-    builderOffline: "The package builder asks the effort engine for any set you choose; it works when Tracepoint runs live. The engine's own packages above are as stored.",
+    builderHint:
+      "Choose any set of requirements and the engine combines them per subsystem; the figure is never a sum. The effort engine computes it when you ask and stores nothing.",
+    builderOffline:
+      "The package builder asks the effort engine for any set you choose; it works when Tracepoint runs live. The engine's own packages above are as stored.",
     builderLabel: "Requirements in the package",
     builderApply: "Estimate the package",
     builderClear: "Clear",
@@ -309,7 +408,8 @@ export const site = {
     resultCount: "requirements",
     resultSum: "sum of the single estimates",
     resultItems: "Each on its own",
-    apiMissing: "The effort engine did not answer, so the package could not be estimated. The packages above are as stored.",
+    apiMissing:
+      "The effort engine did not answer, so the package could not be estimated. The packages above are as stored.",
     apiDone: "Estimated by the effort engine just now; nothing is stored.",
     noneChosen: "No requirement chosen yet.",
     method: "Effort model",
@@ -317,19 +417,32 @@ export const site = {
   },
   /** Stage 5, Documentation (step 17). */
   log: {
+    empty: "Not decided",
     heading: "Documentation",
     hint: "The decision record of this scope and its audit trail: every requirement with its gate status and the latest decision (who, when, why), and every event recorded for the scope's requirements, newest first. The requirement list downloads as Tracepoint's exporter writes it (deliverable D2).",
     recordHeading: "Decision record",
-    columns: { id: "Area", title: "Requirement", status: "Status", version: "Version", decision: "Decision", by: "By", when: "When", note: "Rationale" },
+    columns: {
+      id: "Area",
+      title: "Requirement",
+      status: "Status",
+      version: "Version",
+      decision: "Decision",
+      by: "By",
+      when: "When",
+      note: "Rationale",
+    },
     noDecision: "no decision yet",
     decidedBefore: "decided of",
-    recordLead: "requirements carry a gate status other than proposed. A decision holds for the version it was made on; the latest decision of each requirement is shown with who made it.",
+    recordLead:
+      "requirements carry a gate status other than proposed. A decision holds for the version it was made on; the latest decision of each requirement is shown with who made it.",
     exportHeading: "Export",
-    exportHint: "The requirement list of this scope with its statements, criteria, findings, evidence level and gate status: CSV for a spreadsheet, Markdown for reading.",
+    exportHint:
+      "The requirement list of this scope with its statements, criteria, findings, evidence level and gate status: CSV for a spreadsheet, Markdown for reading.",
     exportCsv: "Download the requirement list as CSV",
     exportMd: "Download it as Markdown",
     timelineHeading: "Audit trail",
-    timelineHint: "Every event recorded for the scope's requirements: who did what, when, and why; a status change names both states. The run names the processing step or the request that caused the event.",
+    timelineHint:
+      "Every event recorded for the scope's requirements: who did what, when, and why; a status change names both states. The run names the processing step or the request that caused the event.",
     events: "events",
   },
   /** The CPM method sheet (step 16). */
@@ -344,29 +457,48 @@ export const site = {
     thresholds: "Thresholds",
     thresholdsText: "adapt below",
     thresholdsMiddle: "%, major revision up to",
-    thresholdsEnd: "%, new generation from there; a K3 change without carryover is a new generation regardless of the score",
+    thresholdsEnd:
+      "%, new generation from there; a K3 change without carryover is a new generation regardless of the score",
     certification: "Certification add-on",
-    certificationText: "% once per package when a change of at least 30 % own impact starts in",
+    certificationText:
+      "% once per package when a change of at least 30 % own impact starts in",
     vehicleHeading: "On this vehicle",
     platform: "Platform",
     absentBefore: "The model keeps",
-    absentAfter: "off this vehicle; the weights of the others are renormalised to 100.",
+    absentAfter:
+      "off this vehicle; the weights of the others are renormalised to 100.",
     absentNone: "Every subsystem of the model is present.",
     weightsHeading: "Subsystems and weights",
-    weightsHint: "Share of the total development effort of a new vehicle generation; the twelve sum to 100. The basis names where each estimate comes from.",
-    weightColumns: { subsystem: "Subsystem", weight: "Weight", basis: "Basis", trigger: "Certification" },
+    weightsHint:
+      "Share of the total development effort of a new vehicle generation; the twelve sum to 100. The basis names where each estimate comes from.",
+    weightColumns: {
+      subsystem: "Subsystem",
+      weight: "Weight",
+      basis: "Basis",
+      trigger: "Certification",
+    },
     triggerYes: "triggers the add-on",
     triggerNo: "",
     dsmHeading: "Links between the subsystems",
-    dsmHint: "Rows: where a change starts. Columns: what it reaches. A cell carries the likelihood that a change in the row forces a change in the column and the share of the column's design redone if it does; the fill follows the likelihood. Only pairs with a physical or functional interface have a link; the interface is named on hover and in the list beneath.",
+    dsmHint:
+      "Rows: where a change starts. Columns: what it reaches. A cell carries the likelihood that a change in the row forces a change in the column and the share of the column's design redone if it does; the fill follows the likelihood. Only pairs with a physical or functional interface have a link; the interface is named on hover and in the list beneath.",
     dsmFrom: "from",
     dsmTo: "to",
     likelihood: "likelihood",
     impact: "impact",
     linksHeading: "The interfaces behind the links",
     backtestHeading: "Back-test against documented BMW decisions",
-    backtestHint: "Each anchor is a change BMW made, re-estimated by the engine from its change profile; the engine's class is compared with BMW's decision. Two proposals from the team's pitch are listed beneath without a decision to compare.",
-    backtestColumns: { name: "Decision", effort: "Effort", range: "P5 to P95", decision: "Engine", actual: "BMW", hit: "Match", independent: "Independent" },
+    backtestHint:
+      "Each anchor is a change BMW made, re-estimated by the engine from its change profile; the engine's class is compared with BMW's decision. Two proposals from the team's pitch are listed beneath without a decision to compare.",
+    backtestColumns: {
+      name: "Decision",
+      effort: "Effort",
+      range: "P5 to P95",
+      decision: "Engine",
+      actual: "BMW",
+      hit: "Match",
+      independent: "Independent",
+    },
     hit: "yes",
     miss: "no",
     proposal: "proposal",
@@ -377,15 +509,18 @@ export const site = {
     scope: "scope",
     parametersHeading: "Rules of the engine",
     carryover: "Carryover",
-    carryoverText: "A change the portfolio already holds, or that the platform was prepared for, spreads to its neighbours with",
+    carryoverText:
+      "A change the portfolio already holds, or that the platform was prepared for, spreads to its neighbours with",
     carryoverEnd: "of the usual likelihood.",
     propagation: "Smaller changes",
     propagationText: "The link likelihoods describe a change of own impact",
-    propagationEnd: "(a module change); a smaller change spreads proportionally less.",
+    propagationEnd:
+      "(a module change); a smaller change spreads proportionally less.",
     platformRule: "Platform rule",
     platformText: "Replacing",
     platformMiddle: "to",
-    platformEnd: "or more without carryover is a platform change (K3) and means a new generation.",
+    platformEnd:
+      "or more without carryover is a platform change (K3) and means a new generation.",
     configuration: "Configuration",
     configurationText: "A configuration change (K0) stays within own impact",
     configurationEnd: "and does not spread.",
@@ -404,7 +539,12 @@ export const site = {
     written: "Written on",
     with: "with",
     proposalsHeading: "Proposals",
-    columns: { n: "#", proposal: "Proposal", effort: "Effort", requirement: "Requirement" },
+    columns: {
+      n: "#",
+      proposal: "Proposal",
+      effort: "Effort",
+      requirement: "Requirement",
+    },
     newProposal: "new",
     why: "Why",
     ofVehicle: "of a new vehicle generation",
@@ -412,7 +552,8 @@ export const site = {
     keptIn: "kept in",
     ofRuns: "% of the sensitivity runs",
     borderline: "borderline, the PM decides",
-    analystProfile: "the analyst's own change profile, a claim for engineering to check",
+    analystProfile:
+      "the analyst's own change profile, a claim for engineering to check",
     footprint: "Carries most of it",
     together: "together",
     proposalWord: "proposal",
@@ -439,13 +580,31 @@ export const site = {
     hint: "The series analyst compared the regions where this series holds evidence and decided per topic what to change, for which regions, and when. These are proposals for the product manager, not decisions; the effort figures are the CPM engine's.",
     thisScope: "this workspace",
     regionsHeading: "The regions",
-    regionColumns: { region: "Region", vehicle: "Vehicle", verbatims: "Customer comments", sales2025: "Units 2025", sales2030: "Units 2030, plan", study: "Study" },
+    regionColumns: {
+      region: "Region",
+      vehicle: "Vehicle",
+      verbatims: "Customer comments",
+      sales2025: "Units 2025",
+      sales2030: "Units 2030, plan",
+      study: "Study",
+    },
     noVerbatims: "none",
     decisionsHeading: "Decisions",
-    topicColumns: { n: "#", topic: "Topic", for: "For", effort: "Effort", confidence: "Confidence" },
+    topicColumns: {
+      n: "#",
+      topic: "Topic",
+      for: "For",
+      effort: "Effort",
+      confidence: "Confidence",
+    },
     allRegions: "all regions",
     noRegion: "no region",
-    regionTable: { region: "Region", customers: "Customers", market: "Market and rivals", signal: "Signal" },
+    regionTable: {
+      region: "Region",
+      customers: "Customers",
+      market: "Market and rivals",
+      signal: "Signal",
+    },
     quiet: "no signal",
     ourOffer: "The car today",
     rivals: "Rivals",
@@ -488,7 +647,8 @@ export const site = {
     absentAfter: "off this vehicle; weights are renormalised to 100 over the",
     absentPresent: "subsystems present",
     absentRows: "rows fall in the subsystems left off",
-    mappingNote: "Themes are assigned to subsystems by the team's mapping, an assumption to be checked by engineering.",
+    mappingNote:
+      "Themes are assigned to subsystems by the team's mapping, an assumption to be checked by engineering.",
     /** Bridge 1: the requirement line on a row (step 15). */
     bridge: {
       startOne: "requirement starts here",
@@ -506,7 +666,8 @@ export const site = {
     dialog: {
       close: "Close",
       weight: "Weight",
-      weightNote: "of a new vehicle's development effort, assumption, not calibrated",
+      weightNote:
+        "of a new vehicle's development effort, assumption, not calibrated",
       likedHeading: "Liked",
       criticisedHeading: "Disliked",
       marketHeading: "Market analysis in",
@@ -525,16 +686,31 @@ export const site = {
       externalRows: "from external sources",
       verifiedRows: "with their figures found on the source page",
       externalMore: "All market evidence for",
-      kinds: { market: "market", competitor: "competitor" } as Record<string, string>,
-      levels: { strong: "strong evidence", medium: "medium evidence", weak: "weak evidence" } as Record<string, string>,
-      sourceTypes: { primary: "primary source", secondary: "secondary source" } as Record<string, string>,
-      bases: { evidence: "evidence", assumption: "assumption" } as Record<string, string>,
+      kinds: { market: "market", competitor: "competitor" } as Record<
+        string,
+        string
+      >,
+      levels: {
+        strong: "strong evidence",
+        medium: "medium evidence",
+        weak: "weak evidence",
+      } as Record<string, string>,
+      sourceTypes: {
+        primary: "primary source",
+        secondary: "secondary source",
+      } as Record<string, string>,
+      bases: { evidence: "evidence", assumption: "assumption" } as Record<
+        string,
+        string
+      >,
       contradictionFor: "For",
       contradictionAgainst: "Against",
-      levelNote: "Evidence level by the count of independent sources (strong three or more, medium two, weak one), or as set by the team's rule set.",
+      levelNote:
+        "Evidence level by the count of independent sources (strong three or more, medium two, weak one), or as set by the team's rule set.",
       /** Bridge 2: the fourth band, and bridge 3 under the disliked suggestion (step 15). */
       requirementsHeading: "Requirements that change",
-      requirementsLead: "Requirements of this scope whose change profile starts in this subsystem, and those whose change propagates into it, with the effort of each from the CPM engine. A requirement opens its page; the candidate list of stage 2 filters to this subsystem.",
+      requirementsLead:
+        "Requirements of this scope whose change profile starts in this subsystem, and those whose change propagates into it, with the effort of each from the CPM engine. A requirement opens its page; the candidate list of stage 2 filters to this subsystem.",
       startsHere: "start here",
       reaches: "propagate into it",
       noRequirementsBefore: "No requirement of this scope changes",
@@ -557,7 +733,8 @@ export const site = {
     },
     spread: {
       title: "A change spreads",
-      before: "It starts in one subsystem and spreads over the interfaces, at most",
+      before:
+        "It starts in one subsystem and spreads over the interfaces, at most",
       after: "links deep; each link has a likelihood and an impact.",
     },
     figure: {
@@ -568,7 +745,11 @@ export const site = {
     },
     exampleLabel: "Worked example",
     classesLabel: "A documented BMW decision per class",
-    classes: { adapt: "Adapt", "major revision": "Major revision", "new generation": "New generation" } as Record<string, string>,
+    classes: {
+      adapt: "Adapt",
+      "major revision": "Major revision",
+      "new generation": "New generation",
+    } as Record<string, string>,
     bmwDecision: "BMW's decision:",
     engineClass: "Engine:",
     startsIn: "Change starts in",
@@ -579,16 +760,21 @@ export const site = {
     nodeOf: "of a new vehicle generation",
     nodeLikelihood: "reached with a likelihood of",
     under: "under",
-    legend: "Box: share of a new generation's effort. Darker line: likelier path.",
+    legend:
+      "Box: share of a new generation's effort. Darker line: likelier path.",
     notReached: "Not reached:",
     ofVehicle: "of a new vehicle generation",
     range: "P5 to P95",
     to: "to",
     certificationBefore: "Includes the",
-    certificationAfter: "% certification add-on: the change re-runs crash, emission or range tests.",
-    platformRule: "A platform change (K3) without carryover is a new generation regardless of the score.",
-    plainSum: "The figure is the sum of the reached subsystems' shares, with no add-on.",
-    scaleLabel: "Effort on a scale from 0 to 100 % of a new vehicle generation, with the three classes",
+    certificationAfter:
+      "% certification add-on: the change re-runs crash, emission or range tests.",
+    platformRule:
+      "A platform change (K3) without carryover is a new generation regardless of the score.",
+    plainSum:
+      "The figure is the sum of the reached subsystems' shares, with no add-on.",
+    scaleLabel:
+      "Effort on a scale from 0 to 100 % of a new vehicle generation, with the three classes",
     bands: { adapt: "adapt", major: "major revision", new: "new generation" },
     backtestBefore: "Back-test:",
     backtestMiddle: "of",

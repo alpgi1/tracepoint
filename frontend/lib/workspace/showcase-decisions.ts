@@ -69,7 +69,11 @@ const STANDARD_NOTE: Record<Decision, string> = {
   reject: "Rejected. The evidence does not justify the effort in this cycle.",
   defer: "Deferred to a later horizon until the evidence is stronger.",
 };
-function tidy(d: LocalDecision): LocalDecision {
+function tidy(entry: LocalDecision): LocalDecision {
+  // Example approvals of an earlier build carried "(example)" in the decider.
+  const d = entry.by
+    ? { ...entry, by: entry.by.replace(/\s*\(example\)$/, "") }
+    : entry;
   return PLACEHOLDER.has(d.note.trim().toLowerCase())
     ? { ...d, note: STANDARD_NOTE[d.decision] }
     : d;

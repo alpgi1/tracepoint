@@ -181,9 +181,13 @@ export function ShowcaseRecord({ rows }: { rows: RecordRow[] }) {
                 </td>
                 <td>{row.status}</td>
                 <td className="num">{String(row.version)}</td>
-                <td>{row.decision?.by ?? ""}</td>
-                <td className="record-when">{row.decision?.when ?? ""}</td>
-                <td className="record-note">{row.decision?.note ?? ""}</td>
+                <td>{row.decision?.by || <Empty />}</td>
+                <td className="record-when">
+                  {row.decision?.when || <Empty />}
+                </td>
+                <td className="record-note">
+                  {row.decision?.note || <Empty />}
+                </td>
               </tr>
             ))}
           </tbody>
@@ -314,4 +318,13 @@ export function ShowcaseSeed({
     seedDecisions(scope, seeds);
   }, [scope, seeds]);
   return null;
+}
+
+/** An empty cell of the decision record. */
+export function Empty() {
+  return (
+    <span className="cpm-muted" aria-label={site.log.empty}>
+      –
+    </span>
+  );
 }

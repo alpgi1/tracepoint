@@ -11,6 +11,7 @@ import { readScope } from "@/lib/data/workspace";
 import { site } from "@/lib/site";
 import { STATIC_EXPORT, asset } from "@/lib/static";
 import {
+  Empty,
   ShowcaseEventCount,
   ShowcaseEvents,
   ShowcaseRecord,
@@ -132,9 +133,11 @@ async function LogBody({ params }: { params: Props["params"] }) {
                     </td>
                     <td>{r.status}</td>
                     <td className="num">{String(r.version)}</td>
-                    <td>{d ? d.actor_id : ""}</td>
-                    <td className="record-when">{d ? dateTime(d.ts) : ""}</td>
-                    <td className="record-note">{d?.rationale ?? ""}</td>
+                    <td>{d ? d.actor_id : <Empty />}</td>
+                    <td className="record-when">
+                      {d ? dateTime(d.ts) : <Empty />}
+                    </td>
+                    <td className="record-note">{d?.rationale || <Empty />}</td>
                   </tr>
                 ))}
               </tbody>
