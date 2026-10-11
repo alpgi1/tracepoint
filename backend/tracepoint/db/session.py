@@ -23,10 +23,17 @@ FTS_INDEX_SQL = (
 )
 
 
+DOCUMENT_FTS_INDEX_SQL = (
+    "CREATE INDEX IF NOT EXISTS ix_document_page_fts ON document_page "
+    "USING GIN (to_tsvector('english', text))"
+)
+
+
 def init_schema(engine: Engine) -> None:
     Base.metadata.create_all(engine)
     with engine.begin() as conn:
         conn.execute(text(FTS_INDEX_SQL))
+        conn.execute(text(DOCUMENT_FTS_INDEX_SQL))
 
 
 def drop_schema(engine: Engine) -> None:

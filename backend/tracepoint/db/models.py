@@ -299,6 +299,22 @@ class TechSpec(Base):
     created_run_id: Mapped[str | None] = mapped_column(ForeignKey("run.id"))
 
 
+class DocumentPage(Base):
+    """One page of a prose document (annual report); the page is the locator and the unit of
+    retrieval."""
+
+    __tablename__ = "document_page"
+
+    id: Mapped[str] = mapped_column(String(64), primary_key=True)
+    source_id: Mapped[str] = mapped_column(ForeignKey("source.id"))
+    page: Mapped[int] = mapped_column(Integer)
+    section: Mapped[str | None] = mapped_column(String(200))
+    text: Mapped[str] = mapped_column(Text)
+    char_len: Mapped[int] = mapped_column(Integer)
+    locator: Mapped[dict[str, Any]] = mapped_column(JSONB)
+    created_run_id: Mapped[str | None] = mapped_column(ForeignKey("run.id"))
+
+
 class Embedding(Base):
     """Vector store (provider and model to be decided by the team; filled in a later step)."""
 

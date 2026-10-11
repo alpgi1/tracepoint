@@ -1,6 +1,8 @@
 # USD per 1 million tokens, used only for cost estimates in the llm_call log.
-# Fill in the model names and prices the team provides with the API details. Unknown models get
-# cost_estimate_usd = null (the token counts are still recorded).
-models: {}
-# Example entry:
-#   my-bulk-model: {input: 0.0, cached_input: 0.0, output: 0.0}
+# The cost caps (TRACEPOINT_LLM_MAX_COST_USD_PER_RUN / _PER_DAY) count these estimates, so the
+# gateway refuses a model that has no price here while a cap is set.
+# Keys are model aliases; the dated snapshot the API reports (gpt-5.4-2026-03-05) matches its
+# alias. Standard-tier prices from the OpenAI model pages, checked 2026-10-11.
+models:
+  gpt-5.4: {input: 2.50, cached_input: 0.25, output: 15.00}
+  gpt-5.4-mini: {input: 0.75, cached_input: 0.075, output: 4.50}

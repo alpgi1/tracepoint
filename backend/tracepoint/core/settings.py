@@ -38,6 +38,9 @@ class Settings(BaseSettings):
     )
     embedding_model: str = ""
     llm_max_cost_usd_per_run: float = 25.0
+    # Across all runs of the last 24 hours; every API request for an analysis is its own run, so
+    # the per-run cap alone would not bound repeated requests. 0 switches it off.
+    llm_max_cost_usd_per_day: float = 50.0
     llm_concurrency: int = 4
     llm_timeout_seconds: float = 120.0
     llm_max_attempts: int = 4

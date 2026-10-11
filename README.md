@@ -21,7 +21,7 @@ automatically if missing.
 ```
 
 The script starts PostgreSQL 16 in Docker (persistent volume `tracepoint-pgdata`), creates `.env`
-from `.env.example`, installs the backend, creates the schema, ingests the eight files under
+from `.env.example`, installs the backend, creates the schema, ingests the nine files under
 `docs/`, extracts findings for four vehicle × market scopes, writes fresh reports under `data/reports/` (the committed samples under `reports/` stay
 unchanged) and runs the test suite. It is safe to re-run.
 

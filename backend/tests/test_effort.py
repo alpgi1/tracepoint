@@ -5,7 +5,7 @@ from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from tracepoint.core.runs import start_run
-from tracepoint.db.models import AuditEvent, RequirementEffort
+from tracepoint.db.models import AuditEvent, Requirement, RequirementEffort
 from tracepoint.effort.cpm import (
     Change,
     Engine,
@@ -164,3 +164,51 @@ def test_estimate_run_is_versioned_and_audited(engine, ingested):
         acc = portfolio_scan(session, "G60", ["Driving Assistant Plus"])
         assert acc["level"] == 1 and acc["own_variants"]["total"] == 10
         session.rollback()
+
+
+def test_analysis_takes_the_effort_of_an_existing_requirement_from_its_profile(engine, ingested):
+    """Runs after the estimate test above, which fills requirement_effort."""
+    from tracepoint.agent.analysis import Recommendation, SituationAnalysis, effort_of_proposals
+
+    def rec(title, horizon):
+        return Recommendation(
+            title=title,
+            proposal="p",
+            horizon=horizon,
+            rationale="r",
+            evidence_refs=["REQ-G60-US-IC-01"],
+            related_requirement="REQ-G60-US-IC-01",
+            changes_vehicle=True,
+            effort_changes=None,
+        )
+
+    analysis = SituationAnalysis(
+        headline="h",
+        summary="s",
+        data_coverage="d",
+        insights=[],
+        recommendations=[rec("seats", "H1"), rec("seats again", "H1"), rec("seats later", "H2")],
+        assumptions_and_gaps=[],
+    )
+    with Session(engine) as session:
+        stored_pct = session.get(RequirementEffort, "REQ-G60-US-IC-01").effort_pct
+        effort, faults = effort_of_proposals(session, "G60", "US", analysis)
+        # the id comes from the model: a requirement of another scope lends no profile
+        foreign, foreign_faults = effort_of_proposals(session, "G70", "US", analysis)
+        # a requirement the product manager rejected is not quietly proposed again
+        session.get(Requirement, "REQ-G60-US-IC-01").status = "rejected"
+        session.flush()
+        _, after_rejection = effort_of_proposals(session, "G60", "US", analysis)
+        session.rollback()
+    first, _, later = effort["recommendations"]
+    assert first["effort_pct"] == stored_pct and "REQ-G60-US-IC-01" in first["source"]
+    assert faults == []
+    # the same requirement proposed twice is one change in the package
+    h1 = next(p for p in effort["packages"] if p["horizon"] == "H1")
+    assert h1["proposals"] == 2 and h1["effort_pct"] == stored_pct
+    # judged against the proposal's horizon, not the requirement's
+    assert [f["rule"] for f in later["flags"]] == ["48"]
+    assert all(r["status"] == "missing" for r in foreign["recommendations"])
+    assert "belongs to G60 US, not G70 US" in foreign_faults[0]
+    assert foreign["packages"][0]["not_counted"] == ["seats", "seats again"]
+    assert any("rejected by the product manager at gate G2" in f for f in after_rejection)

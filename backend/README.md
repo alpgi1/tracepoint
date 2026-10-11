@@ -29,7 +29,7 @@ repository root (see `.env.example`).
 | `tracepoint db init` / `db reset --yes` | create / recreate the schema |
 | `tracepoint taxonomy extract` | extract the canonical VFC lists and apply the authored domain map and polarity rules |
 | `tracepoint ingest reference` | load vehicles, markets, countries and the taxonomy from `config/` |
-| `tracepoint ingest verbatims` / `studies` / `sales` / `optionlists` / `all` | ingest the input files (idempotent per vehicle) |
+| `tracepoint ingest verbatims` / `studies` / `sales` / `optionlists` / `documents` / `all` | ingest the input files (idempotent per vehicle); `documents` reads the BMW Group Report page by page and is skipped while the file is unchanged |
 | `tracepoint report baseline --vehicle G60 --market US --out-dir ../reports/baseline` | baseline situation-analysis report (Markdown + JSON) |
 | `tracepoint audit export --format json\|csv [--out file]` | export the audit event log |
 | `tracepoint classify import [--vehicle G60]` | apply the committed gap labels in `config/classifications/<vehicle>_gaps.jsonl` (no API call; also run by `ingest all`) |
@@ -48,6 +48,7 @@ repository root (see `.env.example`).
 | `tracepoint agent packs [--vehicle G60]` | context pack (JSON + Markdown) per vehicle × market with evidence, written to `data/context_packs/` |
 | `tracepoint agent tools` | tool definitions for an LLM agent (name, description, JSON input schema) |
 | `tracepoint agent call search_evidence '{"query": "charging flap", "vehicle": "G60"}'` | run one agent tool; every call is an audit event (`tool.called`). Also over HTTP: `GET /agent/tools`, `POST /agent/tools/{name}` |
+| `tracepoint agent analyze --vehicle G60 --market US` / `--vehicle F70 --country GB` | situation analysis by the analyst agent (LLM with tool calls, needs the OpenAI key): Markdown and JSON in `data/analyses/`, every insight with its evidence references, every proposal with its CPM effort (from the requirement's change profile or the analyst's own, computed by the effort engine) and the H1 / H2 packages; `--max-steps`, `--no-cache`. Also `POST /agent/analyze` |
 | `tracepoint settings` | print the effective settings |
 
 ## Layout
@@ -56,13 +57,13 @@ repository root (see `.env.example`).
 tracepoint/
   core/       settings, identifiers, audit event log, run registry
   db/         SQLAlchemy models and session helpers
-  ingest/     registry of input files, reference loader, parsers (verbatims, studies, sales, option lists)
+  ingest/     registry of input files, reference loader, parsers (verbatims, studies, sales, option lists, group report)
   taxonomy/   canonical taxonomy extraction and enrichment
   reports/    baseline situation-analysis report
-  llm/        provider-agnostic LLM gateway (OpenAI first), pricing, strict JSON schemas
+  llm/        provider-agnostic LLM gateway (OpenAI first, structured outputs and tool calls), pricing, strict JSON schemas
   classify/   gap classification, Source B segmentation, few-shot retrieval, blind validation
   findings/   deterministic finding extraction, cross-layer links, Markdown report
-  agent/      context packs and drill-down tools for the agents (logged tool calls)
+  agent/      context packs, drill-down tools (logged tool calls), the agent loop and the situation analysis
   requirements/  requirement store (import, versioning, G2 decisions) and D2 exports
   effort/     CPM effort engine (pure), requirement effort store, variations and report
   api/        FastAPI read API
@@ -75,4 +76,5 @@ tests/        pytest suite (ingests docs/ into the test database once per sessio
 Every evidence row has a `locator` (file, sheet / page, row / position) and a `created_run_id`.
 Findings and requirements (later phases) reference evidence with strings such as
 `verbatim:G60-0123`, `metric:MET-US-US-G60-voice_recognition`, `equipment:EQ-F70-0112`,
-`sales:SAL-G60-US-2030`, `spec:SPEC-G60-i5_edrive40-electric_range_wltp_km`.
+`sales:SAL-G60-US-2030`, `spec:SPEC-G60-i5_edrive40-electric_range_wltp_km`,
+`document:DOC-GROUP-REPORT-0079` (one page of the BMW Group Report).

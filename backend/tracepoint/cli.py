@@ -115,6 +115,15 @@ def ingest_optionlists_cmd(
                 _echo(f"optionlist {code}", ingest_optionlist(session, run, code))
 
 
+@ingest_app.command("documents")
+def ingest_documents_cmd() -> None:
+    """Ingest the BMW Group Report (PDF) page by page; skipped when the file is unchanged."""
+    from tracepoint.ingest.documents import ingest_document
+
+    with Session(make_engine()) as session, start_run(session, "ingest.documents") as run:
+        _echo("group report", ingest_document(session, run))
+
+
 @ingest_app.command("all")
 def ingest_all() -> None:
     """Run the complete internal ingestion in order."""
@@ -123,6 +132,7 @@ def ingest_all() -> None:
     ingest_studies_cmd()
     ingest_sales_cmd()
     ingest_optionlists_cmd(VEHICLES_WITH_CATALOGUE)
+    ingest_documents_cmd()
     classify_import(VEHICLES_WITH_FEEDBACK)
 
 
@@ -482,6 +492,62 @@ def agent_call(
     typer.echo(json.dumps(result, ensure_ascii=False, indent=1, default=str))
 
 
+@agent_app.command("analyze")
+def agent_analyze(
+    vehicle: str = typer.Option(..., "--vehicle", "-v"),
+    market: str | None = typer.Option(None, "--market", "-m", help="EU, US, CN or RoW"),
+    country: str | None = typer.Option(
+        None, "--country", "-c", help="Country code, e.g. GB; narrows the customer verbatims"
+    ),
+    max_steps: int = typer.Option(12, "--max-steps", help="Agent turns before it has to answer"),
+    no_cache: bool = typer.Option(False, "--no-cache", help="Do not reuse stored LLM answers"),
+    out_dir: Path = typer.Option(
+        None, "--out-dir", help="Default: data/analyses under the repository root"
+    ),
+) -> None:
+    """Situation analysis of one vehicle in a market or country by the analyst agent (LLM with
+    tool calls); writes Markdown and JSON."""
+    from tracepoint.agent.analysis import PROMPT_VERSION, render_analysis, run_analysis
+
+    out = out_dir or get_settings().data_dir / "analyses"
+    out.mkdir(parents=True, exist_ok=True)
+    scope = country.upper() if country else market
+    config = {
+        "vehicle": vehicle,
+        "market": market,
+        "country": country,
+        "max_steps": max_steps,
+        "prompt_version": PROMPT_VERSION,
+    }
+    with (
+        Session(make_engine()) as session,
+        start_run(session, f"agent.analyze.{vehicle}.{scope}", config) as run,
+    ):
+        result = run_analysis(
+            session,
+            run,
+            _gateway(session, run.id, False),
+            vehicle,
+            market,
+            country,
+            max_steps=max_steps,
+            use_cache=not no_cache,
+        )
+    stem = out / f"{vehicle}_{scope}"
+    stem.with_suffix(".json").write_text(
+        json.dumps(result, ensure_ascii=False, indent=1, default=str), encoding="utf-8"
+    )
+    stem.with_suffix(".md").write_text(render_analysis(result), encoding="utf-8")
+    trace = result["trace"]
+    typer.echo(
+        f"wrote {stem}.md and .json: {trace['steps']} steps ({trace['cached_steps']} cached), "
+        f"{len(trace['tool_calls'])} tool calls, USD {trace['cost_usd']}, "
+        f"{result['citations']['cited']} references, "
+        f"{len(result['citations']['unknown'])} not verified, "
+        f"{len(result['citations']['unverified_quotes'])} quotes not found"
+    )
+
+
 effort_app = typer.Typer(
     help="CPM effort estimates (rules 41-52): back-test, estimates, variations.",
     no_args_is_help=True,
@@ -564,6 +630,7 @@ def status() -> None:
         ("sales_rows", m.SalesVolume),
         ("equipment_items", m.EquipmentItem),
         ("tech_specs", m.TechSpec),
+        ("document_pages", m.DocumentPage),
         ("findings", m.Finding),
         ("requirements", m.Requirement),
         ("efforts", m.RequirementEffort),

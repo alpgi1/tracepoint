@@ -3,9 +3,10 @@
 from __future__ import annotations
 
 from collections.abc import Iterator
-from typing import Any
+from typing import Any, Literal
 
 from fastapi import Depends, FastAPI, HTTPException, Query
+from pydantic import BaseModel, Field
 from sqlalchemy import func, or_, select
 from sqlalchemy.orm import Session
 
@@ -615,23 +616,31 @@ def effort_scenarios(
     return scenarios(session, vehicle, market)
 
 
+class DecisionBody(BaseModel):
+    decision: Literal["approve", "reject", "defer"]
+    note: str = Field(min_length=3, description="Rationale, mandatory")
+
+
 @app.post("/requirements/{requirement_id}/decision")
 def requirement_decision(
     requirement_id: str,
-    decision: str = Query(..., description="approve / reject / defer"),
-    note: str = Query(..., description="Rationale, mandatory"),
-    actor: str = "human:pm",
+    body: DecisionBody,
     session: Session = Depends(get_session),
 ) -> dict[str, Any]:
-    """Gate G2 decision on the current version; logged and appended to the decisions file."""
+    """Gate G2 decision on the current version; logged and appended to the decisions file.
+
+    The actor is the configured PM (``TRACEPOINT_HUMAN_ACTOR_ID``), never a client-supplied
+    value, and the body must be JSON so a cross-site form post cannot trigger a decision."""
+    from tracepoint.core.settings import get_settings
     from tracepoint.requirements.store import decide
 
+    actor = f"human:{get_settings().human_actor_id}"
     try:
-        req = decide(session, requirement_id, decision, actor=actor, note=note)
+        req = decide(session, requirement_id, body.decision, actor=actor, note=body.note)
     except ValueError as exc:
         raise HTTPException(422, str(exc)) from exc
     session.commit()
-    return {"id": req.id, "version": req.version, "status": req.status}
+    return {"id": req.id, "version": req.version, "status": req.status, "actor": actor}
 
 
 @app.get("/agent/tools")
@@ -642,11 +651,61 @@ def agent_tools() -> list[dict[str, Any]]:
     return tool_schemas()
 
 
+ANALYSIS_LOCK = "tracepoint.agent.analyze"
+
+
+class AnalysisBody(BaseModel):
+    vehicle: Literal["F70", "G60", "G68", "G70"]
+    market: Literal["EU", "US", "CN", "RoW"] | None = None
+    country: str | None = Field(None, pattern=r"^[A-Za-z]{2}$")
+    max_steps: int = Field(12, ge=1, le=30)
+
+
+@app.post("/agent/analyze")
+def agent_analyze(body: AnalysisBody, session: Session = Depends(get_session)) -> dict[str, Any]:
+    """Situation analysis by the analyst agent (LLM with tool calls). Takes a minute or two and
+    spends tokens; every model turn and tool call is logged under the returned run."""
+    from tracepoint.agent.analysis import resolve_scope, run_analysis
+    from tracepoint.core.runs import start_run
+    from tracepoint.llm.gateway import LlmError, LlmGateway, make_provider
+
+    try:
+        market, country = resolve_scope(session, body.market, body.country)
+    except ValueError as exc:
+        raise HTTPException(422, str(exc)) from exc
+    # One analysis at a time through the API. A run commits its LLM costs when it ends, so
+    # parallel requests would each pass the cost caps without seeing the others' spending. The
+    # lock lives until this request's transaction ends, in every API process.
+    lock = func.pg_try_advisory_xact_lock(func.hashtext(ANALYSIS_LOCK))
+    if not session.scalar(select(lock)):
+        raise HTTPException(429, "an analysis is already running; try again when it has finished")
+    try:
+        provider = make_provider()
+    except LlmError as exc:
+        raise HTTPException(422, str(exc)) from exc
+    kind = f"agent.analyze.{body.vehicle}.{country or market}"
+    try:
+        with start_run(session, kind, body.model_dump()) as run:
+            return run_analysis(
+                session,
+                run,
+                LlmGateway(session, provider, run.id),
+                body.vehicle,
+                market,
+                country,
+                max_steps=body.max_steps,
+            )
+    except ValueError as exc:
+        raise HTTPException(422, str(exc)) from exc
+    except LlmError as exc:
+        raise HTTPException(502, str(exc)) from exc
+
+
 @app.post("/agent/tools/{name}")
 def agent_call(
     name: str,
     args: dict[str, Any],
-    actor: str = "agent:http",
+    actor: str = Query("agent:http", pattern=r"^agent:[a-z0-9_.-]{1,40}$"),
     session: Session = Depends(get_session),
 ) -> dict[str, Any]:
     """Run one tool with JSON arguments; the call is logged as an audit event."""
