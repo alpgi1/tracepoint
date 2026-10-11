@@ -1,0 +1,37 @@
+{
+  "cli_version": "0.11.4",
+  "checkpoint_id": "01M4M9TB7GYVTRARJKQ0FD7EN5",
+  "strategy": "manual-commit",
+  "branch": "claude/backend-classification-agent-requirements",
+  "checkpoints_count": 1,
+  "files_touched": [
+    "backend/README.md",
+    "backend/tests/test_agent.py",
+    "backend/tests/test_effort.py",
+    "backend/tracepoint/agent/analysis.py",
+    "backend/tracepoint/effort/store.py",
+    "plan/decisions.md",
+    "reports/analysis/F70_GB.json",
+    "reports/analysis/F70_GB.md",
+    "reports/analysis/G60_US.json",
+    "reports/analysis/G60_US.md",
+    "reports/step-14-analyst-agent-loop.md",
+    "reports/step-15-cpm-effort-in-the-analysis.md"
+  ],
+  "sessions": [
+    {
+      "metadata": "/0/metadata.json",
+      "transcript": "/0/full.jsonl",
+      "compact_transcript": "/0/transcript.jsonl",
+      "content_hash": "/0/content_hash.txt",
+      "prompt": ""
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 32,
+    "cache_creation_tokens": 61347,
+    "cache_read_tokens": 5929352,
+    "output_tokens": 31157,
+    "api_call_count": 16
+  }
+}
