@@ -247,6 +247,21 @@ await shoot("49-method-us-g60-rules-1440", desktop, async (page) => {
   await page.waitForTimeout(200);
 }, { path: "/markets/us/g60/priorities/method" });
 
+// Step 20: the brand mark at the foot of the map and the CPM explainer it opens, one state per class.
+async function openExplainer(page, index = 0) {
+  await page.locator(".brand-mark").click();
+  await page.waitForSelector("dialog.cpmx[open]", { timeout: 5000 });
+  if (index > 0) await page.locator(".cpmx-class").nth(index).click();
+  await page.waitForTimeout(1600);
+}
+await shoot("50-explainer-adapt-1440", desktop, async (page) => openExplainer(page));
+await shoot("51-explainer-major-1440", desktop, async (page) => openExplainer(page, 1));
+await shoot("52-explainer-new-1440", desktop, async (page) => openExplainer(page, 2));
+await shoot("53-explainer-adapt-1280x720", { width: 1280, height: 720 }, async (page) => openExplainer(page));
+await shoot("54-explainer-spreading-1440", desktop, async (page) => {
+  await page.locator(".brand-mark").click();
+  await page.waitForTimeout(450);
+});
 // Step 20: the motion between the screens. The car on its way into the header's corner and back,
 // a stage's content arriving under the header that stays, the corner car with keyboard focus,
 // the header on a phone (no corner car there).

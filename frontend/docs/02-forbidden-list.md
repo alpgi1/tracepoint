@@ -47,7 +47,7 @@ page.
 | Round marketing figures ("10x faster", "99.9 %") | The measured value with its basis |
 | A figure without a source and a date | Every number carries where it comes from and the data vintage ("as of") |
 | Guarantee language ("fully compliant", "always accurate") | Verb statements of what the system does ("every requirement links to its findings") |
-| Claims about BMW, its brands or its data beyond what the challenge inputs state | Only what `docs/` and the plan say; no BMW logos or brand assets |
+| Claims about BMW, its brands or its data beyond what the challenge inputs state | Only what `docs/` and the plan say; no BMW logos or brand assets (one exception by team decision: the roundel in the brand mark, E8) |
 | A chart that disagrees with its table | Chart and table render the same data object |
 
 ## 2. Text (UI language is English)
@@ -142,7 +142,8 @@ market, one callout card of real figures from `content/markets.json` (name, 2025
 verbatims, weakest domain or lowest study score) joined to the market by a connector. Nothing
 else: no header, no copy, no footer. The cards are the market buttons; the h1 and the status
 line exist for assistive technology and are visually hidden. The magnified state adds the market
-panel with the vehicle cards; it is a second state, not the first view.
+panel with the vehicle cards; it is a second state, not the first view. Since step 20 (D-107)
+the foot of the resting map also carries the brand mark (E8); it hides with the cards.
 
 **E4, the hand-over from the map to the vehicle screen (2026-10-10, step 07, revised in steps 11
 and 12 by D-053 and D-055 and in step 20 by D-111).** A clicked vehicle card hands the car's
@@ -163,6 +164,20 @@ evidence drawer; the dialog's second revision shows none), it is customer text, 
 keeps its exclamation marks, dashes and wording, is set as `blockquote` with its verbatim id, and
 the page audit's forbidden-text scan leaves `blockquote` out. Nothing in it is edited or invented.
 
+**E8, the BMW roundel in the brand mark (2026-10-11, step 20, team decision D-112).** For the
+demo day the team asked for the BMW logo with Tracepoint beside it at the foot of the first map,
+after their partner lockup. The roundel is the grey web version as BMW publishes it (taken from
+Wikimedia Commons, `File:BMW_logo_(gray).svg`, identical in colour to the file the team
+supplied), drawn as inline SVG with its own two colours (`--bmw-blue`, `--bmw-grey`), unaltered,
+once, on the landing page only, as the button that opens the CPM explainer. It is a trademark of
+BMW AG, shown because the challenge is BMW's; no other BMW brand asset is used and the
+roundel makes no claim beyond the challenge inputs.
+
+**E9, the explainer's drawing (2026-10-11, step 20, D-112).** The CPM explainer draws its worked
+example once per opening and per chosen class: the start box, then each column of reached
+subsystems 220 ms later with its links drawn in, then the figure's dot on the scale, about one
+second in all. Bound to the click, never looped, never with reduced motion; it moves `opacity`,
+`transform` and the links' `stroke-dashoffset` only.
 **E6, the arrival of a workspace screen (2026-10-11, step 20, D-109).** The team asked that moving
 between the stages never freeze and that the text arrive with a professional motion. When a
 screen of the scope workspace is reached by a click, its blocks rise into place one after
@@ -194,7 +209,7 @@ with reduced motion, not when the car is scrolled out of view.
 - [ ] Three equal cards or an equal bento grid anywhere?
 - [ ] Purple gradient, gradient text, box-shadow glow, shimmer, second animated ground?
 - [ ] Any stock or AI imagery? Every picture a real screen or real data?
-- [ ] Any infinite loop? Any entrance or move that is not E1, E2, E4, E6 or E7? Any quoted text outside `blockquote` (E5)?
+- [ ] Any infinite loop? Any entrance or move that is not E1, E2, E4, E6, E7, E8 or E9? Any quoted text outside `blockquote` (E5)?
 - [ ] Does any content wait behind a loader? Is the page readable with JavaScript off?
 - [ ] With `prefers-reduced-motion`: no entrance, instant state changes, no coasting?
 - [ ] Keyboard: every control reachable, `focus-visible` ring visible, Escape closes the zoomed state and the dialog, focus returns to the row?

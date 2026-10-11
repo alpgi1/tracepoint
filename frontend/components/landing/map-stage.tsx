@@ -2,10 +2,12 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { DottedWorldMap, type RegionPositions } from "@/components/ui/dotted-world-map";
+import type { CpmIntro } from "@/lib/content/cpm-intro";
 import { marketByCode } from "@/lib/content/markets";
 import { REGIONS, type RegionId, regionById } from "@/lib/map/regions";
 import { useReducedMotion } from "@/lib/motion/reduced-motion";
 import { site } from "@/lib/site";
+import { BrandMark } from "./brand-mark";
 import { MarketCallout } from "./market-callout";
 import { MarketPanel } from "./market-panel";
 
@@ -15,9 +17,11 @@ import { MarketPanel } from "./market-panel";
  * is the first layer of the analysis. The cards are the markets' buttons:
  * hover highlights, click magnifies; the canvas answers the pointer too. A
  * selected market is magnified and its vehicles appear in a panel below.
- * State changes only on enter, leave, click and settle, never per frame.
+ * At the foot of the resting map the brand mark opens the CPM explainer
+ * (step 20). State changes only on enter, leave, click and settle, never
+ * per frame.
  */
-export function MapStage() {
+export function MapStage({ intro }: { intro: CpmIntro }) {
   const [hovered, setHovered] = useState<RegionId | null>(null);
   const [selected, setSelected] = useState<RegionId | null>(null);
   const [positions, setPositions] = useState<RegionPositions>({});
@@ -102,6 +106,7 @@ export function MapStage() {
           );
         })}
       </ul>
+      <BrandMark intro={intro} hidden={calloutsHidden} />
       {selectedMarket && !moving ? <MarketPanel market={selectedMarket} onClose={() => setSelected(null)} /> : null}
       <p className="sr-only" aria-live="polite">
         {status}

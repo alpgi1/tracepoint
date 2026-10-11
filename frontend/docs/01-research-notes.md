@@ -347,6 +347,24 @@ contact sheets reviewed. The registry holds few charts and no scatter: what was 
 Nothing was installed; the methods were written with the tokens in `priority-matrix.tsx`,
 `package-table.tsx`, the two stage-4 pages and `globals.css`.
 
+### 6.7 Survey for the brand mark and the CPM explainer (step 20, 2026-10-11)
+
+The team asked for a simple popup, not covering the whole screen, that explains CPM in about
+fifteen seconds with a graphic, and suggested a 21st.dev component. The registry's search API
+now requires a key (`POST /api/search` answers 401), so the survey read the public listings
+instead: the modal category page (131 demos with their preview bundles, ranked by views) and the
+Animated Beam page; six previews were rendered in Chromium and reviewed on one contact sheet.
+What was found and what was taken:
+
+| Component | What it is | Verdict |
+|---|---|---|
+| The Dialog, onboarding welcome (larsen66) | A small dialog: picture on top, short title, two lines, one primary action and a skip link | **Anatomy taken**: the visual carries the message, the text is a few lines, one way out (Close). The photo and the two buttons were not taken |
+| Welcome Modal (ravikatiyar162), Interactive changelog with dialog (slaviknocolaid) | Announcement dialogs with headed sections, an emoji, a large dark media block | Rejected: emoji, decorative media, marketing copy |
+| Dialog app info, sticky header and footer (sshahaider) | A key-value dialog with hairline rows; a scrolling body between a fixed header and footer | Method already in use (step 13): fixed head, native scrolling body, a footer for the source line |
+| Animated Beam (Magic UI, Dillion Verma, MIT) | Nodes joined by curved SVG paths along which a gradient beam runs on a loop, `motion` for the animation | **Method taken**: curved connectors between node boxes, computed from the boxes' edges. The endless gradient beam was not (an infinite loop and gradient, forbidden list sections 3 and 4); the links are drawn in once per opening with a dash offset (E9), and `motion` was not installed |
+
+The explainer (`components/landing/cpm-intro-dialog.tsx`) is written on the native `dialog`
+element with the tokens, like the subsystem dialog; `package.json` is unchanged.
 ### 6.6 Survey for the motion between the screens (step 20, 2026-10-11)
 
 The team asked for the hand-over from the map and the move between the stages to run without a

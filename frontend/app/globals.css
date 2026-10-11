@@ -2231,6 +2231,491 @@ blockquote.refs-quote {
   font-weight: 500;
 }
 
+/* ---------- step 20: the brand mark on the map and the CPM explainer ---------- */
+
+:root {
+  /* The BMW roundel's own colours (components/landing/bmw-roundel.tsx); the name beside it takes the grey. */
+  --bmw-blue: #0166b1;
+  --bmw-grey: #6f6f6f;
+  --brand-rule: rgb(20 23 28 / 0.32);
+  /* The engine's classes on the explainer's scale, the two greys of the stage 4 chart. */
+  --band-major: rgb(20 23 28 / 0.045);
+  --band-new: rgb(20 23 28 / 0.09);
+}
+
+/*
+ * The brand mark: roundel, hairline, name, centred at the foot of the map
+ * after the team's partner lockup. One button; it fades with the callouts.
+ */
+.brand-mark {
+  position: absolute;
+  bottom: max(20px, env(safe-area-inset-bottom));
+  left: 50%;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  min-height: 44px;
+  padding: 6px 14px;
+  font: inherit;
+  color: var(--bmw-grey);
+  background: transparent;
+  border: 0;
+  border-radius: calc(var(--radius) * 2);
+  transform: translateX(-50%);
+  cursor: pointer;
+  transition:
+    opacity 0.16s var(--ease-out),
+    visibility 0s linear 0s;
+}
+.brand-mark[data-hidden="true"] {
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity 0.16s var(--ease-out),
+    visibility 0s linear 0.16s;
+}
+.brand-roundel {
+  flex: none;
+  width: 50px;
+  height: 50px;
+}
+.bmw-blue {
+  fill: var(--bmw-blue);
+}
+.bmw-white {
+  fill: var(--color-paper);
+}
+.bmw-grey {
+  fill: var(--bmw-grey);
+}
+.brand-rule {
+  flex: none;
+  width: 1px;
+  height: 40px;
+  background: var(--brand-rule);
+}
+.brand-name {
+  font-size: 1.875rem;
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: -0.005em;
+  transition: color 0.18s var(--ease-out);
+}
+.brand-mark:hover .brand-name {
+  color: var(--color-ink);
+}
+
+/*
+ * The CPM explainer: a native dialog over the middle of the map, never the
+ * whole screen. The steps on the left, the worked example on the right; the
+ * body scrolls natively when the viewport is short.
+ */
+body:has(.cpmx[open]) {
+  overflow: hidden;
+}
+.cpmx {
+  width: min(980px, calc(100vw - 48px));
+  max-width: none;
+  max-height: calc(100dvh - 32px);
+  margin: auto;
+  padding: 0;
+  color: var(--color-ink);
+  background: var(--color-paper);
+  border: 1px solid var(--color-line);
+  border-radius: calc(var(--radius) * 2);
+  box-shadow: 0 24px 64px rgb(20 23 28 / 0.18);
+  opacity: 0;
+  transform: translateY(8px);
+  transition:
+    opacity 0.16s var(--ease-out),
+    transform 0.16s var(--ease-out),
+    display 0.16s allow-discrete,
+    overlay 0.16s allow-discrete;
+}
+.cpmx[open] {
+  opacity: 1;
+  transform: none;
+  transition-duration: 0.2s;
+}
+.cpmx::backdrop {
+  background: var(--veil);
+  opacity: 0;
+  transition:
+    opacity 0.16s var(--ease-out),
+    display 0.16s allow-discrete,
+    overlay 0.16s allow-discrete;
+}
+.cpmx[open]::backdrop {
+  opacity: 1;
+  transition-duration: 0.2s;
+}
+@starting-style {
+  .cpmx[open] {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  .cpmx[open]::backdrop {
+    opacity: 0;
+  }
+}
+.cpmx-frame {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  max-height: calc(100dvh - 34px);
+}
+.cpmx-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 16px 28px 12px;
+  border-bottom: 1px solid var(--color-line);
+}
+.cpmx-title {
+  font-size: 1.375rem;
+  font-weight: 500;
+  line-height: 1.25;
+}
+.cpmx-lead {
+  margin-top: 2px;
+  color: var(--color-ink-2);
+  font-size: 0.9375rem;
+}
+.cpmx-close {
+  padding: 0 12px;
+  margin: -6px -12px 0 0;
+  font-size: 0.875rem;
+  color: var(--color-blue);
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+}
+.cpmx-body {
+  display: grid;
+  grid-template-columns: minmax(0, 210px) minmax(0, 1fr);
+  gap: 28px;
+  padding: 16px 28px 16px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+/* The three steps: a number in a hairline ring, a title, two lines. */
+.cpmx-steps {
+  counter-reset: cpmx-step;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.cpmx-steps > li {
+  position: relative;
+  padding: 0 0 14px 36px;
+  counter-increment: cpmx-step;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: var(--color-ink-2);
+}
+.cpmx-steps > li + li {
+  padding-top: 14px;
+  border-top: 1px solid var(--color-line);
+}
+.cpmx-steps > li::before {
+  content: counter(cpmx-step);
+  position: absolute;
+  left: 0;
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  color: var(--color-blue);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  border: 1px solid var(--color-blue);
+  border-radius: 50%;
+}
+.cpmx-step-title {
+  margin-bottom: 2px;
+  color: var(--color-ink);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  line-height: 1.6;
+}
+
+/* The worked example: the classes as a segmented row, the name, the drawing, the scale. */
+.cpmx-classes {
+  display: inline-flex;
+  padding: 3px;
+  border: 1px solid var(--color-line);
+  border-radius: calc(var(--radius) * 2);
+}
+.cpmx-class {
+  justify-content: center;
+  padding: 0 14px;
+  font: inherit;
+  font-size: 0.875rem;
+  color: var(--color-ink-2);
+  background: transparent;
+  border: 0;
+  border-radius: calc(var(--radius) * 1.5);
+  cursor: pointer;
+  transition:
+    color 0.16s var(--ease-out),
+    background-color 0.16s var(--ease-out);
+}
+.cpmx-class:hover {
+  color: var(--color-ink);
+}
+.cpmx-class[aria-pressed="true"] {
+  color: var(--color-blue-ink);
+  background: var(--color-blue);
+}
+.cpmx-name {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 2px 16px;
+  margin-top: 10px;
+}
+.cpmx-name-text {
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1.35;
+}
+.cpmx-verdict {
+  color: var(--color-ink-2);
+  font-size: 0.875rem;
+}
+.cpmx-spread {
+  margin-top: 10px;
+  overflow-x: auto;
+}
+.cpmx-spread svg {
+  display: block;
+  width: 100%;
+  min-width: 560px;
+  height: auto;
+  overflow: visible;
+}
+.cpmx-col {
+  fill: var(--color-ink-2);
+  font-size: 12px;
+}
+.cpmx-node rect {
+  fill: color-mix(in srgb, var(--color-blue) 6%, var(--color-paper));
+  stroke: color-mix(in srgb, var(--color-blue) 40%, var(--color-paper));
+  stroke-width: 1;
+}
+.cpmx-node[data-start="true"] rect {
+  fill: var(--color-blue);
+  stroke: var(--color-blue);
+}
+.cpmx-node-name {
+  fill: var(--color-ink);
+  font-size: 12.5px;
+  font-weight: 500;
+}
+.cpmx-node-value {
+  fill: var(--color-ink-2);
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+}
+.cpmx-node[data-start="true"] .cpmx-node-name,
+.cpmx-node[data-start="true"] .cpmx-node-value {
+  fill: var(--color-blue-ink);
+}
+.cpmx-link {
+  fill: none;
+  stroke: var(--color-blue);
+  stroke-width: 1.5;
+  stroke-opacity: var(--o, 1);
+}
+.cpmx-note {
+  margin-top: 8px;
+  color: var(--color-ink-2);
+  font-size: 0.8125rem;
+  line-height: 1.45;
+}
+
+/* The figure and the scale of the classes, 0 to 100 % of a new vehicle generation. */
+.cpmx-result {
+  display: grid;
+  grid-template-columns: minmax(0, 170px) minmax(0, 1fr);
+  column-gap: 24px;
+  align-items: start;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--color-line);
+}
+.cpmx-figure {
+  display: grid;
+  color: var(--color-ink-2);
+  font-size: 0.8125rem;
+  line-height: 1.4;
+  font-variant-numeric: tabular-nums;
+}
+.cpmx-figure-value {
+  color: var(--color-ink);
+  font-size: 1.5rem;
+  font-weight: 500;
+  line-height: 1.15;
+}
+.cpmx-scale {
+  position: relative;
+  margin-top: 6px;
+}
+/* Two lines kept for the legend and for the rule that moved the figure, so the dialog keeps its height across the classes. */
+.cpmx-spread + .cpmx-note,
+.cpmx-result-note {
+  min-height: calc(2 * 1.45em);
+}
+.cpmx-result-note {
+  grid-column: 1 / -1;
+}
+.cpmx-track {
+  position: relative;
+  height: 22px;
+  border-top: 1px solid var(--color-line);
+  border-bottom: 1px solid var(--color-line);
+}
+.cpmx-band,
+.cpmx-range,
+.cpmx-dot {
+  position: absolute;
+}
+.cpmx-band {
+  top: 0;
+  bottom: 0;
+}
+.cpmx-band[data-band="major"] {
+  background: var(--band-major);
+}
+.cpmx-band[data-band="new"] {
+  background: var(--band-new);
+}
+.cpmx-range {
+  top: 50%;
+  min-width: 2px;
+  height: 2px;
+  margin-top: -1px;
+  background: var(--color-blue);
+  border-radius: 1px;
+  opacity: 0.35;
+}
+.cpmx-dot {
+  top: 50%;
+  width: 12px;
+  height: 12px;
+  margin: -6px 0 0 -6px;
+  background: var(--color-blue);
+  border-radius: 50%;
+  box-shadow: 0 0 0 2px var(--color-paper);
+}
+.cpmx-ticks,
+.cpmx-band-names {
+  position: relative;
+  height: 18px;
+  font-size: 0.75rem;
+  color: var(--color-ink-2);
+  font-variant-numeric: tabular-nums;
+}
+.cpmx-ticks span {
+  position: absolute;
+  top: 3px;
+  transform: translateX(-50%);
+  white-space: nowrap;
+}
+.cpmx-ticks span:first-child {
+  transform: none;
+}
+.cpmx-ticks span:last-child {
+  transform: translateX(-100%);
+}
+.cpmx-band-names span {
+  position: absolute;
+  top: 0;
+  text-align: center;
+  white-space: nowrap;
+  color: var(--color-ink);
+}
+
+.cpmx-foot {
+  padding: 10px 28px 12px;
+  color: var(--color-ink-2);
+  font-size: 0.8125rem;
+  line-height: 1.45;
+  border-top: 1px solid var(--color-line);
+}
+.cpmx-source {
+  margin-top: 2px;
+  font-size: 0.75rem;
+}
+.cpmx-nowrap {
+  white-space: nowrap;
+}
+
+/*
+ * The drawing plays once per opening and per chosen class: the start, then
+ * each column a step later with its links drawn in, then the figure on the
+ * scale. Only opacity, transform and the links' dash offset move.
+ */
+.cpmx-node {
+  animation: cpmx-in 0.3s var(--ease-out) both;
+  animation-delay: calc(var(--d, 0) * 0.22s);
+}
+.cpmx-link {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: cpmx-draw 0.24s var(--ease-out) forwards;
+  animation-delay: calc(var(--d, 1) * 0.22s - 0.16s);
+}
+.cpmx-result .cpmx-dot,
+.cpmx-result .cpmx-range {
+  animation: cpmx-fade 0.3s var(--ease-out) both;
+  animation-delay: calc(var(--d, 0) * 0.22s);
+}
+@keyframes cpmx-in {
+  from {
+    opacity: 0;
+    transform: translateX(-6px);
+  }
+}
+@keyframes cpmx-fade {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes cpmx-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@media (max-width: 860px) {
+  .cpmx-body,
+  .cpmx-result {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 20px;
+  }
+  .cpmx-result {
+    gap: 8px;
+  }
+}
+@media (max-width: 520px) {
+  .cpmx {
+    width: calc(100vw - 24px);
+  }
+  .cpmx-head,
+  .cpmx-body,
+  .cpmx-foot {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+  .brand-name {
+    font-size: 1.5rem;
+  }
+}
+
 /* ---------- step 20: motion between the screens (forbidden list exemptions E6 and E7) ---------- */
 
 /*
@@ -2306,6 +2791,23 @@ blockquote.refs-quote {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .brand-mark,
+  .brand-name,
+  .cpmx,
+  .cpmx::backdrop,
+  .cpmx-class {
+    transition: none;
+  }
+  .cpmx-node,
+  .cpmx-result .cpmx-dot,
+  .cpmx-result .cpmx-range {
+    animation: none;
+  }
+  .cpmx-link {
+    stroke-dasharray: none;
+    stroke-dashoffset: 0;
+    animation: none;
+  }
   ::view-transition-group(*),
   ::view-transition-old(*),
   ::view-transition-new(*) {

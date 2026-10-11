@@ -2,9 +2,9 @@
 
 | Field | Value |
 |---|---|
-| Date | 2026-10-10 (replaces the globe of step 04; markets made solid layers in step 06; readouts, panel and vehicle cards added in step 07; markets grey at rest and vehicles as layered sketches in step 08; readouts replaced by callout cards in step 09; vehicle cards show the configured cars' photos and hand over to the sketch in step 11) |
+| Date | 2026-10-10 (replaces the globe of step 04; markets made solid layers in step 06; readouts, panel and vehicle cards added in step 07; markets grey at rest and vehicles as layered sketches in step 08; readouts replaced by callout cards in step 09; vehicle cards show the configured cars' photos and hand over to the sketch in step 11; the brand mark and the CPM explainer at the foot of the map in step 20) |
 | Status | Built and verified in steps 05 to 11 |
-| Files | `components/ui/dotted-world-map.tsx` (React wrapper), `lib/map/renderer.ts` (drawing and animation), `lib/map/data.ts`, `lib/map/regions.ts`, `components/landing/map-stage.tsx` (stage and connectors), `components/landing/market-callout.tsx`, `components/landing/market-panel.tsx`, `components/landing/vehicle-card.tsx`, `lib/content/markets.ts` (figures), `lib/content/icons.ts`, `lib/site.ts` (copy), `app/globals.css` (tokens) |
+| Files | `components/ui/dotted-world-map.tsx` (React wrapper), `lib/map/renderer.ts` (drawing and animation), `lib/map/data.ts`, `lib/map/regions.ts`, `components/landing/map-stage.tsx` (stage and connectors), `components/landing/market-callout.tsx`, `components/landing/market-panel.tsx`, `components/landing/vehicle-card.tsx`, `components/landing/brand-mark.tsx`, `bmw-roundel.tsx` and `cpm-intro-dialog.tsx` (step 20), `lib/content/markets.ts` (figures), `lib/content/cpm-intro.ts` (the explainer's data), `lib/content/icons.ts`, `lib/site.ts` (copy), `app/globals.css` (tokens) |
 
 ## 1. What it does
 
@@ -33,6 +33,21 @@ the BMW configurator, its name and code, 2025 units, verbatims and its weakest d
 navigates there (`/markets/<market>/<vehicle>`, see `05-vehicle-drawings.md`). Escape, Close or
 a click on open sea returns to the resting map. Desktop is the target; nothing is tuned for
 touch.
+
+At the foot of the resting map sits the brand mark (step 20, D-112): the BMW roundel on the
+left, a hairline, "Tracepoint" in Archivo in the roundel's grey, after the team's partner
+lockup. It is one button and opens the CPM explainer, a dialog over the middle of the map (980
+px wide at most, 665 px tall at 1440 by 900): three numbered steps on the left (the vehicle as
+twelve subsystems with their weights, a change spreading over the interfaces at most three links
+deep, the sum and its class at 15 % and 50 %), and on the right a worked example per class from
+the engine's back-test, chosen with a three-part control (Adapt, Major revision, New
+generation): the BMW decision and the engine's class, the reached subsystems as columns by
+their distance from the start with their share of the effort and the engine's most likely paths
+as curved links (darker for a likelier path), the subsystems not reached, the figure with its P5
+to P95 range on a 0 to 100 % scale over the class bands, and the add-on or rule that moved it.
+The footer carries the back-test (8 of 8), the basis and the source. The mark hides with the
+callouts while the map flies and while a market is open. Every figure is the effort snapshot's
+(`content/effort.json`), selected on the server by `lib/content/cpm-intro.ts`.
 
 Keyboard and assistive technology get the same states through the three callout cards, which
 are real buttons with `aria-pressed`: Tab reaches them in market order, focus highlights the
@@ -118,7 +133,8 @@ that turn blue on hover and vehicles as layered sketches instead of dot clouds (
 | Card click | The route changes at once; a paper veil dissolves the map (220 ms) while the photo moves from the card straight to its place on the vehicle screen (720 ms) and the veil clears; on arrival the photo fades out (900 ms) and the sketch is revealed behind it (700 ms, from 420 ms into the fade). See `05-vehicle-drawings.md` 4b | about 2.2 s in all |
 | Close, Escape, click on sea | Flight back to k = 1; the panel leaves at once; callouts return on settle | 900 ms |
 | Resize | Refit, repaint the mask, resample the dots; a selected market stays in focus | immediate |
-| Reduced motion | No fade, instant flights and highlights, no card growth (direct navigation) | |
+| Brand mark click | The explainer fades in with an 8 px rise; its drawing plays once: the start box, each further column 220 ms later with its links drawn in, then the figure's dot on the scale (E9). Choosing another class replays it | 200 ms, then about 1 s |
+| Reduced motion | No fade, instant flights and highlights, no card growth (direct navigation), the explainer complete at once | |
 
 ## 6. Accessibility
 
@@ -128,6 +144,10 @@ that turn blue on hover and vehicles as layered sketches instead of dot clouds (
 * The panel is a `section` labelled by its heading; Close is a 44 px button; the cards are links
   with the vehicle's name and figures as their text.
 * The hidden h1 keeps the document outline; the live region announces hover and selection.
+* The brand mark is a 62 px button named "BMW Tracepoint, How the effort figure is made"; the
+  explainer is a native modal dialog labelled by its h2, the steps are h3, the class control is a
+  group of `aria-pressed` buttons, the drawing and the scale are images with a label that lists
+  the subsystems and their shares, and Escape returns focus to the mark.
 
 ## 7. Tokens
 
@@ -143,6 +163,9 @@ that turn blue on hover and vehicles as layered sketches instead of dot clouds (
 --vehicle-line #6b7480 · --vehicle-line-active #1c69d4
 --vehicle-contour #14171c · --vehicle-contour-active #0f4fae
 --vehicle-heat #1c69d4
+--bmw-blue #0166b1 · --bmw-grey #6f6f6f   the roundel's own colours; the brand name takes the grey
+--brand-rule rgb(20 23 28 / 0.32)         the hairline of the brand mark
+--band-major · --band-new                  the explainer's class bands, the greys of stage 4
 ```
 
 ## 8. How to tune
