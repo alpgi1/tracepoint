@@ -68,7 +68,7 @@
    },
    "verbatims": {
     "count": 0,
-    "source": "verbatims of the vehicles sold in the market"
+    "source": "customer comments on the vehicles sold in the market"
    },
    "weakestDomain": null,
    "weakestDomainSource": "Highest complaint share among domains with at least 50 classified rows, over the market's vehicles, workbook labels",
@@ -159,7 +159,7 @@
    },
    "verbatims": {
     "count": 7428,
-    "source": "verbatims of the vehicles sold in the market"
+    "source": "customer comments on the vehicles sold in the market"
    },
    "weakestDomain": {
     "key": "space_practicality",
@@ -256,7 +256,7 @@
    },
    "verbatims": {
     "count": 1563,
-    "source": "verbatims of the vehicles sold in the market"
+    "source": "customer comments on the vehicles sold in the market"
    },
    "weakestDomain": {
     "key": "infotainment_digital",

@@ -18,8 +18,8 @@ requirements:
     recommend_rationale: >-
       Seats are the largest complaint theme of the interior (62 complaint rows, 2.4 % of all US
       complaints, level A) and both study attributes sit below the peer: front seat comfort
-      5.74 vs 6.04, rear seat comfort 5.27 vs 6.24. Verbatims name back pain, firmness and a
-      lumbar support that cannot be flattened.
+      5.74 vs 6.04, rear seat comfort 5.27 vs 6.24. Customer comments name back pain, firmness
+      and a lumbar support that cannot be flattened.
     horizon: H1
     horizon_rationale: Cushion, contour and lumbar calibration change within the life-cycle impulse; no new architecture needed.
     markets: [US]
@@ -125,7 +125,7 @@ requirements:
     recommend: true
     recommend_rationale: >-
       Electric range is the second-largest powertrain complaint (67 rows, 2.6 %, 83 of them BEV);
-      verbatims report estimates that are "off" and range that collapses in winter.
+      customer comments report estimates that are "off" and range that collapses in winter.
     horizon: H1
     horizon_rationale: Range estimation and guidance are software.
     markets: [US]
@@ -155,7 +155,7 @@ requirements:
       - {market: US, metric: EPA range of the volume BEV variant, target: ">= 350 mi", method: Homologation, basis: assumption}
       - {market: US, metric: Range at -7 °C, target: ">= 75 % of EPA range", method: Cold-weather test, basis: assumption}
     assumptions:
-      - Customer wishes of 350 to 400 miles in the verbatims represent the US BEV buyer.
+      - Customer wishes of 350 to 400 miles in the customer comments represent the US BEV buyer.
 
   - id: REQ-G60-US-PR-04
     domain: powertrain_range_charging

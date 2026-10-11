@@ -153,7 +153,7 @@ def test_situation_brief(session, committed_only):
     assert {i["ref"] for i in items} == refs
     assert all(i["kind"] != "unknown" for i in items)
     verbatim = next(i for i in items if i["kind"] == "verbatim")
-    assert verbatim["text"] and verbatim["label"].startswith("Customer verbatim ")
+    assert verbatim["text"] and verbatim["label"].startswith("Customer comment ")
     # the groups of what customers say cover every insight once
     assert sum(len(g["items"]) for g in b["customers"]) == len(raw["analysis"]["insights"])
     assert b["customers"][-1]["group"] == "strengths"
