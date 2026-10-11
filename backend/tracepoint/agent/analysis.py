@@ -3,6 +3,11 @@
 The agent starts from the context pack, drills down with the tools and answers in a fixed schema
 in which every insight and recommendation cites its evidence. The analysis is a proposal for the
 product manager: it reads the evidence store and changes nothing in it.
+
+Effort is never a number the model writes. A recommendation names an existing requirement, whose
+stored change profile is used, or carries a change profile of its own; the CPM engine
+(``effort/cpm.py``) computes the effort from that, and a proposal whose effort does not fit its
+horizon goes back to the model once.
 """
 
 from __future__ import annotations
@@ -17,10 +22,18 @@ from sqlalchemy.orm import Session
 from tracepoint.agent.context_pack import build_context_pack, render_markdown
 from tracepoint.agent.loop import collect_refs, run_agent
 from tracepoint.core.audit import record_event
-from tracepoint.db.models import Country, Run, Verbatim
+from tracepoint.db.models import Country, RequirementEffort, Run, Verbatim
+from tracepoint.effort.cpm import Change, Engine, load_anchors, load_model, model_hash
+from tracepoint.effort.store import (
+    engine_and_samples,
+    evaluate,
+    evaluate_changes,
+    horizon_flags,
+)
 from tracepoint.llm.gateway import LlmGateway
 
-PROMPT_VERSION = "situation-analysis-v2"  # v2: the loop's untrusted-data rule joins the prompt
+# v2: the loop's untrusted-data rule joins the prompt; v3: CPM effort and change profiles
+PROMPT_VERSION = "situation-analysis-v3"
 ACTOR = "agent:analyst"
 
 
@@ -45,6 +58,10 @@ class Recommendation(BaseModel):
     related_requirement: str | None = Field(
         description="Id of an existing requirement (REQ-…) that already covers this, or null"
     )
+    effort_changes: list[Change] | None = Field(
+        description="Change profile for the effort engine: null when related_requirement is set "
+        "(its stored profile is used) or when nothing on the vehicle changes"
+    )
 
 
 class SituationAnalysis(BaseModel):
@@ -60,7 +77,7 @@ SYSTEM_PROMPT = """You are the situation analyst of Tracepoint, a customer-requi
 
 How to work
 1. The user message holds the context pack of the scope. Read it first.
-2. Drill down with the tools before you conclude. Read the verbatims behind the largest complaint themes and behind the strengths (get_verbatims_by_theme, search_evidence). Check the study metrics (get_metric), the catalogue (get_equipment), the sales weight (get_sales), the extracted findings (get_findings) and the requirements already derived (get_requirements). Ask for the requirements without a status filter: most are still proposed and wait for the product manager's decision. Use search_documents for the BMW Group's strategy and delivery figures.
+2. Drill down with the tools before you conclude. Read the verbatims behind the largest complaint themes and behind the strengths (get_verbatims_by_theme, search_evidence). Check the study metrics (get_metric), the catalogue (get_equipment), the sales weight (get_sales), the extracted findings (get_findings) and the requirements already derived (get_requirements). Ask for the requirements without a status filter: most are still proposed and wait for the product manager's decision. Where requirements exist, read their effort estimates and the package variations (get_effort with scenarios=true). Use search_documents for the BMW Group's strategy and delivery figures.
 3. Search is lexical: when a query returns little, try the customers' other words for the same thing.
 4. Stop calling tools once another call would not change the analysis. Then answer in the JSON schema.
 
@@ -74,6 +91,15 @@ Scope of the analysis
 - In scope: what customers require of the product. Features, equipment, comfort, space, usability, infotainment and digital services, design and quality perception, driving experience, range and charging as the customer experiences them, the variant and package offering.
 - Out of scope: regulation and homologation, engineering specifications, pricing and business case. Dealer, service-process and finance topics are not product feedback; mention them as context at most.
 - Recommendations are proposals. The product manager decides; do not write them as decisions. Where a requirement that already exists covers a recommendation, put its id in related_requirement and cite it.
+
+Effort
+- Effort is estimated with the Change Prediction Method as a share of the development effort of a new vehicle generation. It is never money, and every input of the model is an uncalibrated assumption: say so wherever effort enters your reasoning.
+- Effort is a rough prioritisation factor only. What customers need comes first; effort decides the horizon and the packaging, not whether a need is real.
+- You do not write an effort percentage for your own proposals. The engine computes it from a change profile and the report shows it. Figures returned by get_effort may be quoted.
+- A recommendation that an existing requirement covers names it in related_requirement and leaves effort_changes null: the requirement's stored profile is used.
+- Any other recommendation that changes the vehicle gives effort_changes, one entry per subsystem where the change starts: the subsystem key from the effort model in the user message, own_impact (share of that subsystem's design redone, judged against the reference points given there), the layer, carryover (true only when the catalogue or the evidence shows BMW already offers it or the platform is prepared for it), why in one sentence, and portfolio_terms (two or three German or English catalogue words for the feature; the catalogue is searched with them). List only where the change starts; the engine adds the propagation to other subsystems.
+- A recommendation that changes nothing on the vehicle (keep a strength, explain a function) has neither.
+- Horizon follows effort: H1 holds what stays an adaptation of the current model. A major revision or a new generation belongs to H2, or is split into an H1 step and an H2 step. Several H1 proposals add up: get_effort shows what the existing H1 requirements already come to as one package.
 
 What the data is (name the points that bear on your conclusions under data_coverage or assumptions_and_gaps)
 - Verbatims carry labels of the canonical VFC taxonomy with the types Likes, Wants, Difficult to Use and Defect. Severity runs Defect, then Difficult to Use, then Wants. Verbatims that arrived without a label were labelled by an AI assistant, not by BMW.
@@ -131,6 +157,153 @@ def resolve_scope(
     return market, None
 
 
+def effort_brief(engine: Engine) -> str:
+    """What the model needs to author a change profile, read from config/effort/."""
+    cfg = engine.cfg
+    present = [f"{k} ({engine.names[k]}, {w:.0f} %)" for k, w in engine.base.weights.items()]
+    absent = [k for k in engine.names if k not in engine.base.weights]
+    anchors = [
+        f"- {a.name}: "
+        + " + ".join(
+            f"{c.subsystem} {c.own_impact} {c.layer}" + (" carryover" if c.carryover else "")
+            for c in a.changes
+        )
+        + f" → {a.actual}"
+        for a in load_anchors().anchors
+        if a.independent
+    ]
+    rule, t = cfg.platform_rule, cfg.thresholds
+    lines = [
+        "## Effort model (CPM) for effort_changes – assumptions, not calibrated",
+        "Subsystems (key, name, share of the development effort of a new generation): "
+        + ", ".join(present)
+        + ".",
+        *(
+            [f"Not on this vehicle, so no change can start there: {', '.join(absent)}."]
+            if absent
+            else []
+        ),
+        f"Layers: K0 configuration (standard content, package, activation of existing hardware; "
+        f"own_impact at most {cfg.k0_max_own_impact}), K1 add-on on existing interfaces, K2 "
+        f"module change, K3 platform change. Replacing {', '.join(rule.subsystems)} at "
+        f"{rule.min_own_impact} or more without carryover must be K3.",
+        f"Classes: below {t.major_revision} % adapt, below {t.new_generation} % major revision, "
+        "above that or any K3 change without carryover a new generation.",
+        "Reference points for own_impact (documented BMW decisions):",
+        *anchors,
+    ]
+    return "\n".join(lines)
+
+
+_EFFORT_KEYS = ("effort_pct", "p5", "p95", "decision", "decision_stable_pct", "layer", "size")
+
+
+def effort_of_proposals(
+    session: Session, vehicle: str, analysis: SituationAnalysis
+) -> tuple[dict[str, Any], list[str]]:
+    """Effort of every recommendation and of the H1 and H2 recommendations as packages, computed
+    by the CPM engine. Returns the result and the faults to send back to the model: a change
+    profile that breaks a rule of the model, and an effort class that does not fit the horizon."""
+    engine, samples = engine_and_samples(vehicle)
+    rows: list[dict[str, Any] | None] = []
+    faults: list[str] = []
+    packaged: dict[str, dict[str, list[Change]]] = {"H1": {}, "H2": {}}
+    for n, rec in enumerate(analysis.recommendations):
+        stored = (
+            session.get(RequirementEffort, rec.related_requirement)
+            if rec.related_requirement
+            else None
+        )
+        if stored is not None:
+            changes = [Change.model_validate(c) for c in stored.changes]
+            row = {
+                "source": f"change profile of {rec.related_requirement}",
+                "kind": stored.kind,
+                **{k: getattr(stored, k) for k in _EFFORT_KEYS},
+                "certification": stored.certification,
+                "subsystems": stored.subsystems[:4],
+                "portfolio": stored.portfolio,
+                "changes": stored.changes,
+                # the stored flags judge the requirement's horizon; this is the proposal's
+                "flags": [f for f in stored.flags if f["rule"] == "43"]
+                + horizon_flags(
+                    rec.horizon, stored.kind, stored.decision, stored.decision_stable_pct
+                ),
+            }
+            key = rec.related_requirement  # two proposals on one requirement count once
+        elif rec.effort_changes:
+            changes = rec.effort_changes
+            errors = [e for c in changes for e in engine.check_change(c)]
+            if errors:
+                rows.append({"source": "analyst's change profile", "error": "; ".join(errors)})
+                faults.append(
+                    f'The change profile of "{rec.title}" breaks the effort model: '
+                    f"{'; '.join(errors)}. Correct effort_changes."
+                )
+                continue
+            res = evaluate_changes(session, engine, samples, vehicle, changes, rec.horizon)
+            row = {
+                "source": "analyst's change profile",
+                "kind": "change",
+                **{k: res[k] for k in _EFFORT_KEYS},
+                "certification": res["certification_add_on"],
+                "subsystems": res["subsystems"][:4],
+                "portfolio": res["portfolio"],
+                "changes": [c.model_dump() for c in changes],
+                "flags": res["flags"],
+            }
+            key = f"#{n}"
+        else:
+            rows.append(None)
+            continue
+        rows.append(row)
+        if changes:
+            packaged[rec.horizon][key] = changes
+        for flag in row["flags"]:
+            if flag["rule"] == "47":
+                faults.append(
+                    f'"{rec.title}" is {rec.horizon}, but its change profile comes to '
+                    f"{row['effort_pct']} % of a new vehicle generation ({row['decision']}): "
+                    f"{flag['text']}. Change the horizon, split the proposal, or correct the "
+                    "change profile if it overstates the change."
+                )
+    packages = []
+    for horizon, by_key in packaged.items():
+        if not by_key:
+            continue
+        res = evaluate(engine, samples, [c for changes in by_key.values() for c in changes])
+        packages.append(
+            {
+                "horizon": horizon,
+                "proposals": len(by_key),
+                "sum_of_single_pct": round(
+                    sum(
+                        r["effort_pct"]
+                        for r, rec in zip(rows, analysis.recommendations, strict=True)
+                        if r and "error" not in r and rec.horizon == horizon
+                    ),
+                    2,
+                ),
+                **{k: res[k] for k in _EFFORT_KEYS},
+                "certification": res["certification_add_on"],
+                "subsystems": res["subsystems"][:6],
+                # for the product manager to weigh (split the package or accept the class);
+                # not sent back to the model, which judges single proposals
+                "flags": horizon_flags(
+                    horizon, "change", res["decision"], res["decision_stable_pct"]
+                ),
+            }
+        )
+    out = {
+        "method": "CPM, share of the development effort of a new vehicle generation; never "
+        "money; every model input is an uncalibrated assumption (config/effort/model.yaml)",
+        "model_hash": model_hash(load_model()),
+        "recommendations": rows,
+        "packages": packages,
+    }
+    return out, faults
+
+
 def run_analysis(
     session: Session,
     run: Run,
@@ -158,8 +331,17 @@ def run_analysis(
             if country
             else ""
         )
-        + f"\n{pack_text}"
+        + f"\n{pack_text}\n{effort_brief(engine_and_samples(vehicle)[0])}"
     )
+
+    def check(answer: SituationAnalysis) -> list[str]:
+        quotes = [
+            f'The quote "{q}" is not word for word in a verbatim its insight cites. Cite the '
+            "verbatim it comes from, or remove the quote."
+            for q in unverified_quotes(session, answer)
+        ]
+        return quotes + effort_of_proposals(session, vehicle, answer)[1]
+
     result = run_agent(
         session,
         gateway,
@@ -172,16 +354,14 @@ def run_analysis(
         actor_id=ACTOR,
         seen_refs=collect_refs(pack, set()),
         citation_keys=("evidence_refs", "related_requirement"),
-        check=lambda answer: [
-            f'The quote "{q}" is not word for word in a verbatim its insight cites. Cite the '
-            "verbatim it comes from, or remove the quote."
-            for q in unverified_quotes(session, answer)
-        ],
+        check=check,
         max_steps=max_steps,
         use_cache=use_cache,
     )
     run.model_ids = {"reasoning": result.model}
     quotes = unverified_quotes(session, result.parsed)
+    effort, effort_faults = effort_of_proposals(session, vehicle, result.parsed)
+    effort["open_faults"] = effort_faults  # what the one correction did not settle
     out = {
         "run_id": run.id,
         "vehicle": vehicle,
@@ -192,6 +372,7 @@ def run_analysis(
         "context_pack": pack["pack"],
         "model": result.model,
         "analysis": result.parsed.model_dump(),
+        "effort": effort,
         "citations": {
             "cited": len(result.cited_refs),
             "unknown": result.unknown_refs,
@@ -223,6 +404,12 @@ def run_analysis(
             "cited_refs": result.cited_refs,
             "unknown_refs": result.unknown_refs,
             "unverified_quotes": quotes,
+            "effort_model": effort["model_hash"],
+            "effort_packages": [
+                {k: p[k] for k in ("horizon", "proposals", "effort_pct", "decision")}
+                for p in effort["packages"]
+            ],
+            "effort_open_faults": effort_faults,
             "steps": result.steps,
             "tool_calls": len(result.tool_calls),
             "cost_usd": out["trace"]["cost_usd"],
@@ -234,12 +421,37 @@ def run_analysis(
 
 
 def render_analysis(out: dict[str, Any]) -> str:
-    a, trace = out["analysis"], out["trace"]
+    a, trace, effort = out["analysis"], out["trace"], out["effort"]
     unknown = set(out["citations"]["unknown"])
     loose_quotes = set(out["citations"]["unverified_quotes"])
 
     def refs(items: list[str]) -> str:
         return ", ".join(f"`{r}`" + (" (not verified)" if r in unknown else "") for r in items)
+
+    def effort_lines(e: dict[str, Any] | None) -> list[str]:
+        if e is None:
+            return ["", "Effort: no change profile (nothing on the vehicle changes)."]
+        if "error" in e:
+            return ["", f"Effort: not computed, the {e['source']} breaks the model: {e['error']}"]
+        if e["kind"] != "change":
+            return ["", f"Effort: none ({e['kind'].replace('_', ' ')}), from the {e['source']}."]
+        out = [
+            "",
+            f"Effort (CPM estimate): **{e['effort_pct']} %** of a new vehicle generation "
+            f"(P5–P95 {e['p5']}–{e['p95']}) · {e['decision']}, kept in "
+            f"{e['decision_stable_pct']:.0f} % of the sensitivity runs · size {e['size']} · "
+            f"layer {e['layer']}"
+            + (" · certification add-on" if e["certification"] else "")
+            + f" · from the {e['source']}",
+        ]
+        out += [
+            f"- {c['subsystem']} {c['own_impact']} {c['layer']}"
+            + (" carryover" if c["carryover"] else "")
+            + (f": {c['why']}" if c["why"] else "")
+            for c in e["changes"]
+        ]
+        out += [f"- {f['level']} (rule {f['rule']}): {f['text']}" for f in e["flags"]]
+        return out
 
     lines = [
         f"# Situation analysis – {out['scope']}",
@@ -247,7 +459,8 @@ def render_analysis(out: dict[str, Any]) -> str:
         f"Run `{out['run_id']}` · {out['model']} · {out['prompt_version']} · "
         f"{trace['steps']} steps, {len(trace['tool_calls'])} tool calls · "
         f"{out['citations']['cited']} references cited, {len(unknown)} not verified · "
-        f"{len(loose_quotes)} quotes not found in their verbatims",
+        f"{len(loose_quotes)} quotes not found in their verbatims · "
+        f"effort model `{effort['model_hash']}`",
         "",
         f"**{a['headline']}**",
         "",
@@ -274,11 +487,32 @@ def render_analysis(out: dict[str, Any]) -> str:
             ]
         lines += ["", f"Evidence: {refs(i['evidence_refs'])}"]
     lines += ["", "## Recommendations (proposals for the product manager)"]
-    for r in a["recommendations"]:
+    for r, e in zip(a["recommendations"], effort["recommendations"], strict=True):
         lines += ["", f"### {r['title']} ({r['horizon']})", r["proposal"], "", r["rationale"]]
         if r["related_requirement"]:
             lines += ["", f"Existing requirement: {refs([r['related_requirement']])}"]
+        lines += effort_lines(e)
         lines += ["", f"Evidence: {refs(r['evidence_refs'])}"]
+    lines += [
+        "",
+        "## Effort of the proposals as packages",
+        effort["method"] + ".",
+        "Changes are combined per subsystem, so work that several proposals share counts once.",
+        "",
+    ]
+    for p in effort["packages"]:
+        lines.append(
+            f"- **{p['horizon']}**: {p['proposals']} proposal(s) with a change, together "
+            f"**{p['effort_pct']} %** (P5–P95 {p['p5']}–{p['p95']}) · {p['decision']}, kept in "
+            f"{p['decision_stable_pct']:.0f} % of the runs · sum of the single estimates "
+            f"{p['sum_of_single_pct']} %"
+        )
+        lines += [f"  - {f['level']} (rule {f['rule']}): {f['text']}" for f in p["flags"]]
+    if not effort["packages"]:
+        lines.append("- No proposal carries a change profile.")
+    if effort["open_faults"]:
+        lines += ["", "Not settled by the correction request:"]
+        lines += [f"- {f}" for f in effort["open_faults"]]
     lines += ["", "## Assumptions and gaps"] + [f"- {x}" for x in a["assumptions_and_gaps"]]
     lines += ["", "## Tool calls"]
     lines += [

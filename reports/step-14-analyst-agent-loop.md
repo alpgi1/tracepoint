@@ -90,8 +90,7 @@ Live runs with `gpt-5.4` (dated snapshot `gpt-5.4-2026-03-05`), samples of the f
 * The quote check passed any quote without ASCII letters or digits (punctuation only, or another
   script). It now compares letters of any script and counts an empty comparison as not found.
 * Verbatims and report pages are third-party text. The loop now tells every agent that tool
-  results are data and never instructions (prompt `situation-analysis-v2`; the samples under
-  `reports/analysis/` were written with v1). This is a mitigation, not a guarantee; the tools
+  results are data and never instructions (prompt `situation-analysis-v2`). This is a mitigation, not a guarantee; the tools
   only read, so a followed injection can change the text of an analysis and nothing else.
 * `TRACEPOINT_LLM_MAX_COST_USD_PER_DAY` (default 50) caps all runs of the last 24 hours. The
   endpoint itself is still unauthenticated and has to stay on localhost.

@@ -9,6 +9,7 @@ from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from tracepoint.agent.analysis import (
+    PROMPT_VERSION,
     Insight,
     SituationAnalysis,
     render_analysis,
@@ -175,6 +176,29 @@ def test_agent_loop_must_answer_at_the_step_limit(engine, ingested):
     assert res.steps == 3 and res.hit_step_limit and res.unknown_refs == []
 
 
+def _rec(ref, title, requirement, changes):
+    return {
+        "title": title,
+        "proposal": "p",
+        "horizon": "H1",
+        "rationale": "why",
+        "evidence_refs": [ref],
+        "related_requirement": requirement,
+        "effort_changes": changes
+        and [
+            {
+                "subsystem": s,
+                "own_impact": own,
+                "layer": layer,
+                "carryover": False,
+                "why": "w",
+                "portfolio_terms": [],
+            }
+            for s, own, layer in changes
+        ],
+    }
+
+
 def test_situation_analysis_for_a_country(engine, ingested):
     seen_user, corrections = [], []
 
@@ -201,14 +225,10 @@ def test_situation_analysis_for_a_country(engine, ingested):
                 }
             ],
             "recommendations": [
-                {
-                    "title": "r",
-                    "proposal": "p",
-                    "horizon": "H1",
-                    "rationale": "why",
-                    "evidence_refs": [ref],
-                    "related_requirement": "REQ-INVENTED",
-                }
+                _rec(ref, "seat foam", "REQ-INVENTED", [("seats", 0.25, "K1")]),
+                _rec(ref, "new body", None, [("body_structure", 0.9, "K3")]),
+                _rec(ref, "bigger battery", None, [("hv_battery", 0.5, "K2")]),
+                _rec(ref, "keep the handling", None, None),
             ],
             "assumptions_and_gaps": ["a"],
         }
@@ -219,7 +239,7 @@ def test_situation_analysis_for_a_country(engine, ingested):
             out = run_analysis(session, run, gateway, "F70", country="gb")
         event = session.scalar(select(AuditEvent).where(AuditEvent.action == "analysis.created"))
         assert event.actor_id == "agent:analyst" and event.run_id == out["run_id"]
-        assert event.prompt_version == "situation-analysis-v2"
+        assert event.prompt_version == PROMPT_VERSION
         with pytest.raises(ValueError, match="belongs to market EU"):
             resolve_scope(session, "US", "GB")
         with pytest.raises(ValueError, match="no evidence"):
@@ -228,11 +248,27 @@ def test_situation_analysis_for_a_country(engine, ingested):
     assert "country GB only" in seen_user[0] and "country=GB" in seen_user[0]
     correction = corrections[-1]
     assert "REQ-INVENTED" in correction and "a sentence no customer wrote" in correction
+    # effort comes from the CPM engine, from the change profile the analyst gave
+    assert "## Effort model (CPM)" in seen_user[0]
+    assert "Not on this vehicle, so no change can start there: hv_battery, charging" in seen_user[0]
+    seats, body, battery, keep = out["effort"]["recommendations"]
+    assert seats["decision"] == "adapt" and 0 < seats["p5"] < seats["effort_pct"] < seats["p95"]
+    assert body["decision"] == "new generation" and body["flags"][0]["level"] == "conflict"
+    assert "not present on F70" in battery["error"] and keep is None
+    # an H1 proposal that needs a new generation, and a profile the model refuses, go back
+    assert '"new body" is H1' in correction and "breaks the effort model" in correction
+    assert len(out["effort"]["open_faults"]) == 2  # the fake provider did not correct them
+    (package,) = out["effort"]["packages"]
+    assert (package["horizon"], package["proposals"]) == ("H1", 2)
+    assert package["decision"] == "new generation" and out["effort"]["model_hash"]
+    assert package["flags"][0]["level"] == "conflict"  # shown to the PM with the package
     # the invented requirement id survived the one correction and is reported, not hidden
     assert out["citations"]["unknown"] == ["REQ-INVENTED"]
     assert out["citations"]["unverified_quotes"] == ["a sentence no customer wrote"]
     text = render_analysis(out)
     assert "## Insights" in text and "`REQ-INVENTED` (not verified)" in text
+    assert "Effort (CPM estimate): **" in text and "## Effort of the proposals as packages" in text
+    assert "Effort: not computed" in text and "Effort: no change profile" in text
 
 
 def test_quote_check_does_not_pass_quotes_it_cannot_compare(engine, ingested):

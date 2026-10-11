@@ -270,6 +270,36 @@ def evaluate(
     return {**est.as_dict(), **sens, "kind": kind}
 
 
+def engine_and_samples(
+    vehicle: str, *, runs: int = 2000, scope: JitterScope = "all", seed: int = 42
+) -> tuple[Engine, Samples]:
+    """Engine of one vehicle with the sensitivity samples of the configured model."""
+    return _Engines(load_model(), runs, scope, seed).get(vehicle)
+
+
+def evaluate_changes(
+    session: Session,
+    engine: Engine,
+    samples: Samples,
+    vehicle: str,
+    changes: list[Change],
+    horizon: str,
+    kind: str = "change",
+) -> dict[str, Any]:
+    """Estimate with sensitivity, plus the catalogue scan of every change (rule 43) and the
+    flags against the horizon. Raises ValueError on a change that breaks a rule."""
+    res = evaluate(engine, samples, changes, kind)
+    scans = []
+    flags: list[dict[str, str]] = []
+    for c in changes:
+        scan = portfolio_scan(session, vehicle, c.portfolio_terms)
+        if scan:
+            scans.append({"subsystem": c.subsystem, **scan})
+        flags += _portfolio_flags(c, scan, vehicle)
+    flags += horizon_flags(horizon, kind, res["decision"], res["decision_stable_pct"])
+    return {**res, "portfolio": scans, "flags": flags}
+
+
 def estimate_all(
     session: Session,
     run: Run,
@@ -310,15 +340,8 @@ def estimate_all(
 
     for f, p, req in plan:
         engine, samples = engines.get(f.vehicle)
-        res = evaluate(engine, samples, p.changes, p.kind)
-        scans = []
-        flags: list[dict[str, str]] = []
-        for c in p.changes:
-            scan = portfolio_scan(session, f.vehicle, c.portfolio_terms)
-            if scan:
-                scans.append({"subsystem": c.subsystem, **scan})
-            flags += _portfolio_flags(c, scan, f.vehicle)
-        flags += horizon_flags(req.horizon, p.kind, res["decision"], res["decision_stable_pct"])
+        res = evaluate_changes(session, engine, samples, f.vehicle, p.changes, req.horizon, p.kind)
+        scans, flags = res["portfolio"], res["flags"]
         values = {
             "requirement_version": req.version,
             "kind": p.kind,

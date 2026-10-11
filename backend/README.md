@@ -48,7 +48,7 @@ repository root (see `.env.example`).
 | `tracepoint agent packs [--vehicle G60]` | context pack (JSON + Markdown) per vehicle × market with evidence, written to `data/context_packs/` |
 | `tracepoint agent tools` | tool definitions for an LLM agent (name, description, JSON input schema) |
 | `tracepoint agent call search_evidence '{"query": "charging flap", "vehicle": "G60"}'` | run one agent tool; every call is an audit event (`tool.called`). Also over HTTP: `GET /agent/tools`, `POST /agent/tools/{name}` |
-| `tracepoint agent analyze --vehicle G60 --market US` / `--vehicle F70 --country GB` | situation analysis by the analyst agent (LLM with tool calls, needs the OpenAI key): Markdown and JSON in `data/analyses/`, every insight with its evidence references; `--max-steps`, `--no-cache`. Also `POST /agent/analyze` |
+| `tracepoint agent analyze --vehicle G60 --market US` / `--vehicle F70 --country GB` | situation analysis by the analyst agent (LLM with tool calls, needs the OpenAI key): Markdown and JSON in `data/analyses/`, every insight with its evidence references, every proposal with its CPM effort (from the requirement's change profile or the analyst's own, computed by the effort engine) and the H1 / H2 packages; `--max-steps`, `--no-cache`. Also `POST /agent/analyze` |
 | `tracepoint settings` | print the effective settings |
 
 ## Layout

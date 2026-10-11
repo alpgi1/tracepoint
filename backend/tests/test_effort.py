@@ -164,3 +164,39 @@ def test_estimate_run_is_versioned_and_audited(engine, ingested):
         acc = portfolio_scan(session, "G60", ["Driving Assistant Plus"])
         assert acc["level"] == 1 and acc["own_variants"]["total"] == 10
         session.rollback()
+
+
+def test_analysis_takes_the_effort_of_an_existing_requirement_from_its_profile(engine, ingested):
+    """Runs after the estimate test above, which fills requirement_effort."""
+    from tracepoint.agent.analysis import Recommendation, SituationAnalysis, effort_of_proposals
+
+    def rec(title, horizon):
+        return Recommendation(
+            title=title,
+            proposal="p",
+            horizon=horizon,
+            rationale="r",
+            evidence_refs=["REQ-G60-US-IC-01"],
+            related_requirement="REQ-G60-US-IC-01",
+            effort_changes=None,
+        )
+
+    analysis = SituationAnalysis(
+        headline="h",
+        summary="s",
+        data_coverage="d",
+        insights=[],
+        recommendations=[rec("seats", "H1"), rec("seats again", "H1"), rec("seats later", "H2")],
+        assumptions_and_gaps=[],
+    )
+    with Session(engine) as session:
+        stored = session.get(RequirementEffort, "REQ-G60-US-IC-01")
+        effort, faults = effort_of_proposals(session, "G60", analysis)
+    first, _, later = effort["recommendations"]
+    assert first["effort_pct"] == stored.effort_pct and "REQ-G60-US-IC-01" in first["source"]
+    assert faults == []
+    # the same requirement proposed twice is one change in the package
+    h1 = next(p for p in effort["packages"] if p["horizon"] == "H1")
+    assert h1["proposals"] == 1 and h1["effort_pct"] == stored.effort_pct
+    # judged against the proposal's horizon, not the requirement's
+    assert [f["rule"] for f in later["flags"]] == ["48"]

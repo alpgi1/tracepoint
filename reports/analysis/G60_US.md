@@ -1,157 +1,229 @@
 # Situation analysis – BMW 5 Series Sedan (G60), market US
 
-Run `RUN-20261011-000757-agent.analyze.G60.US-e89c` · gpt-5.4-2026-03-05 · situation-analysis-v1 · 2 steps, 15 tool calls · 45 references cited, 0 not verified · 0 quotes not found in their verbatims
+Run `RUN-20261011-013734-agent.analyze.G60.US-a50b` · gpt-5.4-2026-03-05 · situation-analysis-v3 · 3 steps, 14 tool calls · 59 references cited, 0 not verified · 0 quotes not found in their verbatims · effort model `789fcb7624b8`
 
-**US G60 is winning on core BMW driving character, but customers are tripping over the digital operating concept, seat comfort/adjustability, and EV-use practicality.**
+**US G60 customers still buy into the 5 Series for its driving character, but the product experience is being dragged down by HMI complexity, seat comfort, everyday practicality gaps, and EV-use friction.**
 
-In the US, the G60’s strongest asset is still the thing customers expect from a 5 Series: it drives very well. Handling/Maneuverability scores 6.058 and Overall driving performance 6.039 in the US study, with 210 likes for Handling / Riding and 349 likes for Drivetrain. Customers repeatedly praise smoothness, road holding and acceleration. The main product risk is that this strength is being diluted by usability friction. Infotainment & Digital Services is the largest complaint domain with 752 complaints and 70% complaint share, and the study’s Menu structure of infotainment system is a weak 4.879. Customers describe the car as feature-rich but too complex, too menu-heavy and too dependent on touch interaction. Seats are another priority issue: 62 complaints, level-A finding, with repeated reports of discomfort, hard-to-find settings and insufficient adjustment. For BEV/PHEV users, EV range confidence and charging practicality are also material pain points: Electric Range has 67 complaints and Public charging / external providers 55. Practicality details matter too, especially the unreliable hands-free trunk opening and broader storage/console frustrations already reflected in findings and requirements. Overall, the product manager should protect the driving/ride character, while first simplifying high-frequency interactions and removing comfort/practicality irritants that customers face every day.
+The strongest part of the US G60 is still the core BMW brief: handling, ride comfort, acceleration and overall driving performance are all strong in both verbatims and study scores. Customers repeatedly describe the car as smooth, sporty and luxurious. The main risk is that this strength is being diluted by too many daily-use irritants. The biggest product issues are not one single defect cluster but a set of high-frequency usability gaps: the operating concept is too menu-heavy, climate and common functions are harder to access than customers expect, seats are too firm or hard to adjust for many body types, storage and trunk convenience have regressed versus prior cars, and digital basics such as CarPlay, profiles and wireless charging do not feel robust enough. For BEV and PHEV users, electric range and charging confidence are also material pain points. First look should go to H1 actions that reduce friction in the current generation: simplify access to frequent functions, stabilize phone/profile behavior, improve seat comfort and adjustment, restore practical storage and convenience features, and improve EV guidance and charging experience. Protect the current ride/handling balance as a non-negotiable strength.
 
 ## Data coverage
-Analysis uses the US context pack plus drilled-down evidence from verbatims for Seats, Operating concept, Electric Range, non-contact trunk lid opening, Handling / Riding and Drivetrain; US study metrics for climate controls, infotainment menu structure, handling and driving performance; US sales; equipment checks for wireless charging and comfort seats; and the full set of derived US requirements. Evidence depth is strong for the main issues: 3,628 verbatims in scope for US market voice, with large complaint counts in infotainment, seats, EV range and trunk access. Findings cited as level A/B indicate stronger support, but verbatim sources are unweighted and Source B mixes product and process notes.
+Analysis rests on the US market context pack plus 3,628 verbatims for US market scope (3,610 US, 18 CA in the pack), market findings, US_2025 study metrics, equipment catalogue entries, sales volumes, existing requirements and CPM effort outputs. Evidence is strongest for operating concept, seats, storage, climate, trunk access, drivetrain and electric-range topics because these have level A or B findings with 20-98 complaint rows and supporting study metrics in several cases. Strength evidence is also strong for driving dynamics, with 210 likes for Handling / Riding, 349 likes for Drivetrain, and study means of 6.058 for Handling/Maneuverability, 6.039 for Overall driving performance, 6.03 for Riding comfort and 6.026 for Acceleration from stop.
 
 ## Insights
 
-### Driving dynamics are the core strength and should be protected
+### Driving dynamics remain the core strength to protect
 strength · driving_dynamics · confidence high
 
-The G60 is strongly validated in the US on its core driving brief. Handling / Riding has 210 likes, Drivetrain has 349 likes, and the study scores are very strong at 6.058 for Handling/Maneuverability and 6.039 for Overall driving performance. Verbatims consistently praise smooth ride, road holding and immediate acceleration.
+Driving experience is the clearest strength in the US. Handling / Riding has 210 likes, Drivetrain has 349 likes, and the study is strong on Handling/Maneuverability at 6.058, Overall driving performance at 6.039, Riding comfort at 6.03 and Acceleration from stop at 6.026. Complaint share in Driving Experience & Dynamics is relatively low at 30%, so the positive signal is broad, not marginal.
 
-> really hugs the road.
+> excellent driving feel, really nice blend of sporty and luxury.
 
-Evidence: `verbatim:G60-0085`, `verbatim:G60-0015`, `verbatim:G60-0030`, `verbatim:G60-0008`, `verbatim:G60-0141`, `metric:MET-US-US-G60-handling_manoeuvrability`, `metric:MET-US-US-G60-driving_performance`, `REQ-G60-US-DD-03`
+Evidence: `verbatim:G60-2465`, `verbatim:G60-3520`, `verbatim:G60-1787`, `FND-G60-US-VOC-drivetrain`, `metric:MET-US-US-G60-driving_performance`, `metric:MET-US-US-G60-acceleration_from_stop`, `sales:SAL-G60-US-2025`, `REQ-G60-US-DD-03`
 
-### The operating concept is too complex for frequent in-drive tasks
+### The operating concept is a major usability drag, not just a learning curve issue
 recurring_complaint · infotainment_digital · confidence high
 
-Infotainment & Digital Services is the largest complaint domain with 752 complaints and a 70% complaint share of classified rows. Within it, Operating concept, operating system has 53 complaints, including 39 Difficult to Use rows, and the study attribute Menu structure of infotainment system is weak at 4.879. Customers repeatedly say functions are buried in menus, touch interaction is distracting while driving, and the system feels less intuitive than prior BMWs or other vehicles they know.
+The operating concept is a level-A complaint with 53 complaint rows, 39 of them Difficult to Use, equal to 2.0% of all US complaint rows and 63% of all rows on that theme. This is reinforced by weak study scores for Menu structure of infotainment system at 4.879 and Operation of heater/ AC controls at 4.804. Customers repeatedly say common functions are buried in menus and that replacing physical controls with touch interaction takes attention off the road.
 
-> Really like the vehicle overall, but the user interface should be more straightforward.
+> the screen layout is not very intuitive for accessing some functions
 
-Evidence: `verbatim:G60-0337`, `verbatim:G60-0248`, `verbatim:G60-0397`, `verbatim:G60-0635`, `metric:MET-US-US-G60-infotainment_menu_structure`, `FND-G60-US-VOC-operating_concept_operating_system`, `REQ-G60-US-ID-01`
+Evidence: `verbatim:G60-0248`, `verbatim:G60-0397`, `verbatim:G60-0337`, `FND-G60-US-VOC-operating_concept_operating_system`, `metric:MET-US-US-G60-infotainment_menu_structure`, `metric:MET-US-US-G60-climate_controls_usability`, `REQ-G60-US-ID-01`
 
-### Seat comfort and adjustment are a daily-use pain point
+### Seats are one of the biggest product weaknesses and affect both comfort and ergonomics
 recurring_complaint · interior_comfort · confidence high
 
-Seats are a major recurring complaint with 62 complaint rows and a level-A finding. The drilled verbatims show two linked problems: baseline comfort and adjustment usability. Customers report lower-back pain, overly firm seats, insufficient height/tilt range, and confusion because some adjustments are split between seat controls and touchscreen menus. Comfort seats are optional in the catalogue rather than standard across variants.
+Seats are the largest interior complaint theme with 62 complaint rows, 13 defects and 33 usability problems, representing 2.4% of all US complaint rows. The issue is not only trim preference: customers report lower-back pain, firmness, insufficient adjustment range and awkward controls. Study support is clear, with Driver seat adjustability at 5.603, overall seat comfort cited in the existing requirement evidence, and rear seat comfort also flagged there as weak.
 
 > the driver seat is extremely uncomfortable, especially in the lower back area
 
-Evidence: `verbatim:G60-0051`, `verbatim:G60-0320`, `verbatim:G60-0468`, `verbatim:G60-0978`, `FND-G60-US-VOC-seats`, `REQ-G60-US-IC-01`, `equipment:EQ-G60-0145`
+Evidence: `verbatim:G60-0051`, `verbatim:G60-0320`, `verbatim:G60-0291`, `verbatim:G60-0468`, `FND-G60-US-VOC-seats`, `metric:MET-US-US-G60-driver_seat_adjustability`, `REQ-G60-US-IC-01`
 
-### Climate-control usability reinforces the broader HMI problem
-metric_gap · infotainment_digital · confidence high
+### Climate usability is weak and tied to the broader HMI problem
+metric_gap · interior_comfort · confidence high
 
-Climate interaction is not just a minor annoyance; it is one of the weakest measured attributes in the US study at 4.804 for Operation of heater/ AC controls. This aligns with the existing level-A finding for Air conditioning, setting and supports the broader pattern that common comfort functions are not direct enough to access or manage.
+Climate is a practical daily-use issue rather than a niche complaint. Air conditioning, setting has 24 complaint rows at level A, and the study shows weak scores for Operation of heater/ AC controls at 4.804, Overall performance of climate control system at 5.144 and Air conditioner performance at 5.188. Customers also connect this to hidden controls and settings that are not direct enough.
 
-Evidence: `metric:MET-US-US-G60-climate_controls_usability`, `FND-G60-US-VOC-air_conditioning_setting`, `REQ-G60-US-IC-02`, `REQ-G60-US-ID-01`
+> Customer stated that replacing physical buttons with more touch screens is a terrible trend
 
-### EV customers question both real-world range and range transparency
+Evidence: `verbatim:G60-0397`, `FND-G60-US-VOC-air_conditioning_setting`, `metric:MET-US-US-G60-climate_controls_usability`, `metric:MET-US-US-G60-climate_control`, `metric:MET-US-US-G60-air_conditioning_performance`, `REQ-G60-US-IC-02`
+
+### Everyday practicality has regressed in storage and trunk convenience
+unmet_need · space_practicality · confidence high
+
+Space & Practicality has the highest complaint share of any major domain at 78%. Within it, Storage compartments is a level-A unmet need with 28 complaint rows and Center console, front adds 30 complaint rows. Customers miss seat-back pockets, a sunglasses holder and larger glovebox/console storage. The hands-free trunk is another recurring pain point with 44 complaint rows, 39 of them usability problems, and customers compare it unfavorably with prior BMWs.
+
+> There just isnt enough storage, and there is no dedicated overhead spot to keep sunglasses
+
+Evidence: `verbatim:G60-0935`, `verbatim:G60-2324`, `verbatim:G60-3416`, `verbatim:G60-0835`, `verbatim:G60-1403`, `FND-G60-US-VOC-storage_compartments`, `FND-G60-US-VOC-center_console_front`, `FND-G60-US-VOC-non_contact_trunk_lid_opening`, `REQ-G60-US-SP-02`
+
+### Phone integration and charging feel below premium expectations
+recurring_complaint · infotainment_digital · confidence high
+
+Digital basics are not robust enough. Wireless charging has 26 complaint rows, including 11 defects, and Apple CarPlay has 37 complaint rows. Customers report wrong-phone connection by profile, slow or inconsistent charging, awkward tray geometry and audio/connectivity issues. This is supported by the existing requirement and a weak study signal for phone charging cited there.
+
+> At times the car links to the wrong phone for the user profile
+
+Evidence: `verbatim:G60-3368`, `verbatim:G60-0117`, `verbatim:G60-1433`, `FND-G60-US-VOC-mobile_device_wireless_charging`, `FND-G60-US-VOC-apple_carplay`, `REQ-G60-US-ID-02`
+
+### EV customers want more range and more trustworthy range guidance
 recurring_complaint · powertrain_range_charging · confidence high
 
-Electric Range is a substantial complaint theme with 67 complaints, 50 of them Difficult to Use. The issue is not only absolute range but confidence in the displayed estimate, especially in cold weather. Customers describe unexpectedly low miles after charging, large drops over routine trips, and erratic or insufficiently transparent range information. This sits alongside 55 complaints on public charging / external providers, showing that EV-use friction is both in-car and ecosystem-facing.
+Electric Range is a level-B recurring complaint with 67 complaint rows, 50 of them usability problems, and 64% of all rows on that theme are complaints. The issue is both absolute range and confidence in the estimate, especially in cold weather. Public charging / external providers adds 55 complaint rows, mostly BEV-related, showing that the ownership experience is constrained by charging compatibility and infrastructure as customers experience it.
 
-> EV range display feels erratic, the number jumps around after each trip
+> range estimates are off, the efficiency stats shown are basically made up
 
-Evidence: `verbatim:G60-0195`, `verbatim:G60-0398`, `verbatim:G60-0650`, `verbatim:G60-0415`, `FND-G60-US-VOC-electric_range`, `FND-G60-US-VOC-public_charging_external_providers`
+Evidence: `verbatim:G60-0051`, `verbatim:G60-0195`, `verbatim:G60-0398`, `verbatim:G60-1551`, `FND-G60-US-VOC-electric_range`, `FND-G60-US-VOC-public_charging_external_providers`, `REQ-G60-US-PR-02`, `REQ-G60-US-PR-03`
 
-### Hands-free trunk access is unreliable enough to damage everyday practicality perception
-recurring_complaint · space_practicality · confidence high
+### Auto start-stop is a concentrated ICE irritation with a clear customer ask
+recurring_complaint · powertrain_range_charging · confidence high
 
-Space & Practicality has a very high 78% complaint share, and non-contact trunk lid opening alone has 44 complaints, mostly usability-related. Customers say the kick gesture is inconsistent, hard to learn, sometimes works only after repeated attempts, and in some cases opens unintentionally. This is a small feature in isolation, but it is a frequent daily-use irritant and stands out because some customers compare it unfavorably with prior BMWs.
+Automatic engine start-stop function (MSA) has 45 complaint rows, 32 of them usability problems and 11 wishes, and 96% of all rows on that theme are complaints. This is a focused issue rather than a diffuse one: customers explicitly ask for a persistent off option and some link the function to comfort loss when the air-conditioning cuts back.
 
-> It rarely works on the first try and sometimes will not work at all even after several attempts.
+> there is also no option to turn off the auto start/stop.
 
-Evidence: `verbatim:G60-0835`, `verbatim:G60-0180`, `verbatim:G60-1403`, `verbatim:G60-1560`, `FND-G60-US-VOC-non_contact_trunk_lid_opening`
+Evidence: `verbatim:G60-0081`, `FND-G60-US-VOC-automatic_engine_start_stop_function_msa`, `REQ-G60-US-PR-01`
 
-### The product is feature-rich, but complexity is eroding perceived quality
+### Technology richness is valued, but complexity is high enough to need onboarding support
 context · quality_nvh · confidence medium
 
-Body equipment, overall technology appears as both a strength and a complaint theme: 201 likes but also 98 complaints. Customers appreciate the amount of technology, yet many describe the car as something they have to 'figure out'. This suggests the issue is not lack of features but the cognitive load of learning and controlling them. That matters because it can undermine the premium impression even when the hardware and feature content are strong.
+The broad 'overall technology' theme is mixed rather than simply negative: 98 complaints but also 201 likes. That means customers do value the feature set, yet many feel overwhelmed by it. Several verbatims describe the car as feature-rich but hard to master, suggesting that some pain can be reduced by better guided onboarding as well as by simplifying the HMI itself.
 
-> there are so many features that it becomes confusing
+> the tech in this car feels like too much to learn.
 
-Evidence: `verbatim:G60-0335`, `verbatim:G60-0247`, `FND-G60-US-VOC-body_equipment_overall_technology`
-
-### US volume is large enough that fixing these issues has meaningful impact
-context · general · confidence high
-
-The US is a major G60 market with 75,600 units in 2024 and 78,000 in 2025, with an 80,000 plan for 2030. Given this scale, improvements to high-frequency usability and comfort issues would affect a large installed base and future volume.
-
-Evidence: `sales:SAL-G60-US-2024`, `sales:SAL-G60-US-2025`, `sales:SAL-G60-US-2030`
+Evidence: `verbatim:G60-0578`, `verbatim:G60-3863`, `verbatim:G60-1191`, `FND-G60-US-VOC-body_equipment_overall_technology`, `REQ-G60-US-GE-01`
 
 ## Recommendations (proposals for the product manager)
 
-### Simplify access to the most-used driving and comfort functions (H1)
-Consider a near-term HMI simplification focused on one-touch access for climate, seat heating, steering-wheel heating, drive mode, assistance on/off, map and phone, with less menu depth while driving and stronger shortcut persistence per profile.
+### Simplify access to frequent functions in the current generation (H1)
+Consider prioritising a current-generation HMI simplification package so the most-used functions are reachable in one touch or via direct controls where the panel allows it, with climate, seat heating, steering-wheel heating, drive mode, assistance on/off, map and phone first.
 
-This is the clearest cross-cutting pain point: the largest complaint domain, a level-A operating-concept finding, and a weak study score for infotainment menu structure. Customers are not asking for fewer features; they are asking for faster, more intuitive access to the features they use most often.
+This addresses one of the strongest and best-supported pain points: 53 operating-concept complaints, weak infotainment menu-structure and climate-control usability scores, and repeated customer requests for fewer menu layers and more direct access. Existing requirement coverage is already in place.
 
 Existing requirement: `REQ-G60-US-ID-01`
 
-Evidence: `verbatim:G60-0248`, `verbatim:G60-0397`, `verbatim:G60-0635`, `metric:MET-US-US-G60-infotainment_menu_structure`, `FND-G60-US-VOC-operating_concept_operating_system`, `REQ-G60-US-ID-01`
+Effort (CPM estimate): **3.05 %** of a new vehicle generation (P5–P95 1.47–5.48) · adapt, kept in 100 % of the sensitivity runs · size S · layer K2 · from the change profile of REQ-G60-US-ID-01
+- software_hmi 0.1 K2: Shortcut layer and widget placement for ten functions
+- interior_console 0.1 K2: Physical controls where the panel allows them
 
-### Rework seat comfort tuning and make adjustment easier to understand (H1)
-Consider improving front-seat comfort calibration and adjustment usability within the current generation, especially lumbar flattening, height/tilt range, and clearer separation or guidance between physical seat controls and touchscreen-only adjustments.
+Evidence: `FND-G60-US-VOC-operating_concept_operating_system`, `FND-G60-US-VOC-touch_screen_operation`, `FND-G60-US-VOC-instrument_cluster`, `metric:MET-US-US-G60-infotainment_menu_structure`, `metric:MET-US-US-G60-climate_controls_usability`, `REQ-G60-US-ID-01`
 
-Seats are a level-A complaint with repeated reports of pain, firmness and awkward adjustment. This is a daily-contact issue that can overshadow the otherwise strong driving experience.
+### Improve seat comfort and adjustment range for US use cases (H1)
+Consider an H1 seat package focused on softer long-distance comfort, flatter lumbar calibration, and adjustment ranges that better cover shorter drivers and visibility/HUD alignment needs.
+
+Seats are the largest interior complaint theme and the issue is functional, not cosmetic: pain, firmness and adjustment range recur across sources. The stored CPM estimate for the existing requirement is an adaptation-level effort only, but that estimate is model-based and uncalibrated, so it should be used only as a rough prioritisation factor.
 
 Existing requirement: `REQ-G60-US-IC-01`
 
-Evidence: `verbatim:G60-0051`, `verbatim:G60-0320`, `verbatim:G60-0468`, `verbatim:G60-0322`, `verbatim:G60-0978`, `FND-G60-US-VOC-seats`, `REQ-G60-US-IC-01`
+Effort (CPM estimate): **4.58 %** of a new vehicle generation (P5–P95 2.02–7.15) · adapt, kept in 100 % of the sensitivity runs · size S · layer K1 · from the change profile of REQ-G60-US-IC-01
+- seats 0.25 K1: Front and rear cushion foam, contour and lumbar travel on the existing seat structure
+
+Evidence: `FND-G60-US-VOC-seats`, `verbatim:G60-0051`, `verbatim:G60-0291`, `verbatim:G60-0468`, `REQ-G60-US-IC-01`
 
 ### Make climate control more direct and persistent (H1)
-Consider giving climate functions more direct access and ensuring key settings persist reliably by driver profile, while also reviewing cooling performance for hot-soak conditions relevant to US use.
+Consider combining HMI and HVAC updates so climate temperature and fan are always visible or directly accessible, key settings persist by profile, and cabin cool-down performance is tuned for US heat-soak conditions.
 
-Climate controls are one of the weakest measured attributes and already have a dedicated level-A finding and requirement. This is a practical subset of the broader HMI issue and likely one of the fastest ways to reduce frustration in daily use.
+Climate complaints are frequent enough to matter daily and are backed by weak study scores. This is also one of the clearer places where HMI friction and functional performance meet. Existing requirement coverage is already defined.
 
 Existing requirement: `REQ-G60-US-IC-02`
 
-Evidence: `metric:MET-US-US-G60-climate_controls_usability`, `FND-G60-US-VOC-air_conditioning_setting`, `REQ-G60-US-IC-02`
+Effort (CPM estimate): **2.58 %** of a new vehicle generation (P5–P95 1.25–4.75) · adapt, kept in 100 % of the sensitivity runs · size S · layer K2 · from the change profile of REQ-G60-US-IC-02
+- thermal_hvac 0.1 K2: Vent and blower tuning for heat-soak cool-down
+- interior_console 0.05 K1: Always-visible temperature and fan control
+- software_hmi 0.03 K1: Persist recirculation, sync and seat-ventilation defaults per profile
 
-### Improve EV range transparency before promising more hardware change (H1)
-Consider first improving customer-facing range confidence through better estimation logic, clearer condition-based range communication, and more transparent explanation of temperature and usage effects; then assess whether a larger hardware/range step belongs to the successor plan.
+Evidence: `FND-G60-US-VOC-air_conditioning_setting`, `metric:MET-US-US-G60-climate_controls_usability`, `metric:MET-US-US-G60-climate_control`, `metric:MET-US-US-G60-air_conditioning_performance`, `REQ-G60-US-IC-02`
 
-The evidence shows two problems: customers want more range, but they also distrust the displayed range and do not understand how conditions affect it. Better transparency and estimation are more achievable in H1 than a major battery-system change.
+### Restore everyday storage and convenience features customers miss (H1)
+Consider an H1 practicality update that restores or adds the small-item storage features customers explicitly miss, especially seat-back pockets, a sunglasses holder and more usable covered console/glovebox storage.
 
-Evidence: `verbatim:G60-0398`, `verbatim:G60-0650`, `verbatim:G60-0443`, `FND-G60-US-VOC-electric_range`
+Space & Practicality has the highest complaint share, and the storage complaints are highly specific and repeated. This is a tangible way to improve daily satisfaction without changing the vehicle concept. Existing requirement coverage is already present.
 
-### Stabilize hands-free trunk operation or reduce false-trigger behavior (H1)
-Consider a focused fix for the kick-to-open trunk function so activation is more consistent, easier to learn and less prone to unintended opening, especially for digital-key users.
+Existing requirement: `REQ-G60-US-SP-02`
 
-The complaint count is high for a single convenience feature, and the issue is repeated in very similar terms across sources. Because it is a frequent real-world interaction, even a narrow fix could noticeably improve practicality perception.
+Effort (CPM estimate): **2.08 %** of a new vehicle generation (P5–P95 0.94–4.07) · adapt, kept in 100 % of the sensitivity runs · size S · layer K1 · from the change profile of REQ-G60-US-SP-02
+- interior_console 0.1 K1: Seat-back pockets, sunglasses holder, covered tray, larger door pockets
 
-Evidence: `verbatim:G60-0488`, `verbatim:G60-0835`, `verbatim:G60-1403`, `verbatim:G60-1560`, `FND-G60-US-VOC-non_contact_trunk_lid_opening`
+Evidence: `FND-G60-US-VOC-storage_compartments`, `FND-G60-US-VOC-center_console_front`, `verbatim:G60-0935`, `verbatim:G60-2324`, `verbatim:G60-3416`, `REQ-G60-US-SP-02`
 
-### Protect the current ride and handling balance in future updates (H2)
-Consider treating the current ride/handling character as a protected attribute in both lifecycle changes and successor planning, avoiding fixes in other areas that compromise steering precision, ride composure or acceleration feel.
+### Stabilise phone integration and wireless charging behavior (H1)
+Consider a digital-quality H1 package that binds CarPlay/phone connection more reliably to the active profile, aligns source loudness, and improves wireless charging tray usability and thermal robustness.
 
-This is the strongest and most consistent positive in the US evidence. It is the reason many customers forgive other issues, so it should be preserved while usability and comfort are improved around it.
+These are premium-basics failures: wrong phone pairing, slow or inconsistent charging and awkward tray use. Complaint counts are smaller than the HMI theme overall, but defect share is meaningful, especially for wireless charging. Existing requirement coverage is already defined.
+
+Existing requirement: `REQ-G60-US-ID-02`
+
+Effort (CPM estimate): **1.45 %** of a new vehicle generation (P5–P95 0.69–2.67) · adapt, kept in 100 % of the sensitivity runs · size S · layer K1 · from the change profile of REQ-G60-US-ID-02
+- software_hmi 0.04 K1: CarPlay profile binding and loudness matching
+- interior_console 0.05 K1: Wireless charger tray cooling
+
+Evidence: `FND-G60-US-VOC-apple_carplay`, `FND-G60-US-VOC-mobile_device_wireless_charging`, `verbatim:G60-3368`, `verbatim:G60-0117`, `verbatim:G60-1433`, `REQ-G60-US-ID-02`
+
+### Improve EV confidence now, and plan a larger range step for the successor (H2)
+Consider a two-step response for EV customers: in H1, improve range prediction, winter guidance and charging-route confidence; in H2, evaluate a materially larger real-world range step for the successor generation.
+
+Customers complain both about actual range and about trusting the estimate. The H1 software response is already captured in an existing requirement, while the larger range step is also already captured as an H2 requirement. The stored H2 effort estimate is very large and model-based, not measured, so it should guide horizon choice rather than invalidate the customer need.
+
+Existing requirement: `REQ-G60-US-PR-03`
+
+Effort (CPM estimate): **48.98 %** of a new vehicle generation (P5–P95 36.73–56.87) · new generation, kept in 100 % of the sensitivity runs · size L · layer K3 · certification add-on · from the change profile of REQ-G60-US-PR-03
+- hv_battery 1.0 K3: New cell and pack generation for more range (same case as the Gen6 anchor)
+
+Evidence: `FND-G60-US-VOC-electric_range`, `FND-G60-US-VOC-public_charging_external_providers`, `verbatim:G60-0195`, `verbatim:G60-0398`, `REQ-G60-US-PR-02`, `REQ-G60-US-PR-03`
+
+### Offer a persistent driver-controlled off setting for auto start-stop (H1)
+Consider enabling a persistent off preference for MSA in driver profiles for ICE variants, with any necessary calibration checks handled in development.
+
+This is a concentrated, explicit customer ask with little ambiguity. It is not the biggest volume issue overall, but it is highly actionable and likely visible in satisfaction quickly. Existing requirement coverage is already present.
+
+Existing requirement: `REQ-G60-US-PR-01`
+
+Effort (CPM estimate): **1.88 %** of a new vehicle generation (P5–P95 0.91–3.55) · adapt, kept in 100 % of the sensitivity runs · size S · layer K1 · from the change profile of REQ-G60-US-PR-01
+- software_hmi 0.02 K0: Persistent off setting in the driver profile (OTA)
+- powertrain 0.03 K1: Restart calibration; certification credit check stays open (requirement uncertainty)
+
+Evidence: `FND-G60-US-VOC-automatic_engine_start_stop_function_msa`, `verbatim:G60-0081`, `REQ-G60-US-PR-01`
+
+### Protect the current ride and handling balance through future changes (H2)
+Consider treating the current ride/handling character as a protected attribute in all updates and especially in the successor brief.
+
+This is the strongest positive equity in the US evidence. Customers forgive some complexity because the car still feels like a BMW to drive; losing that would remove the main offset to the usability issues.
 
 Existing requirement: `REQ-G60-US-DD-03`
 
-Evidence: `verbatim:G60-0085`, `verbatim:G60-0030`, `verbatim:G60-0141`, `metric:MET-US-US-G60-handling_manoeuvrability`, `metric:MET-US-US-G60-driving_performance`, `REQ-G60-US-DD-03`
+Effort: none (preserve), from the change profile of REQ-G60-US-DD-03.
+
+Evidence: `verbatim:G60-2465`, `verbatim:G60-3520`, `verbatim:G60-0874`, `metric:MET-US-US-G60-driving_performance`, `metric:MET-US-US-G60-acceleration_from_stop`, `REQ-G60-US-DD-03`
+
+## Effort of the proposals as packages
+CPM, share of the development effort of a new vehicle generation; never money; every model input is an uncalibrated assumption (config/effort/model.yaml).
+Changes are combined per subsystem, so work that several proposals share counts once.
+
+- **H1**: 6 proposal(s) with a change, together **13.07 %** (P5–P95 6.84–19.99) · adapt, kept in 69 % of the runs · sum of the single estimates 15.62 %
+  - warning (rule 51): borderline: only 69 % of the sensitivity runs keep the decision; show the PM both options
+- **H2**: 1 proposal(s) with a change, together **48.98 %** (P5–P95 36.73–56.87) · new generation, kept in 100 % of the runs · sum of the single estimates 48.98 %
 
 ## Assumptions and gaps
-- Country-level verbatims are effectively US-only here (3,610 US, 18 CA), but study metrics, sales and findings are market-level US data by definition.
-- The equipment catalogue is the German July 2026 list; it shows what the model line offers, not US standard/optional content. Equipment references are therefore used as offer/context evidence, not as proof of US packaging.
-- No direct study metric for EV range was retrieved in this drill-down, so the EV assessment rests mainly on verbatim volume and findings rather than a study-score gap.
-- The requirements result was truncated in the tool output, but the relevant cited requirement ids and texts for the main recommendations were visible and used.
-- Source B contains call-centre notes and can mix product feedback with process content; repeated patterns across multiple sources were prioritized for conclusions.
-- BMW Group document search returned broad corporate passages rather than a precise US-market strategy statement, so document evidence was not needed for the core product conclusions.
+- Country scope is market US, not US-only customer voice; the pack includes 18 Canadian verbatims among 3,628 total, though the effect is small at this scale.
+- Study metrics, sales and findings are market-level; they are not narrowed beyond US market scope.
+- The equipment catalogue is the German July 2026 price list, so it shows model-line availability rather than US standard/optional content. I therefore did not rely on it for US packaging conclusions except as portfolio context.
+- Sales notes say G60 volumes are reported on a combined G60/G68 sheet; for US this is still the provided evidence, but the note should be kept with any volume interpretation. The cited figures are 75,600 in 2024, 78,000 in 2025 and 80,000 plan in 2030.
+- Some verbatims, especially Source B call-centre notes, mix product feedback with process or coaching content. I used them only for the product signal, not as instructions.
+- The broad 'Body equipment, overall technology' theme is mixed, with many likes as well as complaints; this means not all complexity pain should be solved by removing features. Better onboarding may reduce part of the issue.
+- CPM effort outputs are assumptions from an uncalibrated model, not measured engineering effort. Where effort matters, it should be used only to choose horizon and packaging, not to judge whether the customer need is real.
+- I did not call search_documents because the user asked for a product situation analysis and the available market evidence already determined the priorities; BMW Group strategy passages would not materially change the product conclusions here.
 
 ## Tool calls
-- `get_verbatims_by_theme` {'vehicle': 'G60', 'market': 'US', 'theme': 'Seats', 'feedback_type': 'Difficult to Use', 'limit': 10} → 31
-- `get_verbatims_by_theme` {'vehicle': 'G60', 'market': 'US', 'theme': 'Operating concept, operating system', 'feedback_type': 'Difficult to Use', 'limit': 10} → 39
-- `get_verbatims_by_theme` {'vehicle': 'G60', 'market': 'US', 'theme': 'Electric Range', 'feedback_type': 'Difficult to Use', 'limit': 10} → 50
-- `get_verbatims_by_theme` {'vehicle': 'G60', 'market': 'US', 'theme': 'non-contact trunk lid opening', 'feedback_type': 'Difficult to Use', 'limit': 10} → 39
-- `get_verbatims_by_theme` {'vehicle': 'G60', 'market': 'US', 'theme': 'Handling / Riding', 'feedback_type': 'Likes', 'limit': 10} → 210
-- `get_verbatims_by_theme` {'vehicle': 'G60', 'market': 'US', 'theme': 'Drivetrain', 'feedback_type': 'Likes', 'limit': 10} → 332
-- `get_metric` {'vehicle': 'G60', 'market': 'US', 'attribute': 'heater/ AC controls'} → 1
-- `get_metric` {'vehicle': 'G60', 'market': 'US', 'attribute': 'Menu structure of infotainment system'} → 1
-- `get_metric` {'vehicle': 'G60', 'market': 'US', 'attribute': 'Handling/Maneuverability'} → 1
-- `get_metric` {'vehicle': 'G60', 'market': 'US', 'attribute': 'Overall driving performance'} → 1
-- `get_requirements` {'vehicle': 'G60', 'market': 'US'} → 20
-- `get_equipment` {'vehicle': 'G60', 'query': 'wireless charging', 'limit': 20} → 1
-- `get_equipment` {'vehicle': 'G60', 'query': 'comfort seat', 'limit': 20} → 1
-- `get_sales` {'vehicle': 'G60', 'market': 'US'} → 3
-- `search_documents` {'query': 'United States deliveries BMW Group 2025 outlook electrification', 'limit': 5} → 420
+- `get_findings` {'limit': 20, 'market': 'US', 'vehicle': 'G60'} → 226
+- `get_requirements` {'market': 'US', 'vehicle': 'G60'} → 20
+- `get_effort` {'market': 'US', 'vehicle': 'G60', 'scenarios': True} → 20
+- `get_metric` {'market': 'US', 'vehicle': 'G60'} → 103
+- `get_sales` {'market': 'US', 'vehicle': 'G60'} → 3
+- `get_equipment` {'limit': 50, 'domain': 'space_practicality', 'vehicle': 'G60'} → 1
+- `get_verbatims_by_theme` {'limit': 8, 'theme': 'Operating concept, operating system', 'market': 'US', 'vehicle': 'G60', 'feedback_type': 'Difficult to Use'} → 39
+- `get_verbatims_by_theme` {'limit': 8, 'theme': 'Seats', 'market': 'US', 'vehicle': 'G60', 'feedback_type': 'Difficult to Use'} → 31
+- `get_verbatims_by_theme` {'limit': 8, 'theme': 'Electric Range', 'market': 'US', 'vehicle': 'G60', 'feedback_type': 'Difficult to Use'} → 50
+- `get_verbatims_by_theme` {'limit': 8, 'theme': 'non-contact trunk lid opening', 'market': 'US', 'vehicle': 'G60', 'feedback_type': 'Difficult to Use'} → 39
+- `search_evidence` {'limit': 8, 'query': 'wireless charging overheating phone not charging carplay wrong phone low volume', 'market': 'US', 'vehicle': 'G60'} → 425
+- `search_evidence` {'limit': 8, 'query': 'storage compartments seat-back pockets sunglasses holder glove box cupholder center console', 'market': 'US', 'vehicle': 'G60'} → 193
+- `search_evidence` {'limit': 8, 'query': 'handling smooth ride driving feel sporty luxury acceleration love', 'market': 'US', 'vehicle': 'G60', 'feedback_type': 'Likes'} → 929
+- `search_evidence` {'limit': 8, 'query': 'overall technology complicated too much to figure out onboarding learn features', 'market': 'US', 'vehicle': 'G60'} → 799

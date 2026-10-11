@@ -1,62 +1,81 @@
 {
- "run_id": "RUN-20261011-000902-agent.analyze.F70.GB-e6cc",
+ "run_id": "RUN-20261011-013739-agent.analyze.F70.GB-7215",
  "vehicle": "F70",
  "market": "EU",
  "country": "GB",
  "scope": "BMW 1 Series (F70), country GB (market EU)",
- "prompt_version": "situation-analysis-v1",
+ "prompt_version": "situation-analysis-v3",
  "context_pack": "context-pack-v2",
  "model": "gpt-5.4-2026-03-05",
  "analysis": {
-  "headline": "GB customers like how the F70 drives, but the product is being dragged down by touch-first HMI, software complexity, and perceived de-contenting in everyday usability.",
-  "summary": "For GB voice within the EU F70 scope, the clearest pattern is a mismatch between strong dynamic fundamentals and weak day-to-day interaction. Driving dynamics and drivetrain are widely praised, supported by strong EU study scores for Sportiness (9.34) and Fuel economy/ energy efficiency (9.30). But the biggest customer pain points are concentrated in infotainment and controls: touch-screen operation, overall infotainment/software behaviour, lack of a usable handbook, and frustration with time-limited digital services. Secondary but important issues are climate-control usability and content, small boot/luggage practicality, and seat comfort/durability. The first priorities should therefore be HMI simplification and software stability, then climate/content fixes and clearer package/content decisions.",
-  "data_coverage": "Analysis uses the GB verbatim set only for customer voice (1,293 verbatims), plus EU-market metrics, findings, requirements, equipment proxy and sales as instructed. I drilled into the largest complaint themes and key strengths with verbatims, checked EU study metrics, reviewed extracted EU findings and existing EU requirements, and checked catalogue items relevant to digital services, luggage and seats. Evidence is strongest for touch-screen/HMI and infotainment because these themes have high complaint volumes in GB and matching EU findings/metrics; weaker for some equipment conclusions because catalogue evidence is Germany-only and serves only as offering proxy.",
+  "headline": "F70 in GB is winning on how it drives and looks, but the product experience is being dragged down by touch-first HMI, unstable digital functions, and perceived de-contenting.",
+  "summary": "GB customer voice is clear and broad: the F70's core vehicle is liked, especially driving dynamics, drivetrain performance/efficiency, and exterior design, but customers repeatedly say the digital layer makes the car harder and less safe to use. The biggest issue is touch-only operation, especially for climate and navigation tasks, reinforced by complaints about software instability, settings not sticking, weak in-car help, and subscription-based digital functions expiring after handover. A second cluster is perceived loss of everyday equipment versus prior 1 Series cars: dual-zone climate, rear vents, rear USB, boot 12V socket and similar items. Seats and transmission are more mixed: many like them, but there is a meaningful minority reporting discomfort, trim durability issues, and jerky low-speed DCT behaviour. First priority should be H1 digital usability and stability fixes already covered by existing EU requirements, then clearer and more customer-friendly equipment/content decisions.",
+  "data_coverage": "Analysis uses the GB verbatim set only for customer voice (1,293 verbatims in scope), plus EU-market metrics, findings, requirements, effort estimates, equipment catalogue and sales as instructed. Evidence is strong for infotainment/HMI because complaint volumes are large: Touch screen, operation has 138 GB complaints in the context pack and 131 verbatims returned in the theme drill-down; ConnectedDrive and Infotainment has 98 GB complaints in the context pack and 129 verbatims returned; Owner's Manual has 83 GB complaints in the context pack and 69 returned. Strength evidence is also broad: Drive/dynamics has 369 GB likes and Drivetrain 316 likes in the context pack, with supporting drill-down verbatims. EU study metrics support the same pattern, with weak scores for Connected services (7.356), HVAC (7.305), luggage capacity (7.070) and loading ease (7.503), while sportiness (9.341), fuel economy (9.304), front roominess (9.199) and reliability (9.398) are strong. EU sales are material at 85,000 units in 2025.",
   "insights": [
    {
-    "title": "Touch-first operation is the main product issue and customers describe it as distracting and unsafe",
+    "title": "Touch-first operation is the main product pain point and customers frame it as distraction and safety risk",
     "kind": "recurring_complaint",
     "domain": "infotainment_digital",
-    "statement": "Touch screen, operation is the largest complaint theme in GB with 138 complaints in the context pack; the EU finding quantifies 141 complaints, including 91 usability problems and 36 defects, equal to 7.4% of all EU complaint rows. GB verbatims repeatedly say core tasks such as climate and map zoom now require too much visual attention and that the removed controller/buttons were better.",
+    "statement": "Infotainment & Digital Services accounts for 681 complaints versus 135 likes in the GB voice, the highest complaint burden of any domain. The largest complaint theme is Touch screen, operation with 138 complaints in the context pack; the drill-down returned 131 GB verbatims. Customers repeatedly object to having climate, navigation and other frequent tasks on the screen only, and several explicitly compare it unfavourably with the previous iDrive controller. The EU study is directionally consistent rather than catastrophic: Easy to use information and entertainment system scores 8.164 and Easy to read and use instruments/controls/displays 8.412, but the verbatim volume shows this is a major lived-experience issue.",
     "customer_quote": "being forced to use a touchscreen while driving is a dangerous distraction.",
     "evidence_refs": [
      "verbatim:F70-0012",
+     "verbatim:F70-0112",
      "verbatim:F70-0141",
-     "verbatim:F70-0182",
-     "verbatim:F70-0187",
+     "verbatim:F70-0162",
+     "metric:MET-CNEU-EU-F70-infotainment_ease_of_use",
+     "metric:MET-CNEU-EU-F70-controls_usability",
      "FND-F70-EU-VOC-touch_screen_operation",
-     "FND-F70-EU-VOC-controller_operation",
      "REQ-F70-EU-ID-01"
     ],
     "confidence": "high"
    },
    {
-    "title": "Infotainment/software quality is a second major drag, not just a learning issue",
+    "title": "Software stability and persistence of settings are undermining otherwise good hardware",
     "kind": "recurring_complaint",
     "domain": "infotainment_digital",
-    "statement": "Beyond the operating concept, customers report unstable software behaviour: freezes, blank screens, inconsistent behaviour and settings lost after updates. The EU finding counts 107 complaints on ConnectedDrive and Infotainment overall technology, including 51 defects, and Connected services is one of the weakest EU study attributes at 7.36.",
+    "statement": "ConnectedDrive and Infotainment, overall technology is the second major digital complaint cluster with 98 complaints in the context pack and 129 GB verbatims returned in drill-down. Complaints include blank screens, freezes, inconsistent behaviour, updates that reset settings, and connected features that stop working. This is backed by the weak EU study score for Connected services at 7.356, one of the five weakest attributes in the study. The issue matters because customers often say the car itself drives well, but the software spoils ownership.",
     "customer_quote": "the software is terrible, the car acts like it has its own mind",
     "evidence_refs": [
+     "verbatim:F70-0027",
      "verbatim:F70-0047",
      "verbatim:F70-0162",
-     "verbatim:F70-0027",
-     "verbatim:F70-1070",
+     "verbatim:F70-0171",
+     "verbatim:F70-0173",
      "metric:MET-CNEU-EU-F70-connected_services",
      "FND-F70-EU-VOC-connecteddrive_and_infotainment_overall_technolo",
-     "FND-F70-EU-VOC-remote_software_upgrade_rsu",
-     "FND-F70-EU-MET-cn_eu_2025-connected_services",
      "REQ-F70-EU-ID-02"
     ],
     "confidence": "high"
    },
    {
-    "title": "The missing or poor handbook is a real usability gap, especially because the car is seen as overcomplicated",
+    "title": "Customers feel misled or nickel-and-dimed by expiring digital functions",
+    "kind": "equipment_gap",
+    "domain": "infotainment_digital",
+    "statement": "A distinct GB complaint theme concerns digital functions that are present at handover and then expire after a short trial. The context pack lists 44 complaints for BMW ConnectedDrive upgrades in GB, and targeted search returns many verbatims about losing live traffic, 3D maps and high-beam assist after about three months. The German catalogue confirms BMW Digital Premium is a time-limited option available on all variants. This is partly a commercial topic, but from the customer's product experience it feels like missing functionality on a premium car.",
+    "customer_quote": "digital premium is only a 3 month trial, then i lose live traffic unless i pay £10 a month.",
+    "evidence_refs": [
+     "verbatim:F70-0842",
+     "verbatim:F70-0697",
+     "verbatim:F70-1257",
+     "verbatim:F70-1404",
+     "verbatim:F70-1543",
+     "equipment:EQ-F70-0127",
+     "FND-F70-EU-VOC-bmw_connecteddrive_upgrades_mini_connected_upgra",
+     "REQ-F70-EU-ID-03"
+    ],
+    "confidence": "high"
+   },
+   {
+    "title": "The lack of a proper handbook and weak in-car help amplify HMI complexity",
     "kind": "unmet_need",
     "domain": "infotainment_digital",
-    "statement": "Owner's Manual is a large complaint theme, with 83 complaints in the GB context pack and 86 in the EU finding; 37 are explicit wishes and 49 are usability complaints. Customers do not treat this as a minor documentation issue: they link the lack of a paper guide and weak in-car help to inability to understand features in an already complex HMI.",
+    "statement": "Owner's Manual is a large complaint theme in GB with 83 complaints in the context pack and 69 verbatims returned in drill-down. Customers ask for a printed handbook or at least better searchable in-car help, especially because the new HMI is seen as harder to learn than previous BMWs. This is not a fringe issue: it appears across older and repeat BMW owners and often sits alongside touchscreen complaints.",
     "customer_quote": "there's no paper user manual.",
     "evidence_refs": [
      "verbatim:F70-0002",
      "verbatim:F70-0012",
+     "verbatim:F70-0103",
      "verbatim:F70-0111",
      "verbatim:F70-0386",
      "FND-F70-EU-VOC-owner_s_manual",
@@ -65,477 +84,936 @@
     "confidence": "high"
    },
    {
-    "title": "Subscription-based digital services create a strong feeling of being short-changed",
-    "kind": "equipment_gap",
-    "domain": "infotainment_digital",
-    "statement": "GB customers object to functions or services expiring after about 3 months and to paying again for digital features on a new premium car. The EU finding counts 47 complaints on ConnectedDrive upgrades, all usability-related, and the catalogue shows BMW Digital Premium (time-limited) is optional on all variants at 480 EUR in the German list.",
-    "customer_quote": "only giving digital premium for 3 months",
-    "evidence_refs": [
-     "verbatim:F70-1543",
-     "verbatim:F70-1132",
-     "verbatim:F70-1714",
-     "verbatim:F70-1964",
-     "equipment:EQ-F70-0127",
-     "FND-F70-EU-VOC-bmw_connecteddrive_upgrades_mini_connected_upgra",
-     "FND-F70-EU-EQ-connecteddrive_and_infotainment_overall_technolo",
-     "REQ-F70-EU-ID-03"
-    ],
-    "confidence": "high"
-   },
-   {
-    "title": "Climate control is both a usability and content problem",
+    "title": "Climate experience is weaker than customers expect, with confusion over dual-zone and frustration over screen-based controls",
     "kind": "metric_gap",
     "domain": "interior_comfort",
-    "statement": "HVAC is one of the weakest EU study areas at 7.30, rank 2 of 37 weakest attributes. GB verbatims show two linked issues: touch-screen climate operation is awkward, and customers feel misled or disappointed that dual-zone climate and rear vents are not fitted or not standard on expected trims.",
-    "customer_quote": "climate control needs proper physical buttons please.",
+    "statement": "HVAC is one of the weakest EU study attributes at 7.305. In GB verbatims, customers complain that driver and passenger temperatures are locked together, the display suggests dual-zone when the car is not effectively dual-zone, rear vents are missing on some cars, and climate adjustment through the screen is awkward. The catalogue shows 2-zone automatic climate control as standard on all variants in the German list, which suggests either market/content differences, customer misunderstanding, or software/display mismatch in GB customer experience; regardless, the customer-facing problem is real.",
+    "customer_quote": "the climate controls look like they are dual zone, yet they are not, which feels very misleading.",
     "evidence_refs": [
      "verbatim:F70-0994",
+     "verbatim:F70-0626",
      "verbatim:F70-0906",
      "verbatim:F70-1500",
-     "verbatim:F70-1535",
      "metric:MET-CNEU-EU-F70-climate_control",
-     "FND-F70-EU-VOC-vehicle_climatization",
-     "FND-F70-EU-VOC-air_conditioning_control_panel",
-     "FND-F70-EU-VOC-air_conditioning_setting",
-     "FND-F70-EU-MET-cn_eu_2025-climate_control",
-     "REQ-F70-EU-IC-02",
-     "REQ-F70-EU-ID-01"
+     "equipment:EQ-F70-0036",
+     "REQ-F70-EU-IC-02"
+    ],
+    "confidence": "medium"
+   },
+   {
+    "title": "Customers perceive de-contenting versus previous 1 Series cars in everyday convenience features",
+    "kind": "equipment_gap",
+    "domain": "general",
+    "statement": "Beyond digital issues, repeat BMW owners repeatedly list missing or no-longer-standard items such as rear USB charging, boot 12V socket, rear vents, fog lights, glove-box light and mirror functions. In the context pack, Body equipment, overall technology has 69 GB complaints and the EU finding has 73 complaints. This is less about one single feature than about a cumulative feeling that the car is less generously equipped than the predecessor or that package logic is unclear.",
+    "customer_quote": "the 120 m sport has had all the useful bits stripped out",
+    "evidence_refs": [
+     "verbatim:F70-0072",
+     "verbatim:F70-0626",
+     "verbatim:F70-1535",
+     "verbatim:F70-0380",
+     "FND-F70-EU-VOC-body_equipment_overall_technology",
+     "REQ-F70-EU-GE-01"
     ],
     "confidence": "high"
    },
    {
-    "title": "Practicality is a real weakness, led by boot space and loading usefulness",
+    "title": "Space and luggage practicality are weak spots for a family or utility use case",
     "kind": "metric_gap",
     "domain": "space_practicality",
-    "statement": "Space & Practicality has a high complaint share in the GB context pack, and Luggage capacity is the weakest EU study attribute at 7.07. GB customers repeatedly call the boot small, with some specifically saying battery packaging reduces usefulness for dogs, trips or general loading. Related luggage features are optional in the catalogue rather than standard on every variant.",
-    "customer_quote": "the boot is smaller than we thought",
+    "statement": "Space & Practicality has a high complaint share in the GB context pack at 76%. The EU study's weakest attribute overall is Luggage capacity at 7.070, with Ease of loading/unloading luggage also weak at 7.503. GB verbatims mention a cramped boot, smaller-than-expected luggage space, and missing boot practicality details such as tie-down points. This is not the dominant issue for all buyers, but it is a clear limitation for customers using the car beyond commuting or couple use.",
+    "customer_quote": "boot is too cramped and there are no usb sockets for rear passengers",
     "evidence_refs": [
      "verbatim:F70-0155",
-     "verbatim:F70-1070",
-     "verbatim:F70-1613",
-     "verbatim:F70-0377",
+     "verbatim:F70-2119",
+     "verbatim:F70-1535",
+     "verbatim:F70-1085",
      "metric:MET-CNEU-EU-F70-cargo_capacity",
-     "FND-F70-EU-VOC-luggage_compartment",
-     "FND-F70-EU-MET-cn_eu_2025-cargo_capacity",
-     "FND-F70-EU-MET-cn_eu_2025-loading_ease",
-     "FND-F70-EU-EQ-luggage_compartment",
-     "equipment:EQ-F70-0124",
-     "equipment:EQ-F70-0125",
-     "equipment:EQ-F70-0126"
+     "metric:MET-CNEU-EU-F70-loading_ease"
     ],
-    "confidence": "high"
+    "confidence": "medium"
    },
    {
-    "title": "Seat experience is mixed: many like the seats, but there is a meaningful comfort and durability issue",
+    "title": "Seats are polarising: many customers are comfortable, but there is a real subset with comfort and durability complaints",
     "kind": "recurring_complaint",
     "domain": "interior_comfort",
-    "statement": "Seats are not a universal weakness, but they are a meaningful one: the EU finding counts 50 complaints, including 24 defects and 18 usability problems, while also showing 49 likes. GB verbatims mention discomfort, lack of support or lumbar adjustment, squeaks and trim/creasing concerns. The catalogue proxy shows active seats are optional on all variants.",
-    "customer_quote": "seats uncomfortable",
+    "statement": "Seats are not a universal weakness, because the EU study score for Overall seating comfort is strong at 8.981 and many GB likes praise comfort. But the complaint theme is still meaningful: 44 GB complaints in the context pack and 82 verbatims returned in drill-down, including discomfort, lack of lumbar support, squeaks and trim creasing. This points to a mixed experience by seat type, trim or body type rather than a universal failure.",
+    "customer_quote": "seats are comfy and supportive, shame there isnt any lumbar support.",
     "evidence_refs": [
-     "verbatim:F70-0152",
-     "verbatim:F70-0031",
-     "verbatim:F70-0015",
      "verbatim:F70-0030",
-     "verbatim:F70-0021",
-     "FND-F70-EU-VOC-seats",
-     "FND-F70-EU-EQ-seats",
+     "verbatim:F70-0015",
+     "verbatim:F70-0055",
+     "verbatim:F70-0152",
+     "metric:MET-CNEU-EU-F70-seat_comfort",
      "equipment:EQ-F70-0119",
+     "equipment:EQ-F70-0118",
+     "FND-F70-EU-VOC-seats",
      "REQ-F70-EU-IC-01"
     ],
     "confidence": "medium"
    },
    {
-    "title": "What must be protected is the core BMW driving proposition: sporty, efficient, enjoyable to drive",
+    "title": "Transmission calibration is inconsistent in customer experience, especially at low speed",
+    "kind": "recurring_complaint",
+    "domain": "powertrain_range_charging",
+    "statement": "Transmission is a secondary but relevant issue: 46 GB complaints in the context pack and 68 verbatims returned in drill-down. The pattern is mainly low-speed jerkiness, awkward pull-away behaviour and dissatisfaction from loyal BMW owners comparing it with earlier gearboxes. At the same time, many first-time automatic users praise ease and smoothness, so this looks like a calibration issue affecting some use cases rather than a universally poor gearbox.",
+    "customer_quote": "the 7 speed dct gets slightly jerky at low speeds and when the car is cold.",
+    "evidence_refs": [
+     "verbatim:F70-0134",
+     "verbatim:F70-0329",
+     "verbatim:F70-0413",
+     "verbatim:F70-0449",
+     "REQ-F70-EU-PR-01"
+    ],
+    "confidence": "medium"
+   },
+   {
+    "title": "The core BMW proposition is working: driving dynamics, efficiency and design are strengths to protect",
     "kind": "strength",
     "domain": "driving_dynamics",
-    "statement": "The strongest positive signal is still the way the F70 drives. GB has 369 likes for overall driving dynamics in the context pack, and the EU study rates Sportiness at 9.34 and Fuel economy/ energy efficiency at 9.30, both among the strongest attributes. Customers often praise the car even inside negative reviews about HMI or content.",
+    "statement": "The strongest positive evidence is broad and consistent. GB has 517 likes in Driving Experience & Dynamics and 360 likes in Powertrain, Range & Charging. Top strengths include 369 likes for Drive/driving dynamics/chassis and 316 likes for Drivetrain. EU study scores are very strong for Sportiness at 9.341, Fuel economy/energy efficiency at 9.304, Ride comfort at 9.196 and Exterior styling at 9.005. Customers often say the car drives very well even when they criticise the digital layer.",
     "customer_quote": "this is my 4th bmw 1 series and easily the best to drive.",
     "evidence_refs": [
      "verbatim:F70-0028",
-     "verbatim:F70-0025",
-     "verbatim:F70-0220",
+     "verbatim:F70-0042",
+     "verbatim:F70-0203",
      "metric:MET-CNEU-EU-F70-sportiness",
      "metric:MET-CNEU-EU-F70-fuel_economy",
+     "metric:MET-CNEU-EU-F70-ride_comfort",
+     "metric:MET-CNEU-EU-F70-exterior_styling",
      "REQ-F70-EU-DD-02"
-    ],
-    "confidence": "high"
-   },
-   {
-    "title": "The issue matters at scale in Europe, so H1 fixes can have broad volume impact",
-    "kind": "context",
-    "domain": "general",
-    "statement": "EU sales are 80,000 units in 2024 and 85,000 in 2025, with a 2030 plan of 87,000. Given the concentration of complaints in HMI/software themes and the existing H1 requirements, improvements here would affect a large-volume nameplate rather than a niche issue.",
-    "customer_quote": null,
-    "evidence_refs": [
-     "sales:SAL-F70-EU-2024",
-     "sales:SAL-F70-EU-2025",
-     "sales:SAL-F70-EU-2030"
     ],
     "confidence": "high"
    }
   ],
   "recommendations": [
    {
-    "title": "Prioritise an H1 simplification of primary controls and non-visual operation",
-    "proposal": "Consider restoring physical controls for core climate functions and adding a haptic/rotary alternative for map zoom, list navigation and shortcuts, so common tasks do not require aiming at the screen while driving.",
+    "title": "Prioritise an H1 usability package for climate and navigation interaction",
+    "proposal": "Consider making the first product action a usability package that reduces touch dependence in the highest-frequency tasks: climate adjustment, map zoom, list navigation and shortcuts. If physical controls cannot be added in the current timing, consider at least a software workaround for non-touch operation of key tasks.",
     "horizon": "H1",
-    "rationale": "This is the single biggest customer pain point in GB and EU, and customers explicitly compare the current setup unfavourably with the previous controller/button concept. It also links directly to climate complaints and perceived safety risk.",
+    "rationale": "This is the largest and clearest customer pain point in GB, with strong evidence volume and repeated safety language. It also directly affects perceived quality of the whole car because customers often praise the driving experience but say the HMI spoils it.",
     "evidence_refs": [
      "verbatim:F70-0012",
+     "verbatim:F70-0112",
      "verbatim:F70-0141",
-     "verbatim:F70-0182",
+     "verbatim:F70-0162",
      "FND-F70-EU-VOC-touch_screen_operation",
-     "FND-F70-EU-VOC-controller_operation",
      "REQ-F70-EU-ID-01"
     ],
-    "related_requirement": "REQ-F70-EU-ID-01"
+    "related_requirement": "REQ-F70-EU-ID-01",
+    "effort_changes": null
    },
    {
-    "title": "Treat infotainment stability and update persistence as the first software-quality workstream",
-    "proposal": "Consider a focused H1 software-quality programme for blank screens, freezes, inconsistent behaviour and OTA updates that reset customer settings, with regression testing around profile retention.",
+    "title": "Stabilise infotainment software and protect user settings across updates",
+    "proposal": "Consider treating infotainment stability, blank-screen defects, and settings persistence as the top software quality release for F70 in H1, with explicit regression focus on OTA updates, profile retention and connected-function reliability.",
     "horizon": "H1",
-    "rationale": "Customers are not only struggling to learn the system; many report outright defects. This undermines the strong driving experience and is reinforced by a weak Connected services study score.",
+    "rationale": "This is the second major digital pain point and is already covered by an existing requirement with low estimated effort relative to its customer impact. Effort figures are model assumptions, not measured values, but they suggest a manageable H1 adaptation rather than a major vehicle change.",
     "evidence_refs": [
-     "verbatim:F70-0047",
-     "verbatim:F70-0162",
      "verbatim:F70-0027",
-     "verbatim:F70-1070",
+     "verbatim:F70-0047",
+     "verbatim:F70-0171",
+     "verbatim:F70-0173",
      "metric:MET-CNEU-EU-F70-connected_services",
-     "FND-F70-EU-VOC-connecteddrive_and_infotainment_overall_technolo",
-     "FND-F70-EU-VOC-remote_software_upgrade_rsu",
      "REQ-F70-EU-ID-02"
     ],
-    "related_requirement": "REQ-F70-EU-ID-02"
+    "related_requirement": "REQ-F70-EU-ID-02",
+    "effort_changes": null
    },
    {
-    "title": "Close the handbook/help gap quickly with delivery and in-car content changes",
-    "proposal": "Consider supplying every car with a printed quick-start handbook and improving the in-car manual so it is searchable and filtered to fitted functions only.",
+    "title": "Remove the handbook gap quickly with a printed quick-start guide and better searchable in-car help",
+    "proposal": "Consider a near-term customer-experience fix that ensures every GB/EU car is delivered with a printed quick-start handbook and that the in-car manual is searchable and filtered to fitted equipment.",
     "horizon": "H1",
-    "rationale": "This is a large, concentrated complaint theme and a relatively fast customer-facing fix. It also reduces friction from the broader HMI complexity without waiting for hardware changes.",
+    "rationale": "This does not solve the HMI itself, but it is a fast way to reduce frustration and onboarding pain, especially for repeat and older customers. It also addresses a complaint theme large enough to matter on its own.",
     "evidence_refs": [
      "verbatim:F70-0002",
-     "verbatim:F70-0012",
+     "verbatim:F70-0103",
      "verbatim:F70-0111",
      "verbatim:F70-0386",
-     "FND-F70-EU-VOC-owner_s_manual",
      "REQ-F70-EU-ID-04"
     ],
-    "related_requirement": "REQ-F70-EU-ID-04"
+    "related_requirement": "REQ-F70-EU-ID-04",
+    "effort_changes": null
    },
    {
-    "title": "Revisit digital-service inclusion for the first owner, or at minimum make expiry unmistakably clear",
-    "proposal": "Consider keeping fitted digital functions and key connected services included for the first owner, or clearly separating permanent from trial content at configuration and handover.",
+    "title": "Review digital subscription logic for functions customers believe they already bought",
+    "proposal": "Consider keeping fitted and demonstrated functions included for the first owner, or at minimum making any time-limited digital content unmistakably clear in configuration and handover materials.",
     "horizon": "H1",
-    "rationale": "The current setup creates a strong fairness problem in GB feedback and contributes to the feeling that the car is de-contented or incomplete despite being a premium purchase.",
+    "rationale": "Customers describe this as unfair and misleading, and it damages trust in the product. This is mainly an offer/licensing decision rather than a vehicle change, so customer need should be judged separately from engineering effort.",
     "evidence_refs": [
-     "verbatim:F70-1543",
-     "verbatim:F70-1132",
-     "verbatim:F70-1714",
-     "verbatim:F70-1275",
+     "verbatim:F70-0842",
+     "verbatim:F70-0697",
+     "verbatim:F70-1257",
+     "verbatim:F70-1404",
      "equipment:EQ-F70-0127",
-     "FND-F70-EU-VOC-bmw_connecteddrive_upgrades_mini_connected_upgra",
      "REQ-F70-EU-ID-03"
     ],
-    "related_requirement": "REQ-F70-EU-ID-03"
+    "related_requirement": "REQ-F70-EU-ID-03",
+    "effort_changes": null
    },
    {
-    "title": "Address climate as both HMI and content, starting with dual-zone clarity and rear-vent consequences",
-    "proposal": "Consider making independent driver/passenger temperature control standard across the range, ensuring the display does not imply unavailable functionality, and making the loss of rear vents explicit where dual-zone is not fitted.",
+    "title": "Clarify and, where possible, restore everyday convenience content that loyal 1 Series customers miss",
+    "proposal": "Consider an H1 content and configurator review focused on the most repeatedly missed convenience items: rear USB charging, boot 12V socket, rear vents, mirror functions and other predecessor features. Where hardware cannot be restored quickly, make package dependencies explicit.",
     "horizon": "H1",
-    "rationale": "Climate is one of the weakest measured attributes and the verbatims show disappointment is amplified by confusing presentation and by touch-only operation.",
+    "rationale": "The issue is cumulative rather than singular: customers feel the car has been de-contented. That perception can outweigh otherwise good driving impressions. Existing requirement coverage is already in place.",
+    "evidence_refs": [
+     "verbatim:F70-0072",
+     "verbatim:F70-0626",
+     "verbatim:F70-1535",
+     "verbatim:F70-0380",
+     "REQ-F70-EU-GE-01"
+    ],
+    "related_requirement": "REQ-F70-EU-GE-01",
+    "effort_changes": null
+   },
+   {
+    "title": "Investigate the GB climate-control customer experience as a product-content and HMI mismatch",
+    "proposal": "Consider a focused check of GB/EU climate-control customer experience: whether cars are being delivered with content customers do not expect, whether the display implies dual-zone when functionality differs, and whether rear-vent/package logic is too opaque. If confirmed, consider a combined H1 fix in content communication and HMI behaviour.",
+    "horizon": "H1",
+    "rationale": "The evidence mixes weak study performance, repeated customer confusion and a catalogue mismatch. That makes this a priority diagnostic topic even before deciding the final product action.",
     "evidence_refs": [
      "verbatim:F70-0994",
+     "verbatim:F70-0626",
      "verbatim:F70-0906",
-     "verbatim:F70-1500",
-     "verbatim:F70-1535",
      "metric:MET-CNEU-EU-F70-climate_control",
-     "FND-F70-EU-VOC-vehicle_climatization",
-     "FND-F70-EU-VOC-air_conditioning_control_panel",
-     "FND-F70-EU-MET-cn_eu_2025-climate_control",
+     "equipment:EQ-F70-0036",
      "REQ-F70-EU-IC-02"
     ],
-    "related_requirement": "REQ-F70-EU-IC-02"
+    "related_requirement": "REQ-F70-EU-IC-02",
+    "effort_changes": null
    },
    {
-    "title": "For the successor, protect driving dynamics and efficiency while recovering everyday practicality",
-    "proposal": "Consider keeping the current sporty, efficient character as a non-negotiable for H2, while reviewing packaging for luggage usefulness and loading ease so practicality does not remain a bottom-ranked attribute.",
+    "title": "Tune low-speed powertrain and DCT behaviour without diluting the car's efficiency and sporty character",
+    "proposal": "Consider an H1 calibration review for pull-away, cold behaviour and low-speed shift smoothness, especially for customers coming from earlier BMW automatics.",
+    "horizon": "H1",
+    "rationale": "Transmission complaints are smaller than the digital themes but still meaningful, and they cut into a core BMW strength. Existing requirement coverage suggests this is an adaptation-level change; that effort estimate is assumption-based and should be used only for rough prioritisation.",
+    "evidence_refs": [
+     "verbatim:F70-0134",
+     "verbatim:F70-0329",
+     "verbatim:F70-0413",
+     "verbatim:F70-0449",
+     "REQ-F70-EU-PR-01"
+    ],
+    "related_requirement": "REQ-F70-EU-PR-01",
+    "effort_changes": null
+   },
+   {
+    "title": "Protect the current strengths into the next update and successor",
+    "proposal": "Consider making it an explicit guardrail that any H1 or H2 changes must preserve the F70's praised driving dynamics, efficiency and exterior appeal.",
     "horizon": "H2",
-    "rationale": "Driving dynamics and efficiency are the strongest reasons to stay with the car, but luggage capacity is the weakest study attribute and a recurring GB complaint. This is more likely to need packaging work than a simple H1 fix.",
+    "rationale": "The car's fundamentals are working very well and are the reason many customers still rate it highly despite digital frustrations. Fixes should not trade away sportiness, ride comfort or fuel economy.",
     "evidence_refs": [
      "verbatim:F70-0028",
-     "verbatim:F70-0155",
-     "verbatim:F70-1070",
+     "verbatim:F70-0042",
+     "verbatim:F70-0203",
      "metric:MET-CNEU-EU-F70-sportiness",
      "metric:MET-CNEU-EU-F70-fuel_economy",
-     "metric:MET-CNEU-EU-F70-cargo_capacity",
-     "FND-F70-EU-MET-cn_eu_2025-cargo_capacity",
+     "metric:MET-CNEU-EU-F70-exterior_styling",
      "REQ-F70-EU-DD-02"
     ],
-    "related_requirement": "REQ-F70-EU-DD-02"
+    "related_requirement": "REQ-F70-EU-DD-02",
+    "effort_changes": null
    }
   ],
   "assumptions_and_gaps": [
-   "Country scope narrows only the verbatims to GB; all metrics, findings, requirements and sales are EU-market level and may not reflect GB-only incidence exactly.",
-   "Equipment evidence is from the German July 2026 catalogue and is used only as a proxy for offering breadth, not GB standard/optional status or pricing.",
-   "No competitor benchmarks are available; study scores compare only with other BMW models.",
-   "Most customer-voice evidence here comes from Source A in the drilled themes; source mix is therefore limited even though the GB verbatim base is large.",
-   "I did not cite dealer/process issues as product conclusions, even where some verbatims mention them alongside product complaints.",
-   "The study scale note says the 1-10 scale is assumed in the file; I therefore report the provided means without adding interpretation beyond the evidence."
+   "Country scope narrows only the verbatims. Metrics, findings, requirements, effort and sales are EU-market level, so they may not perfectly reflect GB-specific incidence.",
+   "The equipment catalogue is the German July 2026 list. It shows what the model line offers, not GB standard/optional status. This matters especially for climate-control interpretation, where GB customer experience appears to conflict with the German catalogue entry for 2-zone climate control.",
+   "Effort estimates from get_effort are CPM model outputs based on uncalibrated assumptions, not measured engineering effort. They are useful only as rough prioritisation context.",
+   "Some verbatims mix product feedback with dealer/process issues. I used those only where the product issue itself was clear and treated dealer handling as context, not as a product conclusion.",
+   "Search results suggest a possible mismatch between actual fitted climate functionality, package communication and HMI representation. That should be verified before concluding whether the root cause is hardware content, software behaviour or customer misunderstanding.",
+   "The BMW Group document search provided general strategy context about customer orientation and digital customer experience, but no model-specific F70 guidance or regional delivery figures beyond what is already in the context pack, so it did not materially change the product conclusions."
   ]
  },
+ "effort": {
+  "method": "CPM, share of the development effort of a new vehicle generation; never money; every model input is an uncalibrated assumption (config/effort/model.yaml)",
+  "model_hash": "789fcb7624b8",
+  "recommendations": [
+   {
+    "source": "change profile of REQ-F70-EU-ID-01",
+    "kind": "change",
+    "effort_pct": 4.17,
+    "p5": 2.13,
+    "p95": 6.41,
+    "decision": "adapt",
+    "decision_stable_pct": 100.0,
+    "layer": "K2",
+    "size": "S",
+    "certification": false,
+    "subsystems": [
+     {
+      "name": "Interior/console",
+      "path": null,
+      "risk": 0.25,
+      "subsystem": "interior_console",
+      "effort_pct": 2.03
+     },
+     {
+      "name": "Software/HMI",
+      "path": null,
+      "risk": 0.1427,
+      "subsystem": "software_hmi",
+      "effort_pct": 1.66
+     },
+     {
+      "name": "E/E architecture",
+      "path": [
+       "Interior/console",
+       "E/E architecture"
+      ],
+      "risk": 0.0296,
+      "subsystem": "ee_architecture",
+      "effort_pct": 0.31
+     },
+     {
+      "name": "Seats",
+      "path": [
+       "Interior/console",
+       "Seats"
+      ],
+      "risk": 0.015,
+      "subsystem": "seats",
+      "effort_pct": 0.09
+     }
+    ],
+    "portfolio": [],
+    "changes": [
+     {
+      "why": "New console with physical climate keys and a rotary controller; the iDrive Controller is standard on G60 and G70 (not listed as a catalogue item)",
+      "layer": "K2",
+      "carryover": true,
+      "subsystem": "interior_console",
+      "own_impact": 0.25,
+      "portfolio_terms": []
+     },
+     {
+      "why": "Controller support in an OS that was built touch-first",
+      "layer": "K2",
+      "carryover": false,
+      "subsystem": "software_hmi",
+      "own_impact": 0.08,
+      "portfolio_terms": []
+     }
+    ],
+    "flags": []
+   },
+   {
+    "source": "change profile of REQ-F70-EU-ID-02",
+    "kind": "change",
+    "effort_pct": 0.99,
+    "p5": 0.45,
+    "p95": 1.72,
+    "decision": "adapt",
+    "decision_stable_pct": 100.0,
+    "layer": "K1",
+    "size": "XS",
+    "certification": false,
+    "subsystems": [
+     {
+      "name": "Software/HMI",
+      "path": null,
+      "risk": 0.08,
+      "subsystem": "software_hmi",
+      "effort_pct": 0.93
+     },
+     {
+      "name": "E/E architecture",
+      "path": [
+       "Software/HMI",
+       "E/E architecture"
+      ],
+      "risk": 0.0053,
+      "subsystem": "ee_architecture",
+      "effort_pct": 0.06
+     }
+    ],
+    "portfolio": [],
+    "changes": [
+     {
+      "why": "Stability fixes and settings migration across OTA updates",
+      "layer": "K1",
+      "carryover": false,
+      "subsystem": "software_hmi",
+      "own_impact": 0.08,
+      "portfolio_terms": []
+     }
+    ],
+    "flags": []
+   },
+   {
+    "source": "change profile of REQ-F70-EU-ID-04",
+    "kind": "change",
+    "effort_pct": 0.23,
+    "p5": 0.1,
+    "p95": 0.41,
+    "decision": "adapt",
+    "decision_stable_pct": 100.0,
+    "layer": "K0",
+    "size": "XS",
+    "certification": false,
+    "subsystems": [
+     {
+      "name": "Software/HMI",
+      "path": null,
+      "risk": 0.02,
+      "subsystem": "software_hmi",
+      "effort_pct": 0.23
+     }
+    ],
+    "portfolio": [],
+    "changes": [
+     {
+      "why": "Searchable in-car manual filtered by fitted equipment; the printed handbook is not a vehicle change",
+      "layer": "K0",
+      "carryover": false,
+      "subsystem": "software_hmi",
+      "own_impact": 0.02,
+      "portfolio_terms": []
+     }
+    ],
+    "flags": []
+   },
+   {
+    "source": "change profile of REQ-F70-EU-ID-03",
+    "kind": "no_vehicle_change",
+    "effort_pct": 0.0,
+    "p5": 0.0,
+    "p95": 0.0,
+    "decision": "no change",
+    "decision_stable_pct": 100.0,
+    "layer": "K0",
+    "size": "-",
+    "certification": false,
+    "subsystems": [],
+    "portfolio": [],
+    "changes": [],
+    "flags": []
+   },
+   {
+    "source": "change profile of REQ-F70-EU-GE-01",
+    "kind": "change",
+    "effort_pct": 0.24,
+    "p5": 0.11,
+    "p95": 0.42,
+    "decision": "adapt",
+    "decision_stable_pct": 100.0,
+    "layer": "K0",
+    "size": "XS",
+    "certification": false,
+    "subsystems": [
+     {
+      "name": "Interior/console",
+      "path": null,
+      "risk": 0.03,
+      "subsystem": "interior_console",
+      "effort_pct": 0.24
+     }
+    ],
+    "portfolio": [],
+    "changes": [
+     {
+      "why": "Standard-content decision for items the platform still carries; becomes K1 if the hardware was dropped from the F70 harness",
+      "layer": "K0",
+      "carryover": false,
+      "subsystem": "interior_console",
+      "own_impact": 0.03,
+      "portfolio_terms": []
+     }
+    ],
+    "flags": []
+   },
+   {
+    "source": "change profile of REQ-F70-EU-IC-02",
+    "kind": "change",
+    "effort_pct": 2.55,
+    "p5": 1.24,
+    "p95": 4.77,
+    "decision": "adapt",
+    "decision_stable_pct": 100.0,
+    "layer": "K2",
+    "size": "S",
+    "certification": false,
+    "subsystems": [
+     {
+      "name": "Software/HMI",
+      "path": [
+       "Interior/console",
+       "E/E architecture",
+       "Software/HMI"
+      ],
+      "risk": 0.0902,
+      "subsystem": "software_hmi",
+      "effort_pct": 1.05
+     },
+     {
+      "name": "Interior/console",
+      "path": null,
+      "risk": 0.1,
+      "subsystem": "interior_console",
+      "effort_pct": 0.81
+     },
+     {
+      "name": "E/E architecture",
+      "path": [
+       "Interior/console",
+       "E/E architecture"
+      ],
+      "risk": 0.0325,
+      "subsystem": "ee_architecture",
+      "effort_pct": 0.34
+     },
+     {
+      "name": "Thermal/HVAC",
+      "path": null,
+      "risk": 0.0338,
+      "subsystem": "thermal_hvac",
+      "effort_pct": 0.24
+     }
+    ],
+    "portfolio": [
+     {
+      "level": 0,
+      "terms": [
+       "2-Zonen",
+       "2-zone"
+      ],
+      "vehicles": {
+       "F70": {
+        "item": "2-zone automatic climate control with extended features",
+        "status": "standard"
+       }
+      },
+      "subsystem": "thermal_hvac",
+      "own_variants": {
+       "total": 6,
+       "optional": 0,
+       "standard": 6
+      }
+     }
+    ],
+    "changes": [
+     {
+      "why": "Dual zone as standard content and a display that matches the fitted zones",
+      "layer": "K0",
+      "carryover": false,
+      "subsystem": "thermal_hvac",
+      "own_impact": 0.02,
+      "portfolio_terms": [
+       "2-Zonen",
+       "2-zone"
+      ]
+     },
+     {
+      "why": "Rear air vents need ducts through the centre console",
+      "layer": "K2",
+      "carryover": false,
+      "subsystem": "interior_console",
+      "own_impact": 0.1,
+      "portfolio_terms": []
+     }
+    ],
+    "flags": []
+   },
+   {
+    "source": "change profile of REQ-F70-EU-PR-01",
+    "kind": "change",
+    "effort_pct": 3.27,
+    "p5": 1.63,
+    "p95": 6.31,
+    "decision": "adapt",
+    "decision_stable_pct": 100.0,
+    "layer": "K1",
+    "size": "S",
+    "certification": false,
+    "subsystems": [
+     {
+      "name": "Powertrain",
+      "path": null,
+      "risk": 0.05,
+      "subsystem": "powertrain",
+      "effort_pct": 0.81
+     },
+     {
+      "name": "Software/HMI",
+      "path": [
+       "Powertrain",
+       "E/E architecture",
+       "Software/HMI"
+      ],
+      "risk": 0.0686,
+      "subsystem": "software_hmi",
+      "effort_pct": 0.8
+     },
+     {
+      "name": "Body/structure",
+      "path": [
+       "Powertrain",
+       "Body/structure"
+      ],
+      "risk": 0.0239,
+      "subsystem": "body_structure",
+      "effort_pct": 0.5
+     },
+     {
+      "name": "E/E architecture",
+      "path": [
+       "Powertrain",
+       "E/E architecture"
+      ],
+      "risk": 0.0423,
+      "subsystem": "ee_architecture",
+      "effort_pct": 0.44
+     }
+    ],
+    "portfolio": [],
+    "changes": [
+     {
+      "why": "Engine, MHEV and dual-clutch launch calibration",
+      "layer": "K1",
+      "carryover": false,
+      "subsystem": "powertrain",
+      "own_impact": 0.05,
+      "portfolio_terms": []
+     }
+    ],
+    "flags": []
+   },
+   {
+    "source": "change profile of REQ-F70-EU-DD-02",
+    "kind": "preserve",
+    "effort_pct": 0.0,
+    "p5": 0.0,
+    "p95": 0.0,
+    "decision": "no change",
+    "decision_stable_pct": 100.0,
+    "layer": "K0",
+    "size": "-",
+    "certification": false,
+    "subsystems": [],
+    "portfolio": [],
+    "changes": [],
+    "flags": []
+   }
+  ],
+  "packages": [
+   {
+    "horizon": "H1",
+    "proposals": 6,
+    "sum_of_single_pct": 11.45,
+    "effort_pct": 10.42,
+    "p5": 5.76,
+    "p95": 16.11,
+    "decision": "adapt",
+    "decision_stable_pct": 90.7,
+    "layer": "K2",
+    "size": "M",
+    "certification": false,
+    "subsystems": [
+     {
+      "subsystem": "software_hmi",
+      "name": "Software/HMI",
+      "risk": 0.345,
+      "effort_pct": 4.01,
+      "path": [
+       "Interior/console",
+       "E/E architecture",
+       "Software/HMI"
+      ]
+     },
+     {
+      "subsystem": "interior_console",
+      "name": "Interior/console",
+      "risk": 0.3537,
+      "effort_pct": 2.88,
+      "path": null
+     },
+     {
+      "subsystem": "ee_architecture",
+      "name": "E/E architecture",
+      "risk": 0.1056,
+      "effort_pct": 1.11,
+      "path": [
+       "Powertrain",
+       "E/E architecture"
+      ]
+     },
+     {
+      "subsystem": "powertrain",
+      "name": "Powertrain",
+      "risk": 0.05,
+      "effort_pct": 0.81,
+      "path": null
+     },
+     {
+      "subsystem": "thermal_hvac",
+      "name": "Thermal/HVAC",
+      "risk": 0.0734,
+      "effort_pct": 0.51,
+      "path": [
+       "Powertrain",
+       "Thermal/HVAC"
+      ]
+     },
+     {
+      "subsystem": "body_structure",
+      "name": "Body/structure",
+      "risk": 0.0239,
+      "effort_pct": 0.5,
+      "path": [
+       "Powertrain",
+       "Body/structure"
+      ]
+     }
+    ],
+    "flags": []
+   }
+  ],
+  "open_faults": []
+ },
  "citations": {
-  "cited": 69,
+  "cited": 68,
   "unknown": [],
   "unverified_quotes": []
  },
  "trace": {
-  "steps": 3,
-  "cached_steps": 0,
+  "steps": 4,
+  "cached_steps": 4,
   "hit_step_limit": false,
-  "cost_usd": 0.1821,
+  "cost_usd": 0.0,
   "tool_calls": [
    {
     "tool": "get_verbatims_by_theme",
     "args": {
-     "vehicle": "F70",
+     "limit": 12,
+     "theme": "Touch screen, operation",
      "market": "EU",
      "country": "GB",
-     "theme": "Touch screen, operation",
-     "feedback_type": "Difficult to Use",
-     "limit": 10
+     "vehicle": "F70"
     },
-    "total": 78
+    "total": 131
    },
    {
     "tool": "get_verbatims_by_theme",
     "args": {
-     "vehicle": "F70",
+     "limit": 12,
+     "theme": "ConnectedDrive and Infotainment, overall technology",
      "market": "EU",
      "country": "GB",
-     "theme": "ConnectedDrive and Infotainment, overall technology",
-     "limit": 10
+     "vehicle": "F70"
     },
     "total": 129
    },
    {
     "tool": "get_verbatims_by_theme",
     "args": {
-     "vehicle": "F70",
+     "limit": 12,
+     "theme": "Owner's Manual",
      "market": "EU",
      "country": "GB",
-     "theme": "Owner's Manual",
-     "limit": 10
+     "vehicle": "F70"
     },
     "total": 69
    },
    {
     "tool": "get_verbatims_by_theme",
     "args": {
-     "vehicle": "F70",
+     "limit": 12,
+     "theme": "Seats",
      "market": "EU",
      "country": "GB",
-     "theme": "Seats",
-     "limit": 10
+     "vehicle": "F70"
     },
     "total": 82
    },
    {
     "tool": "get_verbatims_by_theme",
     "args": {
-     "vehicle": "F70",
+     "limit": 12,
+     "theme": "Transmission",
      "market": "EU",
      "country": "GB",
+     "vehicle": "F70"
+    },
+    "total": 68
+   },
+   {
+    "tool": "get_verbatims_by_theme",
+    "args": {
+     "limit": 10,
      "theme": "Drive, driving dynamics and chassis, overall technology",
-     "feedback_type": "Likes",
-     "limit": 10
+     "market": "EU",
+     "country": "GB",
+     "vehicle": "F70",
+     "feedback_type": "Likes"
     },
     "total": 368
    },
    {
-    "tool": "get_metric",
+    "tool": "get_verbatims_by_theme",
     "args": {
-     "vehicle": "F70",
+     "limit": 10,
+     "theme": "Drivetrain",
      "market": "EU",
-     "attribute": "Connected services"
+     "country": "GB",
+     "vehicle": "F70",
+     "feedback_type": "Likes"
     },
-    "total": 1
+    "total": 270
    },
    {
-    "tool": "get_metric",
+    "tool": "get_verbatims_by_theme",
     "args": {
-     "vehicle": "F70",
+     "limit": 10,
+     "theme": "Exterior design",
      "market": "EU",
-     "attribute": "Luggage capacity"
-    },
-    "total": 1
-   },
-   {
-    "tool": "get_metric",
-    "args": {
+     "country": "GB",
      "vehicle": "F70",
-     "market": "EU",
-     "attribute": "Heating/ ventilation/ air conditioning"
+     "feedback_type": "Likes"
     },
-    "total": 1
+    "total": 154
    },
    {
     "tool": "get_metric",
     "args": {
-     "vehicle": "F70",
      "market": "EU",
-     "attribute": "Sportiness"
+     "vehicle": "F70"
     },
-    "total": 1
-   },
-   {
-    "tool": "get_metric",
-    "args": {
-     "vehicle": "F70",
-     "market": "EU",
-     "attribute": "Fuel economy/ energy efficiency"
-    },
-    "total": 1
-   },
-   {
-    "tool": "get_equipment",
-    "args": {
-     "vehicle": "F70",
-     "domain": "driver_assistance_parking",
-     "limit": 20
-    },
-    "total": 0
-   },
-   {
-    "tool": "get_equipment",
-    "args": {
-     "vehicle": "F70",
-     "domain": "space_practicality",
-     "limit": 20
-    },
-    "total": 0
-   },
-   {
-    "tool": "get_sales",
-    "args": {
-     "vehicle": "F70",
-     "market": "EU"
-    },
-    "total": 3
+    "total": 37
    },
    {
     "tool": "get_requirements",
     "args": {
-     "vehicle": "F70",
-     "market": "EU"
+     "market": "EU",
+     "vehicle": "F70"
     },
     "total": 18
    },
    {
-    "tool": "search_documents",
+    "tool": "get_effort",
     "args": {
-     "query": "BMW Group Report 2025 Europe deliveries compact premium digital connected services software",
-     "limit": 5
-    },
-    "total": 423
-   },
-   {
-    "tool": "search_evidence",
-    "args": {
-     "query": "boot small luggage capacity dog hybrid battery loading",
-     "vehicle": "F70",
      "market": "EU",
-     "country": "GB",
-     "domain": "space_practicality",
-     "limit": 10
-    },
-    "total": 69
-   },
-   {
-    "tool": "search_evidence",
-    "args": {
-     "query": "subscription digital premium connecteddrive 3 months extra pay services",
      "vehicle": "F70",
-     "market": "EU",
-     "country": "GB",
-     "domain": "infotainment_digital",
-     "limit": 10
+     "scenarios": true
     },
-    "total": 147
-   },
-   {
-    "tool": "search_evidence",
-    "args": {
-     "query": "climate controls buttons dual zone rear vents synced temperature",
-     "vehicle": "F70",
-     "market": "EU",
-     "country": "GB",
-     "domain": "interior_comfort",
-     "limit": 10
-    },
-    "total": 110
+    "total": 18
    },
    {
     "tool": "get_equipment",
     "args": {
-     "vehicle": "F70",
+     "limit": 30,
+     "query": "seat",
+     "vehicle": "F70"
+    },
+    "total": 14
+   },
+   {
+    "tool": "get_equipment",
+    "args": {
+     "limit": 20,
+     "query": "manual",
+     "vehicle": "F70"
+    },
+    "total": 0
+   },
+   {
+    "tool": "get_equipment",
+    "args": {
+     "limit": 30,
+     "query": "assistant",
+     "vehicle": "F70"
+    },
+    "total": 6
+   },
+   {
+    "tool": "get_sales",
+    "args": {
+     "market": "EU",
+     "vehicle": "F70"
+    },
+    "total": 3
+   },
+   {
+    "tool": "search_documents",
+    "args": {
+     "limit": 5,
+     "query": "BMW Group Report 2025 Europe deliveries compact premium digital connected services software customer experience"
+    },
+    "total": 425
+   },
+   {
+    "tool": "search_evidence",
+    "args": {
+     "limit": 10,
+     "query": "subscription digital premium connecteddrive 3 months high beam traffic information",
+     "market": "EU",
+     "country": "GB",
+     "vehicle": "F70"
+    },
+    "total": 246
+   },
+   {
+    "tool": "search_evidence",
+    "args": {
+     "limit": 10,
+     "query": "boot smaller luggage loading rear vents 12v socket rear usb",
+     "market": "EU",
+     "country": "GB",
+     "vehicle": "F70"
+    },
+    "total": 162
+   },
+   {
+    "tool": "search_evidence",
+    "args": {
+     "limit": 10,
+     "query": "climate controls buttons rear vents dual zone synced temperature",
+     "market": "EU",
+     "country": "GB",
+     "vehicle": "F70"
+    },
+    "total": 211
+   },
+   {
+    "tool": "search_evidence",
+    "args": {
+     "limit": 10,
+     "query": "navigation route shortest fastest lane map zoom voice commands",
+     "market": "EU",
+     "country": "GB",
+     "vehicle": "F70"
+    },
+    "total": 73
+   },
+   {
+    "tool": "get_equipment",
+    "args": {
+     "limit": 20,
      "query": "Digital Premium",
-     "limit": 20
+     "vehicle": "F70"
     },
     "total": 1
    },
    {
     "tool": "get_equipment",
     "args": {
-     "vehicle": "F70",
+     "limit": 20,
      "query": "lumbar",
-     "limit": 20
+     "vehicle": "F70"
     },
     "total": 0
    },
    {
     "tool": "get_equipment",
     "args": {
-     "vehicle": "F70",
-     "query": "air conditioning",
-     "limit": 30
+     "limit": 30,
+     "query": "climate",
+     "vehicle": "F70"
     },
-    "total": 0
-   },
-   {
-    "tool": "get_findings",
-    "args": {
-     "vehicle": "F70",
-     "market": "EU",
-     "domain": "infotainment_digital",
-     "limit": 20
-    },
-    "total": 27
-   },
-   {
-    "tool": "get_findings",
-    "args": {
-     "vehicle": "F70",
-     "market": "EU",
-     "domain": "space_practicality",
-     "limit": 20
-    },
-    "total": 15
-   },
-   {
-    "tool": "get_findings",
-    "args": {
-     "vehicle": "F70",
-     "market": "EU",
-     "domain": "interior_comfort",
-     "limit": 20
-    },
-    "total": 24
+    "total": 1
    }
   ],
   "llm_call_ids": [
-   18,
-   19,
-   20
+   34,
+   35,
+   36,
+   37
   ]
  }
 }
