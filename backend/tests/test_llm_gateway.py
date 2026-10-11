@@ -124,12 +124,13 @@ class _Stub:
 
     name = "stub"
 
-    def __init__(self, finish_reason="stop"):
+    def __init__(self, finish_reason="stop", text='{"label": "ok", "score": 1, "note": null}'):
         self.finish_reason = finish_reason
+        self.text = text
 
     def complete(self, *, model, **kw):
         return ProviderResponse(
-            text='{"label": "ok", "score": 1, "note": null}',
+            text=self.text,
             model=model,
             input_tokens=1000,
             cached_tokens=0,
@@ -162,6 +163,20 @@ def test_truncated_answer_is_logged_with_its_cost(engine, ingested):
         assert row.status == "error" and row.cost_estimate_usd > 0
         assert gw.run_spent_usd() == row.cost_estimate_usd  # counts towards the caps
         session.delete(row)  # keep the day's total of the test database unchanged
+
+
+def test_answers_rejected_twice_are_both_logged_with_their_cost(engine, ingested):
+    with Session(engine) as session, start_run(session, "test.llm.rejected") as run:
+        gw = LlmGateway(session, _Stub(text="not json"), run.id)
+        with pytest.raises(LlmSchemaError):
+            gw.complete(_priced("never valid", "gpt-5.4"), Answer)
+        rows = session.scalars(select(LlmCall).where(LlmCall.run_id == run.id)).all()
+        # the first answer and the repair attempt
+        assert [r.status for r in rows] == ["error", "error"]
+        assert all(r.cost_estimate_usd > 0 for r in rows)
+        assert gw.run_spent_usd() == pytest.approx(sum(r.cost_estimate_usd for r in rows))
+        for row in rows:
+            session.delete(row)  # keep the day's total of the test database unchanged
 
 
 def test_fake_provider_payload_is_json():

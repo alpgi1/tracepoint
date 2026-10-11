@@ -443,8 +443,7 @@ class LlmGateway:
         parsed = None
         attempts_total = 1
         try:
-            # a turn that calls tools carries no answer to parse yet
-            parsed = None if resp.tool_calls else self._parse(resp.text, schema_model)
+            parsed = self._parse_billed(req, model, ihash, resp, schema_model)
         except LlmSchemaError as exc:
             # one repair attempt with the validation error sent back as the latest user text
             note = f"The previous answer was not valid for the schema ({exc}). Return only valid JSON for the schema."
@@ -453,12 +452,8 @@ class LlmGateway:
                 if req.history
                 else replace(req, user=f"{req.user}\n\n{note}")
             )
-            # the rejected answer was billed too
-            self._record(
-                req, model, ihash, resp, status="error", error=str(exc), latency_ms=0, attempts=1
-            )
             resp = self._billed_call(repair, model, schema, ihash)
-            parsed = None if resp.tool_calls else self._parse(resp.text, schema_model)
+            parsed = self._parse_billed(repair, model, ihash, resp, schema_model)
             attempts_total = 2
         latency = int(resp.__dict__.get("_latency_ms", 0))
         row = self._record(
@@ -587,6 +582,26 @@ class LlmGateway:
         return [r if r is not None else LlmError("unprocessed request") for r in results]
 
     # ---- internals ----------------------------------------------------------------------------
+
+    def _parse_billed(
+        self,
+        req: LlmRequest,
+        model: str,
+        ihash: str,
+        resp: ProviderResponse,
+        schema_model: type[T] | None,
+    ) -> Any:
+        """Parse an answer; one that is invalid for the schema was billed all the same and is
+        logged with its cost before the error goes on (first answer and repair alike)."""
+        if resp.tool_calls:  # a turn that calls tools carries no answer to parse yet
+            return None
+        try:
+            return self._parse(resp.text, schema_model)
+        except LlmSchemaError as exc:
+            self._record(
+                req, model, ihash, resp, status="error", error=str(exc), latency_ms=0, attempts=1
+            )
+            raise
 
     def _billed_call(
         self, req: LlmRequest, model: str, schema: dict[str, Any] | None, ihash: str
