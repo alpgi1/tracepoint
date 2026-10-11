@@ -333,6 +333,25 @@ def get_requirements(session: Session, a: RequirementsArgs) -> dict[str, Any]:
     return {"total": len(rows), "items": rows}
 
 
+class EffortArgs(BaseModel):
+    vehicle: Vehicle | None = None
+    market: MarketCode | None = None
+    scenarios: bool = Field(False, description="Also return the H1 / H2 / all variations")
+
+
+def get_effort(session: Session, a: EffortArgs) -> dict[str, Any]:
+    """CPM effort estimates per requirement (% of a new vehicle generation, P5-P95 range, layer
+    K0-K3, decision adapt / major revision / new generation, affected subsystems, PM flags).
+    Inputs are assumptions; explain them, never present them as measured."""
+    from tracepoint.effort.store import list_efforts, scenarios
+
+    rows = list_efforts(session, a.vehicle, a.market)
+    out: dict[str, Any] = {"total": len(rows), "items": rows}
+    if a.scenarios and a.vehicle:
+        out["scenarios"] = scenarios(session, a.vehicle, a.market, runs=500)
+    return out
+
+
 class ContextPackArgs(BaseModel):
     vehicle: Vehicle
     market: MarketCode | None = None
@@ -355,6 +374,7 @@ TOOLS: dict[str, tuple[type[BaseModel], Callable[[Session, Any], dict[str, Any]]
     "get_sales": (SalesArgs, get_sales),
     "get_findings": (FindingsArgs, get_findings),
     "get_requirements": (RequirementsArgs, get_requirements),
+    "get_effort": (EffortArgs, get_effort),
 }
 
 

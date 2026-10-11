@@ -69,6 +69,7 @@ def test_every_tool_runs_and_is_logged(engine, ingested):
         "get_sales": {"vehicle": "G70", "market": "US"},
         "get_findings": {"vehicle": "G60"},
         "get_requirements": {"vehicle": "G60", "status": "proposed"},
+        "get_effort": {"vehicle": "G60", "market": "US"},
     }
     assert set(calls) == set(TOOLS) and len(tool_schemas()) == len(TOOLS)
     with Session(engine) as session:

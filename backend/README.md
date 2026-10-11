@@ -42,6 +42,9 @@ repository root (see `.env.example`).
 | `tracepoint requirements import` | load `config/requirements/*.yaml` (validated against the findings, versioned, audited) and replay the G2 decisions in `config/decisions/requirements.jsonl` |
 | `tracepoint requirements decide REQ-G60-US-IC-01 approve --note "…"` | gate G2 (approve / reject / defer) on the current version; logged and appended to the decisions file. Also `POST /requirements/{id}/decision` |
 | `tracepoint requirements export [--vehicle G60 --market US]` | requirement list (deliverable D2) as Markdown and CSV in `data/requirements/`; API `GET /requirements`, `GET /requirements/{id}` (traceability to findings and evidence, event history) |
+| `tracepoint effort backtest [--scope all\|matrix]` | CPM effort engine back-test against the documented BMW decisions in `config/effort/anchors.yaml` (no database; exit code 1 if an anchor fails) |
+| `tracepoint effort estimate` | effort of every requirement from `config/effort/requirements/*.yaml` and the model `config/effort/model.yaml`: % of a new vehicle, P5–P95, layer K0–K3, decision, affected subsystems, portfolio scan of the catalogues, horizon checks; stored in `requirement_effort`, every change audited. API `GET /effort/requirements`, `GET /effort/scenarios?vehicle=G60`, `GET /effort/backtest`; agent tool `get_effort` |
+| `tracepoint effort report [--vehicle G60 --market US]` | Markdown per vehicle × market (variations H1 / H2 / all, requirements, PM flags, subsystems) in `data/effort/` |
 | `tracepoint agent packs [--vehicle G60]` | context pack (JSON + Markdown) per vehicle × market with evidence, written to `data/context_packs/` |
 | `tracepoint agent tools` | tool definitions for an LLM agent (name, description, JSON input schema) |
 | `tracepoint agent call search_evidence '{"query": "charging flap", "vehicle": "G60"}'` | run one agent tool; every call is an audit event (`tool.called`). Also over HTTP: `GET /agent/tools`, `POST /agent/tools/{name}` |
@@ -62,6 +65,7 @@ tracepoint/
   findings/   deterministic finding extraction, cross-layer links, Markdown report
   agent/      context packs, drill-down tools (logged tool calls), the agent loop and the situation analysis
   requirements/  requirement store (import, versioning, G2 decisions) and D2 exports
+  effort/     CPM effort engine (pure), requirement effort store, variations and report
   api/        FastAPI read API
   cli.py      Typer command line interface
 tests/        pytest suite (ingests docs/ into the test database once per session)

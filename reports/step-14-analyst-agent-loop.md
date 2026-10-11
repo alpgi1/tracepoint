@@ -1,4 +1,4 @@
-# Step 13 – Agent loop and the situation analyst
+# Step 14 – Agent loop and the situation analyst
 
 | Field | Value |
 |---|---|
@@ -9,7 +9,7 @@
 
 ## 1. Delivered
 
-Decisions D-063, D-064 and D-065.
+Decisions D-066, D-067 and D-068.
 
 * **Tool calls in the LLM gateway** (`llm/gateway.py`). A request can carry the turns so far
   (`history`) and the tool definitions (`tools`) in a provider-neutral form; the answer is
@@ -33,7 +33,7 @@ Decisions D-063, D-064 and D-065.
   cites and go into the same correction request.
 * **Read-only.** The analyst creates no finding and no requirement; its recommendations are
   proposals, so gates G1 and G2 are untouched.
-* **Country scope** (D-065). `--country GB` narrows the customer verbatims; the context pack
+* **Country scope** (D-068). `--country GB` narrows the customer verbatims; the context pack
   (`context-pack-v2`) and three tools take a country code. Study metrics, sales and findings
   stay per market, and the agent is told to say so.
 * **Findings for all ten scopes.** `start.sh` / `start.ps1` now extract F70 RoW, G60 RoW, G70 RoW,
@@ -82,10 +82,10 @@ Live runs with `gpt-5.4` (dated snapshot `gpt-5.4-2026-03-05`), samples of the f
   point to one.
 * The `POST /agent/analyze` request stays open for the whole run (one to two minutes) and spends
   tokens without authentication, like every endpoint of the prototype (D-014).
-* Passages of the BMW Group Report reach the provider through `search_documents` (see step 12:
+* Passages of the BMW Group Report reach the provider through `search_documents` (see step 13:
   the PDF metadata carries a "CONFIDENTIAL" template marking; the team should confirm).
 
-## 4. Addendum after the security review (D-066)
+## 4. Addendum after the security review (D-069)
 
 * The quote check passed any quote without ASCII letters or digits (punctuation only, or another
   script). It now compares letters of any script and counts an empty comparison as not found.
@@ -95,7 +95,7 @@ Live runs with `gpt-5.4` (dated snapshot `gpt-5.4-2026-03-05`), samples of the f
   only read, so a followed injection can change the text of an analysis and nothing else.
 * `TRACEPOINT_LLM_MAX_COST_USD_PER_DAY` (default 50) caps all runs of the last 24 hours. The
   endpoint itself is still unauthenticated and has to stay on localhost.
-* Second review (D-067): a model without a price is refused while a cost cap is set; billed
+* Second review (D-070): a model without a price is refused while a cost cap is set; billed
   answers the gateway rejects are logged with their cost; the endpoint runs one analysis at a
   time (HTTP 429 for a second request), since a run commits its costs only when it ends.
 * 54 tests passed. One live analysis with v2 through the endpoint (G60, country KR): 2 model

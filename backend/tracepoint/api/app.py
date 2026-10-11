@@ -533,8 +533,10 @@ def requirements(
 def requirement_detail(
     requirement_id: str, session: Session = Depends(get_session)
 ) -> dict[str, Any]:
-    """Traceability: requirement -> findings -> evidence references, plus the event history."""
+    """Traceability: requirement -> findings -> evidence references, effort estimate, plus the
+    event history."""
     from tracepoint.db.models import Requirement
+    from tracepoint.effort.store import list_efforts
 
     r = session.get(Requirement, requirement_id)
     if r is None:
@@ -566,6 +568,10 @@ def requirement_detail(
         "findings": [
             {"role": x.role, **get_finding(x.finding_id, session=session)} for x in r.findings
         ],
+        "effort": next(
+            (e for e in list_efforts(session, r.vehicle_code, r.market_code) if e["id"] == r.id),
+            None,
+        ),
         "events": [
             event_to_dict(e)
             for e in session.scalars(
@@ -575,6 +581,39 @@ def requirement_detail(
             )
         ],
     }
+
+
+@app.get("/effort/backtest")
+def effort_backtest(
+    runs: int = Query(2000, ge=100, le=10000), scope: str = Query("all", pattern="^(all|matrix)$")
+) -> dict[str, Any]:
+    """CPM back-test against the documented BMW decisions (config/effort/anchors.yaml)."""
+    from tracepoint.effort.cpm import backtest, load_anchors, load_model
+
+    return backtest(load_model(), load_anchors(), n=runs, scope=scope)
+
+
+@app.get("/effort/requirements")
+def effort_requirements(
+    vehicle: str | None = None,
+    market: str | None = None,
+    session: Session = Depends(get_session),
+) -> list[dict[str, Any]]:
+    """Effort per requirement: % of a new vehicle, P5-P95, layer, decision, subsystems, flags."""
+    from tracepoint.effort.store import list_efforts
+
+    return list_efforts(session, vehicle, market)
+
+
+@app.get("/effort/scenarios")
+def effort_scenarios(
+    vehicle: str, market: str | None = None, session: Session = Depends(get_session)
+) -> list[dict[str, Any]]:
+    """Variations: H1 package on the current model, H2 successor, everything on the current
+    model; changes combined per subsystem so shared work counts once (rule 45)."""
+    from tracepoint.effort.store import scenarios
+
+    return scenarios(session, vehicle, market)
 
 
 class DecisionBody(BaseModel):

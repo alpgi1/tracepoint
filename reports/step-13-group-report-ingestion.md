@@ -1,4 +1,4 @@
-# Step 12 – Ingestion of the BMW Group Report 2025
+# Step 13 – Ingestion of the BMW Group Report 2025
 
 | Field | Value |
 |---|---|
@@ -9,7 +9,7 @@
 
 ## 1. Delivered
 
-* **Source** `SRC-GROUP-REPORT` in the registry (layer Portfolio & Offering), decision D-062.
+* **Source** `SRC-GROUP-REPORT` in the registry (layer Portfolio & Offering), decision D-065.
 * **Table `document_page`**: one row per page with section title, text, character count, locator
   (`file`, `page`) and creating run. Identifiers `DOC-GROUP-REPORT-0001` … `0434`.
 * **Parser** `ingest/documents.py`. The report is set in two to four columns, and reading a page

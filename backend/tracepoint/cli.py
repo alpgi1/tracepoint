@@ -548,6 +548,69 @@ def agent_analyze(
     )
 
 
+effort_app = typer.Typer(
+    help="CPM effort estimates (rules 41-52): back-test, estimates, variations.",
+    no_args_is_help=True,
+)
+app.add_typer(effort_app, name="effort")
+_SCOPE_HELP = "all: W, L, I, certification add-on, carryover factor, own impacts; matrix: W, L, I"
+
+
+@effort_app.command("backtest")
+def effort_backtest(
+    runs: int = typer.Option(2000, "--runs"),
+    scope: str = typer.Option("all", "--scope", help=_SCOPE_HELP),
+    seed: int = typer.Option(42, "--seed"),
+    as_json: bool = typer.Option(False, "--json"),
+) -> None:
+    """Classify the documented BMW decisions in config/effort/anchors.yaml (no database)."""
+    from tracepoint.effort.cpm import backtest, load_anchors, load_model, render_backtest
+
+    result = backtest(load_model(), load_anchors(), n=runs, scope=scope, seed=seed)
+    typer.echo(json.dumps(result, indent=1) if as_json else render_backtest(result))
+    if result["hits"] != result["anchors"]:
+        raise typer.Exit(1)
+
+
+@effort_app.command("estimate")
+def effort_estimate(
+    runs: int = typer.Option(2000, "--runs"),
+    scope: str = typer.Option("all", "--scope", help=_SCOPE_HELP),
+) -> None:
+    """Estimate every requirement from config/effort/requirements/*.yaml (logged, versioned)."""
+    from tracepoint.effort.cpm import load_model, model_hash
+    from tracepoint.effort.store import estimate_all
+
+    snapshot = {"model_hash": model_hash(load_model()), "runs": runs, "scope": scope}
+    with Session(make_engine()) as session, start_run(session, "effort.estimate", snapshot) as run:
+        _echo("effort", estimate_all(session, run, runs=runs, scope=scope))
+
+
+@effort_app.command("report")
+def effort_report(
+    vehicle: str | None = typer.Option(None, "--vehicle", "-v"),
+    market: str | None = typer.Option(None, "--market", "-m"),
+    out_dir: Path = typer.Option(None, "--out-dir", help="Default: data/effort"),
+) -> None:
+    """Markdown report per vehicle × market: variations, requirements, flags, subsystems."""
+    from tracepoint.effort.cpm import backtest, load_anchors, load_model
+    from tracepoint.effort.report import render_markdown
+    from tracepoint.effort.store import list_efforts, scenarios
+
+    out = out_dir or get_settings().data_dir / "effort"
+    out.mkdir(parents=True, exist_ok=True)
+    bt = backtest(load_model(), load_anchors())
+    with Session(make_engine()) as session:
+        rows = list_efforts(session, vehicle, market)
+        scopes = sorted({(r["vehicle"], r["market"]) for r in rows})
+        for v, m in scopes:
+            sel = [r for r in rows if (r["vehicle"], r["market"]) == (v, m)]
+            md = render_markdown(sel, scenarios(session, v, m), f"Effort estimate – {v} {m}", bt)
+            path = out / f"effort_{v}_{m}.md"
+            path.write_text(md, encoding="utf-8")
+            typer.echo(f"wrote {path} ({len(sel)} requirements)")
+
+
 @app.command("status")
 def status() -> None:
     """Print row counts of the main tables and the last runs."""
@@ -569,6 +632,8 @@ def status() -> None:
         ("tech_specs", m.TechSpec),
         ("document_pages", m.DocumentPage),
         ("findings", m.Finding),
+        ("requirements", m.Requirement),
+        ("efforts", m.RequirementEffort),
         ("finding_links", m.FindingLink),
         ("llm_calls", m.LlmCall),
         ("runs", m.Run),
