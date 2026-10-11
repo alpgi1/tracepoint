@@ -1,10 +1,12 @@
 #!/usr/bin/env python3
 """Build the CPM subsystem content for the vehicle screen and its subsystem dialog.
 
-Reads the twelve subsystems with their weights and links (config/cpm/subsystems.yaml), the
-theme-to-subsystem mapping (config/cpm/theme_subsystem_map.yaml), the market and competitor
-evidence (config/cpm/market_context.yaml), the customer domains, the feedback workbooks under
-docs/ and the vehicle × market pairs of frontend/content/markets.json, and writes
+Reads the CPM effort model of the backend engine (config/effort/model.yaml: the twelve
+subsystems with their weights, links, certification and threshold parameters and the subsystems
+absent on a vehicle), the theme-to-subsystem mapping (config/cpm/theme_subsystem_map.yaml), the
+market and competitor evidence (config/cpm/market_context.yaml), the customer domains, the
+feedback workbooks under docs/ and the vehicle × market pairs of frontend/content/markets.json,
+and writes
 frontend/content/cpm.json: per vehicle × market, every subsystem's rows, likes and complaints,
 the themes customers like and criticise with two verbatims each, a derived one-sentence
 suggestion and a few-sentence summary per block (template text from the counts and the finding
@@ -151,8 +153,17 @@ def criticised_narration(criticised: list[tuple[str, dict]], complaints: int, ro
     return {"suggestion": suggestion, "summary": summary, "basis": "derived"}
 
 
+METHOD = {
+    "name": "Change Prediction Method",
+    "reference": "Clarkson, Simons, Eckert (2004), Predicting Change Propagation in Complex Design, Journal of Mechanical Design 126(5)",
+    "url": "https://oro.open.ac.uk/18626",
+    "engine": "backend/tracepoint/effort/cpm.py",
+    "modelSource": "config/effort/model.yaml",
+}
+
+
 def main() -> None:
-    cpm = load_yaml(ROOT / "config" / "cpm" / "subsystems.yaml")
+    model = load_yaml(ROOT / "config" / "effort" / "model.yaml")
     mapping = load_yaml(ROOT / "config" / "cpm" / "theme_subsystem_map.yaml")
     context = load_yaml(ROOT / "config" / "cpm" / "market_context.yaml")["rows"]
     domain_map = load_yaml(ROOT / "config" / "taxonomy" / "domain_map.yaml")["map"]
@@ -163,8 +174,14 @@ def main() -> None:
     markets = json.loads((ROOT / "frontend" / "content" / "markets.json").read_text(encoding="utf-8"))
     finding_rules = load_yaml(ROOT / "config" / "findings" / "findings.yaml")["voice_of_customer"]
 
-    subsystems = cpm["subsystems"]
+    subsystems = model["subsystems"]
     keys = [s["key"] for s in subsystems]
+    names = {s["key"]: s["name"] for s in subsystems}
+    links_from: dict[str, list[dict]] = defaultdict(list)
+    for link in model["links"]:
+        links_from[link["from"]].append(link)
+    cert = model["certification"]
+    vehicle_models = model.get("vehicles", {})
     theme_subsystem = {t: key for key, themes in mapping["map"].items() for t in themes}
     unassigned = set(mapping["unassigned"])
     mapped = set(theme_subsystem) | unassigned
@@ -172,10 +189,9 @@ def main() -> None:
         raise SystemExit(f"theme_subsystem_map.yaml must name every canonical theme once: missing {sorted(canonical - mapped)}, unknown {sorted(mapped - canonical)}")
     if sum(s["weight"] for s in subsystems) != 100:
         raise SystemExit("subsystem weights must sum to 100")
-    for s in subsystems:
-        for link in s["links"]:
-            if link["to"] not in keys:
-                raise SystemExit(f"unknown link target {link['to']} in {s['key']}")
+    for link in model["links"]:
+        if link["from"] not in keys or link["to"] not in keys:
+            raise SystemExit(f"unknown subsystem in link {link['from']} -> {link['to']}")
     for row in context:
         if row["subsystem"] not in keys:
             raise SystemExit(f"unknown subsystem {row['subsystem']} in market_context.yaml")
@@ -206,12 +222,22 @@ def main() -> None:
                 print(f"  note: {v['code']} {m['code']} has {len(rows)} classified rows in the workbook but no baseline report; shown as empty")
                 withheld = len(rows)
                 rows = []
+            # Subsystems absent on this vehicle (config/effort/model.yaml) are left out and the
+            # weights of the present ones are renormalised to 100, as the engine does.
+            vehicle_model = vehicle_models.get(v["code"], {})
+            absent = list(vehicle_model.get("absent", []))
+            present = [sub for sub in subsystems if sub["key"] not in absent]
+            present_total = sum(sub["weight"] for sub in present)
             per_sub: dict[str, dict] = {k: defaultdict(lambda: {"rows": 0, "likes": 0, "complaints": 0, "defects": 0, "difficultToUse": 0, "wants": 0, "likeQuotes": [], "complaintQuotes": []}) for k in keys}
             unassigned_rows = 0
+            absent_rows = {k: 0 for k in absent}
             for r in rows:
                 key = theme_subsystem.get(r["theme"])
                 if key is None:
                     unassigned_rows += 1
+                    continue
+                if key in absent_rows:
+                    absent_rows[key] += 1
                     continue
                 t = per_sub[key][r["theme"]]
                 t["rows"] += 1
@@ -228,7 +254,8 @@ def main() -> None:
                     else:
                         t["wants"] += 1
             entries = []
-            for key in keys:
+            for sub in present:
+                key = sub["key"]
                 themes = per_sub[key]
                 liked = sorted(((n, t) for n, t in themes.items() if t["likes"] > 0), key=lambda nt: (-nt[1]["likes"], nt[0]))[:MAX_THEMES]
                 criticised = sorted(((n, t) for n, t in themes.items() if t["complaints"] > 0), key=lambda nt: (-nt[1]["complaints"], nt[0]))[:MAX_THEMES]
@@ -238,6 +265,7 @@ def main() -> None:
                 totals = {k: sum(t[k] for t in themes.values()) for k in ("defects", "difficultToUse", "wants")}
                 entries.append({
                     "key": key,
+                    "weight": round(sub["weight"] * 100 / present_total, 1),
                     "rows": sub_rows,
                     "likes": sub_likes,
                     "complaints": sub_complaints,
@@ -278,6 +306,9 @@ def main() -> None:
                 "vehicle": v["code"],
                 "market": m["code"],
                 "verbatims": v["verbatims"],
+                "platform": vehicle_model.get("platform"),
+                "absent": [{"key": k, "name": names[k], "rows": absent_rows[k]} for k in absent],
+                "absentNote": vehicle_model.get("note"),
                 "rows": len(rows),
                 "unassignedRows": unassigned_rows,
                 "rowsSource": (
@@ -293,20 +324,17 @@ def main() -> None:
     payload = {
         "generatedAt": date.today().isoformat(),
         "method": {
-            "name": cpm["method"]["name"],
-            "reference": cpm["method"]["reference"],
-            "url": cpm["method"]["url"],
-            "engine": cpm["method"]["engine"],
-            "basis": cpm["method"]["basis"],
-            "weightSources": cpm["method"]["weight_sources"],
-            "thresholds": {"adaptBelowPercent": cpm["method"]["thresholds"]["adapt_below_percent"], "newGenerationFromPercent": cpm["method"]["thresholds"]["new_generation_from_percent"]},
-            "certificationAddOnPercent": cpm["method"]["certification_add_on_percent"],
+            **METHOD,
+            "modelVersion": model["version"],
+            "basis": model["status"],
+            "thresholds": {"adaptBelowPercent": model["thresholds"]["major_revision"], "newGenerationFromPercent": model["thresholds"]["new_generation"]},
+            "certificationAddOnPercent": cert["add_on"],
         },
         "subsystems": [
             {
-                "key": s["key"], "name": s["name"], "scope": s["scope"], "weight": s["weight"],
-                "certificationTrigger": bool(s["certification_trigger"]),
-                "links": [{"to": l["to"], "likelihood": l["likelihood"], "impact": l["impact"]} for l in s["links"]],
+                "key": s["key"], "name": s["name"], "weight": s["weight"], "basis": s["basis"],
+                "certificationTrigger": s["key"] in cert["trigger_subsystems"],
+                "links": [{"to": l["to"], "likelihood": l["likelihood"], "impact": l["impact"], "why": l["why"]} for l in links_from[s["key"]]],
             }
             for s in subsystems
         ],

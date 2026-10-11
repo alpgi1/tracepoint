@@ -4,12 +4,10 @@
   "name": "Change Prediction Method",
   "reference": "Clarkson, Simons, Eckert (2004), Predicting Change Propagation in Complex Design, Journal of Mechanical Design 126(5)",
   "url": "https://oro.open.ac.uk/18626",
-  "engine": "cost/cpm_engine.py",
+  "engine": "backend/tracepoint/effort/cpm.py",
+  "modelSource": "config/effort/model.yaml",
+  "modelVersion": 1,
   "basis": "assumption, not calibrated",
-  "weightSources": [
-   "Thunder Said Energy (2024), EV vs ICE cost breakdown by component (drivetrain about 30 to 36 % of vehicle cost)",
-   "Bosch (2020), electronics share of premium vehicle component cost (16 % in 2020, 35 % expected by 2025)"
-  ],
   "thresholds": {
    "adaptBelowPercent": 15,
    "newGenerationFromPercent": 50
@@ -19,248 +17,276 @@
  "subsystems": [
   {
    "key": "body_structure",
-   "name": "Body / structure",
-   "scope": "Body-in-white, doors, hood, roof, glazing, closures, wipers, restraints and body hardware",
+   "name": "Body/structure",
    "weight": 18,
+   "basis": "Team estimate: split of the non-drivetrain ~64-70 % of vehicle cost (Thunder Said Energy 2024) across body, chassis and interior",
    "certificationTrigger": true,
    "links": [
     {
      "to": "interior_console",
      "likelihood": 0.5,
-     "impact": 0.3
+     "impact": 0.3,
+     "why": "Interior parts are fixed to the body in white"
     },
     {
      "to": "exterior_design",
      "likelihood": 0.4,
-     "impact": 0.3
+     "impact": 0.3,
+     "why": "Outer skin follows the structure"
     },
     {
      "to": "chassis",
      "likelihood": 0.5,
-     "impact": 0.4
+     "impact": 0.4,
+     "why": "Axle mounting points and wheelbase"
     }
    ]
   },
   {
    "key": "chassis",
    "name": "Chassis",
-   "scope": "Suspension, steering, brakes, wheels and tyres, ride and handling",
    "weight": 10,
+   "basis": "Team estimate (same split)",
    "certificationTrigger": false,
    "links": [
     {
      "to": "body_structure",
      "likelihood": 0.3,
-     "impact": 0.2
+     "impact": 0.2,
+     "why": "Mounting points"
     }
    ]
   },
   {
    "key": "powertrain",
    "name": "Powertrain",
-   "scope": "Engine, e-drive, transmission, drivetrain, fuel and exhaust systems, start-stop",
    "weight": 14,
+   "basis": "Powertrain + HV battery + charging = 28, drivetrain ~30 % (ICE) to ~36 % (EV) of vehicle cost (Thunder Said Energy 2024)",
    "certificationTrigger": true,
    "links": [
     {
      "to": "body_structure",
      "likelihood": 0.4,
-     "impact": 0.3
+     "impact": 0.3,
+     "why": "Package space, mounts, tunnel"
     },
     {
      "to": "thermal_hvac",
      "likelihood": 0.6,
-     "impact": 0.3
+     "impact": 0.3,
+     "why": "Cooling circuits"
     },
     {
      "to": "ee_architecture",
      "likelihood": 0.6,
-     "impact": 0.3
+     "impact": 0.3,
+     "why": "Control units and wiring"
     },
     {
      "to": "software_hmi",
      "likelihood": 0.7,
-     "impact": 0.2
+     "impact": 0.2,
+     "why": "Drive modes, energy displays"
     },
     {
      "to": "chassis",
      "likelihood": 0.4,
-     "impact": 0.2
+     "impact": 0.2,
+     "why": "Axle loads and drive shafts"
     }
    ]
   },
   {
    "key": "hv_battery",
    "name": "HV battery",
-   "scope": "High-voltage battery, electric range, preconditioning",
    "weight": 10,
+   "basis": "Part of the drivetrain share above",
    "certificationTrigger": true,
    "links": [
     {
      "to": "body_structure",
      "likelihood": 0.8,
-     "impact": 0.5
+     "impact": 0.5,
+     "why": "The pack sits in the floor; new pack dimensions change floor and crash structure"
     },
     {
      "to": "thermal_hvac",
      "likelihood": 0.9,
-     "impact": 0.6
+     "impact": 0.6,
+     "why": "Cell cooling and heat pump are sized for the pack"
     },
     {
      "to": "ee_architecture",
      "likelihood": 0.8,
-     "impact": 0.5
+     "impact": 0.5,
+     "why": "High-voltage network, battery management and voltage level"
     },
     {
      "to": "charging",
      "likelihood": 0.9,
-     "impact": 0.7
+     "impact": 0.7,
+     "why": "Charge power, voltage (400 / 800 V) and inlet hardware follow the pack"
     },
     {
      "to": "chassis",
      "likelihood": 0.6,
-     "impact": 0.3
+     "impact": 0.3,
+     "why": "Mass and its distribution change springs, dampers, brakes"
     },
     {
      "to": "software_hmi",
      "likelihood": 0.7,
-     "impact": 0.2
+     "impact": 0.2,
+     "why": "Range, charging and energy screens"
     }
    ]
   },
   {
    "key": "thermal_hvac",
-   "name": "Thermal / HVAC",
-   "scope": "Cabin climate, heating, cooling and ventilation hardware",
+   "name": "Thermal/HVAC",
    "weight": 6,
+   "basis": "Team estimate",
    "certificationTrigger": false,
    "links": [
     {
      "to": "ee_architecture",
      "likelihood": 0.4,
-     "impact": 0.2
+     "impact": 0.2,
+     "why": "Climate control units and actuators"
     }
    ]
   },
   {
    "key": "ee_architecture",
    "name": "E/E architecture",
-   "scope": "Wiring, power supply, 12 V battery, keys and access hardware, sensors, cameras, connectivity and audio hardware",
    "weight": 9,
+   "basis": "E/E + software = 19; electronics 16 % of premium component cost in 2020, expected 35 % by 2025 (Bosch 2020)",
    "certificationTrigger": false,
    "links": [
     {
      "to": "software_hmi",
      "likelihood": 0.8,
-     "impact": 0.4
+     "impact": 0.4,
+     "why": "Software runs on and talks through the E/E architecture"
     }
    ]
   },
   {
    "key": "software_hmi",
-   "name": "Software / HMI",
-   "scope": "Operating system, displays and their content, apps, voice, navigation, connected and remote services, driver assistance functions",
+   "name": "Software/HMI",
    "weight": 10,
+   "basis": "Part of the electronics share above",
    "certificationTrigger": false,
    "links": [
     {
      "to": "ee_architecture",
      "likelihood": 0.2,
-     "impact": 0.1
+     "impact": 0.1,
+     "why": "Rarely: more compute or bandwidth"
     }
    ]
   },
   {
    "key": "interior_console",
-   "name": "Interior / console",
-   "scope": "Cockpit, instrument panel, centre console, controls and stalks, storage, trims, ambient and interior lighting, steering wheel",
+   "name": "Interior/console",
    "weight": 7,
+   "basis": "Team estimate (non-drivetrain split)",
    "certificationTrigger": false,
    "links": [
     {
      "to": "ee_architecture",
      "likelihood": 0.4,
-     "impact": 0.1
+     "impact": 0.1,
+     "why": "Switches, 12 V supply, buses"
     },
     {
      "to": "thermal_hvac",
      "likelihood": 0.2,
-     "impact": 0.1
+     "impact": 0.1,
+     "why": "Vents and air ducts"
     },
     {
      "to": "software_hmi",
      "likelihood": 0.6,
-     "impact": 0.1
+     "impact": 0.1,
+     "why": "Menus and settings for new functions"
     },
     {
      "to": "seats",
      "likelihood": 0.3,
-     "impact": 0.2
+     "impact": 0.2,
+     "why": "Package space between console and seats"
     }
    ]
   },
   {
    "key": "seats",
    "name": "Seats",
-   "scope": "Seats, seat heating and ventilation, massage, memory, lumbar support, headrests, child seats",
    "weight": 5,
+   "basis": "Team estimate (non-drivetrain split)",
    "certificationTrigger": false,
    "links": [
     {
      "to": "ee_architecture",
      "likelihood": 0.5,
-     "impact": 0.1
+     "impact": 0.1,
+     "why": "Seat control units and supply"
     },
     {
      "to": "thermal_hvac",
      "likelihood": 0.5,
-     "impact": 0.15
+     "impact": 0.15,
+     "why": "Seat ventilation / climate integration"
     },
     {
      "to": "software_hmi",
      "likelihood": 0.6,
-     "impact": 0.1
+     "impact": 0.1,
+     "why": "Seat settings and profiles"
     }
    ]
   },
   {
    "key": "exterior_design",
    "name": "Exterior design",
-   "scope": "Styling, bumpers, grille, exterior lighting look, mirrors, exterior trim",
    "weight": 6,
+   "basis": "Team estimate; includes lighting, closures' visible parts, wheels",
    "certificationTrigger": false,
    "links": [
     {
      "to": "ee_architecture",
      "likelihood": 0.4,
-     "impact": 0.1
+     "impact": 0.1,
+     "why": "Lights, sensors behind the skin"
     },
     {
      "to": "body_structure",
      "likelihood": 0.2,
-     "impact": 0.1
+     "impact": 0.1,
+     "why": "Mounting points of skin parts"
     }
    ]
   },
   {
    "key": "paint_color",
-   "name": "Paint / colour",
-   "scope": "Paint, colour range and finishes on the existing paint line",
+   "name": "Paint/color",
    "weight": 1,
+   "basis": "Team estimate",
    "certificationTrigger": false,
    "links": [
     {
      "to": "exterior_design",
      "likelihood": 0.1,
-     "impact": 0.05
+     "impact": 0.05,
+     "why": "Colour and trim combinations"
     }
    ]
   },
   {
    "key": "charging",
    "name": "Charging",
-   "scope": "Charging socket and cover, cables, wallbox and home charging, public charging, bidirectional charging",
    "weight": 4,
+   "basis": "Part of the drivetrain share above",
    "certificationTrigger": false,
    "links": []
   }
@@ -293,12 +319,16 @@
    "vehicle": "G68",
    "market": "CN",
    "verbatims": 0,
+   "platform": "CLAR",
+   "absent": [],
+   "absentNote": "China long-wheelbase derivative of G60 (Dadong)",
    "rows": 0,
    "unassignedRows": 0,
    "rowsSource": "no classified verbatims for this vehicle in this market",
    "subsystems": [
     {
      "key": "body_structure",
+     "weight": 18.0,
      "rows": 0,
      "likes": 0,
      "complaints": 0,
@@ -315,6 +345,7 @@
     },
     {
      "key": "chassis",
+     "weight": 10.0,
      "rows": 0,
      "likes": 0,
      "complaints": 0,
@@ -331,6 +362,7 @@
     },
     {
      "key": "powertrain",
+     "weight": 14.0,
      "rows": 0,
      "likes": 0,
      "complaints": 0,
@@ -362,6 +394,7 @@
     },
     {
      "key": "hv_battery",
+     "weight": 10.0,
      "rows": 0,
      "likes": 0,
      "complaints": 0,
@@ -378,6 +411,7 @@
     },
     {
      "key": "thermal_hvac",
+     "weight": 6.0,
      "rows": 0,
      "likes": 0,
      "complaints": 0,
@@ -394,6 +428,7 @@
     },
     {
      "key": "ee_architecture",
+     "weight": 9.0,
      "rows": 0,
      "likes": 0,
      "complaints": 0,
@@ -410,6 +445,7 @@
     },
     {
      "key": "software_hmi",
+     "weight": 10.0,
      "rows": 0,
      "likes": 0,
      "complaints": 0,
@@ -426,6 +462,7 @@
     },
     {
      "key": "interior_console",
+     "weight": 7.0,
      "rows": 0,
      "likes": 0,
      "complaints": 0,
@@ -460,6 +497,7 @@
     },
     {
      "key": "seats",
+     "weight": 5.0,
      "rows": 0,
      "likes": 0,
      "complaints": 0,
@@ -476,6 +514,7 @@
     },
     {
      "key": "exterior_design",
+     "weight": 6.0,
      "rows": 0,
      "likes": 0,
      "complaints": 0,
@@ -492,6 +531,7 @@
     },
     {
      "key": "paint_color",
+     "weight": 1.0,
      "rows": 0,
      "likes": 0,
      "complaints": 0,
@@ -508,6 +548,7 @@
     },
     {
      "key": "charging",
+     "weight": 4.0,
      "rows": 0,
      "likes": 0,
      "complaints": 0,
@@ -528,12 +569,16 @@
    "vehicle": "G70",
    "market": "CN",
    "verbatims": 0,
+   "platform": "CLAR",
+   "absent": [],
+   "absentNote": null,
    "rows": 0,
    "unassignedRows": 0,
    "rowsSource": "no classified verbatims for this vehicle in this market",
    "subsystems": [
     {
      "key": "body_structure",
+     "weight": 18.0,
      "rows": 0,
      "likes": 0,
      "complaints": 0,
@@ -550,6 +595,7 @@
     },
     {
      "key": "chassis",
+     "weight": 10.0,
      "rows": 0,
      "likes": 0,
      "complaints": 0,
@@ -566,6 +612,7 @@
     },
     {
      "key": "powertrain",
+     "weight": 14.0,
      "rows": 0,
      "likes": 0,
      "complaints": 0,
@@ -597,6 +644,7 @@
     },
     {
      "key": "hv_battery",
+     "weight": 10.0,
      "rows": 0,
      "likes": 0,
      "complaints": 0,
@@ -613,6 +661,7 @@
     },
     {
      "key": "thermal_hvac",
+     "weight": 6.0,
      "rows": 0,
      "likes": 0,
      "complaints": 0,
@@ -629,6 +678,7 @@
     },
     {
      "key": "ee_architecture",
+     "weight": 9.0,
      "rows": 0,
      "likes": 0,
      "complaints": 0,
@@ -645,6 +695,7 @@
     },
     {
      "key": "software_hmi",
+     "weight": 10.0,
      "rows": 0,
      "likes": 0,
      "complaints": 0,
@@ -661,6 +712,7 @@
     },
     {
      "key": "interior_console",
+     "weight": 7.0,
      "rows": 0,
      "likes": 0,
      "complaints": 0,
@@ -695,6 +747,7 @@
     },
     {
      "key": "seats",
+     "weight": 5.0,
      "rows": 0,
      "likes": 0,
      "complaints": 0,
@@ -711,6 +764,7 @@
     },
     {
      "key": "exterior_design",
+     "weight": 6.0,
      "rows": 0,
      "likes": 0,
      "complaints": 0,
@@ -727,6 +781,7 @@
     },
     {
      "key": "paint_color",
+     "weight": 1.0,
      "rows": 0,
      "likes": 0,
      "complaints": 0,
@@ -743,6 +798,7 @@
     },
     {
      "key": "charging",
+     "weight": 4.0,
      "rows": 0,
      "likes": 0,
      "complaints": 0,
@@ -763,12 +819,16 @@
    "vehicle": "G60",
    "market": "US",
    "verbatims": 3628,
+   "platform": "CLAR",
+   "absent": [],
+   "absentNote": null,
    "rows": 3853,
    "unassignedRows": 37,
    "rowsSource": "docs/G60_feedback_hackathon.xlsx, classified rows with a canonical level-2 theme and a country in this market; totals equal reports/baseline/G60_US.json",
    "subsystems": [
     {
      "key": "body_structure",
+     "weight": 18.0,
      "rows": 543,
      "likes": 210,
      "complaints": 333,
@@ -1101,6 +1161,7 @@
     },
     {
      "key": "chassis",
+     "weight": 10.0,
      "rows": 445,
      "likes": 306,
      "complaints": 137,
@@ -1417,6 +1478,7 @@
     },
     {
      "key": "powertrain",
+     "weight": 14.0,
      "rows": 441,
      "likes": 302,
      "complaints": 138,
@@ -1756,6 +1818,7 @@
     },
     {
      "key": "hv_battery",
+     "weight": 10.0,
      "rows": 104,
      "likes": 36,
      "complaints": 68,
@@ -1935,6 +1998,7 @@
     },
     {
      "key": "thermal_hvac",
+     "weight": 6.0,
      "rows": 79,
      "likes": 11,
      "complaints": 68,
@@ -2187,6 +2251,7 @@
     },
     {
      "key": "ee_architecture",
+     "weight": 9.0,
      "rows": 313,
      "likes": 62,
      "complaints": 251,
@@ -2511,6 +2576,7 @@
     },
     {
      "key": "software_hmi",
+     "weight": 10.0,
      "rows": 915,
      "likes": 305,
      "complaints": 608,
@@ -2843,6 +2909,7 @@
     },
     {
      "key": "interior_console",
+     "weight": 7.0,
      "rows": 432,
      "likes": 197,
      "complaints": 234,
@@ -3167,6 +3234,7 @@
     },
     {
      "key": "seats",
+     "weight": 5.0,
      "rows": 165,
      "likes": 61,
      "complaints": 104,
@@ -3467,6 +3535,7 @@
     },
     {
      "key": "exterior_design",
+     "weight": 6.0,
      "rows": 251,
      "likes": 174,
      "complaints": 77,
@@ -3775,6 +3844,7 @@
     },
     {
      "key": "paint_color",
+     "weight": 1.0,
      "rows": 0,
      "likes": 0,
      "complaints": 0,
@@ -3791,6 +3861,7 @@
     },
     {
      "key": "charging",
+     "weight": 4.0,
      "rows": 128,
      "likes": 34,
      "complaints": 94,
@@ -4103,12 +4174,16 @@
    "vehicle": "G70",
    "market": "US",
    "verbatims": 3800,
+   "platform": "CLAR",
+   "absent": [],
+   "absentNote": null,
    "rows": 3867,
    "unassignedRows": 54,
    "rowsSource": "docs/G70_feedback_hackathon.xlsx, classified rows with a canonical level-2 theme and a country in this market; totals equal reports/baseline/G70_US.json",
    "subsystems": [
     {
      "key": "body_structure",
+     "weight": 18.0,
      "rows": 553,
      "likes": 240,
      "complaints": 311,
@@ -4441,6 +4516,7 @@
     },
     {
      "key": "chassis",
+     "weight": 10.0,
      "rows": 475,
      "likes": 339,
      "complaints": 135,
@@ -4773,6 +4849,7 @@
     },
     {
      "key": "powertrain",
+     "weight": 14.0,
      "rows": 399,
      "likes": 281,
      "complaints": 116,
@@ -5112,6 +5189,7 @@
     },
     {
      "key": "hv_battery",
+     "weight": 10.0,
      "rows": 70,
      "likes": 23,
      "complaints": 47,
@@ -5267,6 +5345,7 @@
     },
     {
      "key": "thermal_hvac",
+     "weight": 6.0,
      "rows": 98,
      "likes": 7,
      "complaints": 91,
@@ -5543,6 +5622,7 @@
     },
     {
      "key": "ee_architecture",
+     "weight": 9.0,
      "rows": 281,
      "likes": 54,
      "complaints": 227,
@@ -5875,6 +5955,7 @@
     },
     {
      "key": "software_hmi",
+     "weight": 10.0,
      "rows": 901,
      "likes": 299,
      "complaints": 599,
@@ -6207,6 +6288,7 @@
     },
     {
      "key": "interior_console",
+     "weight": 7.0,
      "rows": 457,
      "likes": 248,
      "complaints": 207,
@@ -6539,6 +6621,7 @@
     },
     {
      "key": "seats",
+     "weight": 5.0,
      "rows": 202,
      "likes": 90,
      "complaints": 110,
@@ -6847,6 +6930,7 @@
     },
     {
      "key": "exterior_design",
+     "weight": 6.0,
      "rows": 290,
      "likes": 188,
      "complaints": 102,
@@ -7139,6 +7223,7 @@
     },
     {
      "key": "paint_color",
+     "weight": 1.0,
      "rows": 0,
      "likes": 0,
      "complaints": 0,
@@ -7155,6 +7240,7 @@
     },
     {
      "key": "charging",
+     "weight": 4.0,
      "rows": 87,
      "likes": 20,
      "complaints": 67,
@@ -7427,12 +7513,27 @@
    "vehicle": "F70",
    "market": "EU",
    "verbatims": 1433,
+   "platform": "FAAR (front-wheel-drive compact)",
+   "absent": [
+    {
+     "key": "hv_battery",
+     "name": "HV battery",
+     "rows": 21
+    },
+    {
+     "key": "charging",
+     "name": "Charging",
+     "rows": 1
+    }
+   ],
+   "absentNote": "All F70 variants in the German catalogue are ICE or 48 V MHEV. The link matrix was written for CLAR and is reused as an assumption; FAAR-specific links are not calibrated.",
    "rows": 2191,
    "unassignedRows": 100,
    "rowsSource": "docs/F70_feedback_hackathon.xlsx, classified rows with a canonical level-2 theme and a country in this market; totals equal reports/baseline/F70_EU.json",
    "subsystems": [
     {
      "key": "body_structure",
+     "weight": 20.9,
      "rows": 209,
      "likes": 90,
      "complaints": 119,
@@ -7741,6 +7842,7 @@
     },
     {
      "key": "chassis",
+     "weight": 11.6,
      "rows": 576,
      "likes": 478,
      "complaints": 98,
@@ -8057,6 +8159,7 @@
     },
     {
      "key": "powertrain",
+     "weight": 16.3,
      "rows": 370,
      "likes": 247,
      "complaints": 123,
@@ -8320,119 +8423,8 @@
      ]
     },
     {
-     "key": "hv_battery",
-     "rows": 21,
-     "likes": 3,
-     "complaints": 18,
-     "themes": 2,
-     "liked": {
-      "narration": {
-       "suggestion": "No theme meets the strength rule (at least 15 likes and 70% of its rows), so nothing in this subsystem is flagged to keep.",
-       "summary": "3 likes in 21 rows across 2 themes. Electric Range leads with 2 likes of 12 rows, then High voltage battery (1 of 9).",
-       "basis": "derived"
-      },
-      "themes": [
-       {
-        "theme": "Electric Range",
-        "domain": "powertrain_range_charging",
-        "rows": 12,
-        "likes": 2,
-        "quotes": [
-         {
-          "id": "F70-0290",
-          "evidenceRef": "verbatim:F70-0290",
-          "text": "pros - the fresh design is very attractive, the interior quality is excellent and there is some new standard kit, plus the engine with its electric boost is very efficient both in economy and performance. the new infotainment is generally very good, apart from one missing feature. cons - after havin …",
-          "source": "Source A",
-          "powertrain": "ICE",
-          "country": "GB"
-         },
-         {
-          "id": "F70-1974",
-          "evidenceRef": "verbatim:F70-1974",
-          "text": "the m135x drive feels like a great all-rounder for its size, but it doesnt really give that big grin. the engine/exhaust sound isnt very inspiring, and when you slow down it tends to change down, so when you go to accelerate again it isnt ready and drops 1 or 2 gears, making the engine revvy and the …",
-          "source": "Source A",
-          "powertrain": "ICE",
-          "country": "GB"
-         }
-        ]
-       },
-       {
-        "theme": "High voltage battery",
-        "domain": "powertrain_range_charging",
-        "rows": 9,
-        "likes": 1,
-        "quotes": [
-         {
-          "id": "F70-0199",
-          "evidenceRef": "verbatim:F70-0199",
-          "text": "exceptional drive and the steering feels very responsive. the boost the 48 battery gives is fantastic whenever it's needed, and the bmw build quality shows all through the car.",
-          "source": "Source A",
-          "powertrain": "ICE",
-          "country": "GB"
-         }
-        ]
-       }
-      ]
-     },
-     "criticised": {
-      "narration": {
-       "suggestion": "Address Electric Range first: 10 complaints of 12 rows, mostly wants (an unmet need).",
-       "summary": "18 complaints in 21 rows: 7 defects, 5 difficult to use, 6 wants. Electric Range (10) and High voltage battery (8) carry 100% of them.",
-       "basis": "derived"
-      },
-      "themes": [
-       {
-        "theme": "Electric Range",
-        "domain": "powertrain_range_charging",
-        "rows": 12,
-        "complaints": 10,
-        "defects": 0,
-        "difficultToUse": 4,
-        "wants": 6,
-        "quotes": [
-         {
-          "id": "F70-1125",
-          "evidenceRef": "verbatim:F70-1125",
-          "text": "excellent car overall, but as i am new to the bmw line i struggled quite a bit with the heating controls. they are not easy to see clearly.",
-          "source": "Source A",
-          "powertrain": "ICE",
-          "country": "GB"
-         }
-        ]
-       },
-       {
-        "theme": "High voltage battery",
-        "domain": "powertrain_range_charging",
-        "rows": 9,
-        "complaints": 8,
-        "defects": 7,
-        "difficultToUse": 1,
-        "wants": 0,
-        "quotes": [
-         {
-          "id": "F70-0528",
-          "evidenceRef": "verbatim:F70-0528",
-          "text": "the driving experience hasn't been satisfying. there was a battery fault right from the start. the tech is worse than on the previous one, and the digital keys don't identify which of us is driving when we both have our keys in the car.",
-          "source": "Source A",
-          "powertrain": "ICE",
-          "country": "GB"
-         },
-         {
-          "id": "F70-0615",
-          "evidenceRef": "verbatim:F70-0615",
-          "text": "i'm not happy with the complicated sub menus, and i really miss the shortcut buttons the earlier models had. the battery seems to run down fast when the car isnt driven often.",
-          "source": "Source A",
-          "powertrain": "ICE",
-          "country": "GB"
-         }
-        ]
-       }
-      ]
-     },
-     "market": []
-    },
-    {
      "key": "thermal_hvac",
+     "weight": 7.0,
      "rows": 31,
      "likes": 2,
      "complaints": 29,
@@ -8567,6 +8559,7 @@
     },
     {
      "key": "ee_architecture",
+     "weight": 10.5,
      "rows": 94,
      "likes": 16,
      "complaints": 78,
@@ -8843,6 +8836,7 @@
     },
     {
      "key": "software_hmi",
+     "weight": 11.6,
      "rows": 456,
      "likes": 97,
      "complaints": 359,
@@ -9159,6 +9153,7 @@
     },
     {
      "key": "interior_console",
+     "weight": 8.1,
      "rows": 128,
      "likes": 49,
      "complaints": 79,
@@ -9467,6 +9462,7 @@
     },
     {
      "key": "seats",
+     "weight": 5.8,
      "rows": 99,
      "likes": 43,
      "complaints": 56,
@@ -9652,6 +9648,7 @@
     },
     {
      "key": "exterior_design",
+     "weight": 7.0,
      "rows": 106,
      "likes": 57,
      "complaints": 49,
@@ -9874,6 +9871,7 @@
     },
     {
      "key": "paint_color",
+     "weight": 1.2,
      "rows": 0,
      "likes": 0,
      "complaints": 0,
@@ -9887,50 +9885,6 @@
       "themes": []
      },
      "market": []
-    },
-    {
-     "key": "charging",
-     "rows": 1,
-     "likes": 0,
-     "complaints": 1,
-     "themes": 1,
-     "liked": {
-      "narration": {
-       "suggestion": "No likes recorded in this subsystem; nothing is flagged to keep.",
-       "summary": "0 likes in 1 rows across 1 theme.",
-       "basis": "derived"
-      },
-      "themes": []
-     },
-     "criticised": {
-      "narration": {
-       "suggestion": "Address High-voltage charging power socket first: 1 complaints of 1 rows, mostly difficult to use (a recurring complaint).",
-       "summary": "1 complaints in 1 rows: 0 defects, 1 difficult to use, 0 wants. High-voltage charging power socket (1) carries 100% of them.",
-       "basis": "derived"
-      },
-      "themes": [
-       {
-        "theme": "High-voltage charging power socket",
-        "domain": "powertrain_range_charging",
-        "rows": 1,
-        "complaints": 1,
-        "defects": 0,
-        "difficultToUse": 1,
-        "wants": 0,
-        "quotes": [
-         {
-          "id": "F70-1682",
-          "evidenceRef": "verbatim:F70-1682",
-          "text": "strengths very good to drive - gearbox and engine feel smooth and involving, and the cabin is comfortable and high quality. weaknesses at night, dashboard light reflections in the wing mirrors seriously obscure vision, and the shortage of charging points is surprising versus rivals.",
-          "source": "Source A",
-          "powertrain": "ICE",
-          "country": "GB"
-         }
-        ]
-       }
-      ]
-     },
-     "market": []
     }
    ]
   },
@@ -9938,12 +9892,16 @@
    "vehicle": "G60",
    "market": "EU",
    "verbatims": 111,
+   "platform": "CLAR",
+   "absent": [],
+   "absentNote": null,
    "rows": 165,
    "unassignedRows": 2,
    "rowsSource": "docs/G60_feedback_hackathon.xlsx, classified rows with a canonical level-2 theme and a country in this market; totals equal reports/baseline/G60_EU.json",
    "subsystems": [
     {
      "key": "body_structure",
+     "weight": 18.0,
      "rows": 24,
      "likes": 8,
      "complaints": 16,
@@ -10180,6 +10138,7 @@
     },
     {
      "key": "chassis",
+     "weight": 10.0,
      "rows": 36,
      "likes": 33,
      "complaints": 3,
@@ -10343,6 +10302,7 @@
     },
     {
      "key": "powertrain",
+     "weight": 14.0,
      "rows": 13,
      "likes": 10,
      "complaints": 3,
@@ -10446,6 +10406,7 @@
     },
     {
      "key": "hv_battery",
+     "weight": 10.0,
      "rows": 21,
      "likes": 7,
      "complaints": 14,
@@ -10566,6 +10527,7 @@
     },
     {
      "key": "thermal_hvac",
+     "weight": 6.0,
      "rows": 4,
      "likes": 1,
      "complaints": 3,
@@ -10665,6 +10627,7 @@
     },
     {
      "key": "ee_architecture",
+     "weight": 9.0,
      "rows": 7,
      "likes": 3,
      "complaints": 4,
@@ -10788,6 +10751,7 @@
     },
     {
      "key": "software_hmi",
+     "weight": 10.0,
      "rows": 34,
      "likes": 7,
      "complaints": 27,
@@ -11032,6 +10996,7 @@
     },
     {
      "key": "interior_console",
+     "weight": 7.0,
      "rows": 8,
      "likes": 2,
      "complaints": 6,
@@ -11182,6 +11147,7 @@
     },
     {
      "key": "seats",
+     "weight": 5.0,
      "rows": 5,
      "likes": 0,
      "complaints": 5,
@@ -11264,6 +11230,7 @@
     },
     {
      "key": "exterior_design",
+     "weight": 6.0,
      "rows": 7,
      "likes": 1,
      "complaints": 6,
@@ -11379,6 +11346,7 @@
     },
     {
      "key": "paint_color",
+     "weight": 1.0,
      "rows": 0,
      "likes": 0,
      "complaints": 0,
@@ -11395,6 +11363,7 @@
     },
     {
      "key": "charging",
+     "weight": 4.0,
      "rows": 4,
      "likes": 0,
      "complaints": 4,
@@ -11481,12 +11450,16 @@
    "vehicle": "G70",
    "market": "EU",
    "verbatims": 0,
+   "platform": "CLAR",
+   "absent": [],
+   "absentNote": null,
    "rows": 0,
    "unassignedRows": 0,
    "rowsSource": "docs/G70_feedback_hackathon.xlsx holds 33 classified rows for this market, withheld until a baseline report exists for this scope",
    "subsystems": [
     {
      "key": "body_structure",
+     "weight": 18.0,
      "rows": 0,
      "likes": 0,
      "complaints": 0,
@@ -11503,6 +11476,7 @@
     },
     {
      "key": "chassis",
+     "weight": 10.0,
      "rows": 0,
      "likes": 0,
      "complaints": 0,
@@ -11519,6 +11493,7 @@
     },
     {
      "key": "powertrain",
+     "weight": 14.0,
      "rows": 0,
      "likes": 0,
      "complaints": 0,
@@ -11550,6 +11525,7 @@
     },
     {
      "key": "hv_battery",
+     "weight": 10.0,
      "rows": 0,
      "likes": 0,
      "complaints": 0,
@@ -11566,6 +11542,7 @@
     },
     {
      "key": "thermal_hvac",
+     "weight": 6.0,
      "rows": 0,
      "likes": 0,
      "complaints": 0,
@@ -11582,6 +11559,7 @@
     },
     {
      "key": "ee_architecture",
+     "weight": 9.0,
      "rows": 0,
      "likes": 0,
      "complaints": 0,
@@ -11598,6 +11576,7 @@
     },
     {
      "key": "software_hmi",
+     "weight": 10.0,
      "rows": 0,
      "likes": 0,
      "complaints": 0,
@@ -11614,6 +11593,7 @@
     },
     {
      "key": "interior_console",
+     "weight": 7.0,
      "rows": 0,
      "likes": 0,
      "complaints": 0,
@@ -11630,6 +11610,7 @@
     },
     {
      "key": "seats",
+     "weight": 5.0,
      "rows": 0,
      "likes": 0,
      "complaints": 0,
@@ -11646,6 +11627,7 @@
     },
     {
      "key": "exterior_design",
+     "weight": 6.0,
      "rows": 0,
      "likes": 0,
      "complaints": 0,
@@ -11662,6 +11644,7 @@
     },
     {
      "key": "paint_color",
+     "weight": 1.0,
      "rows": 0,
      "likes": 0,
      "complaints": 0,
@@ -11678,6 +11661,7 @@
     },
     {
      "key": "charging",
+     "weight": 4.0,
      "rows": 0,
      "likes": 0,
      "complaints": 0,

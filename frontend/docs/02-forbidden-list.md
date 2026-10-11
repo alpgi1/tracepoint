@@ -152,7 +152,7 @@ motion, and moves only `transform` and `opacity`. The photos are the team's conf
 from the BMW configurator, identified as such in `assets/vehicles/photos/README.md`; they are
 not stock or AI imagery.
 
-**E5, customer verbatims as written (2026-10-11, step 13, D-063).** Wherever the UI quotes a
+**E5, customer verbatims as written (2026-10-11, step 13, D-074).** Wherever the UI quotes a
 customer verbatim from the workbooks as evidence (the content carries two per theme for the later
 evidence drawer; the dialog's second revision shows none), it is customer text, not UI copy: it
 keeps its exclamation marks, dashes and wording, is set as `blockquote` with its verbatim id, and

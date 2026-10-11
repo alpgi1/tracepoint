@@ -19,8 +19,9 @@ describe("CPM catalogue", () => {
     expect(catalogue.subsystems.reduce((sum, s) => sum + s.weight, 0)).toBe(100);
   });
 
-  it("links only to known subsystems with likelihood and impact in 0 to 1", () => {
+  it("links only to known subsystems with likelihood and impact in 0 to 1 and a reason", () => {
     for (const s of catalogue.subsystems) {
+      expect(s.basis.length).toBeGreaterThan(0);
       for (const link of s.links) {
         expect(keys).toContain(link.to);
         expect(link.to).not.toBe(s.key);
@@ -28,18 +29,24 @@ describe("CPM catalogue", () => {
         expect(link.likelihood).toBeLessThanOrEqual(1);
         expect(link.impact).toBeGreaterThan(0);
         expect(link.impact).toBeLessThanOrEqual(1);
+        expect(link.why.length).toBeGreaterThan(0);
       }
     }
   });
 
-  it("orders by weight, heaviest first", () => {
-    const ordered = subsystemsByWeight(catalogue);
-    expect(ordered[0].weight).toBe(18);
-    for (let i = 1; i < ordered.length; i++) expect(ordered[i - 1].weight).toBeGreaterThanOrEqual(ordered[i].weight);
+  it("orders a vehicle's subsystems by their weight on it, heaviest first", () => {
+    const view = cpmView("G60", "US");
+    expect(view).toBeDefined();
+    if (!view) return;
+    const ordered = subsystemsByWeight(catalogue, view);
+    expect(ordered).toHaveLength(12);
+    expect(ordered[0].entry.weight).toBe(18);
+    for (let i = 1; i < ordered.length; i++) expect(ordered[i - 1].entry.weight).toBeGreaterThanOrEqual(ordered[i].entry.weight);
   });
 
-  it("names its method and marks the values as assumptions", () => {
+  it("names its method, the engine's model file and marks the values as assumptions", () => {
     expect(catalogue.method.name).toBe("Change Prediction Method");
+    expect(catalogue.method.modelSource).toBe("config/effort/model.yaml");
     expect(catalogue.method.basis).toContain("assumption");
     expect(catalogue.mapping.themes + catalogue.mapping.unassigned.length).toBe(225);
   });
@@ -48,12 +55,18 @@ describe("CPM catalogue", () => {
 describe("CPM views", () => {
   const pairs = content.markets.flatMap((m) => m.vehicles.map((v) => ({ market: m, vehicle: v })));
 
-  it("exist for every vehicle and market pair with all twelve subsystems", () => {
+  it("exist for every vehicle and market pair with the subsystems the model keeps on the vehicle, weights renormalised to 100", () => {
     for (const { market, vehicle } of pairs) {
       const view = cpmView(vehicle.code, market.code);
       expect(view, `${vehicle.code} ${market.code}`).toBeDefined();
-      expect(view?.subsystems.map((s) => s.key)).toEqual(keys);
-      expect(view?.verbatims).toBe(vehicle.verbatims);
+      if (!view) continue;
+      const present = view.subsystems.map((s) => s.key);
+      const absent = view.absent.map((a) => a.key);
+      expect([...present, ...absent].sort()).toEqual([...keys].sort());
+      expect(Math.abs(view.subsystems.reduce((sum, s) => sum + s.weight, 0) - 100)).toBeLessThan(0.3);
+      expect(view.verbatims).toBe(vehicle.verbatims);
+      if (vehicle.code === "F70") expect(absent).toEqual(["hv_battery", "charging"]);
+      else expect(absent).toEqual([]);
     }
   });
 
@@ -78,7 +91,8 @@ describe("CPM views", () => {
         for (let i = 1; i < s.liked.themes.length; i++) expect(s.liked.themes[i - 1].likes).toBeGreaterThanOrEqual(s.liked.themes[i].likes);
         for (let i = 1; i < s.criticised.themes.length; i++) expect(s.criticised.themes[i - 1].complaints).toBeGreaterThanOrEqual(s.criticised.themes[i].complaints);
       }
-      expect(rows + view.unassignedRows).toBe(view.rows);
+      const absentRows = view.absent.reduce((sum, a) => sum + a.rows, 0);
+      expect(rows + absentRows + view.unassignedRows).toBe(view.rows);
       if (view.verbatims === 0) expect(view.rows).toBe(0);
     }
   });

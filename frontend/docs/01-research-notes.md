@@ -259,7 +259,7 @@ Nothing was installed (`package.json` is unchanged); every method was written wi
 in `cpm-dialog.tsx` and `globals.css`. The native `dialog` element gives the top layer, Escape,
 the inert page and the return of focus, which is what the library dialogs add on top of a div.
 The same day the team replaced the two-column quote lists with three bands from their own sketch
-(suggestion, summary, columns per theme; D-065): the sticky-header dialog and the hairline list
+(suggestion, summary, columns per theme; D-076): the sticky-header dialog and the hairline list
 stayed, the comparison columns and the key-value list went, and the columns follow the chart
 rules (one series, thin marks, values on the caps) rather than any registry chart.
 

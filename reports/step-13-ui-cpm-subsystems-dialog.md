@@ -18,27 +18,27 @@ they dislike, and the market competition analysis of the selected model for that
 
 ## 2. What was done
 
-* **Plan v2** (`plan/07-frontend-plan.md`, D-064): the journey from the map to the subsystem
+* **Plan v2** (`plan/07-frontend-plan.md`, D-075): the journey from the map to the subsystem
   dialog and the next screens (PM constraints, feature set with the effort verdict, decision log
   and report), the principles, the list and dialog specification, the data files, and the API
   contract for the backend team (`GET /cpm/subsystems`, `GET /cpm/{vehicle}?market=`, later
   `POST /cpm/effort`), mirrored by `frontend/lib/content/cpm-types.ts`. It supersedes
   `06-pm-workspace-ux-spec.md` for the shell and screens 0 to 2.
-* **Shared inputs** (`config/cpm/`): the twelve subsystems with the weights, links, certification
-  trigger and thresholds of `cost/cpm_engine.py`, marked as assumptions; the mapping of all 225
-  level-2 themes to a subsystem (three left unassigned); the market and competitor evidence file,
-  first filled with the four sourced web rows of the rule set v0.2 (EU, CN and US powertrain
-  shares, the China fridge with its contradiction). The backend engine can read the same files.
+* **Shared inputs** (`config/cpm/`): the mapping of all 225 level-2 themes to a subsystem (three
+  left unassigned) and the market and competitor evidence file, first filled with the four
+  sourced web rows of the rule set v0.2 (EU, CN and US powertrain shares, the China fridge with
+  its contradiction). The subsystem weights and links come from the backend engine's
+  `config/effort/model.yaml` (see 2b; this step's own copy was dropped at the merge).
 * **Content build** (`frontend/scripts/build-cpm.py`, run by `pnpm content`): per vehicle × market
   every subsystem's rows, likes and complaints, the themes customers like and criticise with two
   verbatims each (id, source, powertrain), and the market rows. The counts are reconciled with the
   baseline reports and the build stops on a difference; eight new tests pin the contract and the
   agreement with `content/markets.json`.
-* **The list** (D-062, `cpm-list.tsx`): twelve rows by weight, "18 of 100" with a bar in the one
+* **The list** (D-073, `cpm-list.tsx`): twelve rows by weight, "18 of 100" with a bar in the one
   blue, "428 complaints · 68 likes"; the hint says what the weight is and that it is an
   assumption; a footnote gives the unassigned rows. China keeps the list (weights are per
   platform) with "no classified verbatims" and the study card below.
-* **The dialog** (D-063, `cpm-dialog.tsx`): native `dialog` with `showModal`, most of the
+* **The dialog** (D-074, `cpm-dialog.tsx`): native `dialog` with `showModal`, most of the
   viewport, sticky header with the name and Close, a facts list (weight, scope, customer rows
   with a partition bar, "A change here propagates to" with likelihood and impact), likes and
   criticisms side by side with the verbatims as quotations, the market and competition table
@@ -54,7 +54,7 @@ they dislike, and the market competition analysis of the selected model for that
   return of focus; the forbidden-text scan leaves quoted verbatims out (exemption E5). Four
   dialog states were added to the screenshots.
 
-## 2a. Revision 2 the same day: three bands (D-065)
+## 2a. Revision 2 the same day: three bands (D-076)
 
 The team found the dialog too long and sketched three sections: Liked and Disliked, each with a
 heading, a suggestion in one sentence, a summary in a few sentences and a chart of the themes
@@ -73,6 +73,32 @@ heading, a suggestion in one sentence, a summary in a few sentences and a chart 
   direction and the heading carry the polarity. If the team wants the two hues, it is two tokens.
 * The market band keeps the sourced statements as a compact list beside a count line.
 * All three bands fit a 1440 by 900 viewport without scrolling.
+
+## 2b. Merge with main: one effort model, decisions renumbered
+
+While this step was in review, `main` received the backend's effort engine (step 12, D-062 to
+D-064), the analyst loop (steps 13 to 15, D-065 to D-072) and the bridge plan
+`plan/05-effort-market-layer-and-domain-panel.md`; the branch was merged and this step's
+decisions moved to D-073 to D-076.
+
+* **One source of truth.** The backend's `config/effort/model.yaml` carries the same twelve
+  weights and 28 links as the `config/cpm/subsystems.yaml` of this step, plus the basis of each
+  weight, the interface behind each link and per-vehicle applicability. The frontend file was
+  deleted; the content build reads the engine's model, names the subsystems as the model does
+  (`Body/structure`, `Paint/color`) and follows its rule that the F70 has no HV battery and no
+  charging subsystem: the F70 list shows ten rows with the weights renormalised to 100 and a
+  footnote naming the two left off and the 22 rows that fall in them.
+* **API alignment.** The backend already serves `GET /effort/model`, `POST /effort/estimate`,
+  `GET /effort/scenarios` and the effort of a requirement; the plan's contract table now names
+  them. The view endpoint this frontend reads from the content file stays a proposal
+  (`GET /cpm/{vehicle}?market=`), and the backend's bridge plan proposes a different panel
+  payload (`GET /workspaces/{vehicle}/{market}`, one object per domain).
+* **Open conflict for the team.** The bridge plan argues for the nine customer domains as the
+  rows and the subsystems as the effort footprint of each candidate, with a slide-over of three
+  tabs; the team's brief for this step asked for the twelve subsystems as the rows and a centred
+  dialog, which is what is built. Both rest on the same rows (every theme keeps its domain), so
+  either table can be derived from the same content. The two plans state the conflict; the team
+  decides.
 
 ## 3. What was verified
 
@@ -97,7 +123,7 @@ heading, a suggestion in one sentence, a summary in a few sentences and a chart 
 
 ## 5. Decisions
 
-D-062 to D-064 in `plan/decisions.md`; exemption E5 in the forbidden list.
+D-073 to D-076 in `plan/decisions.md`; exemption E5 in the forbidden list.
 
 ## 6. Not done, and open for the team
 
@@ -122,5 +148,7 @@ D-062 to D-064 in `plan/decisions.md`; exemption E5 in the forbidden list.
    plain; the agent's narration replaces them in the same fields. Quotes stay in the content
    (the first two by verbatim id among the readable candidates) for the later evidence drawer.
 7. The three team documents supplied in the session (effort metrics pitch, rule set v0.2, effort
-   rules 41 to 52) and `cost/cpm_engine.py` are referenced, not committed; the backend team
-   commits the engine with its integration.
+   rules 41 to 52) are referenced, not committed; the backend's bridge plan (section 9) says where
+   they go. The engine itself is on `main` (`backend/tracepoint/effort/cpm.py`).
+8. The subsystem names follow the engine's model (`Body/structure`, `Paint/color`, US spelling);
+   if the team wants the UI's own spelling, it is a display mapping in the content build.

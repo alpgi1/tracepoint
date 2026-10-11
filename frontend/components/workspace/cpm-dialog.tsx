@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { full } from "@/lib/content/format";
+import { full, weight } from "@/lib/content/format";
 import type { CpmBlock, CpmCatalogue, CpmCriticisedTheme, CpmLikedTheme, CpmMarketRow, CpmSubsystem, CpmSubsystemView, CpmView } from "@/lib/content/cpm-types";
 import type { MarketContent, VehicleContent } from "@/lib/content/types";
 import { site } from "@/lib/site";
@@ -95,7 +95,7 @@ function DialogContent({ subsystem, entry, view, market, vehicle, onClose }: Dia
             {hasVerbatims ? `${full(view.verbatims)} ${site.readout.verbatims}` : site.readout.noVerbatims}
           </p>
           <p className="cpm-dialog-meta">
-            {copy.weight} {String(subsystem.weight)} {site.cpm.weightOf} <span className="cpm-muted">{copy.weightNote}</span> · {rowsLine}
+            {copy.weight} {weight(entry.weight)} {site.cpm.weightOf} <span className="cpm-muted">{copy.weightNote}</span> · {rowsLine}
           </p>
         </div>
         <button type="button" className="tap cpm-dialog-close" onClick={onClose}>

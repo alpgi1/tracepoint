@@ -3,17 +3,18 @@
 | Field | Value |
 |---|---|
 | Date | 2026-10-11, step 13 |
-| Status | Built and verified (D-062, D-063, D-064); dialog revised to three bands the same day (D-065) |
-| Files | `config/cpm/subsystems.yaml`, `config/cpm/theme_subsystem_map.yaml`, `config/cpm/market_context.yaml` (inputs), `scripts/build-cpm.py` (pipeline), `content/cpm.json` (output), `lib/content/cpm-types.ts` (the contract), `lib/content/cpm.ts` (loader), `components/workspace/cpm-list.tsx`, `components/workspace/cpm-dialog.tsx`, `components/workspace/vehicle-workspace.tsx`, `lib/site.ts` (copy), `app/globals.css` (step 13 block), `lib/content/cpm.test.ts`, `tools/audit/page-audit.mjs` (dialog pass), `tools/audit/screenshots.mjs` |
+| Status | Built and verified (D-073, D-074, D-075); dialog revised to three bands the same day (D-076) |
+| Files | `config/effort/model.yaml` (the engine's model, read), `config/cpm/theme_subsystem_map.yaml`, `config/cpm/market_context.yaml` (inputs), `scripts/build-cpm.py` (pipeline), `content/cpm.json` (output), `lib/content/cpm-types.ts` (the contract), `lib/content/cpm.ts` (loader), `components/workspace/cpm-list.tsx`, `components/workspace/cpm-dialog.tsx`, `components/workspace/vehicle-workspace.tsx`, `lib/site.ts` (copy), `app/globals.css` (step 13 block), `lib/content/cpm.test.ts`, `tools/audit/page-audit.mjs` (dialog pass), `tools/audit/screenshots.mjs` |
 | Plan | `plan/07-frontend-plan.md` sections 4 to 7 |
 
 ## 1. What it is
 
 The vehicle screen's right column lists the vehicle's **twelve subsystems** of the Change
-Prediction Method (Clarkson, Simons, Eckert 2004), the method behind the team's effort engine
-(`cost/cpm_engine.py`): body / structure, powertrain, chassis, HV battery, software / HMI, E/E
-architecture, interior / console, exterior design, thermal / HVAC, seats, charging, paint /
-colour. Each row carries the subsystem's **weight** (its share of a new vehicle's development
+Prediction Method (Clarkson, Simons, Eckert 2004), the method behind the backend's effort engine
+(`backend/tracepoint/effort/cpm.py`, model in `config/effort/model.yaml`): body/structure,
+powertrain, chassis, HV battery, software/HMI, E/E architecture, interior/console, exterior
+design, thermal/HVAC, seats, charging, paint/color (names as the model writes them). The F70
+shows ten: the model keeps HV battery and charging off it. Each row carries the subsystem's **weight** (its share of a new vehicle's development
 effort; the twelve sum to 100) and the classified verbatim rows whose themes fall in it. A row
 opens the **subsystem dialog** with what customers like there, what they criticise, and the
 market and competition evidence for the selected market.
@@ -26,15 +27,15 @@ a change is measured by how it propagates, not by counting changes).
 
 | Input | Content | Status |
 |---|---|---|
-| `config/cpm/subsystems.yaml` | Key, name, scope sentence, weight, direct links (likelihood, impact), certification trigger, thresholds and method note; the values of `cost/cpm_engine.py` | **Assumption, not calibrated** (effort rule 50): the team's estimate from public cost breakdowns and the eight-decision back-test; a mentor or BMW engineering may change any value |
+| `config/effort/model.yaml` (the backend engine's model, D-062) | Key, name, weight with its basis, direct links (likelihood, impact, the interface behind each), certification, thresholds, and per vehicle the subsystems the model keeps off it (F70: HV battery and charging, FAAR platform) | **Assumption, not calibrated** (effort rule 50), maintained by the backend track and engineering; the frontend reads it and keeps no copy. A vehicle's weights are renormalised to 100 over the subsystems present, as the engine does |
 | `config/cpm/theme_subsystem_map.yaml` | Every canonical level-2 theme (225) assigned to one subsystem or to none (accessories, general enquiry, owner's manual) | **Assumption**: the assistant's first mapping; principle: functions to software / HMI, sensor and connectivity hardware to E/E, cockpit controls to interior / console, closures and glazing to body. Paint / colour has no theme in the taxonomy and shows "no theme mapped" |
 | `config/cpm/market_context.yaml` | Market and competitor statements per market and subsystem: statement, kind, source (title, URL, date, primary or secondary), level, basis, note, contradiction | The four web rows of the team's rule set v0.2 (EU, CN, US powertrain shares; the China fridge), with the verification notes written there. Every other market × subsystem pair is empty and says so |
 | `docs/<vehicle>_feedback_hackathon.xlsx` | The classified rows: feedback type, level-2 theme, country, powertrain, text | Read as in the baseline reports; the gap labels of D-056 are not in the committed baselines and are therefore not counted here either |
 
 ## 3. Pipeline (`pnpm content`, second step `scripts/build-cpm.py`)
 
-1. Validates the three configuration files: every canonical theme named exactly once, weights sum
-   to 100, every link and every market row names a known subsystem.
+1. Validates the inputs: every canonical theme named exactly once, the model's weights sum to
+   100, every link and every market row names a known subsystem.
 2. Reads the workbooks and keeps the rows with a canonical level-2 theme; a row's market comes
    from its country through `config/markets.yaml` (Canada counts to the US market, as in the
    backend).
@@ -43,8 +44,9 @@ a change is measured by how it propagates, not by counting changes).
    if they differ; a pair without a baseline report is shown as empty, even if the workbook holds
    rows for it (EU G70: 33 rows withheld, said so in `rowsSource`), so the list and the header's
    verbatim count never disagree.
-4. Per subsystem: rows, likes (feedback type Likes) and complaints (Defect, Difficult to Use,
-   Wants); the themes ranked by likes and by complaints (up to six each) with up to two verbatims
+4. Per subsystem present on the vehicle (rows of a subsystem the model keeps off the vehicle are
+   counted apart and named in the list's footnote): rows, likes (feedback type Likes) and
+   complaints (Defect, Difficult to Use, Wants); the themes ranked by likes and by complaints (up to six each) with up to two verbatims
    each: one per verbatim id, sources other than the survey (Source C) first, texts of 40 to 240
    characters, ordered by id, longer texts cut at 300 characters with an ellipsis as the backend
    does. Rows whose theme is unassigned are counted as `unassignedRows`.
@@ -75,7 +77,7 @@ classified verbatims" where the market has none, or "no theme mapped to this sub
 tints the row; nothing else moves. Markets without verbatims keep the list (weights are per
 platform) and the study card of step 07 below it.
 
-## 5. The dialog (`cpm-dialog.tsx`, three bands since D-065)
+## 5. The dialog (`cpm-dialog.tsx`, three bands since D-076)
 
 * **Native `dialog`, `showModal()`.** The browser provides the top layer, Escape, focus
   containment (the page behind is inert) and the return of focus to the row. The React state

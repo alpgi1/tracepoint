@@ -27,3 +27,8 @@ export function scaleTop(scale: string): string {
   const match = /\d+-(\d+)/.exec(scale);
   return match ? match[1] : scale;
 }
+
+/** A CPM weight: whole on the platform ("18"), one decimal where a vehicle's weights are renormalised ("20.9"). */
+export function weight(value: number): string {
+  return Number.isInteger(value) ? String(value) : value.toFixed(1);
+}

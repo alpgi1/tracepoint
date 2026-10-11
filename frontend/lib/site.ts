@@ -48,10 +48,10 @@ export const site = {
     studyHeading: "Lowest study scores",
     overall: "Overall",
   },
-  /** The CPM subsystem list and the subsystem dialog (step 13, D-062 and D-063). */
+  /** The CPM subsystem list and the subsystem dialog (step 13, D-073 and D-074). */
   cpm: {
     heading: "Subsystems by development effort",
-    hint: "Weight is a subsystem's share of a new vehicle's development effort (Change Prediction Method; the team's assumption, not calibrated). The figures are the classified verbatim rows whose themes fall in the subsystem. Click a subsystem for what customers like and criticise there and the market evidence.",
+    hint: "Weight is a subsystem's share of a new vehicle's development effort (Change Prediction Method, the effort engine's model; the team's assumption, not calibrated). The figures are the classified verbatim rows whose themes fall in the subsystem. Click a subsystem for what customers like and criticise there and the market evidence.",
     listLabel: "Subsystems",
     weightOf: "of 100",
     complaints: "complaints",
@@ -59,7 +59,11 @@ export const site = {
     rows: "rows",
     noVerbatims: "no classified verbatims",
     noThemes: "no theme mapped to this subsystem",
-    unassignedRows: "rows fall in themes outside the twelve subsystems",
+    unassignedRows: "rows fall in themes outside the subsystems",
+    absentBefore: "The model keeps",
+    absentAfter: "off this vehicle; weights are renormalised to 100 over the",
+    absentPresent: "subsystems present",
+    absentRows: "rows fall in the subsystems left off",
     mappingNote: "Themes are assigned to subsystems by the team's mapping, an assumption to be checked by engineering.",
     dialog: {
       close: "Close",
