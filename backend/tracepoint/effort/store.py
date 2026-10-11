@@ -433,6 +433,64 @@ def list_efforts(
     return out
 
 
+def estimate_package(
+    session: Session,
+    vehicle: str,
+    market: str | None = None,
+    requirement_ids: list[str] | None = None,
+    changes: list[Change] | None = None,
+) -> dict[str, Any]:
+    """Effort of a hand-picked package: stored requirement profiles and free changes, each on its
+    own and all combined per subsystem (rule 45; a requirement named twice counts once). Nothing
+    is stored. Raises ValueError for a requirement outside the vehicle and market, or without an
+    estimate, and for a change that breaks a rule of the model."""
+    engine, samples = engine_and_samples(vehicle)
+    stored = {r["id"]: r for r in list_efforts(session, vehicle, market)}
+    ids = list(dict.fromkeys(requirement_ids or []))
+    unknown = [i for i in ids if i not in stored]
+    if unknown:
+        scope = f"{vehicle} {market}" if market else vehicle
+        raise ValueError(
+            f"no effort estimate for {', '.join(unknown)} among the requirements of {scope}"
+        )
+    keys = ("effort_pct", "p5", "p95", "decision", "decision_stable_pct", "layer", "size")
+    items: list[dict[str, Any]] = [
+        {
+            "requirement": i,
+            "title": stored[i]["title"],
+            "horizon": stored[i]["horizon"],
+            **{k: stored[i][k] for k in keys},
+            "certification_add_on": stored[i]["certification"],
+            "subsystems": stored[i]["subsystems"],
+            "changes": stored[i]["changes"],
+        }
+        for i in ids
+    ]
+    combined = [Change.model_validate(c) for i in ids for c in stored[i]["changes"]]
+    for change in changes or []:
+        res = evaluate(engine, samples, [change])
+        items.append(
+            {
+                "requirement": None,
+                **{k: res[k] for k in keys},
+                "certification_add_on": res["certification_add_on"],
+                "subsystems": res["subsystems"],
+                "changes": [change.model_dump()],
+            }
+        )
+        combined.append(change)
+    cfg = load_model()
+    return {
+        "vehicle": vehicle,
+        "market": market,
+        "items": items,
+        "sum_of_single_pct": round(sum(i["effort_pct"] for i in items), 2),
+        "combined": evaluate(engine, samples, combined),
+        "model_hash": model_hash(cfg),
+        "basis": cfg.status,
+    }
+
+
 SCENARIOS = (
     ("H1", "Evolve the current model (H1 requirements in one life-cycle impulse)", {"H1"}),
     ("H2", "Successor generation (H2 requirements)", {"H2"}),

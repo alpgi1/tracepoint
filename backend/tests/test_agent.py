@@ -56,6 +56,8 @@ def test_context_pack_is_compact_and_cited(engine, ingested):
         q["evidence_ref"].startswith("verbatim:") for q in pack["top_complaints"][0]["quotes"]
     )
     assert len(json.dumps(pack, default=str)) < 40_000  # fits a prompt
+    assert len(pack["subsystems"]) == 12 and pack["top_complaints"][0]["subsystem"]
+    assert [m["evidence_ref"] for m in pack["market_evidence"]] == ["market:MKT-US-powertrain-1"]
     assert "## Top complaint themes" in render_markdown(pack)
 
 
@@ -70,6 +72,7 @@ def test_every_tool_runs_and_is_logged(engine, ingested):
         "get_sales": {"vehicle": "G70", "market": "US"},
         "get_findings": {"vehicle": "G60"},
         "get_requirements": {"vehicle": "G60", "status": "proposed"},
+        "get_subsystems": {"vehicle": "G60", "market": "US"},
         "get_effort": {"vehicle": "G60", "market": "US"},
     }
     assert set(calls) == set(TOOLS) and len(tool_schemas()) == len(TOOLS)
@@ -259,7 +262,11 @@ def test_situation_analysis_for_a_country(engine, ingested):
     # a requirement id the model made up gives no profile; its own profile is used and flagged
     assert seats["source"] == "analyst's change profile" and seats["flags"][0]["rule"] == "scope"
     assert seats["changes"][0]["portfolio_terms"] == []
-    assert "catalogue terms not searched" in seats["flags"][1]["text"]  # dropped, and said so
+    texts = " | ".join(f["text"] for f in seats["flags"])
+    assert "catalogue terms not searched" in texts  # dropped, and said so
+    # the profile starts in seats while the quote it cites is about something else: flagged
+    assert seats["evidence_subsystems"] and "the cited evidence sits in" in texts
+    assert out["subsystems"]["insights"][0] == seats["evidence_subsystems"]
     assert body["decision"] == "new generation"
     assert any(f["level"] == "conflict" for f in body["flags"])
     assert battery["status"] == "invalid" and "not present on F70" in battery["error"]
@@ -286,6 +293,10 @@ def test_situation_analysis_for_a_country(engine, ingested):
     assert out["citations"]["unverified_quotes"] == ["a sentence no customer wrote"]
     text = render_analysis(out)
     assert "## Insights" in text and "`REQ-INVENTED` (not verified)" in text
+    assert "Subsystems of the cited evidence: " in text and "  - footprint: " in text
+    assert (
+        "## CPM subsystems" in seen_user[0] and "## Market and competition evidence" in seen_user[0]
+    )
     assert "Effort (CPM estimate): **" in text and "## Effort of the proposals as packages" in text
     assert "not estimated**, the profile breaks the model" in text
     assert "not estimated**, no change profile was given" in text

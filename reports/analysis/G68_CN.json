@@ -1,0 +1,1168 @@
+{
+ "run_id": "RUN-20261011-022641-agent.analyze.G68.CN-c643",
+ "vehicle": "G68",
+ "market": "CN",
+ "country": null,
+ "scope": "BMW 5 Series Long Wheelbase (China) (G68), market CN",
+ "prompt_version": "situation-analysis-v5",
+ "context_pack": "context-pack-v3",
+ "model": "gpt-5.4-2026-03-05",
+ "analysis": {
+  "headline": "G68 China shows a clear metric-led gap pattern without customer verbatims: practical loading, connected services, equipment perception, quietness, climate and braking are the first product topics to check, while roadholding, sportiness, prestige and reliability should be protected.",
+  "summary": "This scope has no CN verbatims, no classified customer rows, no stored requirements and no sales rows, so the analysis rests mainly on the CN_EU_2025 study metrics plus two market-context rows. Within that limited evidence, the weakest product signals are concentrated in ease of loading/unloading luggage (7.25, weakest of 37 attributes), connected services (7.35, second weakest), braking (7.38, third weakest and 0.44 below the BMW peer mean), level of equipment (7.49, fourth weakest and 2.33 below peer mean), environmental friendliness (7.49), quietness when driving (7.52, 1.87 below peer mean), climate control (7.58, 1.24 below peer mean) and front roominess (7.77). Strengths are roadholding (8.92), prestige (8.90), sportiness (8.86) and reliability (8.84). Because there is no customer-row evidence, recommendations should be treated as hypotheses for validation, not as closed requirements. The strongest H1 candidates are content and software checks around connected services and equipment perception, plus a packaging review for China-specific comfort/convenience items. Quietness, climate and luggage-loading likely need deeper engineering diagnosis before committing scope. In China market context, electrified demand is clearly relevant but the stored market row is weak; the in-car fridge signal is medium-strength competitor context with an explicit contradiction, so it supports a packaging review but not a mandatory feature decision on its own.",
+  "data_coverage": "Evidence base is thin. There are 0 verbatims in CN for G68, 0 classified customer rows across all CPM subsystems, 37 study metrics from CN_EU_2025, 17 extracted findings, 0 stored requirements, 0 stored effort estimates tied to requirements, 0 sales rows, and 2 market/competitor context rows. With no verbatims, confidence can be medium at best for metric-led gaps and low for feature-specific proposals.",
+  "insights": [
+   {
+    "title": "Loading and unloading luggage is the clearest practical weakness",
+    "kind": "metric_gap",
+    "domain": "space_practicality",
+    "statement": "In CN_EU_2025, ease of loading/ unloading luggage scores 7.25, the weakest of 37 measured attributes for G68 in China. This is a stronger signal than a normal low score because it ranks last within the model's own study profile, while luggage capacity itself is much better at 8.73 and rear roominess is 8.71. The issue therefore looks more like access and usability than raw trunk volume.",
+    "customer_quote": null,
+    "evidence_refs": [
+     "metric:MET-CNEU-CN-G68-loading_ease",
+     "metric:MET-CNEU-CN-G68-cargo_capacity",
+     "metric:MET-CNEU-CN-G68-rear_roominess",
+     "FND-G68-CN-MET-cn_eu_2025-loading_ease"
+    ],
+    "confidence": "medium"
+   },
+   {
+    "title": "Connected services underperform more than the rest of the infotainment stack",
+    "kind": "metric_gap",
+    "domain": "infotainment_digital",
+    "statement": "Connected services scores 7.35 and is the second-weakest attribute in the study, while infotainment ease of use (8.35), infotainment features (8.37), navigation (8.52) and controls usability (8.34) are materially higher. That pattern points to service ecosystem performance or relevance rather than a broad HMI usability problem.",
+    "customer_quote": null,
+    "evidence_refs": [
+     "metric:MET-CNEU-CN-G68-connected_services",
+     "metric:MET-CNEU-CN-G68-infotainment_ease_of_use",
+     "metric:MET-CNEU-CN-G68-infotainment_features",
+     "metric:MET-CNEU-CN-G68-navigation",
+     "metric:MET-CNEU-CN-G68-controls_usability",
+     "FND-G68-CN-MET-cn_eu_2025-connected_services"
+    ],
+    "confidence": "medium"
+   },
+   {
+    "title": "Equipment perception is a major weakness, not a marginal one",
+    "kind": "metric_gap",
+    "domain": "offering_variants",
+    "statement": "Level of equipment scores 7.49, fourth weakest in the study and 2.33 below the peer mean of other BMW models in the same market. That is one of the largest peer gaps in the file and suggests a China-specific content or package issue rather than random variation.",
+    "customer_quote": null,
+    "evidence_refs": [
+     "metric:MET-CNEU-CN-G68-equipment_level",
+     "FND-G68-CN-MET-cn_eu_2025-equipment_level"
+    ],
+    "confidence": "medium"
+   },
+   {
+    "title": "Quietness and climate comfort are both weak, which matters for a long-wheelbase comfort-oriented sedan",
+    "kind": "metric_gap",
+    "domain": "quality_nvh",
+    "statement": "Quietness when driving scores 7.52, sixth weakest and 1.87 below the BMW peer mean; climate control scores 7.58, seventh weakest and 1.24 below peer mean. Build quality remains high at 8.81 and reliability at 8.84, so the weakness is not general quality perception but cabin comfort execution in use.",
+    "customer_quote": null,
+    "evidence_refs": [
+     "metric:MET-CNEU-CN-G68-quietness",
+     "metric:MET-CNEU-CN-G68-climate_control",
+     "metric:MET-CNEU-CN-G68-build_quality",
+     "metric:MET-CNEU-CN-G68-reliability",
+     "FND-G68-CN-MET-cn_eu_2025-quietness",
+     "FND-G68-CN-MET-cn_eu_2025-climate_control",
+     "FND-G68-CN-MET-cn_eu_2025-build_quality",
+     "FND-G68-CN-MET-STRENGTH-cn_eu_2025-reliability"
+    ],
+    "confidence": "medium"
+   },
+   {
+    "title": "Braking is the main dynamic weakness inside an otherwise strong driving profile",
+    "kind": "metric_gap",
+    "domain": "driving_dynamics",
+    "statement": "Braking scores 7.38, third weakest in the study and 0.44 below the BMW peer mean, while roadholding is the strongest attribute at 8.92, sportiness is 8.86, manoeuvrability 8.48 and ride comfort 8.45. Customers appear to value the car's dynamic character overall, but braking drags that profile down.",
+    "customer_quote": null,
+    "evidence_refs": [
+     "metric:MET-CNEU-CN-G68-braking",
+     "metric:MET-CNEU-CN-G68-roadholding",
+     "metric:MET-CNEU-CN-G68-sportiness",
+     "metric:MET-CNEU-CN-G68-handling_manoeuvrability",
+     "metric:MET-CNEU-CN-G68-ride_comfort",
+     "FND-G68-CN-MET-cn_eu_2025-braking",
+     "FND-G68-CN-MET-STRENGTH-cn_eu_2025-roadholding",
+     "FND-G68-CN-MET-STRENGTH-cn_eu_2025-sportiness"
+    ],
+    "confidence": "medium"
+   },
+   {
+    "title": "The product has real strengths worth protecting",
+    "kind": "strength",
+    "domain": "driving_dynamics",
+    "statement": "The strongest measured attributes are roadholding at 8.92, prestige/manufacturer reputation at 8.90, sportiness at 8.86 and reliability at 8.84. Reliability and roadholding are also above the peer means listed in the findings, so improvement work should avoid diluting these strengths.",
+    "customer_quote": null,
+    "evidence_refs": [
+     "metric:MET-CNEU-CN-G68-roadholding",
+     "metric:MET-CNEU-CN-G68-brand_prestige",
+     "metric:MET-CNEU-CN-G68-sportiness",
+     "metric:MET-CNEU-CN-G68-reliability",
+     "FND-G68-CN-MET-STRENGTH-cn_eu_2025-roadholding",
+     "FND-G68-CN-MET-STRENGTH-cn_eu_2025-brand_prestige",
+     "FND-G68-CN-MET-STRENGTH-cn_eu_2025-sportiness",
+     "FND-G68-CN-MET-STRENGTH-cn_eu_2025-reliability"
+    ],
+    "confidence": "medium"
+   },
+   {
+    "title": "China market context supports checking electrified relevance and convenience-content expectations, but only as context",
+    "kind": "context",
+    "domain": "offering_variants",
+    "statement": "Stored market context says China new-energy retail sales reached about 12.8 million and passed combustion cars for the first time, but this row is weak evidence and gives no split by BEV/PHEV/EREV. A separate medium-strength competitor row says in-car fridges are standard in nearly every new-energy model above 200,000 yuan in China, but it also carries a contradiction: widespread offering is supported, actual usage is disputed. This supports a packaging review, not a mandatory feature conclusion.",
+    "customer_quote": null,
+    "evidence_refs": [
+     "market:MKT-CN-powertrain-1",
+     "market:MKT-CN-interior_console-1",
+     "document:DOC-GROUP-REPORT-0077",
+     "document:DOC-GROUP-REPORT-0065"
+    ],
+    "confidence": "low"
+   }
+  ],
+  "recommendations": [
+   {
+    "title": "Audit and improve China connected-services offer before changing core HMI",
+    "proposal": "Review the China connected-services stack first: service availability, activation flow, account/login stability, app ecosystem relevance and feature bundling. Prioritise fixes that can be delivered as software, backend or market-content updates before redesigning the in-car interface.",
+    "horizon": "H1",
+    "rationale": "Connected services is the second-weakest study attribute at 7.35, while infotainment ease of use, features, navigation and controls all score around 8.34-8.52. That pattern suggests the first move should be service/content execution rather than a broad HMI redesign. No existing requirement covers this scope.",
+    "evidence_refs": [
+     "metric:MET-CNEU-CN-G68-connected_services",
+     "metric:MET-CNEU-CN-G68-infotainment_ease_of_use",
+     "metric:MET-CNEU-CN-G68-infotainment_features",
+     "metric:MET-CNEU-CN-G68-navigation",
+     "metric:MET-CNEU-CN-G68-controls_usability",
+     "FND-G68-CN-MET-cn_eu_2025-connected_services"
+    ],
+    "related_requirement": null,
+    "changes_vehicle": true,
+    "effort_changes": [
+     {
+      "subsystem": "software_hmi",
+      "own_impact": 0.1,
+      "layer": "K0",
+      "carryover": true,
+      "why": "The likely first step is market-specific service configuration, activation flow and app/content tuning on the existing software stack.",
+      "portfolio_terms": [
+       "ConnectedDrive",
+       "Apps",
+       "Navigation"
+      ]
+     },
+     {
+      "subsystem": "ee_architecture",
+      "own_impact": 0.05,
+      "layer": "K0",
+      "carryover": true,
+      "why": "Some service issues may start in connectivity provisioning and backend integration rather than visible HMI changes.",
+      "portfolio_terms": [
+       "eSIM",
+       "ConnectedDrive",
+       "Telematics"
+      ]
+     }
+    ]
+   },
+   {
+    "title": "Rework China equipment and package logic, including convenience-content expectations",
+    "proposal": "Run a China-specific package and standard-content review to raise perceived equipment level, focusing on comfort and convenience items that customers can see and use immediately. Include a check whether an in-car fridge or equivalent rear-comfort convenience item should be offered or moved up in packaging.",
+    "horizon": "H1",
+    "rationale": "Level of equipment is the fourth-weakest attribute at 7.49 and sits 2.33 below the BMW peer mean, which is too large to ignore. The stored competitor context on in-car fridges is only medium strength and contradictory on actual use, so it should trigger a packaging review rather than a single-feature decision.",
+    "evidence_refs": [
+     "metric:MET-CNEU-CN-G68-equipment_level",
+     "FND-G68-CN-MET-cn_eu_2025-equipment_level",
+     "market:MKT-CN-interior_console-1"
+    ],
+    "related_requirement": null,
+    "changes_vehicle": true,
+    "effort_changes": [
+     {
+      "subsystem": "interior_console",
+      "own_impact": 0.1,
+      "layer": "K0",
+      "carryover": true,
+      "why": "The first lever is package content and optional-equipment positioning in the cabin convenience area on existing interfaces.",
+      "portfolio_terms": [
+       "Komfortpaket",
+       "rear comfort",
+       "cool box"
+      ]
+     },
+     {
+      "subsystem": "software_hmi",
+      "own_impact": 0.05,
+      "layer": "K0",
+      "carryover": true,
+      "why": "Perceived equipment level can also depend on activation and visibility of existing digital features.",
+      "portfolio_terms": [
+       "Functions",
+       "ConnectedDrive",
+       "Personalisation"
+      ]
+     }
+    ]
+   },
+   {
+    "title": "Diagnose the luggage-access problem as a usability issue, then target an H1 fix if one exists",
+    "proposal": "Investigate why loading and unloading scores so low despite decent luggage-capacity ratings. Check trunk opening geometry, sill height, aperture usability, lid operation and loading aids; if the issue can be improved through equipment, opening logic or trim changes, prepare an H1 measure, otherwise reserve structural changes for H2.",
+    "horizon": "H2",
+    "rationale": "Loading ease is the weakest attribute in the whole study at 7.25, but luggage capacity is 8.73. That points to access rather than volume. With no verbatims and no subsystem evidence, the exact cause is unknown, so a structural commitment would be premature; H2 is the safer default unless diagnosis reveals an H1 content fix.",
+    "evidence_refs": [
+     "metric:MET-CNEU-CN-G68-loading_ease",
+     "metric:MET-CNEU-CN-G68-cargo_capacity",
+     "FND-G68-CN-MET-cn_eu_2025-loading_ease"
+    ],
+    "related_requirement": null,
+    "changes_vehicle": true,
+    "effort_changes": [
+     {
+      "subsystem": "body_structure",
+      "own_impact": 0.2,
+      "layer": "K2",
+      "carryover": false,
+      "why": "If the root cause is aperture, sill or hinge/package geometry, the change starts in body structure and is unlikely to stay a pure configuration action.",
+      "portfolio_terms": [
+       "luggage compartment",
+       "tailgate",
+       "boot"
+      ]
+     }
+    ]
+   },
+   {
+    "title": "Prioritise an NVH and HVAC root-cause review for China comfort tuning",
+    "proposal": "Start a joint NVH and HVAC review for the China car to identify whether the weak comfort scores come from tuning, hardware content, airflow/noise behaviour or market-specific calibration. If quick calibration or content fixes exist, split them into H1; otherwise hold larger hardware changes for H2.",
+    "horizon": "H1",
+    "rationale": "Quietness when driving and climate control are both among the seven weakest attributes, yet build quality and reliability remain strong. That makes this a targeted comfort-execution issue rather than a broad quality problem. Because there are no verbatims, diagnosis should come before committing larger hardware scope.",
+    "evidence_refs": [
+     "metric:MET-CNEU-CN-G68-quietness",
+     "metric:MET-CNEU-CN-G68-climate_control",
+     "metric:MET-CNEU-CN-G68-build_quality",
+     "metric:MET-CNEU-CN-G68-reliability",
+     "FND-G68-CN-MET-cn_eu_2025-quietness",
+     "FND-G68-CN-MET-cn_eu_2025-climate_control"
+    ],
+    "related_requirement": null,
+    "changes_vehicle": true,
+    "effort_changes": [
+     {
+      "subsystem": "thermal_hvac",
+      "own_impact": 0.1,
+      "layer": "K0",
+      "carryover": true,
+      "why": "The first step is likely calibration, airflow strategy or feature-content tuning within the existing HVAC system.",
+      "portfolio_terms": [
+       "Klimaautomatik",
+       "air conditioning",
+       "ventilation"
+      ]
+     },
+     {
+      "subsystem": "body_structure",
+      "own_impact": 0.1,
+      "layer": "K1",
+      "carryover": true,
+      "why": "If cabin noise is driven by sealing or insulation add-ons, the change starts in body-side NVH measures rather than a platform redesign.",
+      "portfolio_terms": [
+       "acoustic glazing",
+       "insulation",
+       "seal"
+      ]
+     }
+    ]
+   },
+   {
+    "title": "Protect the dynamic and brand strengths while addressing braking feel/performance",
+    "proposal": "Investigate braking as a focused dynamic issue and improve it without changing the car's core sporty and stable character. Any brake-system or calibration work should be validated against roadholding, ride and sportiness so the current strengths are preserved.",
+    "horizon": "H1",
+    "rationale": "Braking is the third-weakest attribute at 7.38, while roadholding is the strongest at 8.92 and sportiness is 8.86. The product manager should treat braking as a targeted fix, not as a reason to retune the whole dynamic package.",
+    "evidence_refs": [
+     "metric:MET-CNEU-CN-G68-braking",
+     "metric:MET-CNEU-CN-G68-roadholding",
+     "metric:MET-CNEU-CN-G68-sportiness",
+     "metric:MET-CNEU-CN-G68-ride_comfort",
+     "FND-G68-CN-MET-cn_eu_2025-braking",
+     "FND-G68-CN-MET-STRENGTH-cn_eu_2025-roadholding",
+     "FND-G68-CN-MET-STRENGTH-cn_eu_2025-sportiness"
+    ],
+    "related_requirement": null,
+    "changes_vehicle": true,
+    "effort_changes": [
+     {
+      "subsystem": "chassis",
+      "own_impact": 0.1,
+      "layer": "K1",
+      "carryover": true,
+      "why": "The most plausible first move is brake tuning or component-level optimisation within the existing chassis/brake package.",
+      "portfolio_terms": [
+       "M Sport brake",
+       "brake",
+       "chassis"
+      ]
+     }
+    ]
+   },
+   {
+    "title": "Keep the current strengths visible in future package and update decisions",
+    "proposal": "Avoid update actions that dilute roadholding, sportiness, reliability and prestige perception; make these strengths explicit guardrails when evaluating comfort, equipment and digital changes.",
+    "horizon": "H1",
+    "rationale": "These are the clearest strengths in the available evidence and some are above BMW peer means. With limited customer-voice depth, protecting proven strengths is especially important.",
+    "evidence_refs": [
+     "metric:MET-CNEU-CN-G68-roadholding",
+     "metric:MET-CNEU-CN-G68-brand_prestige",
+     "metric:MET-CNEU-CN-G68-sportiness",
+     "metric:MET-CNEU-CN-G68-reliability",
+     "FND-G68-CN-MET-STRENGTH-cn_eu_2025-roadholding",
+     "FND-G68-CN-MET-STRENGTH-cn_eu_2025-brand_prestige",
+     "FND-G68-CN-MET-STRENGTH-cn_eu_2025-sportiness",
+     "FND-G68-CN-MET-STRENGTH-cn_eu_2025-reliability"
+    ],
+    "related_requirement": null,
+    "changes_vehicle": false,
+    "effort_changes": null
+   }
+  ],
+  "assumptions_and_gaps": [
+   "There are no CN verbatims for G68, so no customer quotes can be provided and no theme-level drill-down is possible.",
+   "All twelve CPM subsystems show 0 complaint rows and 0 like rows; the subsystem view therefore cannot be used to localise issues beyond the authored market-context rows.",
+   "There are no stored requirements for G68 CN and no requirement-linked effort estimates; all effort_changes above are analyst proposals only, based on the CPM assumptions and not calibrated measurements.",
+   "There are no sales rows for this scope, so no recommendation can be weighted by market volume within the stored evidence.",
+   "China scope has study scores but no verbatims in this pack; confidence is therefore limited to what the metrics can support.",
+   "The equipment catalogue tool returns the German July 2026 catalogue; for China it can only indicate what the model line offers, not China standard/optional status, so it was not used as direct evidence for content gaps here.",
+   "The market row on China new-energy sales is weak evidence and cannot support a recommendation alone.",
+   "The in-car fridge competitor row is medium-strength context with an explicit contradiction on actual usage; it supports checking package fit for China, not mandating the feature by itself.",
+   "BMW Group report passages confirm China was a challenging market and electrified vehicles are strategically important, but they are market context rather than direct customer feedback."
+  ]
+ },
+ "effort": {
+  "method": "CPM, share of the development effort of a new vehicle generation; never money; every model input is an uncalibrated assumption (config/effort/model.yaml)",
+  "model_hash": "789fcb7624b8",
+  "recommendations": [
+   {
+    "source": "analyst's change profile",
+    "flags": [
+     {
+      "level": "info",
+      "rule": "43",
+      "text": "carryover claimed by the analyst for software_hmi, ee_architecture is not applied: an analyst's profile is computed as a new development (with the claim 1.45 %)"
+     },
+     {
+      "level": "warning",
+      "rule": "43",
+      "text": "software_hmi: catalogue shows G60 standard; the change could carry over (carryover: true) instead of a new development"
+     },
+     {
+      "level": "warning",
+      "rule": "43",
+      "text": "ee_architecture: catalogue shows G60 standard; the change could carry over (carryover: true) instead of a new development"
+     }
+    ],
+    "evidence_subsystems": {},
+    "status": "estimated",
+    "effort_pct": 1.45,
+    "p5": 0.7,
+    "p95": 2.41,
+    "decision": "adapt",
+    "decision_stable_pct": 100.0,
+    "layer": "K0",
+    "size": "S",
+    "certification": false,
+    "subsystems": [
+     {
+      "subsystem": "software_hmi",
+      "name": "Software/HMI",
+      "risk": 0.1,
+      "effort_pct": 1.0,
+      "path": null
+     },
+     {
+      "subsystem": "ee_architecture",
+      "name": "E/E architecture",
+      "risk": 0.05,
+      "effort_pct": 0.45,
+      "path": null
+     }
+    ],
+    "portfolio": [
+     {
+      "subsystem": "software_hmi",
+      "terms": [
+       "ConnectedDrive",
+       "Apps",
+       "Navigation"
+      ],
+      "level": 2,
+      "vehicles": {
+       "G60": {
+        "status": "standard",
+        "item": "ConnectedDrive Services"
+       }
+      },
+      "own_variants": {
+       "standard": 0,
+       "optional": 0,
+       "total": 0
+      }
+     },
+     {
+      "subsystem": "ee_architecture",
+      "terms": [
+       "eSIM",
+       "ConnectedDrive",
+       "Telematics"
+      ],
+      "level": 2,
+      "vehicles": {
+       "G60": {
+        "status": "standard",
+        "item": "ConnectedDrive Services"
+       }
+      },
+      "own_variants": {
+       "standard": 0,
+       "optional": 0,
+       "total": 0
+      }
+     }
+    ],
+    "changes": [
+     {
+      "subsystem": "software_hmi",
+      "own_impact": 0.1,
+      "layer": "K0",
+      "carryover": false,
+      "why": "The likely first step is market-specific service configuration, activation flow and app/content tuning on the existing software stack.",
+      "portfolio_terms": [
+       "ConnectedDrive",
+       "Apps",
+       "Navigation"
+      ]
+     },
+     {
+      "subsystem": "ee_architecture",
+      "own_impact": 0.05,
+      "layer": "K0",
+      "carryover": false,
+      "why": "Some service issues may start in connectivity provisioning and backend integration rather than visible HMI changes.",
+      "portfolio_terms": [
+       "eSIM",
+       "ConnectedDrive",
+       "Telematics"
+      ]
+     }
+    ]
+   },
+   {
+    "source": "analyst's change profile",
+    "flags": [
+     {
+      "level": "info",
+      "rule": "map",
+      "text": "the change starts in software_hmi; the cited evidence sits in interior_console by the theme mapping. Check the profile's reason"
+     },
+     {
+      "level": "info",
+      "rule": "43",
+      "text": "carryover claimed by the analyst for interior_console, software_hmi is not applied: an analyst's profile is computed as a new development (with the claim 1.20 %)"
+     },
+     {
+      "level": "warning",
+      "rule": "43",
+      "text": "interior_console: catalogue shows G70 standard; the change could carry over (carryover: true) instead of a new development"
+     },
+     {
+      "level": "warning",
+      "rule": "43",
+      "text": "software_hmi: catalogue shows G60 standard; the change could carry over (carryover: true) instead of a new development"
+     }
+    ],
+    "evidence_subsystems": {
+     "interior_console": 1
+    },
+    "status": "estimated",
+    "effort_pct": 1.2,
+    "p5": 0.59,
+    "p95": 1.96,
+    "decision": "adapt",
+    "decision_stable_pct": 100.0,
+    "layer": "K0",
+    "size": "S",
+    "certification": false,
+    "subsystems": [
+     {
+      "subsystem": "interior_console",
+      "name": "Interior/console",
+      "risk": 0.1,
+      "effort_pct": 0.7,
+      "path": null
+     },
+     {
+      "subsystem": "software_hmi",
+      "name": "Software/HMI",
+      "risk": 0.05,
+      "effort_pct": 0.5,
+      "path": null
+     }
+    ],
+    "portfolio": [
+     {
+      "subsystem": "interior_console",
+      "terms": [
+       "Komfortpaket",
+       "rear comfort",
+       "cool box"
+      ],
+      "level": 2,
+      "vehicles": {
+       "G70": {
+        "status": "standard",
+        "item": "Warmth comfort package"
+       }
+      },
+      "own_variants": {
+       "standard": 0,
+       "optional": 0,
+       "total": 0
+      }
+     },
+     {
+      "subsystem": "software_hmi",
+      "terms": [
+       "Functions",
+       "ConnectedDrive",
+       "Personalisation"
+      ],
+      "level": 2,
+      "vehicles": {
+       "G60": {
+        "status": "standard",
+        "item": "ConnectedDrive Services"
+       }
+      },
+      "own_variants": {
+       "standard": 0,
+       "optional": 0,
+       "total": 0
+      }
+     }
+    ],
+    "changes": [
+     {
+      "subsystem": "interior_console",
+      "own_impact": 0.1,
+      "layer": "K0",
+      "carryover": false,
+      "why": "The first lever is package content and optional-equipment positioning in the cabin convenience area on existing interfaces.",
+      "portfolio_terms": [
+       "Komfortpaket",
+       "rear comfort",
+       "cool box"
+      ]
+     },
+     {
+      "subsystem": "software_hmi",
+      "own_impact": 0.05,
+      "layer": "K0",
+      "carryover": false,
+      "why": "Perceived equipment level can also depend on activation and visibility of existing digital features.",
+      "portfolio_terms": [
+       "Functions",
+       "ConnectedDrive",
+       "Personalisation"
+      ]
+     }
+    ]
+   },
+   {
+    "source": "analyst's change profile",
+    "flags": [
+     {
+      "level": "warning",
+      "rule": "43",
+      "text": "body_structure: catalogue shows F70 optional, G70 standard; the change could carry over (carryover: true) instead of a new development"
+     },
+     {
+      "level": "info",
+      "rule": "48",
+      "text": "H2 but the estimate fits a life-cycle impulse; could be pulled forward to H1"
+     }
+    ],
+    "evidence_subsystems": {},
+    "status": "estimated",
+    "effort_pct": 7.63,
+    "p5": 3.78,
+    "p95": 12.15,
+    "decision": "adapt",
+    "decision_stable_pct": 99.9,
+    "layer": "K2",
+    "size": "M",
+    "certification": false,
+    "subsystems": [
+     {
+      "subsystem": "body_structure",
+      "name": "Body/structure",
+      "risk": 0.2,
+      "effort_pct": 3.6,
+      "path": null
+     },
+     {
+      "subsystem": "chassis",
+      "name": "Chassis",
+      "risk": 0.1333,
+      "effort_pct": 1.33,
+      "path": [
+       "Body/structure",
+       "Chassis"
+      ]
+     },
+     {
+      "subsystem": "software_hmi",
+      "name": "Software/HMI",
+      "risk": 0.0993,
+      "effort_pct": 0.99,
+      "path": [
+       "Body/structure",
+       "Interior/console",
+       "E/E architecture",
+       "Software/HMI"
+      ]
+     },
+     {
+      "subsystem": "interior_console",
+      "name": "Interior/console",
+      "risk": 0.1,
+      "effort_pct": 0.7,
+      "path": [
+       "Body/structure",
+       "Interior/console"
+      ]
+     }
+    ],
+    "portfolio": [
+     {
+      "subsystem": "body_structure",
+      "terms": [
+       "luggage compartment",
+       "tailgate",
+       "boot"
+      ],
+      "level": 2,
+      "vehicles": {
+       "F70": {
+        "status": "optional",
+        "item": "Automatic tailgate operation"
+       },
+       "G70": {
+        "status": "standard",
+        "item": "Automatic tailgate operation"
+       }
+      },
+      "own_variants": {
+       "standard": 0,
+       "optional": 0,
+       "total": 0
+      }
+     }
+    ],
+    "changes": [
+     {
+      "subsystem": "body_structure",
+      "own_impact": 0.2,
+      "layer": "K2",
+      "carryover": false,
+      "why": "If the root cause is aperture, sill or hinge/package geometry, the change starts in body structure and is unlikely to stay a pure configuration action.",
+      "portfolio_terms": [
+       "luggage compartment",
+       "tailgate",
+       "boot"
+      ]
+     }
+    ]
+   },
+   {
+    "source": "analyst's change profile",
+    "flags": [
+     {
+      "level": "info",
+      "rule": "43",
+      "text": "carryover claimed by the analyst for thermal_hvac, body_structure is not applied: an analyst's profile is computed as a new development (with the claim 3.01 %)"
+     },
+     {
+      "level": "warning",
+      "rule": "43",
+      "text": "thermal_hvac: catalogue shows F70 standard, G60 standard, G70 standard; the change could carry over (carryover: true) instead of a new development"
+     }
+    ],
+    "evidence_subsystems": {},
+    "status": "estimated",
+    "effort_pct": 4.42,
+    "p5": 2.23,
+    "p95": 7.52,
+    "decision": "adapt",
+    "decision_stable_pct": 100.0,
+    "layer": "K1",
+    "size": "S",
+    "certification": false,
+    "subsystems": [
+     {
+      "subsystem": "body_structure",
+      "name": "Body/structure",
+      "risk": 0.1,
+      "effort_pct": 1.8,
+      "path": null
+     },
+     {
+      "subsystem": "chassis",
+      "name": "Chassis",
+      "risk": 0.0667,
+      "effort_pct": 0.67,
+      "path": [
+       "Body/structure",
+       "Chassis"
+      ]
+     },
+     {
+      "subsystem": "thermal_hvac",
+      "name": "Thermal/HVAC",
+      "risk": 0.1064,
+      "effort_pct": 0.64,
+      "path": null
+     },
+     {
+      "subsystem": "software_hmi",
+      "name": "Software/HMI",
+      "risk": 0.0505,
+      "effort_pct": 0.51,
+      "path": [
+       "Body/structure",
+       "Interior/console",
+       "E/E architecture",
+       "Software/HMI"
+      ]
+     }
+    ],
+    "portfolio": [
+     {
+      "subsystem": "thermal_hvac",
+      "terms": [
+       "Klimaautomatik",
+       "air conditioning",
+       "ventilation"
+      ],
+      "level": 2,
+      "vehicles": {
+       "F70": {
+        "status": "standard",
+        "item": "2-zone automatic climate control with extended features"
+       },
+       "G60": {
+        "status": "standard",
+        "item": "Automatic climate control"
+       },
+       "G70": {
+        "status": "standard",
+        "item": "Automatic climate control with 4-zone regulation"
+       }
+      },
+      "own_variants": {
+       "standard": 0,
+       "optional": 0,
+       "total": 0
+      }
+     },
+     {
+      "subsystem": "body_structure",
+      "terms": [
+       "acoustic glazing",
+       "insulation",
+       "seal"
+      ],
+      "level": 3,
+      "vehicles": {},
+      "own_variants": {
+       "standard": 0,
+       "optional": 0,
+       "total": 0
+      }
+     }
+    ],
+    "changes": [
+     {
+      "subsystem": "thermal_hvac",
+      "own_impact": 0.1,
+      "layer": "K0",
+      "carryover": false,
+      "why": "The first step is likely calibration, airflow strategy or feature-content tuning within the existing HVAC system.",
+      "portfolio_terms": [
+       "Klimaautomatik",
+       "air conditioning",
+       "ventilation"
+      ]
+     },
+     {
+      "subsystem": "body_structure",
+      "own_impact": 0.1,
+      "layer": "K1",
+      "carryover": false,
+      "why": "If cabin noise is driven by sealing or insulation add-ons, the change starts in body-side NVH measures rather than a platform redesign.",
+      "portfolio_terms": [
+       "acoustic glazing",
+       "insulation",
+       "seal"
+      ]
+     }
+    ]
+   },
+   {
+    "source": "analyst's change profile",
+    "flags": [
+     {
+      "level": "info",
+      "rule": "43",
+      "text": "carryover claimed by the analyst for chassis is not applied: an analyst's profile is computed as a new development (with the claim 1.19 %)"
+     },
+     {
+      "level": "warning",
+      "rule": "43",
+      "text": "chassis: catalogue shows G60 standard, G70 standard; the change could carry over (carryover: true) instead of a new development"
+     }
+    ],
+    "evidence_subsystems": {},
+    "status": "estimated",
+    "effort_pct": 1.62,
+    "p5": 0.77,
+    "p95": 2.91,
+    "decision": "adapt",
+    "decision_stable_pct": 100.0,
+    "layer": "K1",
+    "size": "S",
+    "certification": false,
+    "subsystems": [
+     {
+      "subsystem": "chassis",
+      "name": "Chassis",
+      "risk": 0.1,
+      "effort_pct": 1.0,
+      "path": null
+     },
+     {
+      "subsystem": "body_structure",
+      "name": "Body/structure",
+      "risk": 0.02,
+      "effort_pct": 0.36,
+      "path": [
+       "Chassis",
+       "Body/structure"
+      ]
+     },
+     {
+      "subsystem": "interior_console",
+      "name": "Interior/console",
+      "risk": 0.015,
+      "effort_pct": 0.11,
+      "path": [
+       "Chassis",
+       "Body/structure",
+       "Interior/console"
+      ]
+     },
+     {
+      "subsystem": "exterior_design",
+      "name": "Exterior design",
+      "risk": 0.012,
+      "effort_pct": 0.07,
+      "path": [
+       "Chassis",
+       "Body/structure",
+       "Exterior design"
+      ]
+     }
+    ],
+    "portfolio": [
+     {
+      "subsystem": "chassis",
+      "terms": [
+       "M Sport brake",
+       "brake",
+       "chassis"
+      ],
+      "level": 2,
+      "vehicles": {
+       "G60": {
+        "status": "standard",
+        "item": "Front collision warning with braking, evasion aid and brake intervention"
+       },
+       "G70": {
+        "status": "standard",
+        "item": "Adaptive M Chassis Control Professional"
+       }
+      },
+      "own_variants": {
+       "standard": 0,
+       "optional": 0,
+       "total": 0
+      }
+     }
+    ],
+    "changes": [
+     {
+      "subsystem": "chassis",
+      "own_impact": 0.1,
+      "layer": "K1",
+      "carryover": false,
+      "why": "The most plausible first move is brake tuning or component-level optimisation within the existing chassis/brake package.",
+      "portfolio_terms": [
+       "M Sport brake",
+       "brake",
+       "chassis"
+      ]
+     }
+    ]
+   },
+   {
+    "source": null,
+    "flags": [],
+    "evidence_subsystems": {},
+    "status": "no_vehicle_change"
+   }
+  ],
+  "packages": [
+   {
+    "horizon": "H1",
+    "proposals": 4,
+    "sum_of_single_pct": 8.69,
+    "effort_pct": 8.4,
+    "p5": 4.53,
+    "p95": 13.01,
+    "decision": "adapt",
+    "decision_stable_pct": 98.8,
+    "layer": "K1",
+    "size": "M",
+    "certification": false,
+    "subsystems": [
+     {
+      "subsystem": "body_structure",
+      "name": "Body/structure",
+      "risk": 0.118,
+      "effort_pct": 2.12,
+      "path": null
+     },
+     {
+      "subsystem": "software_hmi",
+      "name": "Software/HMI",
+      "risk": 0.1906,
+      "effort_pct": 1.91,
+      "path": null
+     },
+     {
+      "subsystem": "chassis",
+      "name": "Chassis",
+      "risk": 0.16,
+      "effort_pct": 1.6,
+      "path": null
+     },
+     {
+      "subsystem": "interior_console",
+      "name": "Interior/console",
+      "risk": 0.1578,
+      "effort_pct": 1.1,
+      "path": null
+     },
+     {
+      "subsystem": "ee_architecture",
+      "name": "E/E architecture",
+      "risk": 0.0714,
+      "effort_pct": 0.64,
+      "path": null
+     },
+     {
+      "subsystem": "thermal_hvac",
+      "name": "Thermal/HVAC",
+      "risk": 0.1073,
+      "effort_pct": 0.64,
+      "path": null
+     }
+    ],
+    "not_counted": [],
+    "flags": []
+   },
+   {
+    "horizon": "H2",
+    "proposals": 1,
+    "sum_of_single_pct": 7.63,
+    "effort_pct": 7.63,
+    "p5": 3.78,
+    "p95": 12.15,
+    "decision": "adapt",
+    "decision_stable_pct": 99.9,
+    "layer": "K2",
+    "size": "M",
+    "certification": false,
+    "subsystems": [
+     {
+      "subsystem": "body_structure",
+      "name": "Body/structure",
+      "risk": 0.2,
+      "effort_pct": 3.6,
+      "path": null
+     },
+     {
+      "subsystem": "chassis",
+      "name": "Chassis",
+      "risk": 0.1333,
+      "effort_pct": 1.33,
+      "path": [
+       "Body/structure",
+       "Chassis"
+      ]
+     },
+     {
+      "subsystem": "software_hmi",
+      "name": "Software/HMI",
+      "risk": 0.0993,
+      "effort_pct": 0.99,
+      "path": [
+       "Body/structure",
+       "Interior/console",
+       "E/E architecture",
+       "Software/HMI"
+      ]
+     },
+     {
+      "subsystem": "interior_console",
+      "name": "Interior/console",
+      "risk": 0.1,
+      "effort_pct": 0.7,
+      "path": [
+       "Body/structure",
+       "Interior/console"
+      ]
+     },
+     {
+      "subsystem": "exterior_design",
+      "name": "Exterior design",
+      "risk": 0.08,
+      "effort_pct": 0.48,
+      "path": [
+       "Body/structure",
+       "Exterior design"
+      ]
+     },
+     {
+      "subsystem": "ee_architecture",
+      "name": "E/E architecture",
+      "risk": 0.0378,
+      "effort_pct": 0.34,
+      "path": [
+       "Body/structure",
+       "Interior/console",
+       "E/E architecture"
+      ]
+     }
+    ],
+    "not_counted": [],
+    "flags": [
+     {
+      "level": "info",
+      "rule": "48",
+      "text": "H2 but the estimate fits a life-cycle impulse; could be pulled forward to H1"
+     }
+    ]
+   }
+  ],
+  "open_faults": []
+ },
+ "subsystems": {
+  "basis": "theme to subsystem by config/cpm/theme_subsystem_map.yaml (an assumption); references per subsystem among those the insight cites",
+  "insights": [
+   {},
+   {},
+   {},
+   {},
+   {},
+   {},
+   {
+    "powertrain": 1,
+    "interior_console": 1
+   }
+  ]
+ },
+ "citations": {
+  "cited": 34,
+  "unknown": [],
+  "unverified_quotes": []
+ },
+ "trace": {
+  "steps": 2,
+  "cached_steps": 0,
+  "hit_step_limit": false,
+  "cost_usd": 0.1058,
+  "tool_calls": [
+   {
+    "tool": "get_metric",
+    "args": {
+     "vehicle": "G68",
+     "market": "CN"
+    },
+    "total": 37
+   },
+   {
+    "tool": "get_findings",
+    "args": {
+     "vehicle": "G68",
+     "market": "CN",
+     "limit": 50
+    },
+    "total": 17
+   },
+   {
+    "tool": "get_requirements",
+    "args": {
+     "vehicle": "G68",
+     "market": "CN"
+    },
+    "total": 0
+   },
+   {
+    "tool": "get_effort",
+    "args": {
+     "vehicle": "G68",
+     "market": "CN",
+     "scenarios": true
+    },
+    "total": 0
+   },
+   {
+    "tool": "get_subsystems",
+    "args": {
+     "vehicle": "G68",
+     "market": "CN"
+    },
+    "total": 12
+   },
+   {
+    "tool": "search_documents",
+    "args": {
+     "query": "China deliveries electrified all-electric BMW Group 2025",
+     "limit": 5
+    },
+    "total": 3
+   },
+   {
+    "tool": "get_equipment",
+    "args": {
+     "vehicle": "G68",
+     "limit": 100
+    },
+    "total": 0
+   }
+  ],
+  "llm_call_ids": [
+   64,
+   65
+  ]
+ }
+}
